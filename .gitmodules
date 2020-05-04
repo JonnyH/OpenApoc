@@ -23,3 +23,6 @@
 [submodule "dependencies/lua"]
 	path = dependencies/lua
 	url = https://github.com/lua/lua.git
+[submodule "dependencies/spline"]
+	path = dependencies/spline
+	url = https://github.com/ttk592/spline

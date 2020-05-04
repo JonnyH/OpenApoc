@@ -1,4 +1,5 @@
 #include "game/ui/city/infiltrationscreen.h"
+#include "dependencies/spline/src/spline.h"
 #include "forms/form.h"
 #include "forms/graphic.h"
 #include "forms/label.h"
@@ -20,52 +21,54 @@ constexpr int num_steps = 6 * 7;
 static void drawOrgLine(sp<RGBImage> image, const Organisation &org, const Colour &colour,
                         int steps)
 {
-	const float step_width = static_cast<float>(image->size.x - 1) / static_cast<float>(steps);
+	const double step_width = static_cast<double>(image->size.x - 1) / static_cast<double>(steps);
 	constexpr int max_infiltration_value = 100;
-	float infiltration_y_scale =
-	    static_cast<float>(image->size.y - 1) / static_cast<float>(max_infiltration_value);
+	double infiltration_y_scale =
+	    static_cast<double>(image->size.y - 1) / static_cast<double>(max_infiltration_value);
 
 	// Initialise all steps to zero, in case there's not enough history (we assume anything
 	// pre-game-start has 0 infilation anyway)
-	auto step_values = std::vector<float>(steps, 0.0f);
+	auto step_values = std::vector<double>(steps, 0.0f);
 	// First is always current infiltration value
-	step_values[0] = static_cast<float>(std::min(max_infiltration_value, org.infiltrationValue));
+	step_values[0] = static_cast<double>(org.infiltrationValue);
 	int step = 1;
 	for (const auto step_value : org.infiltrationHistory)
 	{
 		if (step > steps)
 			return;
-		step_values[step] = static_cast<float>(std::min(max_infiltration_value, step_value));
+		step_values[step] = static_cast<double>(std::min(max_infiltration_value, step_value));
 		step++;
 	}
 
 	auto image_lock = RGBImageLock(image);
 
-	// TODO: Make curved lines
-	for (step = 0; step < steps - 1; step++)
+	std::vector<double> points_x(steps, 0);
+	std::vector<double> points_y(steps, 0);
+
+	for (step = 0; step < steps; step++)
 	{
-		const Vec3<float> start_point = {
-		    static_cast<float>(image->size.x - 1) - static_cast<float>(step) * step_width,
-		    static_cast<float>(image->size.y - 1) - step_values[step] * infiltration_y_scale, 0};
-		const Vec3<float> end_point = {
-		    static_cast<float>(image->size.x - 1) - static_cast<float>(step + 1) * step_width,
-		    static_cast<float>(image->size.y - 1) - step_values[step + 1] * infiltration_y_scale,
-		    0};
+		int dst_idx = steps - step - 1;
+		// Reverse the steps, so they're in increasing X
+		points_x[step] = static_cast<double>(step) * step_width;
+		points_y[dst_idx] =
+		    static_cast<double>(image->size.y) - step_values[step] * infiltration_y_scale;
+	}
 
-		const auto start_point_int = Vec3<int>(start_point);
-		const auto end_point_int = Vec3<int>(end_point);
+	tk::spline spline;
+	//spline.set_boundary(tk::spline::first_deriv, 0.0, tk::spline::first_deriv, 0.0, true);
+	spline.set_points(points_x, points_y);
 
-		const auto line = LineSegment<int, false>(start_point_int, end_point_int);
-		for (auto point : line)
+	for (int x = 0; x < image->size.x - 1; x++)
+	{
+		int x1 = x;
+		int x2 = x + 1;
+		int y1 = static_cast<int>(spline(static_cast<double>(x1)));
+		int y2 = static_cast<int>(spline(static_cast<double>(x2)));
+		LineSegment<int, false> line(Vec3<int>(x1, y1, 0), Vec3<int>(x2, y2, 0));
+		for (const auto &point : line)
 		{
-			if (point.x < 0 || point.y < 0 || point.x >= image->size.x || point.y >= image->size.y)
-			{
-				LogWarning("Point %s out of bounds for image of size %s", point, image->size);
-				point.x = clamp(point.x, 0, static_cast<int>(image->size.x - 1));
-				point.y = clamp(point.y, 0, static_cast<int>(image->size.y - 1));
-			}
-			image_lock.set(Vec2<unsigned int>{static_cast<unsigned int>(point.x),
-			                                  static_cast<unsigned int>(point.y)},
+			image_lock.set(Vec2<int>(clamp<int>(lrint(point.x), 0, image->size.x - 1),
+			                         clamp<int>(lrint(point.y), 0, image->size.y - 1)),
 			               colour);
 		}
 	}
