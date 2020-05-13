@@ -8,6 +8,9 @@
 namespace OpenApoc
 {
 
+std::list<std::string> splitlist(const std::string &str, const char delim);
+std::vector<std::string> split(const std::string &str, const char delim);
+
 typedef char32_t UniChar;
 
 class UString

@@ -237,7 +237,7 @@ class CueParser
 
 	bool parse(UString cueFilename)
 	{
-		fs::path cueFilePath(cueFilename.cStr());
+		sys_fs::path cueFilePath(cueFilename.cStr());
 
 		std::ifstream cueFile(cueFilename.str(), std::ios::in);
 		if (!cueFile)
@@ -762,7 +762,8 @@ class CueArchiver
 		uint8_t _padding; // This field is here to avoid alignment issues.
 		                  // It's only used in the boot volume descriptor, and
 		                  // therefore not interesting to us.
-		union {
+		union
+		{
 			// Better not even try this one
 			/*struct
 			{
@@ -955,10 +956,10 @@ class CueArchiver
 	    : imageFile(fileName), fileType(ftype), trackMode(tmode)
 	{
 		// "Hey, a .cue-.bin file pair should be really easy to read!" - sfalexrog, 15.04.2016
-		fs::path filePath(fileName.cStr());
+		sys_fs::path filePath(fileName.cStr());
 		// FIXME: This fsize is completely and utterly wrong - unless you're reading an actual iso
 		// (mode1_2048)
-		uint64_t fsize = fs::file_size(filePath);
+		uint64_t fsize = sys_fs::file_size(filePath);
 		LogInfo("Opening file %s of size %" PRIu64, fileName, fsize);
 		cio = new CueIO(fileName, 0, fsize, ftype, tmode);
 		if (!cio->fileStream)
@@ -1103,22 +1104,22 @@ class CueArchiver
 		// We know it's a valid CUE file, so claim it
 		*claimed = 1;
 
-		fs::path cueFilePath(filename);
+		sys_fs::path cueFilePath(filename);
 
-		fs::path dataFilePath(cueFilePath.parent_path()); // parser.getDataFileName());
+		sys_fs::path dataFilePath(cueFilePath.parent_path()); // parser.getDataFileName());
 		dataFilePath /= parser.getDataFileName().cStr();
 
-		if (!fs::exists(dataFilePath))
+		if (!sys_fs::exists(dataFilePath))
 		{
 			LogWarning("Could not find binary file \"%s\" referenced in the cuesheet",
 			           parser.getDataFileName());
 			LogWarning("Trying case-insensitive search...");
 			UString ucBin(parser.getDataFileName());
 			ucBin = ucBin.toLower();
-			// for (fs::directory_entry &dirent :
-			// fs::directory_iterator(cueFilePath.parent_path()))
-			for (auto dirent_it = fs::directory_iterator(cueFilePath.parent_path());
-			     dirent_it != fs::directory_iterator(); dirent_it++)
+			// for (sys_fs::directory_entry &dirent :
+			// sys_fs::directory_iterator(cueFilePath.parent_path()))
+			for (auto dirent_it = sys_fs::directory_iterator(cueFilePath.parent_path());
+			     dirent_it != sys_fs::directory_iterator(); dirent_it++)
 			{
 				auto dirent = *dirent_it;
 				LogInfo("Trying %s", dirent.path().string());
@@ -1130,7 +1131,7 @@ class CueArchiver
 					dataFilePath /= dirent.path().filename();
 				}
 			}
-			if (!fs::exists(dataFilePath))
+			if (!sys_fs::exists(dataFilePath))
 			{
 				LogError("Binary file does not exist: \"%s\"", dataFilePath.string());
 				return nullptr;

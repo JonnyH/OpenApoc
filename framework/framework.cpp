@@ -240,14 +240,14 @@ Framework::Framework(const UString programName, bool createWindow)
 		// FIXME: How to check we're being run from the app bundle and not directly from the
 		// terminal? On my testing (macos 10.15.1 19B88) it seems to have a "/" working directory,
 		// which is unlikely in terminal use, so use that?
-		if (fs::current_path() == "/")
+		if (sys_fs::current_path() == "/")
 		{
 			LogWarning("Setting working directory to \"%s\"", basePath);
 			chdir(basePath);
 		}
 		else
 		{
-			LogWarning("Leaving default working directory \"%s\"", fs::current_path());
+			LogWarning("Leaving default working directory \"%s\"", sys_fs::current_path());
 		}
 		SDL_free(basePath);
 	}

@@ -30,7 +30,8 @@ set (FRAMEWORK_SOURCE_FILES
 	logger_sdldialog.cpp
 	logger_file.cpp
 	options.cpp
-	modinfo.cpp)
+	modinfo.cpp
+	filesystem.cpp)
 
 source_group(framework\\sources FILES ${FRAMEWORK_SOURCE_FILES})
 list(APPEND ALL_SOURCE_FILES ${FRAMEWORK_SOURCE_FILES})

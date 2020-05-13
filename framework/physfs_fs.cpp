@@ -255,8 +255,8 @@ FileSystem::FileSystem(std::vector<UString> paths)
 		else
 			LogInfo("Resource dir \"%s\" mounted to \"%s\"", p, PHYSFS_getMountPoint(p.cStr()));
 	}
-	auto current_path = fs::current_path();
-	auto canonical_current_path = fs::canonical(current_path);
+	auto current_path = sys_fs::current_path();
+	auto canonical_current_path = sys_fs::canonical(current_path);
 
 	LogInfo("Current path: \"%s\"", canonical_current_path);
 

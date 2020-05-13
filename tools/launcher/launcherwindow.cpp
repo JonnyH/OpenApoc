@@ -19,8 +19,8 @@ using namespace OpenApoc;
 
 static std::list<std::pair<UString, ModInfo>> enumerateMods()
 {
-	fs::path modPath = Options::modPath.get().str();
-	if (!fs::is_directory(modPath))
+	sys_fs::path modPath = Options::modPath.get().str();
+	if (!sys_fs::is_directory(modPath))
 	{
 		LogError("Mod path \"%s\" not a valid directory", modPath.string());
 		return {};
@@ -28,10 +28,10 @@ static std::list<std::pair<UString, ModInfo>> enumerateMods()
 
 	std::list<std::pair<UString, ModInfo>> foundMods;
 
-	for (const auto &dentry : fs::directory_iterator(modPath))
+	for (const auto &dentry : sys_fs::directory_iterator(modPath))
 	{
 		// Skip any non-directories
-		if (!fs::is_directory(dentry))
+		if (!sys_fs::is_directory(dentry))
 			continue;
 		auto path = dentry.path();
 		auto modInfo = ModInfo::getInfo(path.string());
@@ -39,7 +39,7 @@ static std::list<std::pair<UString, ModInfo>> enumerateMods()
 		if (!modInfo)
 			continue;
 		// Otherwise store the directory/modinfo pair
-		foundMods.push_back({fs::relative(path, modPath).string(), *modInfo});
+		foundMods.push_back({sys_fs::relative(path, modPath).string(), *modInfo});
 	}
 
 	return foundMods;

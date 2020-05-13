@@ -53,7 +53,7 @@ bool test_gamestate_serialization(OpenApoc::sp<OpenApoc::GameState> state)
 
 	std::stringstream ss;
 	ss << "openapoc_test_serialize-" << std::this_thread::get_id();
-	auto tempPath = OpenApoc::fs::temp_directory_path() / ss.str();
+	auto tempPath = OpenApoc::sys_fs::temp_directory_path() / ss.str();
 	OpenApoc::UString pathString(tempPath.string());
 	LogInfo("Writing temp state to \"%s\"", pathString);
 	if (!test_gamestate_serialization_roundtrip(state, pathString))
@@ -62,7 +62,7 @@ bool test_gamestate_serialization(OpenApoc::sp<OpenApoc::GameState> state)
 		return false;
 	}
 
-	OpenApoc::fs::remove(tempPath);
+	OpenApoc::sys_fs::remove(tempPath);
 
 	return true;
 }

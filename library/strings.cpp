@@ -331,6 +331,38 @@ std::list<UString> UString::splitlist(const UString &delims) const
 	return std::list<UString>(strings.begin(), strings.end());
 }
 
+std::vector<std::string> split(const std::string &str, const char delim)
+{
+	// FIXME: Probably won't work if any of 'delims' is outside the ASCII range
+	std::vector<std::string> strings;
+	size_t pos = 0;
+	size_t prev = pos;
+	while ((pos = str.find_first_of(delim, prev)) != std::string::npos)
+	{
+		if (pos > prev)
+			strings.push_back(str.substr(prev, pos - prev));
+		prev = pos + 1;
+	}
+	strings.push_back(str.substr(prev, pos));
+	return strings;
+}
+
+std::list<std::string> splitlist(const std::string &str, const char delim)
+{
+	// FIXME: Probably won't work if any of 'delims' is outside the ASCII range
+	std::list<std::string> strings;
+	size_t pos = 0;
+	size_t prev = pos;
+	while ((pos = str.find_first_of(delim, prev)) != std::string::npos)
+	{
+		if (pos > prev)
+			strings.push_back(str.substr(prev, pos - prev));
+		prev = pos + 1;
+	}
+	strings.push_back(str.substr(prev, pos));
+	return strings;
+}
+
 UniChar UString::u8Char(char c)
 {
 	// FIXME: I believe all the <256 codepoints just map?

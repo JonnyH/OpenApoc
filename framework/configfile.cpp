@@ -96,7 +96,7 @@ class ConfigFileImpl
 			LogError("Already parsed options");
 			return true;
 		}
-		fs::path programPath(argv[0]);
+		sys_fs::path programPath(argv[0]);
 		// Remove extension (if any) and path
 		programName = programPath.filename().string();
 		if (programName.endsWith(".exe"))
