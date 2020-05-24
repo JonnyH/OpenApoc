@@ -8,7 +8,7 @@
 #ifdef __cpp_char8_t
 // Has char8_t, good
 #else
-#error Implementation doesn't support char8_t
+#error no char8_t
 #endif
 
 namespace OpenApoc
