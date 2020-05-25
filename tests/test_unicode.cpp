@@ -4,6 +4,13 @@
 
 using namespace OpenApoc;
 
+#ifdef __cpp_char8_t
+// FIXME: Hack, as we happen to already know UString takes utf8 codepoints (IE char8_t values)
+static const char *from_utf8(const char8_t *chars) { return reinterpret_cast<const char *>(chars); }
+#else
+static const char *from_utf8(const char *chars) { return chars; }
+#endif
+
 struct example_unicode
 {
 	const char *u8string;
@@ -43,7 +50,7 @@ struct example_unicode
 			{
 				LogError(
 				    "String \"%s\" has unexpected codepoint at index %zu - got 0x%x expected 0x%x",
-				    u8string, i, decoded_codepoints[i], expected_codepoints[i]);
+				    u8string, i, uint32_t(decoded_codepoints[i]), uint32_t(expected_codepoints[i]));
 				return false;
 			}
 			string2 += decoded_codepoints[i];
@@ -100,11 +107,11 @@ int main(int argc, char **argv)
 	}
 
 	const std::vector<example_unicode> examples = {
-	    {u8"£", {0xA3}},
-	    {u8"a", {0x61}},
-	    {u8"€", {0x20AC}},
-	    {u8"𐍈", {0x10348}},
-	    {u8"£a€𐍈", {0xA3, 0x61, 0x20AC, 0x10348}},
+	    {from_utf8(u8"£"), {0xA3}},
+	    {from_utf8(u8"a"), {0x61}},
+	    {from_utf8(u8"€"), {0x20AC}},
+	    {from_utf8(u8"𐍈"), {0x10348}},
+	    {from_utf8(u8"£a€𐍈"), {0xA3, 0x61, 0x20AC, 0x10348}},
 	};
 
 	for (const auto &ex : examples)
@@ -113,9 +120,9 @@ int main(int argc, char **argv)
 			return EXIT_FAILURE;
 	}
 
-	UString example = u8"€UPpa91£B\"#ð𐍈";
-	UString lower_example = u8"€uppa91£b\"#ð𐍈";
-	UString upper_example = u8"€UPPA91£B\"#ð𐍈";
+	UString example = from_utf8(u8"€UPpa91£B\"#ð𐍈");
+	UString lower_example = from_utf8(u8"€uppa91£b\"#ð𐍈");
+	UString upper_example = from_utf8(u8"€UPPA91£B\"#ð𐍈");
 
 	auto lower = example.toLower();
 	auto upper = example.toUpper();
@@ -130,11 +137,11 @@ int main(int argc, char **argv)
 		return EXIT_FAILURE;
 	}
 
-	UString removed_example1 = u8"€UPpa91£\"#ð𐍈";
-	UString removed_example2 = u8"€UPpa91£B\"#ð";
-	UString removed_example3 = u8"UPpa91£B\"#ð𐍈";
-	UString removed_example4 = u8"€UPpa91£𐍈";
-	UString empty = u8"";
+	UString removed_example1 = from_utf8(u8"€UPpa91£\"#ð𐍈");
+	UString removed_example2 = from_utf8(u8"€UPpa91£B\"#ð");
+	UString removed_example3 = from_utf8(u8"UPpa91£B\"#ð𐍈");
+	UString removed_example4 = from_utf8(u8"€UPpa91£𐍈");
+	UString empty = from_utf8(u8"");
 
 	if (!test_remove(example, removed_example1, 8, 1))
 		return EXIT_FAILURE;
@@ -154,7 +161,7 @@ int main(int argc, char **argv)
 	bool exception_caught = false;
 	try
 	{
-		test_insert(empty, empty, 50, u8"Lol");
+		test_insert(empty, empty, 50, from_utf8(u8"Lol"));
 	}
 	catch (const std::out_of_range &ex)
 	{
@@ -166,12 +173,12 @@ int main(int argc, char **argv)
 		return EXIT_FAILURE;
 	}
 
-	UString insert_example1 = u8"Ayy€UPpa91£B\"#ð𐍈";
-	UString insert_example2 = u8"€UPpaÞ91£B\"#ð𐍈";
-	UString insert_example3 = u8"€UPpa91£B\"#ð𐍈€UPpa91£B\"#ð𐍈";
+	UString insert_example1 = from_utf8(u8"Ayy€UPpa91£B\"#ð𐍈");
+	UString insert_example2 = from_utf8(u8"€UPpaÞ91£B\"#ð𐍈");
+	UString insert_example3 = from_utf8(u8"€UPpa91£B\"#ð𐍈€UPpa91£B\"#ð𐍈");
 
-	test_insert(example, insert_example1, 0, u8"Ayy");
-	test_insert(example, insert_example2, 5, u8"Þ");
+	test_insert(example, insert_example1, 0, from_utf8(u8"Ayy"));
+	test_insert(example, insert_example2, 5, from_utf8(u8"Þ"));
 	test_insert(example, insert_example3, 13, example);
 
 	return EXIT_SUCCESS;
