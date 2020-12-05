@@ -89,13 +89,13 @@ Note: The following libraries will be fetched and built with vcpkg in a later st
 * [Qt](https://www.qt.io/) - needed for the launcher, can be disabled with 'BUILD_LAUNCHER'.
 * [Libunwind](https://nongnu.org/libunwind/download.html) - debug backtracing on linux - not needed on windows.
 * [LibVorbis](https://xiph.org/vorbis/) - Ogg vorbis music decoder library
+* [Lua](https://www.lua.org/) - Scripting language.
 
 The following libraries are also used, but are shipped as submodules in the repository and directly included in the build, so you don't need to install these dependencies to build or use openapoc.
 
 * [GLM](https://glm.g-truc.net) - Math library.
 * [libsmacker](https://sourceforge.net/projects/libsmacker/) - Decoder for .smk video files.
 * [lodepng](https://github.com/lvandeve/lodepng) - Reading/writing PNG image files.
-* [Lua](https://www.lua.org/) - Scripting language.
 * [miniz](https://github.com/richgel999/miniz) - Zlib-comptible compression library.
 * [physfs](https://icculus.org/physfs/) - Library for reading data from .iso files or directory trees (Note: We use a patched version, available on [GitHub](https://github.com/JonnyH/physfs-hg-import/tree/fix-iso) - required to read the .iso files we use).
 * [pugixml](https://pugixml.org) - XML library used for reading/writing the game data files.
@@ -117,13 +117,13 @@ git submodule update --init --recursive
   * For x64 builds:
 
 ```cmd
-vcpkg --triplet x64-windows install sdl2 boost-locale boost-program-options boost-uuid boost-crc qt5-base libvorbis
+vcpkg --triplet x64-windows install sdl2 boost-locale boost-program-options boost-uuid boost-crc qt5-base libvorbis lua
 ```
 
   * For x86 builds:
 
 ```cmd
-vcpkg --triplet x86-windows install sdl2 boost-locale boost-program-options boost-uuid boost-crc qt5-base libvorbis
+vcpkg --triplet x86-windows install sdl2 boost-locale boost-program-options boost-uuid boost-crc qt5-base libvorbis lua
 ```
 
   * For list of all supported by Vcpkg architectures: `vcpkg help triplet`
@@ -156,7 +156,7 @@ vcpkg --triplet x86-windows install sdl2 boost-locale boost-program-options boos
 * On Ubuntu, install the following packages:
 
 ```sh
-sudo apt-get install libsdl2-dev cmake build-essential git libunwind8-dev libboost-locale-dev libboost-filesystem-dev libboost-program-options-dev qtbase5-dev libvorbis-dev
+sudo apt-get install libsdl2-dev cmake build-essential git libunwind8-dev libboost-locale-dev libboost-filesystem-dev libboost-program-options-dev qtbase5-dev libvorbis-dev liblua-dev
 ```
 
 * On Mageia, install the following packages as root:

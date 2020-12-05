@@ -222,8 +222,6 @@ if (WIN32)
 	target_link_libraries(OpenApoc_GameState PUBLIC bcrypt)
 endif()
 
-target_link_libraries(OpenApoc_GameState PUBLIC OpenApoc_Lua)
-
 # This needs to be public as gamestate_serialize_generated.h needs to be in
 # the path
 target_include_directories(OpenApoc_GameState PUBLIC ${CMAKE_BINARY_DIR})

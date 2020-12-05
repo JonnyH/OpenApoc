@@ -253,6 +253,8 @@ target_link_libraries(OpenApoc_Framework PUBLIC ${CMAKE_THREAD_LIBS_INIT})
 
 target_include_directories(OpenApoc_Framework PUBLIC ${GLM_INCLIDE_DIR})
 
+find_package(Lua REQUIRED)
+
 #Require SDL2 for input/graphics/sound/pretty much everything
 if(WIN32)
 	find_package(SDL2 CONFIG REQUIRED)
@@ -285,6 +287,9 @@ find_library(VORBISFILE_LIBRARY vorbisfile)
 
 target_include_directories(OpenApoc_Framework PRIVATE ${VORBIS_INCLUDE_DIR})
 target_link_libraries(OpenApoc_Framework PRIVATE ${VORBISFILE_LIBRARY})
+
+target_link_libraries(OpenApoc_Framework PUBLIC ${LUA_LIBRARIES})
+target_include_directories(OpenApoc_Framework PRIVATE ${LUA_INCLUDE_DIR})
 
 # Dialog is handled by SDL2
 if(DIALOG_ON_ERROR)

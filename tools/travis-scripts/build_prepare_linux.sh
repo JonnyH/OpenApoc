@@ -7,7 +7,7 @@ ccache -M 1G
 ccache -s
 
 echo "Installing dependencies"
-sudo apt-get install libsdl2-dev cmake build-essential git libunwind8-dev libboost-locale-dev libboost-filesystem-dev libboost-program-options-dev qtbase5-dev libvorbis-dev
+sudo apt-get install libsdl2-dev cmake build-essential git libunwind8-dev libboost-locale-dev libboost-filesystem-dev libboost-program-options-dev qtbase5-dev libvorbis-dev liblua-dev
 
 
 echo "Fetching minimal cd.iso for build"
