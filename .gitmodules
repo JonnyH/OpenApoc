@@ -20,3 +20,6 @@
 [submodule "dependencies/fmt"]
 	path = dependencies/fmt
 	url = https://github.com/fmtlib/fmt.git
+[submodule "dependencies/sol2"]
+	path = dependencies/sol2
+	url = https://github.com/ThePhD/sol2

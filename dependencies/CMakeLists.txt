@@ -130,6 +130,8 @@ set(PHYSFS_BUILD_TEST OFF CACHE BOOL "")
 
 add_subdirectory(physfs)
 
+add_subdirectory(sol2)
+
 # we don't care about the coding practices of external dependencies
 target_compile_options(OpenApoc_LibSmacker PRIVATE "-w")
 target_compile_options(OpenApoc_LibPugixml PRIVATE "-w")
