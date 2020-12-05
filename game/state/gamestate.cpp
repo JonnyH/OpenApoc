@@ -238,7 +238,7 @@ void GameState::initState()
 	skipTurboCalculations = config().getBool("OpenApoc.NewFeature.SkipTurboMovement");
 }
 
-void GameState::applyMods() { luaGameState.callHook("applyMods", 0, 0); }
+void GameState::applyMods() {}
 
 void GameState::setCurrentCity(StateRef<City> city)
 {
@@ -498,14 +498,10 @@ void GameState::fillOrgStartingProperty()
 			    m.pattern.minIntervalRepeat / 2;
 		}
 	}
-
-	luaGameState.callHook("newGamePostInit", 0, 0);
 }
 
 void GameState::startGame()
 {
-	luaGameState.callHook("newGame", 0, 0);
-
 	agentEquipmentTemplates.resize(10);
 
 	// Setup orgs
@@ -1194,12 +1190,7 @@ void GameState::updateEndOfDay()
 	}
 }
 
-void GameState::updateEndOfWeek()
-{
-	updateHumanEconomy();
-
-	luaGameState.callHook("updateEndOfWeek", 0, 0);
-}
+void GameState::updateEndOfWeek() { updateHumanEconomy(); }
 
 // Recalculates AI organization and civilian finances, updating budgets and salaries
 void GameState::updateHumanEconomy()

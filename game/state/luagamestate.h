@@ -1,9 +1,5 @@
 #pragma once
 
-extern "C"
-{
-#include <lua.h>
-}
 #include "library/strings.h"
 
 namespace OpenApoc
@@ -14,20 +10,31 @@ class GameState;
 class LuaGameState
 {
   private:
-	// pushes OpenApoc.hook[hookName] to the top of the stack and returns true if callable. leaves
-	// stack unchanged otherwise
-	bool pushHook(const char *hookName);
-	bool initOk = false;
+	class LuaGameStateImpl;
+	LuaGameStateImpl *_impl = nullptr;
 
   public:
+	enum class Hook
+	{
+		ModLoad,
+		NewGame,
+		GameStart,
+		EndTick,
+		EndSecond,
+		EndMinute,
+		EndHour,
+		EndDay,
+		EndWeek,
+		StartBattle,
+		EndBattle,
+	};
 	LuaGameState();
 	~LuaGameState();
 
 	void init(GameState &game);
-	lua_State *L = nullptr;
 
-	operator bool() const;
-	int callHook(const UString &hookName, int nargs, int nresults);
-	bool runScript(const UString &scriptName);
+	bool addHook(Hook type, const UString &scriptPath);
+	bool callHook(Hook type);
+	bool runScript(const UString &scriptPath);
 };
 } // namespace OpenApoc

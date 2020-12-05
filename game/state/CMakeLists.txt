@@ -226,6 +226,8 @@ endif()
 # the path
 target_include_directories(OpenApoc_GameState PUBLIC ${CMAKE_BINARY_DIR})
 
+target_link_libraries(OpenApoc_GameState PUBLIC sol2::sol2)
+
 add_custom_command(OUTPUT
 		gamestate_serialize_generated.h
 		gamestate_serialize_generated.cpp
