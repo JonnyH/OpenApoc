@@ -673,25 +673,31 @@ void TransferScreen::initViewSecondBase()
 		view->setImage(viewImage);
 		view->setDepressedImage(viewImage);
 		wp<GraphicButton> weakView(view);
-		view->addCallback(FormEventType::ButtonClick, [this, weakView](FormsEvent *e) {
-			auto base = e->forms().RaisedBy->getData<Base>();
-			if (this->second_base != base)
-			{
-				this->changeSecondBase(base);
-				this->currentSecondView = weakView.lock();
-			}
-		});
-		view->addCallback(FormEventType::MouseEnter, [this](FormsEvent *e) {
-			auto base = e->forms().RaisedBy->getData<Base>();
-			this->textViewSecondBase->setText(base->name);
-			this->textViewSecondBase->setVisible(true);
-			this->textViewSecondBaseStatic->setVisible(false);
-		});
-		view->addCallback(FormEventType::MouseLeave, [this](FormsEvent *) {
-			// this->textViewSecondBase->setText("");
-			this->textViewSecondBase->setVisible(false);
-			this->textViewSecondBaseStatic->setVisible(true);
-		});
+		view->addCallback(FormEventType::ButtonClick,
+		                  [this, weakView](FormsEvent *e)
+		                  {
+			                  auto base = e->forms().RaisedBy->getData<Base>();
+			                  if (this->second_base != base)
+			                  {
+				                  this->changeSecondBase(base);
+				                  this->currentSecondView = weakView.lock();
+			                  }
+		                  });
+		view->addCallback(FormEventType::MouseEnter,
+		                  [this](FormsEvent *e)
+		                  {
+			                  auto base = e->forms().RaisedBy->getData<Base>();
+			                  this->textViewSecondBase->setText(base->name);
+			                  this->textViewSecondBase->setVisible(true);
+			                  this->textViewSecondBaseStatic->setVisible(false);
+		                  });
+		view->addCallback(FormEventType::MouseLeave,
+		                  [this](FormsEvent *)
+		                  {
+			                  // this->textViewSecondBase->setText("");
+			                  this->textViewSecondBase->setVisible(false);
+			                  this->textViewSecondBaseStatic->setVisible(true);
+		                  });
 	}
 	textViewSecondBase = form->findControlTyped<Label>("TEXT_BUTTON_SECOND_BASE");
 	textViewSecondBase->setVisible(false);

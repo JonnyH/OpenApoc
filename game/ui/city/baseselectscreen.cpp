@@ -26,9 +26,9 @@ BaseSelectScreen::BaseSelectScreen(sp<GameState> state, Vec3<float> centerPos)
       menuform(ui().getForm("city/baseselect")), state(state)
 {
 	this->centerPos = centerPos;
-	this->menuform->findControl("BUTTON_OK")->addCallback(FormEventType::ButtonClick, [](Event *) {
-		fw().stageQueueCommand({StageCmd::Command::POP});
-	});
+	this->menuform->findControl("BUTTON_OK")
+	    ->addCallback(FormEventType::ButtonClick,
+	                  [](Event *) { fw().stageQueueCommand({StageCmd::Command::POP}); });
 }
 
 BaseSelectScreen::~BaseSelectScreen() = default;
