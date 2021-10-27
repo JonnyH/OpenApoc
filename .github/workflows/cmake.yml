@@ -64,4 +64,4 @@ jobs:
       shell: bash
       # Execute tests defined by the CMake configuration.  
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: ctest -T MemCheck -C $BUILD_TYPE
+      run: ctest -T MemCheck -C $BUILD_TYPE; for i in Testing/Temporary/MemoryChecker*.log; do echo $i; cat $i; fi;
