@@ -1,3 +1,5 @@
+include (CTest)
+
 PROJECT (OpenApoc_Tests CXX C)
 CMAKE_MINIMUM_REQUIRED(VERSION 3.9)
 
