@@ -29,7 +29,7 @@ before_build:
   - git checkout 2022.02.02
   - .\bootstrap-vcpkg.bat
   - cd %APPVEYOR_BUILD_FOLDER%
-  - vcpkg install
+  - c:\vcpkg\vcpkg install
   - git submodule update --init --recursive
   - copy c:\apoc\cd.iso data\
   - call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" %VCVARS_ARCH%
