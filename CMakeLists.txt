@@ -6,6 +6,7 @@ option(BUILD_LAUNCHER "Build the launcher" ON)
 option(USE_SYSTEM_QT "Use the system-provided QT5 instead of installing the vcpkg package" OFF)
 
 if (BUILD_LAUNCHER AND NOT USE_SYSTEM_QT)
+	message("Using vcpkg QT")
 		list(APPEND VCPKG_MANIFEST_FEATURES "launcher")
 endif()
 
