@@ -52,7 +52,7 @@ class TransactionScreen : public BaseStage
 	};
 
   protected:
-	void changeBase(sp<Base> newBase) override;
+	void changeBase(StateRef<Base> newBase) override;
 
 	// The counter of the highlight update countdown.
 	int framesUntilHighlightUpdate = 0;

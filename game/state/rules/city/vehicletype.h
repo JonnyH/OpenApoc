@@ -88,20 +88,20 @@ class VehicleType : public StateObject<VehicleType>
 	int getMaxHealth(IterT first [[maybe_unused]], IterT last [[maybe_unused]]) const
 	{
 		static_assert(std::is_same<typename std::iterator_traits<IterT>::value_type,
-		                           sp<VEquipmentType>>::value,
-		              "iterator must return sp<VehicleEquipmentType>");
+		                           StateRef<VEquipmentType>>::value,
+		              "iterator must return StateRef<VehicleEquipmentType>");
 		return this->health;
 	}
 	template <class IterT> int getMaxShield(IterT first, IterT last) const
 	{
 		static_assert(std::is_same<typename std::iterator_traits<IterT>::value_type,
-		                           sp<VEquipmentType>>::value,
-		              "iterator must return sp<VehicleEquipmentType>");
+		                           StateRef<VEquipmentType>>::value,
+		              "iterator must return StateRef<VehicleEquipmentType>");
 		int maxShield = 0;
 
 		while (first != last)
 		{
-			sp<VEquipmentType> vet = *first;
+			StateRef<VEquipmentType> vet = *first;
 			if (vet->type == EquipmentSlotType::VehicleGeneral)
 			{
 				maxShield += vet->shielding;
@@ -115,7 +115,7 @@ class VehicleType : public StateObject<VehicleType>
 	int getArmor(IterT first [[maybe_unused]], IterT last [[maybe_unused]]) const
 	{
 		static_assert(std::is_same<typename std::iterator_traits<IterT>::value_type,
-		                           sp<VEquipmentType>>::value,
+		                           StateRef<VEquipmentType>>::value,
 		              "iterator must return sp<VehicleEquipmentType>");
 		int armor = 0;
 		for (auto &armorDirection : this->armour)
@@ -127,14 +127,14 @@ class VehicleType : public StateObject<VehicleType>
 	template <class IterT> int getAccuracy(IterT first, IterT last) const
 	{
 		static_assert(std::is_same<typename std::iterator_traits<IterT>::value_type,
-		                           sp<VEquipmentType>>::value,
+		                           StateRef<VEquipmentType>>::value,
 		              "iterator must return sp<VehicleEquipmentType>");
 		int accuracy = 0;
 		std::priority_queue<int> accModifiers;
 
 		while (first != last)
 		{
-			sp<VEquipmentType> vet = *first;
+			StateRef<VEquipmentType> vet = *first;
 			if (vet->type == EquipmentSlotType::VehicleGeneral && vet->accuracy_modifier > 0)
 			{
 				// accuracy percentages are inverted in the data (e.g. 10% module gives 90)
@@ -155,20 +155,20 @@ class VehicleType : public StateObject<VehicleType>
 	template <class IterT> int getTopSpeed(IterT first, IterT last) const
 	{
 		static_assert(std::is_same<typename std::iterator_traits<IterT>::value_type,
-		                           sp<VEquipmentType>>::value,
+		                           StateRef<VEquipmentType>>::value,
 		              "iterator must return sp<VehicleEquipmentType>");
 		return (int)getSpeed(first, last);
 	}
 	template <class IterT> int getAcceleration(IterT first, IterT last) const
 	{
 		static_assert(std::is_same<typename std::iterator_traits<IterT>::value_type,
-		                           sp<VEquipmentType>>::value,
+		                           StateRef<VEquipmentType>>::value,
 		              "iterator must return sp<VehicleEquipmentType>");
 		int weight = this->getWeight(first, last);
 		int power = 0;
 		while (first != last)
 		{
-			sp<VEquipmentType> vet = *first;
+			StateRef<VEquipmentType> vet = *first;
 			if (vet->type == EquipmentSlotType::VehicleEngine)
 			{
 				power += vet->power;
@@ -190,7 +190,7 @@ class VehicleType : public StateObject<VehicleType>
 	template <class IterT> int getWeight(IterT first, IterT last) const
 	{
 		static_assert(std::is_same<typename std::iterator_traits<IterT>::value_type,
-		                           sp<VEquipmentType>>::value,
+		                           StateRef<VEquipmentType>>::value,
 		              "iterator must return sp<VehicleEquipmentType>");
 		int weight = this->weight;
 		while (first != last)
@@ -207,14 +207,14 @@ class VehicleType : public StateObject<VehicleType>
 	template <class IterT> int getMaxFuel(IterT first, IterT last) const
 	{
 		static_assert(std::is_same<typename std::iterator_traits<IterT>::value_type,
-		                           sp<VEquipmentType>>::value,
+		                           StateRef<VEquipmentType>>::value,
 		              "iterator must return sp<VehicleEquipmentType>");
 		// Zero fuel is normal on some vehicles (IE ufos/'dimension-capable' xcom)
 		int fuel = 0;
 
 		while (first != last)
 		{
-			sp<VEquipmentType> vet = *first;
+			StateRef<VEquipmentType> vet = *first;
 			if (vet->type == EquipmentSlotType::VehicleEngine)
 			{
 				fuel += vet->max_ammo;
@@ -226,7 +226,7 @@ class VehicleType : public StateObject<VehicleType>
 	template <class IterT> int getMaxPassengers(IterT first, IterT last) const
 	{
 		static_assert(std::is_same<typename std::iterator_traits<IterT>::value_type,
-		                           sp<VEquipmentType>>::value,
+		                           StateRef<VEquipmentType>>::value,
 		              "iterator must return sp<VehicleEquipmentType>");
 		int passengers = this->passengers;
 		while (first != last)
@@ -242,7 +242,7 @@ class VehicleType : public StateObject<VehicleType>
 	template <class IterT> int getMaxCargo(IterT first, IterT last) const
 	{
 		static_assert(std::is_same<typename std::iterator_traits<IterT>::value_type,
-		                           sp<VEquipmentType>>::value,
+		                           StateRef<VEquipmentType>>::value,
 		              "iterator must return sp<VehicleEquipmentType>");
 
 		int cargoMax = 0;
@@ -259,7 +259,7 @@ class VehicleType : public StateObject<VehicleType>
 	template <class IterT> int getMaxBio(IterT first, IterT last) const
 	{
 		static_assert(std::is_same<typename std::iterator_traits<IterT>::value_type,
-		                           sp<VEquipmentType>>::value,
+		                           StateRef<VEquipmentType>>::value,
 		              "iterator must return sp<VehicleEquipmentType>");
 
 		int cargoMax = 0;
@@ -276,8 +276,8 @@ class VehicleType : public StateObject<VehicleType>
 	template <class IterT> float getSpeed(IterT first, IterT last) const
 	{
 		static_assert(std::is_same<typename std::iterator_traits<IterT>::value_type,
-		                           sp<VEquipmentType>>::value,
-		              "iterator must return sp<VehicleEquipmentType>");
+		                           StateRef<VEquipmentType>>::value,
+		              "iterator must return StateRef<VehicleEquipmentType>");
 
 		// FIXME: This is somehow modulated by weight?
 		float speed = this->top_speed;

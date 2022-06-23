@@ -2,6 +2,7 @@
 
 #include "framework/stage.h"
 #include "game/ui/components/basegraphics.h"
+#include "game/state/stateobject.h"
 #include "library/sp.h"
 #include <vector>
 
@@ -35,7 +36,7 @@ class BaseStage : public Stage
 	int lqDelta = 0;
 
 	sp<GameState> state;
-	virtual void changeBase(sp<Base> newBase = nullptr);
+	virtual void changeBase(StateRef<Base> newBase = nullptr);
 	void refreshView();
 
   public:

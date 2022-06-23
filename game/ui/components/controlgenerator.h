@@ -80,47 +80,47 @@ class ControlGenerator
 	static const UString RIGHT_LIST_NAME;
 
 	// Icon of vehicle
-	static sp<Control> createVehicleIcon(GameState &state, sp<Vehicle> vehicle);
+	static sp<Control> createVehicleIcon(GameState &state, StateRef<Vehicle> vehicle);
 
-	static VehicleTileInfo createVehicleInfo(GameState &state, sp<Vehicle> v);
+	static VehicleTileInfo createVehicleInfo(GameState &state, StateRef<Vehicle> v);
 	static sp<Control> createVehicleControl(GameState &state, const VehicleTileInfo &info);
-	static sp<Control> createVehicleControl(GameState &state, sp<Vehicle> v);
+	static sp<Control> createVehicleControl(GameState &state, StateRef<Vehicle> v);
 	// Vehicle control with name
-	static sp<Control> createVehicleAssignmentControl(GameState &state, sp<Vehicle> vehicle);
+	static sp<Control> createVehicleAssignmentControl(GameState &state, StateRef<Vehicle> vehicle);
 	// Building control for assignment
-	static sp<Control> createBuildingAssignmentControl(GameState &state, sp<Building> building);
+	static sp<Control> createBuildingAssignmentControl(GameState &state, StateRef<Building> building);
 	// Agent control for assignment state
-	static sp<Control> createAgentAssignmentControl(GameState &state, sp<Agent> agent);
+	static sp<Control> createAgentAssignmentControl(GameState &state, StateRef<Agent> agent);
 	// Icon of agent
 	static sp<Control>
-	createAgentIcon(GameState &state, sp<Agent> agent,
+	createAgentIcon(GameState &state, StateRef<Agent> agent,
 	                UnitSelectionState forcedSelectionState = UnitSelectionState::NA,
 	                bool forceFade = false);
 
 	static AgentInfo
-	createAgentInfo(GameState &state, sp<Agent> a,
+	createAgentInfo(GameState &state, StateRef<Agent> a,
 	                UnitSelectionState forcedSelectionState = UnitSelectionState::NA,
 	                bool forceFade = false);
-	static CityUnitState getCityUnitState(sp<Agent> agent);
+	static CityUnitState getCityUnitState(StateRef<Agent> agent);
 	static void fillAgentControl(GameState &state, sp<Graphic> baseControl, const AgentInfo &info);
 	static sp<Control> createAgentControl(GameState &state, const AgentInfo &info);
 	static sp<Control>
-	createAgentControl(GameState &state, sp<Agent> a,
+	createAgentControl(GameState &state, StateRef<Agent> a,
 	                   UnitSelectionState forcedSelectionState = UnitSelectionState::NA,
 	                   bool forceFade = false);
 	static sp<Control> createLargeAgentControl(GameState &state, const AgentInfo &info, int width,
 	                                           UnitSkillState skill = UnitSkillState::Hidden);
 	static sp<Control> createLargeAgentControl(
-	    GameState &state, sp<Agent> a, int width, UnitSkillState skill = UnitSkillState::Hidden,
+	    GameState &state, StateRef<Agent> a, int width, UnitSkillState skill = UnitSkillState::Hidden,
 	    UnitSelectionState forcedSelectionState = UnitSelectionState::NA, bool forceFade = false);
 	// Create lab icon control with quantity label.
 	static sp<Control> createLabControl(sp<GameState> state, sp<Facility> facility);
 	// Control containing two MultilistBox for assignment state
 	static sp<Control> createDoubleListControl(const int controlLength);
 
-	static OrganisationInfo createOrganisationInfo(GameState &state, sp<Organisation> org);
+	static OrganisationInfo createOrganisationInfo(GameState &state, StateRef<Organisation> org);
 	static sp<Control> createOrganisationControl(GameState &state, const OrganisationInfo &info);
-	static sp<Control> createOrganisationControl(GameState &state, sp<Organisation> org);
+	static sp<Control> createOrganisationControl(GameState &state, StateRef<Organisation> org);
 
 	static int getFontHeight(GameState &state);
 };
@@ -130,7 +130,7 @@ class ControlGenerator
 class VehicleTileInfo
 {
   public:
-	sp<Vehicle> vehicle;
+	StateRef<Vehicle> vehicle;
 	UnitSelectionState selected;
 	float healthProportion;
 	bool shield;
@@ -144,7 +144,7 @@ class VehicleTileInfo
 class AgentInfo
 {
   public:
-	sp<Agent> agent;
+	StateRef<Agent> agent;
 	Rank rank;
 	bool useRank;
 	CityUnitState state;
@@ -167,7 +167,7 @@ class AgentInfo
 class OrganisationInfo
 {
   public:
-	sp<Organisation> organisation;
+	StateRef<Organisation> organisation;
 	bool selected;
 	bool operator==(const OrganisationInfo &other) const;
 	bool operator!=(const OrganisationInfo &other) const;

@@ -136,10 +136,9 @@ TacticalAIVanilla::getPatrolMovement(GameState &state, BattleUnit &u)
 	if (u.getAIType() == AIType::Group && u.agent->type->allowsDirectControl)
 	{
 		// Collect all units within squad range
-		auto sft = u.shared_from_this();
 		for (auto &unit : state.current_battle->forces[u.owner].squads[u.squadNumber].units)
 		{
-			if (unit != sft && unit->isConscious() && unit->getAIType() == AIType::Group &&
+			if (unit.id != u.id && unit->isConscious() && unit->getAIType() == AIType::Group &&
 			    unit->agent->type->allowsDirectControl && unit->canMove() &&
 			    unit->visibleEnemies.empty() &&
 			    glm::distance(unit->position, u.position) < SQUAD_RANGE)

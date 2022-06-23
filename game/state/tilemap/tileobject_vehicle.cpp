@@ -18,17 +18,16 @@ void TileObjectVehicle::draw(Renderer &r, TileTransform &transform, Vec2<float> 
                              TileViewMode mode, bool visible, int currentLevel, bool friendly,
                              bool hostile)
 {
-	auto vehicle = this->vehicle.lock();
 	if (!vehicle)
 	{
 		LogError("Called with no owning vehicle object");
 		return;
 	}
-	drawStatic(r, vehicle, transform, screenPosition, mode, visible, currentLevel, friendly,
+	drawStatic(r, *vehicle, transform, screenPosition, mode, visible, currentLevel, friendly,
 	           hostile);
 }
 
-void TileObjectVehicle::drawStatic(Renderer &r, sp<Vehicle> vehicle, TileTransform &transform,
+void TileObjectVehicle::drawStatic(Renderer &r, const Vehicle& vehicle, TileTransform &transform,
                                    Vec2<float> screenPosition, TileViewMode mode, bool, int,
                                    bool friendly, bool hostile)
 {
@@ -58,21 +57,21 @@ void TileObjectVehicle::drawStatic(Renderer &r, sp<Vehicle> vehicle, TileTransfo
 		{
 			sp<Image> closestImage;
 
-			if (vehicle->type->type == VehicleType::Type::UFO)
+			if (vehicle.type->type == VehicleType::Type::UFO)
 			{
-				if (vehicle->crashed)
+				if (vehicle.crashed)
 				{
-					closestImage = vehicle->type->crashed_sprite;
+					closestImage = vehicle.type->crashed_sprite;
 				}
 				else
 				{
-					closestImage = *vehicle->animationFrame;
+					closestImage = *vehicle.animationFrame;
 				}
 			}
 			else
 			{
 				closestImage =
-				    vehicle->type->directional_sprites.at(vehicle->banking).at(vehicle->direction);
+				    vehicle.type->directional_sprites.at(vehicle.banking).at(vehicle.direction);
 			}
 
 			if (!closestImage)
@@ -80,19 +79,19 @@ void TileObjectVehicle::drawStatic(Renderer &r, sp<Vehicle> vehicle, TileTransfo
 				LogError("No image found for vehicle");
 				return;
 			}
-			if (vehicle->isCloaked())
+			if (vehicle.isCloaked())
 			{
-				r.drawTinted(closestImage, screenPosition - vehicle->type->image_offset,
+				r.drawTinted(closestImage, screenPosition - vehicle.type->image_offset,
 				             COLOUR_TRANSPARENT);
 			}
-			else if (vehicle->stunTicksRemaining > 0)
+			else if (vehicle.stunTicksRemaining > 0)
 			{
-				r.drawTinted(closestImage, screenPosition - vehicle->type->image_offset,
+				r.drawTinted(closestImage, screenPosition - vehicle.type->image_offset,
 				             COLOUR_STUNNED);
 			}
 			else
 			{
-				r.draw(closestImage, screenPosition - vehicle->type->image_offset);
+				r.draw(closestImage, screenPosition - vehicle.type->image_offset);
 			}
 			break;
 		}
@@ -102,12 +101,12 @@ void TileObjectVehicle::drawStatic(Renderer &r, sp<Vehicle> vehicle, TileTransfo
 			int facing_offset = 0;
 			for (auto &p : offset_dir_map)
 			{
-				float d1 = p.first - vehicle->facing;
+				float d1 = p.first - vehicle.facing;
 				if (d1 < 0.0f)
 				{
 					d1 += 2.0f * (float)M_PI;
 				}
-				float d2 = vehicle->facing - p.first;
+				float d2 = vehicle.facing - p.first;
 				if (d2 < 0.0f)
 				{
 					d2 += 2.0f * (float)M_PI;
@@ -123,25 +122,25 @@ void TileObjectVehicle::drawStatic(Renderer &r, sp<Vehicle> vehicle, TileTransfo
 			// 1 = friendly, 0 = enemy, 2 = neutral
 			int side_offset = friendly ? 1 : (hostile ? 0 : 2);
 
-			switch (vehicle->type->mapIconType)
+			switch (vehicle.type->mapIconType)
 			{
 				case VehicleType::MapIconType::Arrow:
-					r.draw(vehicle->strategyImages->at(side_offset * 14 + offset_arrow +
+					r.draw(vehicle.strategyImages->at(side_offset * 14 + offset_arrow +
 					                                   facing_offset),
 					       screenPosition - Vec2<float>{4, 4});
 					break;
 				case VehicleType::MapIconType::SmallCircle:
-					r.draw(vehicle->strategyImages->at(side_offset * 14),
+					r.draw(vehicle.strategyImages->at(side_offset * 14),
 					       screenPosition - Vec2<float>{4, 4});
 					break;
 				case VehicleType::MapIconType::LargeCircle:
-					r.draw(vehicle->strategyImages->at(side_offset * 14 + offset_large + 0),
+					r.draw(vehicle.strategyImages->at(side_offset * 14 + offset_large + 0),
 					       screenPosition - Vec2<float>{8.0f, 8.0f});
-					r.draw(vehicle->strategyImages->at(side_offset * 14 + offset_large + 1),
+					r.draw(vehicle.strategyImages->at(side_offset * 14 + offset_large + 1),
 					       screenPosition - Vec2<float>{0.0f, 8.0f});
-					r.draw(vehicle->strategyImages->at(side_offset * 14 + offset_large + 2),
+					r.draw(vehicle.strategyImages->at(side_offset * 14 + offset_large + 2),
 					       screenPosition - Vec2<float>{8.0f, 0.0f});
-					r.draw(vehicle->strategyImages->at(side_offset * 14 + offset_large + 3),
+					r.draw(vehicle.strategyImages->at(side_offset * 14 + offset_large + 3),
 					       screenPosition - Vec2<float>{0.0f, 0.0f});
 					break;
 			}
@@ -155,7 +154,7 @@ void TileObjectVehicle::drawStatic(Renderer &r, sp<Vehicle> vehicle, TileTransfo
 
 TileObjectVehicle::~TileObjectVehicle() = default;
 
-TileObjectVehicle::TileObjectVehicle(TileMap &map, sp<Vehicle> vehicle)
+TileObjectVehicle::TileObjectVehicle(TileMap &map, StateRef<Vehicle> vehicle)
     : TileObject(map, Type::Vehicle, {0.0f, 0.0f, 0.0f}), vehicle(vehicle)
 {
 }
@@ -229,11 +228,11 @@ sp<VoxelMap> TileObjectVehicle::getVoxelMap(Vec3<int> mapIndex, bool los) const
 	}
 }
 
-sp<Vehicle> TileObjectVehicle::getVehicle() const { return this->vehicle.lock(); }
+StateRef<Vehicle> TileObjectVehicle::getVehicle() const { return this->vehicle; }
 
 Vec3<float> TileObjectVehicle::getPosition() const
 {
-	auto v = this->vehicle.lock();
+	auto v = this->vehicle;
 	if (!v)
 	{
 		LogError("Called with no owning vehicle object");

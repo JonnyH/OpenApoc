@@ -188,7 +188,7 @@ class FlyingVehicleMover : public VehicleMover
 				// FIXME: Do not dodge projectiles that are too low damage vs us?
 				// Is this also in rules of engagement?
 				// Do not dodge our own projectiles we just fired
-				if (p->age < 32.0f && p->firerVehicle == vehicle.shared_from_this())
+				if (p->age < 32.0f && p->firerVehicle->id == vehicle.id)
 				{
 					continue;
 				}
@@ -1291,15 +1291,15 @@ void Vehicle::leaveDimensionGate(GameState &state)
 	this->goalFacing = initialFacing;
 	if (city->map)
 	{
-		city->map->addObjectToMap(state, shared_from_this());
+		city->map->addObjectToMap(state,StateRef<Vehicle>{&state, this->id});
 	}
 	if (state.current_city == city)
 	{
 		fw().soundBackend->playSample(state.city_common_sample_list->dimensionShiftOut, position);
 		if (owner == state.getAliens())
 		{
-			fw().pushEvent(
-			    new GameVehicleEvent(GameEventType::UfoSpotted, {&state, shared_from_this()}));
+			fw().pushEvent(new GameVehicleEvent(GameEventType::UfoSpotted,
+			                                    StateRef<Vehicle>{&state, this->id}));
 		}
 	}
 	this->betweenDimensions = false;
@@ -1343,7 +1343,7 @@ void Vehicle::leaveBuilding(GameState &state, Vec3<float> initialPosition, float
 	auto bld = this->currentBuilding;
 	if (bld)
 	{
-		bld->currentVehicles.erase({&state, shared_from_this()});
+		bld->currentVehicles.erase({&state, this->id});
 		this->currentBuilding = "";
 	}
 	this->position = initialPosition;
@@ -1352,7 +1352,7 @@ void Vehicle::leaveBuilding(GameState &state, Vec3<float> initialPosition, float
 	this->goalFacing = initialFacing;
 	if (city->map)
 	{
-		city->map->addObjectToMap(state, shared_from_this());
+		city->map->addObjectToMap(state, StateRef<Vehicle>{&state, this->id});
 	}
 }
 
@@ -1366,7 +1366,7 @@ void Vehicle::enterBuilding(GameState &state, StateRef<Building> b)
 		return;
 	}
 	this->currentBuilding = b;
-	b->currentVehicles.insert({&state, shared_from_this()});
+	b->currentVehicles.insert({&state, this->id});
 	if (carriedVehicle)
 	{
 		carriedVehicle->enterBuilding(state, b);
@@ -1536,7 +1536,7 @@ void Vehicle::processRecoveredVehicle(GameState &state)
 		if (owner == state.getPlayer())
 		{
 			fw().pushEvent(new GameVehicleEvent(GameEventType::VehicleRecovered,
-			                                    {&state, shared_from_this()}));
+			                                    {&state, this->id}));
 		}
 	}
 }
@@ -1694,7 +1694,7 @@ void Vehicle::provideServicePassengers(GameState &state, bool otherOrg)
 				destination = a->missions.front().targetBuilding;
 			}
 			// Load up
-			a->enterVehicle(state, {&state, shared_from_this()});
+			a->enterVehicle(state, {&state, this->id});
 			spaceRemaining--;
 			pickedUpPassenger = true;
 			break;
@@ -1807,7 +1807,6 @@ void Vehicle::die(GameState &state, bool silent, StateRef<Vehicle> attacker)
 			LogWarning("Tileobject is nullpointer");
 		}
 	}
-	auto id = getId(state, shared_from_this());
 	if (carriedVehicle)
 	{
 		dropCarriedVehicle(state);
@@ -1853,7 +1852,7 @@ void Vehicle::die(GameState &state, bool silent, StateRef<Vehicle> attacker)
 
 	if (currentBuilding)
 	{
-		currentBuilding->currentVehicles.erase(StateRef<Vehicle>(&state, shared_from_this()));
+		currentBuilding->currentVehicles.erase(StateRef<Vehicle>(&state,this->id));
 	}
 
 	// Dying will remove agent from current agents list
@@ -2035,7 +2034,7 @@ void Vehicle::update(GameState &state, unsigned int ticks)
 		// Remove from building
 		if (currentBuilding)
 		{
-			currentBuilding->currentVehicles.erase({&state, shared_from_this()});
+			currentBuilding->currentVehicles.erase({&state, this->id});
 		}
 	}
 
@@ -2262,7 +2261,7 @@ void Vehicle::updateEachSecond(GameState &state)
 					if (owner == state.getPlayer())
 					{
 						fw().pushEvent(new GameVehicleEvent(GameEventType::VehicleLowFuel,
-						                                    {&state, shared_from_this()}));
+						                                    {&state, this->id}));
 					}
 				}
 				// Out of fuel, drop
@@ -2273,7 +2272,7 @@ void Vehicle::updateEachSecond(GameState &state)
 						if (owner == state.getPlayer())
 						{
 							fw().pushEvent(new GameVehicleEvent(GameEventType::VehicleNoFuel,
-							                                    {&state, shared_from_this()}));
+							                                    {&state, this->id}));
 						}
 						if (type->isGround())
 						{
@@ -2841,7 +2840,7 @@ bool Vehicle::attackTarget(GameState &state, sp<TileObjectVehicle> enemyTile)
 		enemyVehicle->ticksAutoActionAvailable = 0;
 
 		// Fire
-		eq->fire(state, target, {&state, enemyVehicle});
+		eq->fire(state, target, enemyVehicle);
 		return true;
 	}
 
@@ -3083,7 +3082,7 @@ Vehicle::addMission(GameState &state, VehicleMission mission, bool toBack)
 		if (owner == state.getPlayer())
 		{
 			fw().pushEvent(
-			    new GameVehicleEvent(GameEventType::VehicleNoEngine, {&state, shared_from_this()}));
+			    new GameVehicleEvent(GameEventType::VehicleNoEngine, {&state, this->id}));
 		}
 		return missions.end();
 	}
@@ -3162,7 +3161,7 @@ bool Vehicle::setMission(GameState &state, VehicleMission mission)
 		if (owner == state.getPlayer())
 		{
 			fw().pushEvent(
-			    new GameVehicleEvent(GameEventType::VehicleNoEngine, {&state, shared_from_this()}));
+			    new GameVehicleEvent(GameEventType::VehicleNoEngine, {&state, this->id}));
 		}
 		return false;
 	}
@@ -3429,9 +3428,9 @@ bool Vehicle::canDamageBuilding(StateRef<Building> target) const
 
 bool Vehicle::isIdle() const { return this->goalWaypoints.empty(); }
 
-std::list<sp<VEquipmentType>> Vehicle::getEquipmentTypes() const
+std::list<StateRef<VEquipmentType>> Vehicle::getEquipmentTypes() const
 {
-	std::list<sp<VEquipmentType>> et;
+	std::list<StateRef<VEquipmentType>> et;
 	for (auto &eq : equipment)
 	{
 		et.push_back(eq->type);
@@ -3645,7 +3644,7 @@ sp<VEquipment> Vehicle::addEquipment(GameState &state, Vec2<int> pos,
 		}
 		case EquipmentSlotType::VehicleWeapon:
 		{
-			auto thisRef = StateRef<Vehicle>(&state, shared_from_this());
+			auto thisRef = StateRef<Vehicle>(&state, this->id);
 			auto weapon = mksp<VEquipment>();
 			weapon->type = equipmentType;
 			weapon->owner = thisRef;

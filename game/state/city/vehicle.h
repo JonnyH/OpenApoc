@@ -150,7 +150,6 @@ class VehicleMover
 };
 
 class Vehicle : public StateObject<Vehicle>,
-                public std::enable_shared_from_this<Vehicle>,
                 public EquippableObject
 {
   public:
@@ -392,7 +391,7 @@ class Vehicle : public StateObject<Vehicle>,
   private:
 	Vec3<float> manualFirePosition = {0.0f, 0.0f, 0.0f};
 	bool manualFire = false;
-	std::list<sp<VEquipmentType>> getEquipmentTypes() const;
+	std::list<StateRef<VEquipmentType>> getEquipmentTypes() const;
 };
 
 }; // namespace OpenApoc

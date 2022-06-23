@@ -1,6 +1,7 @@
 #pragma once
 
 #include "library/sp.h"
+#include "game/state/stateobject.h"
 #include <vector>
 
 namespace OpenApoc
@@ -13,8 +14,8 @@ class BattleForces
 {
   public:
 	std::vector<BattleSquad> squads;
-	bool insert(unsigned squad, sp<BattleUnit> unit);
-	bool insertAt(unsigned squad, unsigned position, sp<BattleUnit> unit);
+	bool insert(unsigned squad, StateRef<BattleUnit> unit);
+	bool insertAt(unsigned squad, unsigned position, StateRef<BattleUnit> unit);
 	void removeAt(unsigned squad, unsigned position);
 	BattleForces();
 };
@@ -22,7 +23,7 @@ class BattleForces
 class BattleSquad
 {
   public:
-	std::vector<sp<BattleUnit>> units;
+	std::vector<StateRef<BattleUnit>> units;
 	int getNumUnits();
 	BattleSquad();
 };

@@ -23,7 +23,7 @@
 namespace OpenApoc
 {
 
-ResearchSelect::ResearchSelect(sp<GameState> state, sp<Lab> lab)
+ResearchSelect::ResearchSelect(sp<GameState> state, StateRef<Lab> lab)
     : Stage(), form(ui().getForm("researchselect")), lab(lab), state(state)
 {
 	progressImage = fw().data->loadImage(format(
@@ -69,7 +69,7 @@ void ResearchSelect::begin()
 	research_list->addCallback(FormEventType::ListBoxChangeSelected, [this](FormsEvent *e) {
 		LogInfo("Research selection change");
 		auto list = std::static_pointer_cast<ListBox>(e->forms().RaisedBy);
-		auto topic = list->getSelectedData<ResearchTopic>();
+		auto topic = list->getSelectedData<StateRef<ResearchTopic>>();
 		if (topic->current_lab)
 		{
 			LogInfo("Topic already in progress");
@@ -124,7 +124,7 @@ void ResearchSelect::begin()
 	research_list->addCallback(FormEventType::ListBoxChangeHover, [this](FormsEvent *e) {
 		LogInfo("Research display on hover change");
 		auto list = std::static_pointer_cast<ListBox>(e->forms().RaisedBy);
-		auto topic = list->getHoveredData<ResearchTopic>();
+		auto topic = list->getHoveredData<StateRef<ResearchTopic>>();
 		auto title = this->form->findControlTyped<Label>("TEXT_SELECTED_TITLE");
 		auto description = this->form->findControlTyped<Label>("TEXT_SELECTED_DESCRIPTION");
 		auto pic = this->form->findControlTyped<Graphic>("GRAPHIC_SELECTED");
@@ -190,7 +190,7 @@ void ResearchSelect::begin()
 	auto ok_button = form->findControlTyped<GraphicButton>("BUTTON_OK");
 	ok_button->addCallback(FormEventType::ButtonClick, [this](FormsEvent *) {
 		LogInfo("Research selection OK pressed, applying selection");
-		Lab::setResearch({state.get(), this->lab}, {state.get(), current_topic}, state);
+		Lab::setResearch(this->lab, current_topic, state);
 	});
 }
 

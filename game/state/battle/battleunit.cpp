@@ -167,22 +167,22 @@ void BattleUnit::removeFromSquad(Battle &battle)
 	}
 }
 
-bool BattleUnit::assignToSquad(Battle &battle, int squadNumber, int squadPosition)
+bool BattleUnit::assignToSquad(Battle &battle,StateRef<BattleUnit> unit, int squadNumber, int squadPosition)
 {
 	if (squadNumber == -1)
 	{
-		for (int i = 0; i < (int)battle.forces[owner].squads.size(); i++)
+		for (int i = 0; i < (int)battle.forces[unit->owner].squads.size(); i++)
 		{
-			auto &squad = battle.forces[owner].squads[i];
+			auto &squad = battle.forces[unit->owner].squads[i];
 			if (squad.getNumUnits() < 6)
 			{
 				if (squadPosition == -1)
 				{
-					return battle.forces[owner].insert(i, shared_from_this());
+					return battle.forces[unit->owner].insert(i, unit);
 				}
 				else
 				{
-					return battle.forces[owner].insertAt(i, squadPosition, shared_from_this());
+					return battle.forces[unit->owner].insertAt(i, squadPosition, unit);
 				}
 			}
 		}
@@ -192,11 +192,11 @@ bool BattleUnit::assignToSquad(Battle &battle, int squadNumber, int squadPositio
 	{
 		if (squadPosition == -1)
 		{
-			return battle.forces[owner].insert(squadNumber, shared_from_this());
+			return battle.forces[unit->owner].insert(squadNumber, unit);
 		}
 		else
 		{
-			return battle.forces[owner].insertAt(squadNumber, squadPosition, shared_from_this());
+			return battle.forces[unit->owner].insertAt(squadNumber, squadPosition, unit);
 		}
 	}
 }
@@ -948,13 +948,13 @@ void BattleUnit::stopAttacking()
 	ticksUntillNextTargetCheck = 0;
 }
 
-WeaponStatus BattleUnit::canAttackUnit(GameState &state, sp<BattleUnit> unit)
+WeaponStatus BattleUnit::canAttackUnit(GameState &state, StateRef<BattleUnit> unit)
 {
 	return canAttackUnit(state, unit, agent->getFirstItemInSlot(EquipmentSlotType::RightHand),
 	                     agent->getFirstItemInSlot(EquipmentSlotType::LeftHand));
 }
 
-WeaponStatus BattleUnit::canAttackUnit(GameState &state, sp<BattleUnit> unit,
+WeaponStatus BattleUnit::canAttackUnit(GameState &state, StateRef<BattleUnit> unit,
                                        sp<AEquipment> rightHand, sp<AEquipment> leftHand)
 {
 	bool realTime = state.current_battle->mode == Battle::Mode::RealTime;
@@ -986,7 +986,7 @@ WeaponStatus BattleUnit::canAttackUnit(GameState &state, sp<BattleUnit> unit,
 	return WeaponStatus::NotFiring;
 }
 
-bool BattleUnit::hasLineToUnit(const sp<BattleUnit> unit, bool useLOS) const
+bool BattleUnit::hasLineToUnit(const StateRef<BattleUnit> unit, bool useLOS) const
 {
 	auto muzzleLocation = getMuzzleLocation();
 	auto targetPosition = unit->tileObject->getVoxelCentrePosition();
@@ -1227,6 +1227,7 @@ void BattleUnit::stopAttackPsi(GameState &state)
 
 void BattleUnit::changeOwner(GameState &state, StateRef<Organisation> newOwner)
 {
+	StateRef<BattleUnit> unit{&state, this->id};
 	if (owner == newOwner)
 	{
 		return;
@@ -1237,7 +1238,7 @@ void BattleUnit::changeOwner(GameState &state, StateRef<Organisation> newOwner)
 	cancelMissions(state);
 	removeFromSquad(*state.current_battle);
 	owner = newOwner;
-	assignToSquad(*state.current_battle);
+	assignToSquad(*state.current_battle, unit);
 	refreshUnitVisibilityAndVision(state);
 }
 

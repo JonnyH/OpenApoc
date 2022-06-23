@@ -284,17 +284,16 @@ void ListBox::addItem(sp<Control> Item)
 	this->setDirty();
 }
 
-void ListBox::replaceItem(sp<Control> Item)
+void ListBox::replaceItem(sp<Control> Item, sp<Control> oldItem)
 {
-	auto newData = Item->getData<void>();
 	this->setDirty();
 	bool found = false;
 	for (size_t i = 0; i < Controls.size(); i++)
 	{
-		auto oldItem = Controls[i];
-		if (oldItem->getData<void>() == newData)
+		auto control = Controls[i];
+		if (control == oldItem)
 		{
-			Controls.erase(Controls.begin() + i);
+			Controls[i] = Item;
 			Item->setParent(shared_from_this(), i);
 			Item->ToolTipFont = this->ToolTipFont;
 			resolveLocation();

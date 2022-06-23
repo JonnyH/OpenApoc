@@ -31,7 +31,7 @@ class BaseScreen : public BaseStage
 	std::vector<sp<Label>> statsLabels;
 	std::vector<sp<Label>> statsValues;
 
-	void changeBase(sp<Base> newBase) override;
+	void changeBase(StateRef<Base> newBase) override;
 	void renderBase();
 
   public:

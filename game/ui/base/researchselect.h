@@ -22,20 +22,20 @@ class ResearchSelect : public Stage
 {
   private:
 	sp<Form> form;
-	sp<Lab> lab;
+	StateRef<Lab> lab;
 
 	sp<GameState> state;
-	sp<ResearchTopic> current_topic;
+	StateRef<ResearchTopic> current_topic;
 
 	sp<Image> progressImage;
 
-	std::map<sp<ResearchTopic>, sp<Control>> control_map;
+	std::map<StateRef<ResearchTopic>, sp<Control>> control_map;
 
 	void redrawResearchList();
 	void populateResearchList();
 
   public:
-	ResearchSelect(sp<GameState> state, sp<Lab> lab);
+	ResearchSelect(sp<GameState> state, StateRef<Lab> lab);
 	~ResearchSelect() override;
 	// Stage control
 	void begin() override;

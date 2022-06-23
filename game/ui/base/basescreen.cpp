@@ -42,7 +42,7 @@ BaseScreen::BaseScreen(sp<GameState> state) : BaseStage(state), selection(NO_SEL
 
 BaseScreen::~BaseScreen() = default;
 
-void BaseScreen::changeBase(sp<Base> newBase)
+void BaseScreen::changeBase(StateRef<Base> newBase)
 {
 	BaseStage::changeBase(newBase);
 	form->findControlTyped<TextEdit>("TEXT_BASE_NAME")->setText(state->current_base->name);
@@ -213,9 +213,9 @@ void BaseScreen::eventOccurred(Event *e)
 			{
 				auto list = form->findControlTyped<ListBox>("LISTBOX_FACILITIES");
 				auto dragFacilityName = list->getHoveredData<UString>();
-				if (dragFacilityName)
+				if (!dragFacilityName.empty())
 				{
-					dragFacility = StateRef<FacilityType>{state.get(), *dragFacilityName};
+					dragFacility = StateRef<FacilityType>{state.get(), dragFacilityName};
 					return;
 				}
 			}
@@ -244,7 +244,7 @@ void BaseScreen::eventOccurred(Event *e)
 			}
 			else if (Event::isPressed(e->forms().MouseInfo.Button, Event::MouseButton::Right))
 			{
-				sp<UString> clickedFacilityName;
+				UString clickedFacilityName;
 				if (e->forms().RaisedBy->Name == "LISTBOX_FACILITIES")
 				{
 					auto list = std::dynamic_pointer_cast<ListBox>(e->forms().RaisedBy);
@@ -253,26 +253,27 @@ void BaseScreen::eventOccurred(Event *e)
 				else if (e->forms().RaisedBy->Name == "GRAPHIC_BASE_VIEW")
 				{
 					if (selFacility)
-						clickedFacilityName = mksp<UString>(selFacility->type.id);
+						clickedFacilityName =selFacility->type.id;
 				}
 
 				StateRef<FacilityType> clickedFacility;
-				if (clickedFacilityName)
-					clickedFacility = StateRef<FacilityType>{state.get(), *clickedFacilityName};
+				if (!clickedFacilityName.empty())
+					clickedFacility = StateRef<FacilityType>{state.get(), clickedFacilityName};
 				if (!clickedFacility)
 					return;
 
 				auto ufopaedia_entry = clickedFacility->ufopaedia_entry;
-				sp<UfopaediaCategory> ufopaedia_category;
+				StateRef <UfopaediaCategory> ufopaedia_category;
 				if (ufopaedia_entry)
 				{
 					for (auto &cat : this->state->ufopaedia)
 					{
 						for (auto &entry : cat.second->entries)
 						{
-							if (ufopaedia_entry == entry.second)
+							if (ufopaedia_entry.id == entry.first)
 							{
-								ufopaedia_category = cat.second;
+								ufopaedia_category =
+								    StateRef<UfopaediaCategory>(state.get(), cat.first);
 								break;
 							}
 						}

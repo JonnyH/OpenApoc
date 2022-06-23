@@ -168,12 +168,12 @@ class TileMap
 	                          Vec3<float> targetVectorXY, float velocityXY, float velocityZ) const;
 
 	void addObjectToMap(sp<Projectile>);
-	void addObjectToMap(GameState &state, sp<Vehicle>);
+	void addObjectToMap(GameState &state, StateRef<Vehicle>);
 	void addObjectToMap(sp<Scenery>);
 	void addObjectToMap(sp<Doodad>);
 	void addObjectToMap(sp<BattleMapPart>);
 	void addObjectToMap(sp<BattleItem>);
-	void addObjectToMap(sp<BattleUnit>);
+	void addObjectToMap(StateRef<BattleUnit>);
 	void addObjectToMap(sp<BattleHazard>);
 
 	unsigned int getLayer(TileObject::Type type) const;

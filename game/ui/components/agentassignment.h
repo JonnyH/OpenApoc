@@ -19,9 +19,9 @@ class MultilistBox;
 class AgentAssignment : public Form
 {
   private:
-	sp<Agent> agent;
-	sp<Vehicle> vehicle;
-	sp<Building> building;
+	StateRef<Agent> agent;
+	StateRef<Vehicle> vehicle;
+	StateRef<Building> building;
 	sp<GameState> state;
 
 	Colour HoverColour, SelectedColour;
@@ -52,30 +52,30 @@ class AgentAssignment : public Form
 
 	void addVehiclesToList(sp<MultilistBox> list, const int listOffset);
 
-	void addBuildingToRightList(sp<Building> building, sp<MultilistBox> list, const int listOffset);
+	void addBuildingToRightList(StateRef<Building> building, sp<MultilistBox> list, const int listOffset);
 
   public:
 	static const UString AGENT_SELECT_BOX;
 	static const UString AGENT_LIST_NAME;
 	static const UString VEHICLE_LIST_NAME;
 
-	std::list<sp<Agent>> agents;
-	std::list<sp<Vehicle>> vehicles;
-	std::list<sp<Building>> buildings;
+	std::list<StateRef<Agent>> agents;
+	std::list<StateRef<Vehicle>> vehicles;
+	std::list<StateRef<Building>> buildings;
 
-	sp<Agent> currentAgent;
-	sp<Vehicle> currentVehicle;
+	StateRef<Agent> currentAgent;
+	StateRef<Vehicle> currentVehicle;
 
 	AgentAssignment(sp<GameState> state);
 
 	void init(sp<Form> form, Vec2<int> location, Vec2<int> size);
 
 	// Call when selected agent.
-	void setLocation(sp<Agent> agent);
+	void setLocation(StateRef<Agent> agent);
 	// Call when selected vehicle.
-	void setLocation(sp<Vehicle> vehicle);
+	void setLocation(StateRef<Vehicle> vehicle);
 	// Call when selected building.
-	void setLocation(sp<Building> building);
+	void setLocation(StateRef<Building> building);
 	// Call when the alien incident happens.
 	void setLocation();
 	void updateLocation();

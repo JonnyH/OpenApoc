@@ -118,7 +118,7 @@ class Tile
 	                                          sp<TileObjectBattleUnit> exceptThis = nullptr,
 	                                          bool onlyLarge = false,
 	                                          bool checkLargeSpace = false) const;
-	std::list<sp<BattleUnit>> getUnits(bool onlyConscious, bool mustOccupy = false,
+	std::list<StateRef<BattleUnit>> getUnits(bool onlyConscious, bool mustOccupy = false,
 	                                   bool mustBeStatic = false,
 	                                   sp<TileObjectBattleUnit> exceptThis = nullptr,
 	                                   bool onlyLarge = false, bool checkLargeSpace = false) const;

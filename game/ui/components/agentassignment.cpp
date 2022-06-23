@@ -143,7 +143,7 @@ void AgentAssignment::init(sp<Form> form, Vec2<int> location, Vec2<int> size)
 	};
 }
 
-void AgentAssignment::setLocation(sp<Agent> agent)
+void AgentAssignment::setLocation(StateRef<Agent> agent)
 {
 	this->agent = agent;
 	this->vehicle = agent->currentVehicle;
@@ -157,7 +157,7 @@ void AgentAssignment::setLocation(sp<Agent> agent)
 	updateLocation();
 }
 
-void AgentAssignment::setLocation(sp<Vehicle> vehicle)
+void AgentAssignment::setLocation(StateRef<Vehicle> vehicle)
 {
 	this->agent = nullptr;
 	this->vehicle = vehicle;
@@ -166,7 +166,7 @@ void AgentAssignment::setLocation(sp<Vehicle> vehicle)
 	updateLocation();
 }
 
-void AgentAssignment::setLocation(sp<Building> building)
+void AgentAssignment::setLocation(StateRef<Building> building)
 {
 	this->agent = nullptr;
 	this->vehicle = nullptr;

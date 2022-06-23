@@ -278,35 +278,6 @@ void MultilistBox::addItem(sp<Control> Item)
 	Item->setParent(shared_from_this());
 }
 
-void MultilistBox::replaceItem(sp<Control> Item)
-{
-	this->setDirty();
-	auto newData = Item->getData<void>();
-
-	for (size_t i = 0; i < Controls.size(); i++)
-	{
-		auto oldItem = Controls[i];
-		if (oldItem->getData<void>() == newData)
-		{
-			Controls.erase(Controls.begin() + i);
-			Item->setParent(shared_from_this(), i);
-			if (selectedSet.find(oldItem) != selectedSet.end())
-			{
-				selectedSet.erase(oldItem);
-				selectedSet.insert(Item);
-			}
-			if (oldItem == hoveredItem)
-			{
-				hoveredItem = Item;
-			}
-
-			return;
-		}
-	}
-
-	addItem(Item);
-}
-
 sp<Control> MultilistBox::removeItem(sp<Control> Item)
 {
 	this->setDirty();

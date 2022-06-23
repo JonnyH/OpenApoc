@@ -483,7 +483,7 @@ void VEquipScreen::render()
 
 bool VEquipScreen::isTransition() { return false; }
 
-void VEquipScreen::setSelectedVehicle(sp<Vehicle> vehicle)
+void VEquipScreen::setSelectedVehicle(StateRef<Vehicle> vehicle)
 {
 	if (!vehicle)
 	{

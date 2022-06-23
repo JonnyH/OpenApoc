@@ -7,6 +7,7 @@
 #include "library/vec.h"
 #include <functional>
 #include <list>
+#include <any>
 #include <map>
 
 namespace pugi
@@ -30,7 +31,7 @@ class Control : public std::enable_shared_from_this<Control>
 {
   private:
 	sp<Surface> controlArea;
-	sp<void> data;
+	std::any data;
 
 	std::map<FormEventType, std::list<std::function<void(FormsEvent *e)>>> callbacks;
 
@@ -156,8 +157,10 @@ class Control : public std::enable_shared_from_this<Control>
 
 	virtual sp<Control> copyTo(sp<Control> CopyParent);
 
-	template <typename T> sp<T> getData() const { return std::static_pointer_cast<T>(data); }
-	void setData(sp<void> Data) { data = Data; }
+	template <typename T> T getData() const { return std::any_cast<T>(data); }
+	std::any getData() { return data; }
+	void setData(std::any Data) { data = Data; }
+
 
 	bool eventIsWithin(const Event *e) const;
 	bool isPointInsideControlBounds(Event *e, sp<Control> c) const;

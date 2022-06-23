@@ -154,8 +154,8 @@ class ResearchState
 	ResearchState() = default;
 	StateRefMap<ResearchTopic> topics;
 	// Is not serialized
-	std::list<sp<ResearchTopic>> topic_list;
-	void updateTopicList();
+	std::list<StateRef<ResearchTopic>> topic_list;
+	void updateTopicList(const GameState &state);
 	void resortTopicList();
 	StateRefMap<Lab> labs;
 };

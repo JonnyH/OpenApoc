@@ -75,7 +75,7 @@ void TileMap::addObjectToMap(sp<Projectile> projectile)
 	projectile->tileObject = obj;
 }
 
-void TileMap::addObjectToMap(GameState &state, sp<Vehicle> vehicle)
+void TileMap::addObjectToMap(GameState &state, StateRef<Vehicle> vehicle)
 {
 	if (vehicle->tileObject)
 	{
@@ -170,7 +170,7 @@ void TileMap::addObjectToMap(sp<BattleItem> item)
 	item->shadowObject = shadow;
 }
 
-void TileMap::addObjectToMap(sp<BattleUnit> unit)
+void TileMap::addObjectToMap(StateRef<BattleUnit> unit)
 {
 	if (unit->tileObject)
 	{

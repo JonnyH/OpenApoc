@@ -359,7 +359,7 @@ void TileObjectBattleUnit::addToDrawnTiles(Tile *tile)
 
 TileObjectBattleUnit::~TileObjectBattleUnit() = default;
 
-TileObjectBattleUnit::TileObjectBattleUnit(TileMap &map, sp<BattleUnit> unit)
+TileObjectBattleUnit::TileObjectBattleUnit(TileMap &map, StateRef<BattleUnit> unit)
     : TileObject(map, Type::Unit, Vec3<float>{0, 0, 0}), unit(unit)
 {
 }
@@ -414,7 +414,7 @@ sp<VoxelMap> TileObjectBattleUnit::getVoxelMap(Vec3<int> mapIndex, bool) const
 	    .at(mapIndex.z * size.y * size.x + mapIndex.y * size.x + mapIndex.x);
 }
 
-sp<BattleUnit> TileObjectBattleUnit::getUnit() const { return this->unit.lock(); }
+StateRef<BattleUnit> TileObjectBattleUnit::getUnit() const { return this->unit; }
 
 Vec3<float> TileObjectBattleUnit::getPosition() const
 {

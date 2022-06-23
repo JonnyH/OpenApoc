@@ -522,11 +522,11 @@ sp<TileObjectBattleUnit> Tile::getUnitIfPresent(bool onlyConscious, bool mustOcc
 	return nullptr;
 }
 
-std::list<sp<BattleUnit>> Tile::getUnits(bool onlyConscious, bool mustOccupy, bool mustBeStatic,
+std::list<StateRef<BattleUnit>> Tile::getUnits(bool onlyConscious, bool mustOccupy, bool mustBeStatic,
                                          sp<TileObjectBattleUnit> exceptThis, bool onlyLarge,
                                          bool checkLargeSpace) const
 {
-	std::list<sp<BattleUnit>> result;
+	std::list<StateRef<BattleUnit>> result;
 	if (checkLargeSpace)
 	{
 		for (int x = -1; x <= 0; x++)

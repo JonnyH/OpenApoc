@@ -163,7 +163,7 @@ void GameState::initState()
 	}
 	for (auto &c : this->cities)
 	{
-		auto &city = c.second;
+		StateRef<City> city{this, c.first};
 		city->initCity(*this);
 		if (newGame)
 		{
@@ -183,7 +183,7 @@ void GameState::initState()
 		// Add vehicles to map
 		for (auto &v : this->vehicles)
 		{
-			auto vehicle = v.second;
+			StateRef<Vehicle> vehicle{this, v.first};
 			if (vehicle->city == city && !vehicle->currentBuilding && !vehicle->betweenDimensions)
 			{
 
@@ -250,7 +250,7 @@ void GameState::initState()
 	}
 
 	// Run necessary methods for different types
-	research.updateTopicList();
+	research.updateTopicList(*this);
 	// Apply mods (Stub until we actually have mods)
 	applyMods();
 	// Validate

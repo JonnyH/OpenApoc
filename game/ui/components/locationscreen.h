@@ -2,6 +2,7 @@
 
 #include "framework/stage.h"
 #include "library/sp.h"
+#include "game/state/stateobject.h"
 
 namespace OpenApoc
 {
@@ -18,14 +19,14 @@ class LocationScreen : public Stage
   private:
 	sp<Form> menuform;
 	sp<GameState> state;
-	sp<Agent> agent;
-	sp<Vehicle> vehicle;
-	sp<Building> building;
+	StateRef<Agent> agent;
+	StateRef<Vehicle> vehicle;
+	StateRef<Building> building;
 	sp<AgentAssignment> agentAssignment;
 
   public:
-	LocationScreen(sp<GameState> state, sp<Agent> agent);
-	LocationScreen(sp<GameState> state, sp<Vehicle> vehicle);
+	LocationScreen(sp<GameState> state, StateRef<Agent> agent);
+	LocationScreen(sp<GameState> state, StateRef<Vehicle> vehicle);
 	~LocationScreen() override;
 	// Stage control
 	void begin() override;

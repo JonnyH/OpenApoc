@@ -128,7 +128,7 @@ std::tuple<AIDecision, bool> UnitAILowMorale::think(GameState &state, BattleUnit
 					case 1:
 					{
 						// Pick a random friendly within 5 tiles of us
-						std::list<sp<BattleUnit>> victims;
+						std::list<StateRef<BattleUnit>> victims;
 						for (auto &unit : state.current_battle->units)
 						{
 							if (unit.second->owner != u.owner)
@@ -138,7 +138,7 @@ std::tuple<AIDecision, bool> UnitAILowMorale::think(GameState &state, BattleUnit
 							auto distance = glm::distance(unit.second->position, u.position);
 							if (distance < 5.0f)
 							{
-								victims.push_back(unit.second);
+								victims.push_back(StateRef<BattleUnit>(&state, unit.first));
 							}
 						}
 						if (!victims.empty())
@@ -157,7 +157,7 @@ std::tuple<AIDecision, bool> UnitAILowMorale::think(GameState &state, BattleUnit
 								{
 									decision.action = mksp<AIAction>();
 									decision.action->type = AIAction::Type::AttackWeaponUnit;
-									decision.action->targetUnit = {&state, victim};
+									decision.action->targetUnit = victim;
 									decision.action->weaponStatus = WeaponStatus::FiringBothHands;
 									break;
 								}

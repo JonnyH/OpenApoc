@@ -30,12 +30,12 @@ class VEquipScreen : public Stage
 
 	sp<ListBox> vehicleSelectBox;
 
-	sp<Vehicle> selected;
+	StateRef<Vehicle> selected;
 	EquipmentSlotType selectionType;
 	sp<Palette> pal;
 	sp<BitmapFont> labelFont;
 
-	sp<Vehicle> highlightedVehicle;
+	StateRef<Vehicle> highlightedVehicle;
 	StateRef<VEquipmentType> highlightedEquipment;
 
 	bool drawHighlightBox;
@@ -53,7 +53,7 @@ class VEquipScreen : public Stage
 	// List of screen-space rects for all inventory items
 	std::list<std::pair<Rect<int>, StateRef<VEquipmentType>>> inventoryItems;
 
-	std::map<sp<Control>, sp<Vehicle>> vehicleSelectionControls;
+	std::map<sp<Control>, StateRef<Vehicle>> vehicleSelectionControls;
 
 	sp<GameState> state;
 
@@ -73,7 +73,7 @@ class VEquipScreen : public Stage
 	void render() override;
 	bool isTransition() override;
 
-	void setSelectedVehicle(sp<Vehicle> vehicle);
+	void setSelectedVehicle(StateRef<Vehicle> vehicle);
 	void setHighlightedSlotType(EquipmentSlotType type);
 };
 

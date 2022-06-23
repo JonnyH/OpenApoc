@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game/state/tilemap/tileobject.h"
+#include "game/state/stateobject.h"
 #include "library/sp.h"
 #include "library/vec.h"
 #include <set>
@@ -18,7 +19,7 @@ class TileObjectBattleUnit : public TileObject
 	          bool visible, int currentLevel, bool friendly, bool hostile) override;
 	~TileObjectBattleUnit() override;
 
-	sp<BattleUnit> getUnit() const;
+	StateRef<BattleUnit> getUnit() const;
 
 	Vec3<float> getVoxelOffset() const override
 	{
@@ -44,10 +45,10 @@ class TileObjectBattleUnit : public TileObject
 
   private:
 	friend class TileMap;
-	std::weak_ptr<BattleUnit> unit;
+	StateRef<BattleUnit> unit;
 	std::list<sp<Image>>::iterator animationFrame;
 
-	TileObjectBattleUnit(TileMap &map, sp<BattleUnit> unit);
+	TileObjectBattleUnit(TileMap &map, StateRef<BattleUnit> unit);
 };
 
 } // namespace OpenApoc

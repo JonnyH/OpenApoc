@@ -140,7 +140,7 @@ void Battle::initBattle(GameState &state, bool first)
 			forces[o];
 			for (int i = 0; i < 6; i++)
 			{
-				forces[o].squads[i].units = std::vector<sp<BattleUnit>>(6);
+				forces[o].squads[i].units = std::vector<StateRef<BattleUnit>>(6);
 			}
 		}
 		// Place units into squads directly to their positions
@@ -151,7 +151,8 @@ void Battle::initBattle(GameState &state, bool first)
 				continue;
 			}
 			forces[u.second->owner].squads[u.second->squadNumber].units[u.second->squadPosition] =
-			    u.second;
+			    StateRef<BattleUnit>{&state, u.first
+		};
 		}
 		// Trim nullptrs from squad units
 		for (auto &o : this->participants)
@@ -169,7 +170,7 @@ void Battle::initBattle(GameState &state, bool first)
 			}
 		}
 	}
-	initMap();
+	initMap(state);
 	// From here on, do what needs to be done after map was init
 	for (auto &p : this->projectiles)
 	{
@@ -266,7 +267,7 @@ void Battle::initBattle(GameState &state, bool first)
 	checkMissionEnd(state, false);
 }
 
-void Battle::initMap()
+void Battle::initMap(GameState &state)
 {
 	// If we were generating the map, then map parts are already initiated and we need to init the
 	// rest
@@ -301,7 +302,8 @@ void Battle::initMap()
 		{
 			continue;
 		}
-		this->map->addObjectToMap(u.second);
+		StateRef<BattleUnit> unit{&state, u.first};
+		this->map->addObjectToMap(unit);
 	}
 	for (auto &p : this->projectiles)
 	{
@@ -315,7 +317,7 @@ void Battle::initMap()
 
 bool Battle::initialMapCheck(GameState &state, std::list<StateRef<Agent>> agents)
 {
-	initMap();
+	initMap(state);
 
 	// No checks for base defense
 	if (mission_type == MissionType::BaseDefense)
@@ -734,7 +736,7 @@ void Battle::initialUnitSpawn(GameState &state)
 		    f.first == state.current_battle->currentPlayer;
 
 		// All units to spawn, grouped by squads, squadless in the back
-		std::list<std::list<sp<BattleUnit>>> unitGroupsToSpawn;
+		std::list<std::list<StateRef<BattleUnit>>> unitGroupsToSpawn;
 		// Add squadless
 		unitGroupsToSpawn.emplace_back();
 		for (auto &u : units)
@@ -742,7 +744,7 @@ void Battle::initialUnitSpawn(GameState &state)
 			if (u.second->owner == f.first && u.second->squadNumber == -1 &&
 			    u.second->position == Vec3<float>{-1.0, -1.0, -1.0})
 			{
-				unitGroupsToSpawn.front().push_back(u.second);
+				unitGroupsToSpawn.front().push_back(StateRef<BattleUnit>{&state, u.first});
 			}
 		}
 		// Add squads
@@ -1134,7 +1136,7 @@ sp<Doodad> Battle::placeDoodad(StateRef<DoodadType> type, Vec3<float> position)
 	return doodad;
 }
 
-sp<BattleUnit> Battle::spawnUnit(GameState &state, StateRef<Organisation> owner,
+StateRef<BattleUnit> Battle::spawnUnit(GameState &state, StateRef<Organisation> owner,
                                  StateRef<AgentType> agentType, Vec3<float> position,
                                  Vec2<int> facing, BodyState curState, BodyState tarState)
 {
@@ -1161,7 +1163,7 @@ sp<BattleUnit> Battle::spawnUnit(GameState &state, StateRef<Organisation> owner,
 	unit->setFacing(state, facing);
 	unit->setBodyState(state, curState);
 	unit->setMission(state, BattleUnitMission::changeStance(*unit, tarState));
-	unit->assignToSquad(*state.current_battle);
+	unit->assignToSquad(*state.current_battle, unit);
 	unit->refreshUnitVisibilityAndVision(state);
 
 	unit->strategyImages = state.battle_common_image_list->strategyImages;
@@ -1200,7 +1202,7 @@ sp<BattleExplosion> Battle::addExplosion(GameState &state, Vec3<int> position,
 	return explosion;
 }
 
-sp<BattleUnit> Battle::placeUnit(GameState &state, StateRef<Agent> agent)
+StateRef<BattleUnit> Battle::placeUnit(GameState &state, StateRef<Agent> agent)
 {
 	auto unit = mksp<BattleUnit>();
 	UString id = BattleUnit::generateObjectID(state);
@@ -1214,10 +1216,10 @@ sp<BattleUnit> Battle::placeUnit(GameState &state, StateRef<Agent> agent)
 	unit->position = {-1.0, -1.0, -1.0};
 	units[id] = unit;
 	unit->init(state);
-	return unit;
+	return StateRef<BattleUnit>{&state, id};
 }
 
-sp<BattleUnit> Battle::placeUnit(GameState &state, StateRef<Agent> agent, Vec3<float> position)
+StateRef<BattleUnit> Battle::placeUnit(GameState &state, StateRef<Agent> agent, Vec3<float> position)
 {
 	auto u = placeUnit(state, agent);
 	u->position = position;
@@ -1228,14 +1230,14 @@ sp<BattleUnit> Battle::placeUnit(GameState &state, StateRef<Agent> agent, Vec3<f
 	return u;
 }
 
-sp<BattleDoor> Battle::addDoor(GameState &state)
+StateRef<BattleDoor> Battle::addDoor(GameState &state)
 {
 	auto door = mksp<BattleDoor>();
 	UString id = BattleDoor::generateObjectID(state);
 	door->id = id;
 	door->doorSound = state.battle_common_sample_list->door;
 	doors[id] = door;
-	return door;
+	return StateRef<BattleDoor>{&state, id};
 }
 
 sp<BattleItem> Battle::placeItem(GameState &state, sp<AEquipment> item, Vec3<float> position)
@@ -1336,7 +1338,7 @@ sp<BattleHazard> Battle::placeHazard(GameState &state, StateRef<Organisation> ow
 	return hazard;
 }
 
-sp<BattleScanner> Battle::addScanner(GameState &state, AEquipment &item)
+StateRef<BattleScanner> Battle::addScanner(GameState &state, AEquipment &item)
 {
 	auto scanner = mksp<BattleScanner>();
 	UString id = BattleScanner::generateObjectID(state);
@@ -1344,7 +1346,7 @@ sp<BattleScanner> Battle::addScanner(GameState &state, AEquipment &item)
 	scanner->holder = item.ownerAgent->unit;
 	scanner->lastPosition = scanner->holder->position;
 	scanners[id] = scanner;
-	return scanner;
+	return StateRef<BattleScanner>{&state, id};
 }
 
 void Battle::removeScanner(GameState &state, AEquipment &item)
@@ -1759,8 +1761,8 @@ void Battle::updateTB(GameState &state)
 			{
 				if (e.first->moraleState != MoraleState::Normal)
 				{
-					e.first.getSp()->spendRemainingTU(state);
-					e.first.getSp()->focusUnit.clear();
+					e.first->spendRemainingTU(state);
+					e.first->focusUnit.clear();
 				}
 			}
 			interruptUnits.clear();
@@ -2506,7 +2508,7 @@ void Battle::enterBattle(GameState &state)
 	}
 
 	// Find first player unit
-	sp<BattleUnit> firstPlayerUnit = nullptr;
+	StateRef<BattleUnit> firstPlayerUnit;
 	for (auto &f : state.current_battle->forces[state.getPlayer()].squads)
 	{
 		if (f.getNumUnits() > 0)
@@ -2989,7 +2991,7 @@ void Battle::exitBattle(GameState &state)
 	auto player = state.getPlayer();
 	for (auto &o : state.organisations)
 	{
-		if (o.second == player.getSp())
+		if (o.first == player->id)
 		{
 			continue;
 		}

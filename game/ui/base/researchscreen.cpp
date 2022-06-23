@@ -44,20 +44,20 @@ ResearchScreen::ResearchScreen(sp<GameState> state, sp<Facility> selected_lab) :
 	uiListSmallLabs->addCallback(FormEventType::ListBoxChangeSelected, [this](FormsEvent *e) {
 		form->findControlTyped<ListBox>("LIST_LARGE_LABS")->setSelected(nullptr);
 		viewFacility =
-		    std::static_pointer_cast<ListBox>(e->forms().RaisedBy)->getSelectedData<Facility>();
+		    std::static_pointer_cast<ListBox>(e->forms().RaisedBy)->getSelectedData<sp<Facility>>();
 		setCurrentLabInfo();
 	});
 	uiListLargeLabs->addCallback(FormEventType::ListBoxChangeSelected, [this](FormsEvent *e) {
 		form->findControlTyped<ListBox>("LIST_SMALL_LABS")->setSelected(nullptr);
 		viewFacility =
-		    std::static_pointer_cast<ListBox>(e->forms().RaisedBy)->getSelectedData<Facility>();
+		    std::static_pointer_cast<ListBox>(e->forms().RaisedBy)->getSelectedData<sp<Facility>>();
 		setCurrentLabInfo();
 	});
 }
 
 ResearchScreen::~ResearchScreen() = default;
 
-void ResearchScreen::changeBase(sp<Base> newBase)
+void ResearchScreen::changeBase(StateRef<Base> newBase)
 {
 	BaseStage::changeBase(newBase);
 
@@ -121,7 +121,7 @@ void ResearchScreen::begin()
 			return;
 		}
 		auto list = std::static_pointer_cast<ListBox>(e->forms().RaisedBy);
-		auto agent = list->getSelectedData<Agent>();
+		auto agent = list->getSelectedData<StateRef<Agent>>();
 		if (!agent)
 		{
 			LogError("No agent in selected data");
@@ -133,13 +133,13 @@ void ResearchScreen::begin()
 			return;
 		}
 		agent->assigned_to_lab = true;
-		this->viewFacility->lab->assigned_agents.push_back({state.get(), agent});
+		this->viewFacility->lab->assigned_agents.push_back(agent);
 		this->setCurrentLabInfo();
 	});
 	auto removeFn = [this](FormsEvent *e) {
 		LogWarning("assigned agent selected");
 		auto list = std::static_pointer_cast<ListBox>(e->forms().RaisedBy);
-		auto agent = list->getSelectedData<Agent>();
+		auto agent = list->getSelectedData<StateRef<Agent>>();
 		if (!agent)
 		{
 			LogError("No agent in selected data");
@@ -151,7 +151,7 @@ void ResearchScreen::begin()
 			return;
 		}
 		agent->assigned_to_lab = false;
-		this->viewFacility->lab->assigned_agents.remove({state.get(), agent});
+		this->viewFacility->lab->assigned_agents.remove(agent);
 		this->setCurrentLabInfo();
 	};
 	auto assignedAgentList = form->findControlTyped<ListBox>("LIST_ASSIGNED");
@@ -361,20 +361,21 @@ void ResearchScreen::setCurrentLabInfo()
 	unassignedAgentList->clear();
 	auto assignedAgentList = form->findControlTyped<ListBox>("LIST_ASSIGNED");
 	assignedAgentList->clear();
-	for (auto &agent : state->agents)
+	for (auto &agentPair : state->agents)
 	{
+		StateRef<Agent> agent{state.get(), agentPair.first};
 		bool assigned_to_current_lab = false;
-		if (agent.second->homeBuilding->base != this->state->current_base)
+		if (agent->homeBuilding->base != this->state->current_base)
 			continue;
 
-		if (agent.second->type->role != listedAgentType)
+		if (agent->type->role != listedAgentType)
 			continue;
 
-		if (agent.second->assigned_to_lab)
+		if (agent->assigned_to_lab)
 		{
 			for (auto &assigned_agent : this->viewFacility->lab->assigned_agents)
 			{
-				if (assigned_agent.getSp() == agent.second)
+				if (assigned_agent == agent)
 				{
 					this->assigned_agent_count++;
 					if (this->assigned_agent_count > this->viewFacility->type->capacityAmount)
@@ -383,7 +384,7 @@ void ResearchScreen::setCurrentLabInfo()
 						         this->assigned_agent_count,
 						         this->viewFacility->type->capacityAmount);
 					}
-					agent.second->lab_assigned = this->viewFacility->lab;
+					agent->lab_assigned = this->viewFacility->lab;
 					assigned_to_current_lab = true;
 					break;
 				}
@@ -394,12 +395,12 @@ void ResearchScreen::setCurrentLabInfo()
 		if (assigned_to_current_lab)
 		{
 			assignedAgentList->addItem(ControlGenerator::createLargeAgentControl(
-			    *state, agent.second, 160, UnitSkillState::Horizontal));
+			    *state, agent, 160, UnitSkillState::Horizontal));
 		}
 		else
 		{
 			unassignedAgentList->addItem(ControlGenerator::createLargeAgentControl(
-			    *state, agent.second, unassignedAgentList->Size.x, UnitSkillState::Vertical));
+			    *state, agent, unassignedAgentList->Size.x, UnitSkillState::Vertical));
 		}
 	}
 	assignedAgentList->ItemSize = agentEntryHeight;

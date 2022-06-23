@@ -145,7 +145,7 @@ static int getPsiCost(PsiStatus status, bool attack = true);
 // Get chance of psi attack going through psi defence
 static int getPsiAttackChance(int psiAttack, int psiDefense, PsiStatus status, bool attack = true);
 
-class BattleUnit : public StateObject<BattleUnit>, public std::enable_shared_from_this<BattleUnit>
+class BattleUnit : public StateObject<BattleUnit>
 {
   public:
 	// [Enums]
@@ -373,7 +373,7 @@ class BattleUnit : public StateObject<BattleUnit>, public std::enable_shared_fro
 	// Remove unit from squad in battle's forces
 	void removeFromSquad(Battle &b);
 	// Assign unit to squad (optionally specify squad number and position)
-	bool assignToSquad(Battle &b, int squadNumber = -1, int squadPosition = -1);
+	static bool assignToSquad(Battle &b, StateRef<BattleUnit> unit, int squadNumber = -1, int squadPosition = -1);
 
 	// Fatal wounds
 
@@ -398,14 +398,14 @@ class BattleUnit : public StateObject<BattleUnit>, public std::enable_shared_fro
 	void stopAttacking();
 	// Returns which hands can be used for an attack (or none if attack cannot be made)
 	// Checks whether target unit is in range, and clear LOF exists to it
-	WeaponStatus canAttackUnit(GameState &state, sp<BattleUnit> unit);
+	WeaponStatus canAttackUnit(GameState &state, StateRef<BattleUnit> unit);
 	// Returns whether unit can be attacked by one of the two supplied weapons
 	// Checks whether target unit is in range, and clear LOF exists to it
-	WeaponStatus canAttackUnit(GameState &state, sp<BattleUnit> unit, sp<AEquipment> rightHand,
+	WeaponStatus canAttackUnit(GameState &state, StateRef<BattleUnit> unit, sp<AEquipment> rightHand,
 	                           sp<AEquipment> leftHand = nullptr);
 	// Clear LOF means no friendly fire and no map part in between
 	// Clear LOS means nothing in between
-	bool hasLineToUnit(const sp<BattleUnit> unit, bool useLOS = false) const;
+	bool hasLineToUnit(const StateRef<BattleUnit> unit, bool useLOS = false) const;
 	// Clear LOF means no friendly fire and no map part in between
 	// Clear LOS means nothing in between
 	bool hasLineToPosition(Vec3<float> targetPosition, bool useLOS = false) const;

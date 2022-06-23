@@ -114,7 +114,7 @@ void AlienContainmentScreen::closeScreen()
 			{
 				for (auto &view : miniViews)
 				{
-					if (bad_base == view->getData<Base>())
+					if (bad_base == view->getData<StateRef<Base>>())
 					{
 						currentView = view;
 						changeBase(bad_base);

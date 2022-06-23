@@ -5,6 +5,7 @@
 #include "forms/forms_enums.h"
 #include "library/colour.h"
 #include "library/sp.h"
+#include <any>
 
 namespace OpenApoc
 {
@@ -50,7 +51,7 @@ class ListBox : public Control
 
 	void clear();
 	void addItem(sp<Control> Item);
-	void replaceItem(sp<Control> Item);
+	void replaceItem(sp<Control> Item, sp<Control> oldItem);
 	sp<Control> removeItem(sp<Control> Item);
 	sp<Control> removeItem(int Index);
 	sp<Control> operator[](int Index);
@@ -58,7 +59,7 @@ class ListBox : public Control
 	sp<Control> copyTo(sp<Control> CopyParent) override;
 	void configureSelfFromXml(pugi::xml_node *node) override;
 
-	template <typename T> sp<T> getHoveredData() const
+	template <typename T> T getHoveredData() const
 	{
 		if (hovered != nullptr)
 		{
@@ -67,7 +68,7 @@ class ListBox : public Control
 		return nullptr;
 	}
 
-	template <typename T> sp<T> getSelectedData() const
+	template <typename T> T getSelectedData() const
 	{
 		if (selected != nullptr)
 		{

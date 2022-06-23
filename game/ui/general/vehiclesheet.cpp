@@ -12,13 +12,13 @@ namespace OpenApoc
 
 VehicleSheet::VehicleSheet(sp<Form> destForm) : form(destForm) {}
 
-void VehicleSheet::display(sp<Vehicle> vehicle)
+void VehicleSheet::display(StateRef<Vehicle> vehicle)
 {
 	clear();
 	displayImplementation(vehicle, vehicle->type);
 }
 
-void VehicleSheet::display(sp<VehicleType> vehicleType)
+void VehicleSheet::display(StateRef<VehicleType> vehicleType)
 {
 	clear();
 	displayImplementation(nullptr, vehicleType);
@@ -30,7 +30,7 @@ void VehicleSheet::display(sp<VEquipment> item)
 	displayEquipImplementation(item, item->type);
 }
 
-void VehicleSheet::display(sp<VEquipmentType> itemType, bool researched)
+void VehicleSheet::display(StateRef<VEquipmentType> itemType, bool researched)
 {
 	clear();
 	if (researched)

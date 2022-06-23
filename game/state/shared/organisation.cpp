@@ -748,7 +748,7 @@ void Organisation::updateVehicleAgentPark(GameState &state)
 			StateRef<Building> building = pickRandom(state.rng, buildingsRandomizer);
 
 			auto v = building->city->placeVehicle(state, entry.first, {&state, id}, building);
-			v->homeBuilding = {&state, building};
+			v->homeBuilding = building;
 
 			countVehicles++;
 		}
@@ -1194,7 +1194,7 @@ void Organisation::RecurringMission::execute(GameState &state, StateRef<City> ci
 		return;
 	}
 	// Compile list of matching buildings with vehicles
-	std::map<sp<Building>, std::list<StateRef<Vehicle>>> availableVehicles;
+	std::map<StateRef<Building>, std::list<StateRef<Vehicle>>> availableVehicles;
 	for (auto &b : owner->buildings)
 	{
 		if (b->city != city)
@@ -1216,7 +1216,7 @@ void Organisation::RecurringMission::execute(GameState &state, StateRef<City> ci
 		// None available to take mission
 		return;
 	}
-	std::list<sp<Building>> buildingsRandomizer;
+	std::list<StateRef<Building>> buildingsRandomizer;
 	// Try pick one that has enough vehicles
 	int maxSeenCount = 0;
 	for (auto &e : availableVehicles)
@@ -1257,7 +1257,8 @@ void Organisation::RecurringMission::execute(GameState &state, StateRef<City> ci
 	buildingsRandomizer.clear();
 	for (auto &b : city->buildings)
 	{
-		if (b.second == sourceBuilding)
+		StateRef<Building> building{&state, b.first};
+		if (building == sourceBuilding)
 		{
 			continue;
 		}
@@ -1265,14 +1266,14 @@ void Organisation::RecurringMission::execute(GameState &state, StateRef<City> ci
 		switch (pattern.target)
 		{
 			case Organisation::MissionPattern::Target::Owned:
-				if (b.second->owner == owner)
+				if (building->owner == owner)
 				{
 					break;
 				}
 				continue;
 			case Organisation::MissionPattern::Target::OwnedOrOther:
 			case Organisation::MissionPattern::Target::Other:
-				if (b.second->owner == owner)
+				if (building->owner == owner)
 				{
 					if (pattern.target == Organisation::MissionPattern::Target::OwnedOrOther)
 					{
@@ -1298,7 +1299,7 @@ void Organisation::RecurringMission::execute(GameState &state, StateRef<City> ci
 				LogError("Impossible to arrive/depart at this point?");
 				return;
 		}
-		buildingsRandomizer.push_back(b.second);
+		buildingsRandomizer.push_back(building);
 	}
 	if (buildingsRandomizer.empty())
 	{
@@ -1313,12 +1314,12 @@ void Organisation::RecurringMission::execute(GameState &state, StateRef<City> ci
 		auto v = availableVehicles[sourceBuilding].front();
 		availableVehicles[sourceBuilding].pop_front();
 		v->setMission(state,
-		              VehicleMission::gotoBuilding(state, *v, {&state, destBuilding}, false));
+		              VehicleMission::gotoBuilding(state, *v, destBuilding, false));
 		// Come back if we are going to another org
 		if (destBuilding->owner != owner)
 		{
 			v->addMission(state, VehicleMission::snooze(state, *v, 10 * TICKS_PER_SECOND), true);
-			v->addMission(state, VehicleMission::gotoBuilding(state, *v, {&state, sourceBuilding}),
+			v->addMission(state, VehicleMission::gotoBuilding(state, *v,  sourceBuilding),
 			              true);
 		}
 	}

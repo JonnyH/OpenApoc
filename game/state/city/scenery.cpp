@@ -1277,7 +1277,7 @@ void Scenery::die(GameState &state, bool forced)
 				{
 					auto doodadTile = tileObject->map.getTile(doodadPos);
 					bool spawnBlocked = false;
-					std::list<sp<Vehicle>> vehiclesToDamage;
+					std::list<StateRef<Vehicle>> vehiclesToDamage;
 					for (auto &obj : doodadTile->ownedObjects)
 					{
 						switch (obj->getType())
@@ -1508,7 +1508,7 @@ void Scenery::updateFalling(GameState &state, unsigned int ticks)
 		// NOTE: Vehicle::applyDamage() may destroy a vehicle, removing it from the map invalidating
 		// the ownedObjects iterator, so keep a reference to all hit vehicles and process them
 		// outside the ownedObjects iterator loop
-		std::set<sp<Vehicle>> hitVehicles;
+		std::set<StateRef<Vehicle>> hitVehicles;
 		for (auto &obj : tileObject->getOwningTile()->ownedObjects)
 		{
 			switch (obj->getType())

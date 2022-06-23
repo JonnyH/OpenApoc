@@ -207,7 +207,7 @@ class Battle : public std::enable_shared_from_this<Battle>
 	~Battle();
 
 	void initBattle(GameState &state, bool first = false);
-	void initMap();
+	void initMap(GameState &state);
 	bool initialMapCheck(GameState &state, std::list<StateRef<Agent>> agents);
 	void initialMapPartRemoval(GameState &state);
 	void initialMapPartLinkUp();
@@ -265,20 +265,20 @@ class Battle : public std::enable_shared_from_this<Battle>
 	                                 StateRef<DamageType> damageType, int power, int depletionRate,
 	                                 StateRef<Organisation> ownerOrg,
 	                                 StateRef<BattleUnit> ownerUnit = nullptr);
-	sp<BattleDoor> addDoor(GameState &state);
+	StateRef<BattleDoor> addDoor(GameState &state);
 	sp<Doodad> placeDoodad(StateRef<DoodadType> type, Vec3<float> position);
-	sp<BattleUnit> spawnUnit(GameState &state, StateRef<Organisation> owner,
+	StateRef<BattleUnit> spawnUnit(GameState &state, StateRef<Organisation> owner,
 	                         StateRef<AgentType> agentType, Vec3<float> position,
 	                         Vec2<int> facing = {0, 0}, BodyState curState = BodyState::Standing,
 	                         BodyState tarState = BodyState::Standing);
-	sp<BattleUnit> placeUnit(GameState &state, StateRef<Agent> agent);
-	sp<BattleUnit> placeUnit(GameState &state, StateRef<Agent> agent, Vec3<float> position);
+	StateRef<BattleUnit> placeUnit(GameState &state, StateRef<Agent> agent);
+	StateRef<BattleUnit> placeUnit(GameState &state, StateRef<Agent> agent, Vec3<float> position);
 	sp<BattleItem> placeItem(GameState &state, sp<AEquipment> item, Vec3<float> position);
 	sp<BattleHazard> placeHazard(GameState &state, StateRef<Organisation> owner,
 	                             StateRef<BattleUnit> unit, StateRef<DamageType> type,
 	                             Vec3<int> position, int ttl, int power,
 	                             int initialAgeTTLDivizor = 1, bool delayVisibility = true);
-	sp<BattleScanner> addScanner(GameState &state, AEquipment &item);
+	StateRef<BattleScanner> addScanner(GameState &state, AEquipment &item);
 	void removeScanner(GameState &state, AEquipment &item);
 
 	static void accuracyAlgorithmBattle(GameState &state, Vec3<float> firePosition,

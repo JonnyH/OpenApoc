@@ -30,7 +30,7 @@ class AEquipmentType;
 class RecruitScreen : public BaseStage
 {
   private:
-	void changeBase(sp<Base> newBase) override;
+	void changeBase(StateRef<Base> newBase) override;
 	sp<Graphic> arrow;
 	sp<Label> textViewBaseStatic;
 

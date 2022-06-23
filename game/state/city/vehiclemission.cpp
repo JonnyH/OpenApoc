@@ -120,14 +120,13 @@ bool FlyingVehicleTileHelper::canEnterTile(Tile *from, Tile *to, bool, bool &, f
 	// Allow pathing into tiles with crashes
 	bool foundCrash = false;
 	bool foundScenery = false;
-	const auto self = v.shared_from_this();
 	for (auto &obj : to->intersectingObjects)
 	{
 		if (obj->getType() == TileObject::Type::Vehicle)
 		{
 			auto vehicleTile = std::static_pointer_cast<TileObjectVehicle>(obj);
 			// Large vehicles span multiple tiles
-			if (vehicleTile->getVehicle() == self)
+			if (vehicleTile->getVehicle()->id == v.id)
 			{
 				continue;
 			}
@@ -1304,7 +1303,7 @@ void VehicleMission::update(GameState &state, Vehicle &v, unsigned int ticks, bo
 				auto enemy = v.findClosestEnemy(state, v.tileObject);
 				if (enemy && v.tileObject->getDistanceTo(enemy) < range)
 				{
-					StateRef<Vehicle> vehicleRef(&state, enemy->getVehicle());
+					auto vehicleRef = enemy->getVehicle();
 					currentPlannedPath.clear();
 					v.addMission(state, VehicleMission::attackVehicle(state, v, vehicleRef));
 				}
@@ -1345,7 +1344,7 @@ void VehicleMission::update(GameState &state, Vehicle &v, unsigned int ticks, bo
 
 					for (auto &city : state.cities)
 					{
-						if (city.second != v.city.getSp())
+						if (city.first != v.city->id)
 						{
 							v.enterDimensionGate(state);
 							v.city = {&state, city.second};
@@ -1404,7 +1403,7 @@ void VehicleMission::update(GameState &state, Vehicle &v, unsigned int ticks, bo
 				if (v.city.id == "CITYMAP_HUMAN")
 				{
 					fw().pushEvent(new GameVehicleEvent(GameEventType::UfoCrashed,
-					                                    {&state, v.shared_from_this()}));
+					                                    {&state, v.id}));
 				}
 				else
 				{
@@ -2040,7 +2039,7 @@ void VehicleMission::start(GameState &state, Vehicle &v)
 				return;
 			}
 			auto t = this->targetVehicle;
-			if (v.shared_from_this() == t.getSp())
+			if (v.id == t->id)
 			{
 				LogError("Vehicle mission %s: Targeting itself", name);
 				return;
@@ -2246,7 +2245,7 @@ void VehicleMission::start(GameState &state, Vehicle &v)
 						missionCounter++;
 
 						StateRef<Vehicle> thisRef = {&state,
-						                             Vehicle::getId(state, v.shared_from_this())};
+						                             v.id};
 
 						// Launch vehicle assault on aliens
 						if (targetVehicle->owner == state.getAliens())

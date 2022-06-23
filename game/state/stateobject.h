@@ -13,17 +13,7 @@ class GameState;
 
 uint64_t getNextObjectID(GameState &state, const UString &objectPrefix);
 
-template <typename T> class StateRefMap : public std::map<UString, sp<T>>
-{
-  public:
-	~StateRefMap()
-	{
-		for (auto &obj : *this)
-		{
-			obj.second->destroy();
-		}
-	}
-};
+
 
 template <typename T> class StateObject
 {
@@ -46,15 +36,13 @@ template <typename T> class StateObject
 	StateObject(const StateObject &) = delete;
 	// Move is fine
 	StateObject(StateObject &&) = default;
+
+	UString id;
 };
+
 
 template <typename T> class StateRef
 {
-	// This would be nice, but means you can't have a member of a class containing a stateref to the
-	// same class type
-	//	static_assert(std::is_base_of<StateObject<T>, T>::value,
-	//	              "StateRef must only reference StateObject subclasses");
-
   private:
 	mutable sp<T> obj;
 	const GameState *state;
@@ -76,7 +64,12 @@ template <typename T> class StateRef
 			LogError("No %s object matching ID \"%s\" found", T::getTypeName(), id);
 		}
 	}
-
+	sp<T> getSp() const
+	{
+		if (!obj)
+			resolve();
+		return obj;
+	}
   public:
 	UString id;
 	StateRef() : state(nullptr){};
@@ -96,7 +89,7 @@ template <typename T> class StateRef
 			resolve();
 		return *obj;
 	}
-	const T &operator*() const
+	T &operator*() const
 	{
 		if (!obj)
 			resolve();
@@ -108,23 +101,11 @@ template <typename T> class StateRef
 			resolve();
 		return obj.get();
 	}
-	const T *operator->() const
+	T *operator->() const
 	{
 		if (!obj)
 			resolve();
 		return obj.get();
-	}
-	operator sp<T>()
-	{
-		if (!obj)
-			resolve();
-		return obj;
-	}
-	operator const sp<T>() const
-	{
-		if (!obj)
-			resolve();
-		return obj;
 	}
 	explicit operator bool() const
 	{
@@ -141,18 +122,6 @@ template <typename T> class StateRef
 		return true;
 	}
 	bool operator!=(const StateRef<T> &other) const { return !(*this == other); }
-	bool operator==(const sp<T> &other) const
-	{
-		if (!obj)
-			resolve();
-		return obj == other;
-	}
-	bool operator!=(const sp<T> &other) const
-	{
-		if (!obj)
-			resolve();
-		return obj != other;
-	}
 	bool operator==(const T *other) const
 	{
 		if (!obj)
@@ -178,12 +147,7 @@ template <typename T> class StateRef
 		id = newId;
 		return *this;
 	}
-	sp<T> getSp() const
-	{
-		if (!obj)
-			resolve();
-		return obj;
-	}
+
 	const T *get() const
 	{
 		if (!obj)
@@ -195,6 +159,41 @@ template <typename T> class StateRef
 	{
 		this->obj = nullptr;
 		this->id = "";
+	}
+};
+
+template <typename T> class StateRefMap : public std::map<UString, sp<T>>
+{
+  public:
+	~StateRefMap()
+	{
+		for (auto &obj : *this)
+		{
+			obj.second->destroy();
+		}
+	}
+	std::map<UString, up<T>> destroyed_objects;
+
+	void destroy(const UString &id)
+	{
+		auto it = this->find(it);
+		if (it == this->end())
+		{
+			LogError("Trying to destroy unknown object \"{}\"", id);
+			return;
+		}
+		auto destroyed_it = destroyed_objects.find(id);
+		if (destroyed_it != destroyed_objects.end())
+		{
+			LogError("Trying to destroy already-destroyed object \"{}\"", id);
+		}
+		destroyed_objects[id] = std::move(it.second);
+		this->erase(it);
+	}
+	void destroy(StateRef<T> ref)
+	{
+		this->destroy(ref.id);
+		ref.clear();
 	}
 };
 

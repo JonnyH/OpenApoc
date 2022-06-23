@@ -19,11 +19,11 @@ BaseStage::BaseStage(sp<GameState> state)
 
 BaseStage::~BaseStage() = default;
 
-void BaseStage::changeBase(sp<Base> newBase)
+void BaseStage::changeBase(StateRef<Base> newBase)
 {
 	if (newBase != nullptr)
 	{
-		state->current_base = {state.get(), newBase};
+		state->current_base = newBase;
 	}
 }
 
@@ -44,7 +44,7 @@ void BaseStage::begin()
 	int b = 0;
 	for (auto &pair : state->player_bases)
 	{
-		auto &viewBase = pair.second;
+		auto viewBase = StateRef<Base>{state.get(), pair.first};
 		auto viewName = format("BUTTON_BASE_%d", ++b);
 		auto view = form->findControlTyped<GraphicButton>(viewName);
 		if (!view)
@@ -62,7 +62,7 @@ void BaseStage::begin()
 		view->setDepressedImage(viewImage);
 		wp<GraphicButton> weakView(view);
 		view->addCallback(FormEventType::ButtonClick, [this, weakView](FormsEvent *e) {
-			auto base = e->forms().RaisedBy->getData<Base>();
+			auto base = e->forms().RaisedBy->getData<StateRef<Base>>();
 			if (this->state->current_base != base)
 			{
 				this->changeBase(base);
@@ -70,7 +70,7 @@ void BaseStage::begin()
 			}
 		});
 		view->addCallback(FormEventType::MouseEnter, [this](FormsEvent *e) {
-			auto base = e->forms().RaisedBy->getData<Base>();
+			auto base = e->forms().RaisedBy->getData<StateRef<Base>>();
 			this->textViewBase->setVisible(true);
 			this->textViewBase->setText(base->name);
 		});
@@ -89,7 +89,7 @@ void BaseStage::render()
 	// Highlight selected base
 	if (currentView != nullptr)
 	{
-		auto viewBase = currentView->getData<Base>();
+		auto viewBase = currentView->getData<StateRef<Base>>();
 		if (state->current_base == viewBase)
 		{
 			Vec2<int> pos = currentView->getLocationOnScreen() - 2;

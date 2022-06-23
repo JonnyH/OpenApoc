@@ -1344,16 +1344,17 @@ void BattleMap::fillSquads(sp<Battle> b, bool spawnCivilians, GameState &state,
 				{
 					for (auto &u : b->units)
 					{
+						StateRef<BattleUnit> unit{&state, u.first};
 						if (b->forces[o].squads[s].getNumUnits() >= 3)
 						{
 							break;
 						}
-						if (u.second->owner != o || u.second->squadNumber != -1 ||
-						    u.second->retreated || !u.second->agent->type->allowsDirectControl)
+						if (unit->owner != o || unit->squadNumber != -1 ||
+						    unit->retreated || !unit->agent->type->allowsDirectControl)
 						{
 							continue;
 						}
-						u.second->assignToSquad(*b, s);
+						unit->assignToSquad(*b,unit, s);
 						agentCount[o]--;
 						if (agentCount[o] == 0)
 						{
@@ -1373,16 +1374,17 @@ void BattleMap::fillSquads(sp<Battle> b, bool spawnCivilians, GameState &state,
 			}
 			for (auto &u : b->units)
 			{
+				StateRef<BattleUnit> unit{&state, u.first};
 				if (b->forces[o].squads[s].getNumUnits() == 6)
 				{
 					break;
 				}
-				if (u.second->owner != o || u.second->squadNumber != -1 || u.second->retreated ||
-				    !u.second->agent->type->allowsDirectControl)
+				if (unit->owner != o || unit->squadNumber != -1 || unit->retreated ||
+				    !unit->agent->type->allowsDirectControl)
 				{
 					continue;
 				}
-				u.second->assignToSquad(*b, s);
+				unit->assignToSquad(*b,unit, s);
 				agentCount[o]--;
 				if (agentCount[o] == 0)
 				{

@@ -35,7 +35,7 @@ class ResearchScreen : public BaseStage
 
 	sp<Graphic> arrow;
 
-	void changeBase(sp<Base> newBase) override;
+	void changeBase(StateRef<Base> newBase) override;
 
   public:
 	ResearchScreen(sp<GameState> state, sp<Facility> selectedLab = nullptr);

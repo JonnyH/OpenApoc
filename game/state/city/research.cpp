@@ -220,17 +220,17 @@ template <> const UString &StateObject<Lab>::getId(const GameState &state, const
 	return emptyString;
 }
 
-void ResearchState::updateTopicList()
+void ResearchState::updateTopicList(const GameState &state)
 {
 	topic_list.clear();
 	for (auto &t : topics)
-		topic_list.push_back(t.second);
+		topic_list.push_back(StateRef<ResearchTopic>{&state, t.first});
 	resortTopicList();
 }
 
 void ResearchState::resortTopicList()
 {
-	topic_list.sort([](sp<ResearchTopic> a, sp<ResearchTopic> b) {
+	topic_list.sort([](StateRef<ResearchTopic> a, StateRef<ResearchTopic> b) {
 		if (a->isComplete() != b->isComplete())
 			return b->isComplete();
 		else
@@ -502,7 +502,7 @@ void Lab::update(unsigned int ticks, StateRef<Lab> lab, sp<GameState> state)
 										auto v = base.second->building->city->placeVehicle(
 										    *state, {state.get(), type}, state->getPlayer(),
 										    base.second->building);
-										v->homeBuilding = {state.get(), base.second->building};
+										v->homeBuilding = base.second->building;
 									}
 									break;
 								}

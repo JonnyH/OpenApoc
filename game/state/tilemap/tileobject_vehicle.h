@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game/state/tilemap/tileobject.h"
+#include "game/state/stateobject.h"
 #include "library/sp.h"
 #include "library/vec.h"
 #include <list>
@@ -14,7 +15,7 @@ class Image;
 class TileObjectVehicle : public TileObject
 {
   public:
-	static void drawStatic(Renderer &r, sp<Vehicle> v, TileTransform &transform,
+	static void drawStatic(Renderer &r, const Vehicle& v, TileTransform &transform,
 	                       Vec2<float> screenPosition, TileViewMode mode, bool visible,
 	                       int currentLevel, bool friendly, bool hostile);
 
@@ -22,7 +23,7 @@ class TileObjectVehicle : public TileObject
 	          bool visible, int currentLevel, bool friendly, bool hostile) override;
 	~TileObjectVehicle() override;
 
-	sp<Vehicle> getVehicle() const;
+	StateRef<Vehicle> getVehicle() const;
 
 	Vec3<float> getVoxelCentrePosition() const override;
 	bool hasVoxelMap(bool los [[maybe_unused]]) const override { return true; }
@@ -33,9 +34,9 @@ class TileObjectVehicle : public TileObject
 
   private:
 	friend class TileMap;
-	wp<Vehicle> vehicle;
+	StateRef<Vehicle> vehicle;
 
-	TileObjectVehicle(TileMap &map, sp<Vehicle> vehicle);
+	TileObjectVehicle(TileMap &map, StateRef<Vehicle> vehicle);
 };
 
 } // namespace OpenApoc

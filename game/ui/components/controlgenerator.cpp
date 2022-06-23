@@ -102,7 +102,7 @@ void ControlGenerator::init(GameState &state [[maybe_unused]])
 	initialised = true;
 }
 
-sp<Control> ControlGenerator::createVehicleIcon(GameState &state, sp<Vehicle> vehicle)
+sp<Control> ControlGenerator::createVehicleIcon(GameState &state, StateRef<Vehicle> vehicle)
 {
 	auto info = createVehicleInfo(state, vehicle);
 	auto icon = createVehicleControl(state, info);
@@ -112,7 +112,7 @@ sp<Control> ControlGenerator::createVehicleIcon(GameState &state, sp<Vehicle> ve
 	return icon;
 }
 
-VehicleTileInfo ControlGenerator::createVehicleInfo(GameState &state, sp<Vehicle> v)
+VehicleTileInfo ControlGenerator::createVehicleInfo(GameState &state, StateRef<Vehicle> v)
 {
 	VehicleTileInfo t;
 	t.vehicle = v;
@@ -259,13 +259,13 @@ sp<Control> ControlGenerator::createVehicleControl(GameState &state, const Vehic
 	return baseControl;
 }
 
-sp<Control> ControlGenerator::createVehicleControl(GameState &state, sp<Vehicle> v)
+sp<Control> ControlGenerator::createVehicleControl(GameState &state, StateRef<Vehicle> v)
 {
 	auto info = createVehicleInfo(state, v);
 	return createVehicleControl(state, info);
 }
 
-sp<Control> ControlGenerator::createVehicleAssignmentControl(GameState &state, sp<Vehicle> vehicle)
+sp<Control> ControlGenerator::createVehicleAssignmentControl(GameState &state, StateRef<Vehicle> vehicle)
 {
 	const int controlLength = 200, controlHeight = 24, iconLenght = 36;
 
@@ -285,7 +285,7 @@ sp<Control> ControlGenerator::createVehicleAssignmentControl(GameState &state, s
 }
 
 sp<Control> ControlGenerator::createBuildingAssignmentControl(GameState &state,
-                                                              sp<Building> building)
+                                                              StateRef<Building> building)
 {
 	const int controlLength = 200, controlHeight = 24, iconLenght = 36;
 
@@ -322,7 +322,7 @@ sp<Control> ControlGenerator::createBuildingAssignmentControl(GameState &state,
 	return control;
 }
 
-sp<Control> ControlGenerator::createAgentAssignmentControl(GameState &state, sp<Agent> agent)
+sp<Control> ControlGenerator::createAgentAssignmentControl(GameState &state, StateRef<Agent> agent)
 {
 	const int controlLength = 200, controlHeight = 24, iconLength = 36;
 
@@ -347,7 +347,7 @@ sp<Control> ControlGenerator::createAgentAssignmentControl(GameState &state, sp<
 	return control;
 }
 
-sp<Control> ControlGenerator::createAgentIcon(GameState &state, sp<Agent> agent,
+sp<Control> ControlGenerator::createAgentIcon(GameState &state, StateRef<Agent> agent,
                                               UnitSelectionState forcedSelectionState,
                                               bool forceFade)
 {
@@ -356,12 +356,12 @@ sp<Control> ControlGenerator::createAgentIcon(GameState &state, sp<Agent> agent,
 	icon->AutoSize = true;
 	icon->Name = AGENT_ICON_NAME;
 	fillAgentControl(state, icon, info);
-	icon->setData(mksp<CityUnitState>(info.state));
+	icon->setData(info.state);
 
 	return icon;
 }
 
-AgentInfo ControlGenerator::createAgentInfo(GameState &state, sp<Agent> a,
+AgentInfo ControlGenerator::createAgentInfo(GameState &state, StateRef<Agent> a,
                                             UnitSelectionState forcedSelectionState, bool forceFade)
 {
 	AgentInfo i;
@@ -551,7 +551,7 @@ sp<Control> ControlGenerator::createLargeAgentControl(GameState &state, const Ag
 	return baseControl;
 }
 
-sp<Control> ControlGenerator::createLargeAgentControl(GameState &state, sp<Agent> a, int width,
+sp<Control> ControlGenerator::createLargeAgentControl(GameState &state, StateRef<Agent> a, int width,
                                                       UnitSkillState skill,
                                                       UnitSelectionState forcedSelectionState,
                                                       bool forceFade)
