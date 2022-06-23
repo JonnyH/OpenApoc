@@ -106,7 +106,7 @@ TransferScreen::TransferScreen(sp<GameState> state, bool forceLimits)
 	form->findControlTyped<RadioButton>("BUTTON_SOLDIERS")->setChecked(true);
 }
 
-void TransferScreen::changeSecondBase(sp<Base> newBase)
+void TransferScreen::changeSecondBase(StateRef<Base> newBase)
 {
 	second_base = newBase->building->base;
 	textViewSecondBaseStatic->setText(second_base->name);
@@ -345,7 +345,7 @@ void TransferScreen::closeScreen()
 			{
 				for (auto &view : miniViews)
 				{
-					if (bad_base == view->getData<Base>())
+					if (bad_base == view->getData<StateRef<Base>>())
 					{
 						currentView = view;
 						changeBase(bad_base);
@@ -508,8 +508,7 @@ void TransferScreen::executeOrders()
 						StateRef<Agent> agent{state.get(), c->itemId};
 						if (agent->lab_assigned)
 						{
-							StateRef<Lab> lab{state.get(), agent->lab_assigned};
-							agent->lab_assigned->removeAgent(lab, agent);
+							agent->lab_assigned->removeAgent(agent->lab_assigned, agent);
 						}
 						agent->transfer(*state, newBase->building);
 						break;
@@ -661,10 +660,11 @@ void TransferScreen::initViewSecondBase()
 	int i = 0;
 	for (auto &b : state->player_bases)
 	{
+		StateRef<Base> base{state.get(), b.first};
 		auto viewName = format("BUTTON_SECOND_BASE_%d", ++i);
 		auto view = form->findControlTyped<GraphicButton>(viewName);
 		view->setVisible(true);
-		if (second_base == b.second)
+		if (second_base == base)
 		{
 			currentSecondView = view;
 		}
@@ -674,7 +674,7 @@ void TransferScreen::initViewSecondBase()
 		view->setDepressedImage(viewImage);
 		wp<GraphicButton> weakView(view);
 		view->addCallback(FormEventType::ButtonClick, [this, weakView](FormsEvent *e) {
-			auto base = e->forms().RaisedBy->getData<Base>();
+			auto base = e->forms().RaisedBy->getData<StateRef<Base>>();
 			if (this->second_base != base)
 			{
 				this->changeSecondBase(base);
@@ -682,7 +682,7 @@ void TransferScreen::initViewSecondBase()
 			}
 		});
 		view->addCallback(FormEventType::MouseEnter, [this](FormsEvent *e) {
-			auto base = e->forms().RaisedBy->getData<Base>();
+			auto base = e->forms().RaisedBy->getData<StateRef<Base>>();
 			this->textViewSecondBase->setText(base->name);
 			this->textViewSecondBase->setVisible(true);
 			this->textViewSecondBaseStatic->setVisible(false);
@@ -702,7 +702,7 @@ void TransferScreen::render()
 	TransactionScreen::render();
 
 	// Highlight second selected base
-	auto viewBase = currentSecondView->getData<Base>();
+	auto viewBase = currentSecondView->getData<StateRef<Base>>();
 	if (second_base == viewBase)
 	{
 		Vec2<int> pos = currentSecondView->getLocationOnScreen() - 2;

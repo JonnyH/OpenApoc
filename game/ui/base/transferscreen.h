@@ -17,7 +17,7 @@ class TransferScreen : public TransactionScreen
 	std::vector<sp<Image>> bigUnitRanks;
 
 	// Change the base on the right side.
-	void changeSecondBase(sp<Base> newBase);
+	void changeSecondBase(StateRef<Base> newBase);
 	// Get the right side index.
 	int getRightIndex() override;
 	// Update highlight of facilities on the mini-view.

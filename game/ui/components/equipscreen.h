@@ -2,6 +2,7 @@
 
 #include "forms/control.h"
 #include "game/state/shared/equipment.h"
+#include "game/state/stateobject.h"
 #include <array>
 #include <set>
 
@@ -12,7 +13,7 @@ class EquipmentPaperDoll : public Control
 {
   private:
 	Vec2<int> slotSizePixels;
-	sp<EquippableObject> object;
+	StateRef<EquippableObject> object;
 	std::set<EquipmentSlotType> slotHighlightTypes;
 	std::array<Colour, 2> slotHighlightColours;
 	// value between 0->2*PI - interpolating between the slotHighlightColours by sin(value)
@@ -29,7 +30,7 @@ class EquipmentPaperDoll : public Control
 	Vec2<int> getSlotPositionFromScreenPosition(const Vec2<int> &screenPosition) const;
 	Vec2<int> getScreenPositionFromSlotPosition(const Vec2<float> &slot) const;
 	Vec2<int> getScreenPositionFromSlotPosition(const Vec2<int> &slot) const;
-	void setObject(sp<EquippableObject> newObject);
+	void setObject(StateRef<EquippableObject> newObject);
 	void setHighlightColours(const std::array<Colour, 2> &colours);
 	void setHighlight(const std::set<EquipmentSlotType> &types);
 	void setNonHighlightColour(const Colour &colour);

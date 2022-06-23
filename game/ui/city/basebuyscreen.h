@@ -1,6 +1,7 @@
 #pragma once
 
 #include "framework/stage.h"
+#include "game/state/stateobject.h"
 #include "library/sp.h"
 
 namespace OpenApoc
@@ -22,11 +23,11 @@ class BaseBuyScreen : public Stage
 	int price;
 
 	sp<GameState> state;
-	sp<Base> base;
+	StateRef<Building> building;
 	void renderBase();
 
   public:
-	BaseBuyScreen(sp<GameState> state, sp<Building> building);
+	BaseBuyScreen(sp<GameState> state, StateRef<Building> building);
 	~BaseBuyScreen() override;
 	// Stage control
 	void begin() override;

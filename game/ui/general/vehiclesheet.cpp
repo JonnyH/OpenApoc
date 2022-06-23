@@ -63,7 +63,7 @@ void VehicleSheet::clear()
 	}
 }
 
-void VehicleSheet::displayImplementation(sp<Vehicle> vehicle, sp<VehicleType> vehicleType)
+void VehicleSheet::displayImplementation(StateRef<Vehicle> vehicle, StateRef<VehicleType> vehicleType)
 {
 	form->findControlTyped<Label>("ITEM_NAME")->setText("");
 	form->findControlTyped<TextEdit>("TEXT_VEHICLE_NAME")
@@ -80,10 +80,10 @@ void VehicleSheet::displayImplementation(sp<Vehicle> vehicle, sp<VehicleType> ve
 	form->findControlTyped<Label>("LABEL_8_L")->setText(tr("Passengers"));
 	form->findControlTyped<Label>("LABEL_9_L")->setText(tr("Cargo"));
 
-	std::list<sp<VEquipmentType>> defaultEquipment;
+	std::list<StateRef<VEquipmentType>> defaultEquipment;
 	for (auto &e : vehicleType->initial_equipment_list)
 	{
-		defaultEquipment.push_back(e.second.getSp());
+		defaultEquipment.push_back(e.second);
 	}
 	auto it1 = defaultEquipment.begin();
 	auto it2 = defaultEquipment.end();
@@ -118,7 +118,7 @@ void VehicleSheet::displayImplementation(sp<Vehicle> vehicle, sp<VehicleType> ve
 	                      : format("%d", vehicleType->getMaxCargo(it1, it2)));
 }
 
-void VehicleSheet::displayEquipImplementation(sp<VEquipment> item, sp<VEquipmentType> type)
+void VehicleSheet::displayEquipImplementation(sp<VEquipment> item, StateRef<VEquipmentType> type)
 {
 	form->findControlTyped<TextEdit>("TEXT_VEHICLE_NAME")->setText("");
 	form->findControlTyped<Label>("ITEM_NAME")->setText(item ? item->type->name : type->name);
@@ -145,7 +145,7 @@ void VehicleSheet::displayEquipImplementation(sp<VEquipment> item, sp<VEquipment
 	}
 }
 
-void VehicleSheet::displayEngine(sp<VEquipment> item [[maybe_unused]], sp<VEquipmentType> type)
+void VehicleSheet::displayEngine(sp<VEquipment> item [[maybe_unused]], StateRef<VEquipmentType> type)
 {
 	form->findControlTyped<Label>("LABEL_2_L")->setText(tr("Top Speed"));
 	form->findControlTyped<Label>("LABEL_2_R")->setText(format("%d", type->top_speed));
@@ -153,7 +153,7 @@ void VehicleSheet::displayEngine(sp<VEquipment> item [[maybe_unused]], sp<VEquip
 	form->findControlTyped<Label>("LABEL_3_R")->setText(format("%d", type->power));
 }
 
-void VehicleSheet::displayWeapon(sp<VEquipment> item, sp<VEquipmentType> type)
+void VehicleSheet::displayWeapon(sp<VEquipment> item, StateRef<VEquipmentType> type)
 {
 	form->findControlTyped<Label>("LABEL_2_L")->setText(tr("Damage"));
 	form->findControlTyped<Label>("LABEL_2_R")->setText(format("%d", type->damage));
@@ -172,7 +172,7 @@ void VehicleSheet::displayWeapon(sp<VEquipment> item, sp<VEquipmentType> type)
 	}
 }
 
-void VehicleSheet::displayGeneral(sp<VEquipment> item [[maybe_unused]], sp<VEquipmentType> type)
+void VehicleSheet::displayGeneral(sp<VEquipment> item [[maybe_unused]], StateRef<VEquipmentType> type)
 {
 	int statsCount = 2;
 	if (type->accuracy_modifier)
@@ -230,7 +230,7 @@ void VehicleSheet::displayGeneral(sp<VEquipment> item [[maybe_unused]], sp<VEqui
 	}
 }
 
-void VehicleSheet::displayAlien(sp<VEquipmentType> type)
+void VehicleSheet::displayAlien(StateRef<VEquipmentType> type)
 {
 	form->findControlTyped<Label>("ITEM_NAME")->setText(tr("Alien Artifact"));
 	form->findControlTyped<Graphic>("SELECTED_IMAGE")->setImage(type->equipscreen_sprite);

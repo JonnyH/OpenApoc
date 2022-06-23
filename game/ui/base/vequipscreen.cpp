@@ -57,7 +57,7 @@ VEquipScreen::VEquipScreen(sp<GameState> state)
 
 	for (auto &v : state->vehicles)
 	{
-		auto vehicle = v.second;
+		StateRef<Vehicle> vehicle{state.get(), v.first};
 		if (vehicle->owner != state->getPlayer())
 			continue;
 		this->setSelectedVehicle(vehicle);
@@ -102,7 +102,7 @@ void VEquipScreen::begin()
 
 	for (auto &v : state->vehicles)
 	{
-		auto vehicle = v.second;
+		StateRef<Vehicle> vehicle{state.get(), v.first};
 		if (vehicle->owner != state->getPlayer())
 			continue;
 		auto graphic = mksp<Graphic>(vehicle->type->equip_icon_big);

@@ -34,7 +34,7 @@ Vec2<int> EquipmentPaperDoll::getScreenPositionFromSlotPosition(const Vec2<float
 	return this->resolvedLocation + Vec2<int>(slot.x * slotSizePixels.x, slot.y * slotSizePixels.y);
 }
 
-void EquipmentPaperDoll::setObject(sp<EquippableObject> newObject)
+void EquipmentPaperDoll::setObject(StateRef<EquippableObject> newObject)
 {
 	this->object = newObject;
 	this->setDirty();

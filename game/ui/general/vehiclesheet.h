@@ -17,20 +17,20 @@ class VehicleSheet
 {
   public:
 	VehicleSheet(sp<Form> form);
-	void display(sp<Vehicle> vehicle);
-	void display(sp<VehicleType> vehicleType);
+	void display(StateRef< Vehicle> vehicle);
+	void display(StateRef<VehicleType> vehicleType);
 	void display(sp<VEquipment> item);
-	void display(sp<VEquipmentType> itemType, bool researched = true);
+	void display(StateRef<VEquipmentType> itemType, bool researched = true);
 	void clear();
 
   private:
-	void displayImplementation(sp<Vehicle> vehicle, sp<VehicleType> vehicleType);
+	void displayImplementation(StateRef< Vehicle> vehicle, StateRef< VehicleType> vehicleType);
 
-	void displayEquipImplementation(sp<VEquipment> item, sp<VEquipmentType> itemType);
-	void displayEngine(sp<VEquipment> item, sp<VEquipmentType> type);
-	void displayWeapon(sp<VEquipment> item, sp<VEquipmentType> type);
-	void displayGeneral(sp<VEquipment> item, sp<VEquipmentType> type);
-	void displayAlien(sp<VEquipmentType> type);
+	void displayEquipImplementation(sp< VEquipment> item, StateRef< VEquipmentType> itemType);
+	void displayEngine(sp< VEquipment> item, StateRef<VEquipmentType> type);
+	void displayWeapon(sp< VEquipment> item, StateRef< VEquipmentType> type);
+	void displayGeneral(sp< VEquipment> item, StateRef< VEquipmentType> type);
+	void displayAlien(StateRef< VEquipmentType> type);
 
 	sp<Form> form;
 };

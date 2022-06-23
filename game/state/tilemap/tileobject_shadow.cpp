@@ -21,8 +21,8 @@ void TileObjectShadow::draw(Renderer &r, TileTransform &transform, Vec2<float> s
 	if (!visible)
 		return;
 	std::ignore = transform;
-	auto vehicle = this->ownerVehicle.lock();
-	auto unit = this->ownerBattleUnit.lock();
+	auto vehicle = this->ownerVehicle;
+	auto unit = this->ownerBattleUnit;
 	auto item = this->ownerBattleItem.lock();
 	if (!vehicle && !unit && !item)
 	{
@@ -78,7 +78,7 @@ void TileObjectShadow::draw(Renderer &r, TileTransform &transform, Vec2<float> s
 
 void TileObjectShadow::addToDrawnTiles(Tile *tile)
 {
-	if (ownerBattleUnit.lock())
+	if (ownerBattleUnit)
 	{
 		Vec3<int> maxCoords = {-1, -1, -1};
 		for (auto &intersectingTile : intersectingTiles)
@@ -123,7 +123,7 @@ void TileObjectShadow::setPosition(Vec3<float> newPosition)
 
 	this->shadowPosition = shadowPosition;
 
-	auto unit = ownerBattleUnit.lock();
+	auto unit = ownerBattleUnit;
 	if (unit)
 	{
 		setBounds({unit->tileObject->getBounds().x, unit->tileObject->getBounds().y, 0.0f});
@@ -133,12 +133,12 @@ void TileObjectShadow::setPosition(Vec3<float> newPosition)
 
 TileObjectShadow::~TileObjectShadow() = default;
 
-TileObjectShadow::TileObjectShadow(TileMap &map, sp<Vehicle> vehicle)
+TileObjectShadow::TileObjectShadow(TileMap &map, StateRef<Vehicle> vehicle)
     : TileObject(map, Type::Shadow, Vec3<float>{0, 0, 0}), ownerVehicle(vehicle),
       fellOffTheBottomOfTheMap(false)
 {
 }
-TileObjectShadow::TileObjectShadow(TileMap &map, sp<BattleUnit> unit)
+TileObjectShadow::TileObjectShadow(TileMap &map, StateRef<BattleUnit> unit)
     : TileObject(map, Type::Shadow, Vec3<float>{0, 0, 0}), ownerBattleUnit(unit),
       fellOffTheBottomOfTheMap(false)
 {

@@ -132,7 +132,8 @@ void BattlePreStart::pause()
 {
 	if (draggedAgent)
 	{
-		draggedAgent->agent->unit->assignToSquad(*state->current_battle, draggedOrigin);
+		draggedAgent->agent->unit->assignToSquad(*state->current_battle,
+		                                         draggedAgent->agent->unit,draggedOrigin);
 		draggedAgent = nullptr;
 	}
 }
@@ -200,8 +201,11 @@ void BattlePreStart::eventOccurred(Event *e)
 			int num = selectedAgent->agent->unit->squadNumber;
 			int pos = selectedAgent->agent->unit->squadPosition;
 			selectedAgent->agent->unit->removeFromSquad(*state->current_battle);
-			draggedAgent->agent->unit->assignToSquad(*state->current_battle, num, pos);
-			selectedAgent->agent->unit->assignToSquad(*state->current_battle, draggedOrigin);
+			draggedAgent->agent->unit->assignToSquad(*state->current_battle,
+			                                         draggedAgent->agent->unit, num, pos);
+			selectedAgent->agent->unit->assignToSquad(
+			    *state->current_battle,
+			    selectedAgent->agent->unit,draggedOrigin);
 		}
 		else
 		{
@@ -216,10 +220,11 @@ void BattlePreStart::eventOccurred(Event *e)
 					break;
 				}
 			}
-			if (newSquad == -1 ||
-			    !draggedAgent->agent->unit->assignToSquad(*state->current_battle, newSquad))
+			if (newSquad == -1 || !draggedAgent->agent->unit->assignToSquad(
+			                          *state->current_battle, draggedAgent->agent->unit, newSquad))
 			{
-				draggedAgent->agent->unit->assignToSquad(*state->current_battle, draggedOrigin);
+				draggedAgent->agent->unit->assignToSquad(*state->current_battle,
+				                                         draggedAgent->agent->unit, draggedOrigin);
 			}
 		}
 

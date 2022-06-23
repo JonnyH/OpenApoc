@@ -2,6 +2,7 @@
 
 #include "framework/stage.h"
 #include "library/sp.h"
+#include "game/state/stateobject.h"
 #include <map>
 #include <vector>
 
@@ -19,14 +20,14 @@ class UfopaediaCategoryView : public Stage
   private:
 	sp<Form> menuform;
 	sp<GameState> state;
-	sp<UfopaediaCategory> category;
+	StateRef<UfopaediaCategory> category;
 	std::vector<sp<Label>> orgLabels, orgValues;
 	std::vector<sp<Label>> statsLabels, statsValues;
 	int baseY, baseH;
 
 	// The iterator showing the current position of the entry within the category.
 	// When equal to category->entries.end() it will show the category description.
-	std::map<UString, sp<UfopaediaEntry>>::iterator position_iterator;
+	std::map<UString, StateRef<UfopaediaEntry>>::iterator position_iterator;
 
 	void setFormData();
 	void setFormStats();
@@ -38,8 +39,8 @@ class UfopaediaCategoryView : public Stage
 	void setPreviousSection();
 
   public:
-	UfopaediaCategoryView(sp<GameState> state, sp<UfopaediaCategory> cat,
-	                      sp<UfopaediaEntry> entry = nullptr);
+	UfopaediaCategoryView(sp<GameState> state, StateRef<UfopaediaCategory> cat,
+	                      StateRef<UfopaediaEntry> entry = nullptr);
 	~UfopaediaCategoryView() override;
 
 	// Stage control
