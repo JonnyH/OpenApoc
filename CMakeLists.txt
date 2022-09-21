@@ -32,6 +32,20 @@ option(LTO "Build using link-time-optimisations" OFF)
 option(MSVC_PDB "Always generate PDB files" OFF)
 option(ENABLE_TESTS "Build some unit tests" ON)
 option(EXTRACT_DATA "Run the data extractor as part of the default target" ON)
+option(ENABLE_CLANG_TIDY "Run the clang-tidy linter on targets" OFF)
+
+set(CLANG_TIDY clang-tidy CACHE STRING "clang-tidy executable name in PATH")
+set(CLANG_TIDY_FIXES_FILE clang-tidy-fixes.yaml CACHE STRING "clang-tidy
+	exported fixes file")
+set(CLANG_TIDY_OPTIONS ""
+		 CACHE STRING "Options passed into clang-tidy")
+
+list(APPEND CLANG_TIDY_OPTIONS_GEN ${CLANG_TIDY_OPTIONS})
+list(APPEND CLANG_TIDY_OPTIONS_GEN -export-fixes=${CLANG_TIDY_FIXES_FILE})
+
+if(ENABLE_CLANG_TIDY)
+	set(CMAKE_CXX_CLANG_TIDY ${CLANG_TIDY} ${CLANG_TIDY_OPTIONS_GEN})
+endif()
 
 set(CD_PATH ${CMAKE_SOURCE_DIR}/data/cd.iso CACHE STRING "Path to cd.iso (used
 by test and extractor")
@@ -243,9 +257,6 @@ else()
 	message("xmllint not found, disabling format-xml target")
 endif()
 
-set(CLANG_TIDY clang-tidy CACHE STRING "clang-tidy executable name in PATH")
-set(CLANG_TIDY_FIXES_FILE clang-tidy-fixes.yaml CACHE STRING "clang-tidy
-exported fixes file")
 
 find_package(Git)
 execute_process(COMMAND ${GIT_EXECUTABLE} -C ${CMAKE_SOURCE_DIR} describe
@@ -260,8 +271,6 @@ string(MAKE_C_IDENTIFIER "${OPENAPOC_VERSION_STRING_RAW}" OPENAPOC_VERSION_STRIN
 
 configure_file(version.h.in version.h)
 
-list(APPEND CLANG_TIDY_OPTIONS
-		-export-fixes=${CLANG_TIDY_FIXES_FILE})
 
 
 add_custom_target(tidy ${CLANG_TIDY}

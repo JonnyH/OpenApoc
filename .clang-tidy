@@ -1,5 +1,5 @@
 ---
-Checks:          'clang-diagnostic-*,clang-analyzer-*,misc-static-assert,modernize-use-auto,modernize-use-default,modernize-usenullptr,modernize-use-override,performance-*,readability-non-const-parameter,readability-redundant-*,readability-simplify-*,bugprone-*'
+Checks:          'misc-const-correctness,performance-move-const-arg,portability-std-allocator-const,readability-avoid-const-params-in-decls,readability-const-return-type,readability-make-member-function-const,readability-non-const-parameter'
 HeaderFilterRegex: 'forms/.*|framework/.*|game/.*|library/.*|tests/.*|tools/.*'
 AnalyzeTemporaryDtors: false
 User:            jonny
