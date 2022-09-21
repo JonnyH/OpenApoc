@@ -35,7 +35,7 @@ std::list<multiplierDescriptor> multiplierDescriptors{
 } // namespace
 
 CheatOptions::CheatOptions(sp<GameState> state)
-    : Stage(), menuform(ui().getForm("cheatoptions")), state(std::move(std::move(state)))
+    : Stage(), menuform(ui().getForm("cheatoptions")), state(std::move((state)))
 {
 }
 CheatOptions::~CheatOptions() {}

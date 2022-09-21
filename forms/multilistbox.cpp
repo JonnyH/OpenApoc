@@ -15,7 +15,7 @@ namespace OpenApoc
 MultilistBox::MultilistBox() : MultilistBox(nullptr) {}
 
 MultilistBox::MultilistBox(sp<ScrollBar> ExternalScrollBar)
-    : Control(), scroller(std::move(std::move(ExternalScrollBar))), ItemSize(0), ItemSpacing(0),
+    : Control(), scroller(std::move((ExternalScrollBar))), ItemSize(0), ItemSpacing(0),
       ListOrientation(Orientation::Vertical), ScrollOrientation(ListOrientation),
       HoverColour(0, 0, 0, 0), SelectedColour(0, 0, 0, 0)
 {

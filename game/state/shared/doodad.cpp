@@ -15,7 +15,7 @@ namespace OpenApoc
 Doodad::Doodad(Vec3<float> position, Vec2<int> imageOffset, bool temporary, int lifetime,
                sp<Image> image)
     : position(position), imageOffset(imageOffset), temporary(temporary), age(0),
-      lifetime(lifetime), sprite(std::move(std::move(image)))
+      lifetime(lifetime), sprite(std::move((image)))
 {
 }
 

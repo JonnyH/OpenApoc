@@ -350,12 +350,12 @@ GameManufactureEvent::GameManufactureEvent(GameEventType type, const StateRef<Re
 }
 
 GameFacilityEvent::GameFacilityEvent(GameEventType type, sp<Base> base, sp<Facility> facility)
-    : GameEvent(type), base(std::move(std::move(base))), facility(std::move(std::move(facility)))
+    : GameEvent(type), base(std::move((base))), facility(std::move((facility)))
 {
 }
 
 GameBattleEvent::GameBattleEvent(GameEventType type, sp<Battle> battle)
-    : GameEvent(type), battle(std::move(std::move(battle)))
+    : GameEvent(type), battle(std::move((battle)))
 {
 }
 GameLocationEvent::GameLocationEvent(GameEventType type, Vec3<int> location)

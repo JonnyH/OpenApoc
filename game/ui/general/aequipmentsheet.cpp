@@ -11,7 +11,7 @@
 namespace OpenApoc
 {
 
-AEquipmentSheet::AEquipmentSheet(sp<Form> dstForm) : form(std::move(std::move(dstForm))) {}
+AEquipmentSheet::AEquipmentSheet(sp<Form> dstForm) : form(std::move((dstForm))) {}
 
 void AEquipmentSheet::display(const sp<AEquipment> &item, bool researched)
 {

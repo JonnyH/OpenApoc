@@ -16,7 +16,7 @@ namespace OpenApoc
 {
 
 UfopaediaView::UfopaediaView(sp<GameState> state)
-    : Stage(), menuform(ui().getForm("ufopaediatitle")), state(std::move(std::move(state)))
+    : Stage(), menuform(ui().getForm("ufopaediatitle")), state(std::move((state)))
 {
 }
 

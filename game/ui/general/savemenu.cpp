@@ -29,7 +29,7 @@ const UString existingSaveItemId = "EXISTING_SAVE_SLOT";
 const UString newSaveItemId = "NEW_SAVE_SLOT";
 
 SaveMenu::SaveMenu(SaveMenuAction saveMenuAction, sp<GameState> state)
-    : Stage(), menuform(ui().getForm("savemenu")), currentState(std::move(std::move(state))),
+    : Stage(), menuform(ui().getForm("savemenu")), currentState(std::move((state))),
       currentAction(saveMenuAction)
 {
 	activeTextEdit = nullptr;

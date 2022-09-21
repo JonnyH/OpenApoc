@@ -19,7 +19,7 @@ BattleTurnBasedConfirmBox::BattleTurnBasedConfirmBox(const UString &text,
                                                      std::function<void()> callbackYes,
                                                      std::function<void()> callbackNo)
     : Stage(), form(ui().getForm("battle/battle_tb_plan_popup")),
-      callbackYes(std::move(std::move(callbackYes))), callbackNo(std::move(std::move(callbackNo)))
+      callbackYes(std::move((callbackYes))), callbackNo(std::move((callbackNo)))
 {
 	form->findControlTyped<Label>("MESSAGE")->setText(text);
 }

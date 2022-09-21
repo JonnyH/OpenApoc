@@ -31,9 +31,7 @@ const UString AgentAssignment::AGENT_SELECT_BOX("AGENT_SELECT_BOX");
 const UString AgentAssignment::AGENT_LIST_NAME("AGENT_LIST");
 const UString AgentAssignment::VEHICLE_LIST_NAME("VEHICLE_LIST");
 
-AgentAssignment::AgentAssignment(sp<GameState> state) : Form(), state(std::move(std::move(state)))
-{
-}
+AgentAssignment::AgentAssignment(sp<GameState> state) : Form(), state(std::move((state))) {}
 
 void AgentAssignment::init(const sp<Form> &form, Vec2<int> location, Vec2<int> size)
 {

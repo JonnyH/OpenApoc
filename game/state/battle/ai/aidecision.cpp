@@ -15,7 +15,7 @@ AIAction::AIAction() : weaponStatus(WeaponStatus::NotFiring) {}
 AIMovement::AIMovement() : movementMode(MovementMode::Walking), kneelingMode(KneelingMode::None) {}
 
 AIDecision::AIDecision(sp<AIAction> action, sp<AIMovement> movement)
-    : action(std::move(std::move(action))), movement(std::move(std::move(movement)))
+    : action(std::move((action))), movement(std::move((movement)))
 {
 }
 

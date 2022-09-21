@@ -1144,8 +1144,8 @@ Organisation::MissionPattern::MissionPattern(uint64_t minIntervalRepeat, uint64_
                                              std::set<StateRef<VehicleType>> allowedTypes,
                                              Target target, std::set<Relation> relation)
     : minIntervalRepeat(minIntervalRepeat), maxIntervalRepeat(maxIntervalRepeat),
-      minAmount(minAmount), maxAmount(maxAmount), allowedTypes(std::move(std::move(allowedTypes))),
-      target(target), relation(std::move(std::move(relation)))
+      minAmount(minAmount), maxAmount(maxAmount), allowedTypes(std::move((allowedTypes))),
+      target(target), relation(std::move((relation)))
 {
 }
 

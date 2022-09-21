@@ -24,7 +24,7 @@ struct SampleData
 	float gain;
 	unsigned int sample_position; // in bytes
 	SampleData(sp<Sample> sample, float gain)
-	    : sample(std::move(std::move(sample))), gain(gain), sample_position(0)
+	    : sample(std::move((sample))), gain(gain), sample_position(0)
 	{
 	}
 };

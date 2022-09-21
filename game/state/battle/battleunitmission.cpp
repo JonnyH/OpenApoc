@@ -43,7 +43,7 @@ BattleUnitTileHelper::BattleUnitTileHelper(TileMap &map, BattleUnitType type, bo
 BattleUnitTileHelper::BattleUnitTileHelper(TileMap &map, bool large, bool flying, bool allowJumping,
                                            int maxHeight, sp<TileObjectBattleUnit> tileObject)
     : map(map), large(large), flying(flying), maxHeight(maxHeight),
-      tileObject(std::move(std::move(tileObject))), canJump(allowJumping && !flying)
+      tileObject(std::move((tileObject))), canJump(allowJumping && !flying)
 {
 }
 

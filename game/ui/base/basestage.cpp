@@ -17,8 +17,7 @@ namespace OpenApoc
 {
 
 BaseStage::BaseStage(sp<GameState> state)
-    : Stage(), viewHighlight(BaseGraphics::FacilityHighlight::None),
-      state(std::move(std::move(state)))
+    : Stage(), viewHighlight(BaseGraphics::FacilityHighlight::None), state(std::move((state)))
 {
 }
 

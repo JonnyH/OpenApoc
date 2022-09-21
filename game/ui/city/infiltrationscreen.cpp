@@ -78,7 +78,7 @@ constexpr std::array<Colour, 10> line_colors = {
     Colour{54, 74, 200},  Colour{143, 15, 178}};
 
 InfiltrationScreen::InfiltrationScreen(sp<GameState> state)
-    : Stage(), menuform(ui().getForm("city/infiltration")), state(std::move(std::move(state)))
+    : Stage(), menuform(ui().getForm("city/infiltration")), state(std::move((state)))
 {
 	for (int i = 0; i < 10; i++)
 	{

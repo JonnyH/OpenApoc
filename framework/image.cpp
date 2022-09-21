@@ -108,8 +108,7 @@ void RGBImage::blit(const sp<RGBImage> &src, const sp<RGBImage> &dst, Vec2<unsig
 
 RGBImage::~RGBImage() = default;
 
-RGBImageLock::RGBImageLock(sp<RGBImage> img, ImageLockUse use)
-    : img(std::move(std::move(img))), use(use)
+RGBImageLock::RGBImageLock(sp<RGBImage> img, ImageLockUse use) : img(std::move((img))), use(use)
 {
 	// FIXME: Readback from renderer?
 	// FIXME: Disallow multiple locks?
@@ -120,7 +119,7 @@ RGBImageLock::~RGBImageLock() = default;
 void *RGBImageLock::getData() { return this->img->pixels.get(); }
 
 PaletteImageLock::PaletteImageLock(sp<PaletteImage> img, ImageLockUse use)
-    : img(std::move(std::move(img))), use(use)
+    : img(std::move((img))), use(use)
 {
 	// FIXME: Readback from renderer?
 	// FIXME: Disallow multiple locks?

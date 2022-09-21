@@ -11,7 +11,7 @@
 namespace OpenApoc
 {
 
-VehicleSheet::VehicleSheet(sp<Form> destForm) : form(std::move(std::move(destForm))) {}
+VehicleSheet::VehicleSheet(sp<Form> destForm) : form(std::move((destForm))) {}
 
 void VehicleSheet::display(const sp<Vehicle> &vehicle)
 {

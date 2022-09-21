@@ -14,8 +14,7 @@ namespace OpenApoc
 
 RadioButton::RadioButton(sp<RadioButtonGroup> Group, sp<Image> ImageChecked,
                          sp<Image> ImageUnchecked)
-    : CheckBox(std::move(ImageChecked), std::move(ImageUnchecked)),
-      group(std::move(std::move(Group)))
+    : CheckBox(std::move(ImageChecked), std::move(ImageUnchecked)), group(std::move((Group)))
 {
 	isClickable = true;
 }
@@ -92,6 +91,6 @@ void RadioButton::setChecked(bool checked)
 	}
 }
 
-RadioButtonGroup::RadioButtonGroup(UString ID) : ID(std::move(std::move(ID))) {}
+RadioButtonGroup::RadioButtonGroup(UString ID) : ID(std::move((ID))) {}
 
 }; // namespace OpenApoc

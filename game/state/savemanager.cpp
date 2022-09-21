@@ -416,8 +416,7 @@ SaveMetadata::~SaveMetadata() = default;
 ;
 SaveMetadata::SaveMetadata(UString name, UString file, time_t creationDate, SaveType type,
                            const sp<GameState> &gameState)
-    : name(std::move(std::move(name))), file(std::move(std::move(file))),
-      creationDate(creationDate), type(type)
+    : name(std::move((name))), file(std::move((file))), creationDate(creationDate), type(type)
 {
 	if (gameState)
 	{

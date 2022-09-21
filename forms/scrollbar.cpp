@@ -16,7 +16,7 @@ namespace OpenApoc
 
 ScrollBar::ScrollBar(sp<Image> gripperImage)
     : Control(), capture(false), grippersize(1), segmentsize(1),
-      gripperbutton(std::move(std::move(gripperImage))),
+      gripperbutton(std::move((gripperImage))),
       buttonerror(fw().data->loadSample("RAWSOUND:xcom3/rawsound/extra/textbeep.raw:22050")),
       Value(0), BarOrientation(Orientation::Vertical), Minimum(0), Maximum(10),
       RenderStyle(ScrollBarRenderStyle::Menu), GripperColour(220, 192, 192), ScrollChange(1),

@@ -25,8 +25,7 @@ namespace OpenApoc
 {
 
 LocationScreen::LocationScreen(sp<GameState> state, const sp<Agent> &agent)
-    : Stage(), menuform(ui().getForm("city/location")), state(std::move(std::move(state))),
-      agent(agent)
+    : Stage(), menuform(ui().getForm("city/location")), state(std::move((state))), agent(agent)
 {
 	if (agent->currentBuilding)
 	{
@@ -38,8 +37,7 @@ LocationScreen::LocationScreen(sp<GameState> state, const sp<Agent> &agent)
 }
 
 LocationScreen::LocationScreen(sp<GameState> state, const sp<Vehicle> &vehicle)
-    : Stage(), menuform(ui().getForm("city/location")), state(std::move(std::move(state))),
-      vehicle(vehicle)
+    : Stage(), menuform(ui().getForm("city/location")), state(std::move((state))), vehicle(vehicle)
 {
 	if (vehicle->currentBuilding)
 	{

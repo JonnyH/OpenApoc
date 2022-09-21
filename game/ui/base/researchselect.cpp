@@ -28,8 +28,8 @@ namespace OpenApoc
 {
 
 ResearchSelect::ResearchSelect(sp<GameState> state, sp<Lab> lab)
-    : Stage(), form(ui().getForm("researchselect")), lab(std::move(std::move(lab))),
-      state(std::move(std::move(state)))
+    : Stage(), form(ui().getForm("researchselect")), lab(std::move((lab))),
+      state(std::move((state)))
 {
 	progressImage = fw().data->loadImage(format(
 	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:%d:xcom3/ufodata/research.pcx", 63));

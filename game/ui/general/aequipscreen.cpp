@@ -44,7 +44,7 @@ const Vec2<int> AEquipScreen::EQUIP_GRID_SLOT_SIZE{16, 16};
 const Vec2<int> AEquipScreen::EQUIP_GRID_SLOTS{16, 16};
 
 AEquipScreen::AEquipScreen(const sp<GameState> &state, sp<Agent> firstAgent)
-    : Stage(), firstAgent(std::move(std::move(firstAgent))), formMain(ui().getForm("aequipscreen")),
+    : Stage(), firstAgent(std::move((firstAgent))), formMain(ui().getForm("aequipscreen")),
       pal(fw().data->loadPalette("xcom3/ufodata/agenteqp.pcx")), state(state),
       labelFont(ui().getFont("smalfont")), bigUnitRanks(RecruitScreen::getBigUnitRanks())
 {

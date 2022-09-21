@@ -18,7 +18,7 @@ namespace OpenApoc
 {
 
 WeeklyFundingScreen::WeeklyFundingScreen(sp<GameState> state)
-    : Stage(), menuform(ui().getForm("city/weekly_funding")), state(std::move(std::move(state)))
+    : Stage(), menuform(ui().getForm("city/weekly_funding")), state(std::move((state)))
 {
 	labelCurrentIncome = menuform->findControlTyped<Label>("FUNDING_CURRENT");
 	labelRatingDescription = menuform->findControlTyped<Label>("SENATE_RATING");

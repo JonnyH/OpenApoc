@@ -17,9 +17,8 @@ namespace OpenApoc
 {
 
 GraphicButton::GraphicButton(sp<Image> image, sp<Image> imageDepressed, sp<Image> imageHover)
-    : Control(), image(std::move(std::move(image))),
-      imagedepressed(std::move(std::move(imageDepressed))),
-      imagehover(std::move(std::move(imageHover))),
+    : Control(), image(std::move((image))), imagedepressed(std::move((imageDepressed))),
+      imagehover(std::move((imageHover))),
       buttonclick(
           fw().data->loadSample("RAWSOUND:xcom3/rawsound/strategc/intrface/button1.raw:22050"))
 {

@@ -20,9 +20,8 @@ namespace OpenApoc
 MessageBox::MessageBox(const UString &title, const UString &text, ButtonOptions buttons,
                        std::function<void()> callbackYes, std::function<void()> callbackNo,
                        std::function<void()> callbackCancel)
-    : Stage(), callbackYes(std::move(std::move(callbackYes))),
-      callbackNo(std::move(std::move(callbackNo))),
-      callbackCancel(std::move(std::move(callbackCancel)))
+    : Stage(), callbackYes(std::move((callbackYes))), callbackNo(std::move((callbackNo))),
+      callbackCancel(std::move((callbackCancel)))
 {
 	form = mksp<Form>();
 	form->Size = {248, 100};

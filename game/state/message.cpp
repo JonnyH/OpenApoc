@@ -15,7 +15,7 @@ namespace OpenApoc
 const Vec3<int> EventMessage::NO_LOCATION = {-1, -1, -1};
 
 EventMessage::EventMessage(GameTime time, UString text, Vec3<int> location)
-    : time(time), text(std::move(std::move(text))), location(location)
+    : time(time), text(std::move((text))), location(location)
 {
 }
 

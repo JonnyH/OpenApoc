@@ -15,7 +15,7 @@ namespace OpenApoc
 {
 
 Graphic::Graphic(sp<Image> Image)
-    : Control(), image(std::move(std::move(Image))), ImageHAlign(HorizontalAlignment::Left),
+    : Control(), image(std::move((Image))), ImageHAlign(HorizontalAlignment::Left),
       ImageVAlign(VerticalAlignment::Top), ImagePosition(FillMethod::Fit), AutoSize(false)
 {
 }

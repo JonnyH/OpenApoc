@@ -3838,8 +3838,8 @@ Cargo::Cargo(GameState &state, StateRef<VAmmoType> equipment, int count, int pri
 
 Cargo::Cargo(GameState &state, Type type, UString id, int count, int divisor, int space, int cost,
              const StateRef<Organisation> &originalOwner, const StateRef<Building> &destination)
-    : type(type), id(std::move(std::move(id))), count(count), divisor(divisor), space(space),
-      cost(cost), originalOwner(originalOwner), destination(destination)
+    : type(type), id(std::move((id))), count(count), divisor(divisor), space(space), cost(cost),
+      originalOwner(originalOwner), destination(destination)
 {
 	suppressEvents = count == 0;
 	expirationDate = state.gameTime.getTicks() + TICKS_CARGO_TTL;

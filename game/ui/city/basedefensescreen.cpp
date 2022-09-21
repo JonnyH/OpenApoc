@@ -44,8 +44,8 @@ std::shared_future<void> loadBattleBase(const sp<GameState> &state, const StateR
 
 BaseDefenseScreen::BaseDefenseScreen(sp<GameState> state, const StateRef<Base> &base,
                                      const StateRef<Organisation> &attacker)
-    : Stage(), menuform(ui().getForm("city/basedefense")), state(std::move(std::move(state))),
-      base(base), attacker(attacker)
+    : Stage(), menuform(ui().getForm("city/basedefense")), state(std::move((state))), base(base),
+      attacker(attacker)
 {
 }
 

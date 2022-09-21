@@ -18,7 +18,7 @@ namespace OpenApoc
 {
 
 VideoScreen::VideoScreen(const UString &videoPath, sp<Stage> nextScreen)
-    : Stage(), nextScreen(std::move(std::move(nextScreen)))
+    : Stage(), nextScreen(std::move((nextScreen)))
 {
 	if (videoPath != "")
 	{

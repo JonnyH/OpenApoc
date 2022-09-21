@@ -17,7 +17,7 @@ namespace OpenApoc
 
 DiplomaticTreatyScreen::DiplomaticTreatyScreen(sp<GameState> state,
                                                const StateRef<Organisation> &org)
-    : Stage(), menuform(ui().getForm("city/diplomatic_treaty")), state(std::move(std::move(state))),
+    : Stage(), menuform(ui().getForm("city/diplomatic_treaty")), state(std::move((state))),
       organisation(org)
 {
 }

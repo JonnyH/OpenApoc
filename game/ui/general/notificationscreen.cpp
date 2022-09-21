@@ -22,7 +22,7 @@ namespace OpenApoc
 NotificationScreen::NotificationScreen(sp<GameState> state, CityView &cityView,
                                        const UString &message, GameEventType eventType)
     : Stage(), menuform(ui().getForm("notification")), eventType(eventType),
-      state(std::move(std::move(state)))
+      state(std::move((state)))
 {
 	menuform->findControlTyped<Label>("TEXT_NOTIFICATION")->setText(message);
 
@@ -39,7 +39,7 @@ NotificationScreen::NotificationScreen(sp<GameState> state, CityView &cityView,
 NotificationScreen::NotificationScreen(sp<GameState> state, BattleView &battleView,
                                        const UString &message, GameEventType eventType)
     : Stage(), menuform(ui().getForm("notification")), eventType(eventType),
-      state(std::move(std::move(state)))
+      state(std::move((state)))
 {
 	menuform->findControlTyped<Label>("TEXT_NOTIFICATION")->setText(message);
 

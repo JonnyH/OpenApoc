@@ -120,7 +120,7 @@ std::vector<UString> listNames = {tr("Message Toggles"), tr("OpenApoc Features")
 } // namespace
 
 InGameOptions::InGameOptions(sp<GameState> state)
-    : Stage(), menuform(ui().getForm("ingameoptions")), state(std::move(std::move(state)))
+    : Stage(), menuform(ui().getForm("ingameoptions")), state(std::move((state)))
 {
 }
 

@@ -280,8 +280,8 @@ void BattlePreStart::AgentIcon::update() const
 
 BattlePreStart::AgentIcon::AgentIcon(sp<Agent> agent, sp<Control> normalControl,
                                      sp<Control> selectedControl)
-    : agent(std::move(std::move(agent))), normalControl(std::move(std::move(normalControl))),
-      selectedControl(std::move(std::move(selectedControl)))
+    : agent(std::move((agent))), normalControl(std::move((normalControl))),
+      selectedControl(std::move((selectedControl)))
 {
 }
 
