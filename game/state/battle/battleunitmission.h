@@ -127,7 +127,8 @@ class BattleUnitMission
 	static BattleUnitMission *snooze(BattleUnit &u, unsigned int ticks);
 	static BattleUnitMission *acquireTU(BattleUnit &u, bool allowContinue = false);
 	static BattleUnitMission *changeStance(BattleUnit &u, BodyState state);
-	static BattleUnitMission *throwItem(BattleUnit &u, sp<AEquipment> item, Vec3<int> target);
+	static BattleUnitMission *throwItem(BattleUnit &u, const sp<AEquipment> &item,
+	                                    Vec3<int> target);
 	static BattleUnitMission *dropItem(BattleUnit &u, sp<AEquipment> item);
 	static BattleUnitMission *turn(BattleUnit &u, Vec2<int> target, bool free = false,
 	                               bool requireGoal = true);
@@ -138,7 +139,7 @@ class BattleUnitMission
 	static BattleUnitMission *restartNextMission(BattleUnit &u);
 	static BattleUnitMission *reachGoal(BattleUnit &u, int facingDelta = 0);
 	static BattleUnitMission *teleport(BattleUnit &u, sp<AEquipment> item, Vec3<int> target);
-	static BattleUnitMission *brainsuck(BattleUnit &u, StateRef<BattleUnit> target,
+	static BattleUnitMission *brainsuck(BattleUnit &u, const StateRef<BattleUnit> &target,
 	                                    int facingDelta);
 	static BattleUnitMission *jump(BattleUnit &u, Vec3<float> target,
 	                               BodyState state = BodyState::Standing,

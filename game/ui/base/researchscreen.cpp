@@ -22,7 +22,8 @@
 namespace OpenApoc
 {
 
-ResearchScreen::ResearchScreen(sp<GameState> state, sp<Facility> selected_lab) : BaseStage(state)
+ResearchScreen::ResearchScreen(const sp<GameState> &state, const sp<Facility> &selected_lab)
+    : BaseStage(state)
 {
 	form = ui().getForm("researchscreen");
 	arrow = form->findControlTyped<Graphic>("MAGIC_ARROW");

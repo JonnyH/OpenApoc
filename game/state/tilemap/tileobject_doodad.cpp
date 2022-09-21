@@ -41,7 +41,7 @@ void TileObjectDoodad::draw(Renderer &r, TileTransform &transform, Vec2<float> s
 
 TileObjectDoodad::~TileObjectDoodad() = default;
 
-TileObjectDoodad::TileObjectDoodad(TileMap &map, sp<Doodad> doodad)
+TileObjectDoodad::TileObjectDoodad(TileMap &map, const sp<Doodad> &doodad)
     : TileObject(map, Type::Doodad, doodad->voxelMap ? Vec3<float>{1, 1, 1} : Vec3<float>{0, 0, 0}),
       doodad(doodad)
 {

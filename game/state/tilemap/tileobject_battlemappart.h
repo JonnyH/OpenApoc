@@ -35,6 +35,6 @@ class TileObjectBattleMapPart : public TileObject
 
   private:
 	friend class TileMap;
-	TileObjectBattleMapPart(TileMap &map, sp<BattleMapPart> map_part);
+	TileObjectBattleMapPart(TileMap &map, const sp<BattleMapPart> &map_part);
 };
 } // namespace OpenApoc

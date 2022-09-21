@@ -12,12 +12,13 @@
 #include "framework/video.h"
 #include <chrono>
 #include <cmath>
+#include <utility>
 
 namespace OpenApoc
 {
 
 VideoScreen::VideoScreen(const UString &videoPath, sp<Stage> nextScreen)
-    : Stage(), nextScreen(nextScreen)
+    : Stage(), nextScreen(std::move(std::move(nextScreen)))
 {
 	if (videoPath != "")
 	{

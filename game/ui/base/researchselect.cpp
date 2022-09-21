@@ -1,4 +1,7 @@
 #include "game/ui/base/researchselect.h"
+
+#include <utility>
+
 #include "forms/form.h"
 #include "forms/graphic.h"
 #include "forms/graphicbutton.h"
@@ -19,12 +22,14 @@
 #include "game/state/shared/organisation.h"
 #include "game/ui/general/messagebox.h"
 #include "library/strings_format.h"
+#include <utility>
 
 namespace OpenApoc
 {
 
 ResearchSelect::ResearchSelect(sp<GameState> state, sp<Lab> lab)
-    : Stage(), form(ui().getForm("researchselect")), lab(lab), state(state)
+    : Stage(), form(ui().getForm("researchselect")), lab(std::move(std::move(lab))),
+      state(std::move(std::move(state)))
 {
 	progressImage = fw().data->loadImage(format(
 	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:%d:xcom3/ufodata/research.pcx", 63));

@@ -38,7 +38,7 @@ Vec2<float> getDownOffset(int x, int y)
 	return offset_dir_map.at({x, y}) + getProneOffset(x, y);
 }
 
-void extractAnimationPackMultiInternal(sp<BattleUnitAnimationPack> p,
+void extractAnimationPackMultiInternal(const sp<BattleUnitAnimationPack> &p,
                                        const std::vector<AnimationDataAD> &dataAD,
                                        const std::vector<AnimationDataUA> &dataUA,
                                        std::vector<AnimationDataUF> &dataUF, int x, int y,
@@ -130,7 +130,7 @@ void extractAnimationPackMultiInternal(sp<BattleUnitAnimationPack> p,
 }
 
 void InitialGameStateExtractor::extractAnimationPackMulti(
-    sp<BattleUnitAnimationPack> p, const std::vector<AnimationDataAD> &dataAD,
+    const sp<BattleUnitAnimationPack> &p, const std::vector<AnimationDataAD> &dataAD,
     const std::vector<AnimationDataUA> &dataUA, std::vector<AnimationDataUF> &dataUF) const
 {
 	for (int x = -1; x <= 1; x++)

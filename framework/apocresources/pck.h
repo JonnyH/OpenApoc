@@ -12,10 +12,11 @@ class ImageSet;
 class PCKLoader
 {
   public:
-	static sp<ImageSet> load(Data &data, UString PckFilename, UString TabFilename);
-	static sp<ImageSet> loadStrat(Data &data, UString PckFilename, UString TabFilename);
-	static sp<ImageSet> loadShadow(Data &data, UString PckFilename, UString TabFilename,
-	                               unsigned shadedIdx = 244);
+	static sp<ImageSet> load(Data &data, const UString &PckFilename, const UString &TabFilename);
+	static sp<ImageSet> loadStrat(Data &data, const UString &PckFilename,
+	                              const UString &TabFilename);
+	static sp<ImageSet> loadShadow(Data &data, const UString &PckFilename,
+	                               const UString &TabFilename, unsigned shadedIdx = 244);
 };
 
 }; // namespace OpenApoc

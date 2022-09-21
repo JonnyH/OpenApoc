@@ -41,7 +41,7 @@ class ProjectDependencies
 	std::list<ResearchDependency> research;
 	ItemDependency items;
 
-	bool satisfied(StateRef<Base> base) const;
+	bool satisfied(const StateRef<Base> &base) const;
 };
 
 class ResearchTopic : public StateObject<ResearchTopic>
@@ -120,10 +120,11 @@ class Lab : public StateObject<Lab>
 	StateRef<ResearchTopic> current_project;
 	std::list<StateRef<Agent>> assigned_agents;
 
-	static void setResearch(StateRef<Lab> lab, StateRef<ResearchTopic> topic, sp<GameState> state);
+	static void setResearch(StateRef<Lab> lab, StateRef<ResearchTopic> topic,
+	                        const sp<GameState> &state);
 	static void setQuantity(StateRef<Lab> lab, unsigned quantity);
 
-	static void update(unsigned int ticks, StateRef<Lab> lab, sp<GameState> state);
+	static void update(unsigned int ticks, StateRef<Lab> lab, const sp<GameState> &state);
 
 	int getTotalSkill() const;
 	unsigned getQuantity() const;

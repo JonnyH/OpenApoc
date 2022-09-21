@@ -61,7 +61,7 @@ class VEquipScreen : public Stage
 	bool modifierRShift = false;
 
   public:
-	VEquipScreen(sp<GameState> state);
+	VEquipScreen(const sp<GameState> &state);
 	~VEquipScreen() override;
 
 	void begin() override;
@@ -73,7 +73,7 @@ class VEquipScreen : public Stage
 	void render() override;
 	bool isTransition() override;
 
-	void setSelectedVehicle(sp<Vehicle> vehicle);
+	void setSelectedVehicle(const sp<Vehicle> &vehicle);
 	void setHighlightedSlotType(EquipmentSlotType type);
 };
 

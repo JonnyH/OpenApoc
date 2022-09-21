@@ -225,8 +225,8 @@ class Battle : public std::enable_shared_from_this<Battle>
 	               bool useTeleporter = false) const;
 
 	int getLosBlockID(int x, int y, int z) const;
-	bool getVisible(StateRef<Organisation> org, int x, int y, int z) const;
-	void setVisible(StateRef<Organisation> org, int x, int y, int z, bool val = true);
+	bool getVisible(const StateRef<Organisation> &org, int x, int y, int z) const;
+	void setVisible(const StateRef<Organisation> &org, int x, int y, int z, bool val = true);
 
 	// Queue tile for vision update
 	void queueVisionRefresh(Vec3<int> tile);
@@ -237,15 +237,16 @@ class Battle : public std::enable_shared_from_this<Battle>
 	// Notify about action happening
 	void notifyAction(Vec3<int> location = {-1, -1, -1}, StateRef<BattleUnit> actorUnit = nullptr);
 
-	int killStrandedUnits(GameState &state, StateRef<Organisation> org, bool preview = false);
+	int killStrandedUnits(GameState &state, const StateRef<Organisation> &org,
+	                      bool preview = false);
 	void abortMission(GameState &state);
 	void checkMissionEnd(GameState &state, bool retreated, bool forceReCheck = false);
 	void checkIfBuildingDisabled(GameState &state);
 	bool tryDisableBuilding();
-	void refreshLeadershipBonus(StateRef<Organisation> org);
+	void refreshLeadershipBonus(const StateRef<Organisation> &org);
 	void spawnReinforcements(GameState &state);
 
-	void handleProjectileHit(GameState &state, sp<Projectile> projectile, bool displayDoodad,
+	void handleProjectileHit(GameState &state, const sp<Projectile> &projectile, bool displayDoodad,
 	                         bool playSound, bool expired);
 
 	void update(GameState &state, unsigned int ticks);
@@ -263,19 +264,19 @@ class Battle : public std::enable_shared_from_this<Battle>
 	sp<BattleExplosion> addExplosion(GameState &state, Vec3<int> position,
 	                                 StateRef<DoodadType> doodadType,
 	                                 StateRef<DamageType> damageType, int power, int depletionRate,
-	                                 StateRef<Organisation> ownerOrg,
-	                                 StateRef<BattleUnit> ownerUnit = nullptr);
+	                                 const StateRef<Organisation> &ownerOrg,
+	                                 const StateRef<BattleUnit> &ownerUnit = nullptr);
 	sp<BattleDoor> addDoor(GameState &state);
-	sp<Doodad> placeDoodad(StateRef<DoodadType> type, Vec3<float> position);
-	sp<BattleUnit> spawnUnit(GameState &state, StateRef<Organisation> owner,
+	sp<Doodad> placeDoodad(const StateRef<DoodadType> &type, Vec3<float> position);
+	sp<BattleUnit> spawnUnit(GameState &state, const StateRef<Organisation> &owner,
 	                         StateRef<AgentType> agentType, Vec3<float> position,
 	                         Vec2<int> facing = {0, 0}, BodyState curState = BodyState::Standing,
 	                         BodyState tarState = BodyState::Standing);
-	sp<BattleUnit> placeUnit(GameState &state, StateRef<Agent> agent);
-	sp<BattleUnit> placeUnit(GameState &state, StateRef<Agent> agent, Vec3<float> position);
-	sp<BattleItem> placeItem(GameState &state, sp<AEquipment> item, Vec3<float> position);
-	sp<BattleHazard> placeHazard(GameState &state, StateRef<Organisation> owner,
-	                             StateRef<BattleUnit> unit, StateRef<DamageType> type,
+	sp<BattleUnit> placeUnit(GameState &state, const StateRef<Agent> &agent);
+	sp<BattleUnit> placeUnit(GameState &state, const StateRef<Agent> &agent, Vec3<float> position);
+	sp<BattleItem> placeItem(GameState &state, const sp<AEquipment> &item, Vec3<float> position);
+	sp<BattleHazard> placeHazard(GameState &state, const StateRef<Organisation> &owner,
+	                             const StateRef<BattleUnit> &unit, StateRef<DamageType> type,
 	                             Vec3<int> position, int ttl, int power,
 	                             int initialAgeTTLDivizor = 1, bool delayVisibility = true);
 	sp<BattleScanner> addScanner(GameState &state, AEquipment &item);
@@ -292,25 +293,25 @@ class Battle : public std::enable_shared_from_this<Battle>
 	// End current org's turn
 	void endTurn(GameState &state);
 	// Give interrupt chance to hostile units that see this unit
-	void giveInterruptChanceToUnits(GameState &state, StateRef<BattleUnit> giver,
+	void giveInterruptChanceToUnits(GameState &state, const StateRef<BattleUnit> &giver,
 	                                int reactionValue);
 	// Give interrupt chance to a unit
-	void giveInterruptChanceToUnit(GameState &state, StateRef<BattleUnit> giver,
+	void giveInterruptChanceToUnit(GameState &state, const StateRef<BattleUnit> &giver,
 	                               StateRef<BattleUnit> receiver, int reactionValue);
 
 	// Battle Start Functions
 
 	// To be called when battle in a ufo must be created, before showing battle briefing screen
-	static void beginBattle(GameState &state, bool hotseat, StateRef<Organisation> opponent,
+	static void beginBattle(GameState &state, bool hotseat, const StateRef<Organisation> &opponent,
 	                        std::list<StateRef<Agent>> &player_agents,
 	                        const std::map<StateRef<AgentType>, int> *aliens,
-	                        StateRef<Vehicle> player_craft, StateRef<Vehicle> target_craft);
+	                        const StateRef<Vehicle> &player_craft, StateRef<Vehicle> target_craft);
 
 	// To be called when battle in a building must be created, before showing battle briefing screen
-	static void beginBattle(GameState &state, bool hotseat, StateRef<Organisation> opponent,
+	static void beginBattle(GameState &state, bool hotseat, const StateRef<Organisation> &opponent,
 	                        std::list<StateRef<Agent>> &player_agents,
 	                        const std::map<StateRef<AgentType>, int> *aliens, const int *guards,
-	                        const int *civilians, StateRef<Vehicle> player_craft,
+	                        const int *civilians, const StateRef<Vehicle> &player_craft,
 	                        StateRef<Building> target_building);
 
 	// To be called when battle must be started, after briefing and squad assign screen

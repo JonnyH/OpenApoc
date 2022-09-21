@@ -21,8 +21,9 @@ class BattleBriefing : public Stage
 	sp<GameState> state;
 
   public:
-	BattleBriefing(sp<GameState> state, StateRef<Organisation> targetOrg, UString location,
-	               bool isBuilding, bool isRaid, std::shared_future<void> loadingTask);
+	BattleBriefing(const sp<GameState> &state, const StateRef<Organisation> &targetOrg,
+	               UString location, bool isBuilding, bool isRaid,
+	               std::shared_future<void> loadingTask);
 	// Stage control
 	void begin() override;
 	void pause() override;

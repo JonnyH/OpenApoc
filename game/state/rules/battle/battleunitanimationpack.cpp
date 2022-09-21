@@ -46,7 +46,7 @@ const UString &StateObject<BattleUnitAnimationPack>::getId(const GameState &stat
 	return emptyString;
 }
 
-UString BattleUnitAnimationPack::getNameFromID(UString id)
+UString BattleUnitAnimationPack::getNameFromID(const UString &id)
 {
 	static const UString emptyString = "";
 	auto plen = getPrefix().length();
@@ -221,7 +221,7 @@ void BattleUnitAnimationPack::drawShadow(
 	r.draw(shadow->images[b.index], screenPosition - b.offset - shadow->image_offset);
 }
 
-void draw(Renderer &r, sp<Image> sprite, Vec2<float> screenPosition, bool transparent)
+void draw(Renderer &r, const sp<Image> &sprite, Vec2<float> screenPosition, bool transparent)
 {
 	static const Colour COLOUR_TRANSPARENT = {255, 255, 255, 95};
 

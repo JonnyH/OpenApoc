@@ -28,6 +28,7 @@ class UnitAIHelper
 
 	static sp<AIMovement> getTurnMovement(GameState &state, BattleUnit &u, Vec3<int> target);
 
-	static void ensureItemInSlot(GameState &state, sp<AEquipment> item, EquipmentSlotType slot);
+	static void ensureItemInSlot(GameState &state, const sp<AEquipment> &item,
+	                             EquipmentSlotType slot);
 };
 } // namespace OpenApoc

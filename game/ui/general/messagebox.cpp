@@ -1,4 +1,7 @@
 #include "game/ui/general/messagebox.h"
+
+#include <utility>
+
 #include "forms/form.h"
 #include "forms/label.h"
 #include "forms/textbutton.h"
@@ -9,6 +12,7 @@
 #include "framework/keycodes.h"
 #include "framework/renderer.h"
 #include "library/strings_format.h"
+#include <utility>
 
 namespace OpenApoc
 {
@@ -16,7 +20,9 @@ namespace OpenApoc
 MessageBox::MessageBox(const UString &title, const UString &text, ButtonOptions buttons,
                        std::function<void()> callbackYes, std::function<void()> callbackNo,
                        std::function<void()> callbackCancel)
-    : Stage(), callbackYes(callbackYes), callbackNo(callbackNo), callbackCancel(callbackCancel)
+    : Stage(), callbackYes(std::move(std::move(callbackYes))),
+      callbackNo(std::move(std::move(callbackNo))),
+      callbackCancel(std::move(std::move(callbackCancel)))
 {
 	form = mksp<Form>();
 	form->Size = {248, 100};

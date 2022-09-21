@@ -24,8 +24,9 @@ std::vector<UString> supported_languages = {
 static ConfigOptionString outputPath("Extractor", "output",
                                      "Path to the extractor output directory", "./data");
 
-static void extractDifficulty(const InitialGameStateExtractor &e, UString outputPath,
-                              InitialGameStateExtractor::Difficulty difficulty, UString patchPath)
+static void extractDifficulty(const InitialGameStateExtractor &e, const UString &outputPath,
+                              InitialGameStateExtractor::Difficulty difficulty,
+                              const UString &patchPath)
 {
 	GameState s;
 	e.extract(s, difficulty);

@@ -1,4 +1,7 @@
 #include "forms/scrollbar.h"
+
+#include <utility>
+
 #include "dependencies/pugixml/src/pugixml.hpp"
 #include "framework/data.h"
 #include "framework/event.h"
@@ -6,12 +9,14 @@
 #include "framework/image.h"
 #include "framework/renderer.h"
 #include "framework/sound.h"
+#include <utility>
 
 namespace OpenApoc
 {
 
 ScrollBar::ScrollBar(sp<Image> gripperImage)
-    : Control(), capture(false), grippersize(1), segmentsize(1), gripperbutton(gripperImage),
+    : Control(), capture(false), grippersize(1), segmentsize(1),
+      gripperbutton(std::move(std::move(gripperImage))),
       buttonerror(fw().data->loadSample("RAWSOUND:xcom3/rawsound/extra/textbeep.raw:22050")),
       Value(0), BarOrientation(Orientation::Vertical), Minimum(0), Maximum(10),
       RenderStyle(ScrollBarRenderStyle::Menu), GripperColour(220, 192, 192), ScrollChange(1),

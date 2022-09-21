@@ -75,7 +75,7 @@ void TileObjectScenery::draw(Renderer &r, TileTransform &transform, Vec2<float> 
 
 TileObjectScenery::~TileObjectScenery() = default;
 
-TileObjectScenery::TileObjectScenery(TileMap &map, sp<Scenery> scenery)
+TileObjectScenery::TileObjectScenery(TileMap &map, const sp<Scenery> &scenery)
     : TileObject(map, Type::Scenery, Vec3<float>{1, 1, 1}), scenery(scenery)
 {
 }

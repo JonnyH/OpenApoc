@@ -68,44 +68,46 @@ class BattleMap : public StateObject<BattleMap>
 	StateRefMap<BattleMapSector> sectors;
 
   private:
-	static sp<Battle> createBattle(GameState &state, StateRef<Organisation> opponent,
+	static sp<Battle> createBattle(GameState &state, const StateRef<Organisation> &opponent,
 	                               std::list<StateRef<Agent>> &player_agents,
 	                               const std::map<StateRef<AgentType>, int> *aliens,
-	                               StateRef<Vehicle> player_craft, StateRef<Vehicle> target_craft);
+	                               const StateRef<Vehicle> &player_craft,
+	                               StateRef<Vehicle> target_craft);
 
 	static sp<Battle> createBattle(GameState &state, StateRef<Organisation> opponent,
 	                               std::list<StateRef<Agent>> &player_agents,
 	                               const std::map<StateRef<AgentType>, int> *aliens,
 	                               const int *guards, const int *civilians,
-	                               StateRef<Vehicle> player_craft,
+	                               const StateRef<Vehicle> &player_craft,
 	                               StateRef<Building> target_building);
 
-	sp<Battle> createBattle(GameState &state, StateRef<Organisation> propertyOwner,
-	                        StateRef<Organisation> opponent, std::list<StateRef<Agent>> &agents,
-	                        StateRef<Vehicle> player_craft, Battle::MissionType mission_type,
-	                        UString mission_location_id);
+	sp<Battle> createBattle(GameState &state, const StateRef<Organisation> &propertyOwner,
+	                        const StateRef<Organisation> &opponent,
+	                        std::list<StateRef<Agent>> &agents,
+	                        const StateRef<Vehicle> &player_craft, Battle::MissionType mission_type,
+	                        const UString &mission_location_id);
 
 	bool generateMap(std::vector<sp<BattleMapSector>> &sec_map, Vec3<int> &size, GameState &state,
 	                 GenerationSize genSize);
 
 	bool generateBase(std::vector<sp<BattleMapSector>> &sec_map, Vec3<int> &size, GameState &state,
-	                  UString mission_location_id);
+	                  const UString &mission_location_id);
 
 	sp<Battle> fillMap(std::vector<std::list<std::pair<Vec3<int>, sp<BattleMapPart>>>> &doors,
 	                   bool &spawnCivilians, std::vector<sp<BattleMapSector>> sec_map,
 	                   Vec3<int> size, GameState &state, StateRef<Organisation> propertyOwner,
 	                   StateRef<Organisation> target_organisation,
-	                   std::list<StateRef<Agent>> &agents, StateRef<Vehicle> player_craft,
+	                   std::list<StateRef<Agent>> &agents, const StateRef<Vehicle> &player_craft,
 	                   Battle::MissionType mission_type, UString mission_location_id);
 
-	void linkDoors(sp<Battle> b,
+	void linkDoors(const sp<Battle> &b,
 	               std::vector<std::list<std::pair<Vec3<int>, sp<BattleMapPart>>>> doors,
 	               GameState &state);
 
-	void fillSquads(sp<Battle> b, bool spawnCivilians, GameState &state,
+	void fillSquads(const sp<Battle> &b, bool spawnCivilians, GameState &state,
 	                std::list<StateRef<Agent>> &agents);
 
-	void initNewMap(sp<Battle> b);
+	void initNewMap(const sp<Battle> &b);
 
 	void unloadTiles();
 

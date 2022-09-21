@@ -23,7 +23,8 @@ void TileObject::setBounds(Vec3<float> bounds)
 	this->bounds_div_2 = bounds / 2.0f;
 }
 
-void TileObject::drawTinted(Renderer &r, sp<Image> sprite, Vec2<float> position, bool visible)
+void TileObject::drawTinted(Renderer &r, const sp<Image> &sprite, Vec2<float> position,
+                            bool visible)
 {
 	if (visible)
 	{

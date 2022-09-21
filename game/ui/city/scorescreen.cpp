@@ -16,7 +16,7 @@
 
 namespace OpenApoc
 {
-ScoreScreen::ScoreScreen(sp<GameState> state, bool showWeeklyUpkeep)
+ScoreScreen::ScoreScreen(const sp<GameState> &state, bool showWeeklyUpkeep)
     : Stage(), menuform(ui().getForm("city/score")), state(state), isWeeklyUpkeep(showWeeklyUpkeep)
 {
 	menuform->findControlTyped<Label>("TEXT_FUNDS")->setText(state->getPlayerBalance());

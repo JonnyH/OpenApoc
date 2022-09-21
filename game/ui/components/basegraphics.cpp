@@ -140,7 +140,7 @@ void BaseGraphics::renderBase(Vec2<int> renderPos, const Base &base)
 }
 
 sp<RGBImage> BaseGraphics::drawMiniBase(const Base &base, FacilityHighlight highlight,
-                                        sp<Facility> selected)
+                                        const sp<Facility> &selected)
 {
 	auto minibase = mksp<RGBImage>(Vec2<unsigned int>{32, 32});
 
@@ -219,7 +219,7 @@ sp<RGBImage> BaseGraphics::drawMiniBase(const Base &base, FacilityHighlight high
 	return minibase;
 }
 
-sp<RGBImage> BaseGraphics::drawMinimap(sp<GameState> state, const Building &selected)
+sp<RGBImage> BaseGraphics::drawMinimap(const sp<GameState> &state, const Building &selected)
 {
 	// FIXME: add city ref to building
 	auto city = state->cities["CITYMAP_HUMAN"];

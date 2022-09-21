@@ -47,13 +47,13 @@ class Framework
 	std::unique_ptr<SoundBackend> soundBackend;
 	std::unique_ptr<JukeBox> jukebox;
 
-	Framework(UString programName, bool createWindow = true);
+	Framework(const UString &programName, bool createWindow = true);
 	~Framework();
 
 	static Framework &getInstance();
 	static Framework *tryGetInstance();
 
-	void run(sp<Stage> initialStage);
+	void run(const sp<Stage> &initialStage);
 	void processEvents();
 	/* PushEvent() take ownership of the Event, and will delete it after use*/
 	void pushEvent(up<Event> e);
@@ -68,8 +68,8 @@ class Framework
 	int displayGetWidth();
 	int displayGetHeight();
 	Vec2<int> displayGetSize();
-	void displaySetTitle(UString NewTitle);
-	void displaySetIcon(sp<RGBImage> icon);
+	void displaySetTitle(const UString &NewTitle);
+	void displaySetIcon(const sp<RGBImage> &icon);
 	bool displayHasWindow() const;
 	void *getWindowHandle() const;
 
@@ -83,7 +83,7 @@ class Framework
 
 	sp<Stage> stageGetCurrent();
 	sp<Stage> stageGetPrevious();
-	sp<Stage> stageGetPrevious(sp<Stage> From);
+	sp<Stage> stageGetPrevious(const sp<Stage> &From);
 
 	void stageQueueCommand(const StageCmd &cmd);
 
@@ -99,7 +99,7 @@ class Framework
 
 	UString textGetClipboard();
 
-	void threadPoolTaskEnqueue(std::function<void()> task);
+	void threadPoolTaskEnqueue(const std::function<void()> &task);
 	// add new work item to the pool
 	template <class F, class... Args>
 	auto threadPoolEnqueue(F &&f, Args &&...args)

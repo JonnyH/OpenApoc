@@ -39,7 +39,7 @@ class VoxelMap
 	const Vec3<int> &getCentre();
 
 	bool getBit(Vec3<int> pos) const;
-	void setSlice(int z, sp<VoxelSlice> slice);
+	void setSlice(int z, const sp<VoxelSlice> &slice);
 	void calculateCentre();
 
 	const Vec3<int> &getSize() const { return this->size; }

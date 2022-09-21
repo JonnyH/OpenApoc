@@ -10,7 +10,7 @@
 namespace OpenApoc
 {
 
-void extractAnimationPackMicroInternal(sp<BattleUnitAnimationPack> p, int x, int y,
+void extractAnimationPackMicroInternal(const sp<BattleUnitAnimationPack> &p, int x, int y,
                                        const InitialGameStateExtractor &e)
 {
 	// Units per 100 frames
@@ -38,7 +38,8 @@ void extractAnimationPackMicroInternal(sp<BattleUnitAnimationPack> p, int x, int
 	    e.makeUpAnimationEntry(0, 15, 0, 0, 1, {0, 0}, wFrames);
 }
 
-void InitialGameStateExtractor::extractAnimationPackMicro(sp<BattleUnitAnimationPack> p) const
+void InitialGameStateExtractor::extractAnimationPackMicro(
+    const sp<BattleUnitAnimationPack> &p) const
 {
 	for (int x = -1; x <= 1; x++)
 	{

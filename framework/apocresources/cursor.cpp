@@ -9,7 +9,7 @@
 namespace OpenApoc
 {
 
-ApocCursor::ApocCursor(sp<Palette> pal) : cursorPos{0, 0}
+ApocCursor::ApocCursor(const sp<Palette> &pal) : cursorPos{0, 0}
 {
 	auto f = fw().data->fs.open("xcom3/tacdata/mouse.dat");
 	if (!f)

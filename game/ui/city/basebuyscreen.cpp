@@ -23,7 +23,7 @@
 namespace OpenApoc
 {
 
-BaseBuyScreen::BaseBuyScreen(sp<GameState> state, sp<Building> building)
+BaseBuyScreen::BaseBuyScreen(const sp<GameState> &state, const sp<Building> &building)
     : Stage(), form(ui().getForm("city/basebuy")), state(state)
 {
 	Vec2<int> const size = building->bounds.size();

@@ -94,7 +94,7 @@ void TileObjectBattleMapPart::removeFromMap()
 }
 TileObjectBattleMapPart::~TileObjectBattleMapPart() { map_part = nullptr; }
 
-TileObjectBattleMapPart::TileObjectBattleMapPart(TileMap &map, sp<BattleMapPart> map_part)
+TileObjectBattleMapPart::TileObjectBattleMapPart(TileMap &map, const sp<BattleMapPart> &map_part)
 
     : TileObject(map, convertType(map_part->type->type), Vec3<float>{1.0f, 1.0f, 1.0f}),
       map_part(map_part)

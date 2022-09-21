@@ -32,7 +32,7 @@ class Ticker : public Control
 	HorizontalAlignment TextHAlign;
 	VerticalAlignment TextVAlign;
 
-	Ticker(sp<BitmapFont> font = nullptr);
+	Ticker(const sp<BitmapFont> &font = nullptr);
 	~Ticker() override;
 
 	void eventOccured(Event *e) override;

@@ -1,4 +1,5 @@
 #include "game/ui/skirmish/mapselector.h"
+
 #include "forms/form.h"
 #include "forms/graphicbutton.h"
 #include "forms/label.h"
@@ -20,11 +21,12 @@
 #include "game/ui/tileview/battleview.h"
 #include "game/ui/tileview/cityview.h"
 #include "library/strings_format.h"
+#include <utility>
 
 namespace OpenApoc
 {
 
-MapSelector::MapSelector(sp<GameState> state, Skirmish &skirmish)
+MapSelector::MapSelector(const sp<GameState> &state, Skirmish &skirmish)
     : Stage(), menuform(ui().getForm("mapselector")), skirmish(skirmish)
 {
 	menuform->findControlTyped<Label>("TEXT_FUNDS")->setText(state->getPlayerBalance());
@@ -53,7 +55,8 @@ MapSelector::MapSelector(sp<GameState> state, Skirmish &skirmish)
 
 MapSelector::~MapSelector() = default;
 
-sp<Control> MapSelector::createMapRowBuilding(StateRef<Building> building, sp<GameState> state)
+sp<Control> MapSelector::createMapRowBuilding(StateRef<Building> building,
+                                              const sp<GameState> &state)
 {
 	auto control = mksp<Control>();
 
@@ -102,12 +105,13 @@ sp<Control> MapSelector::createMapRowVehicle(StateRef<VehicleType> vehicle, sp<G
 		auto btnLocation = control->createChild<GraphicButton>(btnImage, btnImage);
 		btnLocation->Location = text->Location + Vec2<int>{text->Size.x, 0};
 		btnLocation->Size = {22, HEIGHT};
-		btnLocation->addCallback(FormEventType::ButtonClick,
-		                         [vehicle, state, this](Event *)
-		                         {
-			                         skirmish.setLocation(vehicle);
-			                         fw().stageQueueCommand({StageCmd::Command::POP});
-		                         });
+		btnLocation->addCallback(
+		    FormEventType::ButtonClick,
+		    [vehicle, state, this](Event *) // NOLINT (performance-unnecessary-value-param)
+		    {
+			    skirmish.setLocation(vehicle);
+			    fw().stageQueueCommand({StageCmd::Command::POP});
+		    });
 	}
 
 	return control;
@@ -132,7 +136,7 @@ sp<Control> MapSelector::createMapRowBase(StateRef<Base> base, sp<GameState> sta
 		btnLocation->Location = text->Location + Vec2<int>{text->Size.x, 0};
 		btnLocation->Size = {22, HEIGHT};
 		btnLocation->addCallback(FormEventType::ButtonClick,
-		                         [base, state, this](Event *)
+		                         [base, state, this](Event *) // NOLINT
 		                         {
 			                         skirmish.setLocation(base);
 			                         fw().stageQueueCommand({StageCmd::Command::POP});

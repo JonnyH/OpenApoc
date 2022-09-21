@@ -30,26 +30,27 @@ class Skirmish : public Stage
 	void clearLocation();
 	void updateLocationLabel();
 
-	void battleInBuilding(bool hotseat, StateRef<Base> playerBase, StateRef<Building> building,
-	                      bool raid, bool customAliens, std::map<StateRef<AgentType>, int> aliens,
-	                      bool customGuards, int guards, bool customCivilians, int civilians,
-	                      int score);
+	void battleInBuilding(bool hotseat, const StateRef<Base> &playerBase,
+	                      StateRef<Building> building, bool raid, bool customAliens,
+	                      std::map<StateRef<AgentType>, int> aliens, bool customGuards, int guards,
+	                      bool customCivilians, int civilians, int score);
 	void battleInBase(bool hotseat, StateRef<Base> base, bool customAliens,
 	                  std::map<StateRef<AgentType>, int> aliens, int score);
-	void battleInVehicle(bool hotseat, StateRef<Base> playerBase, StateRef<VehicleType>,
+	void battleInVehicle(bool hotseat, const StateRef<Base> &playerBase, StateRef<VehicleType>,
 	                     bool customAliens, std::map<StateRef<AgentType>, int> aliens, int score);
 
   public:
-	Skirmish(sp<GameState> state);
+	Skirmish(const sp<GameState> &state);
 	~Skirmish() override;
 
 	UString getLocationText();
 
-	void setLocation(StateRef<Building> building);
-	void setLocation(StateRef<VehicleType> veh);
-	void setLocation(StateRef<Base> base);
+	void setLocation(const StateRef<Building> &building);
+	void setLocation(const StateRef<VehicleType> &veh);
+	void setLocation(const StateRef<Base> &base);
 
-	void goToBattle(bool customAliens = false, std::map<StateRef<AgentType>, int> aliens = {},
+	void goToBattle(bool customAliens = false,
+	                const std::map<StateRef<AgentType>, int> &aliens = {},
 	                bool customGuards = false, int guards = 0, bool customCivilians = false,
 	                int civilians = 0);
 	void customizeForces(bool force = false);

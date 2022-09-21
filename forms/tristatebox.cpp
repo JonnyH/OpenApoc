@@ -1,4 +1,7 @@
 #include "forms/tristatebox.h"
+
+#include <utility>
+
 #include "dependencies/pugixml/src/pugixml.hpp"
 #include "framework/data.h"
 #include "framework/event.h"
@@ -7,11 +10,13 @@
 #include "framework/renderer.h"
 #include "framework/sound.h"
 #include "library/sp.h"
+#include <utility>
 
 namespace OpenApoc
 {
 TriStateBox::TriStateBox(sp<Image> Image1, sp<Image> Image2, sp<Image> Image3)
-    : Control(), image1(Image1), image2(Image2), image3(Image3),
+    : Control(), image1(std::move(std::move(Image1))), image2(std::move(std::move(Image2))),
+      image3(std::move(std::move(Image3))),
       buttonclick(
           fw().data->loadSample("RAWSOUND:xcom3/rawsound/strategc/intrface/button1.raw:22050")),
       State(1)

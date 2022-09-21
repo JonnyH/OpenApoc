@@ -29,7 +29,7 @@ class Label : public Control
 	bool WordWrap;
 	Colour Tint{255, 255, 255, 255};
 
-	Label(const UString &Text = "", sp<BitmapFont> font = nullptr);
+	Label(UString Text = "", const sp<BitmapFont> &font = nullptr);
 	~Label() override;
 
 	void eventOccured(Event *e) override;
@@ -40,7 +40,7 @@ class Label : public Control
 	void setText(const UString &Text);
 
 	sp<BitmapFont> getFont() const;
-	void setFont(sp<BitmapFont> NewFont);
+	void setFont(const sp<BitmapFont> &NewFont);
 
 	sp<Control> copyTo(sp<Control> CopyParent) override;
 	void configureSelfFromXml(pugi::xml_node *node) override;

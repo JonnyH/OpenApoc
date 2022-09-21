@@ -105,8 +105,8 @@ class Organisation : public StateObject<Organisation>
 		StateRef<Building> target;
 
 		RaidMission() = default;
-		RaidMission(uint64_t when, OrganisationRaid::Type type, StateRef<Building> building);
-		void execute(GameState &state, StateRef<City> city, StateRef<Organisation> owner);
+		RaidMission(uint64_t when, OrganisationRaid::Type type, const StateRef<Building> &building);
+		void execute(GameState &state, const StateRef<City> &city, StateRef<Organisation> owner);
 	};
 
 	UString id;
@@ -145,7 +145,7 @@ class Organisation : public StateObject<Organisation>
 
 	Organisation() = default;
 
-	void setRaidMissions(GameState &state, StateRef<City> city);
+	void setRaidMissions(GameState &state, const StateRef<City> &city);
 	void updateMissions(GameState &state);
 	void updateHirableAgents(GameState &state);
 	void updateInfiltration(GameState &state);
@@ -155,7 +155,7 @@ class Organisation : public StateObject<Organisation>
 	float updateRelations(StateRef<Organisation> &playerOrg);
 
 	int getGuardCount(GameState &state) const;
-	StateRef<Building> pickRandomBuilding(GameState &state, StateRef<City> city) const;
+	StateRef<Building> pickRandomBuilding(GameState &state, const StateRef<City> &city) const;
 
 	void takeOver(GameState &state, bool forced = false);
 
@@ -163,13 +163,13 @@ class Organisation : public StateObject<Organisation>
 	                               bool vehicle) const;
 	StateRef<Building> getPurchaseBuilding(GameState &state, const StateRef<Building> &buyer) const;
 	void purchase(GameState &state, const StateRef<Building> &buyer,
-	              StateRef<VEquipmentType> vehicleEquipment, int count) const;
+	              const StateRef<VEquipmentType> &vehicleEquipment, int count) const;
 	void purchase(GameState &state, const StateRef<Building> &buyer,
-	              StateRef<VAmmoType> vehicleAmmo, int count) const;
+	              const StateRef<VAmmoType> &vehicleAmmo, int count) const;
 	void purchase(GameState &state, const StateRef<Building> &buyer,
 	              StateRef<AEquipmentType> agentEquipment, int count) const;
 	void purchase(GameState &state, const StateRef<Building> &buyer,
-	              StateRef<VehicleType> vehicleType, int count) const;
+	              const StateRef<VehicleType> &vehicleType, int count) const;
 
 	Relation isRelatedTo(const StateRef<Organisation> &other) const;
 	bool isPositiveTo(const StateRef<Organisation> &other) const;

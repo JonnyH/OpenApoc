@@ -103,7 +103,7 @@ class Agent : public StateObject<Agent>,
 	void assignTraining(TrainingAssignment assignment);
 
 	void hire(GameState &state, StateRef<Building> newHome);
-	void transfer(GameState &state, StateRef<Building> newHome);
+	void transfer(GameState &state, const StateRef<Building> &newHome);
 
 	sp<AEquipment> getArmor(BodyPart bodyPart) const;
 	bool isBodyStateAllowed(BodyState bodyState) const;
@@ -148,10 +148,10 @@ class Agent : public StateObject<Agent>,
 	std::list<sp<AEquipment>> equipment;
 	bool canAddEquipment(Vec2<int> pos, StateRef<AEquipmentType> equipmentType,
 	                     EquipmentSlotType &slotType) const;
-	bool canAddEquipment(Vec2<int> pos, StateRef<AEquipmentType> equipmentType) const;
+	bool canAddEquipment(Vec2<int> pos, const StateRef<AEquipmentType> &equipmentType) const;
 	Vec2<int> findFirstSlotByType(EquipmentSlotType slotType,
-	                              StateRef<AEquipmentType> equipmentType = nullptr);
-	Vec2<int> findFirstSlot(StateRef<AEquipmentType> equipmentType = nullptr);
+	                              const StateRef<AEquipmentType> &equipmentType = nullptr);
+	Vec2<int> findFirstSlot(const StateRef<AEquipmentType> &equipmentType = nullptr);
 	// Add equipment by type to the first available slot of any type
 	sp<AEquipment> addEquipmentByType(GameState &state, StateRef<AEquipmentType> equipmentType,
 	                                  bool allowFailure);
@@ -165,10 +165,10 @@ class Agent : public StateObject<Agent>,
 	sp<AEquipment> addEquipmentAsAmmoByType(StateRef<AEquipmentType> equipmentType);
 
 	// Add equipment to the first available slot of a specific type
-	void addEquipment(GameState &state, sp<AEquipment> object, EquipmentSlotType slotType);
+	void addEquipment(GameState &state, const sp<AEquipment> &object, EquipmentSlotType slotType);
 	// Add equipment to a specific position
-	void addEquipment(GameState &state, Vec2<int> pos, sp<AEquipment> object);
-	void removeEquipment(GameState &state, sp<AEquipment> object);
+	void addEquipment(GameState &state, Vec2<int> pos, const sp<AEquipment> &object);
+	void removeEquipment(GameState &state, const sp<AEquipment> &object);
 	void updateSpeed();
 	// Called when current stats were changed and modified stats need to catch up
 	void updateModifiedStats();
@@ -178,9 +178,9 @@ class Agent : public StateObject<Agent>,
 	bool isBrainsucker = false;
 
 	// Adds mission to list of missions, returns true if successful
-	bool addMission(GameState &state, AgentMission mission, bool toBack = false);
+	bool addMission(GameState &state, const AgentMission &mission, bool toBack = false);
 	// Replaces all missions with provided mission, returns true if successful
-	bool setMission(GameState &state, AgentMission mission);
+	bool setMission(GameState &state, const AgentMission &mission);
 
 	// Pops all finished missions, returns true if popped
 	bool popFinishedMissions(GameState &state);
@@ -209,10 +209,10 @@ class Agent : public StateObject<Agent>,
 	// removed
 	StateRef<AEquipmentType>
 	getDominantItemInHands(GameState &state,
-	                       StateRef<AEquipmentType> itemLastFired = nullptr) const;
+	                       const StateRef<AEquipmentType> &itemLastFired = nullptr) const;
 	sp<AEquipment> getFirstItemInSlot(EquipmentSlotType equipmentSlotType, bool lazy = true) const;
 	sp<AEquipment> getFirstShield(GameState &state) const;
-	sp<AEquipment> getFirstItemByType(StateRef<AEquipmentType> equipmentType) const;
+	sp<AEquipment> getFirstItemByType(const StateRef<AEquipmentType> &equipmentType) const;
 	sp<AEquipment> getFirstItemByType(AEquipmentType::Type itemType) const;
 
 	StateRef<BattleUnitImagePack> getImagePack(BodyPart bodyPart) const;
@@ -245,7 +245,7 @@ class AgentGenerator
 	std::list<UString> second_names;
 
 	// Create an agent of specified role
-	StateRef<Agent> createAgent(GameState &state, StateRef<Organisation> org,
+	StateRef<Agent> createAgent(GameState &state, const StateRef<Organisation> &org,
 	                            AgentType::Role role) const;
 	// Create an agent of specified type
 	StateRef<Agent> createAgent(GameState &state, StateRef<Organisation> org,

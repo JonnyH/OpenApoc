@@ -47,7 +47,7 @@ class TileObjectBattleUnit : public TileObject
 	std::weak_ptr<BattleUnit> unit;
 	std::list<sp<Image>>::iterator animationFrame;
 
-	TileObjectBattleUnit(TileMap &map, sp<BattleUnit> unit);
+	TileObjectBattleUnit(TileMap &map, const sp<BattleUnit> &unit);
 };
 
 } // namespace OpenApoc

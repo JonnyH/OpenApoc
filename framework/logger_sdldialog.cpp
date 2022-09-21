@@ -17,7 +17,7 @@ LogFunction previousFunction; // To allow chaining log functions
 std::atomic<SDL_Window *> parentWindow = nullptr;
 LogLevel dialogLogLevel = LogLevel::Nothing;
 
-void SDLDialogLogFunction(LogLevel level, UString prefix, const UString &text)
+void SDLDialogLogFunction(LogLevel level, const UString &prefix, const UString &text)
 {
 	previousFunction(level, prefix, text);
 	if (level > dialogLogLevel)

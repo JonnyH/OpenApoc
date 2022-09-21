@@ -44,7 +44,7 @@ const UString &StateObject<BattleUnitImagePack>::getId(const GameState &state,
 	return emptyString;
 }
 
-UString BattleUnitImagePack::getNameFromID(UString id)
+UString BattleUnitImagePack::getNameFromID(const UString &id)
 {
 	static const UString emptyString = "";
 	if (id.length() == 0)

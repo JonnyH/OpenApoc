@@ -225,7 +225,7 @@ class BattleUnitAnimationPack : public StateObject<BattleUnitAnimationPack>
 	bool saveAnimationPack(const UString &path, bool pack = true, bool pretty = false) const;
 
 	// Function used when getting file path
-	static UString getNameFromID(UString id);
+	static UString getNameFromID(const UString &id);
 
 	static UString getAnimationPackPath();
 };

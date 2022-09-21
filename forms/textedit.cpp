@@ -1,4 +1,5 @@
 #include "forms/textedit.h"
+
 #include "dependencies/pugixml/src/pugixml.hpp"
 #include "forms/ui.h"
 #include "framework/event.h"
@@ -10,11 +11,12 @@
 #include "library/sp.h"
 #include "library/strings.h"
 #include "library/strings_format.h"
+#include <utility>
 
 namespace OpenApoc
 {
 
-TextEdit::TextEdit(const UString &Text, sp<BitmapFont> font)
+TextEdit::TextEdit(const UString &Text, const sp<BitmapFont> &font)
     : Control(), caretDraw(false), caretTimer(0), text(to_u32string(Text)), cursor("*"), font(font),
       editing(false), SelectionStart(Text.length()), TextHAlign(HorizontalAlignment::Left),
       TextVAlign(VerticalAlignment::Centre)
@@ -255,7 +257,7 @@ sp<BitmapFont> TextEdit::getFont() const { return font; }
 
 void TextEdit::setFont(sp<BitmapFont> NewFont)
 {
-	font = NewFont;
+	font = std::move(NewFont);
 	this->setDirty();
 }
 

@@ -175,7 +175,7 @@ class AEquipmentType : public StateObject<AEquipmentType>
 
 	std::map<StateRef<AgentType>, int> spawnList;
 
-	bool canBeUsed(GameState &state, StateRef<Organisation> user) const;
+	bool canBeUsed(GameState &state, const StateRef<Organisation> &user) const;
 };
 
 class EquipmentSet : public StateObject<EquipmentSet>
@@ -189,8 +189,9 @@ class EquipmentSet : public StateObject<EquipmentSet>
 		int clip_amount = 0;
 
 		WeaponData() = default;
-		WeaponData(StateRef<AEquipmentType> weapon) : WeaponData(weapon, nullptr, 0) {}
-		WeaponData(StateRef<AEquipmentType> weapon, StateRef<AEquipmentType> clip, int clip_amount)
+		WeaponData(const StateRef<AEquipmentType> &weapon) : WeaponData(weapon, nullptr, 0) {}
+		WeaponData(const StateRef<AEquipmentType> &weapon, const StateRef<AEquipmentType> &clip,
+		           int clip_amount)
 		    : weapon(weapon), clip(clip), clip_amount(clip_amount)
 		{
 		}
@@ -202,7 +203,7 @@ class EquipmentSet : public StateObject<EquipmentSet>
 		int grenade_amount = 0;
 
 		GrenadeData() = default;
-		GrenadeData(StateRef<AEquipmentType> grenade, int grenade_amount)
+		GrenadeData(const StateRef<AEquipmentType> &grenade, int grenade_amount)
 		    : grenade(grenade), grenade_amount(grenade_amount)
 		{
 		}
@@ -212,8 +213,8 @@ class EquipmentSet : public StateObject<EquipmentSet>
 	  public:
 		std::list<StateRef<AEquipmentType>> equipment;
 		EquipmentData() = default;
-		EquipmentData(StateRef<AEquipmentType> item) : EquipmentData(item, nullptr) {}
-		EquipmentData(StateRef<AEquipmentType> item1, StateRef<AEquipmentType> item2)
+		EquipmentData(const StateRef<AEquipmentType> &item) : EquipmentData(item, nullptr) {}
+		EquipmentData(const StateRef<AEquipmentType> &item1, const StateRef<AEquipmentType> &item2)
 		{
 			if (item1.id.length() > 0)
 				equipment.push_back(item1);
@@ -248,8 +249,8 @@ class EquipmentTemplate
 		StateRef<AEquipmentType> payloadType;
 
 		EquipmentTemplateEntry() = default;
-		EquipmentTemplateEntry(Vec2<int> pos, StateRef<AEquipmentType> type,
-		                       StateRef<AEquipmentType> payloadType)
+		EquipmentTemplateEntry(Vec2<int> pos, const StateRef<AEquipmentType> &type,
+		                       const StateRef<AEquipmentType> &payloadType)
 		    : pos(pos), type(type), payloadType(payloadType)
 		{
 		}

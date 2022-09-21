@@ -7,6 +7,7 @@
 #include <iostream>
 #include <sstream>
 #include <thread>
+#include <utility>
 
 // We can't just use 'using namespace OpenApoc;' as:
 // On windows VS it says
@@ -19,8 +20,8 @@ My (JonnyH) assumption is that some part of the system library is defining some 
 std::shared_ptr<SomeInternalConcurrencyType>, but it resolves to our OpenApoc operator== instead.
 */
 
-bool test_gamestate_serialization_roundtrip(OpenApoc::sp<OpenApoc::GameState> state,
-                                            OpenApoc::UString save_name)
+bool test_gamestate_serialization_roundtrip(const OpenApoc::sp<OpenApoc::GameState> &state,
+                                            const OpenApoc::UString &save_name)
 {
 	if (!state->saveGame(save_name))
 	{
@@ -49,15 +50,15 @@ bool test_gamestate_serialization_roundtrip(OpenApoc::sp<OpenApoc::GameState> st
 	return true;
 }
 
-bool test_gamestate_serialization(OpenApoc::sp<OpenApoc::GameState> state)
+bool test_gamestate_serialization(const OpenApoc::sp<OpenApoc::GameState> &state)
 {
 
 	std::stringstream ss;
 	ss << "openapoc_test_serialize-" << std::this_thread::get_id();
 	auto tempPath = fs::temp_directory_path() / ss.str();
-	OpenApoc::UString const pathString(tempPath.string());
+	OpenApoc::UString const &pathString(tempPath.string());
 	LogInfo("Writing temp state to \"%s\"", pathString);
-	if (!test_gamestate_serialization_roundtrip(state, pathString))
+	if (!test_gamestate_serialization_roundtrip(std::move(state), pathString))
 	{
 		LogWarning("Packed save test failed");
 		return false;

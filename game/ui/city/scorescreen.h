@@ -33,7 +33,7 @@ class ScoreScreen : public Stage
 	void setFinanceMode();
 
   public:
-	ScoreScreen(sp<GameState> state, bool showWeeklyUpkeep = false);
+	ScoreScreen(const sp<GameState> &state, bool showWeeklyUpkeep = false);
 	~ScoreScreen() override;
 
 	// Stage control

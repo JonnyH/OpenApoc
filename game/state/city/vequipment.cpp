@@ -131,8 +131,8 @@ bool VEquipment::fire(GameState &state, Vec3<float> targetPosition, Vec3<float> 
 	return true;
 }
 
-bool VEquipment::fire(GameState &state, Vec3<float> targetPosition, StateRef<Vehicle> targetVehicle,
-                      bool manual)
+bool VEquipment::fire(GameState &state, Vec3<float> targetPosition,
+                      const StateRef<Vehicle> &targetVehicle, bool manual)
 {
 	return fire(state, targetPosition, targetPosition, targetVehicle, manual);
 }

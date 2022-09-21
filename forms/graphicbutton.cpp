@@ -1,4 +1,7 @@
 #include "forms/graphicbutton.h"
+
+#include <utility>
+
 #include "dependencies/pugixml/src/pugixml.hpp"
 #include "forms/scrollbar.h"
 #include "framework/data.h"
@@ -8,12 +11,15 @@
 #include "framework/renderer.h"
 #include "framework/sound.h"
 #include "library/sp.h"
+#include <utility>
 
 namespace OpenApoc
 {
 
 GraphicButton::GraphicButton(sp<Image> image, sp<Image> imageDepressed, sp<Image> imageHover)
-    : Control(), image(image), imagedepressed(imageDepressed), imagehover(imageHover),
+    : Control(), image(std::move(std::move(image))),
+      imagedepressed(std::move(std::move(imageDepressed))),
+      imagehover(std::move(std::move(imageHover))),
       buttonclick(
           fw().data->loadSample("RAWSOUND:xcom3/rawsound/strategc/intrface/button1.raw:22050"))
 {
@@ -119,13 +125,13 @@ void GraphicButton::unloadResources()
 
 sp<Sample> GraphicButton::getClickSound() const { return buttonclick; }
 
-void GraphicButton::setClickSound(sp<Sample> sample) { buttonclick = sample; }
+void GraphicButton::setClickSound(sp<Sample> sample) { buttonclick = std::move(sample); }
 
 sp<Image> GraphicButton::getImage() const { return image; }
 
 void GraphicButton::setImage(sp<Image> Image)
 {
-	image = Image;
+	image = std::move(Image);
 	this->setDirty();
 }
 
@@ -133,7 +139,7 @@ sp<Image> GraphicButton::getDepressedImage() const { return imagedepressed; }
 
 void GraphicButton::setDepressedImage(sp<Image> Image)
 {
-	imagedepressed = Image;
+	imagedepressed = std::move(Image);
 	this->setDirty();
 }
 
@@ -141,7 +147,7 @@ sp<Image> GraphicButton::getHoverImage() const { return imagehover; }
 
 void GraphicButton::setHoverImage(sp<Image> Image)
 {
-	imagehover = Image;
+	imagehover = std::move(Image);
 	this->setDirty();
 }
 

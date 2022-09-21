@@ -49,7 +49,8 @@ void Log(LogLevel level, UString prefix, const UString &text);
 #define NORETURN_FUNCTION __attribute__((noreturn))
 #endif
 
-NORETURN_FUNCTION void _logAssert(UString prefix, UString string, int line, UString file);
+NORETURN_FUNCTION void _logAssert(UString prefix, const UString &string, int line,
+                                  const UString &file);
 
 /* Returns if the log level will be output (either to file or stderr or both) */
 static inline bool logLevelEnabled(LogLevel level [[maybe_unused]])

@@ -1,15 +1,19 @@
 #include "game/ui/general/aequipmentsheet.h"
+
+#include <utility>
+
 #include "forms/graphic.h"
 #include "forms/label.h"
 #include "game/state/gamestate.h"
 #include "game/state/rules/battle/damage.h"
+#include <utility>
 
 namespace OpenApoc
 {
 
-AEquipmentSheet::AEquipmentSheet(sp<Form> dstForm) : form(dstForm) {}
+AEquipmentSheet::AEquipmentSheet(sp<Form> dstForm) : form(std::move(std::move(dstForm))) {}
 
-void AEquipmentSheet::display(sp<AEquipment> item, bool researched)
+void AEquipmentSheet::display(const sp<AEquipment> &item, bool researched)
 {
 	clear();
 	displayImplementation(item, *item->type, researched);
@@ -41,8 +45,8 @@ void AEquipmentSheet::clear()
 	}
 }
 
-void AEquipmentSheet::displayImplementation(sp<AEquipment> item, const AEquipmentType &itemType,
-                                            bool researched)
+void AEquipmentSheet::displayImplementation(const sp<AEquipment> &item,
+                                            const AEquipmentType &itemType, bool researched)
 {
 	if (!researched)
 	{
@@ -96,7 +100,7 @@ void AEquipmentSheet::displayImplementation(sp<AEquipment> item, const AEquipmen
 	}
 }
 
-void AEquipmentSheet::displayGrenade(sp<AEquipment> item [[maybe_unused]],
+void AEquipmentSheet::displayGrenade(const sp<AEquipment> &item [[maybe_unused]],
                                      const AEquipmentType &itemType)
 {
 	form->findControlTyped<Label>("LABEL_2_C")->setText(itemType.damage_type->name);
@@ -105,7 +109,7 @@ void AEquipmentSheet::displayGrenade(sp<AEquipment> item [[maybe_unused]],
 	form->findControlTyped<Label>("LABEL_3_R")->setText(format("%d", itemType.damage));
 }
 
-void AEquipmentSheet::displayAmmo(sp<AEquipment> item, const AEquipmentType &itemType)
+void AEquipmentSheet::displayAmmo(const sp<AEquipment> &item, const AEquipmentType &itemType)
 {
 	form->findControlTyped<Label>("LABEL_2_L")->setText(tr("Accuracy"));
 	form->findControlTyped<Label>("LABEL_2_R")->setText(format("%d", itemType.accuracy));
@@ -133,7 +137,7 @@ void AEquipmentSheet::displayAmmo(sp<AEquipment> item, const AEquipmentType &ite
 	}
 }
 
-void AEquipmentSheet::displayWeapon(sp<AEquipment> item [[maybe_unused]],
+void AEquipmentSheet::displayWeapon(const sp<AEquipment> &item [[maybe_unused]],
                                     const AEquipmentType &itemType)
 {
 	if (itemType.ammo_types.empty())
@@ -165,7 +169,7 @@ void AEquipmentSheet::displayWeapon(sp<AEquipment> item [[maybe_unused]],
 	}
 }
 
-void AEquipmentSheet::displayArmor(sp<AEquipment> item, const AEquipmentType &itemType)
+void AEquipmentSheet::displayArmor(const sp<AEquipment> &item, const AEquipmentType &itemType)
 {
 	form->findControlTyped<Label>("LABEL_2_L")->setText(tr("Protection"));
 	form->findControlTyped<Label>("LABEL_2_R")
@@ -173,12 +177,12 @@ void AEquipmentSheet::displayArmor(sp<AEquipment> item, const AEquipmentType &it
 	                   : format("%d", itemType.armor));
 }
 
-void AEquipmentSheet::displayOther(sp<AEquipment> item [[maybe_unused]],
+void AEquipmentSheet::displayOther(const sp<AEquipment> &item [[maybe_unused]],
                                    const AEquipmentType &itemType [[maybe_unused]])
 {
 }
 
-void AEquipmentSheet::displayAlien(sp<AEquipment> item, const AEquipmentType &itemType)
+void AEquipmentSheet::displayAlien(const sp<AEquipment> &item, const AEquipmentType &itemType)
 {
 	form->findControlTyped<Label>("ITEM_NAME")
 	    ->setText(itemType.bioStorage ? tr("Alien Organism") : tr("Alien Artifact"));

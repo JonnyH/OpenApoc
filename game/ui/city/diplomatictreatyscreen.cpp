@@ -1,4 +1,7 @@
 #include "game/ui/city/diplomatictreatyscreen.h"
+
+#include <utility>
+
 #include "forms/form.h"
 #include "forms/label.h"
 #include "forms/ui.h"
@@ -7,12 +10,15 @@
 #include "framework/keycodes.h"
 #include "game/state/gamestate.h"
 #include "game/state/shared/organisation.h"
+#include <utility>
 
 namespace OpenApoc
 {
 
-DiplomaticTreatyScreen::DiplomaticTreatyScreen(sp<GameState> state, StateRef<Organisation> org)
-    : Stage(), menuform(ui().getForm("city/diplomatic_treaty")), state(state), organisation(org)
+DiplomaticTreatyScreen::DiplomaticTreatyScreen(sp<GameState> state,
+                                               const StateRef<Organisation> &org)
+    : Stage(), menuform(ui().getForm("city/diplomatic_treaty")), state(std::move(std::move(state))),
+      organisation(org)
 {
 }
 

@@ -1,4 +1,7 @@
 #include "game/ui/components/locationscreen.h"
+
+#include <utility>
+
 #include "forms/form.h"
 #include "forms/graphic.h"
 #include "forms/label.h"
@@ -16,12 +19,14 @@
 #include "game/ui/components/agentassignment.h"
 #include "game/ui/general/aequipscreen.h"
 #include "library/strings_format.h"
+#include <utility>
 
 namespace OpenApoc
 {
 
-LocationScreen::LocationScreen(sp<GameState> state, sp<Agent> agent)
-    : Stage(), menuform(ui().getForm("city/location")), state(state), agent(agent)
+LocationScreen::LocationScreen(sp<GameState> state, const sp<Agent> &agent)
+    : Stage(), menuform(ui().getForm("city/location")), state(std::move(std::move(state))),
+      agent(agent)
 {
 	if (agent->currentBuilding)
 	{
@@ -32,8 +37,9 @@ LocationScreen::LocationScreen(sp<GameState> state, sp<Agent> agent)
 	    fw().data->loadImage("xcom3/ufodata/location.pcx"));
 }
 
-LocationScreen::LocationScreen(sp<GameState> state, sp<Vehicle> vehicle)
-    : Stage(), menuform(ui().getForm("city/location")), state(state), vehicle(vehicle)
+LocationScreen::LocationScreen(sp<GameState> state, const sp<Vehicle> &vehicle)
+    : Stage(), menuform(ui().getForm("city/location")), state(std::move(std::move(state))),
+      vehicle(vehicle)
 {
 	if (vehicle->currentBuilding)
 	{

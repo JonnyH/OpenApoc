@@ -22,8 +22,8 @@ class UI
 	UI();
 	~UI();
 
-	sp<Form> getForm(UString ID);
-	sp<BitmapFont> getFont(UString FontData);
+	sp<Form> getForm(const UString &ID);
+	sp<BitmapFont> getFont(const UString &FontData);
 
 	std::vector<UString> getFormIDs();
 

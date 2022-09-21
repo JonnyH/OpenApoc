@@ -26,12 +26,13 @@
 #include "game/ui/general/transactioncontrol.h"
 #include "game/ui/general/vehiclesheet.h"
 #include <array>
+#include <utility>
 
 namespace OpenApoc
 {
 
 TransactionScreen::TransactionScreen(sp<GameState> state, bool forceLimits)
-    : BaseStage(state), forceLimits(forceLimits)
+    : BaseStage(std::move(state)), forceLimits(forceLimits)
 {
 	// Load resources
 	form = ui().getForm("transactionscreen");

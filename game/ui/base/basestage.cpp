@@ -1,4 +1,7 @@
 #include "game/ui/base/basestage.h"
+
+#include <utility>
+
 #include "forms/form.h"
 #include "forms/graphicbutton.h"
 #include "forms/label.h"
@@ -8,12 +11,14 @@
 #include "game/state/city/base.h"
 #include "game/state/gamestate.h"
 #include "library/strings_format.h"
+#include <utility>
 
 namespace OpenApoc
 {
 
 BaseStage::BaseStage(sp<GameState> state)
-    : Stage(), viewHighlight(BaseGraphics::FacilityHighlight::None), state(state)
+    : Stage(), viewHighlight(BaseGraphics::FacilityHighlight::None),
+      state(std::move(std::move(state)))
 {
 }
 

@@ -81,7 +81,7 @@ bool Control::isPointInsideControlBounds(int x, int y) const
 	       y < resolvedLocation.y + Size.y;
 }
 
-bool Control::isPointInsideControlBounds(Event *e, sp<Control> c) const
+bool Control::isPointInsideControlBounds(Event *e, const sp<Control> &c) const
 {
 	if (!e || !c)
 	{
@@ -822,7 +822,7 @@ void Control::unloadResources() {}
 
 sp<Control> Control::operator[](int Index) const { return Controls.at(Index); }
 
-sp<Control> Control::findControl(UString ID) const
+sp<Control> Control::findControl(const UString &ID) const
 {
 	for (auto c = Controls.begin(); c != Controls.end(); c++)
 	{
@@ -838,7 +838,7 @@ sp<Control> Control::findControl(UString ID) const
 	return nullptr;
 }
 
-bool Control::replaceChildByName(sp<Control> ctrl)
+bool Control::replaceChildByName(const sp<Control> &ctrl)
 {
 	for (auto c = Controls.begin(); c != Controls.end(); c++)
 	{
@@ -875,7 +875,7 @@ sp<Form> Control::getForm()
 	return std::dynamic_pointer_cast<Form>(c);
 }
 
-void Control::setParent(sp<Control> Parent)
+void Control::setParent(const sp<Control> &Parent)
 {
 	if (Parent)
 	{
@@ -890,7 +890,7 @@ void Control::setParent(sp<Control> Parent)
 	owningControl = Parent;
 }
 
-void Control::setParent(sp<Control> Parent, int position)
+void Control::setParent(const sp<Control> &Parent, int position)
 {
 	if (Parent)
 	{
@@ -905,7 +905,7 @@ void Control::setParent(sp<Control> Parent, int position)
 	owningControl = Parent;
 }
 
-sp<Control> Control::getAncestor(sp<Control> Parent)
+sp<Control> Control::getAncestor(const sp<Control> &Parent)
 {
 	sp<Control> ancestor = shared_from_this();
 	while (ancestor != nullptr)
@@ -1028,7 +1028,7 @@ sp<Control> Control::copyTo(sp<Control> CopyParent)
 	return copy;
 }
 
-void Control::copyControlData(sp<Control> CopyOf)
+void Control::copyControlData(const sp<Control> &CopyOf)
 {
 	lastCopiedTo = CopyOf;
 
@@ -1176,7 +1176,7 @@ void Control::triggerEventCallbacks(FormsEvent *e)
 	}
 }
 
-void Control::addCallback(FormEventType event, std::function<void(FormsEvent *e)> callback)
+void Control::addCallback(FormEventType event, const std::function<void(FormsEvent *e)> &callback)
 {
 	this->callbacks[event].push_back(callback);
 }

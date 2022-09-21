@@ -23,6 +23,7 @@
 #include "game/ui/components/controlgenerator.h"
 #include "game/ui/general/aequipscreen.h"
 #include <cmath>
+#include <utility>
 
 namespace OpenApoc
 {
@@ -30,9 +31,11 @@ const UString AgentAssignment::AGENT_SELECT_BOX("AGENT_SELECT_BOX");
 const UString AgentAssignment::AGENT_LIST_NAME("AGENT_LIST");
 const UString AgentAssignment::VEHICLE_LIST_NAME("VEHICLE_LIST");
 
-AgentAssignment::AgentAssignment(sp<GameState> state) : Form(), state(state) {}
+AgentAssignment::AgentAssignment(sp<GameState> state) : Form(), state(std::move(std::move(state)))
+{
+}
 
-void AgentAssignment::init(sp<Form> form, Vec2<int> location, Vec2<int> size)
+void AgentAssignment::init(const sp<Form> &form, Vec2<int> location, Vec2<int> size)
 {
 	form->copyControlData(shared_from_this());
 	Location = location;
@@ -42,7 +45,7 @@ void AgentAssignment::init(sp<Form> form, Vec2<int> location, Vec2<int> size)
 	draggedList->setVisible(false);
 
 	// update the vehicle's icon
-	funcVehicleUpdate = [this](sp<Control> c)
+	funcVehicleUpdate = [this](const sp<Control> &c)
 	{
 		if (auto vehicle = c->getData<Vehicle>())
 		{
@@ -56,7 +59,7 @@ void AgentAssignment::init(sp<Form> form, Vec2<int> location, Vec2<int> size)
 	};
 
 	// update the agent's icon
-	funcAgentUpdate = [this](sp<Control> c)
+	funcAgentUpdate = [this](const sp<Control> &c)
 	{
 		if (!c->isVisible())
 		{
@@ -76,7 +79,7 @@ void AgentAssignment::init(sp<Form> form, Vec2<int> location, Vec2<int> size)
 	};
 
 	// select/deselect individual agent
-	funcHandleAgentSelection = [this](Event *e, sp<Control> c, bool select)
+	funcHandleAgentSelection = [this](Event *e, const sp<Control> &c, bool select)
 	{
 		if (!e)
 			return select;
@@ -101,7 +104,7 @@ void AgentAssignment::init(sp<Form> form, Vec2<int> location, Vec2<int> size)
 	};
 
 	// select/deselect agents inside vehicle
-	funcHandleVehicleSelection = [this](Event *e, sp<Control> c, bool select)
+	funcHandleVehicleSelection = [this](Event *e, const sp<Control> &c, bool select)
 	{
 		if (!e)
 			return select;
@@ -135,21 +138,21 @@ void AgentAssignment::init(sp<Form> form, Vec2<int> location, Vec2<int> size)
 	};
 
 	// Selection render
-	funcSelectionItemRender = [this](sp<Control> c)
+	funcSelectionItemRender = [this](const sp<Control> &c)
 	{
 		fw().renderer->drawRect(c->Location + renderOffset, c->SelectionSize - renderOffset,
 		                        SelectedColour);
 	};
 
 	// Hover render
-	funcHoverItemRender = [this](sp<Control> c)
+	funcHoverItemRender = [this](const sp<Control> &c)
 	{
 		fw().renderer->drawRect(c->Location + renderOffset, c->SelectionSize - renderOffset,
 		                        HoverColour);
 	};
 }
 
-void AgentAssignment::setLocation(sp<Agent> agent)
+void AgentAssignment::setLocation(const sp<Agent> &agent)
 {
 	this->agent = agent;
 	this->vehicle = agent->currentVehicle;
@@ -163,7 +166,7 @@ void AgentAssignment::setLocation(sp<Agent> agent)
 	updateLocation();
 }
 
-void AgentAssignment::setLocation(sp<Vehicle> vehicle)
+void AgentAssignment::setLocation(const sp<Vehicle> &vehicle)
 {
 	this->agent = nullptr;
 	this->vehicle = vehicle;
@@ -176,7 +179,7 @@ void AgentAssignment::setLocation(sp<Building> building)
 {
 	this->agent = nullptr;
 	this->vehicle = nullptr;
-	this->building = building;
+	this->building = std::move(building);
 
 	updateLocation();
 }
@@ -378,7 +381,7 @@ void AgentAssignment::updateLocation()
 		agentLeftList->ItemSpacing = agentSelectBox->ItemSpacing;
 		// set visibility filter
 		agentLeftList->setFuncIsVisibleItem(
-		    [](sp<Control> c)
+		    [](const sp<Control> &c)
 		    {
 			    auto agent = c->getData<Agent>();
 			    bool const visible =
@@ -465,7 +468,7 @@ void AgentAssignment::updateLocation()
 	}
 }
 
-void AgentAssignment::addAgentsToList(sp<MultilistBox> list, const int listOffset)
+void AgentAssignment::addAgentsToList(const sp<MultilistBox> &list, const int listOffset)
 {
 	for (auto &a : agents)
 	{
@@ -477,7 +480,7 @@ void AgentAssignment::addAgentsToList(sp<MultilistBox> list, const int listOffse
 	}
 }
 
-void AgentAssignment::addVehiclesToList(sp<MultilistBox> list, const int listOffset)
+void AgentAssignment::addVehiclesToList(const sp<MultilistBox> &list, const int listOffset)
 {
 	const int offset = 20;
 	for (auto &v : vehicles)
@@ -527,7 +530,7 @@ void AgentAssignment::addVehiclesToList(sp<MultilistBox> list, const int listOff
 		agentRightList->ItemSpacing = list->ItemSpacing;
 		// set visibility filter
 		agentRightList->setFuncIsVisibleItem(
-		    [](sp<Control> c)
+		    [](const sp<Control> &c)
 		    {
 			    auto agent = c->getData<Agent>();
 			    bool const visible =
@@ -556,12 +559,13 @@ void AgentAssignment::addVehiclesToList(sp<MultilistBox> list, const int listOff
 	}
 }
 
-void AgentAssignment::addBuildingToRightList(sp<Building> building, sp<MultilistBox> list,
-                                             const int listOffset)
+void AgentAssignment::addBuildingToRightList(const sp<Building> &building,
+                                             const sp<MultilistBox> &list, const int listOffset)
 {
 	const int offset = 20;
 
-	auto buildingControl = ControlGenerator::createBuildingAssignmentControl(*state, building);
+	auto buildingControl =
+	    ControlGenerator::createBuildingAssignmentControl(*state, std::move(building));
 	buildingControl->Size.x -= listOffset;
 	buildingControl->SelectionSize.x -= listOffset;
 	list->addItem(buildingControl);
@@ -573,7 +577,7 @@ void AgentAssignment::addBuildingToRightList(sp<Building> building, sp<Multilist
 	vehicleRightList->ItemSpacing = list->ItemSpacing;
 	// set visibility filter
 	vehicleRightList->setFuncIsVisibleItem(
-	    [](sp<Control> c)
+	    [](const sp<Control> &c)
 	    {
 		    auto vehicle = c->getData<Vehicle>();
 		    bool const visible =

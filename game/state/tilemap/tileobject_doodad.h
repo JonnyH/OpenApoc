@@ -29,7 +29,7 @@ class TileObjectDoodad : public TileObject
 
   private:
 	friend class TileMap;
-	TileObjectDoodad(TileMap &map, sp<Doodad> doodad);
+	TileObjectDoodad(TileMap &map, const sp<Doodad> &doodad);
 };
 
 } // namespace OpenApoc

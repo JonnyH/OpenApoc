@@ -19,7 +19,7 @@ class BattleDebriefing : public Stage
 	sp<GameState> state;
 
   public:
-	BattleDebriefing(sp<GameState> state);
+	BattleDebriefing(const sp<GameState> &state);
 	// Stage control
 	void begin() override;
 	void pause() override;

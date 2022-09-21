@@ -16,6 +16,7 @@
 #include "library/sp.h"
 #include <iomanip>
 #include <sstream>
+#include <utility>
 
 #ifdef _MSC_VER
 // msvs reports level 3 warning 4996 - std::localtime is unsafe
@@ -28,7 +29,7 @@ const UString existingSaveItemId = "EXISTING_SAVE_SLOT";
 const UString newSaveItemId = "NEW_SAVE_SLOT";
 
 SaveMenu::SaveMenu(SaveMenuAction saveMenuAction, sp<GameState> state)
-    : Stage(), menuform(ui().getForm("savemenu")), currentState(state),
+    : Stage(), menuform(ui().getForm("savemenu")), currentState(std::move(std::move(state))),
       currentAction(saveMenuAction)
 {
 	activeTextEdit = nullptr;
@@ -165,7 +166,7 @@ void SaveMenu::resume() {}
 
 void SaveMenu::finish() {}
 
-void SaveMenu::clearTextEdit(sp<TextEdit> textEdit)
+void SaveMenu::clearTextEdit(const sp<TextEdit> &textEdit)
 {
 	auto e = OpenApoc::FormsEvent();
 	e.forms().RaisedBy = textEdit->shared_from_this();
@@ -186,7 +187,7 @@ void SaveMenu::clearTextEdit(sp<TextEdit> textEdit)
 	activeTextEdit = nullptr;
 }
 
-void SaveMenu::beginEditing(sp<TextEdit> textEdit, sp<TextEdit> activeTextEdit)
+void SaveMenu::beginEditing(const sp<TextEdit> &textEdit, const sp<TextEdit> &activeTextEdit)
 {
 	if (activeTextEdit != nullptr)
 	{
@@ -220,7 +221,7 @@ void SaveMenu::beginEditing(sp<TextEdit> textEdit, sp<TextEdit> activeTextEdit)
 	}
 }
 
-void SaveMenu::loadWithWarning(sp<Control> parent)
+void SaveMenu::loadWithWarning(const sp<Control> &parent)
 {
 	if (parent->Name == existingSaveItemId)
 	{
@@ -256,7 +257,7 @@ void SaveMenu::loadWithWarning(sp<Control> parent)
 	}
 }
 
-void SaveMenu::tryToLoadGame(sp<Control> slotControl)
+void SaveMenu::tryToLoadGame(const sp<Control> &slotControl)
 {
 	if (slotControl->Name == existingSaveItemId)
 	{
@@ -282,7 +283,7 @@ void SaveMenu::tryToLoadGame(sp<Control> slotControl)
 	}
 }
 
-void SaveMenu::tryToSaveGame(const UString &saveName, sp<Control> parent)
+void SaveMenu::tryToSaveGame(const UString &saveName, const sp<Control> &parent)
 {
 	if (parent->Name == newSaveItemId)
 	{

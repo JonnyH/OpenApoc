@@ -85,12 +85,12 @@ class AEquipScreen : public Stage
 	bool modifierRShift = false;
 
 	// Checks whether agent should be displayed in the agent list
-	bool checkAgent(sp<Agent> agent, sp<Organisation> owner);
+	bool checkAgent(const sp<Agent> &agent, const sp<Organisation> &owner);
 	void updateAgents();
-	void updateAgentControl(sp<Agent> agent);
+	void updateAgentControl(const sp<Agent> &agent);
 
-	void displayAgent(sp<Agent> agent);
-	void displayItem(sp<AEquipment> item);
+	void displayAgent(const sp<Agent> &agent);
+	void displayItem(const sp<AEquipment> &item);
 
 	Mode getMode();
 
@@ -101,45 +101,45 @@ class AEquipScreen : public Stage
 	void populateInventoryItemsBuilding();
 	void populateInventoryItemsAgent();
 
-	void removeItemFromInventory(sp<AEquipment> item);
-	void removeItemFromInventoryBase(sp<AEquipment> item);
-	void removeItemFromInventoryBattle(sp<AEquipment> item);
-	void removeItemFromInventoryVehicle(sp<AEquipment> item);
-	void removeItemFromInventoryBuilding(sp<AEquipment> item);
-	void removeItemFromInventoryAgent(sp<AEquipment> item);
+	void removeItemFromInventory(const sp<AEquipment> &item);
+	void removeItemFromInventoryBase(const sp<AEquipment> &item);
+	void removeItemFromInventoryBattle(const sp<AEquipment> &item);
+	void removeItemFromInventoryVehicle(const sp<AEquipment> &item);
+	void removeItemFromInventoryBuilding(const sp<AEquipment> &item);
+	void removeItemFromInventoryAgent(const sp<AEquipment> &item);
 
-	void addItemToInventory(sp<AEquipment> item);
-	void addItemToInventoryBase(sp<AEquipment> item);
-	void addItemToInventoryBattle(sp<AEquipment> item);
-	void addItemToInventoryVehicle(sp<AEquipment> item);
-	void addItemToInventoryBuilding(sp<AEquipment> item);
-	void addItemToInventoryAgent(sp<AEquipment> item);
+	void addItemToInventory(const sp<AEquipment> &item);
+	void addItemToInventoryBase(const sp<AEquipment> &item);
+	void addItemToInventoryBattle(const sp<AEquipment> &item);
+	void addItemToInventoryVehicle(const sp<AEquipment> &item);
+	void addItemToInventoryBuilding(const sp<AEquipment> &item);
+	void addItemToInventoryAgent(const sp<AEquipment> &item);
 
 	// Try pick up item from agent's slot
 	// if alternative and forced is set then only do alternative or none at all
-	bool tryPickUpItem(sp<Agent> agent, Vec2<int> slotPos, bool alternative,
+	bool tryPickUpItem(const sp<Agent> &agent, Vec2<int> slotPos, bool alternative,
 	                   bool *alienArtifact = nullptr, bool forced = false);
 	bool tryPickUpItem(Vec2<int> inventoryPos, bool *alienArtifact = nullptr);
 	bool tryPickUpItem(const AEquipmentType &item);
 	void pickUpItem(sp<AEquipment> item);
-	bool tryPlaceItem(sp<Agent> agent, Vec2<int> slotPos, bool *insufficientTU = nullptr,
+	bool tryPlaceItem(const sp<Agent> &agent, Vec2<int> slotPos, bool *insufficientTU = nullptr,
 	                  bool *alienArtifact = nullptr);
-	bool tryPlaceItem(sp<Agent> agent, bool toAgent, bool *insufficientTU = nullptr);
+	bool tryPlaceItem(const sp<Agent> &agent, bool toAgent, bool *insufficientTU = nullptr);
 
 	void processTemplate(int idx, bool remember);
 
 	void attemptCloseScreen();
 	void closeScreen();
 
-	bool isInVicinity(sp<Agent> agent);
-	StateRef<Building> getAgentBuilding(sp<Agent> agent);
-	StateRef<Vehicle> getAgentVehicle(sp<Agent> agent);
-	StateRef<Base> getAgentBase(sp<Agent> agent);
+	bool isInVicinity(const sp<Agent> &agent);
+	StateRef<Building> getAgentBuilding(const sp<Agent> &agent);
+	StateRef<Vehicle> getAgentVehicle(const sp<Agent> &agent);
+	StateRef<Base> getAgentBase(const sp<Agent> &agent);
 
 	bool isTurnBased() const;
 
   public:
-	AEquipScreen(sp<GameState> state, sp<Agent> firstAgent = nullptr);
+	AEquipScreen(const sp<GameState> &state, sp<Agent> firstAgent = nullptr);
 	~AEquipScreen() override;
 
 	void begin() override;
@@ -155,7 +155,7 @@ class AEquipScreen : public Stage
 	void handleItemPlacement(Vec2<int> mousePos);
 	void handleItemPlacement(bool toAgent);
 
-	void selectAgent(sp<Agent> agent, bool inverse = false, bool additive = false);
+	void selectAgent(const sp<Agent> &agent, bool inverse = false, bool additive = false);
 
 	void updateFirstAgent();
 };

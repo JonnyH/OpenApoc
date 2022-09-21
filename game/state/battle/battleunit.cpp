@@ -25,6 +25,7 @@
 #include <cmath>
 #include <glm/glm.hpp>
 #include <glm/gtx/vector_angle.hpp>
+#include <utility>
 
 namespace OpenApoc
 {
@@ -808,7 +809,7 @@ int BattleUnit::getAttackCost(GameState &state, AEquipment &item, Vec3<int> tile
 	return totalCost;
 }
 
-void BattleUnit::setFocus(GameState &state, StateRef<BattleUnit> unit)
+void BattleUnit::setFocus(GameState &state, const StateRef<BattleUnit> &unit)
 {
 	StateRef<BattleUnit> const sru = {&state, id};
 	if (focusUnit)
@@ -949,14 +950,16 @@ void BattleUnit::stopAttacking()
 	ticksUntillNextTargetCheck = 0;
 }
 
-WeaponStatus BattleUnit::canAttackUnit(GameState &state, sp<BattleUnit> unit)
+WeaponStatus BattleUnit::canAttackUnit(GameState &state, const sp<BattleUnit> &unit)
 {
-	return canAttackUnit(state, unit, agent->getFirstItemInSlot(EquipmentSlotType::RightHand),
+	return canAttackUnit(state, std::move(unit),
+	                     agent->getFirstItemInSlot(EquipmentSlotType::RightHand),
 	                     agent->getFirstItemInSlot(EquipmentSlotType::LeftHand));
 }
 
-WeaponStatus BattleUnit::canAttackUnit(GameState &state, sp<BattleUnit> unit,
-                                       sp<AEquipment> rightHand, sp<AEquipment> leftHand)
+WeaponStatus BattleUnit::canAttackUnit(GameState &state, const sp<BattleUnit> &unit,
+                                       const sp<AEquipment> &rightHand,
+                                       const sp<AEquipment> &leftHand)
 {
 	bool const realTime = state.current_battle->mode == Battle::Mode::RealTime;
 	auto targetPosition = unit->tileObject->getVoxelCentrePosition();
@@ -987,7 +990,7 @@ WeaponStatus BattleUnit::canAttackUnit(GameState &state, sp<BattleUnit> unit,
 	return WeaponStatus::NotFiring;
 }
 
-bool BattleUnit::hasLineToUnit(const sp<BattleUnit> unit, bool useLOS) const
+bool BattleUnit::hasLineToUnit(const sp<BattleUnit> &unit, bool useLOS) const
 {
 	auto muzzleLocation = getMuzzleLocation();
 	auto targetPosition = unit->tileObject->getVoxelCentrePosition();
@@ -1025,7 +1028,7 @@ bool BattleUnit::hasLineToPosition(Vec3<float> targetPosition, bool useLOS) cons
 }
 
 int BattleUnit::getPsiChanceForEquipment(StateRef<BattleUnit> target, PsiStatus status,
-                                         StateRef<AEquipmentType> item)
+                                         const StateRef<AEquipmentType> &item)
 {
 	if (status == PsiStatus::NotEngaged)
 	{
@@ -1054,8 +1057,8 @@ int BattleUnit::getPsiChanceForEquipment(StateRef<BattleUnit> target, PsiStatus 
 	                          target->agent->modified_stats.psi_defence, status);
 }
 
-bool BattleUnit::startAttackPsi(GameState &state, StateRef<BattleUnit> target, PsiStatus status,
-                                StateRef<AEquipmentType> item)
+bool BattleUnit::startAttackPsi(GameState &state, const StateRef<BattleUnit> &target,
+                                PsiStatus status, const StateRef<AEquipmentType> &item)
 {
 	bool const realTime = state.current_battle->mode == Battle::Mode::RealTime;
 	if (agent->modified_stats.psi_energy < getPsiCost(status))
@@ -1085,7 +1088,7 @@ bool BattleUnit::startAttackPsi(GameState &state, StateRef<BattleUnit> target, P
 }
 
 bool BattleUnit::startAttackPsiInternal(GameState &state, StateRef<BattleUnit> target,
-                                        PsiStatus status, StateRef<AEquipmentType> item)
+                                        PsiStatus status, const StateRef<AEquipmentType> &item)
 {
 	if (agent->getAnimationPack()->useFiringAnimationForPsi)
 	{
@@ -1121,7 +1124,7 @@ bool BattleUnit::startAttackPsiInternal(GameState &state, StateRef<BattleUnit> t
 }
 
 void BattleUnit::applyPsiAttack(GameState &state, BattleUnit &attacker, PsiStatus status,
-                                StateRef<AEquipmentType> item, bool impact)
+                                const StateRef<AEquipmentType> &item, bool impact)
 {
 	std::ignore = item;
 	bool const realTime = state.current_battle->mode == Battle::Mode::RealTime;
@@ -1156,14 +1159,14 @@ void BattleUnit::applyPsiAttack(GameState &state, BattleUnit &attacker, PsiStatu
 					if (agent->modified_stats.morale == 0)
 					{
 						std::set<UString> panickers;
-						for (auto attacker : psiAttackers)
+						for (const auto &attacker : psiAttackers)
 						{
 							if (attacker.second == PsiStatus::Panic)
 							{
 								panickers.emplace(attacker.first);
 							}
 						}
-						for (auto s : panickers)
+						for (const auto &s : panickers)
 						{
 							StateRef<BattleUnit>(&state, s)->stopAttackPsi(state);
 						}
@@ -1226,7 +1229,7 @@ void BattleUnit::stopAttackPsi(GameState &state)
 	ticksAccumulatedToNextPsiCheck = 0;
 }
 
-void BattleUnit::changeOwner(GameState &state, StateRef<Organisation> newOwner)
+void BattleUnit::changeOwner(GameState &state, const StateRef<Organisation> &newOwner)
 {
 	if (owner == newOwner)
 	{
@@ -1560,7 +1563,7 @@ void BattleUnit::addFatalWound(BodyPart fatalWoundPart) { fatalWounds[fatalWound
 
 void BattleUnit::applyDamageDirect(GameState &state, int damage, bool generateFatalWounds,
                                    BodyPart fatalWoundPart, int stunPower,
-                                   StateRef<BattleUnit> attacker, bool violent)
+                                   const StateRef<BattleUnit> &attacker, bool violent)
 {
 
 	// Just a blank value for checks (if equal to this means no event)
@@ -4541,7 +4544,7 @@ void BattleUnit::dropDown(GameState &state)
 	// Drop all armor after going down
 	if (agent->type->inventory)
 	{
-		for (auto e : agent->equipment)
+		for (const auto &e : agent->equipment)
 		{
 			if (e->type->type == AEquipmentType::Type::Armor)
 			{
@@ -5053,7 +5056,7 @@ bool BattleUnit::useBrainsucker(GameState &state)
 	return false;
 }
 
-bool BattleUnit::useItem(GameState &state, sp<AEquipment> item)
+bool BattleUnit::useItem(GameState &state, const sp<AEquipment> &item)
 {
 	if (item->ownerAgent != agent || (item->equippedSlotType != EquipmentSlotType::RightHand &&
 	                                  item->equippedSlotType != EquipmentSlotType::LeftHand))
@@ -5437,7 +5440,7 @@ void BattleUnit::playDistantSound(GameState &state, sp<Sample> sfx, float gainMu
 	if (distance < MAX_HEARING_DISTANCE)
 	{
 
-		fw().soundBackend->playSample(sfx, getPosition(),
+		fw().soundBackend->playSample(std::move(sfx), getPosition(),
 		                              gainMult * (MAX_HEARING_DISTANCE - distance) /
 		                                  MAX_HEARING_DISTANCE);
 	}

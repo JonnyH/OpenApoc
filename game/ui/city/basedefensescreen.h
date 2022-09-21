@@ -21,10 +21,11 @@ class BaseDefenseScreen : public Stage
 	StateRef<Base> base;
 	StateRef<Organisation> attacker;
 
-	void initiateDefenseMission(StateRef<Base> base, StateRef<Organisation> attacker);
+	void initiateDefenseMission(StateRef<Base> base, const StateRef<Organisation> &attacker);
 
   public:
-	BaseDefenseScreen(sp<GameState> state, StateRef<Base> base, StateRef<Organisation> attacker);
+	BaseDefenseScreen(sp<GameState> state, const StateRef<Base> &base,
+	                  const StateRef<Organisation> &attacker);
 	~BaseDefenseScreen() override;
 	// Stage control
 	void begin() override;

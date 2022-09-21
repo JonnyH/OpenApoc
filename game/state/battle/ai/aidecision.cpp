@@ -1,7 +1,11 @@
 #include "game/state/battle/ai/aidecision.h"
+
+#include <utility>
+
 #include "game/state/battle/battleunit.h"
 #include "game/state/shared/aequipment.h"
 #include "library/strings_format.h"
+#include <utility>
 
 namespace OpenApoc
 {
@@ -11,7 +15,7 @@ AIAction::AIAction() : weaponStatus(WeaponStatus::NotFiring) {}
 AIMovement::AIMovement() : movementMode(MovementMode::Walking), kneelingMode(KneelingMode::None) {}
 
 AIDecision::AIDecision(sp<AIAction> action, sp<AIMovement> movement)
-    : action(action), movement(movement)
+    : action(std::move(std::move(action))), movement(std::move(std::move(movement)))
 {
 }
 

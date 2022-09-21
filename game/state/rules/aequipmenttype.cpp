@@ -117,7 +117,7 @@ sp<EquipmentSet> EquipmentSet::getByLevel(const GameState &state, const int leve
 	return nullptr;
 }
 
-bool AEquipmentType::canBeUsed(GameState &state, StateRef<Organisation> owner) const
+bool AEquipmentType::canBeUsed(GameState &state, const StateRef<Organisation> &owner) const
 {
 	if (owner == state.getPlayer() && !(state.current_battle && state.current_battle->skirmish) &&
 	    !research_dependency.satisfied())

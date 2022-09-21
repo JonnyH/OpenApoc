@@ -1,4 +1,5 @@
 #include "game/ui/components/controlgenerator.h"
+
 #include "forms/graphic.h"
 #include "forms/graphicbutton.h"
 #include "forms/label.h"
@@ -25,6 +26,7 @@
 #include "game/state/rules/city/vehicletype.h"
 #include "game/state/rules/city/vequipmenttype.h"
 #include "game/state/shared/agent.h"
+#include <utility>
 
 namespace OpenApoc
 {
@@ -102,9 +104,9 @@ void ControlGenerator::init(GameState &state [[maybe_unused]])
 	initialised = true;
 }
 
-sp<Control> ControlGenerator::createVehicleIcon(GameState &state, sp<Vehicle> vehicle)
+sp<Control> ControlGenerator::createVehicleIcon(GameState &state, const sp<Vehicle> &vehicle)
 {
-	auto info = createVehicleInfo(state, vehicle);
+	auto info = createVehicleInfo(state, std::move(vehicle));
 	auto icon = createVehicleControl(state, info);
 	icon->Name = VEHICLE_ICON_NAME;
 	icon->setData(mksp<int>(info.passengers));
@@ -112,7 +114,7 @@ sp<Control> ControlGenerator::createVehicleIcon(GameState &state, sp<Vehicle> ve
 	return icon;
 }
 
-VehicleTileInfo ControlGenerator::createVehicleInfo(GameState &state, sp<Vehicle> v)
+VehicleTileInfo ControlGenerator::createVehicleInfo(GameState &state, const sp<Vehicle> &v)
 {
 	VehicleTileInfo t;
 	t.vehicle = v;
@@ -259,13 +261,14 @@ sp<Control> ControlGenerator::createVehicleControl(GameState &state, const Vehic
 	return baseControl;
 }
 
-sp<Control> ControlGenerator::createVehicleControl(GameState &state, sp<Vehicle> v)
+sp<Control> ControlGenerator::createVehicleControl(GameState &state, const sp<Vehicle> &v)
 {
-	auto info = createVehicleInfo(state, v);
+	auto info = createVehicleInfo(state, std::move(v));
 	return createVehicleControl(state, info);
 }
 
-sp<Control> ControlGenerator::createVehicleAssignmentControl(GameState &state, sp<Vehicle> vehicle)
+sp<Control> ControlGenerator::createVehicleAssignmentControl(GameState &state,
+                                                             const sp<Vehicle> &vehicle)
 {
 	const int controlLength = 200, controlHeight = 24, iconLenght = 36;
 
@@ -285,7 +288,7 @@ sp<Control> ControlGenerator::createVehicleAssignmentControl(GameState &state, s
 }
 
 sp<Control> ControlGenerator::createBuildingAssignmentControl(GameState &state,
-                                                              sp<Building> building)
+                                                              const sp<Building> &building)
 {
 	const int controlLength = 200, controlHeight = 24, iconLenght = 36;
 
@@ -307,7 +310,7 @@ sp<Control> ControlGenerator::createBuildingAssignmentControl(GameState &state,
 	buildingIcon->Name = "ORG_ICON";
 
 	UString name(building->name);
-	for (auto b : state.player_bases)
+	for (const auto &b : state.player_bases)
 	{
 		if (b.second->building == building)
 		{
@@ -322,7 +325,7 @@ sp<Control> ControlGenerator::createBuildingAssignmentControl(GameState &state,
 	return control;
 }
 
-sp<Control> ControlGenerator::createAgentAssignmentControl(GameState &state, sp<Agent> agent)
+sp<Control> ControlGenerator::createAgentAssignmentControl(GameState &state, const sp<Agent> &agent)
 {
 	const int controlLength = 200, controlHeight = 24, iconLength = 36;
 
@@ -347,11 +350,11 @@ sp<Control> ControlGenerator::createAgentAssignmentControl(GameState &state, sp<
 	return control;
 }
 
-sp<Control> ControlGenerator::createAgentIcon(GameState &state, sp<Agent> agent,
+sp<Control> ControlGenerator::createAgentIcon(GameState &state, const sp<Agent> &agent,
                                               UnitSelectionState forcedSelectionState,
                                               bool forceFade)
 {
-	auto info = createAgentInfo(state, agent, forcedSelectionState, forceFade);
+	auto info = createAgentInfo(state, std::move(agent), forcedSelectionState, forceFade);
 	auto icon = mksp<Graphic>();
 	icon->AutoSize = true;
 	icon->Name = AGENT_ICON_NAME;
@@ -361,7 +364,7 @@ sp<Control> ControlGenerator::createAgentIcon(GameState &state, sp<Agent> agent,
 	return icon;
 }
 
-AgentInfo ControlGenerator::createAgentInfo(GameState &state, sp<Agent> a,
+AgentInfo ControlGenerator::createAgentInfo(GameState &state, const sp<Agent> &a,
                                             UnitSelectionState forcedSelectionState, bool forceFade)
 {
 	AgentInfo i;
@@ -470,7 +473,7 @@ AgentInfo ControlGenerator::createAgentInfo(GameState &state, sp<Agent> a,
 	return i;
 }
 
-CityUnitState ControlGenerator::getCityUnitState(sp<Agent> agent)
+CityUnitState ControlGenerator::getCityUnitState(const sp<Agent> &agent)
 {
 	auto building = agent->currentBuilding;
 	if (building)
@@ -551,12 +554,12 @@ sp<Control> ControlGenerator::createLargeAgentControl(GameState &state, const Ag
 	return baseControl;
 }
 
-sp<Control> ControlGenerator::createLargeAgentControl(GameState &state, sp<Agent> a, int width,
-                                                      UnitSkillState skill,
+sp<Control> ControlGenerator::createLargeAgentControl(GameState &state, const sp<Agent> &a,
+                                                      int width, UnitSkillState skill,
                                                       UnitSelectionState forcedSelectionState,
                                                       bool forceFade)
 {
-	auto info = createAgentInfo(state, a, forcedSelectionState, forceFade);
+	auto info = createAgentInfo(state, std::move(a), forcedSelectionState, forceFade);
 	return createLargeAgentControl(state, info, width, skill);
 }
 
@@ -566,7 +569,8 @@ sp<Control> ControlGenerator::createLargeAgentControl(GameState &state, sp<Agent
  * @facility - lab facility
  * @return - lab icon control
  */
-sp<Control> ControlGenerator::createLabControl(sp<GameState> state, sp<Facility> facility)
+sp<Control> ControlGenerator::createLabControl(const sp<GameState> &state,
+                                               const sp<Facility> &facility)
 {
 	if (!singleton.initialised)
 	{
@@ -595,7 +599,7 @@ sp<Control> ControlGenerator::createDoubleListControl(const int controlLength)
 	auto rubberItem = mksp<Control>();
 	rubberItem->Size = Vec2<int>{controlLength, 1};
 	rubberItem->setFuncPreRender(
-	    [](sp<Control> control)
+	    [](const sp<Control> &control)
 	    {
 		    int sizeY = 1;
 		    for (auto &c : control->Controls)
@@ -617,7 +621,8 @@ sp<Control> ControlGenerator::createDoubleListControl(const int controlLength)
 	return rubberItem;
 }
 
-OrganisationInfo ControlGenerator::createOrganisationInfo(GameState &state, sp<Organisation> org)
+OrganisationInfo ControlGenerator::createOrganisationInfo(GameState &state,
+                                                          const sp<Organisation> &org)
 {
 	auto i = OrganisationInfo();
 	i.organisation = org;
@@ -650,9 +655,10 @@ sp<Control> ControlGenerator::createOrganisationControl(GameState &state,
 	return baseControl;
 }
 
-sp<Control> ControlGenerator::createOrganisationControl(GameState &state, sp<Organisation> org)
+sp<Control> ControlGenerator::createOrganisationControl(GameState &state,
+                                                        const sp<Organisation> &org)
 {
-	auto i = createOrganisationInfo(state, org);
+	auto i = createOrganisationInfo(state, std::move(org));
 	return createOrganisationControl(state, i);
 }
 
@@ -665,15 +671,15 @@ int ControlGenerator::getFontHeight(GameState &state)
 	return singleton.labelFont->getFontHeight();
 }
 
-sp<Control> ControlGenerator::createAgentControl(GameState &state, sp<Agent> a,
+sp<Control> ControlGenerator::createAgentControl(GameState &state, const sp<Agent> &a,
                                                  UnitSelectionState forcedSelectionState,
                                                  bool forceFade)
 {
-	auto info = createAgentInfo(state, a, forcedSelectionState, forceFade);
+	auto info = createAgentInfo(state, std::move(a), forcedSelectionState, forceFade);
 	return createAgentControl(state, info);
 }
 
-void ControlGenerator::fillAgentControl(GameState &state, sp<Graphic> baseControl,
+void ControlGenerator::fillAgentControl(GameState &state, const sp<Graphic> &baseControl,
                                         const AgentInfo &info)
 {
 	if (!singleton.initialised)

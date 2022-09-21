@@ -1,8 +1,10 @@
 #include "framework/font.h"
+
 #include "framework/data.h"
 #include "framework/framework.h"
 #include "framework/image.h"
 #include "library/sp.h"
+#include <utility>
 
 namespace OpenApoc
 {
@@ -96,8 +98,8 @@ sp<BitmapFont> BitmapFont::loadFont(const std::map<char32_t, UString> &glyphMap,
 	font->fontheight = fontHeight;
 	font->kerning = kerning;
 	font->averagecharacterwidth = 0;
-	font->name = fontName;
-	font->palette = defaultPalette;
+	font->name = std::move(fontName);
+	font->palette = std::move(defaultPalette);
 
 	size_t totalGlyphWidth = 0;
 

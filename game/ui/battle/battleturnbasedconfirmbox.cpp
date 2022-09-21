@@ -1,4 +1,7 @@
 #include "game/ui/battle/battleturnbasedconfirmbox.h"
+
+#include <utility>
+
 #include "forms/form.h"
 #include "forms/label.h"
 #include "forms/textbutton.h"
@@ -8,14 +11,15 @@
 #include "framework/framework.h"
 #include "framework/renderer.h"
 #include "library/strings_format.h"
+#include <utility>
 
 namespace OpenApoc
 {
 BattleTurnBasedConfirmBox::BattleTurnBasedConfirmBox(const UString &text,
                                                      std::function<void()> callbackYes,
                                                      std::function<void()> callbackNo)
-    : Stage(), form(ui().getForm("battle/battle_tb_plan_popup")), callbackYes(callbackYes),
-      callbackNo(callbackNo)
+    : Stage(), form(ui().getForm("battle/battle_tb_plan_popup")),
+      callbackYes(std::move(std::move(callbackYes))), callbackNo(std::move(std::move(callbackNo)))
 {
 	form->findControlTyped<Label>("MESSAGE")->setText(text);
 }

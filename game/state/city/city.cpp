@@ -185,8 +185,8 @@ void City::notifyRoadChange(const Vec3<int> &position, bool intact)
 	}
 }
 
-void City::handleProjectileHit(GameState &state, sp<Projectile> projectile, bool displayDoodad,
-                               bool playSound, bool expired)
+void City::handleProjectileHit(GameState &state, const sp<Projectile> &projectile,
+                               bool displayDoodad, bool playSound, bool expired)
 {
 	if (displayDoodad && projectile->doodadType)
 	{
@@ -671,7 +671,7 @@ void City::initialSceneryLinkUp()
 	LogWarning("Link up finished!");
 }
 
-sp<Doodad> City::placeDoodad(StateRef<DoodadType> type, Vec3<float> position)
+sp<Doodad> City::placeDoodad(const StateRef<DoodadType> &type, Vec3<float> position)
 {
 	auto doodad = mksp<Doodad>(position, type);
 	map->addObjectToMap(doodad);
@@ -680,7 +680,7 @@ sp<Doodad> City::placeDoodad(StateRef<DoodadType> type, Vec3<float> position)
 }
 
 sp<Vehicle> City::createVehicle(GameState &state, StateRef<VehicleType> type,
-                                StateRef<Organisation> owner) const
+                                const StateRef<Organisation> &owner) const
 {
 	auto v = mksp<Vehicle>();
 	v->type = type;
@@ -699,8 +699,9 @@ sp<Vehicle> City::createVehicle(GameState &state, StateRef<VehicleType> type,
 
 	return v;
 }
-sp<Vehicle> City::createVehicle(GameState &state, StateRef<VehicleType> type,
-                                StateRef<Organisation> owner, StateRef<Building> building) const
+sp<Vehicle> City::createVehicle(GameState &state, const StateRef<VehicleType> &type,
+                                const StateRef<Organisation> &owner,
+                                StateRef<Building> building) const
 {
 	if (building->city.id != id)
 	{
@@ -714,16 +715,17 @@ sp<Vehicle> City::createVehicle(GameState &state, StateRef<VehicleType> type,
 	return v;
 }
 
-sp<Vehicle> City::placeVehicle(GameState &state, StateRef<VehicleType> type,
-                               StateRef<Organisation> owner) const
+sp<Vehicle> City::placeVehicle(GameState &state, const StateRef<VehicleType> &type,
+                               const StateRef<Organisation> &owner) const
 {
 	auto v = createVehicle(state, type, owner);
 	v->equipDefaultEquipment(state);
 	return v;
 }
 
-sp<Vehicle> City::placeVehicle(GameState &state, StateRef<VehicleType> type,
-                               StateRef<Organisation> owner, StateRef<Building> building) const
+sp<Vehicle> City::placeVehicle(GameState &state, const StateRef<VehicleType> &type,
+                               const StateRef<Organisation> &owner,
+                               StateRef<Building> building) const
 {
 	if (building->city.id != id)
 	{
@@ -737,8 +739,8 @@ sp<Vehicle> City::placeVehicle(GameState &state, StateRef<VehicleType> type,
 	return v;
 }
 
-sp<Vehicle> City::placeVehicle(GameState &state, StateRef<VehicleType> type,
-                               StateRef<Organisation> owner, Vec3<float> position,
+sp<Vehicle> City::placeVehicle(GameState &state, const StateRef<VehicleType> &type,
+                               const StateRef<Organisation> &owner, Vec3<float> position,
                                float facing) const
 {
 	auto v = placeVehicle(state, type, owner);

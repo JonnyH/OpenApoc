@@ -119,6 +119,6 @@ class DamageType : public StateObject<DamageType>
 	// Sounds when this explodes
 	std::list<sp<Sample>> explosionSounds;
 
-	int dealDamage(int damage, StateRef<DamageModifier> modifier) const;
+	int dealDamage(int damage, const StateRef<DamageModifier> &modifier) const;
 };
 } // namespace OpenApoc

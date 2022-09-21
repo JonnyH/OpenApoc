@@ -8,7 +8,7 @@
 namespace OpenApoc
 {
 
-UString tr(const UString &str, const UString domain)
+UString tr(const UString &str, const UString &domain)
 {
 	return UString(boost::locale::translate(str).str(domain));
 }

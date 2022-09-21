@@ -5,6 +5,7 @@
 #include "framework/palette.h"
 #include "library/sp.h"
 #include <cstring>
+#include <utility>
 
 namespace OpenApoc
 {
@@ -29,7 +30,7 @@ PaletteImage::PaletteImage(Vec2<unsigned int> size, uint8_t initialIndex)
 
 PaletteImage::~PaletteImage() = default;
 
-sp<RGBImage> PaletteImage::toRGBImage(sp<Palette> p)
+sp<RGBImage> PaletteImage::toRGBImage(const sp<Palette> &p)
 {
 	sp<RGBImage> i = mksp<RGBImage>(size);
 
@@ -46,8 +47,8 @@ sp<RGBImage> PaletteImage::toRGBImage(sp<Palette> p)
 	return i;
 }
 
-void PaletteImage::blit(sp<PaletteImage> src, sp<PaletteImage> dst, Vec2<unsigned int> srcOffset,
-                        Vec2<unsigned int> dstOffset)
+void PaletteImage::blit(const sp<PaletteImage> &src, const sp<PaletteImage> &dst,
+                        Vec2<unsigned int> srcOffset, Vec2<unsigned int> dstOffset)
 {
 	PaletteImageLock const reader(src, ImageLockUse::Read);
 	PaletteImageLock writer(dst, ImageLockUse::Write);
@@ -84,7 +85,7 @@ RGBImage::RGBImage(Vec2<unsigned int> size, Colour initialColour)
 	}
 }
 
-void RGBImage::blit(sp<RGBImage> src, sp<RGBImage> dst, Vec2<unsigned int> srcOffset,
+void RGBImage::blit(const sp<RGBImage> &src, const sp<RGBImage> &dst, Vec2<unsigned int> srcOffset,
                     Vec2<unsigned int> dstOffset)
 {
 	RGBImageLock const reader(src, ImageLockUse::Read);
@@ -107,7 +108,8 @@ void RGBImage::blit(sp<RGBImage> src, sp<RGBImage> dst, Vec2<unsigned int> srcOf
 
 RGBImage::~RGBImage() = default;
 
-RGBImageLock::RGBImageLock(sp<RGBImage> img, ImageLockUse use) : img(img), use(use)
+RGBImageLock::RGBImageLock(sp<RGBImage> img, ImageLockUse use)
+    : img(std::move(std::move(img))), use(use)
 {
 	// FIXME: Readback from renderer?
 	// FIXME: Disallow multiple locks?
@@ -117,7 +119,8 @@ RGBImageLock::~RGBImageLock() = default;
 
 void *RGBImageLock::getData() { return this->img->pixels.get(); }
 
-PaletteImageLock::PaletteImageLock(sp<PaletteImage> img, ImageLockUse use) : img(img), use(use)
+PaletteImageLock::PaletteImageLock(sp<PaletteImage> img, ImageLockUse use)
+    : img(std::move(std::move(img))), use(use)
 {
 	// FIXME: Readback from renderer?
 	// FIXME: Disallow multiple locks?

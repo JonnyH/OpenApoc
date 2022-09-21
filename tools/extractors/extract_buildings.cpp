@@ -48,8 +48,8 @@ void InitialGameStateExtractor::extractBuildingFunctions(GameState &state) const
 	}
 }
 
-void InitialGameStateExtractor::extractBuildings(GameState &state, UString bldFileName,
-                                                 sp<City> city, bool alienBuilding) const
+void InitialGameStateExtractor::extractBuildings(GameState &state, const UString &bldFileName,
+                                                 const sp<City> &city, bool alienBuilding) const
 {
 	auto &data = this->ufo2p;
 

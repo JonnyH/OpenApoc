@@ -133,12 +133,12 @@ void TileObjectShadow::setPosition(Vec3<float> newPosition)
 
 TileObjectShadow::~TileObjectShadow() = default;
 
-TileObjectShadow::TileObjectShadow(TileMap &map, sp<Vehicle> vehicle)
+TileObjectShadow::TileObjectShadow(TileMap &map, const sp<Vehicle> &vehicle)
     : TileObject(map, Type::Shadow, Vec3<float>{0, 0, 0}), ownerVehicle(vehicle),
       fellOffTheBottomOfTheMap(false)
 {
 }
-TileObjectShadow::TileObjectShadow(TileMap &map, sp<BattleUnit> unit)
+TileObjectShadow::TileObjectShadow(TileMap &map, const sp<BattleUnit> &unit)
     : TileObject(map, Type::Shadow, Vec3<float>{0, 0, 0}), ownerBattleUnit(unit),
       fellOffTheBottomOfTheMap(false)
 {
@@ -147,7 +147,7 @@ TileObjectShadow::TileObjectShadow(TileMap &map, sp<BattleUnit> unit)
 	else
 		setBounds({1.0f, 1.0f, 1.0f});
 }
-TileObjectShadow::TileObjectShadow(TileMap &map, sp<BattleItem> item)
+TileObjectShadow::TileObjectShadow(TileMap &map, const sp<BattleItem> &item)
     : TileObject(map, Type::Shadow, Vec3<float>{0, 0, 0}), ownerBattleItem(item),
       fellOffTheBottomOfTheMap(false)
 {

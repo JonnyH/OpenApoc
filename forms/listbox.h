@@ -37,20 +37,20 @@ class ListBox : public Control
 	sp<Image> SelectedImage;
 
 	ListBox();
-	ListBox(sp<ScrollBar> ExternalScrollBar);
+	ListBox(const sp<ScrollBar> &ExternalScrollBar);
 	~ListBox() override;
 
 	void eventOccured(Event *e) override;
 	void update() override;
 	void unloadResources() override;
 
-	void setSelected(sp<Control> c);
+	void setSelected(const sp<Control> &c);
 	sp<Control> getSelectedItem();
 	sp<Control> getHoveredItem();
 
 	void clear();
-	void addItem(sp<Control> Item);
-	void replaceItem(sp<Control> Item);
+	void addItem(const sp<Control> &Item);
+	void replaceItem(const sp<Control> &Item);
 	sp<Control> removeItem(sp<Control> Item);
 	sp<Control> removeItem(int Index);
 	sp<Control> operator[](int Index);

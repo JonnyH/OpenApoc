@@ -974,12 +974,12 @@ void Building::alienMovement(GameState &state)
 	}
 }
 
-void Building::underAttack(GameState &state, StateRef<Organisation> attacker)
+void Building::underAttack(GameState &state, const StateRef<Organisation> &attacker)
 {
 	if (owner->isRelatedTo(attacker) == Organisation::Relation::Hostile)
 	{
 		std::list<StateRef<Vehicle>> toLaunch;
-		for (auto v : currentVehicles)
+		for (const auto &v : currentVehicles)
 		{
 			toLaunch.push_back(v);
 		}

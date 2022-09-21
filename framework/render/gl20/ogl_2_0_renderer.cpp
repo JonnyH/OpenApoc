@@ -31,10 +31,10 @@ class Program
 {
   public:
 	GLuint prog;
-	static GLuint createShader(GLenum type, const UString source)
+	static GLuint createShader(GLenum type, const UString &source)
 	{
 		GLuint const shader = gl20::CreateShader(type);
-		auto sourceString = source;
+		const auto &sourceString = source;
 		const GLchar *string = sourceString.c_str();
 		GLint const stringLength = sourceString.length();
 		gl20::ShaderSource(shader, 1, &string, &stringLength);
@@ -55,7 +55,7 @@ class Program
 		gl20::DeleteShader(shader);
 		return 0;
 	}
-	Program(const UString vertexSource, const UString fragmentSource) : prog(0)
+	Program(const UString &vertexSource, const UString &fragmentSource) : prog(0)
 	{
 		GLuint const vShader = createShader(gl20::VERTEX_SHADER, vertexSource);
 		if (!vShader)
@@ -124,7 +124,7 @@ class Program
 class SpriteProgram : public Program
 {
   protected:
-	SpriteProgram(const UString vertexSource, const UString fragmentSource)
+	SpriteProgram(const UString &vertexSource, const UString &fragmentSource)
 	    : Program(vertexSource, fragmentSource)
 	{
 	}
@@ -603,7 +603,7 @@ class GLRGBImage : public RendererImageData
 	Vec2<float> size;
 	std::weak_ptr<RGBImage> parent;
 	OGL20Renderer *owner;
-	GLRGBImage(sp<RGBImage> parent, OGL20Renderer *owner)
+	GLRGBImage(const sp<RGBImage> &parent, OGL20Renderer *owner)
 	    : size(parent->size), parent(parent), owner(owner)
 	{
 		RGBImageLock l(parent, ImageLockUse::Read);
@@ -626,7 +626,7 @@ class GLPalette : public RendererImageData
 	Vec2<float> size;
 	std::weak_ptr<Palette> parent;
 	OGL20Renderer *owner;
-	GLPalette(sp<Palette> parent, OGL20Renderer *owner)
+	GLPalette(const sp<Palette> &parent, OGL20Renderer *owner)
 	    : size(Vec2<float>(parent->colours.size(), 1)), parent(parent), owner(owner)
 	{
 		gl20::GenTextures(1, &this->texID);
@@ -648,7 +648,7 @@ class GLPaletteImage : public RendererImageData
 	Vec2<float> size;
 	std::weak_ptr<PaletteImage> parent;
 	OGL20Renderer *owner;
-	GLPaletteImage(sp<PaletteImage> parent, OGL20Renderer *owner)
+	GLPaletteImage(const sp<PaletteImage> &parent, OGL20Renderer *owner)
 	    : size(parent->size), parent(parent), owner(owner)
 	{
 		PaletteImageLock l(parent, ImageLockUse::Read);
@@ -772,7 +772,7 @@ class OGL20Renderer : public Renderer
 	{
 		drawScaledImage(image, position, size, scaler);
 	}
-	void drawScaledImage(sp<Image> image, Vec2<float> position, Vec2<float> size,
+	void drawScaledImage(const sp<Image> &image, Vec2<float> position, Vec2<float> size,
 	                     Scaler scaler = Scaler::Linear, Colour tint = {255, 255, 255, 255})
 	{
 
@@ -933,7 +933,7 @@ class OGL20Renderer : public Renderer
 	UString getName() override { return "OGL2.0 Renderer"; }
 	sp<Surface> getDefaultSurface() override { return this->defaultSurface; }
 
-	void bindProgram(sp<Program> p)
+	void bindProgram(const sp<Program> &p)
 	{
 		if (this->currentBoundProgram == p->prog)
 			return;

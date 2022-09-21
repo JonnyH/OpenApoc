@@ -48,7 +48,7 @@ void TileObjectProjectile::draw(Renderer &r, TileTransform &transform, Vec2<floa
 
 TileObjectProjectile::~TileObjectProjectile() = default;
 
-TileObjectProjectile::TileObjectProjectile(TileMap &map, sp<Projectile> projectile)
+TileObjectProjectile::TileObjectProjectile(TileMap &map, const sp<Projectile> &projectile)
     : TileObject(map, Type::Projectile, Vec3<float>{0.25f, 0.25f, 0.25f}), projectile(projectile)
 {
 }

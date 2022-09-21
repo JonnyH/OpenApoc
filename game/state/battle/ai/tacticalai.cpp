@@ -72,7 +72,7 @@ AIBlockTactical::think(GameState &state)
 	return result;
 }
 
-void AIBlockTactical::beginTurnRoutine(GameState &state, StateRef<Organisation> org)
+void AIBlockTactical::beginTurnRoutine(GameState &state, const StateRef<Organisation> &org)
 {
 	if (aiList.find(org) != aiList.end())
 	{

@@ -20,7 +20,7 @@ class AlertScreen : public Stage
 	sp<AgentAssignment> agentAssignment;
 
   public:
-	AlertScreen(sp<GameState> state, sp<Building> building);
+	AlertScreen(const sp<GameState> &state, const sp<Building> &building);
 	~AlertScreen() override;
 	// Stage control
 	void begin() override;

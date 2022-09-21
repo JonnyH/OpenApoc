@@ -25,7 +25,7 @@ class DiplomaticTreatyScreen : public Stage
 	int bribeAmount = 0;
 
   public:
-	DiplomaticTreatyScreen(sp<GameState> state, StateRef<Organisation> org);
+	DiplomaticTreatyScreen(sp<GameState> state, const StateRef<Organisation> &org);
 	~DiplomaticTreatyScreen() override;
 	// Stage control
 	void begin() override;

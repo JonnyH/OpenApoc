@@ -6,6 +6,7 @@
 #include "library/strings_format.h"
 #include <exception>
 #include <map>
+#include <utility>
 
 namespace OpenApoc
 {
@@ -45,7 +46,7 @@ template <typename T> class StateObject
 	// StateObjects are not copy-able
 	StateObject(const StateObject &) = delete;
 	// Move is fine
-	StateObject(StateObject &&) = default;
+	StateObject(StateObject &&) noexcept = default;
 };
 
 template <typename T> class StateRef
@@ -81,10 +82,10 @@ template <typename T> class StateRef
 	UString id;
 	StateRef() : state(nullptr){};
 	StateRef(const GameState *state) : state(state) {}
-	StateRef(const GameState *state, const UString &id) : state(state), id(id) {}
+	StateRef(const GameState *state, UString id) : state(state), id(std::move(id)) {}
 	StateRef(const StateRef<T> &other) = default;
 
-	StateRef(const GameState *state, sp<T> ptr) : obj(ptr), state(state)
+	StateRef(const GameState *state, sp<T> ptr) : obj(std::move(ptr)), state(state)
 	{
 		if (obj)
 			id = T::getId(*state, obj);
@@ -172,7 +173,7 @@ template <typename T> class StateRef
 		this->clear();
 		return *this;
 	}
-	StateRef<T> &operator=(const UString newId)
+	StateRef<T> &operator=(const UString &newId)
 	{
 		obj = nullptr;
 		id = newId;

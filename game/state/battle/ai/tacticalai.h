@@ -43,7 +43,7 @@ class AIBlockTactical
 	void init(GameState &state);
 	void reset(GameState &state);
 	std::list<std::pair<std::list<StateRef<BattleUnit>>, AIDecision>> think(GameState &state);
-	void beginTurnRoutine(GameState &state, StateRef<Organisation> org);
+	void beginTurnRoutine(GameState &state, const StateRef<Organisation> &org);
 
 	std::map<StateRef<Organisation>, sp<TacticalAI>> aiList;
 

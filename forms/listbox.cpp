@@ -10,7 +10,7 @@ namespace OpenApoc
 
 ListBox::ListBox() : ListBox(nullptr) {}
 
-ListBox::ListBox(sp<ScrollBar> ExternalScrollBar)
+ListBox::ListBox(const sp<ScrollBar> &ExternalScrollBar)
     : Control(), scroller_is_internal(ExternalScrollBar == nullptr), scroller(ExternalScrollBar),
       ItemSize(64), ItemSpacing(1), ListOrientation(Orientation::Vertical),
       ScrollOrientation(ListOrientation), HoverColour(0, 0, 0, 0), SelectedColour(0, 0, 0, 0)
@@ -272,7 +272,7 @@ void ListBox::clear()
 	this->setDirty();
 }
 
-void ListBox::addItem(sp<Control> Item)
+void ListBox::addItem(const sp<Control> &Item)
 {
 	Item->setParent(shared_from_this());
 	Item->ToolTipFont = this->ToolTipFont;
@@ -284,7 +284,7 @@ void ListBox::addItem(sp<Control> Item)
 	this->setDirty();
 }
 
-void ListBox::replaceItem(sp<Control> Item)
+void ListBox::replaceItem(const sp<Control> &Item)
 {
 	auto newData = Item->getData<void>();
 	this->setDirty();
@@ -469,11 +469,11 @@ void ListBox::configureSelfFromXml(pugi::xml_node *node)
 	}
 }
 
-void ListBox::setSelected(sp<Control> c)
+void ListBox::setSelected(const sp<Control> &c)
 {
 	// A sanity check to make sure the selected control actually belongs to this list
 	bool found = false;
-	for (auto child : this->Controls)
+	for (const auto &child : this->Controls)
 	{
 		if (child == c)
 		{

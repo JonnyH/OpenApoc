@@ -29,7 +29,7 @@
 namespace OpenApoc
 {
 
-TransferScreen::TransferScreen(sp<GameState> state, bool forceLimits)
+TransferScreen::TransferScreen(const sp<GameState> &state, bool forceLimits)
     : TransactionScreen(state, forceLimits), bigUnitRanks(RecruitScreen::getBigUnitRanks())
 {
 	form->findControlTyped<Label>("TITLE")->setText(tr("TRANSFER"));
@@ -106,7 +106,7 @@ TransferScreen::TransferScreen(sp<GameState> state, bool forceLimits)
 	form->findControlTyped<RadioButton>("BUTTON_SOLDIERS")->setChecked(true);
 }
 
-void TransferScreen::changeSecondBase(sp<Base> newBase)
+void TransferScreen::changeSecondBase(const sp<Base> &newBase)
 {
 	second_base = newBase->building->base;
 	textViewSecondBaseStatic->setText(second_base->name);

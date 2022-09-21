@@ -9,7 +9,7 @@
 
 namespace OpenApoc
 {
-void extractAnimationPackHyperInternal(sp<BattleUnitAnimationPack> p,
+void extractAnimationPackHyperInternal(const sp<BattleUnitAnimationPack> &p,
                                        const std::vector<AnimationDataAD> &dataAD,
                                        const std::vector<AnimationDataUA> &dataUA,
                                        std::vector<AnimationDataUF> &dataUF, int x, int y,
@@ -67,7 +67,7 @@ void extractAnimationPackHyperInternal(sp<BattleUnitAnimationPack> p,
 }
 
 void InitialGameStateExtractor::extractAnimationPackHyper(
-    sp<BattleUnitAnimationPack> p, const std::vector<AnimationDataAD> &dataAD,
+    const sp<BattleUnitAnimationPack> &p, const std::vector<AnimationDataAD> &dataAD,
     const std::vector<AnimationDataUA> &dataUA, std::vector<AnimationDataUF> &dataUF) const
 {
 	for (int x = -1; x <= 1; x++)

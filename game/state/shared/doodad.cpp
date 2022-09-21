@@ -7,6 +7,7 @@
 #include "game/state/tilemap/tilemap.h"
 #include "game/state/tilemap/tileobject_doodad.h"
 #include <algorithm>
+#include <utility>
 
 namespace OpenApoc
 {
@@ -14,7 +15,7 @@ namespace OpenApoc
 Doodad::Doodad(Vec3<float> position, Vec2<int> imageOffset, bool temporary, int lifetime,
                sp<Image> image)
     : position(position), imageOffset(imageOffset), temporary(temporary), age(0),
-      lifetime(lifetime), sprite(image)
+      lifetime(lifetime), sprite(std::move(std::move(image)))
 {
 }
 

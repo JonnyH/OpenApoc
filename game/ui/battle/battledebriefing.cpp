@@ -15,7 +15,7 @@
 
 namespace OpenApoc
 {
-BattleDebriefing::BattleDebriefing(sp<GameState> state)
+BattleDebriefing::BattleDebriefing(const sp<GameState> &state)
     : Stage(), menuform(ui().getForm("battle/debriefing")), state(state)
 {
 	menuform->findControlTyped<GraphicButton>("BUTTON_OK")

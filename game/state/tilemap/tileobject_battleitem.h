@@ -23,7 +23,7 @@ class TileObjectBattleItem : public TileObject
   private:
 	friend class TileMap;
 	wp<BattleItem> item;
-	TileObjectBattleItem(TileMap &map, sp<BattleItem> item);
+	TileObjectBattleItem(TileMap &map, const sp<BattleItem> &item);
 };
 
 } // namespace OpenApoc

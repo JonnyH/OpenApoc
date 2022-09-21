@@ -25,7 +25,7 @@ class StageStack
 	    Returns:
 	        *Integer* Stack index of the stage
 	*/
-	void push(sp<Stage> newStage);
+	void push(const sp<Stage> &newStage);
 
 	/*
 	    Function: Pop
@@ -59,7 +59,7 @@ class StageStack
 	    Returns:
 	        *Stage Pointer* Current <Stage>
 	*/
-	sp<Stage> previous(sp<Stage> From);
+	sp<Stage> previous(const sp<Stage> &From);
 
 	bool isEmpty();
 	void clear();

@@ -1123,7 +1123,7 @@ void Battle::initialUnitSpawn(GameState &state)
 
 void Battle::setMode(Mode mode) { this->mode = mode; }
 
-sp<Doodad> Battle::placeDoodad(StateRef<DoodadType> type, Vec3<float> position)
+sp<Doodad> Battle::placeDoodad(const StateRef<DoodadType> &type, Vec3<float> position)
 {
 	auto doodad = mksp<Doodad>(position, type);
 	if (map)
@@ -1134,7 +1134,7 @@ sp<Doodad> Battle::placeDoodad(StateRef<DoodadType> type, Vec3<float> position)
 	return doodad;
 }
 
-sp<BattleUnit> Battle::spawnUnit(GameState &state, StateRef<Organisation> owner,
+sp<BattleUnit> Battle::spawnUnit(GameState &state, const StateRef<Organisation> &owner,
                                  StateRef<AgentType> agentType, Vec3<float> position,
                                  Vec2<int> facing, BodyState curState, BodyState tarState)
 {
@@ -1176,8 +1176,8 @@ sp<BattleUnit> Battle::spawnUnit(GameState &state, StateRef<Organisation> owner,
 sp<BattleExplosion> Battle::addExplosion(GameState &state, Vec3<int> position,
                                          StateRef<DoodadType> doodadType,
                                          StateRef<DamageType> damageType, int power,
-                                         int depletionRate, StateRef<Organisation> ownerOrg,
-                                         StateRef<BattleUnit> ownerUnit)
+                                         int depletionRate, const StateRef<Organisation> &ownerOrg,
+                                         const StateRef<BattleUnit> &ownerUnit)
 {
 	// Doodad
 	if (!doodadType)
@@ -1200,7 +1200,7 @@ sp<BattleExplosion> Battle::addExplosion(GameState &state, Vec3<int> position,
 	return explosion;
 }
 
-sp<BattleUnit> Battle::placeUnit(GameState &state, StateRef<Agent> agent)
+sp<BattleUnit> Battle::placeUnit(GameState &state, const StateRef<Agent> &agent)
 {
 	auto unit = mksp<BattleUnit>();
 	UString const id = BattleUnit::generateObjectID(state);
@@ -1217,7 +1217,8 @@ sp<BattleUnit> Battle::placeUnit(GameState &state, StateRef<Agent> agent)
 	return unit;
 }
 
-sp<BattleUnit> Battle::placeUnit(GameState &state, StateRef<Agent> agent, Vec3<float> position)
+sp<BattleUnit> Battle::placeUnit(GameState &state, const StateRef<Agent> &agent,
+                                 Vec3<float> position)
 {
 	auto u = placeUnit(state, agent);
 	u->position = position;
@@ -1238,7 +1239,7 @@ sp<BattleDoor> Battle::addDoor(GameState &state)
 	return door;
 }
 
-sp<BattleItem> Battle::placeItem(GameState &state, sp<AEquipment> item, Vec3<float> position)
+sp<BattleItem> Battle::placeItem(GameState &state, const sp<AEquipment> &item, Vec3<float> position)
 {
 	auto bitem = mksp<BattleItem>();
 	bitem->strategySprite = state.battle_common_image_list->strategyImages->at(480);
@@ -1265,8 +1266,8 @@ sp<BattleItem> Battle::placeItem(GameState &state, sp<AEquipment> item, Vec3<flo
 	return bitem;
 }
 
-sp<BattleHazard> Battle::placeHazard(GameState &state, StateRef<Organisation> owner,
-                                     StateRef<BattleUnit> unit, StateRef<DamageType> type,
+sp<BattleHazard> Battle::placeHazard(GameState &state, const StateRef<Organisation> &owner,
+                                     const StateRef<BattleUnit> &unit, StateRef<DamageType> type,
                                      Vec3<int> position, int ttl, int power,
                                      int initialAgeTTLDivizor, bool delayVisibility)
 {
@@ -1860,12 +1861,12 @@ int Battle::getLosBlockID(int x, int y, int z) const
 	return tileToLosBlock.at(z * size.x * size.y + y * size.x + x);
 }
 
-bool Battle::getVisible(StateRef<Organisation> org, int x, int y, int z) const
+bool Battle::getVisible(const StateRef<Organisation> &org, int x, int y, int z) const
 {
 	return visibleTiles.at(org).at(z * size.x * size.y + y * size.x + x);
 }
 
-void Battle::setVisible(StateRef<Organisation> org, int x, int y, int z, bool val)
+void Battle::setVisible(const StateRef<Organisation> &org, int x, int y, int z, bool val)
 {
 	visibleTiles[org][z * size.x * size.y + y * size.x + x] = val;
 }
@@ -1899,7 +1900,7 @@ void Battle::notifyAction(Vec3<int> location, StateRef<BattleUnit> actorUnit)
 	}
 }
 
-int Battle::killStrandedUnits(GameState &state, StateRef<Organisation> org, bool preview)
+int Battle::killStrandedUnits(GameState &state, const StateRef<Organisation> &org, bool preview)
 {
 	int countKilled = 0;
 
@@ -2093,7 +2094,7 @@ bool Battle::tryDisableBuilding()
 	return true;
 }
 
-void Battle::refreshLeadershipBonus(StateRef<Organisation> org)
+void Battle::refreshLeadershipBonus(const StateRef<Organisation> &org)
 {
 	Rank highestRank = Rank::Rookie;
 	for (auto &u : units)
@@ -2184,8 +2185,8 @@ void Battle::spawnReinforcements(GameState &state)
 	}
 }
 
-void Battle::handleProjectileHit(GameState &state, sp<Projectile> projectile, bool displayDoodad,
-                                 bool playSound, bool expired)
+void Battle::handleProjectileHit(GameState &state, const sp<Projectile> &projectile,
+                                 bool displayDoodad, bool playSound, bool expired)
 {
 	if (projectile->damageType->explosive)
 	{
@@ -2375,7 +2376,7 @@ void Battle::endTurn(GameState &state)
 	beginTurn(state);
 }
 
-void Battle::giveInterruptChanceToUnits(GameState &state, StateRef<BattleUnit> giver,
+void Battle::giveInterruptChanceToUnits(GameState &state, const StateRef<BattleUnit> &giver,
                                         int reactionValue)
 {
 	if (mode != Mode::TurnBased)
@@ -2391,7 +2392,7 @@ void Battle::giveInterruptChanceToUnits(GameState &state, StateRef<BattleUnit> g
 	}
 }
 
-void Battle::giveInterruptChanceToUnit(GameState &state, StateRef<BattleUnit> giver,
+void Battle::giveInterruptChanceToUnit(GameState &state, const StateRef<BattleUnit> &giver,
                                        StateRef<BattleUnit> receiver, int reactionValue)
 {
 	if (mode != Mode::TurnBased || receiver->owner == currentActiveOrganisation ||
@@ -2426,10 +2427,10 @@ void Battle::giveInterruptChanceToUnit(GameState &state, StateRef<BattleUnit> gi
 
 // To be called when battle must be started, before showing battle briefing screen
 // In case battle is in a craft (UFO)
-void Battle::beginBattle(GameState &state, bool hotseat, StateRef<Organisation> opponent,
+void Battle::beginBattle(GameState &state, bool hotseat, const StateRef<Organisation> &opponent,
                          std::list<StateRef<Agent>> &player_agents,
                          const std::map<StateRef<AgentType>, int> *aliens,
-                         StateRef<Vehicle> player_craft, StateRef<Vehicle> target_craft)
+                         const StateRef<Vehicle> &player_craft, StateRef<Vehicle> target_craft)
 {
 	if (state.current_battle)
 	{
@@ -2449,10 +2450,10 @@ void Battle::beginBattle(GameState &state, bool hotseat, StateRef<Organisation> 
 
 // To be called when battle must be started, before showing battle briefing screen
 // In case battle is in a building
-void Battle::beginBattle(GameState &state, bool hotseat, StateRef<Organisation> opponent,
+void Battle::beginBattle(GameState &state, bool hotseat, const StateRef<Organisation> &opponent,
                          std::list<StateRef<Agent>> &player_agents,
                          const std::map<StateRef<AgentType>, int> *aliens, const int *guards,
-                         const int *civilians, StateRef<Vehicle> player_craft,
+                         const int *civilians, const StateRef<Vehicle> &player_craft,
                          StateRef<Building> target_building)
 {
 	if (state.current_battle)
@@ -2970,7 +2971,7 @@ void Battle::exitBattle(GameState &state)
 		}
 
 		// Restore relationships
-		for (auto e : state.current_battle->relationshipsBeforeSkirmish)
+		for (const auto &e : state.current_battle->relationshipsBeforeSkirmish)
 		{
 			auto org = e.first;
 			org->current_relations[state.getPlayer()] = e.second;

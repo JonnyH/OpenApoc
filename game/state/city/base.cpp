@@ -158,7 +158,8 @@ sp<Facility> Base::getFacility(Vec2<int> pos) const
 	return nullptr;
 }
 
-static bool randomlyPlaceFacility(GameState &state, Base &base, StateRef<FacilityType> facility)
+static bool randomlyPlaceFacility(GameState &state, Base &base,
+                                  const StateRef<FacilityType> &facility)
 {
 
 	std::vector<Vec2<int>> possible_positions;
@@ -548,7 +549,7 @@ int Base::getCapacityTotal(FacilityType::Capacity type) const
 	return total;
 }
 
-int Base::getUsage(GameState &state, sp<Facility> facility, int delta) const
+int Base::getUsage(GameState &state, const sp<Facility> &facility, int delta) const
 {
 	if (facility->lab)
 	{

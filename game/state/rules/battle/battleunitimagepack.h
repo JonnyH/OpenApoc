@@ -23,7 +23,7 @@ class BattleUnitImagePack : public StateObject<BattleUnitImagePack>
 	bool saveImagePack(const UString &path, bool pack = true, bool pretty = false) const;
 
 	// Function used when getting file path
-	static UString getNameFromID(UString id);
+	static UString getNameFromID(const UString &id);
 
 	static UString getImagePackPath();
 };

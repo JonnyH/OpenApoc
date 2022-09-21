@@ -25,10 +25,10 @@ namespace OpenApoc
 namespace
 {
 
-std::shared_future<void> loadBattleBuilding(sp<GameState> state, sp<Building> building,
-                                            bool hotseat, bool raid,
+std::shared_future<void> loadBattleBuilding(const sp<GameState> &state,
+                                            const sp<Building> &building, bool hotseat, bool raid,
                                             std::list<StateRef<Agent>> playerAgents,
-                                            StateRef<Vehicle> playerVehicle)
+                                            const StateRef<Vehicle> &playerVehicle)
 {
 	auto loadTask = fw().threadPoolEnqueue(
 	    [hotseat, building, state, raid, playerAgents, playerVehicle]() mutable -> void
@@ -46,7 +46,7 @@ std::shared_future<void> loadBattleBuilding(sp<GameState> state, sp<Building> bu
 	return loadTask;
 }
 } // namespace
-BuildingScreen::BuildingScreen(sp<GameState> state, sp<Building> building)
+BuildingScreen::BuildingScreen(const sp<GameState> &state, const sp<Building> &building)
     : Stage(), menuform(ui().getForm("city/building")), state(state), building(building)
 {
 	menuform->findControlTyped<Label>("TEXT_FUNDS")->setText(state->getPlayerBalance());

@@ -76,6 +76,7 @@
 #include "library/sp.h"
 #include "library/strings_format.h"
 #include <glm/glm.hpp>
+#include <utility>
 
 // Uncomment to start with paused
 #define DEBUG_START_PAUSE
@@ -85,10 +86,10 @@ namespace OpenApoc
 namespace
 {
 
-std::shared_future<void> loadBattleBuilding(sp<GameState> state, sp<Building> building,
-                                            bool hotseat, bool raid,
+std::shared_future<void> loadBattleBuilding(const sp<GameState> &state,
+                                            const sp<Building> &building, bool hotseat, bool raid,
                                             std::list<StateRef<Agent>> playerAgents,
-                                            StateRef<Vehicle> playerVehicle)
+                                            const StateRef<Vehicle> &playerVehicle)
 {
 	auto loadTask = fw().threadPoolEnqueue(
 	    [hotseat, building, state, raid, playerAgents, playerVehicle]() mutable -> void
@@ -106,8 +107,8 @@ std::shared_future<void> loadBattleBuilding(sp<GameState> state, sp<Building> bu
 	return loadTask;
 }
 
-std::shared_future<void> loadBattleVehicle(sp<GameState> state, StateRef<Vehicle> ufo,
-                                           StateRef<Vehicle> playerVehicle)
+std::shared_future<void> loadBattleVehicle(const sp<GameState> &state, const StateRef<Vehicle> &ufo,
+                                           const StateRef<Vehicle> &playerVehicle)
 {
 
 	auto loadTask = fw().threadPoolEnqueue(
@@ -131,7 +132,7 @@ std::shared_future<void> loadBattleVehicle(sp<GameState> state, StateRef<Vehicle
 	return loadTask;
 }
 
-sp<Facility> findCurrentResearchFacility(sp<GameState> state, AgentType::Role role,
+sp<Facility> findCurrentResearchFacility(const sp<GameState> &state, AgentType::Role role,
                                          FacilityType::Capacity capacity)
 {
 	sp<Facility> lab;
@@ -413,14 +414,14 @@ bool CityView::handleClickedVehicle(StateRef<Vehicle> vehicle, bool rightClick,
 	return false;
 }
 
-bool CityView::handleClickedAgent(StateRef<Agent> agent, bool rightClick,
+bool CityView::handleClickedAgent(const StateRef<Agent> &agent, bool rightClick,
                                   CitySelectionState selState [[maybe_unused]])
 {
 	orderSelect(agent, rightClick, modifierLCtrl || modifierRCtrl);
 	return true;
 }
 
-bool CityView::handleClickedProjectile(sp<Projectile> projectile, bool rightClick,
+bool CityView::handleClickedProjectile(const sp<Projectile> &projectile, bool rightClick,
                                        CitySelectionState selState)
 {
 	if (vanillaControls)
@@ -911,7 +912,7 @@ void CityView::orderAttack(StateRef<Vehicle> vehicle, bool forced)
 	}
 }
 
-void CityView::orderFollow(StateRef<Vehicle> vehicle)
+void CityView::orderFollow(const StateRef<Vehicle> &vehicle)
 {
 	if (activeTab == uiTabs[1])
 	{
@@ -926,7 +927,7 @@ void CityView::orderFollow(StateRef<Vehicle> vehicle)
 	}
 }
 
-void CityView::orderAttack(StateRef<Building> building)
+void CityView::orderAttack(const StateRef<Building> &building)
 {
 	if (activeTab == uiTabs[1])
 	{
@@ -983,7 +984,7 @@ void CityView::setSelectedTab(int tabIndex)
 		LogError("Trying to select invalid tab: %d", tabIndex);
 		return;
 	}
-	for (auto tab : uiTabs)
+	for (const auto &tab : uiTabs)
 	{
 		tab->setVisible(false);
 	}
@@ -992,7 +993,7 @@ void CityView::setSelectedTab(int tabIndex)
 	this->state->current_city->cityViewPageIndex = tabIndex;
 }
 
-CityView::CityView(sp<GameState> state)
+CityView::CityView(const sp<GameState> &state)
     : CityTileView(*state->current_city->map, Vec3<int>{TILE_X_CITY, TILE_Y_CITY, TILE_Z_CITY},
                    Vec2<int>{STRAT_TILE_X, STRAT_TILE_Y}, TileViewMode::Isometric,
                    state->current_city->cityViewScreenCenter, *state),
@@ -1621,7 +1622,7 @@ void CityView::refreshBaseView()
 		this->uiTabs[0]
 		    ->findControlTyped<Label>("TEXT_BASE_NAME")
 		    ->setText(state->current_base->name);
-		for (auto view : miniViews)
+		for (const auto &view : miniViews)
 		{
 			view->setData(nullptr);
 			view->setImage(nullptr);
@@ -2889,10 +2890,10 @@ void CityView::update()
 					                     //		{
 					                     //			// Equipscreen for owner vehicles
 					                     //			auto equipScreen =
-					                     //mksp<VEquipScreen>(this->state);
+					                     // mksp<VEquipScreen>(this->state);
 					                     //			equipScreen->setSelectedVehicle(vehicle);
-					                     //			fw().stageQueueCommand({ StageCmd::Command::PUSH,
-					                     //equipScreen }); 			return;
+					                     //			fw().stageQueueCommand({
+					                     // StageCmd::Command::PUSH, equipScreen }); return;
 					                     //		}
 					                     //		// [Shift] opens location
 					                     //		if (modifierLShift || modifierRShift)
@@ -2969,7 +2970,7 @@ void CityView::update()
 	state->current_city->cityViewScreenCenter = centerPos;
 }
 
-void CityView::initiateUfoMission(StateRef<Vehicle> ufo, StateRef<Vehicle> playerCraft)
+void CityView::initiateUfoMission(StateRef<Vehicle> ufo, const StateRef<Vehicle> &playerCraft)
 {
 	bool const isBuilding = false;
 	bool const isRaid = false;
@@ -2978,7 +2979,7 @@ void CityView::initiateUfoMission(StateRef<Vehicle> ufo, StateRef<Vehicle> playe
 	                                             loadBattleVehicle(state, ufo, playerCraft))});
 }
 
-void CityView::initiateBuildingMission(sp<GameState> state, StateRef<Building> building,
+void CityView::initiateBuildingMission(const sp<GameState> &state, StateRef<Building> building,
                                        std::list<StateRef<Agent>> agents)
 {
 	bool const inBuilding = true;
@@ -2988,7 +2989,7 @@ void CityView::initiateBuildingMission(sp<GameState> state, StateRef<Building> b
 	    {StageCmd::Command::REPLACEALL,
 	     mksp<BattleBriefing>(
 	         state, building->owner, Building::getId(*state, building), inBuilding, raid,
-	         loadBattleBuilding(state, building, hotseat, raid, agents, nullptr))});
+	         loadBattleBuilding(state, building, hotseat, raid, std::move(agents), nullptr))});
 }
 
 void CityView::eventOccurred(Event *e)

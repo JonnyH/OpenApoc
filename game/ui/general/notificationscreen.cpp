@@ -1,4 +1,7 @@
 #include "game/ui/general/notificationscreen.h"
+
+#include <utility>
+
 #include "forms/checkbox.h"
 #include "forms/form.h"
 #include "forms/label.h"
@@ -11,13 +14,15 @@
 #include "game/state/gamestate.h"
 #include "game/ui/tileview/battleview.h"
 #include "game/ui/tileview/cityview.h"
+#include <utility>
 
 namespace OpenApoc
 {
 
 NotificationScreen::NotificationScreen(sp<GameState> state, CityView &cityView,
                                        const UString &message, GameEventType eventType)
-    : Stage(), menuform(ui().getForm("notification")), eventType(eventType), state(state)
+    : Stage(), menuform(ui().getForm("notification")), eventType(eventType),
+      state(std::move(std::move(state)))
 {
 	menuform->findControlTyped<Label>("TEXT_NOTIFICATION")->setText(message);
 
@@ -33,7 +38,8 @@ NotificationScreen::NotificationScreen(sp<GameState> state, CityView &cityView,
 
 NotificationScreen::NotificationScreen(sp<GameState> state, BattleView &battleView,
                                        const UString &message, GameEventType eventType)
-    : Stage(), menuform(ui().getForm("notification")), eventType(eventType), state(state)
+    : Stage(), menuform(ui().getForm("notification")), eventType(eventType),
+      state(std::move(std::move(state)))
 {
 	menuform->findControlTyped<Label>("TEXT_NOTIFICATION")->setText(message);
 

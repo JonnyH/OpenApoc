@@ -87,7 +87,7 @@ UnitAIVanilla::UnitAIVanilla() { type = Type::Vanilla; }
 // - If out of range or cannot attack, priority is damage / 100 / distance to target
 // Chance to advance is equal to chance to miss
 std::tuple<AIDecision, float, unsigned>
-UnitAIVanilla::getWeaponDecision(GameState &state, BattleUnit &u, sp<AEquipment> e,
+UnitAIVanilla::getWeaponDecision(GameState &state, BattleUnit &u, const sp<AEquipment> &e,
                                  StateRef<BattleUnit> target)
 {
 #ifdef VANILLA_AI_DEBUG_OUTPUT
@@ -160,8 +160,8 @@ UnitAIVanilla::getWeaponDecision(GameState &state, BattleUnit &u, sp<AEquipment>
 }
 
 std::tuple<AIDecision, float, unsigned>
-UnitAIVanilla::getPsiDecision(GameState &state, BattleUnit &u, sp<AEquipment> e,
-                              StateRef<BattleUnit> target, PsiStatus status) const
+UnitAIVanilla::getPsiDecision(GameState &state, BattleUnit &u, const sp<AEquipment> &e,
+                              const StateRef<BattleUnit> &target, PsiStatus status) const
 {
 #ifdef VANILLA_AI_DEBUG_OUTPUT
 	LogWarning("VANILLA AI %s: getPsiDecision()", u.id);
@@ -214,7 +214,7 @@ UnitAIVanilla::getPsiDecision(GameState &state, BattleUnit &u, sp<AEquipment> e,
 // that)
 // - If out of range, halve the priority
 std::tuple<AIDecision, float, unsigned>
-UnitAIVanilla::getGrenadeDecision(GameState &state, BattleUnit &u, sp<AEquipment> e,
+UnitAIVanilla::getGrenadeDecision(GameState &state, BattleUnit &u, const sp<AEquipment> &e,
                                   StateRef<BattleUnit> target)
 {
 #ifdef VANILLA_AI_DEBUG_OUTPUT
@@ -873,7 +873,7 @@ void UnitAIVanilla::routine(GameState &state, BattleUnit &u)
 	if (!lastDecision.action || rhItem != lastDecision.action->item)
 	{
 		// Right now just equip most long ranged weapon, if tied most damaging
-		auto newItem = rhItem;
+		const auto &newItem = rhItem;
 		int maxRange = 0;
 		int maxDamage = 0;
 		for (auto &e : u.agent->equipment)

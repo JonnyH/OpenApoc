@@ -17,20 +17,20 @@ class VehicleSheet
 {
   public:
 	VehicleSheet(sp<Form> form);
-	void display(sp<Vehicle> vehicle);
-	void display(sp<VehicleType> vehicleType);
-	void display(sp<VEquipment> item);
-	void display(sp<VEquipmentType> itemType, bool researched = true);
+	void display(const sp<Vehicle> &vehicle);
+	void display(const sp<VehicleType> &vehicleType);
+	void display(const sp<VEquipment> &item);
+	void display(const sp<VEquipmentType> &itemType, bool researched = true);
 	void clear();
 
   private:
-	void displayImplementation(sp<Vehicle> vehicle, sp<VehicleType> vehicleType);
+	void displayImplementation(const sp<Vehicle> &vehicle, const sp<VehicleType> &vehicleType);
 
-	void displayEquipImplementation(sp<VEquipment> item, sp<VEquipmentType> itemType);
-	void displayEngine(sp<VEquipment> item, sp<VEquipmentType> type);
-	void displayWeapon(sp<VEquipment> item, sp<VEquipmentType> type);
-	void displayGeneral(sp<VEquipment> item, sp<VEquipmentType> type);
-	void displayAlien(sp<VEquipmentType> type);
+	void displayEquipImplementation(const sp<VEquipment> &item, const sp<VEquipmentType> &itemType);
+	void displayEngine(const sp<VEquipment> &item, const sp<VEquipmentType> &type);
+	void displayWeapon(const sp<VEquipment> &item, const sp<VEquipmentType> &type);
+	void displayGeneral(const sp<VEquipment> &item, const sp<VEquipmentType> &type);
+	void displayAlien(const sp<VEquipmentType> &type);
 
 	sp<Form> form;
 };

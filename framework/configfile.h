@@ -34,19 +34,20 @@ class ConfigFile
 
 	void set(const UString &key, bool value);
 	void set(const UString &key, int value);
-	void set(const UString &key, UString value);
+	void set(const UString &key, const UString &value);
 	void set(const UString &key, float value);
 
-	void addOptionString(UString section, UString longName, UString shortName, UString description,
-	                     UString defaultValue);
-	void addOptionInt(UString section, UString longName, UString shortName, UString description,
-	                  int defaultValue);
-	void addOptionBool(UString section, UString longName, UString shortName, UString description,
-	                   bool defaultValue);
-	void addOptionFloat(UString section, UString longName, UString shortName, UString description,
-	                    float defaultValue);
-	void addOption(UString section, UString longName, UString shortName, UString description);
-	void addPositionalArgument(UString name, UString description);
+	void addOptionString(const UString &section, const UString &longName, const UString &shortName,
+	                     const UString &description, const UString &defaultValue);
+	void addOptionInt(const UString &section, const UString &longName, const UString &shortName,
+	                  const UString &description, int defaultValue);
+	void addOptionBool(const UString &section, const UString &longName, const UString &shortName,
+	                   const UString &description, bool defaultValue);
+	void addOptionFloat(const UString &section, const UString &longName, const UString &shortName,
+	                    const UString &description, float defaultValue);
+	void addOption(const UString &section, const UString &longName, const UString &shortName,
+	               const UString &description);
+	void addPositionalArgument(const UString &name, const UString &description);
 
 	// returns 'true' if the program should exit (invalid option/'--help' specified)
 	bool parseOptions(int argc, const char *const argv[]);
@@ -78,8 +79,8 @@ class ConfigOption
 class ConfigOptionString : public ConfigOption
 {
   public:
-	ConfigOptionString(UString section, UString name, UString description,
-	                   UString defaultValue = "");
+	ConfigOptionString(const UString &section, const UString &name, const UString &description,
+	                   const UString &defaultValue = "");
 	UString get() const;
 	void set(const UString &newValue);
 };
@@ -87,7 +88,8 @@ class ConfigOptionString : public ConfigOption
 class ConfigOptionInt : public ConfigOption
 {
   public:
-	ConfigOptionInt(UString section, UString name, UString description, int defaultValue = 0);
+	ConfigOptionInt(const UString &section, const UString &name, const UString &description,
+	                int defaultValue = 0);
 	int get() const;
 	void set(int newValue);
 };
@@ -95,7 +97,8 @@ class ConfigOptionInt : public ConfigOption
 class ConfigOptionBool : public ConfigOption
 {
   public:
-	ConfigOptionBool(UString section, UString name, UString description, bool defaultValue = false);
+	ConfigOptionBool(const UString &section, const UString &name, const UString &description,
+	                 bool defaultValue = false);
 	bool get() const;
 	void set(bool newValue);
 };
@@ -103,7 +106,7 @@ class ConfigOptionBool : public ConfigOption
 class ConfigOptionFloat : public ConfigOption
 {
   public:
-	ConfigOptionFloat(UString section, UString name, UString description,
+	ConfigOptionFloat(const UString &section, const UString &name, const UString &description,
 	                  float defaultValue = 0.0f);
 	float get() const;
 };

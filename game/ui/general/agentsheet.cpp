@@ -1,4 +1,7 @@
 #include "game/ui/general/agentsheet.h"
+
+#include <utility>
+
 #include "forms/graphic.h"
 #include "forms/label.h"
 #include "forms/textedit.h"
@@ -9,6 +12,7 @@
 #include "framework/renderer.h"
 #include "game/state/gamestate.h"
 #include "game/state/rules/battle/damage.h"
+#include <utility>
 
 namespace OpenApoc
 {
@@ -27,7 +31,7 @@ const std::pair<Colour, Colour> psiAttackColour{{192, 56, 144}, {255, 120, 208}}
 const std::pair<Colour, Colour> psiDefenceColour{{192, 56, 144}, {255, 120, 208}};
 const Colour bkgColour{36, 36, 36};
 
-AgentSheet::AgentSheet(sp<Form> dstForm) : form(dstForm) {}
+AgentSheet::AgentSheet(sp<Form> dstForm) : form(std::move(std::move(dstForm))) {}
 
 void AgentSheet::display(const Agent &item, std::vector<sp<Image>> &ranks, bool turnBased)
 {

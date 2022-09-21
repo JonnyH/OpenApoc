@@ -14,6 +14,7 @@
 #include "library/strings_format.h"
 #include <glm/glm.hpp>
 #include <glm/gtx/vector_angle.hpp>
+#include <utility>
 
 namespace OpenApoc
 {
@@ -41,8 +42,8 @@ BattleUnitTileHelper::BattleUnitTileHelper(TileMap &map, BattleUnitType type, bo
 
 BattleUnitTileHelper::BattleUnitTileHelper(TileMap &map, bool large, bool flying, bool allowJumping,
                                            int maxHeight, sp<TileObjectBattleUnit> tileObject)
-    : map(map), large(large), flying(flying), maxHeight(maxHeight), tileObject(tileObject),
-      canJump(allowJumping && !flying)
+    : map(map), large(large), flying(flying), maxHeight(maxHeight),
+      tileObject(std::move(std::move(tileObject))), canJump(allowJumping && !flying)
 {
 }
 
@@ -1111,7 +1112,7 @@ BattleUnitMission *BattleUnitMission::changeStance(BattleUnit &, BodyState state
 	return mission;
 }
 
-BattleUnitMission *BattleUnitMission::throwItem(BattleUnit &u, sp<AEquipment> item,
+BattleUnitMission *BattleUnitMission::throwItem(BattleUnit &u, const sp<AEquipment> &item,
                                                 Vec3<int> target)
 {
 	float velXY = 0.0f;
@@ -1137,7 +1138,7 @@ BattleUnitMission *BattleUnitMission::dropItem(BattleUnit &, sp<AEquipment> item
 {
 	auto *mission = new BattleUnitMission();
 	mission->type = Type::DropItem;
-	mission->item = item;
+	mission->item = std::move(item);
 	return mission;
 }
 
@@ -1282,12 +1283,12 @@ BattleUnitMission *BattleUnitMission::teleport(BattleUnit &, sp<AEquipment> item
 {
 	auto *mission = new BattleUnitMission();
 	mission->type = Type::Teleport;
-	mission->item = item;
+	mission->item = std::move(item);
 	mission->targetLocation = target;
 	return mission;
 }
 
-BattleUnitMission *BattleUnitMission::brainsuck(BattleUnit &u, StateRef<BattleUnit> target,
+BattleUnitMission *BattleUnitMission::brainsuck(BattleUnit &u, const StateRef<BattleUnit> &target,
                                                 int facingDelta)
 {
 	auto *mission = new BattleUnitMission();

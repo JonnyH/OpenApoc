@@ -1,4 +1,5 @@
 #include <array>
+#include <utility>
 #include <vorbis/vorbisfile.h>
 
 #include "framework/data.h"
@@ -15,7 +16,7 @@ namespace detail
 struct VorbisMusicTrack : public MusicTrack
 {
 
-	static MusicTrack::MusicCallbackReturn fillMusicData(sp<MusicTrack> thisTrack,
+	static MusicTrack::MusicCallbackReturn fillMusicData(const sp<MusicTrack> &thisTrack,
 	                                                     unsigned int maxSamples,
 	                                                     void *sampleBuffer,
 	                                                     unsigned int *returnedSamples)
@@ -76,7 +77,7 @@ struct VorbisMusicTrack : public MusicTrack
 	OggVorbis_File _vorbis_file;
 	bool _valid = false;
 	int _bitstream = 0;
-	VorbisMusicTrack(const UString &name, IFile file) : _name(name), _file(std::move(file))
+	VorbisMusicTrack(UString name, IFile file) : _name(std::move(name)), _file(std::move(file))
 	{
 		this->callback = fillMusicData;
 		// FIXME: Arbitrary buffer size?

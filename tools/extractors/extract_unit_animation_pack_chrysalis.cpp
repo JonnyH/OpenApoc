@@ -1,3 +1,5 @@
+#include <utility>
+
 #include "framework/data.h"
 #include "framework/framework.h"
 #include "framework/palette.h"
@@ -64,7 +66,7 @@ makeUpChrysalisAnimationEntry(int from, int count, int fromB, int countB, bool b
 	return e;
 }
 
-void extractAnimationPackChrysalisInternal(sp<BattleUnitAnimationPack> p, bool first)
+void extractAnimationPackChrysalisInternal(const sp<BattleUnitAnimationPack> &p, bool first)
 {
 	int const x = first ? 0 : -1;
 	int const y = first ? 1 : 0;
@@ -94,9 +96,9 @@ void extractAnimationPackChrysalisInternal(sp<BattleUnitAnimationPack> p, bool f
 	                                  {-5, first ? -30 : -18}, first);
 }
 
-void InitialGameStateExtractor::extractAnimationPackChrysalis(sp<BattleUnitAnimationPack> p,
+void InitialGameStateExtractor::extractAnimationPackChrysalis(const sp<BattleUnitAnimationPack> &p,
                                                               bool first) const
 {
-	extractAnimationPackChrysalisInternal(p, first);
+	extractAnimationPackChrysalisInternal(std::move(p), first);
 }
 } // namespace OpenApoc

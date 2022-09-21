@@ -25,6 +25,7 @@
 #include <list>
 #include <map>
 #include <string_view>
+#include <utility>
 #include <vector>
 
 #ifdef __APPLE__
@@ -110,7 +111,7 @@ class FrameworkPrivate
 	}
 };
 
-Framework::Framework(const UString programName, bool createWindow)
+Framework::Framework(const UString &programName, bool createWindow)
     : p(new FrameworkPrivate), programName(programName), createWindow(createWindow)
 {
 	LogInfo("Starting framework");
@@ -297,7 +298,7 @@ Framework &Framework::getInstance()
 }
 Framework *Framework::tryGetInstance() { return instance; }
 
-void Framework::run(sp<Stage> initialStage)
+void Framework::run(const sp<Stage> &initialStage)
 {
 	size_t const frameCount = Options::frameLimit.get();
 	if (!createWindow)
@@ -311,7 +312,7 @@ void Framework::run(sp<Stage> initialStage)
 	auto target_frame_duration =
 	    std::chrono::duration<int64_t, std::micro>(1000000 / Options::targetFPS.get());
 
-	p->ProgramStages.push(initialStage);
+	p->ProgramStages.push(std::move(initialStage));
 
 	this->renderer->setPalette(this->data->loadPalette("xcom3/ufodata/pal_06.dat"));
 	auto expected_frame_time = std::chrono::steady_clock::now();
@@ -350,7 +351,7 @@ void Framework::run(sp<Stage> initialStage)
 			p->ProgramStages.current()->update();
 		}
 
-		for (StageCmd const cmd : stageCommands)
+		for (StageCmd const &cmd : stageCommands)
 		{
 			switch (cmd.cmd)
 			{
@@ -973,7 +974,7 @@ bool Framework::displayHasWindow() const
 	return true;
 }
 
-void Framework::displaySetTitle(UString NewTitle)
+void Framework::displaySetTitle(const UString &NewTitle)
 {
 	if (p->window)
 	{
@@ -981,7 +982,7 @@ void Framework::displaySetTitle(UString NewTitle)
 	}
 }
 
-void Framework::displaySetIcon(sp<RGBImage> image)
+void Framework::displaySetIcon(const sp<RGBImage> &image)
 {
 	if (!p->window)
 	{
@@ -1056,7 +1057,10 @@ sp<Stage> Framework::stageGetCurrent() { return p->ProgramStages.current(); }
 
 sp<Stage> Framework::stageGetPrevious() { return p->ProgramStages.previous(); }
 
-sp<Stage> Framework::stageGetPrevious(sp<Stage> From) { return p->ProgramStages.previous(From); }
+sp<Stage> Framework::stageGetPrevious(const sp<Stage> &From)
+{
+	return p->ProgramStages.previous(std::move(From));
+}
 
 void Framework::stageQueueCommand(const StageCmd &cmd) { stageCommands.emplace_back(cmd); }
 
@@ -1108,7 +1112,7 @@ void Framework::toolTipTimerCallback(unsigned int interval [[maybe_unused]],
 
 void Framework::showToolTip(sp<Image> image, const Vec2<int> &position)
 {
-	p->toolTipImage = image;
+	p->toolTipImage = std::move(image);
 	p->toolTipPosition = position;
 }
 
@@ -1124,7 +1128,10 @@ UString Framework::textGetClipboard()
 	return str;
 }
 
-void Framework::threadPoolTaskEnqueue(std::function<void()> task) { p->threadPool->enqueue(task); }
+void Framework::threadPoolTaskEnqueue(const std::function<void()> &task)
+{
+	p->threadPool->enqueue(std::move(task));
+}
 
 void *Framework::getWindowHandle() const { return static_cast<void *>(p->window); }
 

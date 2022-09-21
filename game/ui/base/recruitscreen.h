@@ -51,7 +51,7 @@ class RecruitScreen : public BaseStage
 	~RecruitScreen() override;
 
 	// Fills the form of personnel's statistics. Such as skill.
-	static void personnelSheet(const Agent &agent, sp<Form> formPersonnelStats);
+	static void personnelSheet(const Agent &agent, const sp<Form> &formPersonnelStats);
 	// Loads and returns big pictures of ranks.
 	static std::vector<sp<Image>> getBigUnitRanks();
 

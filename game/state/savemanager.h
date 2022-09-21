@@ -33,8 +33,8 @@ class SaveMetadata
 	SaveMetadata();
 	~SaveMetadata();
 	SaveMetadata(UString name, UString file, time_t creationDate, SaveType type,
-	             sp<GameState> gameState);
-	SaveMetadata(const SaveMetadata &metdata, time_t creationDate, sp<GameState> gameState);
+	             const sp<GameState> &gameState);
+	SaveMetadata(const SaveMetadata &metdata, time_t creationDate, const sp<GameState> &gameState);
 
 	/* Deserialize given manifest document	*/
 	bool deserializeManifest(SerializationArchive *archive, const UString &saveFileName);
@@ -67,30 +67,31 @@ class SaveManager
 	UString createSavePath(const UString &name) const;
 	bool findFreePath(UString &path, const UString &name) const;
 
-	bool saveGame(const SaveMetadata &metadata, sp<GameState> gameState) const;
+	bool saveGame(const SaveMetadata &metadata, const sp<GameState> &gameState) const;
 
   public:
 	SaveManager();
 
 	/* load game with given metadata */
-	std::shared_future<void> loadGame(const SaveMetadata &metadata, sp<GameState> state) const;
+	std::shared_future<void> loadGame(const SaveMetadata &metadata,
+	                                  const sp<GameState> &state) const;
 
 	/* from given file */
-	std::shared_future<void> loadGame(const UString &savePath, sp<GameState> state) const;
+	std::shared_future<void> loadGame(const UString &savePath, const sp<GameState> &state) const;
 
 	/* load from predefined save type, eg Quicksave */
-	std::shared_future<void> loadSpecialSave(SaveType type, sp<GameState> state) const;
+	std::shared_future<void> loadSpecialSave(SaveType type, const sp<GameState> &state) const;
 
 	// create new save file with given name
 	// WARNING! Name MUST NOT contain invalid filename characters!
-	bool newSaveGame(const UString &name, sp<GameState> gameState) const;
+	bool newSaveGame(const UString &name, const sp<GameState> &gameState) const;
 
 	// saves game to location pointed by metadata, also updates metadata from gamestate
 	bool overrideGame(const SaveMetadata &metadata, const UString &newFile,
-	                  sp<GameState> gameState) const;
+	                  const sp<GameState> &gameState) const;
 
 	// can be used for autosaves, quicksaves etc.
-	bool specialSaveGame(SaveType type, sp<GameState> gameState) const;
+	bool specialSaveGame(SaveType type, const sp<GameState> &gameState) const;
 
 	// list all reachable saved games
 	std::vector<SaveMetadata> getSaveList() const;

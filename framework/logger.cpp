@@ -5,6 +5,7 @@
 #include "library/sp.h"
 #include <iostream>
 #include <mutex>
+#include <utility>
 
 namespace OpenApoc
 {
@@ -43,12 +44,13 @@ static LogFunction logFunction = defaultLogFunction;
 void Log(LogLevel level, UString prefix, const UString &text)
 {
 	std::lock_guard<std::mutex> const lock(loggerMutex);
-	logFunction(level, prefix, text);
+	logFunction(level, std::move(prefix), text);
 }
 
-void _logAssert(UString prefix, UString string, int line, UString file)
+void _logAssert(UString prefix, const UString &string, int line, const UString &file)
 {
-	Log(LogLevel::Error, prefix, format("%s:%d Assertion failed %s", file, line, string));
+	Log(LogLevel::Error, std::move(prefix),
+	    format("%s:%d Assertion failed %s", file, line, string));
 	debug_trap();
 	exit(1);
 }
@@ -56,7 +58,7 @@ void _logAssert(UString prefix, UString string, int line, UString file)
 void setLogCallback(LogFunction function)
 {
 	std::lock_guard<std::mutex> const lock(loggerMutex);
-	logFunction = function;
+	logFunction = std::move(function);
 }
 
 LogFunction getLogCallback()

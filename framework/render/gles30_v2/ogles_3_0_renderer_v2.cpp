@@ -45,7 +45,7 @@ static const auto SCRATCH_TEX_SLOT = GL::TEXTURE3;
 GL::GLuint CreateShader(GL::GLenum type, const UString &source)
 {
 	GL::GLuint const shader = gl->CreateShader(type);
-	auto sourceString = source;
+	const auto &sourceString = source;
 	const GL::GLchar *string = sourceString.c_str();
 	GL::GLint const stringLength = sourceString.length();
 	gl->ShaderSource(shader, 1, &string, &stringLength);
@@ -124,7 +124,7 @@ struct SpriteDescription
 class SpritesheetEntry final : public RendererImageData
 {
   public:
-	SpritesheetEntry(Vec2<int> size, sp<Image> parent)
+	SpritesheetEntry(Vec2<int> size, const sp<Image> &parent)
 	    : parent(parent), position({-1, -1}), size(size), page(-1)
 	{
 	}
@@ -180,7 +180,7 @@ class SpritesheetPage
 		}
 	}
 
-	bool addEntry(sp<SpritesheetEntry> entry)
+	bool addEntry(const sp<SpritesheetEntry> &entry)
 	{
 		LogAssert(entry->page == -1);
 		stbrp_rect r;
@@ -258,7 +258,7 @@ class Spritesheet
 			}
 		}
 	}
-	void upload(sp<SpritesheetEntry> entry) const
+	void upload(const sp<SpritesheetEntry> &entry) const
 	{
 		LogAssert(entry->page >= 0);
 		LogAssert(entry->page < (int)this->pages.size());
@@ -329,7 +329,7 @@ class Spritesheet
 		}
 		this->reuploadTextures();
 	}
-	void addSprite(sp<SpritesheetEntry> entry)
+	void addSprite(const sp<SpritesheetEntry> &entry)
 	{
 		LogAssert(entry->page == -1);
 		LogAssert(entry->size.x < page_size.x);
@@ -451,7 +451,8 @@ class SpriteBuffer
 	bool isFull() const { return buffer_contents >= this->buffer.size(); }
 	bool isEmpty() const { return this->buffer.empty(); }
 	void reset() { this->buffer_contents = 0; }
-	void pushRGB(sp<SpritesheetEntry> e, Vec2<float> screenPos, Vec2<float> screenSize, Colour tint)
+	void pushRGB(const sp<SpritesheetEntry> &e, Vec2<float> screenPos, Vec2<float> screenSize,
+	             Colour tint)
 	{
 		LogAssert(!this->isFull());
 		LogAssert(e->page != -1);
@@ -467,7 +468,7 @@ class SpriteBuffer
 		d.screen_size = screenSize;
 		d.tint = tint;
 	}
-	void pushPalette(sp<SpritesheetEntry> e, Vec2<float> screenPos, Vec2<float> screenSize,
+	void pushPalette(const sp<SpritesheetEntry> &e, Vec2<float> screenPos, Vec2<float> screenSize,
 	                 Colour tint)
 	{
 		LogAssert(!this->isFull());
@@ -569,14 +570,14 @@ class SpriteDrawMachine
 	GL::GLint rgb_spritesheets_location;
 	GL::GLint palette_location;
 
-	sp<SpritesheetEntry> createSpritesheetEntry(sp<RGBImage> i)
+	sp<SpritesheetEntry> createSpritesheetEntry(const sp<RGBImage> &i)
 	{
 		auto entry = mksp<SpritesheetEntry>(i->size, i);
 		rgb_spritesheet.addSprite(entry);
 		return entry;
 	}
 
-	sp<SpritesheetEntry> createSpritesheetEntry(sp<PaletteImage> i)
+	sp<SpritesheetEntry> createSpritesheetEntry(const sp<PaletteImage> &i)
 	{
 		auto entry = mksp<SpritesheetEntry>(i->size, i);
 		palette_spritesheet.addSprite(entry);
@@ -640,7 +641,7 @@ class SpriteDrawMachine
 		this->current_buffer = (this->current_buffer + 1) % this->buffers.size();
 		this->used_buffers++;
 	}
-	void draw(sp<RGBImage> i, Vec2<float> screenPos, Vec2<float> screenSize,
+	void draw(const sp<RGBImage> &i, Vec2<float> screenPos, Vec2<float> screenSize,
 	          Vec2<unsigned int> viewport_size, bool flip_y, Colour tint = {255, 255, 255, 255})
 	{
 		auto sprite = std::dynamic_pointer_cast<SpritesheetEntry>(i->rendererPrivateData);
@@ -655,7 +656,7 @@ class SpriteDrawMachine
 		}
 		this->buffers[this->current_buffer]->pushRGB(sprite, screenPos, screenSize, tint);
 	}
-	void draw(sp<PaletteImage> i, Vec2<float> screenPos, Vec2<float> screenSize,
+	void draw(const sp<PaletteImage> &i, Vec2<float> screenPos, Vec2<float> screenSize,
 	          Vec2<unsigned int> viewport_size, bool flip_y, Colour tint = {255, 255, 255, 255})
 	{
 		auto sprite = std::dynamic_pointer_cast<SpritesheetEntry>(i->rendererPrivateData);
@@ -678,7 +679,7 @@ class GLRGBTexture final : public RendererImageData
 	GL::GLuint tex_id = 0;
 	Vec2<unsigned int> size;
 	OGLES30Renderer *owner;
-	GLRGBTexture(sp<RGBImage> i, OGLES30Renderer *owner) : size(i->size), owner(owner)
+	GLRGBTexture(const sp<RGBImage> &i, OGLES30Renderer *owner) : size(i->size), owner(owner)
 	{
 		RGBImageLock l(i);
 		gl->GenTextures(1, &this->tex_id);
@@ -700,7 +701,8 @@ class GLPaletteTexture final : public RendererImageData
 	GL::GLuint tex_id = 0;
 	Vec2<unsigned int> size;
 	OGLES30Renderer *owner;
-	GLPaletteTexture(sp<PaletteImage> i, OGLES30Renderer *owner) : size(i->size), owner(owner)
+	GLPaletteTexture(const sp<PaletteImage> &i, OGLES30Renderer *owner)
+	    : size(i->size), owner(owner)
 	{
 		PaletteImageLock l(i);
 		gl->GenTextures(1, &this->tex_id);
@@ -999,7 +1001,7 @@ class TexturedDrawMachine
 		gl->DrawArrays(GL::TRIANGLE_STRIP, 0, 4);
 	}
 
-	void draw(sp<RGBImage> i, Vec2<float> screenPos, Vec2<float> screenSize,
+	void draw(const sp<RGBImage> &i, Vec2<float> screenPos, Vec2<float> screenSize,
 	          Vec2<float> rotationCenter, float rotationAngleRadians,
 	          Vec2<unsigned int> viewport_size, bool flip_y, Renderer::Scaler scaler,
 	          Colour tint = {255, 255, 255, 255})
@@ -1026,7 +1028,7 @@ class TexturedDrawMachine
 		           viewport_size, flip_y, tint);
 	}
 
-	void draw(sp<Surface> i, Vec2<float> screenPos, Vec2<float> screenSize,
+	void draw(const sp<Surface> &i, Vec2<float> screenPos, Vec2<float> screenSize,
 	          Vec2<float> rotationCenter, float rotationAngleRadians,
 	          Vec2<unsigned int> viewport_size, bool flip_y, Renderer::Scaler scaler,
 	          Colour tint = {255, 255, 255, 255})
@@ -1054,7 +1056,7 @@ class TexturedDrawMachine
 		           viewport_size, flip_y, tint);
 	}
 
-	void draw(sp<PaletteImage> i, Vec2<float> screenPos, Vec2<float> screenSize,
+	void draw(const sp<PaletteImage> &i, Vec2<float> screenPos, Vec2<float> screenSize,
 	          Vec2<float> rotationCenter, float rotationAngleRadians,
 	          Vec2<unsigned int> viewport_size, bool flip_y, Colour tint = {255, 255, 255, 255})
 	{
@@ -1234,7 +1236,7 @@ class GLPalette final : public RendererImageData
 {
   public:
 	GL::GLuint tex_id;
-	GLPalette(sp<Palette> parent) : tex_id(0)
+	GLPalette(const sp<Palette> &parent) : tex_id(0)
 	{
 		gl->GenTextures(1, &this->tex_id);
 		gl->ActiveTexture(SCRATCH_TEX_SLOT);

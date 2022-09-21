@@ -21,6 +21,7 @@
 #include <map>
 #include <mutex>
 #include <queue>
+#include <utility>
 
 using namespace OpenApoc;
 
@@ -78,7 +79,7 @@ class DataImpl final : public Data
 	void readAliasFile(const UString &path);
 
   public:
-	DataImpl(std::vector<UString> paths);
+	DataImpl(const std::vector<UString> &paths);
 	~DataImpl() override = default;
 
 	sp<Sample> loadSample(UString path) override;
@@ -104,9 +105,9 @@ class DataImpl final : public Data
 	bool writeImage(UString systemPath, sp<Image> image, sp<Palette> palette = nullptr) override;
 };
 
-Data *Data::createData(std::vector<UString> paths) { return new DataImpl(paths); }
+Data *Data::createData(const std::vector<UString> &paths) { return new DataImpl(std::move(paths)); }
 
-DataImpl::DataImpl(std::vector<UString> paths) : Data(paths)
+DataImpl::DataImpl(const std::vector<UString> &paths) : Data(std::move(paths))
 {
 	registeredImageBackends["lodepng"].reset(getLodePNGImageLoaderFactory());
 	registeredImageBackends["pcx"].reset(getPCXImageLoaderFactory());

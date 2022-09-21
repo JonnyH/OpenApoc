@@ -28,7 +28,7 @@ class StageCmd
 	sp<Stage> nextStage;
 
 	StageCmd() : cmd(Command::CONTINUE) {}
-	StageCmd(Command cmd, sp<Stage> nextStage = nullptr) : cmd(cmd), nextStage(nextStage)
+	StageCmd(Command cmd, const sp<Stage> &nextStage = nullptr) : cmd(cmd), nextStage(nextStage)
 	{
 		switch (cmd)
 		{

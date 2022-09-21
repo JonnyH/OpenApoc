@@ -13,7 +13,7 @@ class FacilityType;
 class Facility
 {
   public:
-	Facility(StateRef<FacilityType> type);
+	Facility(const StateRef<FacilityType> &type);
 	Facility() = default;
 	StateRef<FacilityType> type;
 	Vec2<int> pos = {0, 0};

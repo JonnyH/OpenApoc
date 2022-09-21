@@ -12,8 +12,8 @@ namespace OpenApoc
 {
 // Combines two animation entries, used to create an entry from two glued together
 sp<BattleUnitAnimationPack::AnimationEntry> InitialGameStateExtractor::combineAnimationEntries(
-    sp<BattleUnitAnimationPack::AnimationEntry> e1,
-    sp<BattleUnitAnimationPack::AnimationEntry> e2) const
+    const sp<BattleUnitAnimationPack::AnimationEntry> &e1,
+    const sp<BattleUnitAnimationPack::AnimationEntry> &e2) const
 {
 	auto e = mksp<BattleUnitAnimationPack::AnimationEntry>();
 

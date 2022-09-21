@@ -16,7 +16,7 @@ class ThreadPool
 {
   public:
 	ThreadPool(size_t);
-	void enqueue(std::function<void()> task);
+	void enqueue(const std::function<void()> &task);
 	~ThreadPool();
 
   private:
@@ -67,7 +67,7 @@ inline ThreadPool::ThreadPool(size_t threads) : stop(false)
 }
 
 // add new work item to the pool
-void ThreadPool::enqueue(std::function<void()> task)
+void ThreadPool::enqueue(const std::function<void()> &task)
 {
 	{
 		std::unique_lock<std::mutex> const lock(queue_mutex);

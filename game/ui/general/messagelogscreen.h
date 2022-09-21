@@ -21,14 +21,16 @@ class MessageLogScreen : public Stage
 
 	sp<GameState> state;
 
-	sp<Control> createMessageRow(EventMessage message, sp<GameState> state, CityView &cityView);
-	sp<Control> createMessageRow(EventMessage message, sp<GameState> state, BattleView &battleView);
-	sp<Control> createMessageRow(EventMessage message, sp<GameState> state,
-	                             std::function<void(FormsEvent *e)> callback);
+	sp<Control> createMessageRow(const EventMessage &message, const sp<GameState> &state,
+	                             CityView &cityView);
+	sp<Control> createMessageRow(const EventMessage &message, const sp<GameState> &state,
+	                             BattleView &battleView);
+	sp<Control> createMessageRow(const EventMessage &message, const sp<GameState> &state,
+	                             const std::function<void(FormsEvent *e)> &callback);
 
   public:
-	MessageLogScreen(sp<GameState> state, CityView &cityView);
-	MessageLogScreen(sp<GameState> state, BattleView &battleView);
+	MessageLogScreen(const sp<GameState> &state, CityView &cityView);
+	MessageLogScreen(const sp<GameState> &state, BattleView &battleView);
 	~MessageLogScreen() override;
 	// Stage control
 	void begin() override;

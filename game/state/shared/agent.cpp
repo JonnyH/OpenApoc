@@ -59,7 +59,7 @@ template <> const UString &StateObject<Agent>::getId(const GameState &state, con
 	return emptyString;
 }
 
-StateRef<Agent> AgentGenerator::createAgent(GameState &state, StateRef<Organisation> org,
+StateRef<Agent> AgentGenerator::createAgent(GameState &state, const StateRef<Organisation> &org,
                                             AgentType::Role role) const
 {
 	std::list<sp<AgentType>> types;
@@ -393,7 +393,7 @@ void Agent::hire(GameState &state, StateRef<Building> newHome)
 	setMission(state, AgentMission::gotoBuilding(state, *this, newHome, false, true));
 }
 
-void Agent::transfer(GameState &state, StateRef<Building> newHome)
+void Agent::transfer(GameState &state, const StateRef<Building> &newHome)
 {
 	homeBuilding = newHome;
 	recentlyHired = false;
@@ -412,7 +412,7 @@ sp<AEquipment> Agent::getArmor(BodyPart bodyPart) const
 	return nullptr;
 }
 
-bool Agent::canAddEquipment(Vec2<int> pos, StateRef<AEquipmentType> equipmentType) const
+bool Agent::canAddEquipment(Vec2<int> pos, const StateRef<AEquipmentType> &equipmentType) const
 {
 	EquipmentSlotType slotType = EquipmentSlotType::General;
 	return canAddEquipment(pos, equipmentType, slotType);
@@ -551,7 +551,7 @@ bool Agent::canAddEquipment(Vec2<int> pos, StateRef<AEquipmentType> equipmentTyp
 
 // If type is null we look for any slot, if type is not null we look for slot that can fit the type
 Vec2<int> Agent::findFirstSlotByType(EquipmentSlotType slotType,
-                                     StateRef<AEquipmentType> equipmentType)
+                                     const StateRef<AEquipmentType> &equipmentType)
 {
 	Vec2<int> pos = {-1, 0};
 	for (auto &slot : type->equipment_layout->slots)
@@ -566,7 +566,7 @@ Vec2<int> Agent::findFirstSlotByType(EquipmentSlotType slotType,
 	return pos;
 }
 
-Vec2<int> Agent::findFirstSlot(StateRef<AEquipmentType> equipmentType)
+Vec2<int> Agent::findFirstSlot(const StateRef<AEquipmentType> &equipmentType)
 {
 	Vec2<int> pos = {-1, 0};
 	for (auto &slot : type->equipment_layout->slots)
@@ -719,7 +719,7 @@ sp<AEquipment> Agent::addEquipmentAsAmmoByType(StateRef<AEquipmentType> equipmen
 	return nullptr;
 }
 
-void Agent::addEquipment(GameState &state, sp<AEquipment> object, EquipmentSlotType slotType)
+void Agent::addEquipment(GameState &state, const sp<AEquipment> &object, EquipmentSlotType slotType)
 {
 	Vec2<int> const pos = findFirstSlotByType(slotType, object->type);
 	if (pos.x == -1)
@@ -732,7 +732,7 @@ void Agent::addEquipment(GameState &state, sp<AEquipment> object, EquipmentSlotT
 	this->addEquipment(state, pos, object);
 }
 
-void Agent::addEquipment(GameState &state, Vec2<int> pos, sp<AEquipment> object)
+void Agent::addEquipment(GameState &state, Vec2<int> pos, const sp<AEquipment> &object)
 {
 	EquipmentSlotType slotType;
 	if (!canAddEquipment(pos, object->type, slotType))
@@ -772,7 +772,7 @@ void Agent::addEquipment(GameState &state, Vec2<int> pos, sp<AEquipment> object)
 	}
 }
 
-void Agent::removeEquipment(GameState &state, sp<AEquipment> object)
+void Agent::removeEquipment(GameState &state, const sp<AEquipment> &object)
 {
 	this->equipment.remove(object);
 	if (object->equippedSlotType == EquipmentSlotType::RightHand)
@@ -839,7 +839,7 @@ void Agent::updateIsBrainsucker()
 	}
 }
 
-bool Agent::addMission(GameState &state, AgentMission mission, bool toBack)
+bool Agent::addMission(GameState &state, const AgentMission &mission, bool toBack)
 {
 	if (missions.empty() || !toBack)
 	{
@@ -853,7 +853,7 @@ bool Agent::addMission(GameState &state, AgentMission mission, bool toBack)
 	return true;
 }
 
-bool Agent::setMission(GameState &state, AgentMission mission)
+bool Agent::setMission(GameState &state, const AgentMission &mission)
 {
 	for (auto &m : this->missions)
 	{
@@ -1222,8 +1222,8 @@ StateRef<BattleUnitAnimationPack> Agent::getAnimationPack() const
 	return type->animation_packs[appearance];
 }
 
-StateRef<AEquipmentType> Agent::getDominantItemInHands(GameState &state,
-                                                       StateRef<AEquipmentType> itemLastFired) const
+StateRef<AEquipmentType>
+Agent::getDominantItemInHands(GameState &state, const StateRef<AEquipmentType> &itemLastFired) const
 {
 	sp<AEquipment> const e1 = getFirstItemInSlot(EquipmentSlotType::RightHand);
 	sp<AEquipment> const e2 = getFirstItemInSlot(EquipmentSlotType::LeftHand);
@@ -1297,7 +1297,7 @@ sp<AEquipment> Agent::getFirstItemInSlot(EquipmentSlotType equipmentSlotType, bo
 	return nullptr;
 }
 
-sp<AEquipment> Agent::getFirstItemByType(StateRef<AEquipmentType> equipmentType) const
+sp<AEquipment> Agent::getFirstItemByType(const StateRef<AEquipmentType> &equipmentType) const
 {
 	for (auto &e : equipment)
 	{

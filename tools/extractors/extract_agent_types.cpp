@@ -75,7 +75,8 @@
 namespace OpenApoc
 {
 
-void fillAgentImagePacksByDefault(GameState &state, sp<AgentType> a, UString imagePackName)
+void fillAgentImagePacksByDefault(GameState &state, const sp<AgentType> &a,
+                                  const UString &imagePackName)
 {
 	a->image_packs[a->image_packs.size() - 1][BodyPart::Body] = {
 	    &state, format("%s%s%s", BattleUnitImagePack::getPrefix(), imagePackName, "a")};
@@ -89,7 +90,7 @@ void fillAgentImagePacksByDefault(GameState &state, sp<AgentType> a, UString ima
 	    &state, format("%s%s%s", BattleUnitImagePack::getPrefix(), imagePackName, "e")};
 }
 
-void pushEquipmentSlot(sp<AgentEquipmentLayout> a, int x, int y, int w = 1, int h = 1,
+void pushEquipmentSlot(const sp<AgentEquipmentLayout> &a, int x, int y, int w = 1, int h = 1,
                        EquipmentSlotType type = EquipmentSlotType::General,
                        AlignmentX align_x = AlignmentX::Left, AlignmentY align_y = AlignmentY::Top)
 {

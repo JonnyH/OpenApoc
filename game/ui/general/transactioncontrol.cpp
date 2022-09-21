@@ -152,7 +152,7 @@ void TransactionControl::updateValues()
 	setDirty();
 }
 
-void TransactionControl::link(sp<TransactionControl> c1, sp<TransactionControl> c2)
+void TransactionControl::link(const sp<TransactionControl> &c1, const sp<TransactionControl> &c2)
 {
 	if (c1->linked && c2->linked)
 	{

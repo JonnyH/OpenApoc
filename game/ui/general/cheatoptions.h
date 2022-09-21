@@ -35,6 +35,6 @@ class CheatOptions : public Stage
 	                               int scrollMin, int scrollMax);
 	float scaleScrollbarToMultiplier(int scrollbarValue, float multMin, float multMax,
 	                                 int scrollMin, int scrollMax);
-	void updateMultiplierText(UString controlName, float multMin, float multMax);
+	void updateMultiplierText(const UString &controlName, float multMin, float multMax);
 };
 } // namespace OpenApoc

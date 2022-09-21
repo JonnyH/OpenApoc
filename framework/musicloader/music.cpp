@@ -5,6 +5,7 @@
 #include "library/sp.h"
 #include <algorithm>
 #include <memory>
+#include <utility>
 #include <vector>
 
 namespace
@@ -15,8 +16,9 @@ using namespace OpenApoc;
 const int MusicChannels = 2;
 const int MusicBytesPerSample = 2;
 
-MusicTrack::MusicCallbackReturn fillMusicData(sp<MusicTrack> thisTrack, unsigned int maxSamples,
-                                              void *sampleBuffer, unsigned int *returnedSamples);
+MusicTrack::MusicCallbackReturn fillMusicData(const sp<MusicTrack> &thisTrack,
+                                              unsigned int maxSamples, void *sampleBuffer,
+                                              unsigned int *returnedSamples);
 
 class RawMusicTrack : public MusicTrack
 {
@@ -28,10 +30,10 @@ class RawMusicTrack : public MusicTrack
 	UString name;
 
   public:
-	RawMusicTrack(Data &data, const UString &name, const UString &fileName, unsigned int fileOffset,
+	RawMusicTrack(Data &data, UString name, const UString &fileName, unsigned int fileOffset,
 	              unsigned int numSamples)
 	    : file(data.fs.open(fileName)), samplePosition(0), startingPosition(fileOffset),
-	      valid(false), name(name)
+	      valid(false), name(std::move(name))
 	{
 		if (!file)
 		{
@@ -101,8 +103,9 @@ class RawMusicTrack : public MusicTrack
 	~RawMusicTrack() override = default;
 };
 
-MusicTrack::MusicCallbackReturn fillMusicData(sp<MusicTrack> thisTrack, unsigned int maxSamples,
-                                              void *sampleBuffer, unsigned int *returnedSamples)
+MusicTrack::MusicCallbackReturn fillMusicData(const sp<MusicTrack> &thisTrack,
+                                              unsigned int maxSamples, void *sampleBuffer,
+                                              unsigned int *returnedSamples)
 {
 	auto track = std::dynamic_pointer_cast<RawMusicTrack>(thisTrack);
 	LogAssert(track);

@@ -1,3 +1,5 @@
+#include <utility>
+
 #include "framework/data.h"
 #include "framework/framework.h"
 #include "framework/palette.h"
@@ -61,7 +63,7 @@ sp<BattleUnitAnimationPack::AnimationEntry> makeUpQAnimationEntry(int from, int 
 	return e;
 }
 
-void extractAnimationPackQInternal(sp<BattleUnitAnimationPack> p)
+void extractAnimationPackQInternal(const sp<BattleUnitAnimationPack> &p)
 {
 	Vec2<int> const offset = {-60, -42};
 
@@ -158,8 +160,8 @@ void extractAnimationPackQInternal(sp<BattleUnitAnimationPack> p)
 	                        BodyState::Dead}][{1, 0}] = makeUpQAnimationEntry(49, 1, 0, 1, offset);
 }
 
-void InitialGameStateExtractor::extractAnimationPackQ(sp<BattleUnitAnimationPack> p) const
+void InitialGameStateExtractor::extractAnimationPackQ(const sp<BattleUnitAnimationPack> &p) const
 {
-	extractAnimationPackQInternal(p);
+	extractAnimationPackQInternal(std::move(p));
 }
 } // namespace OpenApoc

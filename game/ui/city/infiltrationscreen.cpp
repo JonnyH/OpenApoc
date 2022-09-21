@@ -10,6 +10,7 @@
 #include "game/state/shared/organisation.h"
 #include "library/line.h"
 #include <array>
+#include <utility>
 
 namespace OpenApoc
 {
@@ -17,7 +18,7 @@ namespace OpenApoc
 // The image seems to have 6 segments, each split into 7, so it's meant to be 6 weeks of values?
 constexpr int num_steps = 6 * 7;
 
-static void drawOrgLine(sp<RGBImage> image, const Organisation &org, const Colour &colour,
+static void drawOrgLine(const sp<RGBImage> &image, const Organisation &org, const Colour &colour,
                         int steps)
 {
 	const float step_width = static_cast<float>(image->size.x - 1) / static_cast<float>(steps);
@@ -77,7 +78,7 @@ constexpr std::array<Colour, 10> line_colors = {
     Colour{54, 74, 200},  Colour{143, 15, 178}};
 
 InfiltrationScreen::InfiltrationScreen(sp<GameState> state)
-    : Stage(), menuform(ui().getForm("city/infiltration")), state(state)
+    : Stage(), menuform(ui().getForm("city/infiltration")), state(std::move(std::move(state)))
 {
 	for (int i = 0; i < 10; i++)
 	{

@@ -85,7 +85,8 @@ class TileObject : public std::enable_shared_from_this<TileObject>
 
 	TileMap &map;
 
-	static void drawTinted(Renderer &r, sp<Image> sprite, Vec2<float> position, bool visible);
+	static void drawTinted(Renderer &r, const sp<Image> &sprite, Vec2<float> position,
+	                       bool visible);
 
 	// TileObjects are not copy-able
 	TileObject(const TileObject &) = delete;

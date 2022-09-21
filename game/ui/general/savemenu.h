@@ -30,13 +30,13 @@ class SaveMenu : public Stage
 	SaveMenuAction currentAction;
 	SaveManager saveManager;
 
-	void clearTextEdit(sp<TextEdit> textEdit);
-	void beginEditing(sp<TextEdit> textEdit, sp<TextEdit> activeTextEdit);
+	void clearTextEdit(const sp<TextEdit> &textEdit);
+	void beginEditing(const sp<TextEdit> &textEdit, const sp<TextEdit> &activeTextEdit);
 
-	void loadWithWarning(sp<Control> parent);
+	void loadWithWarning(const sp<Control> &parent);
 	// these functions will display prompt to execute action
-	void tryToLoadGame(sp<Control> slotControl);
-	void tryToSaveGame(const UString &textEdit, sp<Control> parent);
+	void tryToLoadGame(const sp<Control> &slotControl);
+	void tryToSaveGame(const UString &textEdit, const sp<Control> &parent);
 	void tryToDeleteSavedGame(sp<Control> &control);
 
   public:

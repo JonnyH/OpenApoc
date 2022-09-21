@@ -1156,8 +1156,8 @@ void Scenery::setPosition(const Vec3<float> &pos)
 	this->tileObject->setPosition(pos);
 }
 
-void Scenery::updateRelationWithAttacker(GameState &state, StateRef<Organisation> attackerOrg,
-                                         bool killed)
+void Scenery::updateRelationWithAttacker(GameState &state,
+                                         const StateRef<Organisation> &attackerOrg, bool killed)
 {
 	if (!attackerOrg)
 	{
@@ -1207,7 +1207,7 @@ bool Scenery::handleCollision(GameState &state, Collision &c)
 	return applyDamage(state, c.projectile->damage, attackerOrg);
 }
 
-bool Scenery::applyDamage(GameState &state, int power, StateRef<Organisation> attackerOrg)
+bool Scenery::applyDamage(GameState &state, int power, const StateRef<Organisation> &attackerOrg)
 {
 	if (!this->tileObject)
 	{

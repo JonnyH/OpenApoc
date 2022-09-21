@@ -16,7 +16,7 @@ namespace OpenApoc
  * tables */
 uint32_t expected_tacp_crc32 = 0xfebbe39e;
 
-TACP::TACP(std::string file_name)
+TACP::TACP(const std::string &file_name)
 {
 	auto file = fw().data->fs.open(file_name);
 

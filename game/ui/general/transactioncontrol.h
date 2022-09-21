@@ -184,7 +184,7 @@ class TransactionControl : public Control
 	                                            int storeSpace, std::vector<int> &initialStock,
 	                                            int indexLeft, int indexRight);
 
-	static void link(sp<TransactionControl> c1, sp<TransactionControl> c2);
+	static void link(const sp<TransactionControl> &c1, const sp<TransactionControl> &c2);
 
 	void setupCallbacks();
 

@@ -30,7 +30,7 @@ UI::UI() : fonts(), forms() {}
 
 UI::~UI() = default;
 
-sp<Form> UI::getForm(UString ID)
+sp<Form> UI::getForm(const UString &ID)
 {
 	if (forms.find(ID) == forms.end())
 	{
@@ -48,7 +48,7 @@ sp<Form> UI::getForm(UString ID)
 	return std::dynamic_pointer_cast<Form>(forms[ID]->copyTo(nullptr));
 }
 
-sp<BitmapFont> UI::getFont(UString FontData)
+sp<BitmapFont> UI::getFont(const UString &FontData)
 {
 	if (fonts.find(FontData) == fonts.end())
 	{

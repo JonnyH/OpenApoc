@@ -1,5 +1,5 @@
 ---
-Checks:          'misc-const-correctness,performance-move-const-arg,portability-std-allocator-const,readability-avoid-const-params-in-decls,readability-const-return-type,readability-make-member-function-const,readability-non-const-parameter'
+Checks:          'modernize-pass-by-value,performance-unnecessary-value-param,performance-unnecessary-copy-initialization,performance-noexcept-move-constructor,performance-for-range-copy,misc-const-correctness,portability-std-allocator-const,readability-avoid-const-params-in-decls,readability-const-return-type,readability-make-member-function-const,readability-non-const-parameter'
 HeaderFilterRegex: 'forms/.*|framework/.*|game/.*|library/.*|tests/.*|tools/.*'
 AnalyzeTemporaryDtors: false
 User:            jonny

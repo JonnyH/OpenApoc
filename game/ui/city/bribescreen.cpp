@@ -12,7 +12,7 @@
 namespace OpenApoc
 {
 
-BribeScreen::BribeScreen(sp<GameState> state)
+BribeScreen::BribeScreen(const sp<GameState> &state)
     : Stage(), menuform(ui().getForm("city/bribe")), state(state),
       organisation(state->current_city->cityViewSelectedOrganisation)
 {

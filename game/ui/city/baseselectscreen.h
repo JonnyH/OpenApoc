@@ -17,7 +17,7 @@ class BaseSelectScreen : public CityTileView
 	sp<GameState> state;
 
   public:
-	BaseSelectScreen(sp<GameState> state, Vec3<float> centerPos);
+	BaseSelectScreen(const sp<GameState> &state, Vec3<float> centerPos);
 	~BaseSelectScreen() override;
 	// Stage control
 	void begin() override;

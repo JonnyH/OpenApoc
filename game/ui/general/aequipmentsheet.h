@@ -16,19 +16,19 @@ class AEquipmentSheet
 {
   public:
 	AEquipmentSheet(sp<Form> form);
-	void display(sp<AEquipment> item, bool researched = true);
+	void display(const sp<AEquipment> &item, bool researched = true);
 	void display(const AEquipmentType &itemType, bool researched = true);
 	void clear();
 
   private:
-	void displayImplementation(sp<AEquipment> item, const AEquipmentType &itemType,
+	void displayImplementation(const sp<AEquipment> &item, const AEquipmentType &itemType,
 	                           bool researched);
-	void displayGrenade(sp<AEquipment> item, const AEquipmentType &itemType);
-	void displayWeapon(sp<AEquipment> item, const AEquipmentType &itemType);
-	void displayAmmo(sp<AEquipment> item, const AEquipmentType &itemType);
-	void displayArmor(sp<AEquipment> item, const AEquipmentType &itemType);
-	void displayOther(sp<AEquipment> item, const AEquipmentType &itemType);
-	void displayAlien(sp<AEquipment> item, const AEquipmentType &itemType);
+	void displayGrenade(const sp<AEquipment> &item, const AEquipmentType &itemType);
+	void displayWeapon(const sp<AEquipment> &item, const AEquipmentType &itemType);
+	void displayAmmo(const sp<AEquipment> &item, const AEquipmentType &itemType);
+	void displayArmor(const sp<AEquipment> &item, const AEquipmentType &itemType);
+	void displayOther(const sp<AEquipment> &item, const AEquipmentType &itemType);
+	void displayAlien(const sp<AEquipment> &item, const AEquipmentType &itemType);
 	sp<Form> form;
 };
 

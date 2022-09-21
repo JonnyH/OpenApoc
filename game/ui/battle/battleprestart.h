@@ -44,7 +44,7 @@ class BattlePreStart : public Stage
 
 	sp<GameState> state;
 
-	void displayAgent(sp<Agent> agent);
+	void displayAgent(const sp<Agent> &agent);
 	std::vector<sp<Image>> bigUnitRanks;
 
 	std::set<sp<AgentIcon>> agents;
@@ -56,7 +56,7 @@ class BattlePreStart : public Stage
 	int draggedOrigin = 0;
 
   public:
-	BattlePreStart(sp<GameState> state);
+	BattlePreStart(const sp<GameState> &state);
 
 	void updateAgents();
 

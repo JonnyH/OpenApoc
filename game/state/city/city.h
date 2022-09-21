@@ -120,7 +120,7 @@ class City : public StateObject<City>, public std::enable_shared_from_this<City>
 	StateRef<Organisation> cityViewSelectedOrganisation;
 	int cityViewOrgButtonIndex = 0;
 
-	void handleProjectileHit(GameState &state, sp<Projectile> projectile, bool displayDoodad,
+	void handleProjectileHit(GameState &state, const sp<Projectile> &projectile, bool displayDoodad,
 	                         bool playSound, bool expired);
 
 	void update(GameState &state, unsigned int ticks);
@@ -134,17 +134,19 @@ class City : public StateObject<City>, public std::enable_shared_from_this<City>
 
 	void initialSceneryLinkUp();
 
-	sp<Doodad> placeDoodad(StateRef<DoodadType> type, Vec3<float> position);
+	sp<Doodad> placeDoodad(const StateRef<DoodadType> &type, Vec3<float> position);
 	sp<Vehicle> createVehicle(GameState &state, StateRef<VehicleType> type,
-	                          StateRef<Organisation> owner) const;
-	sp<Vehicle> createVehicle(GameState &state, StateRef<VehicleType> type,
-	                          StateRef<Organisation> owner, StateRef<Building> building) const;
-	sp<Vehicle> placeVehicle(GameState &state, StateRef<VehicleType> type,
-	                         StateRef<Organisation> owner) const;
-	sp<Vehicle> placeVehicle(GameState &state, StateRef<VehicleType> type,
-	                         StateRef<Organisation> owner, StateRef<Building> building) const;
-	sp<Vehicle> placeVehicle(GameState &state, StateRef<VehicleType> type,
-	                         StateRef<Organisation> owner, Vec3<float> position,
+	                          const StateRef<Organisation> &owner) const;
+	sp<Vehicle> createVehicle(GameState &state, const StateRef<VehicleType> &type,
+	                          const StateRef<Organisation> &owner,
+	                          StateRef<Building> building) const;
+	sp<Vehicle> placeVehicle(GameState &state, const StateRef<VehicleType> &type,
+	                         const StateRef<Organisation> &owner) const;
+	sp<Vehicle> placeVehicle(GameState &state, const StateRef<VehicleType> &type,
+	                         const StateRef<Organisation> &owner,
+	                         StateRef<Building> building) const;
+	sp<Vehicle> placeVehicle(GameState &state, const StateRef<VehicleType> &type,
+	                         const StateRef<Organisation> &owner, Vec3<float> position,
 	                         float facing = 0.0f) const;
 
 	// Pathfinding functions

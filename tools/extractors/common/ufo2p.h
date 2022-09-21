@@ -35,7 +35,7 @@ class AgentType;
 class UFO2P
 {
   public:
-	UFO2P(std::string fileName = "xcom3/ufoexe/ufo2p.exe");
+	UFO2P(const std::string &fileName = "xcom3/ufoexe/ufo2p.exe");
 	std::unique_ptr<StrTab> research_names;
 	std::unique_ptr<StrTab> research_descriptions;
 	std::unique_ptr<DataChunk<ResearchData>> research_data;

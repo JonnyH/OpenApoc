@@ -10,7 +10,7 @@
 namespace OpenApoc
 {
 
-void extractAnimationPackPopperInternal(sp<BattleUnitAnimationPack> p, int x, int y,
+void extractAnimationPackPopperInternal(const sp<BattleUnitAnimationPack> &p, int x, int y,
                                         const InitialGameStateExtractor &e)
 {
 	// Units per 100 frames
@@ -41,7 +41,8 @@ void extractAnimationPackPopperInternal(sp<BattleUnitAnimationPack> p, int x, in
 	    e.makeUpAnimationEntry(0, 6, 0, 6, 1, {x, y}, {0, 0}, rFrames);
 }
 
-void InitialGameStateExtractor::extractAnimationPackPopper(sp<BattleUnitAnimationPack> p) const
+void InitialGameStateExtractor::extractAnimationPackPopper(
+    const sp<BattleUnitAnimationPack> &p) const
 {
 	for (int x = -1; x <= 1; x++)
 	{

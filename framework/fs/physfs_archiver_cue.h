@@ -8,6 +8,6 @@
 
 namespace OpenApoc
 {
-void parseCueFile(UString fileName);
+void parseCueFile(const UString &fileName);
 PHYSFS_Archiver *getCueArchiver();
 } // namespace OpenApoc

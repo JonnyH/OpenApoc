@@ -74,7 +74,7 @@ static const int NUM_TABS_TB = 4;
 
 } // anonymous namespace
 
-BattleView::BattleView(sp<GameState> gameState)
+BattleView::BattleView(const sp<GameState> &gameState)
     : BattleTileView(*gameState->current_battle->map,
                      Vec3<int>{TILE_X_BATTLE, TILE_Y_BATTLE, TILE_Z_BATTLE},
                      Vec2<int>{STRAT_TILE_X, STRAT_TILE_Y}, TileViewMode::Isometric,
@@ -1407,11 +1407,11 @@ void BattleView::setUpdateSpeed(BattleUpdateSpeed updateSpeed)
 	}
 }
 
-void BattleView::setSelectedTab(sp<Form> tabPtr)
+void BattleView::setSelectedTab(const sp<Form> &tabPtr)
 {
-	for (auto tab : uiTabsRT)
+	for (const auto &tab : uiTabsRT)
 		tab->setVisible(false);
-	for (auto tab : uiTabsTB)
+	for (const auto &tab : uiTabsTB)
 		tab->setVisible(false);
 	tabPtr->setVisible(true);
 	this->activeTab = tabPtr;
@@ -2729,7 +2729,7 @@ void BattleView::orderDrop(bool right)
 	}
 }
 
-void BattleView::orderSelect(StateRef<BattleUnit> u, bool inverse, bool additive)
+void BattleView::orderSelect(const StateRef<BattleUnit> &u, bool inverse, bool additive)
 {
 	auto pos =
 	    std::find(battle.battleViewSelectedUnits.begin(), battle.battleViewSelectedUnits.end(), u);
@@ -2897,7 +2897,7 @@ void BattleView::orderFire(StateRef<BattleUnit> u, WeaponStatus status, bool for
 	}
 }
 
-void BattleView::orderFocus(StateRef<BattleUnit> u)
+void BattleView::orderFocus(const StateRef<BattleUnit> &u)
 {
 	for (auto &unit : battle.battleViewSelectedUnits)
 	{
@@ -2915,7 +2915,7 @@ void BattleView::orderCancelPsi()
 	battle.battleViewSelectedUnits.front()->stopAttackPsi(*state);
 }
 
-void BattleView::orderPsiAttack(StateRef<BattleUnit> u, PsiStatus status, bool right)
+void BattleView::orderPsiAttack(const StateRef<BattleUnit> &u, PsiStatus status, bool right)
 {
 	if (battle.battleViewSelectedUnits.empty())
 	{

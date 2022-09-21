@@ -1,4 +1,7 @@
 #include "game/ui/city/weeklyfundingscreen.h"
+
+#include <utility>
+
 #include "forms/form.h"
 #include "forms/graphicbutton.h"
 #include "forms/label.h"
@@ -9,12 +12,13 @@
 #include "game/state/gamestate.h"
 #include "game/state/shared/organisation.h"
 #include "game/ui/city/scorescreen.h"
+#include <utility>
 
 namespace OpenApoc
 {
 
 WeeklyFundingScreen::WeeklyFundingScreen(sp<GameState> state)
-    : Stage(), menuform(ui().getForm("city/weekly_funding")), state(state)
+    : Stage(), menuform(ui().getForm("city/weekly_funding")), state(std::move(std::move(state)))
 {
 	labelCurrentIncome = menuform->findControlTyped<Label>("FUNDING_CURRENT");
 	labelRatingDescription = menuform->findControlTyped<Label>("SENATE_RATING");

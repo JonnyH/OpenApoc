@@ -11,6 +11,7 @@
 #include <list>
 #include <physfs.h>
 #include <string>
+#include <utility>
 #include <variant>
 
 #include <boost/program_options.hpp>
@@ -76,7 +77,7 @@ class ConfigFileImpl
   public:
 	ConfigFileImpl() : parsed(false), programName("program") {}
 
-	void createSection(const UString sectionName)
+	void createSection(const UString &sectionName)
 	{
 		if (optionSections.find(sectionName) != optionSections.end())
 			return;
@@ -265,7 +266,7 @@ class ConfigFileImpl
 		return true;
 	}
 
-	bool get(const UString name)
+	bool get(const UString &name)
 	{
 		if (!this->parsed)
 		{
@@ -299,7 +300,7 @@ class ConfigFileImpl
 		return vm[key].as<T>();
 	}
 
-	UString describe(const UString section, const UString name)
+	UString describe(const UString &section, const UString &name)
 	{
 		if (!this->parsed)
 		{
@@ -314,8 +315,8 @@ class ConfigFileImpl
 		return optionSections[section].find(combinedOption, true).description();
 	}
 
-	void addOption(const UString section, const UString longName, const UString shortName,
-	               const UString description)
+	void addOption(const UString &section, const UString &longName, const UString &shortName,
+	               const UString &description)
 	{
 		if (this->parsed)
 		{
@@ -351,7 +352,7 @@ class ConfigFileImpl
 		                                            po::value<T>()->default_value(defaultValue),
 		                                            description.c_str());
 	}
-	void addPositionalArgument(const UString name, const UString description)
+	void addPositionalArgument(const UString &name, const UString &description)
 	{
 		if (this->parsed)
 		{
@@ -410,42 +411,42 @@ UString ConfigFile::describe(const UString &section, const UString &name)
 	return this->pimpl->describe(section, name);
 }
 
-void ConfigFile::set(const UString &key, const UString value) { this->pimpl->set(key, value); }
+void ConfigFile::set(const UString &key, const UString &value) { this->pimpl->set(key, value); }
 void ConfigFile::set(const UString &key, const int value) { this->pimpl->set(key, value); }
 void ConfigFile::set(const UString &key, const bool value) { this->pimpl->set(key, value); }
 void ConfigFile::set(const UString &key, const float value) { this->pimpl->set(key, value); }
 
-void ConfigFile::addOptionString(const UString section, const UString longName,
-                                 const UString shortName, const UString description,
-                                 const UString defaultValue)
+void ConfigFile::addOptionString(const UString &section, const UString &longName,
+                                 const UString &shortName, const UString &description,
+                                 const UString &defaultValue)
 {
 	this->pimpl->addOptionTyped<UString>(section, longName, shortName, description, defaultValue);
 }
-void ConfigFile::addOptionInt(const UString section, const UString longName,
-                              const UString shortName, const UString description,
+void ConfigFile::addOptionInt(const UString &section, const UString &longName,
+                              const UString &shortName, const UString &description,
                               const int defaultValue)
 {
 	this->pimpl->addOptionTyped<int>(section, longName, shortName, description, defaultValue);
 }
-void ConfigFile::addOptionBool(const UString section, const UString longName,
-                               const UString shortName, const UString description,
+void ConfigFile::addOptionBool(const UString &section, const UString &longName,
+                               const UString &shortName, const UString &description,
                                const bool defaultValue)
 {
 	this->pimpl->addOptionTyped<bool>(section, longName, shortName, description, defaultValue);
 }
-void ConfigFile::addOptionFloat(const UString section, const UString longName,
-                                const UString shortName, const UString description,
+void ConfigFile::addOptionFloat(const UString &section, const UString &longName,
+                                const UString &shortName, const UString &description,
                                 const float defaultValue)
 {
 	this->pimpl->addOptionTyped<float>(section, longName, shortName, description, defaultValue);
 }
-void ConfigFile::addOption(const UString section, const UString longName, const UString shortName,
-                           const UString description)
+void ConfigFile::addOption(const UString &section, const UString &longName,
+                           const UString &shortName, const UString &description)
 {
 	this->pimpl->addOption(section, longName, shortName, description);
 }
 
-void ConfigFile::addPositionalArgument(const UString name, const UString description)
+void ConfigFile::addPositionalArgument(const UString &name, const UString &description)
 {
 	this->pimpl->addPositionalArgument(name, description);
 }
@@ -464,8 +465,8 @@ std::map<UString, std::vector<ConfigOption>> ConfigFile::getOptions()
 	return this->pimpl->getOptions();
 }
 
-ConfigOption::ConfigOption(const UString section, const UString name, const UString description)
-    : section(section), name(name), description(description)
+ConfigOption::ConfigOption(UString section, UString name, UString description)
+    : section(std::move(section)), name(std::move(name)), description(std::move(description))
 {
 }
 
@@ -477,8 +478,8 @@ UString ConfigOption::getKey() const
 		return section + "." + name;
 }
 
-ConfigOptionString::ConfigOptionString(const UString section, const UString name,
-                                       const UString description, const UString defaultValue)
+ConfigOptionString::ConfigOptionString(const UString &section, const UString &name,
+                                       const UString &description, const UString &defaultValue)
     : ConfigOption(section, name, description)
 {
 	config().addOptionString(section, name, "", description, defaultValue);
@@ -488,8 +489,8 @@ UString ConfigOptionString::get() const { return config().getString(getKey()); }
 
 void ConfigOptionString::set(const UString &newValue) { config().set(getKey(), newValue); }
 
-ConfigOptionInt::ConfigOptionInt(const UString section, const UString name,
-                                 const UString description, const int defaultValue)
+ConfigOptionInt::ConfigOptionInt(const UString &section, const UString &name,
+                                 const UString &description, const int defaultValue)
     : ConfigOption(section, name, description)
 {
 	config().addOptionInt(section, name, "", description, defaultValue);
@@ -499,8 +500,8 @@ int ConfigOptionInt::get() const { return config().getInt(getKey()); }
 
 void ConfigOptionInt::set(int newValue) { config().set(getKey(), newValue); }
 
-ConfigOptionBool::ConfigOptionBool(const UString section, const UString name,
-                                   const UString description, const bool defaultValue)
+ConfigOptionBool::ConfigOptionBool(const UString &section, const UString &name,
+                                   const UString &description, const bool defaultValue)
     : ConfigOption(section, name, description)
 {
 	config().addOptionBool(section, name, "", description, defaultValue);
@@ -509,8 +510,8 @@ ConfigOptionBool::ConfigOptionBool(const UString section, const UString name,
 bool ConfigOptionBool::get() const { return config().getBool(getKey()); }
 void ConfigOptionBool::set(bool newValue) { config().set(getKey(), newValue); }
 
-ConfigOptionFloat::ConfigOptionFloat(const UString section, const UString name,
-                                     const UString description, const float defaultValue)
+ConfigOptionFloat::ConfigOptionFloat(const UString &section, const UString &name,
+                                     const UString &description, const float defaultValue)
     : ConfigOption(section, name, description)
 {
 	config().addOptionFloat(section, name, "", description, defaultValue);

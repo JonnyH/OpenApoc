@@ -27,9 +27,9 @@ class TileObjectShadow : public TileObject
 
   private:
 	friend class TileMap;
-	TileObjectShadow(TileMap &map, sp<Vehicle> owner);
-	TileObjectShadow(TileMap &map, sp<BattleUnit> owner);
-	TileObjectShadow(TileMap &map, sp<BattleItem> item);
+	TileObjectShadow(TileMap &map, const sp<Vehicle> &owner);
+	TileObjectShadow(TileMap &map, const sp<BattleUnit> &owner);
+	TileObjectShadow(TileMap &map, const sp<BattleItem> &item);
 	Vec3<float> shadowPosition;
 	bool fellOffTheBottomOfTheMap;
 };

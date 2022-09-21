@@ -1,4 +1,5 @@
 #include "forms/ticker.h"
+
 #include "dependencies/pugixml/src/pugixml.hpp"
 #include "forms/ui.h"
 #include "framework/font.h"
@@ -6,11 +7,12 @@
 #include "framework/image.h"
 #include "framework/renderer.h"
 #include "library/sp.h"
+#include <utility>
 
 namespace OpenApoc
 {
 
-Ticker::Ticker(sp<BitmapFont> font)
+Ticker::Ticker(const sp<BitmapFont> &font)
     : Control(), animating(false), animTimer(0), displayTimer(0), font(font),
       TextHAlign(HorizontalAlignment::Left), TextVAlign(VerticalAlignment::Top)
 {
@@ -105,7 +107,7 @@ sp<BitmapFont> Ticker::getFont() const { return font; }
 
 void Ticker::setFont(sp<BitmapFont> NewFont)
 {
-	font = NewFont;
+	font = std::move(NewFont);
 	this->setDirty();
 }
 

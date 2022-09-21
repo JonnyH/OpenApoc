@@ -5,6 +5,7 @@
 #include <fstream>
 #include <iostream>
 #include <list>
+#include <utility>
 #include <vector>
 
 #include <boost/program_options.hpp>
@@ -27,7 +28,7 @@ class SerializeNode
   public:
 	std::string name;
 	NodeType type = NodeType::Normal;
-	SerializeNode(std::string name) : name(name) {}
+	SerializeNode(std::string name) : name(std::move(std::move(name))) {}
 };
 
 class SerializeObject
@@ -35,7 +36,7 @@ class SerializeObject
   public:
 	std::string name;
 	std::list<std::pair<std::string, SerializeNode>> members;
-	SerializeObject(std::string name) : name(name) {}
+	SerializeObject(std::string name) : name(std::move(std::move(name))) {}
 	bool external = false;
 	bool full = false;
 };

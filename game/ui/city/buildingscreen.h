@@ -20,7 +20,7 @@ class BuildingScreen : public Stage
 	sp<AgentAssignment> agentAssignment;
 
   public:
-	BuildingScreen(sp<GameState> state, sp<Building> building);
+	BuildingScreen(const sp<GameState> &state, const sp<Building> &building);
 	~BuildingScreen() override;
 	// Stage control
 	void begin() override;

@@ -138,7 +138,7 @@ void ItemDependency::produceRemains(StateRef<Base> base)
 	}
 }
 
-bool ProjectDependencies::satisfied(StateRef<Base> base) const
+bool ProjectDependencies::satisfied(const StateRef<Base> &base) const
 {
 	for (auto &r : this->research)
 	{
@@ -231,7 +231,7 @@ void ResearchState::updateTopicList()
 void ResearchState::resortTopicList()
 {
 	topic_list.sort(
-	    [](sp<ResearchTopic> a, sp<ResearchTopic> b)
+	    [](const sp<ResearchTopic> &a, const sp<ResearchTopic> &b)
 	    {
 		    if (a->isComplete() != b->isComplete())
 			    return b->isComplete();
@@ -248,7 +248,7 @@ Lab::~Lab()
 	}
 }
 
-void Lab::setResearch(StateRef<Lab> lab, StateRef<ResearchTopic> topic, sp<GameState> state)
+void Lab::setResearch(StateRef<Lab> lab, StateRef<ResearchTopic> topic, const sp<GameState> &state)
 {
 	if (topic)
 	{
@@ -372,7 +372,7 @@ int Lab::getTotalSkill() const
 	return totalLabSkill;
 }
 
-void Lab::update(unsigned int ticks, StateRef<Lab> lab, sp<GameState> state)
+void Lab::update(unsigned int ticks, StateRef<Lab> lab, const sp<GameState> &state)
 {
 	if (lab->current_project)
 	{

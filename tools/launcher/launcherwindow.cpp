@@ -591,7 +591,7 @@ void LauncherWindow::disableModClicked()
 	this->rebuildModList();
 }
 
-static QString getLanguageName(const std::string id)
+static QString getLanguageName(const std::string &id)
 {
 	QLocale const locale(QString::fromStdString(id));
 	return locale.nativeLanguageName();

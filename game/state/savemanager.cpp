@@ -12,6 +12,7 @@
 // boost uuid for generating temporary identifier for new save
 #include <boost/uuid/uuid_generators.hpp> // generators
 #include <boost/uuid/uuid_io.hpp>         // conversion to string
+#include <utility>
 
 namespace uuids = boost::uuids;
 
@@ -37,14 +38,15 @@ static std::map<SaveType, UString> saveTypeNames{{SaveType::Manual, "New saved g
                                                  {SaveType::Auto, "Autosave"}};
 
 std::shared_future<void> SaveManager::loadGame(const SaveMetadata &metadata,
-                                               sp<GameState> state) const
+                                               const sp<GameState> &state) const
 {
-	return loadGame(metadata.getFile(), state);
+	return loadGame(metadata.getFile(), std::move(state));
 }
 
-std::shared_future<void> SaveManager::loadGame(const UString &savePath, sp<GameState> state) const
+std::shared_future<void> SaveManager::loadGame(const UString &savePath,
+                                               const sp<GameState> &state) const
 {
-	UString const saveArchiveLocation = savePath;
+	UString const &saveArchiveLocation = savePath;
 	auto loadTask = fw().threadPoolEnqueue(
 	    [saveArchiveLocation, state]() -> void
 	    {
@@ -61,7 +63,7 @@ std::shared_future<void> SaveManager::loadGame(const UString &savePath, sp<GameS
 }
 
 std::shared_future<void> SaveManager::loadSpecialSave(const SaveType type,
-                                                      sp<GameState> state) const
+                                                      const sp<GameState> &state) const
 {
 	if (type == SaveType::Manual)
 	{
@@ -81,7 +83,7 @@ std::shared_future<void> SaveManager::loadSpecialSave(const SaveType type,
 		return std::async(std::launch::deferred, []() -> void { return; });
 	}
 
-	return loadGame(createSavePath(saveName), state);
+	return loadGame(createSavePath(saveName), std::move(state));
 }
 
 bool writeArchiveWithBackup(SerializationArchive *archive, const UString &path, bool pack)
@@ -182,7 +184,7 @@ bool SaveManager::findFreePath(UString &path, const UString &name) const
 	return true;
 }
 
-bool SaveManager::newSaveGame(const UString &name, const sp<GameState> gameState) const
+bool SaveManager::newSaveGame(const UString &name, const sp<GameState> &gameState) const
 {
 	UString path;
 	if (!findFreePath(path, name))
@@ -195,7 +197,7 @@ bool SaveManager::newSaveGame(const UString &name, const sp<GameState> gameState
 }
 
 bool SaveManager::overrideGame(const SaveMetadata &metadata, const UString &newName,
-                               const sp<GameState> gameState) const
+                               const sp<GameState> &gameState) const
 {
 	SaveMetadata const updatedMetadata(newName, metadata.getFile(), time(nullptr),
 	                                   metadata.getType(), gameState);
@@ -220,10 +222,10 @@ bool SaveManager::overrideGame(const SaveMetadata &metadata, const UString &newN
 	return result;
 }
 
-bool SaveManager::saveGame(const SaveMetadata &metadata, const sp<GameState> gameState) const
+bool SaveManager::saveGame(const SaveMetadata &metadata, const sp<GameState> &gameState) const
 {
 	bool const pack = Options::packSaveOption.get();
-	const UString path = metadata.getFile();
+	const UString &path = metadata.getFile();
 	auto archive = SerializationArchive::createArchive();
 	if (gameState->serialize(archive.get()) && metadata.serializeManifest(archive.get()))
 	{
@@ -233,7 +235,7 @@ bool SaveManager::saveGame(const SaveMetadata &metadata, const sp<GameState> gam
 	return false;
 }
 
-bool SaveManager::specialSaveGame(SaveType type, const sp<GameState> gameState) const
+bool SaveManager::specialSaveGame(SaveType type, const sp<GameState> &gameState) const
 {
 	if (type == SaveType::Manual)
 	{
@@ -413,8 +415,9 @@ SaveMetadata::SaveMetadata() : creationDate(0), type(), gameTicks(0){};
 SaveMetadata::~SaveMetadata() = default;
 ;
 SaveMetadata::SaveMetadata(UString name, UString file, time_t creationDate, SaveType type,
-                           const sp<GameState> gameState)
-    : name(name), file(file), creationDate(creationDate), type(type)
+                           const sp<GameState> &gameState)
+    : name(std::move(std::move(name))), file(std::move(std::move(file))),
+      creationDate(creationDate), type(type)
 {
 	if (gameState)
 	{
@@ -423,7 +426,7 @@ SaveMetadata::SaveMetadata(UString name, UString file, time_t creationDate, Save
 	}
 }
 SaveMetadata::SaveMetadata(const SaveMetadata &metdata, time_t creationDate,
-                           const sp<GameState> gameState)
+                           const sp<GameState> &gameState)
     : name(metdata.name), file(metdata.file), creationDate(creationDate), type(metdata.type)
 {
 	if (gameState)

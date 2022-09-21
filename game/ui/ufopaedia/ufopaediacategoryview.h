@@ -38,8 +38,8 @@ class UfopaediaCategoryView : public Stage
 	void setPreviousSection();
 
   public:
-	UfopaediaCategoryView(sp<GameState> state, sp<UfopaediaCategory> cat,
-	                      sp<UfopaediaEntry> entry = nullptr);
+	UfopaediaCategoryView(sp<GameState> state, const sp<UfopaediaCategory> &cat,
+	                      const sp<UfopaediaEntry> &entry = nullptr);
 	~UfopaediaCategoryView() override;
 
 	// Stage control

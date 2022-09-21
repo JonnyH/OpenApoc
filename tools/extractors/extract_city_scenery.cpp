@@ -63,10 +63,12 @@ static_assert(offsetof(struct citymap_tile_entry, overlaytile_idx) == 0x0D,
               "Invalid overlay tile index offset");
 static_assert(sizeof(struct citymap_tile_entry) == 52, "Unexpected citymap_tile_entry size");
 
-void InitialGameStateExtractor::extractCityScenery(GameState &state, UString tilePrefix,
-                                                   UString datFile, UString spriteFile,
-                                                   UString stratmapFile, UString lofFile,
-                                                   UString ovrFile, sp<City> city) const
+void InitialGameStateExtractor::extractCityScenery(GameState &state, const UString &tilePrefix,
+                                                   const UString &datFile,
+                                                   const UString &spriteFile,
+                                                   const UString &stratmapFile,
+                                                   const UString &lofFile, const UString &ovrFile,
+                                                   const sp<City> &city) const
 {
 	auto &data = this->ufo2p;
 	auto minimap_palette = fw().data->loadPalette(SCENERY_MINIMAP_PALETTE);

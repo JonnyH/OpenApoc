@@ -10,7 +10,7 @@
 namespace OpenApoc
 {
 
-void extractAnimationPackMegaInternal(sp<BattleUnitAnimationPack> p,
+void extractAnimationPackMegaInternal(const sp<BattleUnitAnimationPack> &p,
                                       const std::vector<AnimationDataAD> &dataAD,
                                       const std::vector<AnimationDataUA> &dataUA,
                                       std::vector<AnimationDataUF> &dataUF, int x, int y,
@@ -115,7 +115,7 @@ void extractAnimationPackMegaInternal(sp<BattleUnitAnimationPack> p,
 		    e.getAnimationEntry(dataAD, dataUA, dataUF, 8, {x, y}, 100, false, offset, offset);
 	}
 }
-void InitialGameStateExtractor::extractAnimationPackMega(sp<BattleUnitAnimationPack> p,
+void InitialGameStateExtractor::extractAnimationPackMega(const sp<BattleUnitAnimationPack> &p,
                                                          const std::vector<AnimationDataAD> &dataAD,
                                                          const std::vector<AnimationDataUA> &dataUA,
                                                          std::vector<AnimationDataUF> &dataUF) const

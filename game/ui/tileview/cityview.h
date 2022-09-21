@@ -97,8 +97,9 @@ class CityView : public CityTileView
 	                           CitySelectionState selState);
 	bool handleClickedVehicle(StateRef<Vehicle> vehicle, bool rightClick,
 	                          CitySelectionState selState, bool passThrough = false);
-	bool handleClickedAgent(StateRef<Agent> agent, bool rightClick, CitySelectionState selState);
-	bool handleClickedProjectile(sp<Projectile> projectile, bool rightClick,
+	bool handleClickedAgent(const StateRef<Agent> &agent, bool rightClick,
+	                        CitySelectionState selState);
+	bool handleClickedProjectile(const sp<Projectile> &projectile, bool rightClick,
 	                             CitySelectionState selState);
 	bool handleClickedOrganisation(StateRef<Organisation> organisation, bool rightClick,
 	                               CitySelectionState selState);
@@ -117,16 +118,16 @@ class CityView : public CityTileView
 	void orderSelect(StateRef<Agent> agent, bool inverse, bool additive);
 	void orderFire(Vec3<float> position);
 	void orderAttack(StateRef<Vehicle> vehicle, bool forced);
-	void orderFollow(StateRef<Vehicle> vehicle);
-	void orderAttack(StateRef<Building> building);
+	void orderFollow(const StateRef<Vehicle> &vehicle);
+	void orderAttack(const StateRef<Building> &building);
 	void orderDisableWeapon(int index, bool disable);
 
   public:
-	CityView(sp<GameState> state);
+	CityView(const sp<GameState> &state);
 	~CityView() override;
 
-	void initiateUfoMission(StateRef<Vehicle> ufo, StateRef<Vehicle> playerCraft);
-	void initiateBuildingMission(sp<GameState> state, StateRef<Building> building,
+	void initiateUfoMission(StateRef<Vehicle> ufo, const StateRef<Vehicle> &playerCraft);
+	void initiateBuildingMission(const sp<GameState> &state, StateRef<Building> building,
 	                             std::list<StateRef<Agent>> agents);
 
 	void begin() override;

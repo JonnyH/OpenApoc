@@ -218,19 +218,19 @@ class BattleView : public BattleTileView
 	void orderThrow(Vec3<int> target, bool right);
 	void orderTeleport(Vec3<int> target, bool right);
 	void orderCancelPsi();
-	void orderPsiAttack(StateRef<BattleUnit> u, PsiStatus status, bool right);
-	void orderSelect(StateRef<BattleUnit> u, bool inverse = false, bool additive = false);
+	void orderPsiAttack(const StateRef<BattleUnit> &u, PsiStatus status, bool right);
+	void orderSelect(const StateRef<BattleUnit> &u, bool inverse = false, bool additive = false);
 	void orderFire(Vec3<int> target, WeaponStatus status = WeaponStatus::FiringBothHands,
 	               bool modifier = false);
 	void orderFire(StateRef<BattleUnit> u, WeaponStatus status = WeaponStatus::FiringBothHands,
 	               bool forced = false);
 	void orderFire(StateRef<BattleUnit> shooter, Vec3<int> target,
 	               WeaponStatus status = WeaponStatus::FiringBothHands);
-	void orderFocus(StateRef<BattleUnit> u);
+	void orderFocus(const StateRef<BattleUnit> &u);
 	void orderHeal(BodyPart part);
 
   public:
-	BattleView(sp<GameState> gameState);
+	BattleView(const sp<GameState> &gameState);
 	~BattleView() override;
 	void begin() override;
 	void resume() override;
@@ -249,7 +249,7 @@ class BattleView : public BattleTileView
 	void zoomAt(Vec3<int> location);
 	void zoomLastEvent();
 
-	void setSelectedTab(sp<Form> tabPtr);
+	void setSelectedTab(const sp<Form> &tabPtr);
 };
 
 }; // namespace OpenApoc

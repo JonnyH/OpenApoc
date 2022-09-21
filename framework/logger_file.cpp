@@ -17,7 +17,7 @@ LogLevel fileLogLevel = LogLevel::Nothing;
 LogLevel backtraceLogLevel = LogLevel::Nothing;
 std::ofstream logFile;
 
-void FileLogFunction(LogLevel level, UString prefix, const UString &text)
+void FileLogFunction(LogLevel level, const UString &prefix, const UString &text)
 {
 	previousFunction(level, prefix, text);
 	auto flush = false;

@@ -1,3 +1,7 @@
+#include <utility>
+
+#include <utility>
+
 #include "framework/configfile.h"
 #include "framework/logger.h"
 #include "library/strings.h"
@@ -22,7 +26,7 @@ struct example_unicode
 	std::vector<char32_t> expected_codepoints;
 
 	example_unicode(const char *str, std::vector<char32_t> codepoints)
-	    : u8string(str), expected_codepoints(codepoints){};
+	    : u8string(str), expected_codepoints(std::move(std::move(codepoints))){};
 #ifdef __cpp_char8_t
 	example_unicode(const char8_t *str, std::vector<UniChar> codepoints)
 	    : u8string(reinterpret_cast<const char *>(str)), expected_codepoints(codepoints){};

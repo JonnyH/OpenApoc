@@ -27,7 +27,7 @@ class TileObjectProjectile : public TileObject
   private:
 	friend class TileMap;
 	wp<Projectile> projectile;
-	TileObjectProjectile(TileMap &map, sp<Projectile> projectile);
+	TileObjectProjectile(TileMap &map, const sp<Projectile> &projectile);
 };
 
 } // namespace OpenApoc

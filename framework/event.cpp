@@ -1,6 +1,8 @@
 #include "framework/event.h"
 #include <SDL_mouse.h>
 
+#include <utility>
+
 namespace OpenApoc
 {
 bool Event::isPressed(int mask, MouseButton button)
@@ -23,7 +25,7 @@ TextEvent::TextEvent() : Event(EVENT_TEXT_INPUT) {}
 UserEvent::UserEvent(const UString &id, sp<void> data) : Event(EVENT_USER)
 {
 	Data.ID = id;
-	Data.data = data;
+	Data.data = std::move(data);
 }
 
 EventTypes Event::type() const { return this->eventType; }

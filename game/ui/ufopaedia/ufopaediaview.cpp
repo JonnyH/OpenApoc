@@ -1,4 +1,7 @@
 #include "game/ui/ufopaedia/ufopaediaview.h"
+
+#include <utility>
+
 #include "forms/form.h"
 #include "forms/ui.h"
 #include "framework/event.h"
@@ -7,12 +10,13 @@
 #include "game/state/gamestate.h"
 #include "game/ui/ufopaedia/ufopaediacategoryview.h"
 #include "library/sp.h"
+#include <utility>
 
 namespace OpenApoc
 {
 
 UfopaediaView::UfopaediaView(sp<GameState> state)
-    : Stage(), menuform(ui().getForm("ufopaediatitle")), state(state)
+    : Stage(), menuform(ui().getForm("ufopaediatitle")), state(std::move(std::move(state)))
 {
 }
 

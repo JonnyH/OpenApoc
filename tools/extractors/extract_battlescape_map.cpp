@@ -14,7 +14,7 @@ namespace OpenApoc
 {
 
 void InitialGameStateExtractor::extractBattlescapeMapFromPath(GameState &state,
-                                                              const UString dirName,
+                                                              const UString &dirName,
                                                               const int index) const
 {
 	UString const tilePrefix = format("%s_", dirName);
@@ -260,7 +260,7 @@ InitialGameStateExtractor::extractMapSectors(GameState &state, const UString &ma
 {
 	std::map<UString, up<BattleMapSectorTiles>> sectors;
 	UString const map_prefix = "xcom3/maps/";
-	UString const dirName = mapRootName;
+	UString const &dirName = mapRootName;
 	UString const tilePrefix = format("%s_", dirName);
 	bool const baseMap = mapRootName == "37base";
 	BuildingDatStructure bdata;

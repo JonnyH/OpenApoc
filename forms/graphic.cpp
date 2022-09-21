@@ -1,4 +1,7 @@
 #include "forms/graphic.h"
+
+#include <utility>
+
 #include "dependencies/pugixml/src/pugixml.hpp"
 #include "framework/data.h"
 #include "framework/event.h"
@@ -6,12 +9,13 @@
 #include "framework/image.h"
 #include "framework/renderer.h"
 #include "library/sp.h"
+#include <utility>
 
 namespace OpenApoc
 {
 
 Graphic::Graphic(sp<Image> Image)
-    : Control(), image(Image), ImageHAlign(HorizontalAlignment::Left),
+    : Control(), image(std::move(std::move(Image))), ImageHAlign(HorizontalAlignment::Left),
       ImageVAlign(VerticalAlignment::Top), ImagePosition(FillMethod::Fit), AutoSize(false)
 {
 }
@@ -111,7 +115,7 @@ sp<Image> Graphic::getImage() const { return image; }
 
 void Graphic::setImage(sp<Image> Image)
 {
-	image = Image;
+	image = std::move(Image);
 	this->setDirty();
 }
 

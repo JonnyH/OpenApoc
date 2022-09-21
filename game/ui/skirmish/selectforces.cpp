@@ -14,7 +14,7 @@
 namespace OpenApoc
 {
 
-SelectForces::SelectForces(sp<GameState> state, Skirmish &skirmish,
+SelectForces::SelectForces(const sp<GameState> &state, Skirmish &skirmish,
                            std::map<StateRef<AgentType>, int> *aliens, const int *guards,
                            const int *civilians)
     : Stage(), menuform(ui().getForm("selectforces")), skirmish(skirmish), state(*state)

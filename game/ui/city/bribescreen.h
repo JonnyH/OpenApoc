@@ -32,7 +32,7 @@ class BribeScreen : public Stage
 	UString getOfferString(int itWillCost, const UString &newAttitude) const;
 
   public:
-	BribeScreen(sp<GameState> state);
+	BribeScreen(const sp<GameState> &state);
 	~BribeScreen() override;
 	// Stage control
 	void begin() override;

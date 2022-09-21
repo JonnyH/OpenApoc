@@ -17,22 +17,22 @@
 namespace OpenApoc
 {
 
-MessageLogScreen::MessageLogScreen(sp<GameState> state, CityView &cityView)
+MessageLogScreen::MessageLogScreen(const sp<GameState> &state, CityView &cityView)
     : Stage(), menuform(ui().getForm("messagelog")), state(state)
 {
 	auto listbox = menuform->findControlTyped<ListBox>("LISTBOX_MESSAGES");
-	for (EventMessage const message : state->messages)
+	for (EventMessage const &message : state->messages)
 	{
 		listbox->addItem(createMessageRow(message, state, cityView));
 	}
 	listbox->scroller->scrollMax();
 }
 
-MessageLogScreen::MessageLogScreen(sp<GameState> state, BattleView &battleView)
+MessageLogScreen::MessageLogScreen(const sp<GameState> &state, BattleView &battleView)
     : Stage(), menuform(ui().getForm("messagelog")), state(state)
 {
 	auto listbox = menuform->findControlTyped<ListBox>("LISTBOX_MESSAGES");
-	for (EventMessage const message : state->messages)
+	for (EventMessage const &message : state->messages)
 	{
 		listbox->addItem(createMessageRow(message, state, battleView));
 	}
@@ -41,8 +41,8 @@ MessageLogScreen::MessageLogScreen(sp<GameState> state, BattleView &battleView)
 
 MessageLogScreen::~MessageLogScreen() = default;
 
-sp<Control> MessageLogScreen::createMessageRow(EventMessage message, sp<GameState> state,
-                                               CityView &cityView)
+sp<Control> MessageLogScreen::createMessageRow(const EventMessage &message,
+                                               const sp<GameState> &state, CityView &cityView)
 {
 	return createMessageRow(message, state,
 	                        [message, state, &cityView](Event *)
@@ -52,8 +52,8 @@ sp<Control> MessageLogScreen::createMessageRow(EventMessage message, sp<GameStat
 	                        });
 }
 
-sp<Control> MessageLogScreen::createMessageRow(EventMessage message, sp<GameState> state,
-                                               BattleView &battleView)
+sp<Control> MessageLogScreen::createMessageRow(const EventMessage &message,
+                                               const sp<GameState> &state, BattleView &battleView)
 {
 	return createMessageRow(message, state,
 	                        [message, state, &battleView](Event *)
@@ -63,9 +63,9 @@ sp<Control> MessageLogScreen::createMessageRow(EventMessage message, sp<GameStat
 	                        });
 }
 
-sp<Control> MessageLogScreen::createMessageRow(EventMessage message,
-                                               sp<GameState> state [[maybe_unused]],
-                                               std::function<void(FormsEvent *e)> callback)
+sp<Control> MessageLogScreen::createMessageRow(const EventMessage &message,
+                                               const sp<GameState> &state [[maybe_unused]],
+                                               const std::function<void(FormsEvent *e)> &callback)
 {
 	auto control = mksp<Control>();
 

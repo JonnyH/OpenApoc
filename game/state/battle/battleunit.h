@@ -387,7 +387,7 @@ class BattleUnit : public StateObject<BattleUnit>, public std::enable_shared_fro
 	// Get full cost of attacking (including turn and pose change)
 	int getAttackCost(GameState &state, AEquipment &item, Vec3<int> tile);
 	// Set unit's focus (RT)
-	void setFocus(GameState &state, StateRef<BattleUnit> unit);
+	void setFocus(GameState &state, const StateRef<BattleUnit> &unit);
 	// Start attacking a unit
 	bool startAttacking(GameState &state, StateRef<BattleUnit> unit,
 	                    WeaponStatus status = WeaponStatus::FiringBothHands);
@@ -398,14 +398,15 @@ class BattleUnit : public StateObject<BattleUnit>, public std::enable_shared_fro
 	void stopAttacking();
 	// Returns which hands can be used for an attack (or none if attack cannot be made)
 	// Checks whether target unit is in range, and clear LOF exists to it
-	WeaponStatus canAttackUnit(GameState &state, sp<BattleUnit> unit);
+	WeaponStatus canAttackUnit(GameState &state, const sp<BattleUnit> &unit);
 	// Returns whether unit can be attacked by one of the two supplied weapons
 	// Checks whether target unit is in range, and clear LOF exists to it
-	WeaponStatus canAttackUnit(GameState &state, sp<BattleUnit> unit, sp<AEquipment> rightHand,
-	                           sp<AEquipment> leftHand = nullptr);
+	WeaponStatus canAttackUnit(GameState &state, const sp<BattleUnit> &unit,
+	                           const sp<AEquipment> &rightHand,
+	                           const sp<AEquipment> &leftHand = nullptr);
 	// Clear LOF means no friendly fire and no map part in between
 	// Clear LOS means nothing in between
-	bool hasLineToUnit(sp<BattleUnit> unit, bool useLOS = false) const;
+	bool hasLineToUnit(const sp<BattleUnit> &unit, bool useLOS = false) const;
 	// Clear LOF means no friendly fire and no map part in between
 	// Clear LOS means nothing in between
 	bool hasLineToPosition(Vec3<float> targetPosition, bool useLOS = false) const;
@@ -413,23 +414,23 @@ class BattleUnit : public StateObject<BattleUnit>, public std::enable_shared_fro
 	// Psi
 	// Get chance of psi attack to succeed
 	int getPsiChanceForEquipment(StateRef<BattleUnit> target, PsiStatus status,
-	                             StateRef<AEquipmentType> item);
+	                             const StateRef<AEquipmentType> &item);
 	// Starts attacking target, returns if attack successful
-	bool startAttackPsi(GameState &state, StateRef<BattleUnit> target, PsiStatus status,
-	                    StateRef<AEquipmentType> item);
+	bool startAttackPsi(GameState &state, const StateRef<BattleUnit> &target, PsiStatus status,
+	                    const StateRef<AEquipmentType> &item);
 	// Stop / break psi attack
 	void stopAttackPsi(GameState &state);
 	// Applies psi attack effects to this unit, returns false if attack must be terminated because
 	// of some failure
 	void applyPsiAttack(GameState &state, BattleUnit &attacker, PsiStatus status,
-	                    StateRef<AEquipmentType> item, bool impact);
+	                    const StateRef<AEquipmentType> &item, bool impact);
 	// Change unit's owner (mind control)
-	void changeOwner(GameState &state, StateRef<Organisation> newOwner);
+	void changeOwner(GameState &state, const StateRef<Organisation> &newOwner);
 
 	// Items
 
 	// Attempts to use item, returns if success
-	bool useItem(GameState &state, sp<AEquipment> item);
+	bool useItem(GameState &state, const sp<AEquipment> &item);
 	// Use medikit on bodypart
 	bool useMedikit(GameState &state, BodyPart part);
 	// Use brainsucker ability
@@ -684,7 +685,7 @@ class BattleUnit : public StateObject<BattleUnit>, public std::enable_shared_fro
 	// Apply damage directly (after all calculations)
 	void applyDamageDirect(GameState &state, int damage, bool generateFatalWounds,
 	                       BodyPart fatalWoundPart, int stunPower,
-	                       StateRef<BattleUnit> attacker = nullptr, bool violent = true);
+	                       const StateRef<BattleUnit> &attacker = nullptr, bool violent = true);
 	// Calculate chance of resisting psi-damage and apply damage to morale
 	void applyMoraleDamage(int moraleDamage, int psiAttackPower, GameState &state);
 
@@ -812,7 +813,7 @@ class BattleUnit : public StateObject<BattleUnit>, public std::enable_shared_fro
 	bool startAttacking(GameState &state, WeaponStatus status);
 	// Start psi (internal function which actually does the attack)
 	bool startAttackPsiInternal(GameState &state, StateRef<BattleUnit> target, PsiStatus status,
-	                            StateRef<AEquipmentType> item);
+	                            const StateRef<AEquipmentType> &item);
 
 	// Calculate unit's vision to terrain
 	void calculateVisionToTerrain(GameState &state);

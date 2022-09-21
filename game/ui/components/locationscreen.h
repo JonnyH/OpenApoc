@@ -24,8 +24,8 @@ class LocationScreen : public Stage
 	sp<AgentAssignment> agentAssignment;
 
   public:
-	LocationScreen(sp<GameState> state, sp<Agent> agent);
-	LocationScreen(sp<GameState> state, sp<Vehicle> vehicle);
+	LocationScreen(sp<GameState> state, const sp<Agent> &agent);
+	LocationScreen(sp<GameState> state, const sp<Vehicle> &vehicle);
 	~LocationScreen() override;
 	// Stage control
 	void begin() override;

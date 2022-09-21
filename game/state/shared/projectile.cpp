@@ -14,6 +14,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/rotate_vector.hpp>
 #include <glm/gtx/vector_angle.hpp>
+#include <utility>
 
 namespace OpenApoc
 {
@@ -23,16 +24,19 @@ Projectile::Projectile(Type type, StateRef<Vehicle> firer, StateRef<Vehicle> tar
                        int turnRate, float lifetime, int damage, unsigned int delay,
                        int depletionRate, unsigned int tail_length,
                        std::list<sp<Image>> projectile_sprites, sp<Sample> impactSfx,
-                       StateRef<DoodadType> doodadType, sp<VoxelMap> voxelMap, int stunTicks,
-                       std::list<StateRef<VEquipmentType>> splitIntoTypes, bool manualFire)
+                       const StateRef<DoodadType> &doodadType, const sp<VoxelMap> &voxelMap,
+                       int stunTicks, std::list<StateRef<VEquipmentType>> splitIntoTypes,
+                       bool manualFire)
     : type(type), position(position), velocity(velocity), turnRate(turnRate), age(0),
       lifetime(lifetime), damage(damage), delay_ticks_remaining(delay),
       depletionRate(depletionRate), firerVehicle(firer), firerPosition(firer->position),
       trackedVehicle(target), targetPosition(targetPosition), previousPosition(position),
-      spritePositions({position}), tail_length(tail_length), projectile_sprites(projectile_sprites),
+      spritePositions({position}), tail_length(tail_length),
+      projectile_sprites(std::move(std::move(projectile_sprites))),
       sprite_distance(1.0f / TILE_Y_CITY), voxelMapLof(turnRate > 0 ? voxelMap : nullptr),
-      voxelMapLos(voxelMap), manualFire(manualFire), impactSfx(impactSfx), doodadType(doodadType),
-      velocityScale(VELOCITY_SCALE_CITY), stunTicks(stunTicks), splitIntoTypesCity(splitIntoTypes)
+      voxelMapLos(voxelMap), manualFire(manualFire), impactSfx(std::move(std::move(impactSfx))),
+      doodadType(doodadType), velocityScale(VELOCITY_SCALE_CITY), stunTicks(stunTicks),
+      splitIntoTypesCity(std::move(std::move(splitIntoTypes)))
 {
 	// enough ticks to pass 1 tile diagonally and some more since vehicles can move quite quickly
 	ownerInvulnerableTicks =
@@ -45,18 +49,20 @@ Projectile::Projectile(Type type, StateRef<BattleUnit> firer, StateRef<BattleUni
                        int turnRate, float lifetime, int damage, unsigned int delay,
                        int depletionRate, unsigned int tail_length,
                        std::list<sp<Image>> projectile_sprites, sp<Sample> impactSfx,
-                       StateRef<DoodadType> doodadType, StateRef<DamageType> damageType,
-                       sp<VoxelMap> voxelMap, int stunTicks,
-                       std::list<StateRef<AEquipmentType>> splitIntoTypes, bool manualFire)
+                       const StateRef<DoodadType> &doodadType,
+                       const StateRef<DamageType> &damageType, const sp<VoxelMap> &voxelMap,
+                       int stunTicks, std::list<StateRef<AEquipmentType>> splitIntoTypes,
+                       bool manualFire)
     : type(type), position(position), velocity(velocity), turnRate(turnRate), age(0),
       lifetime(lifetime), damage(damage), delay_ticks_remaining(delay),
       depletionRate(depletionRate), firerUnit(firer), firerPosition(firer->position),
       trackedUnit(target), targetPosition(targetPosition), previousPosition(position),
-      spritePositions({position}), tail_length(tail_length), projectile_sprites(projectile_sprites),
+      spritePositions({position}), tail_length(tail_length),
+      projectile_sprites(std::move(std::move(projectile_sprites))),
       sprite_distance(1.0f / TILE_Y_BATTLE), voxelMapLof(turnRate > 0 ? voxelMap : nullptr),
-      voxelMapLos(voxelMap), manualFire(manualFire), impactSfx(impactSfx), doodadType(doodadType),
-      damageType(damageType), velocityScale(VELOCITY_SCALE_BATTLE), stunTicks(stunTicks),
-      splitIntoTypesBattle(splitIntoTypes)
+      voxelMapLos(voxelMap), manualFire(manualFire), impactSfx(std::move(std::move(impactSfx))),
+      doodadType(doodadType), damageType(damageType), velocityScale(VELOCITY_SCALE_BATTLE),
+      stunTicks(stunTicks), splitIntoTypesBattle(std::move(std::move(splitIntoTypes)))
 {
 	// enough ticks to pass 1 tile diagonally
 	ownerInvulnerableTicks =

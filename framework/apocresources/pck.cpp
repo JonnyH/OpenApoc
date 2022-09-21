@@ -200,7 +200,7 @@ static unsigned int guessTabMultiplier(IFile &pckFile, IFile &tabFile)
 	}
 }
 
-sp<ImageSet> PCKLoader::load(Data &d, UString PckFilename, UString TabFilename)
+sp<ImageSet> PCKLoader::load(Data &d, const UString &PckFilename, const UString &TabFilename)
 {
 	auto imageSet = mksp<ImageSet>();
 	auto pck = d.fs.open(PckFilename);
@@ -330,7 +330,8 @@ static sp<PaletteImage> loadStrategy(IFile &file)
 	return img;
 }
 
-sp<ImageSet> PCKLoader::loadStrat(Data &data, UString PckFilename, UString TabFilename)
+sp<ImageSet> PCKLoader::loadStrat(Data &data, const UString &PckFilename,
+                                  const UString &TabFilename)
 {
 	auto imageSet = mksp<ImageSet>();
 	auto tabFile = data.fs.open(TabFilename);
@@ -456,8 +457,8 @@ static sp<PaletteImage> loadShadowImage(IFile &file, uint8_t shadedIdx)
 	return img;
 }
 
-sp<ImageSet> PCKLoader::loadShadow(Data &data, UString PckFilename, UString TabFilename,
-                                   unsigned shadedIdx)
+sp<ImageSet> PCKLoader::loadShadow(Data &data, const UString &PckFilename,
+                                   const UString &TabFilename, unsigned shadedIdx)
 {
 	auto imageSet = mksp<ImageSet>();
 	auto tabFile = data.fs.open(TabFilename);

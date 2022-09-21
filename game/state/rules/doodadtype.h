@@ -3,6 +3,7 @@
 #include "game/state/stateobject.h"
 #include "library/sp.h"
 #include "library/vec.h"
+#include <utility>
 #include <vector>
 
 namespace OpenApoc
@@ -16,7 +17,7 @@ class DoodadFrame
 	sp<Image> image;
 	int time = 0;
 	DoodadFrame() = default;
-	DoodadFrame(sp<Image> image, int time) : image(image), time(time){};
+	DoodadFrame(sp<Image> image, int time) : image(std::move(std::move(image))), time(time){};
 };
 
 class DoodadType : public StateObject<DoodadType>

@@ -134,7 +134,7 @@ class TileMap
 	bool ceaseUpdates = false;
 
 	TileMap(Vec3<int> size, Vec3<float> velocityScale, Vec3<int> voxelMapSize,
-	        std::vector<std::set<TileObject::Type>> layerMap);
+	        const std::vector<std::set<TileObject::Type>> &layerMap);
 	~TileMap();
 
 	// Path to target area (bounds are exclusive)
@@ -158,23 +158,23 @@ class TileMap
 	}
 
 	Collision findCollision(Vec3<float> lineSegmentStart, Vec3<float> lineSegmentEnd,
-	                        std::set<TileObject::Type> validTypes = {},
-	                        sp<TileObject> ignoredObject = nullptr, bool useLOS = false,
+	                        const std::set<TileObject::Type> &validTypes = {},
+	                        const sp<TileObject> &ignoredObject = nullptr, bool useLOS = false,
 	                        bool check_full_path = false, unsigned maxRange = 0,
 	                        bool recordPassedTiles = false,
-	                        StateRef<Organisation> ignoreOwnedProjectiles = nullptr) const;
+	                        const StateRef<Organisation> &ignoreOwnedProjectiles = nullptr) const;
 
-	bool checkThrowTrajectory(sp<TileObject> thrower, Vec3<float> start, Vec3<int> end,
+	bool checkThrowTrajectory(const sp<TileObject> &thrower, Vec3<float> start, Vec3<int> end,
 	                          Vec3<float> targetVectorXY, float velocityXY, float velocityZ) const;
 
-	void addObjectToMap(sp<Projectile>);
-	void addObjectToMap(GameState &state, sp<Vehicle>);
-	void addObjectToMap(sp<Scenery>);
-	void addObjectToMap(sp<Doodad>);
-	void addObjectToMap(sp<BattleMapPart>);
-	void addObjectToMap(sp<BattleItem>);
-	void addObjectToMap(sp<BattleUnit>);
-	void addObjectToMap(sp<BattleHazard>);
+	void addObjectToMap(const sp<Projectile> &);
+	void addObjectToMap(GameState &state, const sp<Vehicle> &);
+	void addObjectToMap(const sp<Scenery> &);
+	void addObjectToMap(const sp<Doodad> &);
+	void addObjectToMap(const sp<BattleMapPart> &);
+	void addObjectToMap(const sp<BattleItem> &);
+	void addObjectToMap(const sp<BattleUnit> &);
+	void addObjectToMap(const sp<BattleHazard> &);
 
 	unsigned int getLayer(TileObject::Type type) const;
 	unsigned int getLayerCount() const;

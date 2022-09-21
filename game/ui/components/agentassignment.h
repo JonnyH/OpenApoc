@@ -48,11 +48,12 @@ class AgentAssignment : public Form
 	// Hover render
 	std::function<void(sp<Control>)> funcHoverItemRender;
 
-	void addAgentsToList(sp<MultilistBox> list, int listOffset);
+	void addAgentsToList(const sp<MultilistBox> &list, int listOffset);
 
-	void addVehiclesToList(sp<MultilistBox> list, int listOffset);
+	void addVehiclesToList(const sp<MultilistBox> &list, int listOffset);
 
-	void addBuildingToRightList(sp<Building> building, sp<MultilistBox> list, int listOffset);
+	void addBuildingToRightList(const sp<Building> &building, const sp<MultilistBox> &list,
+	                            int listOffset);
 
   public:
 	static const UString AGENT_SELECT_BOX;
@@ -68,12 +69,12 @@ class AgentAssignment : public Form
 
 	AgentAssignment(sp<GameState> state);
 
-	void init(sp<Form> form, Vec2<int> location, Vec2<int> size);
+	void init(const sp<Form> &form, Vec2<int> location, Vec2<int> size);
 
 	// Call when selected agent.
-	void setLocation(sp<Agent> agent);
+	void setLocation(const sp<Agent> &agent);
 	// Call when selected vehicle.
-	void setLocation(sp<Vehicle> vehicle);
+	void setLocation(const sp<Vehicle> &vehicle);
 	// Call when selected building.
 	void setLocation(sp<Building> building);
 	// Call when the alien incident happens.

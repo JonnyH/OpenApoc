@@ -13,6 +13,7 @@
 #include "game/state/gamestate.h"
 #include "game/state/shared/organisation.h"
 #include <limits>
+#include <utility>
 
 namespace OpenApoc
 {
@@ -34,7 +35,7 @@ std::list<multiplierDescriptor> multiplierDescriptors{
 } // namespace
 
 CheatOptions::CheatOptions(sp<GameState> state)
-    : Stage(), menuform(ui().getForm("cheatoptions")), state(state)
+    : Stage(), menuform(ui().getForm("cheatoptions")), state(std::move(std::move(state)))
 {
 }
 CheatOptions::~CheatOptions() {}
@@ -69,7 +70,7 @@ void CheatOptions::begin()
 	}
 }
 
-void CheatOptions::updateMultiplierText(UString controlName, float multMin, float multMax)
+void CheatOptions::updateMultiplierText(const UString &controlName, float multMin, float multMax)
 {
 	auto bar = menuform->findControlTyped<ScrollBar>(controlName);
 	auto label = menuform->findControlTyped<Label>("TEXT_" + controlName);

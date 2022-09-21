@@ -36,7 +36,7 @@ class ApocCursor
 
 	const Vec2<int> &getPosition() const { return cursorPos; }
 
-	ApocCursor(sp<Palette> ColourPalette);
+	ApocCursor(const sp<Palette> &ColourPalette);
 	~ApocCursor();
 
 	void eventOccured(Event *e);

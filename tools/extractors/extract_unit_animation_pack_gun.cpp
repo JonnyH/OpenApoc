@@ -10,7 +10,7 @@
 namespace OpenApoc
 {
 
-void extractAnimationPackGunInternal(sp<BattleUnitAnimationPack> p, int x, int y,
+void extractAnimationPackGunInternal(const sp<BattleUnitAnimationPack> &p, int x, int y,
                                      const InitialGameStateExtractor &e)
 {
 
@@ -31,7 +31,7 @@ void extractAnimationPackGunInternal(sp<BattleUnitAnimationPack> p, int x, int y
 	    e.makeUpAnimationEntry(0, 1, 0, 0, 1, {x, y}, {0, 0});
 }
 
-void InitialGameStateExtractor::extractAnimationPackGun(sp<BattleUnitAnimationPack> p) const
+void InitialGameStateExtractor::extractAnimationPackGun(const sp<BattleUnitAnimationPack> &p) const
 {
 	for (int x = -1; x <= 1; x++)
 	{

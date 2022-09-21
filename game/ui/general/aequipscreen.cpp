@@ -1,4 +1,7 @@
 #include "game/ui/general/aequipscreen.h"
+
+#include <utility>
+
 #include "forms/form.h"
 #include "forms/graphic.h"
 #include "forms/label.h"
@@ -32,6 +35,7 @@
 #include "game/ui/general/aequipmentsheet.h"
 #include "game/ui/general/agentsheet.h"
 #include "game/ui/general/messagebox.h"
+#include <utility>
 
 namespace OpenApoc
 {
@@ -39,8 +43,8 @@ namespace OpenApoc
 const Vec2<int> AEquipScreen::EQUIP_GRID_SLOT_SIZE{16, 16};
 const Vec2<int> AEquipScreen::EQUIP_GRID_SLOTS{16, 16};
 
-AEquipScreen::AEquipScreen(sp<GameState> state, sp<Agent> firstAgent)
-    : Stage(), firstAgent(firstAgent), formMain(ui().getForm("aequipscreen")),
+AEquipScreen::AEquipScreen(const sp<GameState> &state, sp<Agent> firstAgent)
+    : Stage(), firstAgent(std::move(std::move(firstAgent))), formMain(ui().getForm("aequipscreen")),
       pal(fw().data->loadPalette("xcom3/ufodata/agenteqp.pcx")), state(state),
       labelFont(ui().getFont("smalfont")), bigUnitRanks(RecruitScreen::getBigUnitRanks())
 {
@@ -697,7 +701,7 @@ void AEquipScreen::handleItemPlacement(bool toAgent)
 	}
 }
 
-void AEquipScreen::selectAgent(sp<Agent> agent, bool inverse, bool additive)
+void AEquipScreen::selectAgent(const sp<Agent> &agent, bool inverse, bool additive)
 {
 	auto firstAgent = selectedAgents.empty() ? nullptr : selectedAgents.front();
 	bool const fullUpdate = !isInVicinity(agent) && !inverse;
@@ -774,7 +778,7 @@ void AEquipScreen::selectAgent(sp<Agent> agent, bool inverse, bool additive)
 	}
 }
 
-void AEquipScreen::displayItem(sp<AEquipment> item)
+void AEquipScreen::displayItem(const sp<AEquipment> &item)
 {
 	bool const researched = item->type->canBeUsed(*state, state->getPlayer());
 	AEquipmentSheet(formAgentItem).display(item, researched);
@@ -1042,7 +1046,7 @@ void AEquipScreen::populateInventoryItemsAgent()
 	}
 }
 
-void AEquipScreen::removeItemFromInventory(sp<AEquipment> item)
+void AEquipScreen::removeItemFromInventory(const sp<AEquipment> &item)
 {
 	switch (getMode())
 	{
@@ -1067,7 +1071,7 @@ void AEquipScreen::removeItemFromInventory(sp<AEquipment> item)
 	}
 }
 
-void AEquipScreen::removeItemFromInventoryBattle(sp<AEquipment> item)
+void AEquipScreen::removeItemFromInventoryBattle(const sp<AEquipment> &item)
 {
 	auto battleItem = item->ownerItem.lock();
 	if (!battleItem)
@@ -1078,7 +1082,7 @@ void AEquipScreen::removeItemFromInventoryBattle(sp<AEquipment> item)
 	battleItem->die(*state, false);
 }
 
-void AEquipScreen::removeItemFromInventoryBase(sp<AEquipment> item)
+void AEquipScreen::removeItemFromInventoryBase(const sp<AEquipment> &item)
 {
 	// Expecting to have an agent in a base
 	auto currentAgent = selectedAgents.front();
@@ -1116,7 +1120,7 @@ void AEquipScreen::removeItemFromInventoryBase(sp<AEquipment> item)
 	}
 }
 
-void AEquipScreen::removeItemFromInventoryAgent(sp<AEquipment> item)
+void AEquipScreen::removeItemFromInventoryAgent(const sp<AEquipment> &item)
 {
 	// Expecting to have an agent
 	auto currentAgent = selectedAgents.front();
@@ -1126,7 +1130,7 @@ void AEquipScreen::removeItemFromInventoryAgent(sp<AEquipment> item)
 	                                                   item));
 }
 
-void AEquipScreen::removeItemFromInventoryBuilding(sp<AEquipment> item)
+void AEquipScreen::removeItemFromInventoryBuilding(const sp<AEquipment> &item)
 {
 	sp<Building> const building = getAgentBuilding(selectedAgents.front());
 
@@ -1134,7 +1138,7 @@ void AEquipScreen::removeItemFromInventoryBuilding(sp<AEquipment> item)
 	    std::find(buildingItems[building].begin(), buildingItems[building].end(), item));
 }
 
-void AEquipScreen::removeItemFromInventoryVehicle(sp<AEquipment> item)
+void AEquipScreen::removeItemFromInventoryVehicle(const sp<AEquipment> &item)
 {
 	sp<Vehicle> const vehicle = getAgentVehicle(selectedAgents.front());
 
@@ -1142,7 +1146,7 @@ void AEquipScreen::removeItemFromInventoryVehicle(sp<AEquipment> item)
 	    std::find(vehicleItems[vehicle].begin(), vehicleItems[vehicle].end(), item));
 }
 
-void AEquipScreen::addItemToInventory(sp<AEquipment> item)
+void AEquipScreen::addItemToInventory(const sp<AEquipment> &item)
 {
 	switch (getMode())
 	{
@@ -1167,7 +1171,7 @@ void AEquipScreen::addItemToInventory(sp<AEquipment> item)
 	}
 }
 
-void AEquipScreen::addItemToInventoryBattle(sp<AEquipment> item)
+void AEquipScreen::addItemToInventoryBattle(const sp<AEquipment> &item)
 {
 	// Expecting to have an agent
 	auto currentAgent = selectedAgents.front();
@@ -1184,7 +1188,7 @@ void AEquipScreen::addItemToInventoryBattle(sp<AEquipment> item)
 	}
 }
 
-void AEquipScreen::addItemToInventoryBase(sp<AEquipment> item)
+void AEquipScreen::addItemToInventoryBase(const sp<AEquipment> &item)
 {
 	// Expecting to have an agent
 	auto currentAgent = selectedAgents.front();
@@ -1214,7 +1218,7 @@ void AEquipScreen::addItemToInventoryBase(sp<AEquipment> item)
 	}
 }
 
-void AEquipScreen::addItemToInventoryAgent(sp<AEquipment> item)
+void AEquipScreen::addItemToInventoryAgent(const sp<AEquipment> &item)
 {
 	// Expecting to have an agent
 	auto currentAgent = selectedAgents.front();
@@ -1222,7 +1226,7 @@ void AEquipScreen::addItemToInventoryAgent(sp<AEquipment> item)
 	agentItems[currentAgent->position].push_back(item);
 }
 
-bool AEquipScreen::tryPickUpItem(sp<Agent> agent, Vec2<int> slotPos, bool alternative,
+bool AEquipScreen::tryPickUpItem(const sp<Agent> &agent, Vec2<int> slotPos, bool alternative,
                                  bool *alienArtifact, bool forced)
 {
 	alternative = alternative && config().getBool("OpenApoc.NewFeature.AdvancedInventoryControls");
@@ -1311,7 +1315,7 @@ bool AEquipScreen::tryPickUpItem(const AEquipmentType &item)
 
 void AEquipScreen::pickUpItem(sp<AEquipment> item)
 {
-	draggedEquipment = item;
+	draggedEquipment = std::move(item);
 	draggedEquipmentOffset = {0, 0};
 	draggedEquipmentOrigin = {-1, -1};
 	draggedEquipmentAlternativePickup = false;
@@ -1319,7 +1323,7 @@ void AEquipScreen::pickUpItem(sp<AEquipment> item)
 	removeItemFromInventory(draggedEquipment);
 }
 
-bool AEquipScreen::tryPlaceItem(sp<Agent> agent, Vec2<int> slotPos, bool *insufficientTU,
+bool AEquipScreen::tryPlaceItem(const sp<Agent> &agent, Vec2<int> slotPos, bool *insufficientTU,
                                 bool *alienArtifact)
 {
 	bool canAdd = agent->canAddEquipment(slotPos, draggedEquipment->type);
@@ -1418,7 +1422,7 @@ bool AEquipScreen::tryPlaceItem(sp<Agent> agent, Vec2<int> slotPos, bool *insuff
 	return canAdd;
 }
 
-bool AEquipScreen::tryPlaceItem(sp<Agent> agent, bool toAgent, bool *insufficientTU)
+bool AEquipScreen::tryPlaceItem(const sp<Agent> &agent, bool toAgent, bool *insufficientTU)
 {
 	Vec2<int> slotPos = {-1, 0};
 	bool canAdd = toAgent;
@@ -1592,7 +1596,7 @@ void AEquipScreen::processTemplate(int idx, bool remember)
 	}
 }
 
-void AEquipScreen::addItemToInventoryBuilding(sp<AEquipment> item)
+void AEquipScreen::addItemToInventoryBuilding(const sp<AEquipment> &item)
 {
 	// Expecting to have an agent
 	auto currentAgent = selectedAgents.front();
@@ -1600,7 +1604,7 @@ void AEquipScreen::addItemToInventoryBuilding(sp<AEquipment> item)
 	buildingItems[getAgentBuilding(currentAgent)].push_back(item);
 }
 
-void AEquipScreen::addItemToInventoryVehicle(sp<AEquipment> item)
+void AEquipScreen::addItemToInventoryVehicle(const sp<AEquipment> &item)
 {
 	// Expecting to have an agent
 	auto currentAgent = selectedAgents.front();
@@ -1759,7 +1763,7 @@ void AEquipScreen::closeScreen()
 	fw().stageQueueCommand({StageCmd::Command::POP});
 }
 
-bool AEquipScreen::isInVicinity(sp<Agent> agent)
+bool AEquipScreen::isInVicinity(const sp<Agent> &agent)
 {
 	if (state->current_battle || selectedAgents.empty())
 	{
@@ -1788,7 +1792,7 @@ bool AEquipScreen::isInVicinity(sp<Agent> agent)
 	return false;
 }
 
-StateRef<Building> AEquipScreen::getAgentBuilding(sp<Agent> agent)
+StateRef<Building> AEquipScreen::getAgentBuilding(const sp<Agent> &agent)
 {
 	return agent->currentBuilding
 	           ? agent->currentBuilding
@@ -1797,12 +1801,12 @@ StateRef<Building> AEquipScreen::getAgentBuilding(sp<Agent> agent)
 	                  : nullptr);
 }
 
-StateRef<Vehicle> AEquipScreen::getAgentVehicle(sp<Agent> agent)
+StateRef<Vehicle> AEquipScreen::getAgentVehicle(const sp<Agent> &agent)
 {
 	return agent->currentBuilding ? nullptr : agent->currentVehicle;
 }
 
-StateRef<Base> AEquipScreen::getAgentBase(sp<Agent> agent)
+StateRef<Base> AEquipScreen::getAgentBase(const sp<Agent> &agent)
 {
 	return getAgentBuilding(agent) ? getAgentBuilding(agent)->base : nullptr;
 }
@@ -1901,7 +1905,7 @@ void AEquipScreen::attemptCloseScreen()
 	}
 }
 
-void AEquipScreen::displayAgent(sp<Agent> agent)
+void AEquipScreen::displayAgent(const sp<Agent> &agent)
 {
 	formMain->findControlTyped<Graphic>("BACKGROUND")->setImage(agent->type->inventoryBackground);
 
@@ -1911,7 +1915,7 @@ void AEquipScreen::displayAgent(sp<Agent> agent)
 	formAgentItem->setVisible(false);
 }
 
-bool AEquipScreen::checkAgent(sp<Agent> agent, sp<Organisation> owner)
+bool AEquipScreen::checkAgent(const sp<Agent> &agent, const sp<Organisation> &owner)
 {
 	if (agent->owner != owner)
 	{
@@ -1966,7 +1970,7 @@ void AEquipScreen::updateAgents()
 	agentList->ItemSize = labelFont->getFontHeight() * 2;
 }
 
-void AEquipScreen::updateAgentControl(sp<Agent> agent)
+void AEquipScreen::updateAgentControl(const sp<Agent> &agent)
 {
 	UnitSelectionState selstate = UnitSelectionState::Unselected;
 	if (!selectedAgents.empty())

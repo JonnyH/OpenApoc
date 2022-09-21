@@ -35,7 +35,7 @@ class TextEdit : public Control
 	HorizontalAlignment TextHAlign;
 	VerticalAlignment TextVAlign;
 
-	TextEdit(const UString &Text = "", sp<BitmapFont> font = nullptr);
+	TextEdit(const UString &Text = "", const sp<BitmapFont> &font = nullptr);
 	~TextEdit() override;
 
 	void eventOccured(Event *e) override;

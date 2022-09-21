@@ -21,10 +21,10 @@ namespace OpenApoc
 {
 
 Collision TileMap::findCollision(Vec3<float> lineSegmentStart, Vec3<float> lineSegmentEnd,
-                                 const std::set<TileObject::Type> validTypes,
-                                 sp<TileObject> ignoredObject, bool useLOS, bool check_full_path,
-                                 unsigned maxRange, bool recordPassedTiles,
-                                 StateRef<Organisation> ignoreOwnedProjectiles) const
+                                 const std::set<TileObject::Type> &validTypes,
+                                 const sp<TileObject> &ignoredObject, bool useLOS,
+                                 bool check_full_path, unsigned maxRange, bool recordPassedTiles,
+                                 const StateRef<Organisation> &ignoreOwnedProjectiles) const
 {
 	bool const typeChecking = validTypes.size() > 0;
 	bool const rangeChecking = maxRange > 0.0f;
@@ -174,7 +174,7 @@ Collision TileMap::findCollision(Vec3<float> lineSegmentStart, Vec3<float> lineS
 
 // Checks if, while going along the trajectory, we reach target tile or get first collision within
 // it's boundaries
-bool TileMap::checkThrowTrajectory(const sp<TileObject> thrower, Vec3<float> start, Vec3<int> end,
+bool TileMap::checkThrowTrajectory(const sp<TileObject> &thrower, Vec3<float> start, Vec3<int> end,
                                    Vec3<float> targetVectorXY, float velocityXY,
                                    float velocityZ) const
 {

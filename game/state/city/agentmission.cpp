@@ -208,7 +208,7 @@ bool AgentTileHelper::isMoveAllowed(Scenery &scenery, int dir) const
 	return false;
 }
 
-AgentMission AgentMission::gotoBuilding(GameState &, Agent &a, StateRef<Building> target,
+AgentMission AgentMission::gotoBuilding(GameState &, Agent &a, const StateRef<Building> &target,
                                         bool allowTeleporter, bool allowTaxi)
 {
 	AgentMission mission;
@@ -234,7 +234,7 @@ AgentMission AgentMission::restartNextMission(GameState &, Agent &)
 	return mission;
 }
 
-AgentMission AgentMission::awaitPickup(GameState &, Agent &, StateRef<Building> target)
+AgentMission AgentMission::awaitPickup(GameState &, Agent &, const StateRef<Building> &target)
 {
 	AgentMission mission;
 	mission.type = MissionType::AwaitPickup;
@@ -244,7 +244,7 @@ AgentMission AgentMission::awaitPickup(GameState &, Agent &, StateRef<Building> 
 }
 
 AgentMission AgentMission::teleport(GameState &state [[maybe_unused]], Agent &a [[maybe_unused]],
-                                    StateRef<Building> b)
+                                    const StateRef<Building> &b)
 {
 	AgentMission mission;
 	mission.type = MissionType::Teleport;
@@ -252,7 +252,8 @@ AgentMission AgentMission::teleport(GameState &state [[maybe_unused]], Agent &a 
 	return mission;
 }
 
-AgentMission AgentMission::investigateBuilding(GameState &, Agent &a, StateRef<Building> target,
+AgentMission AgentMission::investigateBuilding(GameState &, Agent &a,
+                                               const StateRef<Building> &target,
                                                bool allowTeleporter, bool allowTaxi)
 {
 	AgentMission mission;

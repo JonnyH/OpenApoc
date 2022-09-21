@@ -18,8 +18,9 @@ namespace OpenApoc
 {
 
 class SMKVideo;
-MusicTrack::MusicCallbackReturn fillSMKMusicData(sp<MusicTrack> thisTrack, unsigned int maxSamples,
-                                                 void *sampleBuffer, unsigned int *returnedSamples);
+MusicTrack::MusicCallbackReturn fillSMKMusicData(const sp<MusicTrack> &thisTrack,
+                                                 unsigned int maxSamples, void *sampleBuffer,
+                                                 unsigned int *returnedSamples);
 
 class SMKMusicTrack : public MusicTrack
 {
@@ -29,7 +30,7 @@ class SMKMusicTrack : public MusicTrack
 	unsigned current_frame_sample_position;
 
   public:
-	SMKMusicTrack(sp<SMKVideo> video);
+	SMKMusicTrack(const sp<SMKVideo> &video);
 	const UString &getName() const override;
 	MusicCallbackReturn fillData(unsigned int maxSamples, void *sampleBuffer,
 	                             unsigned int *returnedSamples);
@@ -340,14 +341,15 @@ class SMKVideo : public Video, public std::enable_shared_from_this<SMKVideo>
 	}
 };
 
-MusicTrack::MusicCallbackReturn fillSMKMusicData(sp<MusicTrack> thisTrack, unsigned int maxSamples,
-                                                 void *sampleBuffer, unsigned int *returnedSamples)
+MusicTrack::MusicCallbackReturn fillSMKMusicData(const sp<MusicTrack> &thisTrack,
+                                                 unsigned int maxSamples, void *sampleBuffer,
+                                                 unsigned int *returnedSamples)
 {
 	auto track = std::dynamic_pointer_cast<SMKMusicTrack>(thisTrack);
 	LogAssert(track);
 	return track->fillData(maxSamples, sampleBuffer, returnedSamples);
 }
-SMKMusicTrack::SMKMusicTrack(sp<SMKVideo> video)
+SMKMusicTrack::SMKMusicTrack(const sp<SMKVideo> &video)
     : video(video), current_frame(video->popAudio()), current_frame_sample_position(0)
 {
 	this->format = video->audio_format;

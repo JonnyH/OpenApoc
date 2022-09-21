@@ -255,7 +255,8 @@ bool FlyingVehicleTileHelper::canLandOnTile(Tile *to) const
 	return true;
 }
 
-Vec3<int> FlyingVehicleTileHelper::findTileToLandOn(GameState &, sp<TileObjectVehicle> vTile) const
+Vec3<int> FlyingVehicleTileHelper::findTileToLandOn(GameState &,
+                                                    const sp<TileObjectVehicle> &vTile) const
 {
 	const int lookupRaduis = 10;
 	auto startPos = vTile->getOwningTile()->position;
@@ -305,8 +306,9 @@ Vec3<int> FlyingVehicleTileHelper::findTileToLandOn(GameState &, sp<TileObjectVe
 	return startPos;
 }
 
-Vec3<float> FlyingVehicleTileHelper::findSidestep(GameState &state, sp<TileObjectVehicle> vTile,
-                                                  sp<TileObjectVehicle> targetTile,
+Vec3<float> FlyingVehicleTileHelper::findSidestep(GameState &state,
+                                                  const sp<TileObjectVehicle> &vTile,
+                                                  const sp<TileObjectVehicle> &targetTile,
                                                   float distancePref) const
 {
 	const int maxIterations = 6;
@@ -412,8 +414,8 @@ VehicleMission VehicleMission::departToSpace(GameState &state, Vehicle &v)
 	return mission;
 }
 
-VehicleMission VehicleMission::gotoBuilding(GameState &, Vehicle &v, StateRef<Building> target,
-                                            bool allowTeleporter)
+VehicleMission VehicleMission::gotoBuilding(GameState &, Vehicle &v,
+                                            const StateRef<Building> &target, bool allowTeleporter)
 {
 	// TODO
 	// Pseudocode:
@@ -437,7 +439,7 @@ VehicleMission VehicleMission::gotoBuilding(GameState &, Vehicle &v, StateRef<Bu
 }
 
 VehicleMission VehicleMission::infiltrateOrSubvertBuilding(GameState &, Vehicle &, bool subvert,
-                                                           StateRef<Building> target)
+                                                           const StateRef<Building> &target)
 {
 	VehicleMission mission;
 	mission.type = MissionType::InfiltrateSubvert;
@@ -457,7 +459,7 @@ VehicleMission VehicleMission::attackVehicle(GameState &, Vehicle &, StateRef<Ve
 
 VehicleMission VehicleMission::attackBuilding(GameState &state [[maybe_unused]],
                                               Vehicle &v [[maybe_unused]],
-                                              StateRef<Building> target)
+                                              const StateRef<Building> &target)
 {
 	VehicleMission mission;
 	mission.type = MissionType::AttackBuilding;
@@ -465,7 +467,8 @@ VehicleMission VehicleMission::attackBuilding(GameState &state [[maybe_unused]],
 	return mission;
 }
 
-VehicleMission VehicleMission::followVehicle(GameState &, Vehicle &, StateRef<Vehicle> target)
+VehicleMission VehicleMission::followVehicle(GameState &, Vehicle &,
+                                             const StateRef<Vehicle> &target)
 {
 	VehicleMission mission;
 	mission.type = MissionType::FollowVehicle;
@@ -488,7 +491,8 @@ VehicleMission VehicleMission::followVehicle(GameState &, Vehicle &,
 }
 
 VehicleMission VehicleMission::recoverVehicle(GameState &state [[maybe_unused]],
-                                              Vehicle &v [[maybe_unused]], StateRef<Vehicle> target)
+                                              Vehicle &v [[maybe_unused]],
+                                              const StateRef<Vehicle> &target)
 {
 	VehicleMission mission;
 	mission.type = MissionType::RecoverVehicle;
@@ -497,7 +501,8 @@ VehicleMission VehicleMission::recoverVehicle(GameState &state [[maybe_unused]],
 }
 
 VehicleMission VehicleMission::offerService(GameState &state [[maybe_unused]],
-                                            Vehicle &v [[maybe_unused]], StateRef<Building> target)
+                                            Vehicle &v [[maybe_unused]],
+                                            const StateRef<Building> &target)
 {
 	VehicleMission mission;
 	mission.type = MissionType::OfferService;
@@ -605,7 +610,7 @@ VehicleMission VehicleMission::takeOff(Vehicle &v)
 	return mission;
 }
 
-VehicleMission VehicleMission::land(Vehicle &, StateRef<Building> b)
+VehicleMission VehicleMission::land(Vehicle &, const StateRef<Building> &b)
 {
 	VehicleMission mission;
 	mission.type = MissionType::Land;
@@ -614,7 +619,8 @@ VehicleMission VehicleMission::land(Vehicle &, StateRef<Building> b)
 }
 
 VehicleMission VehicleMission::investigateBuilding(GameState &, Vehicle &v [[maybe_unused]],
-                                                   StateRef<Building> target, bool allowTeleporter)
+                                                   const StateRef<Building> &target,
+                                                   bool allowTeleporter)
 {
 	VehicleMission mission;
 	mission.type = MissionType::InvestigateBuilding;

@@ -257,7 +257,7 @@ void GameState::initState()
 
 void GameState::applyMods() { luaGameState.callHook("applyMods", 0, 0); }
 
-void GameState::setCurrentCity(StateRef<City> city)
+void GameState::setCurrentCity(const StateRef<City> &city)
 {
 	current_city = city;
 	for (auto &u : current_city->researchUnlock)

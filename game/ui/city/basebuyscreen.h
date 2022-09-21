@@ -26,7 +26,7 @@ class BaseBuyScreen : public Stage
 	void renderBase();
 
   public:
-	BaseBuyScreen(sp<GameState> state, sp<Building> building);
+	BaseBuyScreen(const sp<GameState> &state, const sp<Building> &building);
 	~BaseBuyScreen() override;
 	// Stage control
 	void begin() override;

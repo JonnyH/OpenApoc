@@ -42,7 +42,7 @@ bool VoxelMap::getBit(Vec3<int> pos) const
 	return slices[pos.z]->getBit({pos.x, pos.y});
 }
 
-void VoxelMap::setSlice(int z, sp<VoxelSlice> slice)
+void VoxelMap::setSlice(int z, const sp<VoxelSlice> &slice)
 {
 	this->centreChanged = true;
 	if (z < 0 || static_cast<unsigned>(z) >= this->slices.size())

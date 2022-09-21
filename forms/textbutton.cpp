@@ -14,7 +14,7 @@
 namespace OpenApoc
 {
 
-TextButton::TextButton(const UString &Text, sp<BitmapFont> font)
+TextButton::TextButton(const UString &Text, const sp<BitmapFont> &font)
     : Control(), buttonclick(fw().data->loadSample(
                      "RAWSOUND:xcom3/rawsound/strategc/intrface/button1.raw:22050")),
       buttonbackground(fw().data->loadImage("ui/textbuttonback.png")),
@@ -126,7 +126,7 @@ void TextButton::setText(const UString &Text) { label->setText(Text); }
 
 sp<BitmapFont> TextButton::getFont() const { return label->getFont(); }
 
-void TextButton::setFont(sp<BitmapFont> NewFont) { label->setFont(NewFont); }
+void TextButton::setFont(const sp<BitmapFont> &NewFont) { label->setFont(NewFont); }
 
 sp<Control> TextButton::copyTo(sp<Control> CopyParent)
 {

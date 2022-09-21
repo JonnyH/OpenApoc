@@ -68,14 +68,14 @@ class UnitAIVanilla : public UnitAI
 	std::tuple<AIDecision, float, unsigned> getAttackDecision(GameState &state, BattleUnit &u);
 
 	std::tuple<AIDecision, float, unsigned> getWeaponDecision(GameState &state, BattleUnit &u,
-	                                                          sp<AEquipment> e,
+	                                                          const sp<AEquipment> &e,
 	                                                          StateRef<BattleUnit> target);
 	std::tuple<AIDecision, float, unsigned> getPsiDecision(GameState &state, BattleUnit &u,
-	                                                       sp<AEquipment> e,
-	                                                       StateRef<BattleUnit> target,
+	                                                       const sp<AEquipment> &e,
+	                                                       const StateRef<BattleUnit> &target,
 	                                                       PsiStatus status) const;
 	std::tuple<AIDecision, float, unsigned> getGrenadeDecision(GameState &state, BattleUnit &u,
-	                                                           sp<AEquipment> e,
+	                                                           const sp<AEquipment> &e,
 	                                                           StateRef<BattleUnit> target);
 	std::tuple<AIDecision, float, unsigned> getBrainsuckerDecision(GameState &state, BattleUnit &u);
 	std::tuple<AIDecision, float, unsigned> getSuicideDecision(GameState &state, BattleUnit &u);

@@ -14,6 +14,7 @@
 #include "game/ui/tileview/cityview.h"
 #include <algorithm>
 #include <cmath>
+#include <utility>
 
 namespace OpenApoc
 {
@@ -22,8 +23,8 @@ LoadingScreen::LoadingScreen(sp<GameState> state, std::shared_future<void> task,
                              std::function<sp<Stage>()> nextScreenFn, sp<Image> background,
                              int scaleDivisor, bool showRotatingImage)
     : Stage(), loadingTask(std::move(task)), nextScreenFn(std::move(nextScreenFn)),
-      backgroundimage(background), showRotatingImage(showRotatingImage), scaleDivisor(scaleDivisor),
-      state(state)
+      backgroundimage(std::move(std::move(background))), showRotatingImage(showRotatingImage),
+      scaleDivisor(scaleDivisor), state(std::move(std::move(state)))
 {
 }
 

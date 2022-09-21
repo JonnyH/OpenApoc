@@ -10,7 +10,7 @@
 namespace OpenApoc
 {
 
-void extractAnimationPackSpitterInternal(sp<BattleUnitAnimationPack> p,
+void extractAnimationPackSpitterInternal(const sp<BattleUnitAnimationPack> &p,
                                          const std::vector<AnimationDataAD> &dataAD,
                                          const std::vector<AnimationDataUA> &dataUA,
                                          std::vector<AnimationDataUF> &dataUF, int x, int y,
@@ -65,7 +65,7 @@ void extractAnimationPackSpitterInternal(sp<BattleUnitAnimationPack> p,
 }
 
 void InitialGameStateExtractor::extractAnimationPackSpitter(
-    sp<BattleUnitAnimationPack> p, const std::vector<AnimationDataAD> &dataAD,
+    const sp<BattleUnitAnimationPack> &p, const std::vector<AnimationDataAD> &dataAD,
     const std::vector<AnimationDataUA> &dataUA, std::vector<AnimationDataUF> &dataUF) const
 {
 	for (int x = -1; x <= 1; x++)

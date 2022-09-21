@@ -56,7 +56,7 @@ class WavSampleLoader : public SampleLoader
 			return nullptr;
 		}
 
-		const auto fullPath = file.systemPath();
+		const auto &fullPath = file.systemPath();
 
 		auto sample = mksp<Sample>();
 		SDL_AudioSpec spec;

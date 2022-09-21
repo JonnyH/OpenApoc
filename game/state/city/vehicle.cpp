@@ -35,6 +35,7 @@
 #include <limits>
 #include <queue>
 #include <random>
+#include <utility>
 
 namespace OpenApoc
 {
@@ -1878,7 +1879,7 @@ void Vehicle::die(GameState &state, bool silent, StateRef<Vehicle> attacker)
 	state.vehiclesDeathNote.insert(id);
 }
 
-void Vehicle::crash(GameState &state, StateRef<Vehicle> attacker)
+void Vehicle::crash(GameState &state, const StateRef<Vehicle> &attacker)
 {
 	// Dislike attacker
 	if (attacker)
@@ -1923,7 +1924,7 @@ void Vehicle::crash(GameState &state, StateRef<Vehicle> attacker)
 	}
 }
 
-void Vehicle::startFalling(GameState &state, StateRef<Vehicle> attacker)
+void Vehicle::startFalling(GameState &state, const StateRef<Vehicle> &attacker)
 {
 	// Dislike attacker
 	if (attacker)
@@ -2639,8 +2640,8 @@ bool Vehicle::handleCollision(GameState &state, Collision &c, bool &soundHandled
 	return false;
 }
 
-sp<TileObjectVehicle> Vehicle::findClosestEnemy(GameState &state, sp<TileObjectVehicle> vehicleTile,
-                                                Vec2<int> arc)
+sp<TileObjectVehicle>
+Vehicle::findClosestEnemy(GameState &state, const sp<TileObjectVehicle> &vehicleTile, Vec2<int> arc)
 {
 	// Find the closest enemy within the firing arc
 	float closestEnemyRange = std::numeric_limits<float>::max();
@@ -2708,9 +2709,9 @@ sp<TileObjectVehicle> Vehicle::findClosestEnemy(GameState &state, sp<TileObjectV
 	return closestEnemy;
 }
 
-sp<TileObjectProjectile> Vehicle::findClosestHostileMissile(GameState &state,
-                                                            sp<TileObjectVehicle> vehicleTile,
-                                                            Vec2<int> arc)
+sp<TileObjectProjectile>
+Vehicle::findClosestHostileMissile(GameState &state, const sp<TileObjectVehicle> &vehicleTile,
+                                   Vec2<int> arc)
 {
 	// Find the closest missile within the firing arc
 	float closestEnemyRange = std::numeric_limits<float>::max();
@@ -2830,7 +2831,7 @@ void Vehicle::fireWeaponsManual(GameState &state, Vec2<int> arc [[maybe_unused]]
 	attackTarget(state, manualFirePosition);
 }
 
-bool Vehicle::attackTarget(GameState &state, sp<TileObjectVehicle> enemyTile)
+bool Vehicle::attackTarget(GameState &state, const sp<TileObjectVehicle> &enemyTile)
 {
 	auto target = enemyTile->getVoxelCentrePosition();
 	auto targetVelocity = enemyTile->getVehicle()->velocity;
@@ -2854,7 +2855,7 @@ bool Vehicle::attackTarget(GameState &state, sp<TileObjectVehicle> enemyTile)
 	return false;
 }
 
-bool Vehicle::attackTarget(GameState &state, sp<TileObjectProjectile> projectileTile)
+bool Vehicle::attackTarget(GameState &state, const sp<TileObjectProjectile> &projectileTile)
 {
 	auto target = projectileTile->getPosition();
 	auto initialTarget = target;
@@ -2895,7 +2896,7 @@ bool Vehicle::attackTarget(GameState &state, Vec3<float> target)
 
 sp<VEquipment> Vehicle::getFirstFiringWeapon(GameState &state [[maybe_unused]], Vec3<float> &target,
                                              bool checkLOF, Vec3<float> targetVelocity,
-                                             sp<TileObjectVehicle> enemyTile, bool pd)
+                                             const sp<TileObjectVehicle> &enemyTile, bool pd)
 {
 	static const std::set<TileObject::Type> sceneryVehicleSet = {TileObject::Type::Scenery,
 	                                                             TileObject::Type::Vehicle};
@@ -3083,7 +3084,7 @@ void Vehicle::setManualFirePosition(const Vec3<float> &pos)
 }
 
 typename decltype(Vehicle::missions)::iterator
-Vehicle::addMission(GameState &state, VehicleMission mission, bool toBack)
+Vehicle::addMission(GameState &state, const VehicleMission &mission, bool toBack)
 {
 	if (!hasEngine())
 	{
@@ -3162,7 +3163,7 @@ Vehicle::addMission(GameState &state, VehicleMission mission, bool toBack)
 	}
 }
 
-bool Vehicle::setMission(GameState &state, VehicleMission mission)
+bool Vehicle::setMission(GameState &state, const VehicleMission &mission)
 {
 	if (!hasEngine())
 	{
@@ -3488,7 +3489,7 @@ int Vehicle::getMaxFuel() const
 int Vehicle::getFuel() const
 {
 	int fuel = 0;
-	for (auto eq : equipment)
+	for (const auto &eq : equipment)
 	{
 		if (eq->type->type == EquipmentSlotType::VehicleEngine)
 		{
@@ -3678,7 +3679,8 @@ sp<VEquipment> Vehicle::addEquipment(GameState &state, Vec2<int> pos,
 	}
 }
 
-sp<VEquipment> Vehicle::addEquipment(GameState &state, StateRef<VEquipmentType> equipmentType)
+sp<VEquipment> Vehicle::addEquipment(GameState &state,
+                                     const StateRef<VEquipmentType> &equipmentType)
 {
 	Vec2<int> pos;
 	bool slotFound = false;
@@ -3699,7 +3701,7 @@ sp<VEquipment> Vehicle::addEquipment(GameState &state, StateRef<VEquipmentType> 
 	return addEquipment(state, pos, equipmentType);
 }
 
-void Vehicle::removeEquipment(sp<VEquipment> object)
+void Vehicle::removeEquipment(const sp<VEquipment> &object)
 {
 	this->equipment.remove(object);
 	// TODO: Any other variable values here?
@@ -3813,7 +3815,7 @@ std::list<std::pair<Vec2<int>, sp<Equipment>>> Vehicle::getEquipment() const
 }
 
 Cargo::Cargo(GameState &state, StateRef<AEquipmentType> equipment, int count, int price,
-             StateRef<Organisation> originalOwner, StateRef<Building> destination)
+             const StateRef<Organisation> &originalOwner, const StateRef<Building> &destination)
     : Cargo(state, equipment->bioStorage ? Type::Bio : Type::Agent, equipment.id, count,
             equipment->type == AEquipmentType::Type::Ammo ? equipment->max_ammo : 1,
             equipment->store_space, price, originalOwner, destination)
@@ -3821,29 +3823,29 @@ Cargo::Cargo(GameState &state, StateRef<AEquipmentType> equipment, int count, in
 }
 
 Cargo::Cargo(GameState &state, StateRef<VEquipmentType> equipment, int count, int price,
-             StateRef<Organisation> originalOwner, StateRef<Building> destination)
+             const StateRef<Organisation> &originalOwner, const StateRef<Building> &destination)
     : Cargo(state, Type::VehicleEquipment, equipment.id, count, 1, equipment->store_space, price,
             originalOwner, destination)
 {
 }
 
 Cargo::Cargo(GameState &state, StateRef<VAmmoType> equipment, int count, int price,
-             StateRef<Organisation> originalOwner, StateRef<Building> destination)
+             const StateRef<Organisation> &originalOwner, const StateRef<Building> &destination)
     : Cargo(state, Type::VehicleAmmo, equipment.id, count, 1, equipment->store_space, price,
             originalOwner, destination)
 {
 }
 
 Cargo::Cargo(GameState &state, Type type, UString id, int count, int divisor, int space, int cost,
-             StateRef<Organisation> originalOwner, StateRef<Building> destination)
-    : type(type), id(id), count(count), divisor(divisor), space(space), cost(cost),
-      originalOwner(originalOwner), destination(destination)
+             const StateRef<Organisation> &originalOwner, const StateRef<Building> &destination)
+    : type(type), id(std::move(std::move(id))), count(count), divisor(divisor), space(space),
+      cost(cost), originalOwner(originalOwner), destination(destination)
 {
 	suppressEvents = count == 0;
 	expirationDate = state.gameTime.getTicks() + TICKS_CARGO_TTL;
 }
 
-bool Cargo::checkExpiryDate(GameState &state, StateRef<Building> currentBuilding)
+bool Cargo::checkExpiryDate(GameState &state, const StateRef<Building> &currentBuilding)
 {
 	if (expirationDate == 0)
 	{
@@ -3866,7 +3868,7 @@ bool Cargo::checkExpiryDate(GameState &state, StateRef<Building> currentBuilding
 	return false;
 }
 
-void Cargo::refund(GameState &state, StateRef<Building> currentBuilding)
+void Cargo::refund(GameState &state, const StateRef<Building> &currentBuilding)
 {
 	if (cost > 0)
 	{
@@ -3980,7 +3982,7 @@ void Cargo::arrive(GameState &state, bool &cargoArrived, bool &bioArrived, bool 
 	count = 0;
 }
 
-void Cargo::seize(GameState &state, StateRef<Organisation> org [[maybe_unused]])
+void Cargo::seize(GameState &state, const StateRef<Organisation> &org [[maybe_unused]])
 {
 	switch (type)
 	{

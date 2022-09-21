@@ -207,7 +207,7 @@ class GameState : public std::enable_shared_from_this<GameState>
 	// Stub until we have actual mods
 	void applyMods();
 
-	void setCurrentCity(StateRef<City> city);
+	void setCurrentCity(const StateRef<City> &city);
 
 	// Validates gamestate, sanity checks for all the possible fuck-ups
 	void validate();

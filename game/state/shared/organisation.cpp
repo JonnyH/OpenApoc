@@ -1,4 +1,7 @@
 #include "game/state/shared/organisation.h"
+
+#include <utility>
+
 #include "framework/configfile.h"
 #include "framework/framework.h"
 #include "game/state/city/base.h"
@@ -12,6 +15,7 @@
 #include "game/state/rules/city/baselayout.h"
 #include "game/state/rules/city/scenerytiletype.h"
 #include "library/strings.h"
+#include <utility>
 
 // Uncomment to turn off org missions
 //#define DEBUG_TURN_OFF_ORG_MISSIONS
@@ -26,7 +30,8 @@ int Organisation::getGuardCount(GameState &state) const
 	    20, randBoundsInclusive(state.rng, average_guards * 75 / 100, average_guards * 125 / 100));
 }
 
-StateRef<Building> Organisation::pickRandomBuilding(GameState &state, StateRef<City> city) const
+StateRef<Building> Organisation::pickRandomBuilding(GameState &state,
+                                                    const StateRef<City> &city) const
 {
 	std::list<StateRef<Building>> ownedBuildingsList;
 	for (const auto &b : buildings)
@@ -171,7 +176,7 @@ StateRef<Building> Organisation::getPurchaseBuilding(GameState &state,
 }
 
 void Organisation::purchase(GameState &state, const StateRef<Building> &buyer,
-                            StateRef<VEquipmentType> vehicleEquipment, int count) const
+                            const StateRef<VEquipmentType> &vehicleEquipment, int count) const
 {
 	int price = 0;
 	if (state.economy.find(vehicleEquipment.id) == state.economy.end())
@@ -205,7 +210,7 @@ void Organisation::purchase(GameState &state, const StateRef<Building> &buyer,
 }
 
 void Organisation::purchase(GameState &state, const StateRef<Building> &buyer,
-                            StateRef<VAmmoType> vehicleAmmo, int count) const
+                            const StateRef<VAmmoType> &vehicleAmmo, int count) const
 {
 	int price = 0;
 	if (state.economy.find(vehicleAmmo.id) == state.economy.end())
@@ -275,7 +280,7 @@ void Organisation::purchase(GameState &state, const StateRef<Building> &buyer,
 }
 
 void Organisation::purchase(GameState &state, const StateRef<Building> &buyer,
-                            StateRef<VehicleType> vehicleType, int count) const
+                            const StateRef<VehicleType> &vehicleType, int count) const
 {
 	int price = 0;
 	if (state.economy.find(vehicleType.id) == state.economy.end())
@@ -309,7 +314,7 @@ void Organisation::purchase(GameState &state, const StateRef<Building> &buyer,
 	owner->balance -= count * price;
 }
 
-void Organisation::setRaidMissions(GameState &state, StateRef<City> city)
+void Organisation::setRaidMissions(GameState &state, const StateRef<City> &city)
 {
 	OrganisationRaid &rules = state.organisation_raid_rules;
 
@@ -600,7 +605,7 @@ void Organisation::updateInfiltration(GameState &state)
 	for (auto &b : buildings)
 	{
 		int infiltrationBuilding = 0;
-		for (auto alien : b->current_crew)
+		for (const auto &alien : b->current_crew)
 		{
 			infiltrationBuilding += alien.second * alien.first->infiltrationSpeed;
 		}
@@ -977,12 +982,12 @@ template <> const UString &StateObject<Organisation>::getTypeName()
 	return name;
 }
 Organisation::RaidMission::RaidMission(uint64_t when, OrganisationRaid::Type type,
-                                       StateRef<Building> building)
+                                       const StateRef<Building> &building)
     : time(when), type(type), target(building)
 {
 }
 
-void Organisation::RaidMission::execute(GameState &state, StateRef<City> city,
+void Organisation::RaidMission::execute(GameState &state, const StateRef<City> &city,
                                         StateRef<Organisation> owner)
 {
 	switch (type)
@@ -1139,8 +1144,8 @@ Organisation::MissionPattern::MissionPattern(uint64_t minIntervalRepeat, uint64_
                                              std::set<StateRef<VehicleType>> allowedTypes,
                                              Target target, std::set<Relation> relation)
     : minIntervalRepeat(minIntervalRepeat), maxIntervalRepeat(maxIntervalRepeat),
-      minAmount(minAmount), maxAmount(maxAmount), allowedTypes(allowedTypes), target(target),
-      relation(relation)
+      minAmount(minAmount), maxAmount(maxAmount), allowedTypes(std::move(std::move(allowedTypes))),
+      target(target), relation(std::move(std::move(relation)))
 {
 }
 
@@ -1334,7 +1339,8 @@ Organisation::RecurringMission::RecurringMission(uint64_t next, uint64_t minInte
                                                  std::set<Relation> relation)
     : time(next)
 {
-	pattern = {minIntervalRepeat, maxIntervalRepeat, minAmount, maxAmount, allowedTypes, target,
-	           relation};
+	pattern = {minIntervalRepeat,  maxIntervalRepeat,       minAmount,
+	           maxAmount,          std::move(allowedTypes), target,
+	           std::move(relation)};
 }
 }; // namespace OpenApoc

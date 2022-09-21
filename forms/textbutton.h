@@ -38,7 +38,7 @@ class TextButton : public Control
 	VerticalAlignment TextVAlign;
 	ButtonRenderStyle RenderStyle;
 
-	TextButton(const UString &Text = "", sp<BitmapFont> font = nullptr);
+	TextButton(const UString &Text = "", const sp<BitmapFont> &font = nullptr);
 	~TextButton() override;
 
 	void eventOccured(Event *e) override;
@@ -49,7 +49,7 @@ class TextButton : public Control
 	void setText(const UString &Text);
 
 	sp<BitmapFont> getFont() const;
-	void setFont(sp<BitmapFont> NewFont);
+	void setFont(const sp<BitmapFont> &NewFont);
 
 	sp<Control> copyTo(sp<Control> CopyParent) override;
 	void configureSelfFromXml(pugi::xml_node *node) override;

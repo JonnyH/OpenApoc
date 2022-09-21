@@ -22,6 +22,7 @@
 #include "game/ui/skirmish/skirmish.h"
 #include "game/ui/tileview/cityview.h"
 #include <list>
+#include <utility>
 
 namespace OpenApoc
 {
@@ -119,7 +120,7 @@ std::vector<UString> listNames = {tr("Message Toggles"), tr("OpenApoc Features")
 } // namespace
 
 InGameOptions::InGameOptions(sp<GameState> state)
-    : Stage(), menuform(ui().getForm("ingameoptions")), state(state)
+    : Stage(), menuform(ui().getForm("ingameoptions")), state(std::move(std::move(state)))
 {
 }
 

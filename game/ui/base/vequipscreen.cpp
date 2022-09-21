@@ -35,7 +35,7 @@ static const Colour EQUIP_GRID_COLOUR_ENGINE{255, 255, 40, 255};
 static const Colour EQUIP_GRID_COLOUR_WEAPON{255, 40, 40, 255};
 static const Colour EQUIP_GRID_COLOUR_GENERAL{255, 40, 255, 255};
 
-VEquipScreen::VEquipScreen(sp<GameState> state)
+VEquipScreen::VEquipScreen(const sp<GameState> &state)
     : Stage(), form(ui().getForm("vequipscreen")),
       pal(fw().data->loadPalette("xcom3/ufodata/vroadwar.pcx")),
       labelFont(ui().getFont("smalfont")), drawHighlightBox(false), state(state)
@@ -493,7 +493,7 @@ void VEquipScreen::render()
 
 bool VEquipScreen::isTransition() { return false; }
 
-void VEquipScreen::setSelectedVehicle(sp<Vehicle> vehicle)
+void VEquipScreen::setSelectedVehicle(const sp<Vehicle> &vehicle)
 {
 	if (!vehicle)
 	{

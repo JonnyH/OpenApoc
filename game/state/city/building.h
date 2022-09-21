@@ -102,7 +102,7 @@ class Building : public StateObject<Building>, public std::enable_shared_from_th
 	void updateWorkforce();
 	int calculateIncome() const;
 
-	void underAttack(GameState &state, StateRef<Organisation> attacker);
+	void underAttack(GameState &state, const StateRef<Organisation> &attacker);
 
 	void collapse(GameState &state);
 	void buildingPartChange(GameState &state, Vec3<int> part, bool intact);

@@ -10,6 +10,7 @@
 #include <list>
 #include <mutex>
 #include <queue>
+#include <utility>
 #include <vector>
 
 namespace
@@ -22,7 +23,10 @@ struct SampleData
 	sp<Sample> sample;
 	float gain;
 	unsigned int sample_position; // in bytes
-	SampleData(sp<Sample> sample, float gain) : sample(sample), gain(gain), sample_position(0) {}
+	SampleData(sp<Sample> sample, float gain)
+	    : sample(std::move(std::move(sample))), gain(gain), sample_position(0)
+	{
+	}
 };
 
 struct MusicData
@@ -84,7 +88,7 @@ static bool ConvertAudio(AudioFormat input_format, SDL_AudioSpec &output_spec, i
 class SDLSampleData : public BackendSampleData
 {
   public:
-	SDLSampleData(sp<Sample> sample, SDL_AudioSpec &output_spec)
+	SDLSampleData(const sp<Sample> &sample, SDL_AudioSpec &output_spec)
 	{
 		unsigned long int const input_size =
 		    sample->format.getSampleSize() * sample->format.channels * sample->sampleCount;

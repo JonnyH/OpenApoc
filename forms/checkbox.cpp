@@ -1,4 +1,7 @@
 #include "forms/checkbox.h"
+
+#include <utility>
+
 #include "dependencies/pugixml/src/pugixml.hpp"
 #include "framework/data.h"
 #include "framework/event.h"
@@ -7,12 +10,14 @@
 #include "framework/renderer.h"
 #include "framework/sound.h"
 #include "library/sp.h"
+#include <utility>
 
 namespace OpenApoc
 {
 
 CheckBox::CheckBox(sp<Image> ImageChecked, sp<Image> ImageUnchecked)
-    : Control(), imagechecked(ImageChecked), imageunchecked(ImageUnchecked),
+    : Control(), imagechecked(std::move(std::move(ImageChecked))),
+      imageunchecked(std::move(std::move(ImageUnchecked))),
       buttonclick(
           fw().data->loadSample("RAWSOUND:xcom3/rawsound/strategc/intrface/button1.raw:22050")),
       Checked(false)
@@ -80,7 +85,7 @@ void CheckBox::unloadResources()
 
 sp<Sample> CheckBox::getClickSound() const { return buttonclick; }
 
-void CheckBox::setClickSound(sp<Sample> sample) { buttonclick = sample; }
+void CheckBox::setClickSound(sp<Sample> sample) { buttonclick = std::move(sample); }
 
 void CheckBox::setChecked(bool checked)
 {

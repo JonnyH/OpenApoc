@@ -211,7 +211,8 @@ sp<AIMovement> UnitAIHelper::getTurnMovement(GameState &, BattleUnit &, Vec3<int
 	return result;
 }
 
-void UnitAIHelper::ensureItemInSlot(GameState &state, sp<AEquipment> item, EquipmentSlotType slot)
+void UnitAIHelper::ensureItemInSlot(GameState &state, const sp<AEquipment> &item,
+                                    EquipmentSlotType slot)
 {
 	auto u = item->ownerAgent->unit;
 	auto curItem = u->agent->getFirstItemInSlot(slot);

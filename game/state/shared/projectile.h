@@ -53,16 +53,17 @@ class Projectile : public std::enable_shared_from_this<Projectile>
 	           Vec3<float> targetPosition, Vec3<float> position, Vec3<float> velocity, int turnRate,
 	           float lifetime, int damage, unsigned int delay, int depletionRate,
 	           unsigned int tail_length, std::list<sp<Image>> projectile_sprites,
-	           sp<Sample> impactSfx, StateRef<DoodadType> doodadType,
-	           sp<VoxelMap> voxelMap = nullptr, int stunTicks = 0,
+	           sp<Sample> impactSfx, const StateRef<DoodadType> &doodadType,
+	           const sp<VoxelMap> &voxelMap = nullptr, int stunTicks = 0,
 	           std::list<StateRef<VEquipmentType>> splitIntoTypes = {}, bool manualFire = false);
 	Projectile(Type type, StateRef<BattleUnit> firer, StateRef<BattleUnit> target,
 	           Vec3<float> targetPosition, Vec3<float> position, Vec3<float> velocity, int turnRate,
 	           float lifetime, int damage, unsigned int delay, int depletionRate,
 	           unsigned int tail_length, std::list<sp<Image>> projectile_sprites,
-	           sp<Sample> impactSfx, StateRef<DoodadType> doodadType,
-	           StateRef<DamageType> damageType, sp<VoxelMap> voxelMap = nullptr, int stunTicks = 0,
-	           std::list<StateRef<AEquipmentType>> splitIntoTypes = {}, bool manualFire = false);
+	           sp<Sample> impactSfx, const StateRef<DoodadType> &doodadType,
+	           const StateRef<DamageType> &damageType, const sp<VoxelMap> &voxelMap = nullptr,
+	           int stunTicks = 0, std::list<StateRef<AEquipmentType>> splitIntoTypes = {},
+	           bool manualFire = false);
 	Projectile();
 	virtual void update(GameState &state, unsigned int ticks);
 	void die(GameState &state, bool displayDoodad = true, bool playSound = true,

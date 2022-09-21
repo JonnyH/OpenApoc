@@ -1,4 +1,5 @@
 #include "game/ui/base/recruitscreen.h"
+
 #include "forms/form.h"
 #include "forms/graphic.h"
 #include "forms/graphicbutton.h"
@@ -27,12 +28,13 @@
 #include "game/ui/general/agentsheet.h"
 #include "game/ui/general/messagebox.h"
 #include "library/strings_format.h"
+#include <utility>
 
 namespace OpenApoc
 {
 
 RecruitScreen::RecruitScreen(sp<GameState> state)
-    : BaseStage(state), bigUnitRanks(getBigUnitRanks())
+    : BaseStage(std::move(state)), bigUnitRanks(getBigUnitRanks())
 {
 	// Load resources
 	form = ui().getForm("recruitscreen");
@@ -398,7 +400,7 @@ void RecruitScreen::displayAgentStats(const Agent &agent)
  * @agent - an agent whose stats will be displayed
  * @formPersonnelStats - a form of stats
  */
-void RecruitScreen::personnelSheet(const Agent &agent, sp<Form> formPersonnelStats)
+void RecruitScreen::personnelSheet(const Agent &agent, const sp<Form> &formPersonnelStats)
 {
 	formPersonnelStats->findControlTyped<Label>("AGENT_NAME")->setText(agent.name);
 	formPersonnelStats->findControlTyped<Graphic>("SELECTED_PORTRAIT")

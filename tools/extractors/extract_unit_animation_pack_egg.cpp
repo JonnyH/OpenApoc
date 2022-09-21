@@ -1,3 +1,5 @@
+#include <utility>
+
 #include "framework/data.h"
 #include "framework/framework.h"
 #include "framework/palette.h"
@@ -66,7 +68,7 @@ sp<BattleUnitAnimationPack::AnimationEntry> makeUpEggAnimationEntry(int from, in
 	return e;
 }
 
-void extractAnimationPackEggInternal(sp<BattleUnitAnimationPack> p, bool first)
+void extractAnimationPackEggInternal(const sp<BattleUnitAnimationPack> &p, bool first)
 {
 	static const std::map<Vec2<int>, int> offset_dir_map = {
 	    {{0, -1}, 4}, {{1, -1}, 5}, {{1, 0}, 6},  {{1, 1}, 7},
@@ -121,9 +123,9 @@ void extractAnimationPackEggInternal(sp<BattleUnitAnimationPack> p, bool first)
 	}
 }
 
-void InitialGameStateExtractor::extractAnimationPackEgg(sp<BattleUnitAnimationPack> p,
+void InitialGameStateExtractor::extractAnimationPackEgg(const sp<BattleUnitAnimationPack> &p,
                                                         bool first) const
 {
-	extractAnimationPackEggInternal(p, first);
+	extractAnimationPackEggInternal(std::move(p), first);
 }
 } // namespace OpenApoc

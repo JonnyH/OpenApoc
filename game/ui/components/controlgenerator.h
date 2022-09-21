@@ -80,47 +80,51 @@ class ControlGenerator
 	static const UString RIGHT_LIST_NAME;
 
 	// Icon of vehicle
-	static sp<Control> createVehicleIcon(GameState &state, sp<Vehicle> vehicle);
+	static sp<Control> createVehicleIcon(GameState &state, const sp<Vehicle> &vehicle);
 
-	static VehicleTileInfo createVehicleInfo(GameState &state, sp<Vehicle> v);
+	static VehicleTileInfo createVehicleInfo(GameState &state, const sp<Vehicle> &v);
 	static sp<Control> createVehicleControl(GameState &state, const VehicleTileInfo &info);
-	static sp<Control> createVehicleControl(GameState &state, sp<Vehicle> v);
+	static sp<Control> createVehicleControl(GameState &state, const sp<Vehicle> &v);
 	// Vehicle control with name
-	static sp<Control> createVehicleAssignmentControl(GameState &state, sp<Vehicle> vehicle);
+	static sp<Control> createVehicleAssignmentControl(GameState &state, const sp<Vehicle> &vehicle);
 	// Building control for assignment
-	static sp<Control> createBuildingAssignmentControl(GameState &state, sp<Building> building);
+	static sp<Control> createBuildingAssignmentControl(GameState &state,
+	                                                   const sp<Building> &building);
 	// Agent control for assignment state
-	static sp<Control> createAgentAssignmentControl(GameState &state, sp<Agent> agent);
+	static sp<Control> createAgentAssignmentControl(GameState &state, const sp<Agent> &agent);
 	// Icon of agent
 	static sp<Control>
-	createAgentIcon(GameState &state, sp<Agent> agent,
+	createAgentIcon(GameState &state, const sp<Agent> &agent,
 	                UnitSelectionState forcedSelectionState = UnitSelectionState::NA,
 	                bool forceFade = false);
 
 	static AgentInfo
-	createAgentInfo(GameState &state, sp<Agent> a,
+	createAgentInfo(GameState &state, const sp<Agent> &a,
 	                UnitSelectionState forcedSelectionState = UnitSelectionState::NA,
 	                bool forceFade = false);
-	static CityUnitState getCityUnitState(sp<Agent> agent);
-	static void fillAgentControl(GameState &state, sp<Graphic> baseControl, const AgentInfo &info);
+	static CityUnitState getCityUnitState(const sp<Agent> &agent);
+	static void fillAgentControl(GameState &state, const sp<Graphic> &baseControl,
+	                             const AgentInfo &info);
 	static sp<Control> createAgentControl(GameState &state, const AgentInfo &info);
 	static sp<Control>
-	createAgentControl(GameState &state, sp<Agent> a,
+	createAgentControl(GameState &state, const sp<Agent> &a,
 	                   UnitSelectionState forcedSelectionState = UnitSelectionState::NA,
 	                   bool forceFade = false);
 	static sp<Control> createLargeAgentControl(GameState &state, const AgentInfo &info, int width,
 	                                           UnitSkillState skill = UnitSkillState::Hidden);
-	static sp<Control> createLargeAgentControl(
-	    GameState &state, sp<Agent> a, int width, UnitSkillState skill = UnitSkillState::Hidden,
-	    UnitSelectionState forcedSelectionState = UnitSelectionState::NA, bool forceFade = false);
+	static sp<Control>
+	createLargeAgentControl(GameState &state, const sp<Agent> &a, int width,
+	                        UnitSkillState skill = UnitSkillState::Hidden,
+	                        UnitSelectionState forcedSelectionState = UnitSelectionState::NA,
+	                        bool forceFade = false);
 	// Create lab icon control with quantity label.
-	static sp<Control> createLabControl(sp<GameState> state, sp<Facility> facility);
+	static sp<Control> createLabControl(const sp<GameState> &state, const sp<Facility> &facility);
 	// Control containing two MultilistBox for assignment state
 	static sp<Control> createDoubleListControl(int controlLength);
 
-	static OrganisationInfo createOrganisationInfo(GameState &state, sp<Organisation> org);
+	static OrganisationInfo createOrganisationInfo(GameState &state, const sp<Organisation> &org);
 	static sp<Control> createOrganisationControl(GameState &state, const OrganisationInfo &info);
-	static sp<Control> createOrganisationControl(GameState &state, sp<Organisation> org);
+	static sp<Control> createOrganisationControl(GameState &state, const sp<Organisation> &org);
 
 	static int getFontHeight(GameState &state);
 };

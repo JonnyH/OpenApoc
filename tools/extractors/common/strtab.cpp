@@ -3,11 +3,12 @@
 #include <iostream>
 #include <map>
 #include <sstream>
+#include <utility>
 
 namespace OpenApoc
 {
 
-StrTab::StrTab(std::vector<std::string> strings) : readStrings(strings) {}
+StrTab::StrTab(std::vector<std::string> strings) : readStrings(std::move(std::move(strings))) {}
 
 StrTab::StrTab(std::istream &file, off_t start_offset, off_t end_offset, bool makeUnique)
 {

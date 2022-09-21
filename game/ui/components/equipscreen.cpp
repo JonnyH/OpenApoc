@@ -4,6 +4,7 @@
 #include "framework/framework.h"
 #include "framework/renderer.h"
 #include <cmath>
+#include <utility>
 
 namespace OpenApoc
 {
@@ -36,7 +37,7 @@ Vec2<int> EquipmentPaperDoll::getScreenPositionFromSlotPosition(const Vec2<float
 
 void EquipmentPaperDoll::setObject(sp<EquippableObject> newObject)
 {
-	this->object = newObject;
+	this->object = std::move(newObject);
 	this->setDirty();
 }
 

@@ -8,6 +8,7 @@
 #include <functional>
 #include <list>
 #include <map>
+#include <utility>
 
 namespace pugi
 {
@@ -97,7 +98,7 @@ class Control : public std::enable_shared_from_this<Control>
 
 	std::map<UString, sp<RadioButtonGroup>> radiogroups;
 
-	void copyControlData(sp<Control> CopyOf);
+	void copyControlData(const sp<Control> &CopyOf);
 
 	Control(bool takesFocus = true);
 	virtual ~Control();
@@ -110,8 +111,8 @@ class Control : public std::enable_shared_from_this<Control>
 	virtual void unloadResources();
 
 	sp<Control> operator[](int Index) const;
-	sp<Control> findControl(UString ID) const;
-	bool replaceChildByName(sp<Control> ctrl);
+	sp<Control> findControl(const UString &ID) const;
+	bool replaceChildByName(const sp<Control> &ctrl);
 
 	void setDirty();
 	void setVisible(bool value);
@@ -137,9 +138,9 @@ class Control : public std::enable_shared_from_this<Control>
 
 	sp<Control> getParent() const;
 	sp<Form> getForm();
-	void setParent(sp<Control> Parent, int position);
-	void setParent(sp<Control> Parent);
-	sp<Control> getAncestor(sp<Control> Parent);
+	void setParent(const sp<Control> &Parent, int position);
+	void setParent(const sp<Control> &Parent);
+	sp<Control> getAncestor(const sp<Control> &Parent);
 
 	Vec2<int> getLocationOnScreen() const { return resolvedLocation; }
 
@@ -157,10 +158,10 @@ class Control : public std::enable_shared_from_this<Control>
 	virtual sp<Control> copyTo(sp<Control> CopyParent);
 
 	template <typename T> sp<T> getData() const { return std::static_pointer_cast<T>(data); }
-	void setData(sp<void> Data) { data = Data; }
+	void setData(sp<void> Data) { data = std::move(Data); }
 
 	bool eventIsWithin(const Event *e) const;
-	bool isPointInsideControlBounds(Event *e, sp<Control> c) const;
+	bool isPointInsideControlBounds(Event *e, const sp<Control> &c) const;
 
 	template <typename T, typename... Args> sp<T> createChild(Args &&...args)
 	{
@@ -169,12 +170,15 @@ class Control : public std::enable_shared_from_this<Control>
 		return newControl;
 	}
 
-	void addCallback(FormEventType event, std::function<void(FormsEvent *e)> callback);
+	void addCallback(FormEventType event, const std::function<void(FormsEvent *e)> &callback);
 
 	// Simulate mouse click on control
 	virtual bool click();
 	// Setter for funcPreRender
-	void setFuncPreRender(std::function<void(sp<Control>)> func) { funcPreRender = func; }
+	void setFuncPreRender(std::function<void(sp<Control>)> func)
+	{
+		funcPreRender = std::move(func);
+	}
 };
 
 }; // namespace OpenApoc

@@ -58,10 +58,10 @@ class FlyingVehicleTileHelper : public CanEnterTileHelper
 
 	bool canLandOnTile(Tile *to) const;
 
-	Vec3<int> findTileToLandOn(GameState &, sp<TileObjectVehicle> vTile) const;
+	Vec3<int> findTileToLandOn(GameState &, const sp<TileObjectVehicle> &vTile) const;
 
-	Vec3<float> findSidestep(GameState &state, sp<TileObjectVehicle> vTile,
-	                         sp<TileObjectVehicle> targetTile, float distancePref) const;
+	Vec3<float> findSidestep(GameState &state, const sp<TileObjectVehicle> &vTile,
+	                         const sp<TileObjectVehicle> &targetTile, float distancePref) const;
 };
 
 class GroundVehicleTileHelper : public CanEnterTileHelper
@@ -162,7 +162,7 @@ class VehicleMission
 	// INTERNAL: Not to be used directly (Only works when in building)
 	static VehicleMission takeOff(Vehicle &v);
 	// INTERNAL: Not to be used directly (Only works if directly above a pad)
-	static VehicleMission land(Vehicle &v, StateRef<Building> b);
+	static VehicleMission land(Vehicle &v, const StateRef<Building> &b);
 	// INTERNAL: This checks if mission is actually finished. Called by isFinished.
 	// If it is finished, update() is called by isFinished so that any remaining work could be done
 	bool isFinishedInternal(GameState &state, Vehicle &v);
@@ -202,20 +202,22 @@ class VehicleMission
 	static VehicleMission departToSpace(GameState &state, Vehicle &v);
 	// With now building goes home
 	static VehicleMission gotoBuilding(GameState &state, Vehicle &v,
-	                                   StateRef<Building> target = nullptr,
+	                                   const StateRef<Building> &target = nullptr,
 	                                   bool allowTeleporter = false);
 	static VehicleMission infiltrateOrSubvertBuilding(GameState &state, Vehicle &v,
 	                                                  bool subvert = false,
-	                                                  StateRef<Building> target = nullptr);
+	                                                  const StateRef<Building> &target = nullptr);
 	static VehicleMission attackVehicle(GameState &state, Vehicle &v, StateRef<Vehicle> target);
 	static VehicleMission attackBuilding(GameState &state, Vehicle &v,
-	                                     StateRef<Building> target = nullptr);
-	static VehicleMission followVehicle(GameState &state, Vehicle &v, StateRef<Vehicle> target);
+	                                     const StateRef<Building> &target = nullptr);
+	static VehicleMission followVehicle(GameState &state, Vehicle &v,
+	                                    const StateRef<Vehicle> &target);
 	static VehicleMission followVehicle(GameState &state, Vehicle &v,
 	                                    std::list<StateRef<Vehicle>> &targets);
-	static VehicleMission recoverVehicle(GameState &state, Vehicle &v, StateRef<Vehicle> target);
+	static VehicleMission recoverVehicle(GameState &state, Vehicle &v,
+	                                     const StateRef<Vehicle> &target);
 	static VehicleMission offerService(GameState &state, Vehicle &v,
-	                                   StateRef<Building> target = nullptr);
+	                                   const StateRef<Building> &target = nullptr);
 	static VehicleMission snooze(GameState &state, Vehicle &v, unsigned int ticks);
 	static VehicleMission selfDestruct(GameState &state, Vehicle &v);
 	static VehicleMission arriveFromDimensionGate(GameState &state, Vehicle &v, int ticks = 0);
@@ -225,7 +227,7 @@ class VehicleMission
 	                             unsigned int counter = 10);
 	static VehicleMission teleport(GameState &state, Vehicle &v, Vec3<int> target = {-1, -1, -1});
 	static VehicleMission investigateBuilding(GameState &state, Vehicle &v,
-	                                          StateRef<Building> target,
+	                                          const StateRef<Building> &target,
 	                                          bool allowTeleporter = false);
 	UString getName();
 

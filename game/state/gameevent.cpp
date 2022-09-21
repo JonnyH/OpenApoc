@@ -1,4 +1,7 @@
 #include "game/state/gameevent.h"
+
+#include <utility>
+
 #include "city/vehicle.h"
 #include "framework/logger.h"
 #include "game/state/battle/battle.h"
@@ -8,6 +11,7 @@
 #include "game/state/shared/agent.h"
 #include "game/state/shared/organisation.h"
 #include "library/strings_format.h"
+#include <utility>
 
 namespace OpenApoc
 {
@@ -57,8 +61,8 @@ const std::map<GameEventType, UString> GameEvent::optionsMap = {
 
 GameEvent::GameEvent(GameEventType type) : Event(EVENT_GAME_STATE), type(type) {}
 
-GameVehicleEvent::GameVehicleEvent(GameEventType type, StateRef<Vehicle> vehicle,
-                                   StateRef<Vehicle> actor)
+GameVehicleEvent::GameVehicleEvent(GameEventType type, const StateRef<Vehicle> &vehicle,
+                                   const StateRef<Vehicle> &actor)
     : GameEvent(type), vehicle(vehicle), actor(actor)
 {
 }
@@ -310,67 +314,68 @@ UString GameBattleEvent::message()
 	return "";
 }
 
-GameBaseEvent::GameBaseEvent(GameEventType type, StateRef<Base> base, StateRef<Organisation> actor,
-                             bool flag)
+GameBaseEvent::GameBaseEvent(GameEventType type, const StateRef<Base> &base,
+                             const StateRef<Organisation> &actor, bool flag)
     : GameEvent(type), base(base), actor(actor), flag(flag)
 {
 }
 
-GameBuildingEvent::GameBuildingEvent(GameEventType type, StateRef<Building> building,
-                                     StateRef<Organisation> actor)
+GameBuildingEvent::GameBuildingEvent(GameEventType type, const StateRef<Building> &building,
+                                     const StateRef<Organisation> &actor)
     : GameEvent(type), building(building), actor(actor)
 {
 }
 
 GameOrganisationEvent::GameOrganisationEvent(GameEventType type,
-                                             StateRef<Organisation> organisation)
+                                             const StateRef<Organisation> &organisation)
     : GameEvent(type), organisation(organisation)
 {
 }
 
-GameAgentEvent::GameAgentEvent(GameEventType type, StateRef<Agent> agent, bool flag)
+GameAgentEvent::GameAgentEvent(GameEventType type, const StateRef<Agent> &agent, bool flag)
     : GameEvent(type), agent(agent), flag(flag)
 {
 }
 
-GameResearchEvent::GameResearchEvent(GameEventType type, StateRef<ResearchTopic> topic,
-                                     StateRef<Lab> lab)
+GameResearchEvent::GameResearchEvent(GameEventType type, const StateRef<ResearchTopic> &topic,
+                                     const StateRef<Lab> &lab)
     : GameEvent(type), topic(topic), lab(lab)
 {
 }
 
-GameManufactureEvent::GameManufactureEvent(GameEventType type, StateRef<ResearchTopic> topic,
-                                           unsigned done, unsigned goal, StateRef<Lab> lab)
+GameManufactureEvent::GameManufactureEvent(GameEventType type, const StateRef<ResearchTopic> &topic,
+                                           unsigned done, unsigned goal, const StateRef<Lab> &lab)
     : GameEvent(type), topic(topic), lab(lab), done(done), goal(goal)
 {
 }
 
 GameFacilityEvent::GameFacilityEvent(GameEventType type, sp<Base> base, sp<Facility> facility)
-    : GameEvent(type), base(base), facility(facility)
+    : GameEvent(type), base(std::move(std::move(base))), facility(std::move(std::move(facility)))
 {
 }
 
 GameBattleEvent::GameBattleEvent(GameEventType type, sp<Battle> battle)
-    : GameEvent(type), battle(battle)
+    : GameEvent(type), battle(std::move(std::move(battle)))
 {
 }
 GameLocationEvent::GameLocationEvent(GameEventType type, Vec3<int> location)
     : GameEvent(type), location(location)
 {
 }
-GameDefenseEvent::GameDefenseEvent(GameEventType type, StateRef<Base> base,
-                                   StateRef<Organisation> organisation)
+GameDefenseEvent::GameDefenseEvent(GameEventType type, const StateRef<Base> &base,
+                                   const StateRef<Organisation> &organisation)
     : GameEvent(type), base(base), organisation(organisation)
 {
 }
 
-GameSomethingDiedEvent::GameSomethingDiedEvent(GameEventType type, UString name, Vec3<int> location)
-    : GameSomethingDiedEvent(type, name, "", location)
+GameSomethingDiedEvent::GameSomethingDiedEvent(GameEventType type, const UString &name,
+                                               Vec3<int> location)
+    : GameSomethingDiedEvent(type, std::move(name), "", location)
 {
 }
 
-GameSomethingDiedEvent::GameSomethingDiedEvent(GameEventType type, UString name, UString actor,
-                                               Vec3<int> location)
+GameSomethingDiedEvent::GameSomethingDiedEvent(GameEventType type, const UString &name,
+                                               const UString &actor, Vec3<int> location)
     : GameEvent(type), location(location)
 {
 	switch (type)

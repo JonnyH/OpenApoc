@@ -21,12 +21,13 @@
 #include "game/ui/general/messagebox.h"
 #include "game/ui/general/transactioncontrol.h"
 #include <array>
+#include <utility>
 
 namespace OpenApoc
 {
 
 BuyAndSellScreen::BuyAndSellScreen(sp<GameState> state, bool forceLimits)
-    : TransactionScreen(state, forceLimits)
+    : TransactionScreen(std::move(state), forceLimits)
 {
 	form->findControlTyped<Label>("TITLE")->setText(tr("BUY AND SELL"));
 	form->findControlTyped<Graphic>("BG")->setImage(

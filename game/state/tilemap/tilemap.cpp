@@ -30,7 +30,7 @@ namespace OpenApoc
 {
 
 TileMap::TileMap(Vec3<int> size, Vec3<float> velocityScale, Vec3<int> voxelMapSize,
-                 std::vector<std::set<TileObject::Type>> layerMap)
+                 const std::vector<std::set<TileObject::Type>> &layerMap)
     : layerMap(layerMap), size(size), voxelMapSize(voxelMapSize), velocityScale(velocityScale)
 {
 	tiles.reserve(size.x * size.y * size.z);
@@ -62,7 +62,7 @@ TileMap::TileMap(Vec3<int> size, Vec3<float> velocityScale, Vec3<int> voxelMapSi
 
 TileMap::~TileMap() = default;
 
-void TileMap::addObjectToMap(sp<Projectile> projectile)
+void TileMap::addObjectToMap(const sp<Projectile> &projectile)
 {
 	if (projectile->tileObject)
 	{
@@ -75,7 +75,7 @@ void TileMap::addObjectToMap(sp<Projectile> projectile)
 	projectile->tileObject = obj;
 }
 
-void TileMap::addObjectToMap(GameState &state, sp<Vehicle> vehicle)
+void TileMap::addObjectToMap(GameState &state, const sp<Vehicle> &vehicle)
 {
 	if (vehicle->tileObject)
 	{
@@ -110,7 +110,7 @@ void TileMap::addObjectToMap(GameState &state, sp<Vehicle> vehicle)
 	}
 }
 
-void TileMap::addObjectToMap(sp<Scenery> scenery)
+void TileMap::addObjectToMap(const sp<Scenery> &scenery)
 {
 	if (scenery->tileObject)
 	{
@@ -123,7 +123,7 @@ void TileMap::addObjectToMap(sp<Scenery> scenery)
 	scenery->tileObject = obj;
 }
 
-void TileMap::addObjectToMap(sp<Doodad> doodad)
+void TileMap::addObjectToMap(const sp<Doodad> &doodad)
 {
 	if (doodad->tileObject)
 	{
@@ -136,7 +136,7 @@ void TileMap::addObjectToMap(sp<Doodad> doodad)
 	doodad->tileObject = obj;
 }
 
-void TileMap::addObjectToMap(sp<BattleMapPart> map_part)
+void TileMap::addObjectToMap(const sp<BattleMapPart> &map_part)
 {
 	if (map_part->tileObject)
 	{
@@ -149,7 +149,7 @@ void TileMap::addObjectToMap(sp<BattleMapPart> map_part)
 	map_part->tileObject = obj;
 }
 
-void TileMap::addObjectToMap(sp<BattleItem> item)
+void TileMap::addObjectToMap(const sp<BattleItem> &item)
 {
 	if (item->tileObject)
 	{
@@ -170,7 +170,7 @@ void TileMap::addObjectToMap(sp<BattleItem> item)
 	item->shadowObject = shadow;
 }
 
-void TileMap::addObjectToMap(sp<BattleUnit> unit)
+void TileMap::addObjectToMap(const sp<BattleUnit> &unit)
 {
 	if (unit->tileObject)
 	{
@@ -194,7 +194,7 @@ void TileMap::addObjectToMap(sp<BattleUnit> unit)
 	unit->shadowObject = shadow;
 }
 
-void TileMap::addObjectToMap(sp<BattleHazard> hazard)
+void TileMap::addObjectToMap(const sp<BattleHazard> &hazard)
 {
 	if (hazard->tileObject)
 	{

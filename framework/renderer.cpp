@@ -1,6 +1,8 @@
 #include "framework/renderer.h"
+
 #include "framework/logger.h"
 #include "library/sp.h"
+#include <utility>
 
 namespace OpenApoc
 {
@@ -8,7 +10,7 @@ namespace OpenApoc
 RendererSurfaceBinding::RendererSurfaceBinding(Renderer &r, sp<Surface> s)
     : prevBinding(r.getSurface()), r(r)
 {
-	r.setSurface(s);
+	r.setSurface(std::move(s));
 }
 
 RendererSurfaceBinding::~RendererSurfaceBinding() { r.setSurface(prevBinding); }

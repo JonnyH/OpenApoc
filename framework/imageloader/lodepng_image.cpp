@@ -16,7 +16,7 @@
 
 using namespace OpenApoc;
 
-sp<Palette> OpenApoc::loadPNGPalette(Data &d, const UString fileName)
+sp<Palette> OpenApoc::loadPNGPalette(Data &d, const UString &fileName)
 {
 	auto f = d.fs.open(fileName);
 	if (!f)

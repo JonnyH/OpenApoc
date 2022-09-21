@@ -114,25 +114,25 @@ class Cargo
 
 	Cargo() = default;
 	Cargo(GameState &state, StateRef<AEquipmentType> equipment, int count, int price,
-	      StateRef<Organisation> originalOwner, StateRef<Building> destination);
+	      const StateRef<Organisation> &originalOwner, const StateRef<Building> &destination);
 	Cargo(GameState &state, StateRef<VEquipmentType> equipment, int count, int price,
-	      StateRef<Organisation> originalOwner, StateRef<Building> destination);
+	      const StateRef<Organisation> &originalOwner, const StateRef<Building> &destination);
 	Cargo(GameState &state, StateRef<VAmmoType> equipment, int count, int price,
-	      StateRef<Organisation> originalOwner, StateRef<Building> destination);
+	      const StateRef<Organisation> &originalOwner, const StateRef<Building> &destination);
 	Cargo(GameState &state, Type type, UString id, int count, int divisor, int space, int cost,
-	      StateRef<Organisation> originalOwner, StateRef<Building> destination);
+	      const StateRef<Organisation> &originalOwner, const StateRef<Building> &destination);
 
 	// Check expiry date, expire if past expiration date, return true if expires soon
-	bool checkExpiryDate(GameState &state, StateRef<Building> currentBuilding);
+	bool checkExpiryDate(GameState &state, const StateRef<Building> &currentBuilding);
 	// Refund cargo to destination org
-	void refund(GameState &state, StateRef<Building> currentBuilding);
+	void refund(GameState &state, const StateRef<Building> &currentBuilding);
 	// Put cargo into base
 	void arrive(GameState &state);
 	// Put cargo into base
 	void arrive(GameState &state, bool &cargoArrived, bool &bioArrived, bool &recoveryArrived,
 	            bool &transferArrived, std::set<StateRef<Organisation>> &suppliers);
 	// Seize cargo
-	void seize(GameState &state, StateRef<Organisation> org);
+	void seize(GameState &state, const StateRef<Organisation> &org);
 	// Clear cargo (set count to zero, will be removed)
 	void clear();
 };
@@ -271,37 +271,39 @@ class Vehicle : public StateObject<Vehicle>,
 	StateRef<Building> getServiceDestination(GameState &state);
 
 	void die(GameState &state, bool silent = false, StateRef<Vehicle> attacker = nullptr);
-	void crash(GameState &state, StateRef<Vehicle> attacker);
-	void startFalling(GameState &state, StateRef<Vehicle> attacker = nullptr);
+	void crash(GameState &state, const StateRef<Vehicle> &attacker);
+	void startFalling(GameState &state, const StateRef<Vehicle> &attacker = nullptr);
 	void adjustRelationshipOnDowned(GameState &state, StateRef<Vehicle> attacker);
 	bool isDead() const;
 
 	bool canAddEquipment(Vec2<int> pos, StateRef<VEquipmentType> type) const;
 	sp<VEquipment> addEquipment(GameState &state, Vec2<int> pos,
 	                            StateRef<VEquipmentType> equipmentType);
-	sp<VEquipment> addEquipment(GameState &state, StateRef<VEquipmentType> equipmentType);
-	void removeEquipment(sp<VEquipment> object);
+	sp<VEquipment> addEquipment(GameState &state, const StateRef<VEquipmentType> &equipmentType);
+	void removeEquipment(const sp<VEquipment> &object);
 
 	bool applyDamage(GameState &state, int damage, float armour);
 	bool applyDamage(GameState &state, int damage, float armour, bool &soundHandled,
 	                 StateRef<Vehicle> attacker = nullptr);
 	bool handleCollision(GameState &state, Collision &c, bool &soundHandled);
-	sp<TileObjectVehicle> findClosestEnemy(GameState &state, sp<TileObjectVehicle> vehicleTile,
+	sp<TileObjectVehicle> findClosestEnemy(GameState &state,
+	                                       const sp<TileObjectVehicle> &vehicleTile,
 	                                       Vec2<int> arc = {8, 8});
 	sp<TileObjectProjectile> findClosestHostileMissile(GameState &state,
-	                                                   sp<TileObjectVehicle> vehicleTile,
+	                                                   const sp<TileObjectVehicle> &vehicleTile,
 	                                                   Vec2<int> arc = {8, 8});
 	bool fireWeaponsPointDefense(GameState &state, Vec2<int> arc = {8, 8});
 
 	bool fireAtBuilding(GameState &state, Vec2<int> arc = {8, 8});
 	void fireWeaponsManual(GameState &state, Vec2<int> arc = {8, 8});
-	bool attackTarget(GameState &state, sp<TileObjectVehicle> enemyTile);
-	bool attackTarget(GameState &state, sp<TileObjectProjectile> enemyTile);
+	bool attackTarget(GameState &state, const sp<TileObjectVehicle> &enemyTile);
+	bool attackTarget(GameState &state, const sp<TileObjectProjectile> &enemyTile);
 	bool attackTarget(GameState &state, Vec3<float> target);
 	sp<VEquipment> getFirstFiringWeapon(GameState &state, Vec3<float> &target,
 	                                    bool checkLOF = false,
 	                                    Vec3<float> targetVelocity = {0.0f, 0.0f, 0.0f},
-	                                    sp<TileObjectVehicle> enemyTile = nullptr, bool pd = false);
+	                                    const sp<TileObjectVehicle> &enemyTile = nullptr,
+	                                    bool pd = false);
 	float getFiringRange() const;
 
 	Vec3<float> getMuzzleLocation() const;
@@ -352,10 +354,10 @@ class Vehicle : public StateObject<Vehicle>,
 
 	// Adds mission to list of missions, returns iterator to mission if successful, missions.end()
 	// otherwise
-	typename decltype(missions)::iterator addMission(GameState &state, VehicleMission mission,
-	                                                 bool toBack = false);
+	typename decltype(missions)::iterator
+	addMission(GameState &state, const VehicleMission &mission, bool toBack = false);
 	// Replaces all missions with provided mission, returns true if successful
-	bool setMission(GameState &state, VehicleMission mission);
+	bool setMission(GameState &state, const VehicleMission &mission);
 	bool clearMissions(GameState &state, bool forced = false);
 
 	// Pops all finished missions, returns true if popped

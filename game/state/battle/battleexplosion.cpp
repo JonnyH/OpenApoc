@@ -22,9 +22,10 @@
 
 namespace OpenApoc
 {
-BattleExplosion::BattleExplosion(Vec3<int> position, StateRef<DamageType> damageType, int power,
-                                 int depletionRate, bool damageInTheEnd,
-                                 StateRef<Organisation> ownerOrg, StateRef<BattleUnit> ownerUnit)
+BattleExplosion::BattleExplosion(Vec3<int> position, const StateRef<DamageType> &damageType,
+                                 int power, int depletionRate, bool damageInTheEnd,
+                                 const StateRef<Organisation> &ownerOrg,
+                                 const StateRef<BattleUnit> &ownerUnit)
     : position(position), power(power), ticksUntilExpansion(TICKS_MULTIPLIER * 2),
       locationsToExpand({{{position, {power, power}}}, {}, {}}), damageInTheEnd(damageInTheEnd),
       locationsVisited({position}), damageType(damageType), depletionRate(depletionRate),

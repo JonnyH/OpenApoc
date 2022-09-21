@@ -16,7 +16,7 @@ namespace OpenApoc
  * tables */
 uint32_t expected_ufo2p_crc32 = 0x4749ffc1;
 
-UFO2P::UFO2P(std::string file_name)
+UFO2P::UFO2P(const std::string &file_name)
 {
 	auto file = fw().data->fs.open(file_name);
 

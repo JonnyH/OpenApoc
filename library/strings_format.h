@@ -11,6 +11,6 @@ template <typename... Args> static UString format(const UStringView fmt, Args &&
 	return fmt::sprintf(fmt, std::forward<Args>(args)...);
 }
 
-UString tr(const UString &str, UString domain = "ufo_string");
+UString tr(const UString &str, const UString &domain = "ufo_string");
 
 } // namespace OpenApoc

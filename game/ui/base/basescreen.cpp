@@ -1,4 +1,5 @@
 #include "game/ui/base/basescreen.h"
+
 #include "forms/form.h"
 #include "forms/graphic.h"
 #include "forms/graphicbutton.h"
@@ -28,13 +29,15 @@
 #include "game/ui/general/messagebox.h"
 #include "game/ui/ufopaedia/ufopaediacategoryview.h"
 #include "library/strings_format.h"
+#include <utility>
 
 namespace OpenApoc
 {
 
 const Vec2<int> BaseScreen::NO_SELECTION = {-1, -1};
 
-BaseScreen::BaseScreen(sp<GameState> state) : BaseStage(state), selection(NO_SELECTION), drag(false)
+BaseScreen::BaseScreen(sp<GameState> state)
+    : BaseStage(std::move(state)), selection(NO_SELECTION), drag(false)
 {
 	form = ui().getForm("basescreen");
 	viewHighlight = BaseGraphics::FacilityHighlight::Construction;

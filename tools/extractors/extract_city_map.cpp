@@ -14,8 +14,9 @@
 namespace OpenApoc
 {
 
-void InitialGameStateExtractor::extractCityMap(GameState &state, UString fileName,
-                                               UString tilePrefix, sp<City> city) const
+void InitialGameStateExtractor::extractCityMap(GameState &state, const UString &fileName,
+                                               const UString &tilePrefix,
+                                               const sp<City> &city) const
 {
 	UString const map_prefix = "xcom3/ufodata/";
 	unsigned int const sizeX = 100;

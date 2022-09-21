@@ -20,7 +20,8 @@ class FakeSceneryTileObject : public TileObject
 	sp<VoxelMap> getVoxelMap(Vec3<int>, bool) const override { return this->voxel; }
 
 	FakeSceneryTileObject(TileMap &map, Vec3<float> bounds, sp<VoxelMap> voxelMap)
-	    : TileObject(map, Type::Scenery, bounds), position(0, 0, 0), voxel(voxelMap)
+	    : TileObject(map, Type::Scenery, bounds), position(0, 0, 0),
+	      voxel(std::move(std::move(voxelMap)))
 	{
 		this->name = "FAKE_SCENERY";
 	}
@@ -40,7 +41,7 @@ class FakeSceneryTileObject : public TileObject
 };
 
 static void test_collision(const TileMap &map, Vec3<float> line_start, Vec3<float> line_end,
-                           sp<TileObject> expected_collision)
+                           const sp<TileObject> &expected_collision)
 {
 	auto collision = map.findCollision(line_start, line_end);
 	if (collision.obj != expected_collision)

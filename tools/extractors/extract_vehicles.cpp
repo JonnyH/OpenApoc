@@ -52,8 +52,8 @@ std::set<UString> Rescue = {"VEHICLETYPE_ANNIHILATOR",      "VEHICLETYPE_VALKYRI
                             "VEHICLETYPE_RETALIATOR",       "VEHICLETYPE_HAWK_AIR_WARRIOR",
                             "VEHICLETYPE_RESCUE_TRANSPORT", "VEHICLETYPE_CONSTRUCTION_VEHICLE"};
 } // namespace
-static void extract_equipment_layout(GameState &state, sp<VehicleType> vehicle, const UFO2P &data,
-                                     VehicleEquipmentLayout layout,
+static void extract_equipment_layout(GameState &state, const sp<VehicleType> &vehicle,
+                                     const UFO2P &data, VehicleEquipmentLayout layout,
                                      const uint8_t initial_equipment[45])
 {
 	if (layout.slot_count > 45)

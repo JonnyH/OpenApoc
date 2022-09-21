@@ -1,4 +1,7 @@
 #include "game/ui/ufopaedia/ufopaediacategoryview.h"
+
+#include <utility>
+
 #include "forms/form.h"
 #include "forms/graphic.h"
 #include "forms/label.h"
@@ -20,13 +23,15 @@
 #include "game/state/shared/organisation.h"
 #include "library/sp.h"
 #include "library/strings_format.h"
+#include <utility>
 
 namespace OpenApoc
 {
 
-UfopaediaCategoryView::UfopaediaCategoryView(sp<GameState> state, sp<UfopaediaCategory> cat,
-                                             sp<UfopaediaEntry> entry)
-    : Stage(), menuform(ui().getForm("ufopaedia")), state(state), category(cat), baseY(0), baseH(0)
+UfopaediaCategoryView::UfopaediaCategoryView(sp<GameState> state, const sp<UfopaediaCategory> &cat,
+                                             const sp<UfopaediaEntry> &entry)
+    : Stage(), menuform(ui().getForm("ufopaedia")), state(std::move(std::move(state))),
+      category(cat), baseY(0), baseH(0)
 {
 	// Start with the intro page
 	this->position_iterator = this->category->entries.end();

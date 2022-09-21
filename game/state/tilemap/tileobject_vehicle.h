@@ -14,7 +14,7 @@ class Image;
 class TileObjectVehicle : public TileObject
 {
   public:
-	static void drawStatic(Renderer &r, sp<Vehicle> v, TileTransform &transform,
+	static void drawStatic(Renderer &r, const sp<Vehicle> &v, TileTransform &transform,
 	                       Vec2<float> screenPosition, TileViewMode mode, bool visible,
 	                       int currentLevel, bool friendly, bool hostile);
 
@@ -35,7 +35,7 @@ class TileObjectVehicle : public TileObject
 	friend class TileMap;
 	wp<Vehicle> vehicle;
 
-	TileObjectVehicle(TileMap &map, sp<Vehicle> vehicle);
+	TileObjectVehicle(TileMap &map, const sp<Vehicle> &vehicle);
 };
 
 } // namespace OpenApoc

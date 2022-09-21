@@ -40,6 +40,7 @@
 
 #include <cstring>
 #include <string>
+#include <utility>
 
 static const std::string FUNCTION_PREFIX = "gl";
 
@@ -59,7 +60,8 @@ class Gles3::Gles3Loader
 	bool desktop_extension;
 
   public:
-	Gles3Loader(bool desktop_extension, std::string lib_name) : desktop_extension(desktop_extension)
+	Gles3Loader(bool desktop_extension, const std::string &lib_name)
+	    : desktop_extension(desktop_extension)
 	{
 		if (desktop_extension)
 		{
@@ -162,9 +164,9 @@ class Gles3::Gles3Loader
 	}
 };
 
-bool Gles3::supported(bool desktop_extension, std::string lib_name)
+bool Gles3::supported(bool desktop_extension, const std::string &lib_name)
 {
-	Gles3Loader const tmp_loader(desktop_extension, lib_name);
+	Gles3Loader const tmp_loader(desktop_extension, std::move(lib_name));
 
 	const GLubyte *(GLESWRAP_APIENTRY * LocalGetString)(GLenum name) = nullptr;
 
@@ -206,7 +208,7 @@ bool Gles3::supported(bool desktop_extension, std::string lib_name)
 	}
 }
 
-Gles3::Gles3(bool desktop_extension, std::string lib_name)
+Gles3::Gles3(bool desktop_extension, const std::string &lib_name)
     : loader(new Gles3Loader(desktop_extension, lib_name)), desktop_extension(desktop_extension)
 {
 	LogAssert(this->supported(desktop_extension, lib_name));

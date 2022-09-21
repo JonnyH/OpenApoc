@@ -75,7 +75,7 @@ template <> sp<DamageType> StateObject<DamageType>::get(const GameState &state, 
 	return it->second;
 }
 
-int DamageType::dealDamage(int damage, StateRef<DamageModifier> modifier) const
+int DamageType::dealDamage(int damage, const StateRef<DamageModifier> &modifier) const
 {
 	if (modifiers.find(modifier) == modifiers.end())
 	{

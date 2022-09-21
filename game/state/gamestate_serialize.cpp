@@ -677,7 +677,7 @@ bool BattleUnitAnimationPack::loadAnimationPack(GameState &state, const UString 
 	{
 		LogError("Failed to open animation pack \"%s\"", path);
 	}
-	const auto fullPath = file.systemPath();
+	const auto &fullPath = file.systemPath();
 
 	auto archive = SerializationArchive::readArchive(fullPath);
 	if (!archive)

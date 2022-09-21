@@ -21,7 +21,7 @@
 namespace OpenApoc
 {
 
-AlertScreen::AlertScreen(sp<GameState> state, sp<Building> building)
+AlertScreen::AlertScreen(const sp<GameState> &state, const sp<Building> &building)
     : Stage(), menuform(ui().getForm("city/alert")), state(state), building(building)
 {
 	menuform->findControlTyped<Label>("TEXT_FUNDS")->setText(state->getPlayerBalance());

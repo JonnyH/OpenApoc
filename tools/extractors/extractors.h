@@ -102,8 +102,8 @@ class InitialGameStateExtractor
 	void extractEconomy(GameState &state) const;
 
 	void extractBattlescapeMap(GameState &state, const std::vector<OpenApoc::UString> &paths) const;
-	void extractBattlescapeMapFromPath(GameState &state, UString dirName, int index) const;
-	void readBattleMapParts(GameState &state, const TACP &data_t, sp<BattleMapTileset> t,
+	void extractBattlescapeMapFromPath(GameState &state, const UString &dirName, int index) const;
+	void readBattleMapParts(GameState &state, const TACP &data_t, const sp<BattleMapTileset> &t,
 	                        BattleMapPartType::Type type, const UString &idPrefix,
 	                        const UString &mapName, const UString &dirName, const UString &datName,
 	                        const UString &pckName, const UString &stratPckName) const;
@@ -118,20 +118,21 @@ class InitialGameStateExtractor
 
 	void extractAlienEquipmentSets(GameState &state, Difficulty difficulty) const;
 
-	void extractBuildings(GameState &state, UString bldFileName, sp<City> city,
+	void extractBuildings(GameState &state, const UString &bldFileName, const sp<City> &city,
 	                      bool alienBuilding = false) const;
-	void extractCityMap(GameState &state, UString fileName, UString tilePrefix,
-	                    sp<City> city) const;
-	void extractCityScenery(GameState &state, UString tilePrefix, UString datFile,
-	                        UString spriteFile, UString stratmapFile, UString lofFile,
-	                        UString ovrFile, sp<City> city) const;
+	void extractCityMap(GameState &state, const UString &fileName, const UString &tilePrefix,
+	                    const sp<City> &city) const;
+	void extractCityScenery(GameState &state, const UString &tilePrefix, const UString &datFile,
+	                        const UString &spriteFile, const UString &stratmapFile,
+	                        const UString &lofFile, const UString &ovrFile,
+	                        const sp<City> &city) const;
 
   public:
 	// Unit animation packs functions
 
 	sp<BattleUnitAnimationPack::AnimationEntry>
-	combineAnimationEntries(sp<BattleUnitAnimationPack::AnimationEntry> e1,
-	                        sp<BattleUnitAnimationPack::AnimationEntry> e2) const;
+	combineAnimationEntries(const sp<BattleUnitAnimationPack::AnimationEntry> &e1,
+	                        const sp<BattleUnitAnimationPack::AnimationEntry> &e2) const;
 
 	sp<BattleUnitAnimationPack::AnimationEntry> getAnimationEntry(
 	    const std::vector<AnimationDataAD> &dataAD, const std::vector<AnimationDataUA> &dataUA,
@@ -215,56 +216,56 @@ class InitialGameStateExtractor
 	// Unit animation pack extractors
 
   private:
-	void extractAnimationPackUnit(sp<BattleUnitAnimationPack> p,
+	void extractAnimationPackUnit(const sp<BattleUnitAnimationPack> &p,
 	                              const std::vector<AnimationDataAD> &dataAD,
 	                              const std::vector<AnimationDataUA> &dataUA,
 	                              std::vector<AnimationDataUF> &dataUF) const;
 
-	void extractAnimationPackBsk(sp<BattleUnitAnimationPack> p,
+	void extractAnimationPackBsk(const sp<BattleUnitAnimationPack> &p,
 	                             const std::vector<AnimationDataAD> &dataAD,
 	                             const std::vector<AnimationDataUA> &dataUA,
 	                             std::vector<AnimationDataUF> &dataUF) const;
 
-	void extractAnimationPackMega(sp<BattleUnitAnimationPack> p,
+	void extractAnimationPackMega(const sp<BattleUnitAnimationPack> &p,
 	                              const std::vector<AnimationDataAD> &dataAD,
 	                              const std::vector<AnimationDataUA> &dataUA,
 	                              std::vector<AnimationDataUF> &dataUF) const;
 
-	void extractAnimationPackPsi(sp<BattleUnitAnimationPack> p,
+	void extractAnimationPackPsi(const sp<BattleUnitAnimationPack> &p,
 	                             const std::vector<AnimationDataAD> &dataAD,
 	                             const std::vector<AnimationDataUA> &dataUA,
 	                             std::vector<AnimationDataUF> &dataUF) const;
 
-	void extractAnimationPackMulti(sp<BattleUnitAnimationPack> p,
+	void extractAnimationPackMulti(const sp<BattleUnitAnimationPack> &p,
 	                               const std::vector<AnimationDataAD> &dataAD,
 	                               const std::vector<AnimationDataUA> &dataUA,
 	                               std::vector<AnimationDataUF> &dataUF) const;
 
-	void extractAnimationPackHyper(sp<BattleUnitAnimationPack> p,
+	void extractAnimationPackHyper(const sp<BattleUnitAnimationPack> &p,
 	                               const std::vector<AnimationDataAD> &dataAD,
 	                               const std::vector<AnimationDataUA> &dataUA,
 	                               std::vector<AnimationDataUF> &dataUF) const;
 
-	void extractAnimationPackSpitter(sp<BattleUnitAnimationPack> p,
+	void extractAnimationPackSpitter(const sp<BattleUnitAnimationPack> &p,
 	                                 const std::vector<AnimationDataAD> &dataAD,
 	                                 const std::vector<AnimationDataUA> &dataUA,
 	                                 std::vector<AnimationDataUF> &dataUF) const;
 
-	void extractAnimationPackCiv(sp<BattleUnitAnimationPack> p,
+	void extractAnimationPackCiv(const sp<BattleUnitAnimationPack> &p,
 	                             const std::vector<AnimationDataAD> &dataAD,
 	                             const std::vector<AnimationDataUA> &dataUA,
 	                             std::vector<AnimationDataUF> &dataUF) const;
 
-	void extractAnimationPackPopper(sp<BattleUnitAnimationPack> p) const;
+	void extractAnimationPackPopper(const sp<BattleUnitAnimationPack> &p) const;
 
-	void extractAnimationPackMicro(sp<BattleUnitAnimationPack> p) const;
+	void extractAnimationPackMicro(const sp<BattleUnitAnimationPack> &p) const;
 
-	void extractAnimationPackQ(sp<BattleUnitAnimationPack> p) const;
+	void extractAnimationPackQ(const sp<BattleUnitAnimationPack> &p) const;
 
-	void extractAnimationPackGun(sp<BattleUnitAnimationPack> p) const;
+	void extractAnimationPackGun(const sp<BattleUnitAnimationPack> &p) const;
 
-	void extractAnimationPackChrysalis(sp<BattleUnitAnimationPack> p, bool first) const;
+	void extractAnimationPackChrysalis(const sp<BattleUnitAnimationPack> &p, bool first) const;
 
-	void extractAnimationPackEgg(sp<BattleUnitAnimationPack> p, bool first) const;
+	void extractAnimationPackEgg(const sp<BattleUnitAnimationPack> &p, bool first) const;
 };
 } // namespace OpenApoc

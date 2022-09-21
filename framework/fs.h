@@ -41,7 +41,7 @@ class FileSystem
 	UString writeDir;
 
   public:
-	FileSystem(std::vector<UString> paths);
+	FileSystem(const std::vector<UString> &paths);
 	~FileSystem();
 	bool addPath(const UString &newPath);
 	IFile open(const UString &path) const;

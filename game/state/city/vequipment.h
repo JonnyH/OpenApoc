@@ -67,7 +67,7 @@ class VEquipment : public Equipment
 	bool fire(GameState &state, Vec3<float> targetPosition, Vec3<float> homingPosition,
 	          StateRef<Vehicle> targetVehicle = nullptr, bool manual = false);
 	bool fire(GameState &state, Vec3<float> targetPosition,
-	          StateRef<Vehicle> targetVehicle = nullptr, bool manual = false);
+	          const StateRef<Vehicle> &targetVehicle = nullptr, bool manual = false);
 
 	sp<Image> getEquipmentArmorImage() const override;
 	sp<Image> getEquipmentImage() const override;

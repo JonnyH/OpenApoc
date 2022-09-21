@@ -31,7 +31,7 @@ void DifficultyMenu::resume() {}
 
 void DifficultyMenu::finish() {}
 
-std::shared_future<void> loadGame(sp<GameState> state)
+std::shared_future<void> loadGame(const sp<GameState> &state)
 {
 	auto loadTask = fw().threadPoolEnqueue(
 	    [state]() -> void

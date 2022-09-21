@@ -30,7 +30,7 @@ class TileObjectScenery : public TileObject
 
   private:
 	friend class TileMap;
-	TileObjectScenery(TileMap &map, sp<Scenery> scenery);
+	TileObjectScenery(TileMap &map, const sp<Scenery> &scenery);
 };
 
 } // namespace OpenApoc

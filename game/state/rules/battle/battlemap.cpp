@@ -21,6 +21,7 @@
 #include "game/state/shared/organisation.h"
 #include <algorithm>
 #include <unordered_map>
+#include <utility>
 
 namespace OpenApoc
 {
@@ -122,10 +123,11 @@ const UString &StateObject<BattleMap>::getId(const GameState &state, const sp<Ba
 }
 
 // Create UFO battle
-sp<Battle> BattleMap::createBattle(GameState &state, StateRef<Organisation> opponent,
+sp<Battle> BattleMap::createBattle(GameState &state, const StateRef<Organisation> &opponent,
                                    std::list<StateRef<Agent>> &player_agents,
                                    const std::map<StateRef<AgentType>, int> *aliens,
-                                   StateRef<Vehicle> player_craft, StateRef<Vehicle> target_craft)
+                                   const StateRef<Vehicle> &player_craft,
+                                   StateRef<Vehicle> target_craft)
 {
 	if (!aliens)
 	{
@@ -162,7 +164,8 @@ sp<Battle> BattleMap::createBattle(GameState &state, StateRef<Organisation> oppo
                                    std::list<StateRef<Agent>> &player_agents,
                                    const std::map<StateRef<AgentType>, int> *aliens,
                                    const int *guards, const int *civilians,
-                                   StateRef<Vehicle> player_craft, StateRef<Building> building)
+                                   const StateRef<Vehicle> &player_craft,
+                                   StateRef<Building> building)
 {
 	std::list<std::pair<StateRef<Organisation>, StateRef<AgentType>>> otherParticipants;
 	auto missionType = Battle::MissionType::AlienExtermination;
@@ -427,7 +430,7 @@ bool isMapComplete(std::vector<sp<BattleMapSector>> &sec_map, const Vec3<int> &m
 }
 
 bool placeSector(GameState &state, std::vector<sp<BattleMapSector>> &sec_map,
-                 const Vec3<int> &map_size, const sp<BattleMapSector> sector, bool force = false,
+                 const Vec3<int> &map_size, const sp<BattleMapSector> &sector, bool force = false,
                  bool invert_x_packing = false, bool invert_y_packing = false)
 {
 	bool moved = false;
@@ -915,7 +918,7 @@ bool BattleMap::generateMap(std::vector<sp<BattleMapSector>> &sec_map, Vec3<int>
 }
 
 bool BattleMap::generateBase(std::vector<sp<BattleMapSector>> &sec_map, Vec3<int> &size,
-                             GameState &state, UString mission_location_id)
+                             GameState &state, const UString &mission_location_id)
 {
 	StateRef<Building> const building = {&state, mission_location_id};
 	StateRef<Base> base;
@@ -979,7 +982,7 @@ BattleMap::fillMap(std::vector<std::list<std::pair<Vec3<int>, sp<BattleMapPart>>
                    bool &spawnCivilians, std::vector<sp<BattleMapSector>> sec_map, Vec3<int> size,
                    GameState &state, StateRef<Organisation> propertyOwner,
                    StateRef<Organisation> target_organisation, std::list<StateRef<Agent>> &agents,
-                   StateRef<Vehicle> player_craft, Battle::MissionType mission_type,
+                   const StateRef<Vehicle> &player_craft, Battle::MissionType mission_type,
                    UString mission_location_id)
 {
 
@@ -991,7 +994,7 @@ BattleMap::fillMap(std::vector<std::list<std::pair<Vec3<int>, sp<BattleMapPart>>
 	b->size = {chunk_size.x * size.x, chunk_size.y * size.y, chunk_size.z * size.z};
 	b->battle_map = {&state, id};
 	b->mission_type = mission_type;
-	b->mission_location_id = mission_location_id;
+	b->mission_location_id = std::move(mission_location_id);
 	b->player_craft = player_craft;
 	b->loadResources(state);
 	b->reinforcementsInterval = reinforcementsInterval * TICKS_PER_SECOND;
@@ -1221,7 +1224,7 @@ BattleMap::fillMap(std::vector<std::list<std::pair<Vec3<int>, sp<BattleMapPart>>
 	return b;
 }
 
-void BattleMap::linkDoors(sp<Battle> b,
+void BattleMap::linkDoors(const sp<Battle> &b,
                           std::vector<std::list<std::pair<Vec3<int>, sp<BattleMapPart>>>> doors,
                           GameState &state)
 {
@@ -1277,7 +1280,7 @@ void BattleMap::linkDoors(sp<Battle> b,
 	}
 }
 
-void BattleMap::fillSquads(sp<Battle> b, bool spawnCivilians, GameState &state,
+void BattleMap::fillSquads(const sp<Battle> &b, bool spawnCivilians, GameState &state,
                            std::list<StateRef<Agent>> &agents)
 {
 	// Ensure player goes first
@@ -1395,7 +1398,7 @@ void BattleMap::fillSquads(sp<Battle> b, bool spawnCivilians, GameState &state,
 	state.cleanUpDeathNote();
 }
 
-void BattleMap::initNewMap(sp<Battle> b)
+void BattleMap::initNewMap(const sp<Battle> &b)
 {
 	// Init visibility
 	for (auto &o : b->participants)
@@ -1450,11 +1453,12 @@ void BattleMap::unloadTiles()
 	LogInfo("Unloaded sector tiles.");
 }
 
-sp<Battle> BattleMap::createBattle(GameState &state, StateRef<Organisation> propertyOwner,
-                                   StateRef<Organisation> target_organisation,
+sp<Battle> BattleMap::createBattle(GameState &state, const StateRef<Organisation> &propertyOwner,
+                                   const StateRef<Organisation> &target_organisation,
                                    std::list<StateRef<Agent>> &agents,
-                                   StateRef<Vehicle> player_craft, Battle::MissionType mission_type,
-                                   UString mission_location_id)
+                                   const StateRef<Vehicle> &player_craft,
+                                   Battle::MissionType mission_type,
+                                   const UString &mission_location_id)
 {
 	std::vector<sp<BattleMapSector>> sec_map;
 	Vec3<int> size;

@@ -6,31 +6,32 @@
 #include "game/state/rules/battle/damage.h"
 #include "game/state/tilemap/tilemap.h"
 #include <list>
+#include <utility>
 
 namespace OpenApoc
 {
 
-VehicleSheet::VehicleSheet(sp<Form> destForm) : form(destForm) {}
+VehicleSheet::VehicleSheet(sp<Form> destForm) : form(std::move(std::move(destForm))) {}
 
-void VehicleSheet::display(sp<Vehicle> vehicle)
+void VehicleSheet::display(const sp<Vehicle> &vehicle)
 {
 	clear();
 	displayImplementation(vehicle, vehicle->type);
 }
 
-void VehicleSheet::display(sp<VehicleType> vehicleType)
+void VehicleSheet::display(const sp<VehicleType> &vehicleType)
 {
 	clear();
-	displayImplementation(nullptr, vehicleType);
+	displayImplementation(nullptr, std::move(vehicleType));
 }
 
-void VehicleSheet::display(sp<VEquipment> item)
+void VehicleSheet::display(const sp<VEquipment> &item)
 {
 	clear();
 	displayEquipImplementation(item, item->type);
 }
 
-void VehicleSheet::display(sp<VEquipmentType> itemType, bool researched)
+void VehicleSheet::display(const sp<VEquipmentType> &itemType, bool researched)
 {
 	clear();
 	if (researched)
@@ -63,7 +64,8 @@ void VehicleSheet::clear()
 	}
 }
 
-void VehicleSheet::displayImplementation(sp<Vehicle> vehicle, sp<VehicleType> vehicleType)
+void VehicleSheet::displayImplementation(const sp<Vehicle> &vehicle,
+                                         const sp<VehicleType> &vehicleType)
 {
 	form->findControlTyped<Label>("ITEM_NAME")->setText("");
 	form->findControlTyped<TextEdit>("TEXT_VEHICLE_NAME")
@@ -118,7 +120,8 @@ void VehicleSheet::displayImplementation(sp<Vehicle> vehicle, sp<VehicleType> ve
 	                      : format("%d", vehicleType->getMaxCargo(it1, it2)));
 }
 
-void VehicleSheet::displayEquipImplementation(sp<VEquipment> item, sp<VEquipmentType> type)
+void VehicleSheet::displayEquipImplementation(const sp<VEquipment> &item,
+                                              const sp<VEquipmentType> &type)
 {
 	form->findControlTyped<TextEdit>("TEXT_VEHICLE_NAME")->setText("");
 	form->findControlTyped<Label>("ITEM_NAME")->setText(item ? item->type->name : type->name);
@@ -145,7 +148,8 @@ void VehicleSheet::displayEquipImplementation(sp<VEquipment> item, sp<VEquipment
 	}
 }
 
-void VehicleSheet::displayEngine(sp<VEquipment> item [[maybe_unused]], sp<VEquipmentType> type)
+void VehicleSheet::displayEngine(const sp<VEquipment> &item [[maybe_unused]],
+                                 const sp<VEquipmentType> &type)
 {
 	form->findControlTyped<Label>("LABEL_2_L")->setText(tr("Top Speed"));
 	form->findControlTyped<Label>("LABEL_2_R")->setText(format("%d", type->top_speed));
@@ -153,7 +157,7 @@ void VehicleSheet::displayEngine(sp<VEquipment> item [[maybe_unused]], sp<VEquip
 	form->findControlTyped<Label>("LABEL_3_R")->setText(format("%d", type->power));
 }
 
-void VehicleSheet::displayWeapon(sp<VEquipment> item, sp<VEquipmentType> type)
+void VehicleSheet::displayWeapon(const sp<VEquipment> &item, const sp<VEquipmentType> &type)
 {
 	form->findControlTyped<Label>("LABEL_2_L")->setText(tr("Damage"));
 	form->findControlTyped<Label>("LABEL_2_R")->setText(format("%d", type->damage));
@@ -172,7 +176,8 @@ void VehicleSheet::displayWeapon(sp<VEquipment> item, sp<VEquipmentType> type)
 	}
 }
 
-void VehicleSheet::displayGeneral(sp<VEquipment> item [[maybe_unused]], sp<VEquipmentType> type)
+void VehicleSheet::displayGeneral(const sp<VEquipment> &item [[maybe_unused]],
+                                  const sp<VEquipmentType> &type)
 {
 	int statsCount = 2;
 	if (type->accuracy_modifier)
@@ -230,7 +235,7 @@ void VehicleSheet::displayGeneral(sp<VEquipment> item [[maybe_unused]], sp<VEqui
 	}
 }
 
-void VehicleSheet::displayAlien(sp<VEquipmentType> type)
+void VehicleSheet::displayAlien(const sp<VEquipmentType> &type)
 {
 	form->findControlTyped<Label>("ITEM_NAME")->setText(tr("Alien Artifact"));
 	form->findControlTyped<Graphic>("SELECTED_IMAGE")->setImage(type->equipscreen_sprite);

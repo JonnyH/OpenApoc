@@ -4,7 +4,7 @@
 namespace OpenApoc
 {
 
-void StageStack::push(sp<Stage> newStage)
+void StageStack::push(const sp<Stage> &newStage)
 {
 
 	// Pause any current stage
@@ -42,7 +42,7 @@ sp<Stage> StageStack::current()
 
 sp<Stage> StageStack::previous() { return previous(current()); }
 
-sp<Stage> StageStack::previous(sp<Stage> From)
+sp<Stage> StageStack::previous(const sp<Stage> &From)
 {
 	if (!this->Stack.empty())
 	{

@@ -3,6 +3,7 @@
 #include "framework/fs.h"
 #include "library/sp.h"
 #include "library/strings.h"
+#include <utility>
 #include <vector>
 
 namespace OpenApoc
@@ -23,9 +24,9 @@ class Data
   public:
 	FileSystem fs;
 
-	static Data *createData(std::vector<UString> paths);
+	static Data *createData(const std::vector<UString> &paths);
 	virtual ~Data() = default;
-	Data(std::vector<UString> paths) : fs(paths) {}
+	Data(const std::vector<UString> &paths) : fs(std::move(paths)) {}
 
 	virtual sp<Sample> loadSample(UString path) = 0;
 	virtual sp<MusicTrack> loadMusic(const UString &path) = 0;

@@ -472,8 +472,8 @@ sp<TileObjectBattleUnit> Tile::getUnitIfPresent() const { return firstUnitPresen
 
 sp<TileObjectBattleUnit> Tile::getUnitIfPresent(bool onlyConscious, bool mustOccupy,
                                                 bool mustBeStatic,
-                                                sp<TileObjectBattleUnit> exceptThis, bool onlyLarge,
-                                                bool checkLargeSpace) const
+                                                const sp<TileObjectBattleUnit> &exceptThis,
+                                                bool onlyLarge, bool checkLargeSpace) const
 {
 	if (checkLargeSpace)
 	{
@@ -523,7 +523,7 @@ sp<TileObjectBattleUnit> Tile::getUnitIfPresent(bool onlyConscious, bool mustOcc
 }
 
 std::list<sp<BattleUnit>> Tile::getUnits(bool onlyConscious, bool mustOccupy, bool mustBeStatic,
-                                         sp<TileObjectBattleUnit> exceptThis, bool onlyLarge,
+                                         const sp<TileObjectBattleUnit> &exceptThis, bool onlyLarge,
                                          bool checkLargeSpace) const
 {
 	std::list<sp<BattleUnit>> result;

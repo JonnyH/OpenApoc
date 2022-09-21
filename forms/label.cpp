@@ -1,4 +1,5 @@
 #include "forms/label.h"
+
 #include "dependencies/pugixml/src/pugixml.hpp"
 #include "forms/scrollbar.h"
 #include "forms/ui.h"
@@ -9,13 +10,14 @@
 #include "framework/renderer.h"
 #include "library/sp.h"
 #include "library/strings_format.h"
+#include <utility>
 
 namespace OpenApoc
 {
 
-Label::Label(const UString &Text, sp<BitmapFont> font)
-    : Control(), text(Text), font(font), scrollOffset(0), TextHAlign(HorizontalAlignment::Left),
-      TextVAlign(VerticalAlignment::Top), WordWrap(true)
+Label::Label(UString Text, const sp<BitmapFont> &font)
+    : Control(), text(std::move(Text)), font(font), scrollOffset(0),
+      TextHAlign(HorizontalAlignment::Left), TextVAlign(VerticalAlignment::Top), WordWrap(true)
 {
 	if (font)
 	{
@@ -95,7 +97,7 @@ void Label::setText(const UString &Text)
 
 sp<BitmapFont> Label::getFont() const { return font; }
 
-void Label::setFont(sp<BitmapFont> NewFont)
+void Label::setFont(const sp<BitmapFont> &NewFont)
 {
 	if (font == NewFont)
 		return;

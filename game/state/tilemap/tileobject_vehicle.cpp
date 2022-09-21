@@ -28,9 +28,9 @@ void TileObjectVehicle::draw(Renderer &r, TileTransform &transform, Vec2<float> 
 	           hostile);
 }
 
-void TileObjectVehicle::drawStatic(Renderer &r, sp<Vehicle> vehicle, TileTransform &transform,
-                                   Vec2<float> screenPosition, TileViewMode mode, bool, int,
-                                   bool friendly, bool hostile)
+void TileObjectVehicle::drawStatic(Renderer &r, const sp<Vehicle> &vehicle,
+                                   TileTransform &transform, Vec2<float> screenPosition,
+                                   TileViewMode mode, bool, int, bool friendly, bool hostile)
 {
 	static const Colour COLOUR_TRANSPARENT = {255, 255, 255, 95};
 
@@ -155,7 +155,7 @@ void TileObjectVehicle::drawStatic(Renderer &r, sp<Vehicle> vehicle, TileTransfo
 
 TileObjectVehicle::~TileObjectVehicle() = default;
 
-TileObjectVehicle::TileObjectVehicle(TileMap &map, sp<Vehicle> vehicle)
+TileObjectVehicle::TileObjectVehicle(TileMap &map, const sp<Vehicle> &vehicle)
     : TileObject(map, Type::Vehicle, {0.0f, 0.0f, 0.0f}), vehicle(vehicle)
 {
 }

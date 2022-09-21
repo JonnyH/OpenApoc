@@ -19,6 +19,7 @@
 #include <inttypes.h>
 #include <map>
 #include <physfs.h>
+#include <utility>
 
 using namespace OpenApoc;
 
@@ -71,10 +72,10 @@ class CueParser
 	CueTrackMode trackMode;
 
 	// Parse command while not being in a specific context
-	bool parseStart(std::string command, std::string arg)
+	bool parseStart(const std::string &command, std::string arg)
 	{
 		// Waiting for "FILE" command
-		UString const cmd(command);
+		UString const &cmd(std::move(command));
 		if (to_upper(cmd) != "FILE")
 		{
 			LogInfo("Encountered unexpected command: \"%s\", ignoring", cmd);
@@ -152,10 +153,10 @@ class CueParser
 		return true;
 	}
 	// Parse command while being in a FILE context
-	bool parseFile(std::string command, std::string arg)
+	bool parseFile(const std::string &command, std::string arg)
 	{
 		// Waiting for the "TRACK" command
-		UString const cmd(command);
+		UString const &cmd(std::move(command));
 		if (to_upper(cmd) != "TRACK")
 		{
 			// According to
@@ -221,9 +222,9 @@ class CueParser
 	}
 
 	// Parse command while being in a TRACK context
-	bool parseTrack(std::string command, std::string)
+	bool parseTrack(const std::string &command, const std::string &)
 	{
-		UString const cmd(command);
+		UString const &cmd(std::move(command));
 		// TODO: check for possible commands, put parser into an "error" state if command is not
 		// valid
 		if (to_upper(cmd) != "INDEX")
@@ -235,7 +236,7 @@ class CueParser
 		return true;
 	}
 
-	bool parse(UString cueFilename)
+	bool parse(const UString &cueFilename)
 	{
 		fs::path const cueFilePath(cueFilename.c_str());
 
@@ -302,11 +303,11 @@ class CueParser
 	}
 
   public:
-	CueParser(UString cueFile)
+	CueParser(const UString &cueFile)
 	    : parserState(PARSER_START), fileType(CueFileType::FT_UNDEFINED),
 	      trackMode(CueTrackMode::MODE_UNDEFINED)
 	{
-		parse(cueFile);
+		parse(std::move(cueFile));
 	}
 	bool isValid() { return parserState == PARSER_FINISH; }
 	UString getDataFileName() { return dataFileName; }
@@ -729,8 +730,8 @@ class CueIO
 		delete io;
 	}
 
-	static PHYSFS_Io *getIo(UString fileName, uint32_t lba, int64_t length, CueFileType ftype,
-	                        CueTrackMode tmode)
+	static PHYSFS_Io *getIo(const UString &fileName, uint32_t lba, int64_t length,
+	                        CueFileType ftype, CueTrackMode tmode)
 	{
 		auto cio = new CueIO(fileName, lba, length, ftype, tmode);
 		if (!cio->fileStream)
@@ -952,7 +953,7 @@ class CueArchiver
 	static_assert(sizeof(IsoVolumeDescriptor) == 2048, "Unexpected volume size!");
 	static_assert(sizeof(IsoDirRecord_hdr) == 255, "Unexpected direntry size!");
 	static_assert(offsetof(IsoDirRecord_hdr, fnLength) == 32, "Unexpected filename offset!");
-	CueArchiver(UString fileName, CueFileType ftype, CueTrackMode tmode)
+	CueArchiver(const UString &fileName, CueFileType ftype, CueTrackMode tmode)
 	    : imageFile(fileName), fileType(ftype), trackMode(tmode)
 	{
 		// "Hey, a .cue-.bin file pair should be really easy to read!" - sfalexrog, 15.04.2016
@@ -1227,9 +1228,9 @@ class CueArchiver
 
 namespace OpenApoc
 {
-void parseCueFile(UString fileName)
+void parseCueFile(const UString &fileName)
 {
-	CueParser parser(fileName);
+	CueParser parser(std::move(fileName));
 	LogInfo("Parser status: %d", parser.isValid());
 	LogInfo("Data file: %s", parser.getDataFileName());
 	LogInfo("Track mode: %d", (int)parser.getTrackMode());

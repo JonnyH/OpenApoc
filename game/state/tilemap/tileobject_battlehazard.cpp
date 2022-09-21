@@ -48,7 +48,7 @@ void TileObjectBattleHazard::draw(Renderer &r, TileTransform &, Vec2<float> scre
 
 TileObjectBattleHazard::~TileObjectBattleHazard() = default;
 
-TileObjectBattleHazard::TileObjectBattleHazard(TileMap &map, sp<BattleHazard> hazard)
+TileObjectBattleHazard::TileObjectBattleHazard(TileMap &map, const sp<BattleHazard> &hazard)
     : TileObject(map, Type::Hazard, Vec3<float>{0.0f, 0.0f, 0.0f}), hazard(hazard)
 {
 }

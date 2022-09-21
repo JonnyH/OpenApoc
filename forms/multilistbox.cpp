@@ -1,9 +1,13 @@
 #include "forms/multilistbox.h"
+
+#include <utility>
+
 #include "dependencies/pugixml/src/pugixml.hpp"
 #include "forms/scrollbar.h"
 #include "framework/event.h"
 #include "framework/framework.h"
 #include "framework/renderer.h"
+#include <utility>
 
 namespace OpenApoc
 {
@@ -11,23 +15,23 @@ namespace OpenApoc
 MultilistBox::MultilistBox() : MultilistBox(nullptr) {}
 
 MultilistBox::MultilistBox(sp<ScrollBar> ExternalScrollBar)
-    : Control(), scroller(ExternalScrollBar), ItemSize(0), ItemSpacing(0),
+    : Control(), scroller(std::move(std::move(ExternalScrollBar))), ItemSize(0), ItemSpacing(0),
       ListOrientation(Orientation::Vertical), ScrollOrientation(ListOrientation),
       HoverColour(0, 0, 0, 0), SelectedColour(0, 0, 0, 0)
 {
 	// default strategies
-	isVisibleItem = [](sp<Control> c) { return c->isVisible(); };
+	isVisibleItem = [](const sp<Control> &c) { return c->isVisible(); };
 
-	funcHandleSelection = [](Event *, sp<Control>, bool select) { return select; };
+	funcHandleSelection = [](Event *, const sp<Control> &, bool select) { return select; };
 
-	funcHoverItemRender = [this](sp<Control> c)
+	funcHoverItemRender = [this](const sp<Control> &c)
 	{ fw().renderer->drawRect(c->Location, c->SelectionSize, this->HoverColour); };
 
-	funcSelectionItemRender = [this](sp<Control> c)
+	funcSelectionItemRender = [this](const sp<Control> &c)
 	{ fw().renderer->drawRect(c->Location, c->SelectionSize, this->SelectedColour); };
 
 	setFuncPreRender(
-	    [this](sp<Control> c [[maybe_unused]])
+	    [this](const sp<Control> &c [[maybe_unused]])
 	    {
 		    if (isDirty() && !scroller)
 		    {
@@ -272,13 +276,13 @@ void MultilistBox::clear()
 	hoveredItem = nullptr;
 }
 
-void MultilistBox::addItem(sp<Control> Item)
+void MultilistBox::addItem(const sp<Control> &Item)
 {
 	this->setDirty();
 	Item->setParent(shared_from_this());
 }
 
-void MultilistBox::replaceItem(sp<Control> Item)
+void MultilistBox::replaceItem(const sp<Control> &Item)
 {
 	this->setDirty();
 	auto newData = Item->getData<void>();
@@ -448,7 +452,7 @@ void MultilistBox::configureSelfFromXml(pugi::xml_node *node)
 /**
  * Set selection status for Item.
  */
-void MultilistBox::setSelected(sp<Control> Item, bool select)
+void MultilistBox::setSelected(const sp<Control> &Item, bool select)
 {
 	// A sanity check to make sure the selected control actually belongs to this list
 	bool found = false;
@@ -534,25 +538,25 @@ std::vector<sp<Control>> MultilistBox::getSelectedItems() const
 
 void MultilistBox::setFuncIsVisibleItem(std::function<bool(sp<Control>)> func)
 {
-	isVisibleItem = func;
+	isVisibleItem = std::move(func);
 	setDirty();
 }
 
 void MultilistBox::setFuncHandleSelection(std::function<bool(Event *, sp<Control>, bool)> func)
 {
-	funcHandleSelection = func;
+	funcHandleSelection = std::move(func);
 	// not dirty
 }
 
 void MultilistBox::setFuncHoverItemRender(std::function<void(sp<Control>)> func)
 {
-	funcHoverItemRender = func;
+	funcHoverItemRender = std::move(func);
 	setDirty();
 }
 
 void MultilistBox::setFuncSelectionItemRender(std::function<void(sp<Control>)> func)
 {
-	funcSelectionItemRender = func;
+	funcSelectionItemRender = std::move(func);
 	setDirty();
 }
 } // namespace OpenApoc

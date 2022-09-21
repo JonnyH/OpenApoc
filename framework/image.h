@@ -67,8 +67,8 @@ class PaletteImage : public Image
   public:
 	PaletteImage(Vec2<unsigned int> size, uint8_t initialIndex = 0);
 	~PaletteImage() override;
-	sp<RGBImage> toRGBImage(sp<Palette> p);
-	static void blit(sp<PaletteImage> src, sp<PaletteImage> dst,
+	sp<RGBImage> toRGBImage(const sp<Palette> &p);
+	static void blit(const sp<PaletteImage> &src, const sp<PaletteImage> &dst,
 	                 Vec2<unsigned int> srcOffset = {0, 0}, Vec2<unsigned int> dstOffset = {0, 0});
 
 	void calculateBounds();
@@ -113,8 +113,8 @@ class RGBImage : public Image
   public:
 	RGBImage(Vec2<unsigned int> size, Colour initialColour = Colour(0, 0, 0, 0));
 	~RGBImage() override;
-	static void blit(sp<RGBImage> src, sp<RGBImage> dst, Vec2<unsigned int> srcOffset = {0, 0},
-	                 Vec2<unsigned int> dstOffset = {0, 0});
+	static void blit(const sp<RGBImage> &src, const sp<RGBImage> &dst,
+	                 Vec2<unsigned int> srcOffset = {0, 0}, Vec2<unsigned int> dstOffset = {0, 0});
 };
 
 class RGBImageLock

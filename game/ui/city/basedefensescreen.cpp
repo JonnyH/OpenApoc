@@ -1,4 +1,7 @@
 #include "game/ui/city/basedefensescreen.h"
+
+#include <utility>
+
 #include "forms/form.h"
 #include "forms/label.h"
 #include "forms/ui.h"
@@ -10,14 +13,15 @@
 #include "game/state/gamestate.h"
 #include "game/ui/battle/battlebriefing.h"
 #include "game/ui/general/aequipscreen.h"
+#include <utility>
 
 namespace OpenApoc
 {
 
 namespace
 {
-std::shared_future<void> loadBattleBase(sp<GameState> state, StateRef<Base> base,
-                                        StateRef<Organisation> attacker)
+std::shared_future<void> loadBattleBase(const sp<GameState> &state, const StateRef<Base> &base,
+                                        const StateRef<Organisation> &attacker)
 {
 	auto loadTask = fw().threadPoolEnqueue(
 	    [base, state, attacker]() -> void
@@ -38,16 +42,17 @@ std::shared_future<void> loadBattleBase(sp<GameState> state, StateRef<Base> base
 }
 } // namespace
 
-BaseDefenseScreen::BaseDefenseScreen(sp<GameState> state, StateRef<Base> base,
-                                     StateRef<Organisation> attacker)
-    : Stage(), menuform(ui().getForm("city/basedefense")), state(state), base(base),
-      attacker(attacker)
+BaseDefenseScreen::BaseDefenseScreen(sp<GameState> state, const StateRef<Base> &base,
+                                     const StateRef<Organisation> &attacker)
+    : Stage(), menuform(ui().getForm("city/basedefense")), state(std::move(std::move(state))),
+      base(base), attacker(attacker)
 {
 }
 
 BaseDefenseScreen::~BaseDefenseScreen() = default;
 
-void BaseDefenseScreen::initiateDefenseMission(StateRef<Base> base, StateRef<Organisation> attacker)
+void BaseDefenseScreen::initiateDefenseMission(StateRef<Base> base,
+                                               const StateRef<Organisation> &attacker)
 {
 	bool const isBuilding = true;
 	bool const isRaid = false;

@@ -360,7 +360,7 @@ void TileObjectBattleUnit::addToDrawnTiles(Tile *tile)
 
 TileObjectBattleUnit::~TileObjectBattleUnit() = default;
 
-TileObjectBattleUnit::TileObjectBattleUnit(TileMap &map, sp<BattleUnit> unit)
+TileObjectBattleUnit::TileObjectBattleUnit(TileMap &map, const sp<BattleUnit> &unit)
     : TileObject(map, Type::Unit, Vec3<float>{0, 0, 0}), unit(unit)
 {
 }

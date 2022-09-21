@@ -20,11 +20,12 @@
 #include "game/ui/general/loadingscreen.h"
 #include "game/ui/tileview/battleview.h"
 #include <cmath>
+#include <utility>
 
 namespace OpenApoc
 {
 
-std::shared_future<void> enterBattle(sp<GameState> state)
+std::shared_future<void> enterBattle(const sp<GameState> &state)
 {
 	auto loadTask =
 	    fw().threadPoolEnqueue([state]() -> void { Battle::enterBattle(*state.get()); });
@@ -32,7 +33,7 @@ std::shared_future<void> enterBattle(sp<GameState> state)
 	return loadTask;
 }
 
-void BattlePreStart::displayAgent(sp<Agent> agent)
+void BattlePreStart::displayAgent(const sp<Agent> &agent)
 {
 	if (!agent)
 	{
@@ -50,7 +51,7 @@ void BattlePreStart::displayAgent(sp<Agent> agent)
 	menuform->findControlTyped<Graphic>("LEFT_HAND")
 	    ->setImage(lHand ? lHand->type->equipscreen_sprite : nullptr);
 }
-BattlePreStart::BattlePreStart(sp<GameState> state)
+BattlePreStart::BattlePreStart(const sp<GameState> &state)
     : Stage(), TOP_LEFT({302, 80}), menuform(ui().getForm("battle/prestart")), state(state)
 {
 
@@ -279,7 +280,8 @@ void BattlePreStart::AgentIcon::update() const
 
 BattlePreStart::AgentIcon::AgentIcon(sp<Agent> agent, sp<Control> normalControl,
                                      sp<Control> selectedControl)
-    : agent(agent), normalControl(normalControl), selectedControl(selectedControl)
+    : agent(std::move(std::move(agent))), normalControl(std::move(std::move(normalControl))),
+      selectedControl(std::move(std::move(selectedControl)))
 {
 }
 

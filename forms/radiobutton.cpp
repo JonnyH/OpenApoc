@@ -1,16 +1,21 @@
 #include "library/sp.h"
 
 #include "forms/radiobutton.h"
+
+#include <utility>
+
 #include "framework/event.h"
 #include "framework/framework.h"
 #include "framework/sound.h"
+#include <utility>
 
 namespace OpenApoc
 {
 
 RadioButton::RadioButton(sp<RadioButtonGroup> Group, sp<Image> ImageChecked,
                          sp<Image> ImageUnchecked)
-    : CheckBox(ImageChecked, ImageUnchecked), group(Group)
+    : CheckBox(std::move(ImageChecked), std::move(ImageUnchecked)),
+      group(std::move(std::move(Group)))
 {
 	isClickable = true;
 }
@@ -87,6 +92,6 @@ void RadioButton::setChecked(bool checked)
 	}
 }
 
-RadioButtonGroup::RadioButtonGroup(UString ID) : ID(ID) {}
+RadioButtonGroup::RadioButtonGroup(UString ID) : ID(std::move(std::move(ID))) {}
 
 }; // namespace OpenApoc

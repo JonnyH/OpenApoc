@@ -234,7 +234,7 @@ bool FileSystem::addPath(const UString &newPath)
 	}
 }
 
-FileSystem::FileSystem(std::vector<UString> paths)
+FileSystem::FileSystem(const std::vector<UString> &paths)
 {
 	// FIXME: Is this the right thing to do that?
 	LogInfo("Registering external archivers...");
@@ -322,7 +322,7 @@ std::list<UString> FileSystem::enumerateDirectory(const UString &basePath,
 	return result;
 }
 
-static std::list<UString> recursiveFindFilesInDirectory(const FileSystem &fs, UString path,
+static std::list<UString> recursiveFindFilesInDirectory(const FileSystem &fs, const UString &path,
                                                         const UString &extension)
 {
 	std::list<UString> foundFiles;

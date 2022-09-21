@@ -40,8 +40,8 @@ class GameVehicleEvent : public GameEvent
 	StateRef<Vehicle> vehicle;
 	StateRef<Vehicle> actor;
 
-	GameVehicleEvent(GameEventType type, StateRef<Vehicle> vehicle,
-	                 StateRef<Vehicle> actor = nullptr);
+	GameVehicleEvent(GameEventType type, const StateRef<Vehicle> &vehicle,
+	                 const StateRef<Vehicle> &actor = nullptr);
 	~GameVehicleEvent() override = default;
 	UString message() override;
 };
@@ -53,8 +53,8 @@ class GameBaseEvent : public GameEvent
 	StateRef<Organisation> actor;
 	bool flag = false;
 
-	GameBaseEvent(GameEventType type, StateRef<Base> base, StateRef<Organisation> actor = nullptr,
-	              bool flag = false);
+	GameBaseEvent(GameEventType type, const StateRef<Base> &base,
+	              const StateRef<Organisation> &actor = nullptr, bool flag = false);
 	~GameBaseEvent() override = default;
 	UString message() override;
 };
@@ -65,8 +65,8 @@ class GameBuildingEvent : public GameEvent
 	StateRef<Building> building;
 	StateRef<Organisation> actor;
 
-	GameBuildingEvent(GameEventType type, StateRef<Building> building,
-	                  StateRef<Organisation> actor = nullptr);
+	GameBuildingEvent(GameEventType type, const StateRef<Building> &building,
+	                  const StateRef<Organisation> &actor = nullptr);
 	~GameBuildingEvent() override = default;
 	UString message() override;
 };
@@ -76,7 +76,7 @@ class GameOrganisationEvent : public GameEvent
   public:
 	StateRef<Organisation> organisation;
 
-	GameOrganisationEvent(GameEventType type, StateRef<Organisation> organisation);
+	GameOrganisationEvent(GameEventType type, const StateRef<Organisation> &organisation);
 	~GameOrganisationEvent() override = default;
 };
 
@@ -86,7 +86,8 @@ class GameDefenseEvent : public GameEvent
 	StateRef<Base> base;
 	StateRef<Organisation> organisation;
 
-	GameDefenseEvent(GameEventType type, StateRef<Base> base, StateRef<Organisation> organisation);
+	GameDefenseEvent(GameEventType type, const StateRef<Base> &base,
+	                 const StateRef<Organisation> &organisation);
 	~GameDefenseEvent() override = default;
 };
 
@@ -96,7 +97,7 @@ class GameAgentEvent : public GameEvent
 	StateRef<Agent> agent;
 	bool flag;
 
-	GameAgentEvent(GameEventType type, StateRef<Agent> agent, bool flag = false);
+	GameAgentEvent(GameEventType type, const StateRef<Agent> &agent, bool flag = false);
 	~GameAgentEvent() override = default;
 	UString message() override;
 };
@@ -107,8 +108,9 @@ class GameSomethingDiedEvent : public GameEvent
 	UString messageInner;
 	Vec3<int> location;
 
-	GameSomethingDiedEvent(GameEventType type, UString name, UString actor, Vec3<int> location);
-	GameSomethingDiedEvent(GameEventType type, UString name, Vec3<int> location);
+	GameSomethingDiedEvent(GameEventType type, const UString &name, const UString &actor,
+	                       Vec3<int> location);
+	GameSomethingDiedEvent(GameEventType type, const UString &name, Vec3<int> location);
 	~GameSomethingDiedEvent() override = default;
 	UString message() override;
 };
@@ -119,7 +121,8 @@ class GameResearchEvent : public GameEvent
 	StateRef<ResearchTopic> topic;
 	StateRef<Lab> lab;
 
-	GameResearchEvent(GameEventType type, StateRef<ResearchTopic> topic, StateRef<Lab> lab);
+	GameResearchEvent(GameEventType type, const StateRef<ResearchTopic> &topic,
+	                  const StateRef<Lab> &lab);
 	~GameResearchEvent() override = default;
 };
 
@@ -131,8 +134,8 @@ class GameManufactureEvent : public GameEvent
 	unsigned done;
 	unsigned goal;
 
-	GameManufactureEvent(GameEventType type, StateRef<ResearchTopic> topic, unsigned done,
-	                     unsigned goal, StateRef<Lab> lab);
+	GameManufactureEvent(GameEventType type, const StateRef<ResearchTopic> &topic, unsigned done,
+	                     unsigned goal, const StateRef<Lab> &lab);
 	~GameManufactureEvent() override = default;
 };
 
