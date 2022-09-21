@@ -39,12 +39,12 @@ template <> sp<Agent> StateObject<Agent>::get(const GameState &state, const UStr
 
 template <> const UString &StateObject<Agent>::getPrefix()
 {
-	static UString prefix = "AGENT_";
+	static UString const prefix = "AGENT_";
 	return prefix;
 }
 template <> const UString &StateObject<Agent>::getTypeName()
 {
-	static UString name = "Agent";
+	static UString const name = "Agent";
 	return name;
 }
 template <> const UString &StateObject<Agent>::getId(const GameState &state, const sp<Agent> ptr)
@@ -74,7 +74,7 @@ StateRef<Agent> AgentGenerator::createAgent(GameState &state, StateRef<Organisat
 StateRef<Agent> AgentGenerator::createAgent(GameState &state, StateRef<Organisation> org,
                                             StateRef<AgentType> type) const
 {
-	UString ID = Agent::generateObjectID(state);
+	UString const ID = Agent::generateObjectID(state);
 
 	auto agent = mksp<Agent>();
 
@@ -506,7 +506,7 @@ bool Agent::canAddEquipment(Vec2<int> pos, StateRef<AEquipmentType> equipmentTyp
 	{
 		pos = slotOrigin;
 		// Check that the equipment doesn't overlap with any other
-		Rect<int> bounds{pos, pos + equipmentType->equipscreen_size};
+		Rect<int> const bounds{pos, pos + equipmentType->equipscreen_size};
 		for (auto &otherEquipment : this->equipment)
 		{
 			// Something is already in that slot, fail
@@ -514,7 +514,7 @@ bool Agent::canAddEquipment(Vec2<int> pos, StateRef<AEquipmentType> equipmentTyp
 			{
 				return false;
 			}
-			Rect<int> otherBounds{otherEquipment->equippedPosition,
+			Rect<int> const otherBounds{otherEquipment->equippedPosition,
 			                      otherEquipment->equippedPosition +
 			                          otherEquipment->type->equipscreen_size};
 			if (otherBounds.intersects(bounds))
@@ -671,7 +671,7 @@ sp<AEquipment> Agent::addEquipmentByType(GameState &state, StateRef<AEquipmentTy
 			return wpn;
 		}
 	}
-	Vec2<int> pos = findFirstSlotByType(slotType, equipmentType);
+	Vec2<int> const pos = findFirstSlotByType(slotType, equipmentType);
 	if (pos.x == -1)
 	{
 		if (!allowFailure)
@@ -721,7 +721,7 @@ sp<AEquipment> Agent::addEquipmentAsAmmoByType(StateRef<AEquipmentType> equipmen
 
 void Agent::addEquipment(GameState &state, sp<AEquipment> object, EquipmentSlotType slotType)
 {
-	Vec2<int> pos = findFirstSlotByType(slotType, object->type);
+	Vec2<int> const pos = findFirstSlotByType(slotType, object->type);
 	if (pos.x == -1)
 	{
 		LogError("Trying to add \"%s\" on agent \"%s\" failed: no valid slot found", type.id,
@@ -820,7 +820,7 @@ void Agent::updateSpeed()
 
 void Agent::updateModifiedStats()
 {
-	int health = modified_stats.health;
+	int const health = modified_stats.health;
 	modified_stats = current_stats;
 	modified_stats.health = health;
 	updateSpeed();
@@ -1071,7 +1071,7 @@ void Agent::updateHourly(GameState &state)
 		{
 			usage = std::max(100, usage);
 			// As per Roger Wong's guide
-			float mult = config().getFloat("OpenApoc.Cheat.StatGrowthMultiplier");
+			float const mult = config().getFloat("OpenApoc.Cheat.StatGrowthMultiplier");
 			if (trainingAssignment == TrainingAssignment::Physical)
 			{
 				trainPhysical(state, TICKS_PER_HOUR * 100 / usage * mult);
@@ -1104,8 +1104,8 @@ void Agent::updateMovement(GameState &state, unsigned ticks)
 		// Advance agent position to goal
 		if (ticksToMove > 0 && position != goalPosition)
 		{
-			Vec3<float> vectorToGoal = goalPosition - position;
-			int distanceToGoal = (unsigned)ceilf(glm::length(
+			Vec3<float> const vectorToGoal = goalPosition - position;
+			int const distanceToGoal = (unsigned)ceilf(glm::length(
 			    vectorToGoal * VELOCITY_SCALE_CITY * (float)TICKS_PER_UNIT_TRAVELLED_AGENT));
 
 			// Cannot reach in one go
@@ -1225,8 +1225,8 @@ StateRef<BattleUnitAnimationPack> Agent::getAnimationPack() const
 StateRef<AEquipmentType> Agent::getDominantItemInHands(GameState &state,
                                                        StateRef<AEquipmentType> itemLastFired) const
 {
-	sp<AEquipment> e1 = getFirstItemInSlot(EquipmentSlotType::RightHand);
-	sp<AEquipment> e2 = getFirstItemInSlot(EquipmentSlotType::LeftHand);
+	sp<AEquipment> const e1 = getFirstItemInSlot(EquipmentSlotType::RightHand);
+	sp<AEquipment> const e2 = getFirstItemInSlot(EquipmentSlotType::LeftHand);
 	// If there is only one item - return it, if none - return nothing
 	if (!e1 && !e2)
 		return nullptr;
@@ -1245,7 +1245,7 @@ StateRef<AEquipmentType> Agent::getDominantItemInHands(GameState &state,
 	// Calculate item priorities:
 	// - Firing (whichever fires sooner)
 	// - CanFire >> Two-Handed >> Weapon >> Usable Item >> Others
-	int e1Priority =
+	int const e1Priority =
 	    e1->isFiring()
 	        ? 1440 - e1->weapon_fire_ticks_remaining
 	        : (e1->canFire(state)
@@ -1257,7 +1257,7 @@ StateRef<AEquipmentType> Agent::getDominantItemInHands(GameState &state,
 	                                             e1->type->type != AEquipmentType::Type::Loot)
 	                                              ? 1
 	                                              : 0)));
-	int e2Priority =
+	int const e2Priority =
 	    e2->isFiring()
 	        ? 1440 - e2->weapon_fire_ticks_remaining
 	        : (e2->canFire(state)
@@ -1335,7 +1335,7 @@ sp<AEquipment> Agent::getFirstShield(GameState &state) const
 
 StateRef<BattleUnitImagePack> Agent::getImagePack(BodyPart bodyPart) const
 {
-	EquipmentSlotType slotType = AgentType::getArmorSlotType(bodyPart);
+	EquipmentSlotType const slotType = AgentType::getArmorSlotType(bodyPart);
 
 	auto e = getFirstItemInSlot(slotType);
 	if (e)
@@ -1367,7 +1367,7 @@ sp<Equipment> Agent::getEquipmentAt(const Vec2<int> &position) const
 	// Find whatever occupies this space
 	for (auto &eq : this->equipment)
 	{
-		Rect<int> eqBounds{eq->equippedPosition, eq->equippedPosition + eq->type->equipscreen_size};
+		Rect<int> const eqBounds{eq->equippedPosition, eq->equippedPosition + eq->type->equipscreen_size};
 		if (eqBounds.within(slotPosition))
 		{
 			return eq;

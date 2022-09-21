@@ -330,7 +330,7 @@ template <typename T> void pushToLua(lua_State *L, const std::set<T> &v)
 template <typename C> int advanceIpairsIterator(lua_State *L)
 {
 	LuaIteratorState<C> *it = (LuaIteratorState<C> *)lua_touserdata(L, 1);
-	int i = luaL_checkinteger(L, 2);
+	int const i = luaL_checkinteger(L, 2);
 	lua_settop(L, 0);
 	if (it->first != it->second)
 	{

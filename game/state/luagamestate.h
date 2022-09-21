@@ -16,7 +16,7 @@ class LuaGameState
   private:
 	// pushes OpenApoc.hook[hookName] to the top of the stack and returns true if callable. leaves
 	// stack unchanged otherwise
-	bool pushHook(const char *hookName);
+	bool pushHook(const char *hookName) const;
 	bool initOk = false;
 
   public:
@@ -28,6 +28,6 @@ class LuaGameState
 
 	operator bool() const;
 	int callHook(const UString &hookName, int nargs, int nresults);
-	bool runScript(const UString &scriptName);
+	bool runScript(const UString &scriptName) const;
 };
 } // namespace OpenApoc

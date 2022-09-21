@@ -26,8 +26,8 @@ Collision TileMap::findCollision(Vec3<float> lineSegmentStart, Vec3<float> lineS
                                  unsigned maxRange, bool recordPassedTiles,
                                  StateRef<Organisation> ignoreOwnedProjectiles) const
 {
-	bool typeChecking = validTypes.size() > 0;
-	bool rangeChecking = maxRange > 0.0f;
+	bool const typeChecking = validTypes.size() > 0;
+	bool const rangeChecking = maxRange > 0.0f;
 	const Tile *lastT = nullptr;
 	// We apply a median value accumulated in all tiles passed every time we pass a tile
 	// This makes it so that we do not over or under-apply smoke when going diagonally
@@ -38,11 +38,11 @@ Collision TileMap::findCollision(Vec3<float> lineSegmentStart, Vec3<float> lineS
 	// Init collision parameters
 	Collision c;
 	c.obj = nullptr;
-	Vec3<int> tileSize = voxelMapSize;
-	Vec3<float> tileSizef = voxelMapSize;
-	Vec3<int> lineSegmentStartVoxel = lineSegmentStart * tileSizef;
-	Vec3<int> lineSegmentEndVoxel = lineSegmentEnd * tileSizef;
-	LineSegment<int, true> line{lineSegmentStartVoxel, lineSegmentEndVoxel};
+	Vec3<int> const tileSize = voxelMapSize;
+	Vec3<float> const tileSizef = voxelMapSize;
+	Vec3<int> const lineSegmentStartVoxel = lineSegmentStart * tileSizef;
+	Vec3<int> const lineSegmentEndVoxel = lineSegmentEnd * tileSizef;
+	LineSegment<int, true> const line{lineSegmentStartVoxel, lineSegmentEndVoxel};
 
 	// "point" is the coordinate measured in voxel scale units, meaning,
 	// voxel point coordinate within map
@@ -149,16 +149,16 @@ Collision TileMap::findCollision(Vec3<float> lineSegmentStart, Vec3<float> lineS
 			objPos -= obj->getVoxelOffset();
 			objPos *= tileSizef;
 			// coordinate of the voxel within object
-			Vec3<int> voxelPos = point - Vec3<int>{objPos};
+			Vec3<int> const voxelPos = point - Vec3<int>{objPos};
 			// voxel map to use
-			Vec3<int> voxelMapIndex = voxelPos / tileSize;
+			Vec3<int> const voxelMapIndex = voxelPos / tileSize;
 			auto voxelMap = obj->getVoxelMap(voxelMapIndex, useLOS);
 			if (!voxelMap)
 			{
 				continue;
 			}
 			// coordinate of the voxel within map
-			Vec3<int> voxelPosWithinMap = voxelPos % tileSize;
+			Vec3<int> const voxelPosWithinMap = voxelPos % tileSize;
 			if (voxelMap->getBit(voxelPosWithinMap))
 			{
 				c.obj = obj;
@@ -178,7 +178,7 @@ bool TileMap::checkThrowTrajectory(const sp<TileObject> thrower, Vec3<float> sta
                                    Vec3<float> targetVectorXY, float velocityXY,
                                    float velocityZ) const
 {
-	int iterationsPerCollision = 10;
+	int const iterationsPerCollision = 10;
 	Vec3<float> curPos = start;
 	Vec3<float> newPos;
 	Vec3<float> velocity =
@@ -218,8 +218,8 @@ bool TileMap::checkThrowTrajectory(const sp<TileObject> thrower, Vec3<float> sta
 Vec3<float> Collision::getLeadingOffset(Vec3<float> tarPosRelative, float ourVelocity,
                                         Vec3<float> tarVelocity)
 {
-	Vec3<float> tarHeading = glm::normalize(tarVelocity);
-	float tarVelocityLen = glm::length(tarVelocity);
+	Vec3<float> const tarHeading = glm::normalize(tarVelocity);
+	float const tarVelocityLen = glm::length(tarVelocity);
 	// Alexey Andronov:
 	// 1) Given triangle with sides ABC and angles opposite to these sides abc we know that:
 	//   sina/A = sinb/B = sinc/C
@@ -245,22 +245,22 @@ Vec3<float> Collision::getLeadingOffset(Vec3<float> tarPosRelative, float ourVel
 		return {0.0f, 0.0f, 0.0f};
 	}
 
-	float A = glm::length(tarPosRelative);
-	float b = glm::angle(glm::normalize(-tarPosRelative), tarHeading);
-	float sinc = sinf(b) * tarVelocityLen / ourVelocity;
+	float const A = glm::length(tarPosRelative);
+	float const b = glm::angle(glm::normalize(-tarPosRelative), tarHeading);
+	float const sinc = sinf(b) * tarVelocityLen / ourVelocity;
 	if (sinc > 1.0f)
 	{
 		// Target is moving too fast, we can't catch it
 		return tarHeading * tarVelocityLen;
 	}
-	float c = asinf(sinc);
-	float a = M_PI - b - c;
+	float const c = asinf(sinc);
+	float const a = M_PI - b - c;
 	if (a < 0.0f)
 	{
 		// Target is moving too fast, we can't catch it
 		return tarHeading * tarVelocityLen;
 	}
-	float C = A / sinf(a) * sinf(c);
+	float const C = A / sinf(a) * sinf(c);
 	return tarHeading * C;
 }
 

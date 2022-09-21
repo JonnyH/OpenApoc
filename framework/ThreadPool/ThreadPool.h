@@ -68,7 +68,7 @@ inline ThreadPool::ThreadPool(size_t threads) : stop(false)
 void ThreadPool::enqueue(std::function<void()> task)
 {
 	{
-		std::unique_lock<std::mutex> lock(queue_mutex);
+		std::unique_lock<std::mutex> const lock(queue_mutex);
 
 		// don't allow enqueueing after stopping the pool
 		if (stop)
@@ -83,7 +83,7 @@ void ThreadPool::enqueue(std::function<void()> task)
 inline ThreadPool::~ThreadPool()
 {
 	{
-		std::unique_lock<std::mutex> lock(queue_mutex);
+		std::unique_lock<std::mutex> const lock(queue_mutex);
 		stop = true;
 	}
 	condition.notify_all();

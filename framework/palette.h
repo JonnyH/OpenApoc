@@ -27,7 +27,7 @@ class Palette
 	void setColour(unsigned int idx, Colour c)
 	{
 		LogAssert(idx < colours.size());
-		colours[idx] = std::move(c);
+		colours[idx] = c;
 	}
 
 	// Copy constructor copies everything /except/ the renderer private data

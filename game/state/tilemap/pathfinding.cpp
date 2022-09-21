@@ -33,7 +33,7 @@ class PathNode
 	{
 	}
 
-	std::list<Vec3<int>> getPathToNode()
+	std::list<Vec3<int>> getPathToNode() const
 	{
 		std::list<Vec3<int>> path;
 		path.push_back(thisTile->position);
@@ -63,7 +63,7 @@ class LosNode
 	{
 	}
 
-	std::list<int> getPathToNode()
+	std::list<int> getPathToNode() const
 	{
 		std::list<int> path;
 		path.push_back(block);
@@ -93,7 +93,7 @@ class RoadSegmentNode
 	{
 	}
 
-	std::list<int> getPathToNode()
+	std::list<int> getPathToNode() const
 	{
 		std::list<int> path;
 		path.push_back(segment);
@@ -145,13 +145,13 @@ std::list<Vec3<int>> TileMap::findShortestPath(Vec3<int> origin, Vec3<int> desti
 	maxCost /= canEnterTileHelper.pathOverheadAlloawnce();
 	// Faster than looking up in a set
 	std::vector<bool> visitedTiles = std::vector<bool>(size.x * size.y * size.z, false);
-	int strideZ = size.x * size.y;
-	int strideY = size.x;
+	int const strideZ = size.x * size.y;
+	int const strideY = size.x;
 	std::list<PathNode *> nodesToDelete;
 	std::list<PathNode *> fringe;
 	Vec3<float> goalPositionStart;
 	Vec3<float> goalPositionEnd;
-	bool destinationIsSingleTile = destinationStart == destinationEnd - Vec3<int>{1, 1, 1};
+	bool const destinationIsSingleTile = destinationStart == destinationEnd - Vec3<int>{1, 1, 1};
 	int iterationCount = 0;
 
 	// Approach Only makes no sense with pathing into a block, but we'll fix it anyway
@@ -265,7 +265,7 @@ std::list<Vec3<int>> TileMap::findShortestPath(Vec3<int> origin, Vec3<int> desti
 		{
 			closestNodeSoFar = nodeToExpand;
 		}
-		Vec3<int> currentPosition = nodeToExpand->thisTile->position;
+		Vec3<int> const currentPosition = nodeToExpand->thisTile->position;
 		for (int z = -1; z <= 1; z++)
 		{
 			for (int y = -1; y <= 1; y++)
@@ -441,7 +441,7 @@ std::list<Vec3<int>> Battle::findShortestPath(Vec3<int> origin, Vec3<int> destin
 	}
 
 	// Try to pathfind directly if close enough
-	int distance = canEnterTile.getDistance(origin, destination) / 4.0f;
+	int const distance = canEnterTile.getDistance(origin, destination) / 4.0f;
 	std::list<Vec3<int>> result;
 	if (forceDirect || distance < MAX_DISTANCE_TO_PATHFIND_DIRECTLY)
 	{
@@ -482,12 +482,12 @@ std::list<Vec3<int>> Battle::findShortestPath(Vec3<int> origin, Vec3<int> destin
 			// Vector to target, determines order in which we will try things
 			auto targetVector = destination - origin;
 			// Whether positive or negative tile is in front of destination relative to our position
-			int xSign = targetVector.x < 0 ? 1 : -1;
-			int ySign = targetVector.y < 0 ? 1 : -1;
+			int const xSign = targetVector.x < 0 ? 1 : -1;
+			int const ySign = targetVector.y < 0 ? 1 : -1;
 			// Which is "front" to us, x or y
-			bool xFirst = std::abs(targetVector.x) > std::abs(targetVector.y);
+			bool const xFirst = std::abs(targetVector.x) > std::abs(targetVector.y);
 			// Are we approaching straight, or from a diagonal?
-			bool diagonalFirst = xFirst ? targetVector.y != 0 : targetVector.x != 0;
+			bool const diagonalFirst = xFirst ? targetVector.y != 0 : targetVector.x != 0;
 			// Idea here is that there are two distinct possibilities
 			// - We can approach from an angle				| Target: (100, 50)	| Target (10,50)  |
 			// - We can approach directly from a side		|					|			  	  |
@@ -613,12 +613,12 @@ std::list<Vec3<int>> Battle::findShortestPathUsingLB(Vec3<int> origin, Vec3<int>
 	// to find a door we can have a hard time doing so
 	static const int GRAPH_ITERATION_LIMIT_EXTRA = 50;
 
-	int distance = canEnterTile.getDistance(origin, destination) / 4.0f;
+	int const distance = canEnterTile.getDistance(origin, destination) / 4.0f;
 	std::list<Vec3<int>> result;
 
 	// Pathfind on graphs of los blocks
-	int startLB = getLosBlockID(origin.x, origin.y, origin.z);
-	int destLB = getLosBlockID(destination.x, destination.y, destination.z);
+	int const startLB = getLosBlockID(origin.x, origin.y, origin.z);
+	int const destLB = getLosBlockID(destination.x, destination.y, destination.z);
 	auto pathLB = findLosBlockPath(startLB, destLB, canEnterTile.getType());
 
 	// If pathfinding on graphs failed - return short part of the path towards target
@@ -730,7 +730,7 @@ std::list<Vec3<int>> Battle::findShortestPathUsingLB(Vec3<int> origin, Vec3<int>
 std::list<int> Battle::findLosBlockPath(int origin, int destination, BattleUnitType type,
                                         int iterationLimit)
 {
-	int lbCount = losBlocks.size();
+	int const lbCount = losBlocks.size();
 	std::vector<bool> visitedBlocks = std::vector<bool>(lbCount, false);
 	std::list<LosNode *> nodesToDelete;
 	std::list<LosNode *> fringe;
@@ -797,7 +797,7 @@ std::list<int> Battle::findLosBlockPath(int origin, int destination, BattleUnitT
 		}
 
 		// Try every possible connection
-		int i = nodeToExpand->block;
+		int const i = nodeToExpand->block;
 		for (int j = 0; j < lbCount; j++)
 		{
 			if (j == i || linkCost[type][i + j * lbCount] == -1 || visitedBlocks[j])
@@ -849,7 +849,7 @@ std::list<int> Battle::findLosBlockPath(int origin, int destination, BattleUnitT
 // FIXME: Implement usage of teleporters in group move
 void Battle::groupMove(GameState &state, std::list<StateRef<BattleUnit>> &selectedUnits,
                        Vec3<int> targetLocation, int facingDelta, bool demandGiveWay,
-                       bool useTeleporter)
+                       bool useTeleporter) const
 {
 	std::ignore = useTeleporter;
 	// Legend:
@@ -988,7 +988,7 @@ void Battle::groupMove(GameState &state, std::list<StateRef<BattleUnit>> &select
 
 		auto mission = BattleUnitMission::gotoLocation(*curUnit, targetLocation, facingDelta,
 		                                               demandGiveWay, true, 20, false);
-		bool missionAdded = curUnit->setMission(state, mission);
+		bool const missionAdded = curUnit->setMission(state, mission);
 		if (missionAdded)
 		{
 			mission->start(state, *curUnit);
@@ -999,10 +999,10 @@ void Battle::groupMove(GameState &state, std::list<StateRef<BattleUnit>> &select
 			else
 			{
 				auto unitTarget = mission->currentPlannedPath.back();
-				int absX = std::abs(targetLocation.x - unitTarget.x);
-				int absY = std::abs(targetLocation.y - unitTarget.y);
-				int absZ = std::abs(targetLocation.z - unitTarget.z);
-				int distance = std::max(std::max(absX, absY), absZ) + absX + absY + absZ;
+				int const absX = std::abs(targetLocation.x - unitTarget.x);
+				int const absY = std::abs(targetLocation.y - unitTarget.y);
+				int const absZ = std::abs(targetLocation.z - unitTarget.z);
+				int const distance = std::max(std::max(absX, absY), absZ) + absX + absY + absZ;
 				if (distance < minDistance)
 				{
 					log += format("\nUnit was the closest to target yet, remembering him.");
@@ -1052,7 +1052,7 @@ void Battle::groupMove(GameState &state, std::list<StateRef<BattleUnit>> &select
 	localUnits.remove(leadUnit);
 	// Determine our direction and rotation
 	auto fromIt = leadMission->currentPlannedPath.rbegin();
-	int fromLimit = std::min(3, (int)leadMission->currentPlannedPath.size());
+	int const fromLimit = std::min(3, (int)leadMission->currentPlannedPath.size());
 	for (int i = 0; i < fromLimit; i++)
 	{
 		fromIt++;
@@ -1063,9 +1063,9 @@ void Battle::groupMove(GameState &state, std::list<StateRef<BattleUnit>> &select
 	{
 		dir.y = -1;
 	}
-	bool diagonal = dir.x != 0 && dir.y != 0;
+	bool const diagonal = dir.x != 0 && dir.y != 0;
 	auto &targetOffsets = diagonal ? targetOffsetsDiagonal : targetOffsetsLinear;
-	int rotation = diagonal ? rotationDiagonal.at(dir) : rotationLinear.at(dir);
+	int const rotation = diagonal ? rotationDiagonal.at(dir) : rotationLinear.at(dir);
 
 	// Sort remaining units based on proximity to target and speed
 	auto h = BattleUnitTileHelper(*map, *leadUnit);
@@ -1107,7 +1107,7 @@ void Battle::groupMove(GameState &state, std::list<StateRef<BattleUnit>> &select
 			log += format("\nTrying location %d, %d, %d at offset %d, %d, %d",
 			              targetLocationOffsetted.x, targetLocationOffsetted.y,
 			              targetLocationOffsetted.z, offset.x, offset.y, offset.z);
-			float costLimit = 1.50f * 2.0f *
+			float const costLimit = 1.50f * 2.0f *
 			                  (float)(std::max(std::abs(offset.x), std::abs(offset.y)) +
 			                          std::abs(offset.x) + std::abs(offset.y));
 			auto path =
@@ -1134,8 +1134,8 @@ std::list<Vec3<int>> City::findShortestPath(Vec3<int> origin, Vec3<int> destinat
                                             [[maybe_unused]],
                                             bool approachOnly [[maybe_unused]], bool, bool, bool)
 {
-	int originID = getRoadSegmentID(origin);
-	int destinationID = getRoadSegmentID(destination);
+	int const originID = getRoadSegmentID(origin);
+	int const destinationID = getRoadSegmentID(destination);
 	auto &originSeg = roadSegments[originID];
 
 	//
@@ -1162,8 +1162,8 @@ std::list<Vec3<int>> City::findShortestPath(Vec3<int> origin, Vec3<int> destinat
 	// Part 1: Pathfinding on RoadSegments
 	//
 
-	int iterationLimit = 9001;
-	int rsCount = roadSegments.size();
+	int const iterationLimit = 9001;
+	int const rsCount = roadSegments.size();
 	std::vector<bool> visitetSegmentsC1 = std::vector<bool>(rsCount, false);
 	std::vector<bool> visitetSegmentsC2 = std::vector<bool>(rsCount, false);
 	std::list<RoadSegmentNode *> nodesToDelete;
@@ -1187,7 +1187,7 @@ std::list<Vec3<int>> City::findShortestPath(Vec3<int> origin, Vec3<int> destinat
 			// For non-roads check tile number 0
 			// For roads check based on where we came from
 			auto nextSeg = roadSegments[originSeg.connections[0]];
-			int intoConnect = nextSeg.length == 1 || nextSeg.connections[0] == originID ? 0 : 1;
+			int const intoConnect = nextSeg.length == 1 || nextSeg.connections[0] == originID ? 0 : 1;
 			// Entrance intact
 			if (nextSeg.getIntactByConnectID(intoConnect))
 			{
@@ -1208,7 +1208,7 @@ std::list<Vec3<int>> City::findShortestPath(Vec3<int> origin, Vec3<int> destinat
 			// For non-roads check tile number 0
 			// For roads check based on where we came from
 			auto nextSeg = roadSegments[originSeg.connections[1]];
-			int intoConnect = nextSeg.length == 1 || nextSeg.connections[0] == originID ? 0 : 1;
+			int const intoConnect = nextSeg.length == 1 || nextSeg.connections[0] == originID ? 0 : 1;
 			// Entrance intact
 			if (nextSeg.getIntactByConnectID(intoConnect))
 			{
@@ -1239,7 +1239,7 @@ std::list<Vec3<int>> City::findShortestPath(Vec3<int> origin, Vec3<int> destinat
 		auto nodeToExpand = *first;
 		fringe.erase(first);
 
-		int thisID = nodeToExpand->segment;
+		int const thisID = nodeToExpand->segment;
 
 		// Skip if we've already expanded this
 		if (visitetSegmentsC1[thisID] && visitetSegmentsC2[thisID])
@@ -1349,7 +1349,7 @@ std::list<Vec3<int>> City::findShortestPath(Vec3<int> origin, Vec3<int> destinat
 			// For non-roads check tile number 0
 			// For roads check based on where we came from
 			auto nextSeg = roadSegments[c];
-			int intoConnect = nextSeg.length == 1 || nextSeg.connections[0] == thisID ? 0 : 1;
+			int const intoConnect = nextSeg.length == 1 || nextSeg.connections[0] == thisID ? 0 : 1;
 			// Entrance not intact
 			if (!nextSeg.getIntactByConnectID(intoConnect))
 			{
@@ -1405,7 +1405,7 @@ std::list<Vec3<int>> City::findShortestPath(Vec3<int> origin, Vec3<int> destinat
 	// If road then path to road end
 	if (originSeg.length > 1 && !segmentPath.empty())
 	{
-		int toConnect = originSeg.connections[0] == segmentPath.front() ? 0 : 1;
+		int const toConnect = originSeg.connections[0] == segmentPath.front() ? 0 : 1;
 		auto pathToExit = originSeg.findPath(origin, originSeg.getByConnectID(toConnect));
 		for (auto &p : pathToExit)
 		{
@@ -1431,7 +1431,7 @@ std::list<Vec3<int>> City::findShortestPath(Vec3<int> origin, Vec3<int> destinat
 	for (auto &segID : segmentPath)
 	{
 		auto &nextSeg = roadSegments[segID];
-		int intoConnect = nextSeg.length == 1 || nextSeg.connections[0] == thisID ? 0 : 1;
+		int const intoConnect = nextSeg.length == 1 || nextSeg.connections[0] == thisID ? 0 : 1;
 		// If not last and not broken then path through
 		if (segID != lastID && nextSeg.intact)
 		{
@@ -1487,7 +1487,7 @@ std::list<Vec3<int>> RoadSegment::findPath(Vec3<int> origin, Vec3<int> destinati
 		}
 	}
 	std::list<Vec3<int>> path;
-	int diff = destinationIndex > originIndex ? 1 : -1;
+	int const diff = destinationIndex > originIndex ? 1 : -1;
 	for (int i = originIndex; i != destinationIndex + diff; i += diff)
 	{
 		if (!tileIntact.at(i))
@@ -1507,7 +1507,7 @@ std::list<Vec3<int>> RoadSegment::findClosestPath(Vec3<int> origin, Vec3<int> de
 
 	for (auto &p : tilePosition)
 	{
-		int distance = GroundVehicleTileHelper::getDistanceStatic(p, destination);
+		int const distance = GroundVehicleTileHelper::getDistanceStatic(p, destination);
 		if (distance < closestDistance)
 		{
 			closestDistance = distance;
@@ -1538,7 +1538,7 @@ std::list<Vec3<int>> RoadSegment::findPathThrough(int id) const
 }
 
 void City::groupMove(GameState &state, std::list<StateRef<Vehicle>> &selectedVehicles,
-                     Vec3<int> targetLocation, bool useTeleporter)
+                     Vec3<int> targetLocation, bool useTeleporter) const
 {
 	// Legend:
 	//
@@ -1673,9 +1673,9 @@ void City::groupMove(GameState &state, std::list<StateRef<Vehicle>> &selectedVeh
 	{
 		dir.y = -1;
 	}
-	bool diagonal = dir.x != 0 && dir.y != 0;
+	bool const diagonal = dir.x != 0 && dir.y != 0;
 	auto &targetOffsets = diagonal ? targetOffsetsDiagonal : targetOffsetsLinear;
-	int rotation = diagonal ? rotationDiagonal.at(dir) : rotationLinear.at(dir);
+	int const rotation = diagonal ? rotationDiagonal.at(dir) : rotationLinear.at(dir);
 
 	auto itOffset = targetOffsets.begin();
 	while (it != selectedVehicles.end())
@@ -1999,7 +1999,7 @@ void City::fillRoadSegmentMap(GameState &state [[maybe_unused]])
 							else
 							{
 								// Find our last connection
-								int lastConnection =
+								int const lastConnection =
 								    roadSegments[nextSegmentToProcess].connections.back();
 								auto lastConnectionPosition =
 								    roadSegments[lastConnection].tilePosition.front();

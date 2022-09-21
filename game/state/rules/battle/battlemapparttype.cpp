@@ -20,12 +20,12 @@ sp<BattleMapPartType> StateObject<BattleMapPartType>::get(const GameState &state
 
 template <> const UString &StateObject<BattleMapPartType>::getPrefix()
 {
-	static UString prefix = "BATTLEMAPPART_";
+	static UString const prefix = "BATTLEMAPPART_";
 	return prefix;
 }
 template <> const UString &StateObject<BattleMapPartType>::getTypeName()
 {
-	static UString name = "BattleMapPart";
+	static UString const name = "BattleMapPart";
 	return name;
 }
 } // namespace OpenApoc

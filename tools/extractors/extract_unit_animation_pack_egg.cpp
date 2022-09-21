@@ -16,7 +16,7 @@ sp<BattleUnitAnimationPack::AnimationEntry> makeUpEggAnimationEntry(int from, in
                                                                     bool first = false)
 {
 	auto e = mksp<BattleUnitAnimationPack::AnimationEntry>();
-	bool noHead = count == 0;
+	bool const noHead = count == 0;
 	Vec2<int> offset;
 	if (noHead)
 	{
@@ -29,7 +29,7 @@ sp<BattleUnitAnimationPack::AnimationEntry> makeUpEggAnimationEntry(int from, in
 		e->frames.push_back(BattleUnitAnimationPack::AnimationEntry::Frame());
 		for (int j = 1; j <= (noHead ? 1 : 2); j++)
 		{
-			int part_idx = j;
+			int const part_idx = j;
 			int frame = from + i;
 			auto part_type = BattleUnitAnimationPack::AnimationEntry::Frame::UnitImagePart::Shadow;
 			switch (part_idx)

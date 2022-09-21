@@ -80,7 +80,7 @@ class ConfigFileImpl
 	{
 		if (optionSections.find(sectionName) != optionSections.end())
 			return;
-		UString sectionDescription = sectionName + " options";
+		UString const sectionDescription = sectionName + " options";
 		optionSections.emplace(sectionName, sectionDescription);
 	}
 
@@ -96,7 +96,7 @@ class ConfigFileImpl
 			LogError("Already parsed options");
 			return true;
 		}
-		fs::path programPath(argv[0]);
+		fs::path const programPath(argv[0]);
 		// Remove extension (if any) and path
 		programName = programPath.filename().string();
 		if (ends_with(programName, ".exe"))
@@ -112,7 +112,7 @@ class ConfigFileImpl
 		// system one.
 		// This can't go through the normal settings system, as it's used by the normal settings
 		// system...
-		std::ifstream portableFile("./portable.txt");
+		std::ifstream const portableFile("./portable.txt");
 		if (portableFile)
 		{
 			LogInfo("portable mode set");
@@ -160,7 +160,7 @@ class ConfigFileImpl
 		{
 			// Keep a variable map of 'only' those settings stored in the config file so we can
 			// write them back to the config again at save()
-			po::variables_map configFileVM;
+			po::variables_map const configFileVM;
 			auto configPath = this->getTyped<UString>("Config.File");
 			std::ifstream inConfig(configPath);
 			if (inConfig)
@@ -228,14 +228,14 @@ class ConfigFileImpl
 			}
 
 			auto optionName = splitString[splitString.size() - 1];
-			UString configFileLine =
+			UString const configFileLine =
 			    format("%s=%s", optionName, std::visit(ToStringVisitor(), optionPair.second));
 			configFileContents[sectionName].push_back(configFileLine);
 		}
 
 		try
 		{
-			fs::path configPath(configPathString);
+			fs::path const configPath(configPathString);
 			auto dir = configPath.parent_path();
 			if (!dir.empty())
 				fs::create_directories(dir);
@@ -381,7 +381,7 @@ class ConfigFileImpl
 			for (auto &opt : optPair.second.options())
 			{
 				std::string short_name = opt->long_name();
-				size_t dot = short_name.find_last_of('.');
+				size_t const dot = short_name.find_last_of('.');
 				if (dot != std::string::npos)
 				{
 					short_name = short_name.substr(dot + 1);

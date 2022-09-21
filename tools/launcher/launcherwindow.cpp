@@ -20,7 +20,7 @@ using namespace OpenApoc;
 
 static std::list<std::pair<UString, ModInfo>> enumerateMods()
 {
-	fs::path modPath = Options::modPath.get();
+	fs::path const modPath = Options::modPath.get();
 	if (!fs::is_directory(modPath))
 	{
 		LogError("Mod path \"%s\" not a valid directory", modPath.string());
@@ -214,7 +214,7 @@ void LauncherWindow::setupDisplayNum()
 		comboBox.addItem(QString("Display #%1").arg(i));
 	}
 
-	int curDisplayValue = Options::screenDisplayNumberOption.get();
+	int const curDisplayValue = Options::screenDisplayNumberOption.get();
 	if (curDisplayValue < MAX_DISPLAYS)
 	{
 		comboBox.setCurrentIndex(curDisplayValue);
@@ -291,7 +291,7 @@ void LauncherWindow::setupScaling()
 
 void LauncherWindow::saveScalingOptions()
 {
-	int index = ui->scaleBox->currentIndex();
+	int const index = ui->scaleBox->currentIndex();
 	LogAssert(index >= 0 && index < scaling_options.size());
 
 	if (scaling_options[index].type == ScalingType::Auto)
@@ -355,7 +355,7 @@ void LauncherWindow::play()
 #ifdef _WIN32
 	QString path = "OpenApoc.exe";
 #else
-	QString path = QCoreApplication::applicationDirPath() + "/OpenApoc";
+	QString const path = QCoreApplication::applicationDirPath() + "/OpenApoc";
 #endif
 
 	LogWarning("Running \"%s\"", path.toStdString());
@@ -459,7 +459,7 @@ void LauncherWindow::setupModList()
 
 void LauncherWindow::enabledModSelected(const QString &itemName)
 {
-	UString modName = itemName.toStdString();
+	UString const modName = itemName.toStdString();
 	const auto foundMods = enumerateMods();
 	for (const auto &mod : foundMods)
 	{
@@ -476,7 +476,7 @@ void LauncherWindow::enabledModSelected(const QString &itemName)
 
 void LauncherWindow::disabledModSelected(const QString &itemName)
 {
-	UString modName = itemName.toStdString();
+	UString const modName = itemName.toStdString();
 	const auto foundMods = enumerateMods();
 	for (const auto &mod : foundMods)
 	{
@@ -593,7 +593,7 @@ void LauncherWindow::disableModClicked()
 
 static QString getLanguageName(const std::string id)
 {
-	QLocale locale(QString::fromStdString(id));
+	QLocale const locale(QString::fromStdString(id));
 	return locale.nativeLanguageName();
 }
 

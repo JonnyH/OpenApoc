@@ -44,10 +44,10 @@ static const auto SCRATCH_TEX_SLOT = GL::TEXTURE3;
 
 GL::GLuint CreateShader(GL::GLenum type, const UString &source)
 {
-	GL::GLuint shader = gl->CreateShader(type);
+	GL::GLuint const shader = gl->CreateShader(type);
 	auto sourceString = source;
 	const GL::GLchar *string = sourceString.c_str();
-	GL::GLint stringLength = sourceString.length();
+	GL::GLint const stringLength = sourceString.length();
 	gl->ShaderSource(shader, 1, &string, &stringLength);
 	gl->CompileShader(shader);
 	GL::GLint compileStatus;
@@ -58,7 +58,7 @@ GL::GLuint CreateShader(GL::GLenum type, const UString &source)
 	GL::GLint logLength;
 	gl->GetShaderiv(shader, GL::INFO_LOG_LENGTH, &logLength);
 
-	std::unique_ptr<char[]> log(new char[logLength]);
+	std::unique_ptr<char[]> const log(new char[logLength]);
 	gl->GetShaderInfoLog(shader, logLength, NULL, log.get());
 
 	LogError("Shader compile error: %s", log.get());
@@ -70,13 +70,13 @@ GL::GLuint CreateShader(GL::GLenum type, const UString &source)
 GL::GLuint CompileProgram(const UString &vertexSource, const UString &fragmentSource)
 {
 	GL::GLuint prog = 0;
-	GL::GLuint vShader = CreateShader(GL::VERTEX_SHADER, vertexSource);
+	GL::GLuint const vShader = CreateShader(GL::VERTEX_SHADER, vertexSource);
 	if (!vShader)
 	{
 		LogError("Failed to compile vertex shader");
 		return 0;
 	}
-	GL::GLuint fShader = CreateShader(GL::FRAGMENT_SHADER, fragmentSource);
+	GL::GLuint const fShader = CreateShader(GL::FRAGMENT_SHADER, fragmentSource);
 	if (!fShader)
 	{
 		LogError("Failed to compile fragment shader");
@@ -101,7 +101,7 @@ GL::GLuint CompileProgram(const UString &vertexSource, const UString &fragmentSo
 	GL::GLint logLength;
 	gl->GetProgramiv(prog, GL::INFO_LOG_LENGTH, &logLength);
 
-	std::unique_ptr<char[]> log(new char[logLength]);
+	std::unique_ptr<char[]> const log(new char[logLength]);
 	gl->GetProgramInfoLog(prog, logLength, NULL, log.get());
 
 	LogError("Program link error: %s", log.get());
@@ -156,7 +156,7 @@ class SpritesheetPage
 
 	void addMultiple(std::vector<sp<SpritesheetEntry>> &entries)
 	{
-		up<stbrp_rect[]> rects(new stbrp_rect[entries.size()]);
+		up<stbrp_rect[]> const rects(new stbrp_rect[entries.size()]);
 		for (unsigned int i = 0; i < entries.size(); i++)
 		{
 			LogAssert(entries[i]->page == -1);
@@ -173,7 +173,7 @@ class SpritesheetPage
 			{
 				// It might re-order the input array, so use the 'id' not the index to get the
 				// entry[]
-				int idx = rects[i].id;
+				int const idx = rects[i].id;
 				entries[idx]->page = this->page_no;
 				entries[idx]->position = {rects[i].x, rects[i].y};
 			}
@@ -258,7 +258,7 @@ class Spritesheet
 			}
 		}
 	}
-	void upload(sp<SpritesheetEntry> entry)
+	void upload(sp<SpritesheetEntry> entry) const
 	{
 		LogAssert(entry->page >= 0);
 		LogAssert(entry->page < (int)this->pages.size());
@@ -777,7 +777,7 @@ class GLSurface final : public RendererImageData
 	~GLSurface() override;
 	sp<Image> readBack() override
 	{
-		BindFramebuffer b(this->fbo_id);
+		BindFramebuffer const b(this->fbo_id);
 		auto img = mksp<RGBImage>(this->size);
 
 		// Reset and pixelStorei args to zero padding to match RGBImage.
@@ -796,9 +796,9 @@ class GLSurface final : public RendererImageData
 		// bottom, but RGBImage assumes it starts at the top
 		for (unsigned int y = 0; y < this->size.y; y++)
 		{
-			unsigned int row = this->size.y - y - 1;
+			unsigned int const row = this->size.y - y - 1;
 			// Assume 4bpp RGBA8888
-			unsigned int stride = this->size.x * 4;
+			unsigned int const stride = this->size.x * 4;
 			char *linePtr = reinterpret_cast<char *>(l.getData());
 			linePtr += (y * stride);
 			gl->ReadPixels(0, row, size.x, row + 1, GL::RGBA, GL::UNSIGNED_BYTE, linePtr);
@@ -966,7 +966,7 @@ class TexturedDrawMachine
 			auto p = identity_quad[i];
 			p *= screenSize;
 			p -= rotationCenter;
-			glm::vec4 transformed = rotMatrix * glm::vec4{p.x, p.y, 0.0f, 1.0f};
+			glm::vec4 const transformed = rotMatrix * glm::vec4{p.x, p.y, 0.0f, 1.0f};
 			p.x = transformed.x;
 			p.y = transformed.y;
 			p += rotationCenter;
@@ -1370,7 +1370,7 @@ class OGLES30Renderer final : public Renderer
 	{
 		this->flush();
 		auto viewport_size = this->current_surface->size;
-		bool flip_y = (this->current_surface == this->default_surface);
+		bool const flip_y = (this->current_surface == this->default_surface);
 		auto size = i->size;
 		auto paletteImage = std::dynamic_pointer_cast<PaletteImage>(i);
 		if (paletteImage)
@@ -1399,7 +1399,7 @@ class OGLES30Renderer final : public Renderer
 	void drawScaled(sp<Image> i, Vec2<float> position, Vec2<float> size, Scaler scaler) override
 	{
 		auto viewport_size = this->current_surface->size;
-		bool flip_y = (this->current_surface == this->default_surface);
+		bool const flip_y = (this->current_surface == this->default_surface);
 		auto paletteImage = std::dynamic_pointer_cast<PaletteImage>(i);
 		if (paletteImage)
 		{
@@ -1455,7 +1455,7 @@ class OGLES30Renderer final : public Renderer
 	void drawTinted(sp<Image> i, Vec2<float> position, Colour tint) override
 	{
 		auto viewport_size = this->current_surface->size;
-		bool flip_y = (this->current_surface == this->default_surface);
+		bool const flip_y = (this->current_surface == this->default_surface);
 		auto size = i->size;
 		auto paletteImage = std::dynamic_pointer_cast<PaletteImage>(i);
 		if (paletteImage)
@@ -1517,7 +1517,7 @@ class OGLES30Renderer final : public Renderer
 		Colour colours[4];
 		static const Vec2<float> identity_quad[4] = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
 		auto viewport_size = this->current_surface->size;
-		bool flip_y = (this->current_surface == this->default_surface);
+		bool const flip_y = (this->current_surface == this->default_surface);
 
 		for (int i = 0; i < 4; i++)
 		{
@@ -1576,20 +1576,20 @@ class OGLES30Renderer final : public Renderer
 		// thickness, thickness)
 		// Line4 goes from origin D(p0.x, p0.y + thickness) with size (thickness, size.y -
 		// thickness)
-		Vec2<float> p0 = position;
-		Vec2<float> p1 = position + size;
+		Vec2<float> const p0 = position;
+		Vec2<float> const p1 = position + size;
 
-		Vec2<float> A = {p0};
-		Vec2<float> sizeA = {size.x - thickness, thickness};
+		Vec2<float> const A = {p0};
+		Vec2<float> const sizeA = {size.x - thickness, thickness};
 
-		Vec2<float> B = {p1.x - thickness, p0.y};
-		Vec2<float> sizeB = {thickness, size.y - thickness};
+		Vec2<float> const B = {p1.x - thickness, p0.y};
+		Vec2<float> const sizeB = {thickness, size.y - thickness};
 
-		Vec2<float> C = {p0.x + thickness, p1.y - thickness};
-		Vec2<float> sizeC = {size.x - thickness, thickness};
+		Vec2<float> const C = {p0.x + thickness, p1.y - thickness};
+		Vec2<float> const sizeC = {size.x - thickness, thickness};
 
-		Vec2<float> D = {p0.x, p0.y + thickness};
-		Vec2<float> sizeD = {thickness, size.y - thickness};
+		Vec2<float> const D = {p0.x, p0.y + thickness};
+		Vec2<float> const sizeD = {thickness, size.y - thickness};
 
 		this->drawFilledRect(A, sizeA, c);
 		this->drawFilledRect(B, sizeB, c);
@@ -1601,7 +1601,7 @@ class OGLES30Renderer final : public Renderer
 		this->flush();
 		Vec2<float> positions[2];
 		Colour colours[2];
-		bool flip_y = (this->current_surface == this->default_surface);
+		bool const flip_y = (this->current_surface == this->default_surface);
 		auto viewport_size = this->current_surface->size;
 
 		colours[0] = c;
@@ -1614,7 +1614,7 @@ class OGLES30Renderer final : public Renderer
 	void flush() override
 	{
 		auto viewport_size = this->current_surface->size;
-		bool flip_y = (this->current_surface == this->default_surface);
+		bool const flip_y = (this->current_surface == this->default_surface);
 		if (this->state == State::BatchingSprites)
 		{
 			this->spriteMachine->flush(viewport_size, flip_y);
@@ -1622,7 +1622,7 @@ class OGLES30Renderer final : public Renderer
 		}
 		// Cleanup any outstanding destroyed texture or framebuffer objects
 		{
-			std::lock_guard<std::mutex> lock(this->destroyed_texture_list_mutex);
+			std::lock_guard<std::mutex> const lock(this->destroyed_texture_list_mutex);
 
 			for (auto &id : this->destroyed_texture_list)
 			{
@@ -1631,7 +1631,7 @@ class OGLES30Renderer final : public Renderer
 			this->destroyed_texture_list.clear();
 		}
 		{
-			std::lock_guard<std::mutex> lock(this->destroyed_framebuffer_list_mutex);
+			std::lock_guard<std::mutex> const lock(this->destroyed_framebuffer_list_mutex);
 
 			for (auto &id : this->destroyed_framebuffer_list)
 			{
@@ -1653,7 +1653,7 @@ class OGLES30Renderer final : public Renderer
 		}
 		// Otherwise add it to a list for future destruction
 		{
-			std::lock_guard<std::mutex> lock(this->destroyed_texture_list_mutex);
+			std::lock_guard<std::mutex> const lock(this->destroyed_texture_list_mutex);
 			this->destroyed_texture_list.push_back(id);
 		}
 	}
@@ -1667,7 +1667,7 @@ class OGLES30Renderer final : public Renderer
 		}
 		// Otherwise add it to a list for future destruction
 		{
-			std::lock_guard<std::mutex> lock(this->destroyed_framebuffer_list_mutex);
+			std::lock_guard<std::mutex> const lock(this->destroyed_framebuffer_list_mutex);
 			this->destroyed_framebuffer_list.push_back(id);
 		}
 	}

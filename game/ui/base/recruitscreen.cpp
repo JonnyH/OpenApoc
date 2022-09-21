@@ -84,8 +84,8 @@ RecruitScreen::RecruitScreen(sp<GameState> state)
 		{
 			// MouseClick - move an agent to opposite list
 			control->addCallback(FormEventType::MouseClick, [this](FormsEvent *e) {
-				int leftIndex = getLeftIndex();
-				int rightIndex = 8;
+				int const leftIndex = getLeftIndex();
+				int const rightIndex = 8;
 
 				auto listLeft = form->findControlTyped<ListBox>("LIST1");
 				auto listRight = form->findControlTyped<ListBox>("LIST2");
@@ -196,8 +196,8 @@ void RecruitScreen::setDisplayType(const AgentType::Role role)
 	auto listLeft = form->findControlTyped<ListBox>("LIST1");
 	auto listRight = form->findControlTyped<ListBox>("LIST2");
 
-	int leftIndex = getLeftIndex();
-	int rightIndex = 8;
+	int const leftIndex = getLeftIndex();
+	int const rightIndex = 8;
 
 	listLeft->clear();
 	listRight->clear();
@@ -254,7 +254,7 @@ int RecruitScreen::getLeftIndex()
 
 void RecruitScreen::updateFormValues()
 {
-	int leftIndex = getLeftIndex();
+	int const leftIndex = getLeftIndex();
 	int moneyDelta = 0;
 	lqDelta = 0;
 
@@ -324,7 +324,7 @@ void RecruitScreen::updateFormValues()
 	}
 
 	// Update money
-	int balance = state->getPlayer()->balance + moneyDelta;
+	int const balance = state->getPlayer()->balance + moneyDelta;
 	form->findControlTyped<Label>("TEXT_FUNDS")->setText(Strings::fromInteger(balance));
 	form->findControlTyped<Label>("TEXT_FUNDS_DELTA")
 	    ->setText(format("%s%s", moneyDelta > 0 ? "+" : "", Strings::fromInteger(moneyDelta)));
@@ -334,7 +334,7 @@ void RecruitScreen::updateFormValues()
 
 void RecruitScreen::updateBaseHighlight()
 {
-	int usage = state->current_base->getUsage(*state, FacilityType::Capacity::Quarters, lqDelta);
+	int const usage = state->current_base->getUsage(*state, FacilityType::Capacity::Quarters, lqDelta);
 	fillBaseBar(usage);
 	auto facilityLabel = form->findControlTyped<Label>("FACILITY_FIRST_TEXT");
 	facilityLabel->setText(format("%i%%", usage));
@@ -346,7 +346,7 @@ void RecruitScreen::fillBaseBar(int percent)
 	facilityBar->setVisible(true);
 
 	auto progressImage = mksp<RGBImage>(facilityBar->Size);
-	int redHeight = progressImage->size.y * std::min(100, percent) / 100;
+	int const redHeight = progressImage->size.y * std::min(100, percent) / 100;
 	{
 		// FIXME: For some reason, there's no border here like in the research screen, so we
 		// have to make one manually, probably there's a better way

@@ -337,7 +337,7 @@ void AEquipScreen::eventOccurred(Event *e)
 		// Wipe any previously-highlighted stuff
 		sp<AEquipment> highlightedEquipment;
 
-		Vec2<int> mousePos{e->mouse().X, e->mouse().Y};
+		Vec2<int> const mousePos{e->mouse().X, e->mouse().Y};
 
 		// Check if we're over any equipment in the paper doll
 		auto mouseSlotPos = this->paperDoll->getSlotPositionFromScreenPosition(mousePos);
@@ -404,7 +404,7 @@ void AEquipScreen::update() { formMain->update(); }
 
 void AEquipScreen::render()
 {
-	int inventoryBottom =
+	int const inventoryBottom =
 	    inventoryControl->Location.y + inventoryControl->Size.y + formMain->Location.y;
 	fw().stageGetPrevious(this->shared_from_this())->render();
 	fw().renderer->setPalette(this->pal);
@@ -417,7 +417,7 @@ void AEquipScreen::render()
 	}
 	auto currentAgent = selectedAgents.front();
 
-	Vec2<int> equipOffset = this->paperDoll->getLocationOnScreen();
+	Vec2<int> const equipOffset = this->paperDoll->getLocationOnScreen();
 
 	for (auto &tuple : inventoryItems)
 	{
@@ -553,8 +553,8 @@ void AEquipScreen::handleItemPlacement(Vec2<int> mousePos)
 
 	// Are we over the grid? If so try to place it on the agent.
 	auto paperDollControl = paperDoll;
-	Vec2<int> equipOffset = paperDollControl->Location + formMain->Location;
-	Vec2<int> equipmentPos = mousePos + draggedEquipmentOffset;
+	Vec2<int> const equipOffset = paperDollControl->Location + formMain->Location;
+	Vec2<int> const equipmentPos = mousePos + draggedEquipmentOffset;
 	// If this is within the grid try to snap it
 	Vec2<int> equipmentGridPos = equipmentPos - equipOffset;
 	equipmentGridPos /= EQUIP_GRID_SLOT_SIZE;
@@ -598,7 +598,7 @@ void AEquipScreen::handleItemPlacement(Vec2<int> mousePos)
 		{
 			continue;
 		}
-		bool pickedUp = draggedType ? tryPickUpItem(*draggedType)
+		bool const pickedUp = draggedType ? tryPickUpItem(*draggedType)
 		                            : tryPickUpItem(agent, draggedFrom, draggedAlternative);
 		if (!pickedUp)
 		{
@@ -661,7 +661,7 @@ void AEquipScreen::handleItemPlacement(bool toAgent)
 		{
 			continue;
 		}
-		bool pickedUp = draggedType ? tryPickUpItem(*draggedType)
+		bool const pickedUp = draggedType ? tryPickUpItem(*draggedType)
 		                            : tryPickUpItem(agent, draggedFrom, draggedAlternative);
 		if (!pickedUp)
 		{
@@ -690,7 +690,7 @@ void AEquipScreen::handleItemPlacement(bool toAgent)
 void AEquipScreen::selectAgent(sp<Agent> agent, bool inverse, bool additive)
 {
 	auto firstAgent = selectedAgents.empty() ? nullptr : selectedAgents.front();
-	bool fullUpdate = !isInVicinity(agent) && !inverse;
+	bool const fullUpdate = !isInVicinity(agent) && !inverse;
 	std::set<sp<Agent>> agentsToUpdate;
 	auto pos = std::find(selectedAgents.begin(), selectedAgents.end(), agent);
 	// Can't deselect last
@@ -766,7 +766,7 @@ void AEquipScreen::selectAgent(sp<Agent> agent, bool inverse, bool additive)
 
 void AEquipScreen::displayItem(sp<AEquipment> item)
 {
-	bool researched = item->type->canBeUsed(*state, state->getPlayer());
+	bool const researched = item->type->canBeUsed(*state, state->getPlayer());
 	AEquipmentSheet(formAgentItem).display(item, researched);
 	formAgentItem->setVisible(true);
 	formAgentStats->setVisible(false);
@@ -893,8 +893,8 @@ void AEquipScreen::populateInventoryItemsBase()
 		StateRef<AEquipmentType> type = {state.get(), invPair.first};
 
 		// Skip wrong types
-		bool showArmor = formMain->findControlTyped<RadioButton>("BUTTON_SHOW_ARMOUR")->isChecked();
-		bool showOther =
+		bool const showArmor = formMain->findControlTyped<RadioButton>("BUTTON_SHOW_ARMOUR")->isChecked();
+		bool const showOther =
 		    formMain->findControlTyped<RadioButton>("BUTTON_SHOW_WEAPONS")->isChecked();
 		if (type->type == AEquipmentType::Type::Armor && !showArmor)
 		{
@@ -960,7 +960,7 @@ void AEquipScreen::populateInventoryItemsVehicle()
 	static const int INVENTORY_IMAGE_X_GAP = 4;
 	Vec2<int> inventoryPosition = inventoryControl->Location + formMain->Location;
 
-	sp<Vehicle> vehicle = getAgentVehicle(currentAgent);
+	sp<Vehicle> const vehicle = getAgentVehicle(currentAgent);
 	auto itemsOnVehicle = vehicleItems[vehicle];
 
 	for (auto &item : itemsOnVehicle)
@@ -986,7 +986,7 @@ void AEquipScreen::populateInventoryItemsBuilding()
 	static const int INVENTORY_IMAGE_X_GAP = 4;
 	Vec2<int> inventoryPosition = inventoryControl->Location + formMain->Location;
 
-	sp<Building> building = getAgentBuilding(currentAgent);
+	sp<Building> const building = getAgentBuilding(currentAgent);
 	auto itemsOnBuilding = buildingItems[building];
 
 	for (auto &item : itemsOnBuilding)
@@ -1093,7 +1093,7 @@ void AEquipScreen::removeItemFromInventoryBase(sp<AEquipment> item)
 		{
 			if (base->inventoryAgentEquipment[(*it).id] > 0)
 			{
-				int count = std::min((*it)->max_ammo, (int)base->inventoryAgentEquipment[(*it).id]);
+				int const count = std::min((*it)->max_ammo, (int)base->inventoryAgentEquipment[(*it).id]);
 				base->inventoryAgentEquipment[(*it).id] -= count;
 				item->ammo = count;
 				item->payloadType = *it;
@@ -1116,7 +1116,7 @@ void AEquipScreen::removeItemFromInventoryAgent(sp<AEquipment> item)
 
 void AEquipScreen::removeItemFromInventoryBuilding(sp<AEquipment> item)
 {
-	sp<Building> building = getAgentBuilding(selectedAgents.front());
+	sp<Building> const building = getAgentBuilding(selectedAgents.front());
 
 	buildingItems[building].erase(
 	    std::find(buildingItems[building].begin(), buildingItems[building].end(), item));
@@ -1124,7 +1124,7 @@ void AEquipScreen::removeItemFromInventoryBuilding(sp<AEquipment> item)
 
 void AEquipScreen::removeItemFromInventoryVehicle(sp<AEquipment> item)
 {
-	sp<Vehicle> vehicle = getAgentVehicle(selectedAgents.front());
+	sp<Vehicle> const vehicle = getAgentVehicle(selectedAgents.front());
 
 	vehicleItems[vehicle].erase(
 	    std::find(vehicleItems[vehicle].begin(), vehicleItems[vehicle].end(), item));
@@ -1248,7 +1248,7 @@ bool AEquipScreen::tryPickUpItem(sp<Agent> agent, Vec2<int> slotPos, bool altern
 			{
 				continue;
 			}
-			Vec2<float> offset = (s.bounds.p1 - s.bounds.p0) - equipment->type->equipscreen_size;
+			Vec2<float> const offset = (s.bounds.p1 - s.bounds.p0) - equipment->type->equipscreen_size;
 			slotPos += offset / 2.0f;
 			break;
 		}
@@ -1621,7 +1621,7 @@ void AEquipScreen::closeScreen()
 				// Then create cargo (ferry to vehicle's home base)
 				for (auto &e : entry.second)
 				{
-					int price = 0;
+					int const price = 0;
 					entry.first->cargo.emplace_back(
 					    *state, e->type, e->type->type == AEquipmentType::Type::Ammo ? e->ammo : 1,
 					    price, nullptr, entry.first->homeBuilding);
@@ -1649,7 +1649,7 @@ void AEquipScreen::closeScreen()
 				// Then create cargo (ferry to current base)
 				for (auto &e : entry.second)
 				{
-					int price = 0;
+					int const price = 0;
 					entry.first->cargo.emplace_back(
 					    *state, e->type, e->type->type == AEquipmentType::Type::Ammo ? e->ammo : 1,
 					    price, nullptr, state->current_base->building);
@@ -1692,7 +1692,7 @@ void AEquipScreen::closeScreen()
 				}
 				// Find building to drop to
 				StateRef<Building> buildingToDropTo;
-				Vec2<int> pos = {entry.first.x, entry.first.y};
+				Vec2<int> const pos = {entry.first.x, entry.first.y};
 				for (auto &b : dropperAgent->city->buildings)
 				{
 					if (b.second->bounds.within(pos))
@@ -1706,7 +1706,7 @@ void AEquipScreen::closeScreen()
 					// Create cargo
 					for (auto &e : entry.second)
 					{
-						int price = 0;
+						int const price = 0;
 						buildingToDropTo->cargo.emplace_back(
 						    *state, e->type,
 						    e->type->type == AEquipmentType::Type::Ammo ? e->ammo : 1, price,
@@ -1942,7 +1942,7 @@ void AEquipScreen::updateAgents()
 	{
 		for (auto &agent : state->agents)
 		{
-			sp<Agent> agentSp = agent.second;
+			sp<Agent> const agentSp = agent.second;
 			if (!checkAgent(agentSp, owner))
 			{
 				continue;
@@ -2001,7 +2001,7 @@ void AEquipScreen::clampInventoryPage()
 	}
 	if (inventoryPage > 0)
 	{
-		int inventoryLeft = inventoryControl->Location.x + formMain->Location.x;
+		int const inventoryLeft = inventoryControl->Location.x + formMain->Location.x;
 		int maxPageSeen = 0;
 		for (auto &item : inventoryItems)
 		{

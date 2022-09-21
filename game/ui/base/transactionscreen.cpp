@@ -67,7 +67,7 @@ void TransactionScreen::changeBase(sp<Base> newBase)
 	textViewBaseStatic->setText(state->current_base->name);
 
 	// Set index for all controls
-	int index = getLeftIndex();
+	int const index = getLeftIndex();
 	for (auto &l : transactionControls)
 	{
 		for (auto &c : l.second)
@@ -175,8 +175,8 @@ int TransactionScreen::getRightIndex() { return ECONOMY_IDX; }
 
 void TransactionScreen::populateControlsPeople(AgentType::Role role)
 {
-	int leftIndex = getLeftIndex();
-	int rightIndex = getRightIndex();
+	int const leftIndex = getLeftIndex();
+	int const rightIndex = getRightIndex();
 
 	for (auto &a : state->agents)
 	{
@@ -196,8 +196,8 @@ void TransactionScreen::populateControlsPeople(AgentType::Role role)
 
 void TransactionScreen::populateControlsVehicle()
 {
-	int leftIndex = getLeftIndex();
-	int rightIndex = getRightIndex();
+	int const leftIndex = getLeftIndex();
+	int const rightIndex = getRightIndex();
 
 	for (auto &v : state->vehicle_types)
 	{
@@ -239,8 +239,8 @@ void TransactionScreen::populateControlsAgentEquipment()
 	    AEquipmentType::Type::Armor,
 	    AEquipmentType::Type::Loot,
 	};
-	int leftIndex = getLeftIndex();
-	int rightIndex = getRightIndex();
+	int const leftIndex = getLeftIndex();
+	int const rightIndex = getRightIndex();
 	for (auto &t : agTypes)
 	{
 		for (auto &ae : state->agent_equipment)
@@ -306,12 +306,12 @@ void TransactionScreen::populateControlsAgentEquipment()
 
 void TransactionScreen::populateControlsVehicleEquipment()
 {
-	bool flying = type == Type::FlyingEquipment;
+	bool const flying = type == Type::FlyingEquipment;
 	static const std::list<EquipmentSlotType> vehTypes = {EquipmentSlotType::VehicleWeapon,
 	                                                      EquipmentSlotType::VehicleGeneral,
 	                                                      EquipmentSlotType::VehicleEngine};
-	int leftIndex = getLeftIndex();
-	int rightIndex = getRightIndex();
+	int const leftIndex = getLeftIndex();
+	int const rightIndex = getRightIndex();
 	for (auto &t : vehTypes)
 	{
 		for (auto ve_it = state->vehicle_equipment.begin(); ve_it != state->vehicle_equipment.end();
@@ -380,8 +380,8 @@ void TransactionScreen::populateControlsVehicleEquipment()
 
 void TransactionScreen::populateControlsAlien()
 {
-	int leftIndex = getLeftIndex();
-	int rightIndex = getRightIndex();
+	int const leftIndex = getLeftIndex();
+	int const rightIndex = getRightIndex();
 	for (auto &ae : state->agent_equipment)
 	{
 		if (!ae.second->bioStorage)
@@ -408,8 +408,8 @@ void TransactionScreen::populateControlsAlien()
 
 void TransactionScreen::updateFormValues(bool queueHighlightUpdate)
 {
-	int leftIndex = getLeftIndex();
-	int rightIndex = getRightIndex();
+	int const leftIndex = getLeftIndex();
+	int const rightIndex = getRightIndex();
 
 	// Crew
 	lqDelta = 0;
@@ -476,7 +476,7 @@ void TransactionScreen::updateBaseHighlight()
 			facilityPic->setVisible(true);
 			facilityPic->setImage(state->facility_types["FACILITYTYPE_LIVING_QUARTERS"]->sprite);
 			form->findControlTyped<Graphic>("FACILITY_FIRST_BAR")->setVisible(true);
-			int usage =
+			int const usage =
 			    state->current_base->getUsage(*state, FacilityType::Capacity::Quarters, lqDelta);
 			fillBaseBar(true, usage);
 			auto facilityLabel = form->findControlTyped<Label>("FACILITY_FIRST_TEXT");
@@ -490,7 +490,7 @@ void TransactionScreen::updateBaseHighlight()
 			facilityPic->setVisible(true);
 			facilityPic->setImage(state->facility_types["FACILITYTYPE_STORES"]->sprite);
 			form->findControlTyped<Graphic>("FACILITY_FIRST_BAR")->setVisible(true);
-			int usage =
+			int const usage =
 			    state->current_base->getUsage(*state, FacilityType::Capacity::Stores, cargoDelta);
 			fillBaseBar(true, usage);
 			auto facilityLabel = form->findControlTyped<Label>("FACILITY_FIRST_TEXT");
@@ -504,7 +504,7 @@ void TransactionScreen::updateBaseHighlight()
 			facilityPic->setVisible(true);
 			facilityPic->setImage(state->facility_types["FACILITYTYPE_ALIEN_CONTAINMENT"]->sprite);
 			form->findControlTyped<Graphic>("FACILITY_FIRST_BAR")->setVisible(true);
-			int usage =
+			int const usage =
 			    state->current_base->getUsage(*state, FacilityType::Capacity::Aliens, bioDelta);
 			fillBaseBar(true, usage);
 			auto facilityLabel = form->findControlTyped<Label>("FACILITY_FIRST_TEXT");
@@ -530,7 +530,7 @@ void TransactionScreen::fillBaseBar(bool left, int percent)
 	facilityBar->setVisible(true);
 
 	auto progressImage = mksp<RGBImage>(facilityBar->Size);
-	int redHeight = progressImage->size.y * std::min(100, percent) / 100;
+	int const redHeight = progressImage->size.y * std::min(100, percent) / 100;
 	{
 		RGBImageLock l(progressImage);
 		for (int x = 0; x < 2; x++)

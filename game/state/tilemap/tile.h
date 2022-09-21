@@ -127,7 +127,7 @@ class Tile
 	// Returns resting position for items and units in the tile
 	Vec3<float> getRestingPosition(bool large = false, bool overlay = false);
 	// Returns the object that provides support (resting position) for items
-	sp<BattleMapPart> getItemSupportingObject();
+	sp<BattleMapPart> getItemSupportingObject() const;
 	// Returns if the tile is passable (including side tiles for large)
 	bool getPassable(bool large = false, int height = 0);
 	// Returns if head fits in the tile

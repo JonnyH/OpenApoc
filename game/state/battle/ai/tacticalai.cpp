@@ -8,7 +8,7 @@ namespace OpenApoc
 
 static const uint64_t TACTICAL_AI_THINK_INTERVAL = TICKS_PER_SECOND / 4;
 
-const UString TacticalAI::getName()
+UString TacticalAI::getName() const
 {
 	switch (type)
 	{

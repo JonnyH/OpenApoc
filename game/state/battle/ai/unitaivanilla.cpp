@@ -102,10 +102,10 @@ UnitAIVanilla::getWeaponDecision(GameState &state, BattleUnit &u, sp<AEquipment>
 	movement->type = AIMovement::Type::Stop;
 
 	// Just re-think what we're attacking every several seconds
-	unsigned reThinkDelay = TICKS_PER_TURN;
+	unsigned const reThinkDelay = TICKS_PER_TURN;
 
 	auto payload = e->getPayloadType();
-	float distance = BattleUnitTileHelper::getDistanceStatic(u.position, target->position);
+	float const distance = BattleUnitTileHelper::getDistanceStatic(u.position, target->position);
 
 	float damage = (float)payload->damage;
 	auto armor = target->agent->getArmor(BodyPart::Legs);
@@ -135,12 +135,12 @@ UnitAIVanilla::getWeaponDecision(GameState &state, BattleUnit &u, sp<AEquipment>
 		                       reThinkDelay);
 	}
 
-	float time = (float)payload->fire_delay / (float)u.fire_aiming_mode / (float)TICKS_PER_SECOND;
-	float cth = std::max(
+	float const time = (float)payload->fire_delay / (float)u.fire_aiming_mode / (float)TICKS_PER_SECOND;
+	float const cth = std::max(
 	    1.0f, 100.f - (float)(100 - e->getAccuracy(u.target_body_state, u.current_movement_state,
 	                                               u.fire_aiming_mode)) *
 	                      distance / 40.0f);
-	float priority = cth * damage / time;
+	float const priority = cth * damage / time;
 
 	// Chance to advance is equal to chance to miss
 	// Only advance if can fire on move
@@ -172,7 +172,7 @@ UnitAIVanilla::getPsiDecision(GameState &state, BattleUnit &u, sp<AEquipment> e,
 	{
 		return NULLTUPLE3;
 	}
-	unsigned reThinkDelay = TICKS_PER_SECOND / 2;
+	unsigned const reThinkDelay = TICKS_PER_SECOND / 2;
 	const float time = (float)reThinkDelay / (float)TICKS_PER_SECOND;
 	float priority = (float)chance / time;
 
@@ -232,8 +232,8 @@ UnitAIVanilla::getGrenadeDecision(GameState &state, BattleUnit &u, sp<AEquipment
 	unsigned reThinkDelay = TICKS_PER_SECOND;
 
 	auto payload = e->getPayloadType();
-	float cth = 0.8f;
-	float time = (u.current_body_state == BodyState::Standing ? 1.0f : 2.0f) *
+	float const cth = 0.8f;
+	float const time = (u.current_body_state == BodyState::Standing ? 1.0f : 2.0f) *
 	             (float)(u.agent->getAnimationPack()->getFrameCountBody(
 	                         e->type, BodyState::Standing, BodyState::Throwing, HandState::AtEase,
 	                         MovementState::None, {1, 1}) +
@@ -249,7 +249,7 @@ UnitAIVanilla::getGrenadeDecision(GameState &state, BattleUnit &u, sp<AEquipment
 		{
 			continue;
 		}
-		float distance = BattleUnitTileHelper::getDistanceStatic(t.second->position, u.position);
+		float const distance = BattleUnitTileHelper::getDistanceStatic(t.second->position, u.position);
 		if (distance > 16.0f)
 		{
 			continue;
@@ -309,7 +309,7 @@ std::tuple<AIDecision, float, unsigned> UnitAIVanilla::getBrainsuckerDecision(Ga
 	auto action = mksp<AIAction>();
 	action->type = AIAction::Type::AttackBrainsucker;
 
-	unsigned reThinkDelay = TICKS_PER_SECOND / 2;
+	unsigned const reThinkDelay = TICKS_PER_SECOND / 2;
 	float distance = FLT_MAX;
 
 	StateRef<DamageType> brainsucker = {&state, "DAMAGETYPE_BRAINSUCKER"};
@@ -344,8 +344,8 @@ std::tuple<AIDecision, float, unsigned> UnitAIVanilla::getBrainsuckerDecision(Ga
 	movement->targetLocation = action->targetUnit->position;
 	movement->subordinate = true;
 
-	Vec3<int> ourPos = u.position;
-	Vec3<int> tarPos = action->targetUnit->position;
+	Vec3<int> const ourPos = u.position;
+	Vec3<int> const tarPos = action->targetUnit->position;
 	if (std::abs(ourPos.x - tarPos.x) > 1 || std::abs(ourPos.y - tarPos.y) > 1 ||
 	    std::abs(ourPos.z - tarPos.z) > 1)
 	{
@@ -366,7 +366,7 @@ std::tuple<AIDecision, float, unsigned> UnitAIVanilla::getSuicideDecision(GameSt
 	auto action = mksp<AIAction>();
 	action->type = AIAction::Type::AttackSuicide;
 
-	unsigned reThinkDelay = TICKS_PER_SECOND;
+	unsigned const reThinkDelay = TICKS_PER_SECOND;
 	float distance = FLT_MAX;
 
 	auto &visibleEnemies = state.current_battle->visibleEnemies[u.owner];
@@ -574,15 +574,15 @@ std::tuple<AIDecision, float, unsigned> UnitAIVanilla::getAttackDecision(GameSta
 }
 
 // Calculate AI's next action in case the unit is not attacking
-std::tuple<AIDecision, float, unsigned> UnitAIVanilla::thinkGreen(GameState &state, BattleUnit &u)
+std::tuple<AIDecision, float, unsigned> UnitAIVanilla::thinkGreen(GameState &state, BattleUnit &u) const
 {
 #ifdef VANILLA_AI_DEBUG_OUTPUT
 	LogWarning("VANILLA AI %s: thinkGreen()", u.id);
 #endif
 
-	bool isMoving = lastDecision.movement && u.isMoving();
-	bool isUnderAttack = flagLastAttackerPosition != NONE;
-	bool wasEnemyVisible = flagLastSeenPosition != NONE;
+	bool const isMoving = lastDecision.movement && u.isMoving();
+	bool const isUnderAttack = flagLastAttackerPosition != NONE;
+	bool const wasEnemyVisible = flagLastSeenPosition != NONE;
 
 	if (isMoving)
 	{
@@ -653,8 +653,8 @@ std::tuple<AIDecision, float, unsigned> UnitAIVanilla::thinkRed(GameState &state
 #ifdef VANILLA_AI_DEBUG_OUTPUT
 	LogWarning("VANILLAAI %s: thinkRed()", u.id);
 #endif
-	bool isUnderAttack = flagLastAttackerPosition != NONE;
-	bool isInterrupted =
+	bool const isUnderAttack = flagLastAttackerPosition != NONE;
+	bool const isInterrupted =
 	    ticksUntilReThink > 0 && ticksLastThink + ticksUntilReThink > state.gameTime.getTicks();
 
 	if (isUnderAttack)
@@ -766,7 +766,7 @@ AIDecision UnitAIVanilla::thinkInternal(GameState &state, BattleUnit &u)
 
 	// Conditions that require re-thinking:
 
-	bool reThink =
+	bool const reThink =
 	    // 1: Timer ran out
 	    (ticksUntilReThink > 0 && ticksLastThink + ticksUntilReThink <= state.gameTime.getTicks())
 	    // 2: We just spotted a new enemy and we have no timer
@@ -901,7 +901,7 @@ void UnitAIVanilla::routine(GameState &state, BattleUnit &u)
 		// Ensure at least half of move is available for moving
 		u.setReserveKneelMode(KneelingMode::Kneeling);
 		u.setReserveShotMode(state, ReserveShotMode::Aimed);
-		int kneelCost = u.reserve_kneel_mode == KneelingMode::None
+		int const kneelCost = u.reserve_kneel_mode == KneelingMode::None
 		                    ? 0
 		                    : u.getBodyStateChangeCost(BodyState::Standing, BodyState::Kneeling);
 		if (u.reserveShotCost + kneelCost > u.initialTU / 2)

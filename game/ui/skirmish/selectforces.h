@@ -26,8 +26,8 @@ class SelectForces : public Stage
 
   public:
 	SelectForces(sp<GameState> state, Skirmish &skirmish,
-	             std::map<StateRef<AgentType>, int> *aliens = nullptr, int *guards = nullptr,
-	             int *civilians = nullptr);
+	             std::map<StateRef<AgentType>, int> *aliens = nullptr, const int *guards = nullptr,
+	             const int *civilians = nullptr);
 	~SelectForces() override;
 
 	// Stage control

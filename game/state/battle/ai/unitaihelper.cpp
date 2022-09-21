@@ -25,7 +25,7 @@ sp<AIMovement> UnitAIHelper::getFallbackMovement(GameState &state, BattleUnit &u
 	// +1% per each morale missing
 	// +1% per 1/100th of lost health
 	// -20% per every tile enemy is closer to us than 6
-	int chance =
+	int const chance =
 	    100 - u.agent->modified_stats.morale +
 	    (u.agent->current_stats.health - u.agent->modified_stats.health) * 100 /
 	        u.agent->current_stats.health -

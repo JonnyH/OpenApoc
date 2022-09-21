@@ -31,7 +31,7 @@ class HazardType : public StateObject<HazardType>
 	sp<Image> getFrame(unsigned age, int offset);
 
 	// Get a random lifetime for the hazard of this type
-	int getLifetime(GameState &state);
+	int getLifetime(GameState &state) const;
 };
 
 class DamageModifier : public StateObject<DamageModifier>

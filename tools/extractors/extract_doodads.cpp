@@ -183,7 +183,7 @@ void InitialGameStateExtractor::extractDoodads(GameState &state) const
 
 		// CUSTOM_DOODAD_30 30 // tac 78, 77
 		{
-			UString id = "DOODAD_30_EXPLODING_PAYLOAD";
+			UString const id = "DOODAD_30_EXPLODING_PAYLOAD";
 			auto d = mksp<DoodadType>();
 
 			// FIXME: ENSURE CORRECT
@@ -205,7 +205,7 @@ void InitialGameStateExtractor::extractDoodads(GameState &state) const
 
 		// CUSTOM EXPLOSION DOODADS
 		{
-			int ttlmult = 2;
+			int const ttlmult = 2;
 			static const std::vector<int> indexes = {68, 79, 88, 97, 106};
 
 			static const std::map<int, UString> facingMap = {
@@ -225,7 +225,7 @@ void InitialGameStateExtractor::extractDoodads(GameState &state) const
 
 			for (int facing = 0; facing < 9; facing++)
 			{
-				UString id = format("DOODAD_BATTLE_EXPLOSION_%s", facingMap.at(facing));
+				UString const id = format("DOODAD_BATTLE_EXPLOSION_%s", facingMap.at(facing));
 				auto d = mksp<DoodadType>();
 
 				// FIXME: ENSURE CORRECT
@@ -235,7 +235,7 @@ void InitialGameStateExtractor::extractDoodads(GameState &state) const
 
 				for (int frame = 0; frame < (int)indexes.size(); frame++)
 				{
-					int idx = indexes[frame] + facing;
+					int const idx = indexes[frame] + facing;
 
 					d->frames.push_back(
 					    {fw().data->loadImage(format("PCK:xcom3/tacdata/ptang.pck:xcom3/tacdata/"

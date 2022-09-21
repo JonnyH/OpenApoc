@@ -2385,7 +2385,7 @@ namespace gl20
 			struct MapCompare
 			{
 				MapCompare(const char *test_) : test(test_) {}
-				bool operator()(const MapEntry &other) { return strcmp(test, other.extName) == 0; }
+				bool operator()(const MapEntry &other) const { return strcmp(test, other.extName) == 0; }
 				const char *test;
 			};
 			
@@ -2419,7 +2419,7 @@ namespace gl20
 		{
 			static void ProcExtsFromExtString(const char *strExtList, std::vector<MapEntry> &table)
 			{
-				size_t iExtListLen = strlen(strExtList);
+				size_t const iExtListLen = strlen(strExtList);
 				const char *strExtListEnd = strExtList + iExtListLen;
 				const char *strCurrPos = strExtList;
 				char strWorkBuff[256];
@@ -2464,7 +2464,7 @@ namespace gl20
 			
 			ProcExtsFromExtString((const char *)gl20::_detail::GetString(gl20::EXTENSIONS), table);
 			
-			int numFailed = _detail::LoadCoreFunctions();
+			int const numFailed = _detail::LoadCoreFunctions();
 			return exts::LoadTest(true, numFailed);
 		}
 		

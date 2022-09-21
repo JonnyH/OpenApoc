@@ -7,13 +7,13 @@ namespace OpenApoc
 
 template <> const UString &StateObject<VEquipmentType>::getPrefix()
 {
-	static UString prefix = "VEQUIPMENTTYPE_";
+	static UString const prefix = "VEQUIPMENTTYPE_";
 	return prefix;
 }
 
 template <> const UString &StateObject<VEquipmentType>::getTypeName()
 {
-	static UString name = "VEquipmentType";
+	static UString const name = "VEquipmentType";
 	return name;
 }
 

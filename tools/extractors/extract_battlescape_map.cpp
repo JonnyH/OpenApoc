@@ -17,10 +17,10 @@ void InitialGameStateExtractor::extractBattlescapeMapFromPath(GameState &state,
                                                               const UString dirName,
                                                               const int index) const
 {
-	UString tilePrefix = format("%s_", dirName);
-	UString map_prefix = "xcom3/maps/";
-	UString mapunits_suffix = "/mapunits/";
-	bool baseMap = dirName == "37base";
+	UString const tilePrefix = format("%s_", dirName);
+	UString const map_prefix = "xcom3/maps/";
+	UString const mapunits_suffix = "/mapunits/";
+	bool const baseMap = dirName == "37base";
 
 	BuildingDatStructure bdata;
 	{
@@ -80,16 +80,16 @@ void InitialGameStateExtractor::extractBattlescapeMapFromPath(GameState &state,
 
 	auto m = mksp<BattleMap>();
 
-	UString id = format("%s%s", BattleMap::getPrefix(), this->battleMapPaths[index]);
+	UString const id = format("%s%s", BattleMap::getPrefix(), this->battleMapPaths[index]);
 
 	m->id = id;
 	m->chunk_size = {bdata.chunk_x, bdata.chunk_y, bdata.chunk_z};
 	m->max_battle_size = {bdata.battle_x, bdata.battle_y, bdata.battle_z};
 
-	uint8_t north_flag = 0b0001;
-	uint8_t east_flag = 0b0010;
-	uint8_t south_flag = 0b0100;
-	uint8_t west_flag = 0b1000;
+	uint8_t const north_flag = 0b0001;
+	uint8_t const east_flag = 0b0010;
+	uint8_t const south_flag = 0b0100;
+	uint8_t const west_flag = 0b1000;
 
 	m->allow_entrance[MapDirection::North] = bdata.allow_entrance_from & north_flag;
 	m->allow_entrance[MapDirection::East] = bdata.allow_entrance_from & east_flag;
@@ -259,10 +259,10 @@ std::map<UString, up<BattleMapSectorTiles>>
 InitialGameStateExtractor::extractMapSectors(GameState &state, const UString &mapRootName) const
 {
 	std::map<UString, up<BattleMapSectorTiles>> sectors;
-	UString map_prefix = "xcom3/maps/";
-	UString dirName = mapRootName;
-	UString tilePrefix = format("%s_", dirName);
-	bool baseMap = mapRootName == "37base";
+	UString const map_prefix = "xcom3/maps/";
+	UString const dirName = mapRootName;
+	UString const tilePrefix = format("%s_", dirName);
+	bool const baseMap = mapRootName == "37base";
 	BuildingDatStructure bdata;
 	{
 		auto fileName = dirName + UString("/building.dat");
@@ -366,12 +366,12 @@ InitialGameStateExtractor::extractMapSectors(GameState &state, const UString &ma
 
 					// Vanilla had inclusive boundaries, and they can go both ways, but we must make
 					// them exclusive
-					int x_min = std::min(ldata.begin_x, ldata.end_x);
-					int x_max = std::max(ldata.begin_x, ldata.end_x);
-					int y_min = std::min(ldata.begin_y, ldata.end_y);
-					int y_max = std::max(ldata.begin_y, ldata.end_y);
-					int z_min = std::min(ldata.begin_z, ldata.end_z);
-					int z_max = std::max(ldata.begin_z, ldata.end_z);
+					int const x_min = std::min(ldata.begin_x, ldata.end_x);
+					int const x_max = std::max(ldata.begin_x, ldata.end_x);
+					int const y_min = std::min(ldata.begin_y, ldata.end_y);
+					int const y_max = std::max(ldata.begin_y, ldata.end_y);
+					int const z_min = std::min(ldata.begin_z, ldata.end_z);
+					int const z_max = std::max(ldata.begin_z, ldata.end_z);
 					los_block->start = {x_min, y_min, z_min};
 					los_block->end = {x_max + 1, y_max + 1, z_max + 1};
 					los_block->ai_patrol_priority = ldata.ai_patrol_priority;

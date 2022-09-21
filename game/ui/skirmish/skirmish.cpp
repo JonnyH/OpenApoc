@@ -34,7 +34,7 @@ std::shared_future<void> loadBattleBuilding(bool hotseat, sp<Building> building,
                                             bool customGuards, int guards, bool customCivilians,
                                             int civilians, int score)
 {
-	std::map<StateRef<AgentType>, int> aliensLocal;
+	std::map<StateRef<AgentType>, int> const aliensLocal;
 
 	auto loadTask = fw().threadPoolEnqueue([hotseat, building, state, raid, aliensLocal, guards,
 	                                        civilians, aliens, customAliens, customGuards,
@@ -56,9 +56,9 @@ std::shared_future<void> loadBattleBuilding(bool hotseat, sp<Building> building,
 				}
 			}
 		}
-		StateRef<Organisation> org = raid ? building->owner : state->getAliens();
-		StateRef<Building> bld = {state, building};
-		StateRef<Vehicle> veh = {};
+		StateRef<Organisation> const org = raid ? building->owner : state->getAliens();
+		StateRef<Building> const bld = {state, building};
+		StateRef<Vehicle> const veh = {};
 
 		const std::map<StateRef<AgentType>, int> *aliensRef = customAliens ? &aliens : nullptr;
 		const int *guardsRef = customGuards ? &guards : nullptr;
@@ -96,7 +96,7 @@ std::shared_future<void> loadBattleVehicle(bool hotseat, sp<VehicleType> vehicle
 			        a.second->homeBuilding == playerBase->building)
 				    agents.emplace_back(state, a.second);
 
-		    StateRef<Organisation> org = {state, UString("ORG_ALIEN")};
+		    StateRef<Organisation> const org = {state, UString("ORG_ALIEN")};
 		    auto v = mksp<Vehicle>();
 		    auto vID = Vehicle::generateObjectID(*state);
 		    v->type = {state, vehicle};
@@ -303,17 +303,17 @@ void Skirmish::goToBattle(bool customAliens, std::map<StateRef<AgentType>, int> 
 	}
 
 	LogWarning("Adding new agents to base %s", playerBase.id);
-	int countHumans = menuform->findControlTyped<ScrollBar>("NUM_HUMANS_SLIDER")->getValue();
-	int countHybrids = menuform->findControlTyped<ScrollBar>("NUM_HYBRIDS_SLIDER")->getValue();
-	int countAndroids = menuform->findControlTyped<ScrollBar>("NUM_ANDROIDS_SLIDER")->getValue();
-	int playerTech = menuform->findControlTyped<ScrollBar>("PLAYER_TECH_SLIDER")->getValue();
-	unsigned int physTicks =
+	int const countHumans = menuform->findControlTyped<ScrollBar>("NUM_HUMANS_SLIDER")->getValue();
+	int const countHybrids = menuform->findControlTyped<ScrollBar>("NUM_HYBRIDS_SLIDER")->getValue();
+	int const countAndroids = menuform->findControlTyped<ScrollBar>("NUM_ANDROIDS_SLIDER")->getValue();
+	int const playerTech = menuform->findControlTyped<ScrollBar>("PLAYER_TECH_SLIDER")->getValue();
+	unsigned int const physTicks =
 	    menuform->findControlTyped<ScrollBar>("DAYS_PHYSICAL_SLIDER")->getValue() * TICKS_PER_DAY;
-	unsigned int psiTicks =
+	unsigned int const psiTicks =
 	    menuform->findControlTyped<ScrollBar>("DAYS_PSI_SLIDER")->getValue() * TICKS_PER_DAY;
-	StateRef<AgentType> human = {&state, "AGENTTYPE_X-COM_AGENT_HUMAN"};
-	StateRef<AgentType> hybrid = {&state, "AGENTTYPE_X-COM_AGENT_HYBRID"};
-	StateRef<AgentType> android = {&state, "AGENTTYPE_X-COM_AGENT_ANDROID"};
+	StateRef<AgentType> const human = {&state, "AGENTTYPE_X-COM_AGENT_HUMAN"};
+	StateRef<AgentType> const hybrid = {&state, "AGENTTYPE_X-COM_AGENT_HYBRID"};
+	StateRef<AgentType> const android = {&state, "AGENTTYPE_X-COM_AGENT_ANDROID"};
 	auto player = state.getPlayer();
 	std::list<StateRef<Agent>> agents;
 	for (int i = 0; i < countHumans; i++)
@@ -347,7 +347,7 @@ void Skirmish::goToBattle(bool customAliens, std::map<StateRef<AgentType>, int> 
 		        ? std::list<const AEquipmentType *>()
 		        : EquipmentSet::getByLevel(state, playerTech)->generateEquipmentList(state);
 
-		int initialArmorType = menuform->findControlTyped<ScrollBar>("ARMOR_SLIDER")->getValue();
+		int const initialArmorType = menuform->findControlTyped<ScrollBar>("ARMOR_SLIDER")->getValue();
 		switch (initialArmorType)
 		{
 			case 1:
@@ -494,13 +494,13 @@ void Skirmish::goToBattle(bool customAliens, std::map<StateRef<AgentType>, int> 
 		}
 	}
 
-	bool hotseat = menuform->findControlTyped<CheckBox>("HOTSEAT")->isChecked();
+	bool const hotseat = menuform->findControlTyped<CheckBox>("HOTSEAT")->isChecked();
 
 	loadBattle = [this, score, hotseat, playerBase, customAliens, aliens, customGuards, guards,
 	              customCivilians, civilians]() {
 		if (locBuilding)
 		{
-			bool raid = menuform->findControlTyped<CheckBox>("ALTERNATIVE_ATTACK")->isChecked();
+			bool const raid = menuform->findControlTyped<CheckBox>("ALTERNATIVE_ATTACK")->isChecked();
 			if (raid)
 			{
 				locBuilding->owner->tech_level =
@@ -700,7 +700,7 @@ void Skirmish::eventOccurred(Event *e)
 				return;
 			}
 
-			bool customize =
+			bool const customize =
 			    menuform->findControlTyped<CheckBox>("CUSTOMISE_FORCES")->isChecked() || locBase ||
 			    (!menuform->findControlTyped<CheckBox>("ALTERNATIVE_ATTACK")->isChecked() &&
 			     locBuilding && locBuilding->owner != state.aliens);

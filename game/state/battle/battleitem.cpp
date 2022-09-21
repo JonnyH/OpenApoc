@@ -63,7 +63,7 @@ void BattleItem::hopTo(GameState &state, Vec3<float> targetPosition)
 		// Try to hop this distance towards target
 		velXY = 0.0f;
 		velZ = 0.0f;
-		Vec3<float> target = position + glm::normalize(targetVector) * (float)distance;
+		Vec3<float> const target = position + glm::normalize(targetVector) * (float)distance;
 		if (item->getVelocityForThrow(tileObject->map, 100, position, target, velXY, velZ))
 		{
 			break;
@@ -140,7 +140,7 @@ void BattleItem::setPosition(const Vec3<float> &pos)
 	}
 }
 
-Collision BattleItem::checkItemCollision(Vec3<float> previousPosition, Vec3<float> nextPosition)
+Collision BattleItem::checkItemCollision(Vec3<float> previousPosition, Vec3<float> nextPosition) const
 {
 	if (collisionIgnoredTicks > 0)
 		return {};
@@ -150,7 +150,7 @@ Collision BattleItem::checkItemCollision(Vec3<float> previousPosition, Vec3<floa
 	return c;
 }
 
-void BattleItem::updateTB(GameState &state) { item->updateTB(state); }
+void BattleItem::updateTB(GameState &state) const { item->updateTB(state); }
 
 void BattleItem::update(GameState &state, unsigned int ticks)
 {
@@ -316,7 +316,7 @@ void BattleItem::getSupport()
 	}
 }
 
-bool BattleItem::findSupport()
+bool BattleItem::findSupport() const
 {
 	auto tile = tileObject->getOwningTile();
 	auto obj = tile->getItemSupportingObject();

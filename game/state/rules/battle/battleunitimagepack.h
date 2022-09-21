@@ -20,10 +20,10 @@ class BattleUnitImagePack : public StateObject<BattleUnitImagePack>
 	bool loadImagePack(GameState &state, const UString &path);
 
 	// high level api for saving
-	bool saveImagePack(const UString &path, bool pack = true, bool pretty = false);
+	bool saveImagePack(const UString &path, bool pack = true, bool pretty = false) const;
 
 	// Function used when getting file path
-	static const UString getNameFromID(UString id);
+	static UString getNameFromID(UString id);
 
 	static UString getImagePackPath();
 };

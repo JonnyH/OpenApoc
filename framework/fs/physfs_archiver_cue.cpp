@@ -74,7 +74,7 @@ class CueParser
 	bool parseStart(std::string command, std::string arg)
 	{
 		// Waiting for "FILE" command
-		UString cmd(command);
+		UString const cmd(command);
 		if (to_upper(cmd) != "FILE")
 		{
 			LogInfo("Encountered unexpected command: \"%s\", ignoring", cmd);
@@ -139,7 +139,7 @@ class CueParser
 			last_char--;
 		}
 
-		UString fileTypeStr(std::string(arg, first_char, last_char - first_char + 1));
+		UString const fileTypeStr(std::string(arg, first_char, last_char - first_char + 1));
 
 		if (to_upper(fileTypeStr) != "BINARY")
 		{
@@ -155,7 +155,7 @@ class CueParser
 	bool parseFile(std::string command, std::string arg)
 	{
 		// Waiting for the "TRACK" command
-		UString cmd(command);
+		UString const cmd(command);
 		if (to_upper(cmd) != "TRACK")
 		{
 			// According to
@@ -178,7 +178,7 @@ class CueParser
 		{
 			last_char++;
 		}
-		int trackNumber = std::stoi(arg.substr(first_char, last_char - first_char + 1));
+		int const trackNumber = std::stoi(arg.substr(first_char, last_char - first_char + 1));
 
 		if (trackNumber > 1)
 		{
@@ -223,7 +223,7 @@ class CueParser
 	// Parse command while being in a TRACK context
 	bool parseTrack(std::string command, std::string)
 	{
-		UString cmd(command);
+		UString const cmd(command);
 		// TODO: check for possible commands, put parser into an "error" state if command is not
 		// valid
 		if (to_upper(cmd) != "INDEX")
@@ -237,7 +237,7 @@ class CueParser
 
 	bool parse(UString cueFilename)
 	{
-		fs::path cueFilePath(cueFilename.c_str());
+		fs::path const cueFilePath(cueFilename.c_str());
 
 		std::ifstream cueFile(cueFilename, std::ios::in);
 		if (!cueFile)
@@ -265,13 +265,13 @@ class CueParser
 			{
 				continue;
 			}
-			std::string command(cueLine, lead_whitespace, first_whitespace - lead_whitespace);
+			std::string const command(cueLine, lead_whitespace, first_whitespace - lead_whitespace);
 			auto last_whitespace = first_whitespace;
 			while ((last_whitespace < cueLine.size()) && isspace(cueLine[last_whitespace]))
 			{
 				last_whitespace++;
 			}
-			std::string arg(cueLine, last_whitespace);
+			std::string const arg(cueLine, last_whitespace);
 			switch (parserState)
 			{
 				case PARSER_START:
@@ -386,13 +386,13 @@ struct DecDatetime
 	{
 		// The following is clearly an example of now NOT to do time stuff
 		// The spec states that all fields are ASCII... we're gonna abuse that
-		int year_int =
+		int const year_int =
 		    (year[0] - '0') * 1000 + (year[1] - '0') * 100 + (year[2] - '0') * 10 + (year[3] - '0');
-		int month_int = (month[0] - '0') * 10 + (month[1] - '0');
-		int day_int = (day[0] - '0') * 10 + (day[1] - '0');
-		int hour_int = (hour[0] - '0') * 10 + (hour[1] - '0');
-		int minute_int = (minute[0] - '0') * 10 + (minute[1] - '0');
-		int second_int = (second[0] - '0') * 10 + (second[1] - '0');
+		int const month_int = (month[0] - '0') * 10 + (month[1] - '0');
+		int const day_int = (day[0] - '0') * 10 + (day[1] - '0');
+		int const hour_int = (hour[0] - '0') * 10 + (hour[1] - '0');
+		int const minute_int = (minute[0] - '0') * 10 + (minute[1] - '0');
+		int const second_int = (second[0] - '0') * 10 + (second[1] - '0');
 		// int hndsec_int = (hndSecond[0] - '0') * 10 +
 		//                 (hndSecond[1] - '0');
 		// The resulting number is very obviously erroneous, because I don't
@@ -406,7 +406,7 @@ struct DecDatetime
 		time_struct.tm_year = year_int - 1900;
 		time_struct.tm_isdst = 0;
 
-		PHYSFS_sint64 unixSeconds = mktime(&time_struct);
+		PHYSFS_sint64 const unixSeconds = mktime(&time_struct);
 		return unixSeconds;
 	}
 };
@@ -421,7 +421,7 @@ struct DirDatetime
 	uint8_t minute;
 	uint8_t second;
 	uint8_t gmtOffset;
-	PHYSFS_sint64 toUnixTime()
+	PHYSFS_sint64 toUnixTime() const
 	{
 		tm time_struct;
 		time_struct.tm_sec = second;
@@ -432,7 +432,7 @@ struct DirDatetime
 		time_struct.tm_year = year;
 		time_struct.tm_isdst = 0;
 
-		PHYSFS_sint64 unixSeconds = mktime(&time_struct);
+		PHYSFS_sint64 const unixSeconds = mktime(&time_struct);
 
 		return unixSeconds;
 	}
@@ -588,7 +588,7 @@ class CueIO
             return fileStream.tellg() - start;
         }
 #endif
-		int64_t remainLength = length - (lbaCurrent - lbaStart) * blockSize() - posInLba;
+		int64_t const remainLength = length - (lbaCurrent - lbaStart) * blockSize() - posInLba;
 		if (remainLength < 0)
 		{
 			LogError("Trying to read past end of stream!");
@@ -605,7 +605,7 @@ class CueIO
 		int64_t totalRead = 0;
 		do
 		{
-			int64_t readSize = std::min(len - totalRead, int64_t(blockSize() - posInLba));
+			int64_t const readSize = std::min(len - totalRead, int64_t(blockSize() - posInLba));
 			fileStream.read(bufWrite + totalRead, readSize);
 			totalRead += fileStream.gcount();
 			if (fileStream.gcount() != readSize)
@@ -633,12 +633,12 @@ class CueIO
 			return 0;
 		}
 		// FIXME: This assumes the offset is more or less *sane*
-		uint32_t blockOffset = offset / blockSize();
-		uint32_t posInBlock = offset % blockSize();
+		uint32_t const blockOffset = offset / blockSize();
+		uint32_t const posInBlock = offset % blockSize();
 
 		lbaCurrent = lbaStart + blockOffset;
 		posInLba = posInBlock;
-		uint64_t binOffset = lbaToByteOffset(lbaCurrent) + posInLba;
+		uint64_t const binOffset = lbaToByteOffset(lbaCurrent) + posInLba;
 		fileStream.seekg(binOffset, std::ios::beg);
 		return fileStream.good();
 	}
@@ -863,8 +863,8 @@ class CueArchiver
 		std::memcpy(&lm_location, dirRecord.extentLoc, sizeof(Int32LsbMsb));
 		std::memcpy(&lm_length, dirRecord.extentLength, sizeof(Int32LsbMsb));
 		std::memcpy(&d_datetime, &dirRecord.recTime, sizeof(DirDatetime));
-		uint32_t location = lm_location.val;
-		int32_t length = lm_length.val;
+		uint32_t const location = lm_location.val;
+		int32_t const length = lm_length.val;
 		int32_t readpos = 0;
 		char *semicolonPos = std::strrchr((char *)dirRecord.fileName, ';');
 		if (semicolonPos)
@@ -940,7 +940,7 @@ class CueArchiver
 
 			// Now decode what we've read
 			FSEntry childEntry;
-			int64_t pos = cio->tell();
+			int64_t const pos = cio->tell();
 			readDir(childDirRecord, childEntry);
 			// Reset reading position
 			cio->seek(pos);
@@ -956,10 +956,10 @@ class CueArchiver
 	    : imageFile(fileName), fileType(ftype), trackMode(tmode)
 	{
 		// "Hey, a .cue-.bin file pair should be really easy to read!" - sfalexrog, 15.04.2016
-		fs::path filePath(fileName.c_str());
+		fs::path const filePath(fileName.c_str());
 		// FIXME: This fsize is completely and utterly wrong - unless you're reading an actual iso
 		// (mode1_2048)
-		uint64_t fsize = fs::file_size(filePath);
+		uint64_t const fsize = fs::file_size(filePath);
 		LogInfo("Opening file %s of size %" PRIu64, fileName, fsize);
 		cio = new CueIO(fileName, 0, fsize, ftype, tmode);
 		if (!cio->fileStream)
@@ -989,7 +989,7 @@ class CueArchiver
 	const FSEntry *getFsEntry(const char *name) const
 	{
 		const FSEntry *current = &root;
-		UString dname = name;
+		UString const dname = name;
 		if (dname.length() > 0)
 		{
 			auto pathParts = split(dname, "/");
@@ -1104,7 +1104,7 @@ class CueArchiver
 		// We know it's a valid CUE file, so claim it
 		*claimed = 1;
 
-		fs::path cueFilePath(filename);
+		fs::path const cueFilePath(filename);
 
 		fs::path dataFilePath(cueFilePath.parent_path()); // parser.getDataFileName());
 		dataFilePath /= parser.getDataFileName().c_str();

@@ -69,7 +69,7 @@ void EquipmentPaperDoll::update()
 			this->slotHighlightCounter -= 2.0f * M_PI;
 		}
 		// Scale the sin curve from (-1, 1) to (0, 1)
-		float glowFactor = (sin(this->slotHighlightCounter) + 1.0f) / 2.0f;
+		float const glowFactor = (sin(this->slotHighlightCounter) + 1.0f) / 2.0f;
 
 		this->highlightColour.r =
 		    mix(slotHighlightColours[0].r, slotHighlightColours[1].r, glowFactor);
@@ -111,10 +111,10 @@ void EquipmentPaperDoll::onRender()
 	{
 		for (auto &slot : slotList)
 		{
-			Vec2<int> p00 = (slot.bounds.p0 * slotSizePixels);
-			Vec2<int> p11 = (slot.bounds.p1 * slotSizePixels);
-			Vec2<int> p01 = {p00.x, p11.y};
-			Vec2<int> p10 = {p11.x, p00.y};
+			Vec2<int> const p00 = (slot.bounds.p0 * slotSizePixels);
+			Vec2<int> const p11 = (slot.bounds.p1 * slotSizePixels);
+			Vec2<int> const p01 = {p00.x, p11.y};
+			Vec2<int> const p10 = {p11.x, p00.y};
 
 			if (this->slotHighlightTypes.find(slot.type) != this->slotHighlightTypes.end())
 			{
@@ -158,8 +158,8 @@ void EquipmentPaperDoll::onRender()
 
 		pos *= slotSizePixels;
 
-		int diffX = slotBounds.getWidth() - equipmentSize.x;
-		int diffY = slotBounds.getHeight() - equipmentSize.y;
+		int const diffX = slotBounds.getWidth() - equipmentSize.x;
+		int const diffY = slotBounds.getHeight() - equipmentSize.y;
 
 		sp<Image> image;
 

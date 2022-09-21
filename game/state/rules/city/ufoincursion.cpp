@@ -18,12 +18,12 @@ sp<UFOIncursion> StateObject<UFOIncursion>::get(const GameState &state, const US
 
 template <> const UString &StateObject<UFOIncursion>::getPrefix()
 {
-	static UString prefix = "UFO_INCURSION_";
+	static UString const prefix = "UFO_INCURSION_";
 	return prefix;
 }
 template <> const UString &StateObject<UFOIncursion>::getTypeName()
 {
-	static UString name = "UFOIncursion";
+	static UString const name = "UFOIncursion";
 	return name;
 }
 }; // namespace OpenApoc

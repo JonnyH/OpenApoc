@@ -33,12 +33,12 @@ template <> sp<Base> StateObject<Base>::get(const GameState &state, const UStrin
 
 template <> const UString &StateObject<Base>::getPrefix()
 {
-	static UString prefix = "BASE_";
+	static UString const prefix = "BASE_";
 	return prefix;
 }
 template <> const UString &StateObject<Base>::getTypeName()
 {
-	static UString name = "Base";
+	static UString const name = "Base";
 	return name;
 }
 template <> const UString &StateObject<Base>::getId(const GameState &state, const sp<Base> ptr)
@@ -66,7 +66,7 @@ Base::Base(GameState &state, StateRef<Building> building) : building(building)
 			}
 		}
 	}
-	StateRef<FacilityType> type = {&state, FacilityType::getPrefix() + "ACCESS_LIFT"};
+	StateRef<FacilityType> const type = {&state, FacilityType::getPrefix() + "ACCESS_LIFT"};
 	if (canBuildFacility(type, building->base_layout->baseLift, true) != BuildError::NoError)
 	{
 		LogError("Building %s has invalid lift location", building->name);
@@ -166,7 +166,7 @@ static bool randomlyPlaceFacility(GameState &state, Base &base, StateRef<Facilit
 	{
 		for (int x = 0; x < base.SIZE; x++)
 		{
-			Vec2<int> position{x, y};
+			Vec2<int> const position{x, y};
 			if (base.canBuildFacility(facility, position, true) == Base::BuildError::NoError)
 			{
 				possible_positions.push_back(position);
@@ -195,7 +195,7 @@ static bool tryToPlaceInitialFacilities(GameState &state, Base &base)
 {
 	for (auto &facilityTypePair : state.initial_facilities)
 	{
-		StateRef<FacilityType> facilityType{&state, facilityTypePair.first};
+		StateRef<FacilityType> const facilityType{&state, facilityTypePair.first};
 		auto count = facilityTypePair.second;
 		for (unsigned int i = 0; i < count; i++)
 		{
@@ -443,7 +443,7 @@ int Base::getCapacityUsed(GameState &state, FacilityType::Capacity type) const
 			// Show percentage of repair bay used if it can repair in one hour, or 100% if can't
 			if (total > 0)
 			{
-				int max = getCapacityTotal(type);
+				int const max = getCapacityTotal(type);
 				return std::min(total, max);
 			}
 			break;
@@ -572,8 +572,8 @@ int Base::getUsage(GameState &state, sp<Facility> facility, int delta) const
 
 int Base::getUsage(GameState &state, FacilityType::Capacity type, int delta) const
 {
-	int used = getCapacityUsed(state, type) + delta;
-	int total = getCapacityTotal(type);
+	int const used = getCapacityUsed(state, type) + delta;
+	int const total = getCapacityTotal(type);
 	if (total == 0)
 	{
 		return used > 0 ? 999 : 0;

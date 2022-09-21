@@ -30,7 +30,7 @@ template <class T, uint64_t A = 23, uint64_t B = 18, uint64_t C = 5> class Xorsh
 		s[0] = static_cast<result_type>(splitmix64(seed_value));
 		s[1] = static_cast<result_type>(splitmix64(seed_value ^ s[0]));
 	}
-	Xorshift128Plus(uint64_t state[2])
+	Xorshift128Plus(const uint64_t state[2])
 	{
 		s[0] = state[0];
 		s[1] = state[1];
@@ -41,7 +41,7 @@ template <class T, uint64_t A = 23, uint64_t B = 18, uint64_t C = 5> class Xorsh
 		out[0] = s[0];
 		out[1] = s[1];
 	}
-	void setState(uint64_t in[])
+	void setState(const uint64_t in[])
 	{
 		s[0] = in[0];
 		s[1] = in[1];
@@ -115,9 +115,9 @@ T probabilityMapRandomizer(Generator &g, const std::map<T, float> &probabilityMa
 	{
 		total += p.second;
 	}
-	std::uniform_real_distribution<float> dist(0, total);
+	std::uniform_real_distribution<float> dist(0, total); //NOLINT (misc-const-correctness)
 
-	float val = dist(g);
+	float const val = dist(g);
 
 	// Due to fp precision there's a small chance the total will be slightly more than the max,
 	// so have a fallback just in case?

@@ -60,7 +60,7 @@ void TextButton::onRender()
 	{
 		cached.reset(new Surface{Vec2<unsigned int>{Size}});
 
-		RendererSurfaceBinding b(*fw().renderer, cached);
+		RendererSurfaceBinding const b(*fw().renderer, cached);
 		fw().renderer->clear();
 
 		switch (RenderStyle)

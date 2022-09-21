@@ -26,10 +26,10 @@ sp<Palette> loadApocPalette(Data &data, const UString fileName)
 		else
 		{
 			/* Scale from 0-63 to 0-255 */
-			uint8_t r = static_cast<uint8_t>(colour[0] << 2 | (colour[0] >> 4 & 0x3));
-			uint8_t g = static_cast<uint8_t>(colour[1] << 2 | (colour[1] >> 4 & 0x3));
-			uint8_t b = static_cast<uint8_t>(colour[2] << 2 | (colour[2] >> 4 & 0x3));
-			uint8_t a = 255;
+			uint8_t const r = static_cast<uint8_t>(colour[0] << 2 | (colour[0] >> 4 & 0x3));
+			uint8_t const g = static_cast<uint8_t>(colour[1] << 2 | (colour[1] >> 4 & 0x3));
+			uint8_t const b = static_cast<uint8_t>(colour[2] << 2 | (colour[2] >> 4 & 0x3));
+			uint8_t const a = 255;
 			c = {r, g, b, a};
 		}
 		p->setColour(i, c);

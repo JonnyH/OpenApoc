@@ -45,20 +45,20 @@ sp<BattleUnitAnimationPack::AnimationEntry> InitialGameStateExtractor::getAnimat
 
 	auto e = mksp<BattleUnitAnimationPack::AnimationEntry>();
 
-	int offset_dir = offset_dir_map.at(direction);
-	int offset_ua = dataAD[index * 8 + offset_dir].offset;
-	int offset_uf = dataUA[offset_ua].offset;
-	int from = left_side ? 0 : split_point;
-	int to = singleFrame ? from + 1 : (left_side ? split_point : dataUA[offset_ua].frame_count);
+	int const offset_dir = offset_dir_map.at(direction);
+	int const offset_ua = dataAD[index * 8 + offset_dir].offset;
+	int const offset_uf = dataUA[offset_ua].offset;
+	int const from = left_side ? 0 : split_point;
+	int const to = singleFrame ? from + 1 : (left_side ? split_point : dataUA[offset_ua].frame_count);
 
 	for (int i = from; i < to; i++)
 	{
-		int k = inverse ? to - i - 1 : i;
+		int const k = inverse ? to - i - 1 : i;
 
-		int x_offset = (to == from + 1) ? (beginOffset.x + targetOffset.x) / 2
+		int const x_offset = (to == from + 1) ? (beginOffset.x + targetOffset.x) / 2
 		                                : beginOffset.x * (to - from - 1 - i) / (to - from - 1) +
 		                                      targetOffset.x * (i - from) / (to - from - 1);
-		int y_offset = (to == from + 1) ? (beginOffset.y + targetOffset.y) / 2
+		int const y_offset = (to == from + 1) ? (beginOffset.y + targetOffset.y) / 2
 		                                : beginOffset.y * (to - from - 1 - i) / (to - from - 1) +
 		                                      targetOffset.y * (i - from) / (to - from - 1);
 
@@ -71,7 +71,7 @@ sp<BattleUnitAnimationPack::AnimationEntry> InitialGameStateExtractor::getAnimat
 		}
 		for (int j = 0; j < 7; j++)
 		{
-			int part_idx = data.draw_order[j];
+			int const part_idx = data.draw_order[j];
 			auto part_type = BattleUnitAnimationPack::AnimationEntry::Frame::UnitImagePart::Shadow;
 			switch (part_idx)
 			{
@@ -145,14 +145,14 @@ InitialGameStateExtractor::makeUpAnimationEntry(int from, int count, int fromS, 
                                                 int units_per_100_frames) const
 {
 	auto e = mksp<BattleUnitAnimationPack::AnimationEntry>();
-	bool shadow = countS > 0;
+	bool const shadow = countS > 0;
 
 	for (int i = 0; i < count; i++)
 	{
 		e->frames.push_back(BattleUnitAnimationPack::AnimationEntry::Frame());
 		for (int j = (shadow ? 0 : 1); j <= partCount; j++)
 		{
-			int part_idx = j;
+			int const part_idx = j;
 			int frame = from + i;
 			auto part_type = BattleUnitAnimationPack::AnimationEntry::Frame::UnitImagePart::Shadow;
 			switch (part_idx)
@@ -196,7 +196,7 @@ InitialGameStateExtractor::extractAnimationPack(GameState &state, const UString 
                                                 const UString &name) const
 {
 	std::ignore = state;
-	UString dirName = "xcom3/tacdata/";
+	UString const dirName = "xcom3/tacdata/";
 
 	auto p = mksp<BattleUnitAnimationPack>();
 

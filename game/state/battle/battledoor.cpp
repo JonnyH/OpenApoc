@@ -27,12 +27,12 @@ template <> sp<BattleDoor> StateObject<BattleDoor>::get(const GameState &state, 
 
 template <> const UString &StateObject<BattleDoor>::getPrefix()
 {
-	static UString prefix = "BATTLEDOOR_";
+	static UString const prefix = "BATTLEDOOR_";
 	return prefix;
 }
 template <> const UString &StateObject<BattleDoor>::getTypeName()
 {
-	static UString name = "BattleDoor";
+	static UString const name = "BattleDoor";
 	return name;
 }
 template <>
@@ -120,8 +120,8 @@ void BattleDoor::update(GameState &state, unsigned int ticks)
 		{
 			continue;
 		}
-		int xDiff = right ? 0 : 1;
-		int yDiff = right ? 1 : 0;
+		int const xDiff = right ? 0 : 1;
+		int const yDiff = right ? 1 : 0;
 		auto tile = i->tileObject->getOwningTile();
 		if (tile->doorOpeningUnitPresent ||
 		    (tile->position.x - xDiff > 0 && tile->position.y - yDiff > 0 &&
@@ -165,7 +165,7 @@ void BattleDoor::update(GameState &state, unsigned int ticks)
 	}
 }
 
-int BattleDoor::getAnimationFrame()
+int BattleDoor::getAnimationFrame() const
 {
 	if (animationTicksRemaining == 0)
 		return -1;
@@ -177,5 +177,5 @@ int BattleDoor::getAnimationFrame()
 		       (animationTicksRemaining + TICKS_PER_FRAME_MAP_PART - 1) / TICKS_PER_FRAME_MAP_PART;
 }
 
-void BattleDoor::playDoorSound() { fw().soundBackend->playSample(doorSound, position); }
+void BattleDoor::playDoorSound() const { fw().soundBackend->playSample(doorSound, position); }
 } // namespace OpenApoc

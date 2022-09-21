@@ -90,8 +90,8 @@ bool Control::isPointInsideControlBounds(Event *e, sp<Control> c) const
 
 	const Vec2<int> &Size =
 	    (c->SelectionSize.x == 0 || c->SelectionSize.y == 0) ? c->Size : c->SelectionSize;
-	int eventX = e->forms().MouseInfo.X + e->forms().RaisedBy->resolvedLocation.x;
-	int eventY = e->forms().MouseInfo.Y + e->forms().RaisedBy->resolvedLocation.y;
+	int const eventX = e->forms().MouseInfo.X + e->forms().RaisedBy->resolvedLocation.x;
+	int const eventY = e->forms().MouseInfo.Y + e->forms().RaisedBy->resolvedLocation.y;
 
 	return eventX >= c->resolvedLocation.x && eventX < c->resolvedLocation.x + Size.x &&
 	       eventY >= c->resolvedLocation.y && eventY < c->resolvedLocation.y + Size.y;
@@ -115,7 +115,7 @@ void Control::eventOccured(Event *e)
 	if (e->type() == EVENT_MOUSE_MOVE || e->type() == EVENT_MOUSE_DOWN ||
 	    e->type() == EVENT_MOUSE_UP)
 	{
-		bool newInside = isPointInsideControlBounds(e->mouse().X, e->mouse().Y);
+		bool const newInside = isPointInsideControlBounds(e->mouse().X, e->mouse().Y);
 		// (e->mouse().X >= resolvedLocation.x && e->mouse().X < resolvedLocation.x + Size.x &&
 		// e->mouse().Y >= resolvedLocation.y && e->mouse().Y < resolvedLocation.y + Size.y);
 
@@ -175,7 +175,7 @@ void Control::eventOccured(Event *e)
 		// This right now is a carbon copy of mouse event-handling. Maybe we should do something
 		// else?
 		// FIXME: Use something other than mouseInside? fingerInside maybe?
-		bool newInside = isPointInsideControlBounds(e->mouse().X, e->mouse().Y);
+		bool const newInside = isPointInsideControlBounds(e->mouse().X, e->mouse().Y);
 		// (e->finger().X >= resolvedLocation.x && e->finger().X < resolvedLocation.x + Size.x &&
 		//  e->finger().Y >= resolvedLocation.y && e->finger().Y < resolvedLocation.y + Size.y);
 
@@ -303,7 +303,7 @@ void Control::eventOccured(Event *e)
 		{
 			if (e->forms().RaisedBy == shared_from_this())
 			{
-				Vec2<int> pos = {e->forms().MouseInfo.X, e->forms().MouseInfo.Y};
+				Vec2<int> const pos = {e->forms().MouseInfo.X, e->forms().MouseInfo.Y};
 				e->Handled = true;
 
 				const auto lines = split(ToolTipText, "\n");
@@ -322,11 +322,11 @@ void Control::eventOccured(Event *e)
 					totalBorder += b.first;
 
 				const auto totalTextHeight = ToolTipFont->getFontHeight() * textImages.size();
-				sp<Surface> surface =
+				sp<Surface> const surface =
 				    mksp<Surface>(Vec2<unsigned int>{maxTextWidth, totalTextHeight} +
 				                  Vec2<unsigned int>{totalBorder * 2, totalBorder * 2});
 
-				RendererSurfaceBinding b(*fw().renderer, surface);
+				RendererSurfaceBinding const b(*fw().renderer, surface);
 
 				fw().renderer->drawFilledRect({0, 0}, surface->size, ToolTipBackground);
 				int i = 0;
@@ -381,7 +381,7 @@ void Control::render()
 			fw().renderer->setPalette(this->palette);
 		}
 
-		RendererSurfaceBinding b(*fw().renderer, controlArea);
+		RendererSurfaceBinding const b(*fw().renderer, controlArea);
 		onRender();
 		postRender();
 		if (this->palette)
@@ -459,7 +459,7 @@ void Control::configureFromXml(pugi::xml_node *node)
 void Control::configureChildrenFromXml(pugi::xml_node *parent)
 {
 	UString nodename;
-	UString attribvalue;
+	UString const attribvalue;
 	for (auto node = parent->first_child(); node; node = node.next_sibling())
 	{
 		nodename = node.name();
@@ -473,7 +473,7 @@ void Control::configureChildrenFromXml(pugi::xml_node *parent)
 		else if (nodename == "label")
 		{
 			sp<ScrollBar> sb = nullptr;
-			UString scrollBarID = node.attribute("scrollbarid").as_string();
+			UString const scrollBarID = node.attribute("scrollbarid").as_string();
 
 			if (!scrollBarID.empty())
 			{
@@ -497,12 +497,12 @@ void Control::configureChildrenFromXml(pugi::xml_node *parent)
 		{
 			auto gb = this->createChild<GraphicButton>();
 			gb->configureFromXml(&node);
-			UString scrollPrev = node.attribute("scrollprev").as_string();
+			UString const scrollPrev = node.attribute("scrollprev").as_string();
 			if (!scrollPrev.empty())
 			{
 				gb->ScrollBarPrev = this->findControlTyped<ScrollBar>(scrollPrev);
 			}
-			UString scrollNext = node.attribute("scrollnext").as_string();
+			UString const scrollNext = node.attribute("scrollnext").as_string();
 			if (!scrollNext.empty())
 			{
 				gb->ScrollBarNext = this->findControlTyped<ScrollBar>(scrollNext);
@@ -521,7 +521,7 @@ void Control::configureChildrenFromXml(pugi::xml_node *parent)
 		else if (nodename == "radiobutton")
 		{
 			sp<RadioButtonGroup> group = nullptr;
-			UString groupID = node.attribute("groupid").as_string();
+			UString const groupID = node.attribute("groupid").as_string();
 			if (!groupID.empty())
 			{
 				if (radiogroups.find(groupID) == radiogroups.end())
@@ -549,7 +549,7 @@ void Control::configureChildrenFromXml(pugi::xml_node *parent)
 		else if (nodename == "listbox")
 		{
 			sp<ScrollBar> sb = nullptr;
-			UString scrollBarID = node.attribute("scrollbarid").as_string();
+			UString const scrollBarID = node.attribute("scrollbarid").as_string();
 
 			if (!scrollBarID.empty())
 			{
@@ -561,7 +561,7 @@ void Control::configureChildrenFromXml(pugi::xml_node *parent)
 		else if (nodename == "multilistbox")
 		{
 			sp<ScrollBar> sb = nullptr;
-			UString scrollBarID = node.attribute("scrollbarid").as_string();
+			UString const scrollBarID = node.attribute("scrollbarid").as_string();
 
 			if (!scrollBarID.empty())
 			{
@@ -617,7 +617,7 @@ void Control::configureSelfFromXml(pugi::xml_node *node)
 	auto parentControl = this->getParent();
 	for (auto child = node->first_child(); child; child = child.next_sibling())
 	{
-		UString childName = child.name();
+		UString const childName = child.name();
 
 		if (childName == "palette")
 		{
@@ -632,15 +632,15 @@ void Control::configureSelfFromXml(pugi::xml_node *node)
 
 		else if (childName == "backcolour")
 		{
-			uint8_t r = child.attribute("r").as_uint();
-			uint8_t g = child.attribute("g").as_uint();
-			uint8_t b = child.attribute("b").as_uint();
-			uint8_t a = child.attribute("a").as_uint(255);
+			uint8_t const r = child.attribute("r").as_uint();
+			uint8_t const g = child.attribute("g").as_uint();
+			uint8_t const b = child.attribute("b").as_uint();
+			uint8_t const a = child.attribute("a").as_uint(255);
 			this->BackgroundColour = Colour{r, g, b, a};
 		}
 		else if (childName == "position")
 		{
-			UString xAttr = child.attribute("x").as_string();
+			UString const xAttr = child.attribute("x").as_string();
 			if (Strings::isInteger(xAttr))
 			{
 				Location.x = child.attribute("x").as_int();
@@ -649,7 +649,7 @@ void Control::configureSelfFromXml(pugi::xml_node *node)
 			{
 				specialpositionx = xAttr;
 			}
-			UString yAttr = child.attribute("y").as_string();
+			UString const yAttr = child.attribute("y").as_string();
 			if (Strings::isInteger(yAttr))
 			{
 				Location.y = child.attribute("y").as_int();
@@ -664,7 +664,7 @@ void Control::configureSelfFromXml(pugi::xml_node *node)
 			UString specialsizex = "";
 			UString specialsizey = "";
 
-			UString widthAttr = child.attribute("width").as_string();
+			UString const widthAttr = child.attribute("width").as_string();
 			// if size ends with % this means that it is special (percentage) size
 			if (Strings::isInteger(widthAttr) && !ends_with(widthAttr, "%"))
 			{
@@ -674,7 +674,7 @@ void Control::configureSelfFromXml(pugi::xml_node *node)
 			{
 				specialsizex = widthAttr;
 			}
-			UString heightAttr = child.attribute("height").as_string();
+			UString const heightAttr = child.attribute("height").as_string();
 			// if size ends with % this means that it is special (percentage) size
 			if (Strings::isInteger(heightAttr) && !ends_with(heightAttr, "%"))
 			{
@@ -756,10 +756,10 @@ void Control::configureSelfFromXml(pugi::xml_node *node)
 				else
 					ToolTipBackground = Colour::FromHtmlName(backgroundString);
 			}
-			size_t numDefaultBorders = ToolTipBorders.size();
+			size_t const numDefaultBorders = ToolTipBorders.size();
 			for (auto child2 = child.first_child(); child2; child2 = child2.next_sibling())
 			{
-				UString child2Name = child2.name();
+				UString const child2Name = child2.name();
 				if (child2Name == "border")
 				{
 					UString borderColourStr = child2.attribute("colour").as_string();
@@ -930,7 +930,7 @@ void Control::setRelativeWidth(float widthFactor)
 	}
 	else
 	{
-		Vec2<int> parentSize = getParentSize();
+		Vec2<int> const parentSize = getParentSize();
 		Size.x = (int)(parentSize.x * widthFactor);
 	}
 }
@@ -943,7 +943,7 @@ void Control::setRelativeHeight(float heightFactor)
 	}
 	else
 	{
-		Vec2<int> parentSize = getParentSize();
+		Vec2<int> const parentSize = getParentSize();
 		Size.y = (int)(parentSize.y * heightFactor);
 	}
 }

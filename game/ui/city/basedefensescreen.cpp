@@ -21,9 +21,9 @@ std::shared_future<void> loadBattleBase(sp<GameState> state, StateRef<Base> base
 {
 	auto loadTask = fw().threadPoolEnqueue([base, state, attacker]() -> void {
 		std::list<StateRef<Agent>> agents;
-		StateRef<Vehicle> veh = {};
+		StateRef<Vehicle> const veh = {};
 
-		bool hotseat = false;
+		bool const hotseat = false;
 		const std::map<StateRef<AgentType>, int> *aliens = nullptr;
 		const int *guards = nullptr;
 		const int *civilians = nullptr;
@@ -47,8 +47,8 @@ BaseDefenseScreen::~BaseDefenseScreen() = default;
 
 void BaseDefenseScreen::initiateDefenseMission(StateRef<Base> base, StateRef<Organisation> attacker)
 {
-	bool isBuilding = true;
-	bool isRaid = false;
+	bool const isBuilding = true;
+	bool const isRaid = false;
 	fw().stageQueueCommand({StageCmd::Command::REPLACEALL,
 	                        mksp<BattleBriefing>(state, attacker, base->building.id, isBuilding,
 	                                             isRaid, loadBattleBase(state, base, attacker))});

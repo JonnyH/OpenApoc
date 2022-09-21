@@ -48,7 +48,7 @@ static sp<PaletteImage> readPckCompression1(std::istream &input, Vec2<unsigned> 
 
 	while (input && header.pixelSkip != 0xffffffff)
 	{
-		unsigned int col = header.pixelSkip % IMAGE_STRIDE;
+		unsigned int const col = header.pixelSkip % IMAGE_STRIDE;
 
 		if (col != header.column)
 		{
@@ -59,8 +59,8 @@ static sp<PaletteImage> readPckCompression1(std::istream &input, Vec2<unsigned> 
 
 		for (unsigned int i = 0; i < header.pixelCount; i++)
 		{
-			unsigned int x = (i + header.pixelSkip) % IMAGE_STRIDE;
-			unsigned int y = (i + header.pixelSkip) / IMAGE_STRIDE;
+			unsigned int const x = (i + header.pixelSkip) % IMAGE_STRIDE;
+			unsigned int const y = (i + header.pixelSkip) / IMAGE_STRIDE;
 			uint8_t idx = 0;
 			input.read(reinterpret_cast<char *>(&idx), sizeof(idx));
 			if (!input)
@@ -126,7 +126,7 @@ static sp<PaletteImage> readPckCompression3(std::istream &input, Vec2<unsigned> 
 	while (input && header.rowRecords != 0xff && header.unknown != 0xffff && header.row != 0xff)
 	{
 		unsigned col = 0;
-		unsigned row = header.row;
+		unsigned const row = header.row;
 		for (unsigned record = 0; record < header.rowRecords; record++)
 		{
 			struct PckBlkSubHeader subHeader;
@@ -225,7 +225,7 @@ sp<ImageSet> PCKLoader::load(Data &d, UString PckFilename, UString TabFilename)
 
 	LogInfo("Reading \"%s\" with tab multiplier %u", TabFilename, tabMultiplier);
 
-	unsigned int endIdx = (tab.size() / 4);
+	unsigned int const endIdx = (tab.size() / 4);
 
 	imageSet->images.resize(endIdx);
 	imageSet->maxSize = {0, 0};
@@ -308,8 +308,8 @@ static sp<PaletteImage> loadStrategy(IFile &file)
 		{
 			uint8_t idx = 0;
 #define STRIDE 640
-			unsigned int x = offset % STRIDE;
-			unsigned int y = offset / STRIDE;
+			unsigned int const x = offset % STRIDE;
+			unsigned int const y = offset / STRIDE;
 #undef STRIDE
 
 			file.read(reinterpret_cast<char *>(&idx), 1);
@@ -420,7 +420,7 @@ static sp<PaletteImage> loadShadowImage(IFile &file, uint8_t shadedIdx)
 			LogError("Unexpected EOF reading shadow data\n");
 			return nullptr;
 		}
-		uint8_t idx = b;
+		uint8_t const idx = b;
 
 		if (idx == 0)
 			pos += count * 4;
@@ -433,8 +433,8 @@ static sp<PaletteImage> loadShadowImage(IFile &file, uint8_t shadedIdx)
 				for (int i = 0; i < 4; i++)
 				{
 					const int STRIDE = 640;
-					int x = pos % STRIDE;
-					int y = pos / STRIDE;
+					int const x = pos % STRIDE;
+					int const y = pos / STRIDE;
 					if (x < header.width && y < header.height)
 					{
 						if (ditherLut[idx][i])

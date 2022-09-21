@@ -32,8 +32,8 @@ std::shared_future<void> loadBattleBuilding(sp<GameState> state, sp<Building> bu
 {
 	auto loadTask = fw().threadPoolEnqueue(
 	    [hotseat, building, state, raid, playerAgents, playerVehicle]() mutable -> void {
-		    StateRef<Organisation> org = raid ? building->owner : state->getAliens();
-		    StateRef<Building> bld = {state.get(), building};
+		    StateRef<Organisation> const org = raid ? building->owner : state->getAliens();
+		    StateRef<Building> const bld = {state.get(), building};
 
 		    const std::map<StateRef<AgentType>, int> *aliens = nullptr;
 		    const int *guards = nullptr;
@@ -121,7 +121,7 @@ void BuildingScreen::eventOccurred(Event *e)
 				return;
 			}
 
-			std::list<StateRef<Agent>> agents(agentAssignment->getSelectedAgents());
+			std::list<StateRef<Agent>> const agents(agentAssignment->getSelectedAgents());
 			StateRef<Vehicle> vehicle;
 			if (agentAssignment->currentVehicle)
 			{
@@ -195,9 +195,9 @@ void BuildingScreen::eventOccurred(Event *e)
 					}
 					else
 					{
-						bool inBuilding = true;
-						bool raid = false;
-						bool hotseat = false;
+						bool const inBuilding = true;
+						bool const raid = false;
+						bool const hotseat = false;
 						fw().stageQueueCommand(
 						    {StageCmd::Command::REPLACEALL,
 						     mksp<BattleBriefing>(state, building->owner,
@@ -224,9 +224,9 @@ void BuildingScreen::eventOccurred(Event *e)
 					{
 						building->owner->adjustRelationTo(*state, state->getPlayer(), -200.0f);
 					}
-					bool inBuilding = true;
-					bool raid = true;
-					bool hotseat = false;
+					bool const inBuilding = true;
+					bool const raid = true;
+					bool const hotseat = false;
 					fw().stageQueueCommand(
 					    {StageCmd::Command::REPLACEALL,
 					     mksp<BattleBriefing>(

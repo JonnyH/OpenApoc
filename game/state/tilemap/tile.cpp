@@ -73,7 +73,7 @@ Vec3<float> Tile::getRestingPosition(bool large, bool overlay)
 	                   position.z + (overlay ? overlayHeight : height)};
 }
 
-sp<BattleMapPart> Tile::getItemSupportingObject() { return supportProviderForItems; }
+sp<BattleMapPart> Tile::getItemSupportingObject() const { return supportProviderForItems; }
 
 bool Tile::getSolidGround(bool large)
 {
@@ -262,7 +262,7 @@ void Tile::updateBattlescapeUIDrawOrder()
 	bool backFound = false;
 	bool targetFound = false;
 
-	unsigned int object_count = (unsigned)drawnObjects[0].size();
+	unsigned int const object_count = (unsigned)drawnObjects[0].size();
 	unsigned int obj_id;
 	for (obj_id = 0; obj_id < object_count; obj_id++)
 	{
@@ -350,7 +350,7 @@ void Tile::updateBattlescapeParameters()
 	{
 		return;
 	}
-	bool providedGroundUpwards = solidGround && height >= 0.9625f;
+	bool const providedGroundUpwards = solidGround && height >= 0.9625f;
 	height = 0.0f;
 	movementCostIn = -1; // -1 means empty, and will be set to 4 afterwards
 	movementCostOver = 255;

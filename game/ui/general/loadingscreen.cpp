@@ -104,15 +104,15 @@ void LoadingScreen::update()
 
 void LoadingScreen::render()
 {
-	int logow = fw().displayGetWidth() / scaleDivisor;
-	int logoh = fw().displayGetHeight() / scaleDivisor;
-	float logoscw = logow / static_cast<float>(backgroundimage->size.x);
-	float logosch = logoh / static_cast<float>(backgroundimage->size.y);
-	float logosc = std::min(logoscw, logosch);
+	int const logow = fw().displayGetWidth() / scaleDivisor;
+	int const logoh = fw().displayGetHeight() / scaleDivisor;
+	float const logoscw = logow / static_cast<float>(backgroundimage->size.x);
+	float const logosch = logoh / static_cast<float>(backgroundimage->size.y);
+	float const logosc = std::min(logoscw, logosch);
 
-	Vec2<float> logoPosition{fw().displayGetWidth() / 2 - (backgroundimage->size.x * logosc / 2),
+	Vec2<float> const logoPosition{fw().displayGetWidth() / 2 - (backgroundimage->size.x * logosc / 2),
 	                         fw().displayGetHeight() / 2 - (backgroundimage->size.y * logosc / 2)};
-	Vec2<float> logoSize{backgroundimage->size.x * logosc, backgroundimage->size.y * logosc};
+	Vec2<float> const logoSize{backgroundimage->size.x * logosc, backgroundimage->size.y * logosc};
 
 	fw().renderer->drawScaled(backgroundimage, logoPosition, logoSize);
 	if (loadingimage)

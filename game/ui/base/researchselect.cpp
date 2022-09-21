@@ -227,7 +227,7 @@ void ResearchSelect::populateResearchList()
 			continue;
 		}
 		// FIXME: When we get font coloring, set light blue color for topics too large a size
-		bool too_large = (t->required_lab_size == ResearchTopic::LabSize::Large &&
+		bool const too_large = (t->required_lab_size == ResearchTopic::LabSize::Large &&
 		                  this->lab->size == ResearchTopic::LabSize::Small);
 		std::ignore = too_large;
 
@@ -255,7 +255,7 @@ void ResearchSelect::populateResearchList()
 		}
 		else
 		{
-			float projectProgress =
+			float const projectProgress =
 			    clamp((float)t->man_hours_progress / (float)t->man_hours, 0.0f, 1.0f);
 
 			auto progressBg = control->createChild<Graphic>(progressImage);
@@ -266,7 +266,7 @@ void ResearchSelect::populateResearchList()
 			progressBar->Location = {234, 6};
 
 			auto progressImage = mksp<RGBImage>(progressBar->Size);
-			int redWidth = progressBar->Size.x * projectProgress;
+			int const redWidth = progressBar->Size.x * projectProgress;
 			{
 				RGBImageLock l(progressImage);
 				for (int y = 0; y < 2; y++)

@@ -30,12 +30,12 @@ class BattleDoor : public StateObject<BattleDoor>, public std::enable_shared_fro
 	int openTicksRemaining = 0;
 	// Amount of ticks until changing to open/closed state
 	int animationTicksRemaining = 0;
-	int getAnimationFrame();
+	int getAnimationFrame() const;
 	sp<Sample> doorSound;
 
 	void update(GameState &state, unsigned int ticks);
 
-	void playDoorSound();
+	void playDoorSound() const;
 
 	~BattleDoor() override = default;
 

@@ -64,7 +64,7 @@ void BaseSelectScreen::eventOccurred(Event *e)
 	{
 		if (Event::isPressed(e->mouse().Button, Event::MouseButton::Middle))
 		{
-			Vec2<float> screenOffset = {this->getScreenOffset().x, this->getScreenOffset().y};
+			Vec2<float> const screenOffset = {this->getScreenOffset().x, this->getScreenOffset().y};
 			auto clickTile = this->screenToTileCoords(
 			    Vec2<float>{e->mouse().X, e->mouse().Y} - screenOffset, 0.0f);
 			this->setScreenCenterTile(Vec2<float>{clickTile.x, clickTile.y});
@@ -73,7 +73,7 @@ void BaseSelectScreen::eventOccurred(Event *e)
 		{
 			// If a click has not been handled by a form it's in the map. See if we intersect with
 			// anything
-			Vec2<float> screenOffset = {this->getScreenOffset().x, this->getScreenOffset().y};
+			Vec2<float> const screenOffset = {this->getScreenOffset().x, this->getScreenOffset().y};
 			auto clickTop = this->screenToTileCoords(
 			    Vec2<float>{e->mouse().X, e->mouse().Y} - screenOffset, 9.99f);
 			auto clickBottom = this->screenToTileCoords(
@@ -121,9 +121,9 @@ void BaseSelectScreen::render()
 		auto building = b.second;
 		if (building->base_layout && building->owner != state->getPlayer())
 		{
-			Vec3<float> posA = {building->bounds.p0.x, building->bounds.p0.y, 0};
+			Vec3<float> const posA = {building->bounds.p0.x, building->bounds.p0.y, 0};
 			Vec2<float> screenPosA = this->tileToOffsetScreenCoords(posA);
-			Vec3<float> posB = {building->bounds.p1.x, building->bounds.p1.y, 0};
+			Vec3<float> const posB = {building->bounds.p1.x, building->bounds.p1.y, 0};
 			Vec2<float> screenPosB = this->tileToOffsetScreenCoords(posB);
 
 			// Apply offset to borders every half-second

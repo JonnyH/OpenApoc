@@ -32,7 +32,7 @@ template <typename T> class StateObject
 	virtual ~StateObject() = default;
 
 	static sp<T> get(const GameState &state, const UString &id);
-	static const UString &getId(const GameState &state, const sp<T> ptr);
+	static const UString &getId(const GameState &state, sp<T> ptr);
 	static const UString &getPrefix();
 	static const UString &getTypeName();
 	static UString generateObjectID(GameState &state)
@@ -120,7 +120,7 @@ template <typename T> class StateRef
 			resolve();
 		return obj;
 	}
-	operator const sp<T>() const
+	operator sp<T>() const
 	{
 		if (!obj)
 			resolve();

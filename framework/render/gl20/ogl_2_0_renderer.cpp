@@ -33,10 +33,10 @@ class Program
 	GLuint prog;
 	static GLuint createShader(GLenum type, const UString source)
 	{
-		GLuint shader = gl20::CreateShader(type);
+		GLuint const shader = gl20::CreateShader(type);
 		auto sourceString = source;
 		const GLchar *string = sourceString.c_str();
-		GLint stringLength = sourceString.length();
+		GLint const stringLength = sourceString.length();
 		gl20::ShaderSource(shader, 1, &string, &stringLength);
 		gl20::CompileShader(shader);
 		GLint compileStatus;
@@ -47,7 +47,7 @@ class Program
 		GLint logLength;
 		gl20::GetShaderiv(shader, gl20::INFO_LOG_LENGTH, &logLength);
 
-		std::unique_ptr<char[]> log(new char[logLength]);
+		std::unique_ptr<char[]> const log(new char[logLength]);
 		gl20::GetShaderInfoLog(shader, logLength, NULL, log.get());
 
 		LogError("Shader compile error: %s", log.get());
@@ -57,13 +57,13 @@ class Program
 	}
 	Program(const UString vertexSource, const UString fragmentSource) : prog(0)
 	{
-		GLuint vShader = createShader(gl20::VERTEX_SHADER, vertexSource);
+		GLuint const vShader = createShader(gl20::VERTEX_SHADER, vertexSource);
 		if (!vShader)
 		{
 			LogError("Failed to compile vertex shader");
 			return;
 		}
-		GLuint fShader = createShader(gl20::FRAGMENT_SHADER, fragmentSource);
+		GLuint const fShader = createShader(gl20::FRAGMENT_SHADER, fragmentSource);
 		if (!fShader)
 		{
 			LogError("Failed to compile fragment shader");
@@ -88,7 +88,7 @@ class Program
 		GLint logLength;
 		gl20::GetProgramiv(prog, gl20::INFO_LOG_LENGTH, &logLength);
 
-		std::unique_ptr<char[]> log(new char[logLength]);
+		std::unique_ptr<char[]> const log(new char[logLength]);
 		gl20::GetProgramInfoLog(prog, logLength, NULL, log.get());
 
 		LogError("Program link error: %s", log.get());
@@ -371,7 +371,7 @@ class Quad
 		if (rotationAngleRadians != 0.0f)
 		{
 			auto rotMatrix = glm::rotate(rotationAngleRadians, Vec3<float>{0.0f, 0.0f, 1.0f});
-			Vec2<float> size = position.p1 - position.p0;
+			Vec2<float> const size = position.p1 - position.p0;
 			vertices = {{
 			    Vec2<float>{0.0f, 0.0f},
 			    Vec2<float>{size.x, 0.0f},
@@ -381,7 +381,7 @@ class Quad
 			for (auto &p : vertices)
 			{
 				p -= rotationCenter;
-				glm::vec4 transformed = rotMatrix * glm::vec4{p.x, p.y, 0.0f, 1.0f};
+				glm::vec4 const transformed = rotMatrix * glm::vec4{p.x, p.y, 0.0f, 1.0f};
 				p.x = transformed.x;
 				p.y = transformed.y;
 				p += rotationCenter;
@@ -490,7 +490,7 @@ class BindTexture
 	}
 	BindTexture(GLuint id, GLint unit = 0, GLenum bind = gl20::TEXTURE_2D) : bind(bind), unit(unit)
 	{
-		ActiveTexture a(unit);
+		ActiveTexture const a(unit);
 		GLuint prevID;
 		gl20::GetIntegerv(getBindEnum(bind), reinterpret_cast<GLint *>(&prevID));
 		if (prevID == id)
@@ -512,7 +512,7 @@ template <GLenum param> class TexParam
 	TexParam(GLuint id, GLint value, GLenum type = gl20::TEXTURE_2D) : id(id), type(type)
 	{
 		GLint prevValue;
-		BindTexture b(id, 0, type);
+		BindTexture const b(id, 0, type);
 		gl20::GetTexParameteriv(type, param, &prevValue);
 		if (prevValue == value)
 		{
@@ -557,13 +557,13 @@ class FBOData : public RendererImageData
 	sp<Image> readBack() override
 	{
 		auto img = mksp<RGBImage>(size);
-		BindFramebuffer f(this->fbo);
+		BindFramebuffer const f(this->fbo);
 
 		RGBImageLock l(img);
 		// Foiled once again by inverted y! Read in each line bottom->top writing top->bottom in the
 		// image
 		uint8_t *imgPos = reinterpret_cast<uint8_t *>(l.getData());
-		unsigned imgStride = size.x * 4;
+		unsigned const imgStride = size.x * 4;
 		for (int y = 0; y < size.y; y++)
 		{
 			gl20::ReadPixels(0, size.y - 1 - y, size.x, size.y - y, gl20::RGBA, gl20::UNSIGNED_BYTE,
@@ -577,7 +577,7 @@ class FBOData : public RendererImageData
 	FBOData(Vec2<int> size, OGL20Renderer *owner) : size(size.x, size.y), owner(owner)
 	{
 		gl20::GenTextures(1, &this->tex);
-		BindTexture b(this->tex);
+		BindTexture const b(this->tex);
 		gl20::TexImage2D(gl20::TEXTURE_2D, 0, gl20::RGBA8, size.x, size.y, 0, gl20::RGBA,
 		                 gl20::UNSIGNED_BYTE, NULL);
 		gl20::TexParameteri(gl20::TEXTURE_2D, gl20::TEXTURE_MIN_FILTER, gl20::NEAREST);
@@ -586,7 +586,7 @@ class FBOData : public RendererImageData
 		gl20::TexParameteri(gl20::TEXTURE_2D, gl20::TEXTURE_WRAP_T, gl20::CLAMP_TO_EDGE);
 
 		gl20::GenFramebuffersEXT(1, &this->fbo);
-		BindFramebuffer f(this->fbo);
+		BindFramebuffer const f(this->fbo);
 
 		gl20::FramebufferTexture2DEXT(gl20::FRAMEBUFFER_EXT, gl20::COLOR_ATTACHMENT0_EXT,
 		                              gl20::TEXTURE_2D, this->tex, 0);
@@ -608,7 +608,7 @@ class GLRGBImage : public RendererImageData
 	{
 		RGBImageLock l(parent, ImageLockUse::Read);
 		gl20::GenTextures(1, &this->texID);
-		BindTexture b(this->texID);
+		BindTexture const b(this->texID);
 		gl20::TexParameteri(gl20::TEXTURE_2D, gl20::TEXTURE_MIN_FILTER, gl20::NEAREST);
 		gl20::TexParameteri(gl20::TEXTURE_2D, gl20::TEXTURE_MAG_FILTER, gl20::NEAREST);
 		gl20::TexParameteri(gl20::TEXTURE_2D, gl20::TEXTURE_WRAP_S, gl20::CLAMP_TO_EDGE);
@@ -630,7 +630,7 @@ class GLPalette : public RendererImageData
 	    : size(Vec2<float>(parent->colours.size(), 1)), parent(parent), owner(owner)
 	{
 		gl20::GenTextures(1, &this->texID);
-		BindTexture b(this->texID);
+		BindTexture const b(this->texID);
 		gl20::TexParameteri(gl20::TEXTURE_2D, gl20::TEXTURE_MIN_FILTER, gl20::NEAREST);
 		gl20::TexParameteri(gl20::TEXTURE_2D, gl20::TEXTURE_MAG_FILTER, gl20::NEAREST);
 		gl20::TexParameteri(gl20::TEXTURE_2D, gl20::TEXTURE_WRAP_S, gl20::CLAMP_TO_EDGE);
@@ -653,8 +653,8 @@ class GLPaletteImage : public RendererImageData
 	{
 		PaletteImageLock l(parent, ImageLockUse::Read);
 		gl20::GenTextures(1, &this->texID);
-		BindTexture b(this->texID);
-		UnpackAlignment align(1);
+		BindTexture const b(this->texID);
+		UnpackAlignment const align(1);
 		gl20::TexParameteri(gl20::TEXTURE_2D, gl20::TEXTURE_MIN_FILTER, gl20::NEAREST);
 		gl20::TexParameteri(gl20::TEXTURE_2D, gl20::TEXTURE_MAG_FILTER, gl20::NEAREST);
 		gl20::TexParameteri(gl20::TEXTURE_2D, gl20::TEXTURE_WRAP_S, gl20::CLAMP_TO_EDGE);
@@ -751,7 +751,7 @@ class OGL20Renderer : public Renderer
 	                 float angle) override
 	{
 		auto size = image->size;
-		sp<RGBImage> rgbImage = std::dynamic_pointer_cast<RGBImage>(image);
+		sp<RGBImage> const rgbImage = std::dynamic_pointer_cast<RGBImage>(image);
 		if (rgbImage)
 		{
 			GLRGBImage *img = dynamic_cast<GLRGBImage *>(rgbImage->rendererPrivateData.get());
@@ -764,7 +764,7 @@ class OGL20Renderer : public Renderer
 			return;
 		}
 
-		sp<PaletteImage> paletteImage = std::dynamic_pointer_cast<PaletteImage>(image);
+		sp<PaletteImage> const paletteImage = std::dynamic_pointer_cast<PaletteImage>(image);
 		LogError("Unsupported image type");
 	}
 	void drawScaled(sp<Image> image, Vec2<float> position, Vec2<float> size,
@@ -776,7 +776,7 @@ class OGL20Renderer : public Renderer
 	                     Scaler scaler = Scaler::Linear, Colour tint = {255, 255, 255, 255})
 	{
 
-		sp<RGBImage> rgbImage = std::dynamic_pointer_cast<RGBImage>(image);
+		sp<RGBImage> const rgbImage = std::dynamic_pointer_cast<RGBImage>(image);
 		if (rgbImage)
 		{
 			GLRGBImage *img = dynamic_cast<GLRGBImage *>(rgbImage->rendererPrivateData.get());
@@ -789,7 +789,7 @@ class OGL20Renderer : public Renderer
 			return;
 		}
 
-		sp<PaletteImage> paletteImage = std::dynamic_pointer_cast<PaletteImage>(image);
+		sp<PaletteImage> const paletteImage = std::dynamic_pointer_cast<PaletteImage>(image);
 		if (paletteImage)
 		{
 			GLPaletteImage *img =
@@ -809,7 +809,7 @@ class OGL20Renderer : public Renderer
 			return;
 		}
 
-		sp<Surface> surface = std::dynamic_pointer_cast<Surface>(image);
+		sp<Surface> const surface = std::dynamic_pointer_cast<Surface>(image);
 		if (surface)
 		{
 			FBOData *fbo = dynamic_cast<FBOData *>(surface->rendererPrivateData.get());
@@ -831,7 +831,7 @@ class OGL20Renderer : public Renderer
 	void drawFilledRect(Vec2<float> position, Vec2<float> size, Colour c) override
 	{
 		bindProgram(colourProgram);
-		Rect<float> pos(position, position + size);
+		Rect<float> const pos(position, position + size);
 		bool flipY = false;
 		if (currentBoundFBO == 0)
 			flipY = true;
@@ -888,20 +888,20 @@ class OGL20Renderer : public Renderer
 		// thickness, thickness)
 		// Line4 goes from origin D(p0.x, p0.y + thickness) with size (thickness, size.y -
 		// thickness)
-		Vec2<float> p0 = position;
-		Vec2<float> p1 = position + size;
+		Vec2<float> const p0 = position;
+		Vec2<float> const p1 = position + size;
 
-		Vec2<float> A = {p0};
-		Vec2<float> sizeA = {size.x - thickness, thickness};
+		Vec2<float> const A = {p0};
+		Vec2<float> const sizeA = {size.x - thickness, thickness};
 
-		Vec2<float> B = {p1.x - thickness, p0.y};
-		Vec2<float> sizeB = {thickness, size.y - thickness};
+		Vec2<float> const B = {p1.x - thickness, p0.y};
+		Vec2<float> const sizeB = {thickness, size.y - thickness};
 
-		Vec2<float> C = {p0.x + thickness, p1.y - thickness};
-		Vec2<float> sizeC = {size.x - thickness, thickness};
+		Vec2<float> const C = {p0.x + thickness, p1.y - thickness};
+		Vec2<float> const sizeC = {size.x - thickness, thickness};
 
-		Vec2<float> D = {p0.x, p0.y + thickness};
-		Vec2<float> sizeD = {thickness, size.y - thickness};
+		Vec2<float> const D = {p0.x, p0.y + thickness};
+		Vec2<float> const sizeD = {thickness, size.y - thickness};
 
 		this->drawFilledRect(A, sizeA, c);
 		this->drawFilledRect(B, sizeB, c);
@@ -912,7 +912,7 @@ class OGL20Renderer : public Renderer
 	{
 		// Cleanup any outstanding destroyed texture or framebuffer objects
 		{
-			std::lock_guard<std::mutex> lock(this->destroyed_texture_list_mutex);
+			std::lock_guard<std::mutex> const lock(this->destroyed_texture_list_mutex);
 
 			for (auto &id : this->destroyed_texture_list)
 			{
@@ -921,7 +921,7 @@ class OGL20Renderer : public Renderer
 			this->destroyed_texture_list.clear();
 		}
 		{
-			std::lock_guard<std::mutex> lock(this->destroyed_framebuffer_list_mutex);
+			std::lock_guard<std::mutex> const lock(this->destroyed_framebuffer_list_mutex);
 
 			for (auto &id : this->destroyed_framebuffer_list)
 			{
@@ -945,7 +945,7 @@ class OGL20Renderer : public Renderer
 	             Colour tint = {255, 255, 255, 255})
 	{
 		GLenum filter;
-		Rect<float> pos(offset, offset + size);
+		Rect<float> const pos(offset, offset + size);
 		switch (scaler)
 		{
 			case Scaler::Linear:
@@ -964,9 +964,9 @@ class OGL20Renderer : public Renderer
 		if (currentBoundFBO == 0)
 			flipY = true;
 		rgbProgram->setUniforms(this->currentSurface->size, flipY, tint);
-		BindTexture t(img.texID);
-		TexParam<gl20::TEXTURE_MAG_FILTER> mag(img.texID, filter);
-		TexParam<gl20::TEXTURE_MIN_FILTER> min(img.texID, filter);
+		BindTexture const t(img.texID);
+		TexParam<gl20::TEXTURE_MAG_FILTER> const mag(img.texID, filter);
+		TexParam<gl20::TEXTURE_MIN_FILTER> const min(img.texID, filter);
 		Quad q(pos, Rect<float>{{0, 0}, {1, 1}}, rotationCenter, rotationAngleRadians);
 		q.draw(rgbProgram->posLoc, rgbProgram->texcoordLoc);
 	}
@@ -974,14 +974,14 @@ class OGL20Renderer : public Renderer
 	                 Colour tint = {255, 255, 255, 255})
 	{
 		bindProgram(paletteProgram);
-		Rect<float> pos(offset, offset + size);
+		Rect<float> const pos(offset, offset + size);
 		bool flipY = false;
 		if (currentBoundFBO == 0)
 			flipY = true;
 		paletteProgram->setUniforms(this->currentSurface->size, flipY, tint);
-		BindTexture t(img.texID, 0);
+		BindTexture const t(img.texID, 0);
 
-		BindTexture p(
+		BindTexture const p(
 		    static_cast<GLPalette *>(this->currentPalette->rendererPrivateData.get())->texID, 1);
 		Quad q(pos, Rect<float>{{0, 0}, {1, 1}});
 		q.draw(paletteProgram->posLoc, paletteProgram->texcoordLoc);
@@ -991,7 +991,7 @@ class OGL20Renderer : public Renderer
 	                 Colour tint = {255, 255, 255, 255})
 	{
 		GLenum filter;
-		Rect<float> pos(offset, offset + size);
+		Rect<float> const pos(offset, offset + size);
 		switch (scaler)
 		{
 			case Scaler::Linear:
@@ -1010,9 +1010,9 @@ class OGL20Renderer : public Renderer
 		if (currentBoundFBO == 0)
 			flipY = true;
 		rgbProgram->setUniforms(this->currentSurface->size, flipY, tint);
-		BindTexture t(fbo.tex);
-		TexParam<gl20::TEXTURE_MAG_FILTER> mag(fbo.tex, filter);
-		TexParam<gl20::TEXTURE_MIN_FILTER> min(fbo.tex, filter);
+		BindTexture const t(fbo.tex);
+		TexParam<gl20::TEXTURE_MAG_FILTER> const mag(fbo.tex, filter);
+		TexParam<gl20::TEXTURE_MIN_FILTER> const min(fbo.tex, filter);
 		Quad q(pos, Rect<float>{{0, 0}, {1, 1}});
 		q.draw(rgbProgram->posLoc, rgbProgram->texcoordLoc);
 	}
@@ -1038,7 +1038,7 @@ class OGL20Renderer : public Renderer
 		}
 		// Otherwise add it to a list for future destruction
 		{
-			std::lock_guard<std::mutex> lock(this->destroyed_texture_list_mutex);
+			std::lock_guard<std::mutex> const lock(this->destroyed_texture_list_mutex);
 			this->destroyed_texture_list.push_back(id);
 		}
 	}
@@ -1052,7 +1052,7 @@ class OGL20Renderer : public Renderer
 		}
 		// Otherwise add it to a list for future destruction
 		{
-			std::lock_guard<std::mutex> lock(this->destroyed_framebuffer_list_mutex);
+			std::lock_guard<std::mutex> const lock(this->destroyed_framebuffer_list_mutex);
 			this->destroyed_framebuffer_list.push_back(id);
 		}
 	}

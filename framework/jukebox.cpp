@@ -29,7 +29,7 @@ class JukeBoxImpl : public JukeBox
 	{
 		// Use the time to give a little initial randomness to the shuffle rng
 		auto time_now = std::chrono::system_clock::now();
-		uint64_t time_seconds =
+		uint64_t const time_seconds =
 		    std::chrono::duration_cast<std::chrono::seconds>(time_now.time_since_epoch()).count();
 		rng.seed(time_seconds);
 	}
@@ -156,10 +156,10 @@ class JukeBoxImpl : public JukeBox
 
 			for (auto child = node.first_child(); child; child = child.next_sibling())
 			{
-				UString nodename = child.name();
+				UString const nodename = child.name();
 				if (nodename == "playlist_entry")
 				{
-					UString entry = child.text().as_string();
+					UString const entry = child.text().as_string();
 					this->playlists[playlist].push_back(entry);
 				}
 			}

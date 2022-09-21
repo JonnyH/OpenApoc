@@ -107,7 +107,7 @@ void TileView::eventOccurred(Event *e)
 			{
 				deltaPos.x /= isoTileSize.x;
 				deltaPos.y /= isoTileSize.y;
-				Vec3<float> isoDelta(deltaPos.x + deltaPos.y, deltaPos.y - deltaPos.x, 0);
+				Vec3<float> const isoDelta(deltaPos.x + deltaPos.y, deltaPos.y - deltaPos.x, 0);
 				deltaPos = isoDelta;
 			}
 			else
@@ -115,7 +115,7 @@ void TileView::eventOccurred(Event *e)
 				deltaPos.x /= stratTileSize.x;
 				deltaPos.y /= stratTileSize.y;
 			}
-			Vec3<float> newPos = this->centerPos - deltaPos;
+			Vec3<float> const newPos = this->centerPos - deltaPos;
 			this->setScreenCenterTile(newPos);
 		}
 	}
@@ -136,7 +136,7 @@ TileViewMode TileView::getViewMode() const { return this->viewMode; }
 
 Vec2<int> TileView::getScreenOffset() const
 {
-	Vec2<float> screenOffset = this->tileToScreenCoords(this->centerPos);
+	Vec2<float> const screenOffset = this->tileToScreenCoords(this->centerPos);
 
 	return Vec2<int>{dpySize.x / 2 - screenOffset.x, dpySize.y / 2 - screenOffset.y};
 }
@@ -240,7 +240,7 @@ void TileView::renderStrategyOverlay(Renderer &r)
 {
 	if (this->viewMode == TileViewMode::Strategy)
 	{
-		Vec2<float> centerIsoScreenPos = this->tileToScreenCoords(
+		Vec2<float> const centerIsoScreenPos = this->tileToScreenCoords(
 		    Vec3<float>{this->centerPos.x, this->centerPos.y, 0}, TileViewMode::Isometric);
 
 		/* Draw the rectangle of where the isometric view would be */
@@ -260,19 +260,19 @@ void TileView::renderStrategyOverlay(Renderer &r)
 		bottomRightIsoScreenPos.x += dpySize.x / 2;
 		bottomRightIsoScreenPos.y += dpySize.y / 2;
 
-		Vec3<float> topLeftIsoTilePos =
+		Vec3<float> const topLeftIsoTilePos =
 		    this->screenToTileCoords(topLeftIsoScreenPos, 0.0f, TileViewMode::Isometric);
-		Vec3<float> topRightIsoTilePos =
+		Vec3<float> const topRightIsoTilePos =
 		    this->screenToTileCoords(topRightIsoScreenPos, 0.0f, TileViewMode::Isometric);
-		Vec3<float> bottomLeftIsoTilePos =
+		Vec3<float> const bottomLeftIsoTilePos =
 		    this->screenToTileCoords(bottomLeftIsoScreenPos, 0.0f, TileViewMode::Isometric);
-		Vec3<float> bottomRightIsoTilePos =
+		Vec3<float> const bottomRightIsoTilePos =
 		    this->screenToTileCoords(bottomRightIsoScreenPos, 0.0f, TileViewMode::Isometric);
 
-		Vec2<float> topLeftRectPos = this->tileToOffsetScreenCoords(topLeftIsoTilePos);
-		Vec2<float> topRightRectPos = this->tileToOffsetScreenCoords(topRightIsoTilePos);
-		Vec2<float> bottomLeftRectPos = this->tileToOffsetScreenCoords(bottomLeftIsoTilePos);
-		Vec2<float> bottomRightRectPos = this->tileToOffsetScreenCoords(bottomRightIsoTilePos);
+		Vec2<float> const topLeftRectPos = this->tileToOffsetScreenCoords(topLeftIsoTilePos);
+		Vec2<float> const topRightRectPos = this->tileToOffsetScreenCoords(topRightIsoTilePos);
+		Vec2<float> const bottomLeftRectPos = this->tileToOffsetScreenCoords(bottomLeftIsoTilePos);
+		Vec2<float> const bottomRightRectPos = this->tileToOffsetScreenCoords(bottomRightIsoTilePos);
 
 		r.drawLine(topLeftRectPos, topRightRectPos, this->strategyViewBoxColour,
 		           this->strategyViewBoxThickness);

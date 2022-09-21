@@ -45,10 +45,10 @@ class BattleMapSector : public StateObject<BattleMapSector>
 		bool spawn_large_units = false;
 		bool spawn_walking_units = false;
 
-		bool contains(Vec3<int> tile);
-		bool contains(Vec3<float> position);
+		bool contains(Vec3<int> tile) const;
+		bool contains(Vec3<float> position) const;
 
-		sp<LineOfSightBlock> clone(Vec3<int> shift);
+		sp<LineOfSightBlock> clone(Vec3<int> shift) const;
 	};
 
 	Vec3<int> size = {0, 0, 0};
@@ -81,6 +81,6 @@ class BattleMapSectorTiles
 	bool loadSector(GameState &state, const UString &path);
 
 	// high level api for saving map sectors
-	bool saveSector(const UString &path, bool pack = true, bool pretty = false);
+	bool saveSector(const UString &path, bool pack = true, bool pretty = false) const;
 };
 } // namespace OpenApoc

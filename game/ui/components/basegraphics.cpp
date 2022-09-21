@@ -35,24 +35,24 @@ int BaseGraphics::getCorridorSprite(const Base &base, Vec2<int> pos)
 	{
 		return 0;
 	}
-	bool north = pos.y > 0 && base.corridors[pos.x][pos.y - 1];
-	bool south = pos.y < Base::SIZE - 1 && base.corridors[pos.x][pos.y + 1];
-	bool west = pos.x > 0 && base.corridors[pos.x - 1][pos.y];
-	bool east = pos.x < Base::SIZE - 1 && base.corridors[pos.x + 1][pos.y];
+	bool const north = pos.y > 0 && base.corridors[pos.x][pos.y - 1];
+	bool const south = pos.y < Base::SIZE - 1 && base.corridors[pos.x][pos.y + 1];
+	bool const west = pos.x > 0 && base.corridors[pos.x - 1][pos.y];
+	bool const east = pos.x < Base::SIZE - 1 && base.corridors[pos.x + 1][pos.y];
 	return TILE_CORRIDORS.at({north, south, west, east});
 }
 
 void BaseGraphics::renderBase(Vec2<int> renderPos, const Base &base)
 {
 	// Draw grid
-	sp<Image> grid = fw().data->loadImage(
+	sp<Image> const grid = fw().data->loadImage(
 	    "PCK:xcom3/ufodata/base.pck:xcom3/ufodata/base.tab:0:xcom3/ufodata/base.pcx");
 	Vec2<int> i;
 	for (i.x = 0; i.x < Base::SIZE; i.x++)
 	{
 		for (i.y = 0; i.y < Base::SIZE; i.y++)
 		{
-			Vec2<int> pos = renderPos + i * TILE_SIZE;
+			Vec2<int> const pos = renderPos + i * TILE_SIZE;
 			fw().renderer->draw(grid, pos);
 		}
 	}
@@ -62,10 +62,10 @@ void BaseGraphics::renderBase(Vec2<int> renderPos, const Base &base)
 	{
 		for (i.y = 0; i.y < Base::SIZE; i.y++)
 		{
-			int sprite = getCorridorSprite(base, i);
+			int const sprite = getCorridorSprite(base, i);
 			if (sprite != 0)
 			{
-				Vec2<int> pos = renderPos + i * TILE_SIZE;
+				Vec2<int> const pos = renderPos + i * TILE_SIZE;
 				auto image = format(
 				    "PCK:xcom3/ufodata/base.pck:xcom3/ufodata/base.tab:%d:xcom3/ufodata/base.pcx",
 				    sprite);
@@ -75,15 +75,15 @@ void BaseGraphics::renderBase(Vec2<int> renderPos, const Base &base)
 	}
 
 	// Draw facilities
-	sp<Image> circleS = fw().data->loadImage(
+	sp<Image> const circleS = fw().data->loadImage(
 	    "PCK:xcom3/ufodata/base.pck:xcom3/ufodata/base.tab:25:xcom3/ufodata/base.pcx");
-	sp<Image> circleL = fw().data->loadImage(
+	sp<Image> const circleL = fw().data->loadImage(
 	    "PCK:xcom3/ufodata/base.pck:xcom3/ufodata/base.tab:26:xcom3/ufodata/base.pcx");
 	auto font = ui().getFont("smalfont");
 	for (auto &facility : base.facilities)
 	{
-		sp<Image> sprite = facility->type->sprite;
-		Vec2<int> pos = renderPos + facility->pos * TILE_SIZE;
+		sp<Image> const sprite = facility->type->sprite;
+		Vec2<int> const pos = renderPos + facility->pos * TILE_SIZE;
 		if (facility->buildTime == 0)
 		{
 			fw().renderer->draw(sprite, pos);
@@ -112,27 +112,27 @@ void BaseGraphics::renderBase(Vec2<int> renderPos, const Base &base)
 	}
 
 	// Draw doors
-	sp<Image> doorLeft = fw().data->loadImage(
+	sp<Image> const doorLeft = fw().data->loadImage(
 	    "PCK:xcom3/ufodata/base.pck:xcom3/ufodata/base.tab:2:xcom3/ufodata/base.pcx");
-	sp<Image> doorBottom = fw().data->loadImage(
+	sp<Image> const doorBottom = fw().data->loadImage(
 	    "PCK:xcom3/ufodata/base.pck:xcom3/ufodata/base.tab:3:xcom3/ufodata/base.pcx");
 	for (auto &facility : base.facilities)
 	{
 		for (int y = 0; y < facility->type->size; y++)
 		{
-			Vec2<int> tile = facility->pos + Vec2<int>{-1, y};
+			Vec2<int> const tile = facility->pos + Vec2<int>{-1, y};
 			if (getCorridorSprite(base, tile) != 0)
 			{
-				Vec2<int> pos = renderPos + tile * TILE_SIZE;
+				Vec2<int> const pos = renderPos + tile * TILE_SIZE;
 				fw().renderer->draw(doorLeft, pos + Vec2<int>{TILE_SIZE / 2, 0});
 			}
 		}
 		for (int x = 0; x < facility->type->size; x++)
 		{
-			Vec2<int> tile = facility->pos + Vec2<int>{x, facility->type->size};
+			Vec2<int> const tile = facility->pos + Vec2<int>{x, facility->type->size};
 			if (getCorridorSprite(base, tile) != 0)
 			{
-				Vec2<int> pos = renderPos + tile * TILE_SIZE;
+				Vec2<int> const pos = renderPos + tile * TILE_SIZE;
 				fw().renderer->draw(doorBottom, pos - Vec2<int>{0, TILE_SIZE / 2});
 			}
 		}
@@ -155,7 +155,7 @@ sp<RGBImage> BaseGraphics::drawMiniBase(const Base &base, FacilityHighlight high
 			{
 				sprite -= 3;
 			}
-			Vec2<int> pos = i * MINI_SIZE;
+			Vec2<int> const pos = i * MINI_SIZE;
 			auto image =
 			    format("RAW:xcom3/ufodata/minibase.dat:4:4:%d:xcom3/ufodata/base.pcx", sprite);
 			RGBImage::blit(std::dynamic_pointer_cast<RGBImage>(fw().data->loadImage(image)),
@@ -164,11 +164,11 @@ sp<RGBImage> BaseGraphics::drawMiniBase(const Base &base, FacilityHighlight high
 	}
 
 	// Draw facilities
-	sp<Image> spriteNormal =
+	sp<Image> const spriteNormal =
 	    fw().data->loadImage("RAW:xcom3/ufodata/minibase.dat:4:4:16:xcom3/ufodata/base.pcx");
-	sp<Image> spriteHighlighted =
+	sp<Image> const spriteHighlighted =
 	    fw().data->loadImage("RAW:xcom3/ufodata/minibase.dat:4:4:17:xcom3/ufodata/base.pcx");
-	sp<Image> spriteSelected =
+	sp<Image> const spriteSelected =
 	    fw().data->loadImage("RAW:xcom3/ufodata/minibase.dat:4:4:18:xcom3/ufodata/base.pcx");
 	for (const auto &facility : base.facilities)
 	{
@@ -210,7 +210,7 @@ sp<RGBImage> BaseGraphics::drawMiniBase(const Base &base, FacilityHighlight high
 		{
 			for (i.y = 0; i.y < facility->type->size; i.y++)
 			{
-				Vec2<int> pos = (facility->pos + i) * MINI_SIZE;
+				Vec2<int> const pos = (facility->pos + i) * MINI_SIZE;
 				RGBImage::blit(std::dynamic_pointer_cast<RGBImage>(sprite), minibase, {0, 0}, pos);
 			}
 		}
@@ -227,7 +227,7 @@ sp<RGBImage> BaseGraphics::drawMinimap(sp<GameState> state, const Building &sele
 	RGBImageLock l(minimap);
 
 	// Offset for 'endless grass' outside of city borders
-	static Vec2<int> offset(20, 20);
+	static Vec2<int> const offset(20, 20);
 
 	// Draw the city tiles
 	std::map<Vec2<int>, int> minimap_z;
@@ -239,7 +239,7 @@ sp<RGBImage> BaseGraphics::drawMinimap(sp<GameState> state, const Building &sele
 		    pos.y > city->size.y - offset.y)
 			continue;
 
-		Vec2<int> pos2d = {pos.x - offset.x, pos.y - offset.y};
+		Vec2<int> const pos2d = {pos.x - offset.x, pos.y - offset.y};
 		auto it = minimap_z.find(pos2d);
 		if (it == minimap_z.end() || it->second < pos.z)
 		{

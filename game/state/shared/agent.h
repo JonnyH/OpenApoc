@@ -172,7 +172,7 @@ class Agent : public StateObject<Agent>,
 	void updateSpeed();
 	// Called when current stats were changed and modified stats need to catch up
 	void updateModifiedStats();
-	bool canRun() { return modified_stats.canRun(); }
+	bool canRun() const { return modified_stats.canRun(); }
 
 	void updateIsBrainsucker();
 	bool isBrainsucker = false;

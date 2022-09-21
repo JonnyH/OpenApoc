@@ -63,7 +63,7 @@ int main(int argc, char **argv)
 	auto pack = packOutput.get();
 	auto pretty = prettyOutput.get();
 
-	OpenApoc::Framework fw("OpenApoc", false);
+	OpenApoc::Framework const fw("OpenApoc", false);
 
 	auto state = OpenApoc::mksp<OpenApoc::GameState>();
 	if (!state->loadGame(input1))

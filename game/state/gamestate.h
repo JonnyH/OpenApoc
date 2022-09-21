@@ -171,14 +171,10 @@ class GameState : public std::enable_shared_from_this<GameState>
 
 	UString getPlayerBalance() const;
 	StateRef<Organisation> getOrganisation(const UString &orgID);
-	const StateRef<Organisation> &getPlayer() const;
-	StateRef<Organisation> getPlayer();
-	const StateRef<Organisation> &getAliens() const;
-	StateRef<Organisation> getAliens();
-	const StateRef<Organisation> &getGovernment() const;
-	StateRef<Organisation> getGovernment();
-	const StateRef<Organisation> &getCivilian() const;
-	StateRef<Organisation> getCivilian();
+	StateRef<Organisation> getPlayer() const;
+	StateRef<Organisation> getAliens() const;
+	StateRef<Organisation> getGovernment() const;
+	StateRef<Organisation> getCivilian() const;
 
 	// The time from game start in ticks
 	GameTime gameTime;
@@ -188,9 +184,9 @@ class GameState : public std::enable_shared_from_this<GameState>
 
 	// high level api for saving game
 	// WARNING! Does not save metadata
-	bool saveGame(const UString &path, bool pack = true, bool pretty = false);
+	bool saveGame(const UString &path, bool pack = true, bool pretty = false) const;
 	bool saveGameDelta(const UString &path, const GameState &reference, bool pack = true,
-	                   bool pretty = false);
+	                   bool pretty = false) const;
 
 	// serializes gamestate to archive
 	bool serialize(SerializationArchive *archive) const;

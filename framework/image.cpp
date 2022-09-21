@@ -39,7 +39,7 @@ sp<RGBImage> PaletteImage::toRGBImage(sp<Palette> p)
 	{
 		for (unsigned int x = 0; x < this->size.x; x++)
 		{
-			uint8_t idx = this->indices[y * this->size.x + x];
+			uint8_t const idx = this->indices[y * this->size.x + x];
 			imgLock.set(Vec2<unsigned int>{x, y}, p->getColour(idx));
 		}
 	}
@@ -49,18 +49,18 @@ sp<RGBImage> PaletteImage::toRGBImage(sp<Palette> p)
 void PaletteImage::blit(sp<PaletteImage> src, sp<PaletteImage> dst, Vec2<unsigned int> srcOffset,
                         Vec2<unsigned int> dstOffset)
 {
-	PaletteImageLock reader(src, ImageLockUse::Read);
+	PaletteImageLock const reader(src, ImageLockUse::Read);
 	PaletteImageLock writer(dst, ImageLockUse::Write);
 
-	Vec2<unsigned int> size = {std::min(src->size.x - srcOffset.x, dst->size.x - dstOffset.x),
+	Vec2<unsigned int> const size = {std::min(src->size.x - srcOffset.x, dst->size.x - dstOffset.x),
 	                           std::min(src->size.y - srcOffset.y, dst->size.y - dstOffset.y)};
 	Vec2<unsigned int> pos;
 	for (pos.y = 0; pos.y < size.y; pos.y++)
 	{
 		for (pos.x = 0; pos.x < size.x; pos.x++)
 		{
-			Vec2<unsigned int> readPos = srcOffset + pos;
-			Vec2<unsigned int> writePos = dstOffset + pos;
+			Vec2<unsigned int> const readPos = srcOffset + pos;
+			Vec2<unsigned int> const writePos = dstOffset + pos;
 			writer.set(writePos, reader.get(readPos));
 		}
 	}
@@ -86,18 +86,18 @@ RGBImage::RGBImage(Vec2<unsigned int> size, Colour initialColour)
 void RGBImage::blit(sp<RGBImage> src, sp<RGBImage> dst, Vec2<unsigned int> srcOffset,
                     Vec2<unsigned int> dstOffset)
 {
-	RGBImageLock reader(src, ImageLockUse::Read);
+	RGBImageLock const reader(src, ImageLockUse::Read);
 	RGBImageLock writer(dst, ImageLockUse::Write);
 
-	Vec2<unsigned int> size = {std::min(src->size.x - srcOffset.x, dst->size.x - dstOffset.x),
+	Vec2<unsigned int> const size = {std::min(src->size.x - srcOffset.x, dst->size.x - dstOffset.x),
 	                           std::min(src->size.y - srcOffset.y, dst->size.y - dstOffset.y)};
 	Vec2<unsigned int> pos;
 	for (pos.y = 0; pos.y < size.y; pos.y++)
 	{
 		for (pos.x = 0; pos.x < size.x; pos.x++)
 		{
-			Vec2<unsigned int> readPos = srcOffset + pos;
-			Vec2<unsigned int> writePos = dstOffset + pos;
+			Vec2<unsigned int> const readPos = srcOffset + pos;
+			Vec2<unsigned int> const writePos = dstOffset + pos;
 			writer.set(writePos, reader.get(readPos));
 		}
 	}
@@ -133,7 +133,7 @@ void PaletteImage::calculateBounds()
 	{
 		for (unsigned int x = 0; x < this->size.x; x++)
 		{
-			unsigned int offset = y * this->size.x + x;
+			unsigned int const offset = y * this->size.x + x;
 			if (this->indices[offset])
 			{
 				if (minX > x)

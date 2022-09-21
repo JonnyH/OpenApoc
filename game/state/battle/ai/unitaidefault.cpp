@@ -39,7 +39,7 @@ std::tuple<AIDecision, bool> UnitAIDefault::think(GameState &state, BattleUnit &
 {
 	std::ignore = interrupt;
 
-	bool realTime = state.current_battle->mode == Battle::Mode::RealTime;
+	bool const realTime = state.current_battle->mode == Battle::Mode::RealTime;
 
 	// Default AI should not work in turn based when it's our turn to act
 	// We can assume that if it's not our turn then we're interrupting
@@ -110,7 +110,7 @@ std::tuple<AIDecision, bool> UnitAIDefault::think(GameState &state, BattleUnit &
 					if (!targetEnemy || !targetEnemy->isConscious() ||
 					    enemies.find(targetEnemy) == enemies.end())
 					{
-						bool hadFocus = targetEnemy != nullptr;
+						bool const hadFocus = targetEnemy != nullptr;
 						targetEnemy.clear();
 						backupEnemy.clear();
 						if (realTime ||
@@ -174,7 +174,7 @@ std::tuple<AIDecision, bool> UnitAIDefault::think(GameState &state, BattleUnit &
 					    enemies.find(targetEnemy) == enemies.end() ||
 					    weaponStatus == WeaponStatus::NotFiring)
 					{
-						bool hadFocus = targetEnemy != nullptr;
+						bool const hadFocus = targetEnemy != nullptr;
 						targetEnemy.clear();
 						if (realTime ||
 						    !hadFocus) // In TB having focusUnit means we can only attack him
@@ -245,7 +245,7 @@ std::tuple<AIDecision, bool> UnitAIDefault::think(GameState &state, BattleUnit &
 					{
 						continue;
 					}
-					Vec3<int> newPos = (Vec3<int>)u.position + Vec3<int>(x, y, z);
+					Vec3<int> const newPos = (Vec3<int>)u.position + Vec3<int>(x, y, z);
 					if (map.tileIsValid(newPos) && helper.canEnterTile(from, map.getTile(newPos)))
 					{
 						possiblePositions.push_back(newPos);

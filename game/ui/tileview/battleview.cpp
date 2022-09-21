@@ -160,13 +160,13 @@ BattleView::BattleView(sp<GameState> gameState)
 
 	for (int i = 0; i < NUM_TABS_RT; ++i)
 	{
-		sp<Form> f = baseForm->findControlTyped<Form>(format("SUBFORM_RT_%d", i + 1));
+		sp<Form> const f = baseForm->findControlTyped<Form>(format("SUBFORM_RT_%d", i + 1));
 		f->takesFocus = false;
 		uiTabsRT.push_back(f);
 	}
 	for (int i = 0; i < NUM_TABS_TB; ++i)
 	{
-		sp<Form> f = baseForm->findControlTyped<Form>(format("SUBFORM_TB_%d", i + 1));
+		sp<Form> const f = baseForm->findControlTyped<Form>(format("SUBFORM_TB_%d", i + 1));
 		f->takesFocus = false;
 		uiTabsTB.push_back(f);
 	}
@@ -266,19 +266,19 @@ BattleView::BattleView(sp<GameState> gameState)
 	motionScannerUnit[true] =
 	    motionScannerForms[true]->findControlTyped<Graphic>("MOTION_SCANNER_UNIT");
 
-	std::function<void(FormsEvent * e)> medikitButtonHead = [this](Event *) {
+	std::function<void(FormsEvent * e)> const medikitButtonHead = [this](Event *) {
 		orderHeal(BodyPart::Helmet);
 	};
-	std::function<void(FormsEvent * e)> medikitButtonBody = [this](Event *) {
+	std::function<void(FormsEvent * e)> const medikitButtonBody = [this](Event *) {
 		orderHeal(BodyPart::Body);
 	};
-	std::function<void(FormsEvent * e)> medikitButtonLeftHand = [this](Event *) {
+	std::function<void(FormsEvent * e)> const medikitButtonLeftHand = [this](Event *) {
 		orderHeal(BodyPart::LeftArm);
 	};
-	std::function<void(FormsEvent * e)> medikitButtonRightHand = [this](Event *) {
+	std::function<void(FormsEvent * e)> const medikitButtonRightHand = [this](Event *) {
 		orderHeal(BodyPart::RightArm);
 	};
-	std::function<void(FormsEvent * e)> medikitButtonLegs = [this](Event *) {
+	std::function<void(FormsEvent * e)> const medikitButtonLegs = [this](Event *) {
 		orderHeal(BodyPart::Legs);
 	};
 	medikitForms[false]
@@ -352,12 +352,12 @@ BattleView::BattleView(sp<GameState> gameState)
 	    });
 	baseForm->findControl("BUTTON_TOGGLE_STRATMAP")
 	    ->addCallback(FormEventType::CheckBoxChange, [this](FormsEvent *e) {
-		    bool strategy = std::dynamic_pointer_cast<CheckBox>(e->forms().RaisedBy)->isChecked();
+		    bool const strategy = std::dynamic_pointer_cast<CheckBox>(e->forms().RaisedBy)->isChecked();
 		    this->setViewMode(strategy ? TileViewMode::Strategy : TileViewMode::Isometric);
 	    });
 	baseForm->findControl("BUTTON_LAYERING")
 	    ->addCallback(FormEventType::TriStateBoxChange, [this](FormsEvent *e) {
-		    int state = std::dynamic_pointer_cast<TriStateBox>(e->forms().RaisedBy)->getState();
+		    int const state = std::dynamic_pointer_cast<TriStateBox>(e->forms().RaisedBy)->getState();
 		    switch (state)
 		    {
 			    case 1:
@@ -567,7 +567,7 @@ BattleView::BattleView(sp<GameState> gameState)
 		baseForm->findControlTyped<RadioButton>("BUTTON_MOVE_INDIVIDUALLY")->setChecked(true);
 	}
 
-	std::function<void(int index)> clickedSquad = [this](int index) {
+	std::function<void(int index)> const clickedSquad = [this](int index) {
 		if (baseForm->findControlTyped<CheckBox>("BUTTON_SQUAD_ASSIGN")->isChecked())
 		{
 			baseForm->findControlTyped<CheckBox>("BUTTON_SQUAD_ASSIGN")->setChecked(false);
@@ -591,7 +591,7 @@ BattleView::BattleView(sp<GameState> gameState)
 		else
 		{
 			StateRef<BattleUnit> firstUnit;
-			bool ctrl = this->modifierRCtrl || this->modifierLCtrl;
+			bool const ctrl = this->modifierRCtrl || this->modifierLCtrl;
 
 			if (!ctrl)
 			{
@@ -623,22 +623,22 @@ BattleView::BattleView(sp<GameState> gameState)
 		}
 	};
 
-	std::function<void(FormsEvent * e)> clickedSquad1 = [clickedSquad](FormsEvent *) {
+	std::function<void(FormsEvent * e)> const clickedSquad1 = [clickedSquad](FormsEvent *) {
 		clickedSquad(0);
 	};
-	std::function<void(FormsEvent * e)> clickedSquad2 = [clickedSquad](FormsEvent *) {
+	std::function<void(FormsEvent * e)> const clickedSquad2 = [clickedSquad](FormsEvent *) {
 		clickedSquad(1);
 	};
-	std::function<void(FormsEvent * e)> clickedSquad3 = [clickedSquad](FormsEvent *) {
+	std::function<void(FormsEvent * e)> const clickedSquad3 = [clickedSquad](FormsEvent *) {
 		clickedSquad(2);
 	};
-	std::function<void(FormsEvent * e)> clickedSquad4 = [clickedSquad](FormsEvent *) {
+	std::function<void(FormsEvent * e)> const clickedSquad4 = [clickedSquad](FormsEvent *) {
 		clickedSquad(3);
 	};
-	std::function<void(FormsEvent * e)> clickedSquad5 = [clickedSquad](FormsEvent *) {
+	std::function<void(FormsEvent * e)> const clickedSquad5 = [clickedSquad](FormsEvent *) {
 		clickedSquad(4);
 	};
-	std::function<void(FormsEvent * e)> clickedSquad6 = [clickedSquad](FormsEvent *) {
+	std::function<void(FormsEvent * e)> const clickedSquad6 = [clickedSquad](FormsEvent *) {
 		clickedSquad(5);
 	};
 	baseForm->findControlTyped<Graphic>("SQUAD_1_OVERLAY")
@@ -654,14 +654,14 @@ BattleView::BattleView(sp<GameState> gameState)
 	baseForm->findControlTyped<Graphic>("SQUAD_6_OVERLAY")
 	    ->addCallback(FormEventType::MouseClick, clickedSquad6);
 
-	std::function<void(int index)> clickedUnitPortrait = [this](int index) {
+	std::function<void(int index)> const clickedUnitPortrait = [this](int index) {
 		if (!this->unitInfo[index].agent || this->unitInfo[index].faded)
 		{
 			return;
 		}
-		bool ctrl = this->modifierRCtrl || this->modifierLCtrl;
+		bool const ctrl = this->modifierRCtrl || this->modifierLCtrl;
 		StateRef<BattleUnit> unit = this->unitInfo[index].agent->unit;
-		bool needZoom = !this->battle.battleViewSelectedUnits.empty() &&
+		bool const needZoom = !this->battle.battleViewSelectedUnits.empty() &&
 		                this->battle.battleViewSelectedUnits.front() == unit;
 		if (!ctrl)
 		{
@@ -682,22 +682,22 @@ BattleView::BattleView(sp<GameState> gameState)
 			this->zoomAt(unit->position);
 		}
 	};
-	std::function<void(FormsEvent * e)> clickedUnitPortrait1 = [clickedUnitPortrait](FormsEvent *) {
+	std::function<void(FormsEvent * e)> const clickedUnitPortrait1 = [clickedUnitPortrait](FormsEvent *) {
 		clickedUnitPortrait(0);
 	};
-	std::function<void(FormsEvent * e)> clickedUnitPortrait2 = [clickedUnitPortrait](FormsEvent *) {
+	std::function<void(FormsEvent * e)> const clickedUnitPortrait2 = [clickedUnitPortrait](FormsEvent *) {
 		clickedUnitPortrait(1);
 	};
-	std::function<void(FormsEvent * e)> clickedUnitPortrait3 = [clickedUnitPortrait](FormsEvent *) {
+	std::function<void(FormsEvent * e)> const clickedUnitPortrait3 = [clickedUnitPortrait](FormsEvent *) {
 		clickedUnitPortrait(2);
 	};
-	std::function<void(FormsEvent * e)> clickedUnitPortrait4 = [clickedUnitPortrait](FormsEvent *) {
+	std::function<void(FormsEvent * e)> const clickedUnitPortrait4 = [clickedUnitPortrait](FormsEvent *) {
 		clickedUnitPortrait(3);
 	};
-	std::function<void(FormsEvent * e)> clickedUnitPortrait5 = [clickedUnitPortrait](FormsEvent *) {
+	std::function<void(FormsEvent * e)> const clickedUnitPortrait5 = [clickedUnitPortrait](FormsEvent *) {
 		clickedUnitPortrait(4);
 	};
-	std::function<void(FormsEvent * e)> clickedUnitPortrait6 = [clickedUnitPortrait](FormsEvent *) {
+	std::function<void(FormsEvent * e)> const clickedUnitPortrait6 = [clickedUnitPortrait](FormsEvent *) {
 		clickedUnitPortrait(5);
 	};
 	baseForm->findControlTyped<Graphic>("UNIT_1")->addCallback(FormEventType::MouseClick,
@@ -713,7 +713,7 @@ BattleView::BattleView(sp<GameState> gameState)
 	baseForm->findControlTyped<Graphic>("UNIT_6")->addCallback(FormEventType::MouseClick,
 	                                                           clickedUnitPortrait6);
 
-	std::function<void(int index)> clickedUnitHostiles = [this](int index) {
+	std::function<void(int index)> const clickedUnitHostiles = [this](int index) {
 		if (!this->unitInfo[index].agent ||
 		    this->unitInfo[index].agent->unit->visibleEnemies.empty())
 		{
@@ -732,22 +732,22 @@ BattleView::BattleView(sp<GameState> gameState)
 		}
 		this->zoomAt((*it)->position);
 	};
-	std::function<void(FormsEvent * e)> clickedUnitHostiles1 = [clickedUnitHostiles](FormsEvent *) {
+	std::function<void(FormsEvent * e)> const clickedUnitHostiles1 = [clickedUnitHostiles](FormsEvent *) {
 		clickedUnitHostiles(0);
 	};
-	std::function<void(FormsEvent * e)> clickedUnitHostiles2 = [clickedUnitHostiles](FormsEvent *) {
+	std::function<void(FormsEvent * e)> const clickedUnitHostiles2 = [clickedUnitHostiles](FormsEvent *) {
 		clickedUnitHostiles(1);
 	};
-	std::function<void(FormsEvent * e)> clickedUnitHostiles3 = [clickedUnitHostiles](FormsEvent *) {
+	std::function<void(FormsEvent * e)> const clickedUnitHostiles3 = [clickedUnitHostiles](FormsEvent *) {
 		clickedUnitHostiles(2);
 	};
-	std::function<void(FormsEvent * e)> clickedUnitHostiles4 = [clickedUnitHostiles](FormsEvent *) {
+	std::function<void(FormsEvent * e)> const clickedUnitHostiles4 = [clickedUnitHostiles](FormsEvent *) {
 		clickedUnitHostiles(3);
 	};
-	std::function<void(FormsEvent * e)> clickedUnitHostiles5 = [clickedUnitHostiles](FormsEvent *) {
+	std::function<void(FormsEvent * e)> const clickedUnitHostiles5 = [clickedUnitHostiles](FormsEvent *) {
 		clickedUnitHostiles(4);
 	};
-	std::function<void(FormsEvent * e)> clickedUnitHostiles6 = [clickedUnitHostiles](FormsEvent *) {
+	std::function<void(FormsEvent * e)> const clickedUnitHostiles6 = [clickedUnitHostiles](FormsEvent *) {
 		clickedUnitHostiles(5);
 	};
 	baseForm->findControlTyped<Graphic>("UNIT_1_HOSTILES")
@@ -912,31 +912,31 @@ BattleView::BattleView(sp<GameState> gameState)
 	// FIXME: When clicking on items or weapons, activate them or go into fire / teleport mode
 	// accordingly
 
-	std::function<void(FormsEvent * e)> clickedRightHand = [this](FormsEvent *e) {
+	std::function<void(FormsEvent * e)> const clickedRightHand = [this](FormsEvent *e) {
 		if (Event::isPressed(e->forms().MouseInfo.Button, Event::MouseButton::Right))
 			orderUse(true, true);
 		else if (Event::isPressed(e->forms().MouseInfo.Button, Event::MouseButton::Left))
 			orderUse(true, false);
 	};
 
-	std::function<void(FormsEvent * e)> clickedLeftHand = [this](FormsEvent *e) {
+	std::function<void(FormsEvent * e)> const clickedLeftHand = [this](FormsEvent *e) {
 		if (Event::isPressed(e->forms().MouseInfo.Button, Event::MouseButton::Right))
 			orderUse(false, true);
 		else if (Event::isPressed(e->forms().MouseInfo.Button, Event::MouseButton::Left))
 			orderUse(false, false);
 	};
 
-	std::function<void(FormsEvent * e)> openInventory = [this](Event *) { openAgentInventory(); };
+	std::function<void(FormsEvent * e)> const openInventory = [this](Event *) { openAgentInventory(); };
 
-	std::function<void(FormsEvent * e)> dropRightHand = [this](Event *) { orderDrop(true); };
+	std::function<void(FormsEvent * e)> const dropRightHand = [this](Event *) { orderDrop(true); };
 
-	std::function<void(FormsEvent * e)> dropLeftHand = [this](Event *) { orderDrop(false); };
+	std::function<void(FormsEvent * e)> const dropLeftHand = [this](Event *) { orderDrop(false); };
 
-	std::function<void(FormsEvent * e)> cancelThrow = [this](Event *) {
+	std::function<void(FormsEvent * e)> const cancelThrow = [this](Event *) {
 		this->setSelectedTab(this->mainTab);
 	};
 
-	std::function<void(bool right)> throwItem = [this](bool right) {
+	std::function<void(bool right)> const throwItem = [this](bool right) {
 		bool fail = false;
 		if (this->battle.battleViewSelectedUnits.empty())
 		{
@@ -971,19 +971,19 @@ BattleView::BattleView(sp<GameState> gameState)
 		}
 	};
 
-	std::function<void(FormsEvent * e)> throwRightHand = [throwItem](Event *) { throwItem(true); };
+	std::function<void(FormsEvent * e)> const throwRightHand = [throwItem](Event *) { throwItem(true); };
 
-	std::function<void(FormsEvent * e)> throwLeftHand = [throwItem](Event *) { throwItem(false); };
+	std::function<void(FormsEvent * e)> const throwLeftHand = [throwItem](Event *) { throwItem(false); };
 
-	std::function<void(FormsEvent * e)> finishPriming = [this, throwItem](Event *) {
-		bool right =
+	std::function<void(FormsEvent * e)> const finishPriming = [this, throwItem](Event *) {
+		bool const right =
 		    this->primingTab->findControlTyped<CheckBox>("HIDDEN_CHECK_RIGHT_HAND")->isChecked();
 		auto unit = this->battle.battleViewSelectedUnits.front();
 		auto item = unit->agent->getFirstItemInSlot(right ? EquipmentSlotType::RightHand
 		                                                  : EquipmentSlotType::LeftHand);
 
-		int delay = this->primingTab->findControlTyped<ScrollBar>("DELAY_SLIDER")->getValue();
-		int range = this->primingTab->findControlTyped<ScrollBar>("RANGE_SLIDER")->getValue();
+		int const delay = this->primingTab->findControlTyped<ScrollBar>("DELAY_SLIDER")->getValue();
+		int const range = this->primingTab->findControlTyped<ScrollBar>("RANGE_SLIDER")->getValue();
 		if (delay == 0 && (item->type->trigger_type != TriggerType::Boomeroid ||
 		                   item->type->trigger_type != TriggerType::Proximity))
 		{
@@ -1003,9 +1003,9 @@ BattleView::BattleView(sp<GameState> gameState)
 		this->setSelectedTab(this->mainTab);
 	};
 
-	std::function<void(FormsEvent * e)> updateDelay = [this](Event *) { this->refreshDelayText(); };
+	std::function<void(FormsEvent * e)> const updateDelay = [this](Event *) { this->refreshDelayText(); };
 
-	std::function<void(FormsEvent * e)> updateRange = [this](Event *) { this->refreshRangeText(); };
+	std::function<void(FormsEvent * e)> const updateRange = [this](Event *) { this->refreshRangeText(); };
 
 	// Priming controls
 
@@ -1038,8 +1038,8 @@ BattleView::BattleView(sp<GameState> gameState)
 	    ->findControlTyped<ScrollBar>("RANGE_SLIDER")
 	    ->addCallback(FormEventType::ScrollBarChange, updateRange);
 
-	std::function<void(FormsEvent * e)> psiControl = [this](Event *) {
-		bool control = this->psiInfo.status == PsiStatus::Control;
+	std::function<void(FormsEvent * e)> const psiControl = [this](Event *) {
+		bool const control = this->psiInfo.status == PsiStatus::Control;
 		this->orderCancelPsi();
 		if (control)
 		{
@@ -1047,8 +1047,8 @@ BattleView::BattleView(sp<GameState> gameState)
 		}
 		this->selectionState = BattleSelectionState::PsiControl;
 	};
-	std::function<void(FormsEvent * e)> psiPanic = [this](Event *) {
-		bool control = this->psiInfo.status == PsiStatus::Control;
+	std::function<void(FormsEvent * e)> const psiPanic = [this](Event *) {
+		bool const control = this->psiInfo.status == PsiStatus::Control;
 		this->orderCancelPsi();
 		if (control)
 		{
@@ -1056,8 +1056,8 @@ BattleView::BattleView(sp<GameState> gameState)
 		}
 		this->selectionState = BattleSelectionState::PsiPanic;
 	};
-	std::function<void(FormsEvent * e)> psiStun = [this](Event *) {
-		bool control = this->psiInfo.status == PsiStatus::Control;
+	std::function<void(FormsEvent * e)> const psiStun = [this](Event *) {
+		bool const control = this->psiInfo.status == PsiStatus::Control;
 		this->orderCancelPsi();
 		if (control)
 		{
@@ -1065,8 +1065,8 @@ BattleView::BattleView(sp<GameState> gameState)
 		}
 		this->selectionState = BattleSelectionState::PsiStun;
 	};
-	std::function<void(FormsEvent * e)> psiProbe = [this](Event *) {
-		bool control = this->psiInfo.status == PsiStatus::Control;
+	std::function<void(FormsEvent * e)> const psiProbe = [this](Event *) {
+		bool const control = this->psiInfo.status == PsiStatus::Control;
 		this->orderCancelPsi();
 		if (control)
 		{
@@ -1075,7 +1075,7 @@ BattleView::BattleView(sp<GameState> gameState)
 		this->selectionState = BattleSelectionState::PsiProbe;
 	};
 
-	std::function<void(FormsEvent * e)> cancelPsi = [this](Event *) {
+	std::function<void(FormsEvent * e)> const cancelPsi = [this](Event *) {
 		this->setSelectedTab(this->mainTab);
 		this->selectionState = BattleSelectionState::Normal;
 	};
@@ -1285,7 +1285,7 @@ void BattleView::render()
 	// Pause icon
 	if (battle.mode == Battle::Mode::TurnBased)
 	{
-		int PAUSE_ICON_BLINK_TIME = 30;
+		int const PAUSE_ICON_BLINK_TIME = 30;
 		pauseIconTimer++;
 		pauseIconTimer %= PAUSE_ICON_BLINK_TIME * 2;
 		if (updateSpeed == BattleUpdateSpeed::Pause && pauseIconTimer > PAUSE_ICON_BLINK_TIME)
@@ -1337,7 +1337,7 @@ void BattleView::setSelectedTab(sp<Form> tabPtr)
 
 void BattleView::update()
 {
-	bool realTime = battle.mode == Battle::Mode::RealTime;
+	bool const realTime = battle.mode == Battle::Mode::RealTime;
 
 	// Parent update
 	BattleTileView::update();
@@ -1367,7 +1367,7 @@ void BattleView::update()
 		}
 
 		// Figure out whether our/not our turn state has changed
-		bool notMyTurn = endTurnRequested || battle.turnEndAllowed ||
+		bool const notMyTurn = endTurnRequested || battle.turnEndAllowed ||
 		                 !battle.interruptUnits.empty() || !battle.interruptQueue.empty() ||
 		                 battle.currentActiveOrganisation != battle.currentPlayer;
 		if (notMyTurn && activeTab != notMyTurnTab)
@@ -1442,7 +1442,7 @@ void BattleView::update()
 	}
 	while (ticks > 0)
 	{
-		int ticksPerUpdate = UPDATE_EVERY_TICK ? 1 : hideDisplay ? 4 : ticks;
+		int const ticksPerUpdate = UPDATE_EVERY_TICK ? 1 : hideDisplay ? 4 : ticks;
 		state->update(ticksPerUpdate);
 		ticks -= ticksPerUpdate;
 		if (hideDisplay)
@@ -1539,7 +1539,7 @@ void BattleView::update()
 				updateUnitInfo(i);
 			}
 
-			int newSpottedInfo = std::min(
+			int const newSpottedInfo = std::min(
 			    6, newUnitInfo.agent ? (int)newUnitInfo.agent->unit->visibleEnemies.size() : 0);
 			if (newSpottedInfo != spottedInfo[i])
 			{
@@ -1567,7 +1567,7 @@ void BattleView::update()
 		auto unit = battle.battleViewSelectedUnits.front();
 		for (int i = 0; i < 2; i++)
 		{
-			bool right = i == 0;
+			bool const right = i == 0;
 			if (right ? !rightHandInfo.selected : !leftHandInfo.selected)
 			{
 				continue;
@@ -2090,7 +2090,7 @@ void BattleView::updateSoldierButtons()
 	baseForm->findControlTyped<TriStateBox>("BUTTON_RESERVE_KNEEL")
 	    ->setState(reserve_kneel_set && reserve_kneel_unset ? 3 : (reserve_kneel_set ? 2 : 1));
 
-	bool throwing = !battle.battleViewSelectedUnits.empty() &&
+	bool const throwing = !battle.battleViewSelectedUnits.empty() &&
 	                battle.battleViewSelectedUnits.front()->isThrowing();
 
 	mainTab->findControlTyped<CheckBox>("BUTTON_LEFT_HAND_THROW")
@@ -2103,7 +2103,7 @@ void BattleView::updateSoldierButtons()
 
 void BattleView::updateTBButtons()
 {
-	bool visible = activeTab != notMyTurnTab;
+	bool const visible = activeTab != notMyTurnTab;
 	baseForm->findControlTyped<CheckBox>("BUTTON_FOLLOW_AGENT")->setVisible(visible);
 	baseForm->findControlTyped<GraphicButton>("BUTTON_SHOW_OPTIONS")->setVisible(visible);
 	baseForm->findControlTyped<TriStateBox>("BUTTON_CEASE_FIRE")->setVisible(visible);
@@ -2132,7 +2132,7 @@ void BattleView::updateHiddenForm()
 	hiddenForm->findControlTyped<Label>("TEXT_TURN")->setText(format("%d", battle.currentTurn));
 	hiddenForm->findControlTyped<Label>("TEXT_SIDE")
 	    ->setText(battle.currentActiveOrganisation->name);
-	bool player = state->current_battle->hotseat &&
+	bool const player = state->current_battle->hotseat &&
 	              state->current_battle->currentActiveOrganisation != state->getCivilian();
 	hiddenForm->findControlTyped<Label>("TEXT_PLAYER")->setText(player ? "Player" : "Computer");
 	hiddenForm->findControlTyped<Graphic>("HIDDEN_IMAGE")
@@ -2142,7 +2142,7 @@ void BattleView::updateHiddenForm()
 
 void BattleView::refreshDelayText()
 {
-	int delay = primingTab->findControlTyped<ScrollBar>("DELAY_SLIDER")->getValue();
+	int const delay = primingTab->findControlTyped<ScrollBar>("DELAY_SLIDER")->getValue();
 	LogWarning("Delay %d", delay);
 	UString text;
 	if (delay == 0)
@@ -2172,9 +2172,9 @@ void BattleView::refreshDelayText()
 
 void BattleView::refreshRangeText()
 {
-	int range = primingTab->findControlTyped<ScrollBar>("RANGE_SLIDER")->getValue();
+	int const range = primingTab->findControlTyped<ScrollBar>("RANGE_SLIDER")->getValue();
 
-	UString text = format(tr("Range = %2.1fm."), ((float)(range + 1) * 1.5f));
+	UString const text = format(tr("Range = %2.1fm."), ((float)(range + 1) * 1.5f));
 	primingTab->findControlTyped<Label>("RANGE_TEXT")->setText(text);
 }
 
@@ -2254,7 +2254,7 @@ void BattleView::updatePathPreview()
 	}
 
 	// Get path
-	float maxCost =
+	float const maxCost =
 	    (float)lastSelectedUnit->agent->modified_stats.time_units * 2 / cost_multiplier_x_2;
 	pathPreview = map.findShortestPath(lastSelectedUnit->goalPosition, target, 1000,
 	                                   BattleUnitTileHelper{map, *lastSelectedUnit}, false, false,
@@ -2391,13 +2391,13 @@ void BattleView::orderMove(Vec3<int> target, bool strafe, bool demandGiveWay)
 	}
 
 	// Check if ordered to exit
-	bool runAway = map.getTile(target)->getHasExit();
+	bool const runAway = map.getTile(target)->getHasExit();
 
 	auto u = battle.battleViewSelectedUnits.front();
 	BattleUnit temp;
 	temp.agent = u->agent;
 	temp.position = u->position;
-	int facingDelta = strafe ? BattleUnitMission::getFacingDelta(
+	int const facingDelta = strafe ? BattleUnitMission::getFacingDelta(
 	                               u->facing, BattleUnitMission::getFacing(temp, target))
 	                         : 0;
 
@@ -2721,7 +2721,7 @@ void BattleView::orderTeleport(Vec3<int> target, bool right)
 	{
 		LogWarning("Using teleporter cheat!");
 		item = mksp<AEquipment>();
-		UString tp = "AEQUIPMENTTYPE_PERSONAL_TELEPORTER";
+		UString const tp = "AEQUIPMENTTYPE_PERSONAL_TELEPORTER";
 		item->type = {&*state, tp};
 		item->ammo = item->type->max_ammo;
 	}
@@ -2748,7 +2748,7 @@ void BattleView::orderTeleport(Vec3<int> target, bool right)
 
 void BattleView::orderFire(Vec3<int> target, WeaponStatus status, bool modifier)
 {
-	bool atGround = modifier || !config().getBool("OpenApoc.NewFeature.AllowForceFiringParallel");
+	bool const atGround = modifier || !config().getBool("OpenApoc.NewFeature.AllowForceFiringParallel");
 	for (auto &unit : battle.battleViewSelectedUnits)
 	{
 		unit->startAttacking(*state, target, status, atGround);
@@ -2888,7 +2888,7 @@ void BattleView::eventOccurred(Event *e)
 	{
 		case EVENT_MOUSE_MOVE:
 		{
-			Vec2<float> screenOffset = {getScreenOffset().x, getScreenOffset().y};
+			Vec2<float> const screenOffset = {getScreenOffset().x, getScreenOffset().y};
 			// Offset by 4 since ingame 4 is the typical height of the ground, and game displays
 			// cursor
 			// on top of the ground
@@ -3039,8 +3039,8 @@ bool BattleView::handleKeyDown(Event *e)
 			// Stun units
 			case SDLK_s:
 			{
-				bool inverse = modifierLShift || modifierRShift;
-				bool local = !(modifierLCtrl || modifierRCtrl);
+				bool const inverse = modifierLShift || modifierRShift;
+				bool const local = !(modifierLCtrl || modifierRCtrl);
 				for (auto &u : battle.units)
 				{
 					if (u.second->isDead() || u.second->retreated)
@@ -3063,8 +3063,8 @@ bool BattleView::handleKeyDown(Event *e)
 			// Retreat units
 			case SDLK_k:
 			{
-				bool inverse = modifierLShift || modifierRShift;
-				bool local = !(modifierLCtrl || modifierRCtrl);
+				bool const inverse = modifierLShift || modifierRShift;
+				bool const local = !(modifierLCtrl || modifierRCtrl);
 				for (auto &u : battle.units)
 				{
 					if (u.second->isDead() || u.second->retreated)
@@ -3453,7 +3453,7 @@ bool BattleView::handleMouseDown(Event *e)
 
 	if (!debugHotkeyMode && Event::isPressed(e->mouse().Button, Event::MouseButton::Middle))
 	{
-		Vec2<float> screenOffset = {getScreenOffset().x, getScreenOffset().y};
+		Vec2<float> const screenOffset = {getScreenOffset().x, getScreenOffset().y};
 		auto clickTile =
 		    screenToTileCoords(Vec2<float>{e->mouse().X, e->mouse().Y} - screenOffset, 0.0f);
 		setScreenCenterTile(Vec2<float>{clickTile.x, clickTile.y});
@@ -3795,7 +3795,7 @@ bool BattleView::handleMouseDown(Event *e)
 								// Do nothing
 								break;
 						}
-						bool modified = (modifierLAlt || modifierRAlt);
+						bool const modified = (modifierLAlt || modifierRAlt);
 						if (modified)
 						{
 							orderFire(t, status, modified);
@@ -3830,7 +3830,7 @@ bool BattleView::handleMouseDown(Event *e)
 				{
 					case Event::MouseButton::Left:
 					{
-						bool right = selectionState == BattleSelectionState::ThrowRight;
+						bool const right = selectionState == BattleSelectionState::ThrowRight;
 						orderThrow(t, right);
 						break;
 					}
@@ -3850,7 +3850,7 @@ bool BattleView::handleMouseDown(Event *e)
 				{
 					case Event::MouseButton::Left:
 					{
-						bool right = selectionState == BattleSelectionState::TeleportRight;
+						bool const right = selectionState == BattleSelectionState::TeleportRight;
 						orderTeleport(t, right);
 						break;
 					}
@@ -3875,7 +3875,7 @@ bool BattleView::handleMouseDown(Event *e)
 						auto u = battle.battleViewSelectedUnits.front();
 						if (attackTarget && attackTarget != u.getSp())
 						{
-							bool right =
+							bool const right =
 							    activeTab->findControlTyped<CheckBox>("RIGHTHANDUSED")->isChecked();
 							switch (selectionState)
 							{
@@ -4048,7 +4048,7 @@ void BattleView::updateLayerButtons()
 
 void BattleView::updateItemInfo(bool right)
 {
-	UString name = right ? "RIGHT" : "LEFT";
+	UString const name = right ? "RIGHT" : "LEFT";
 	AgentEquipmentInfo info = right ? rightHandInfo : leftHandInfo;
 	// Item info
 	if (info.itemType)
@@ -4101,9 +4101,9 @@ void BattleView::updateItemInfo(bool right)
 		// Draw accuracy
 		if (info.accuracy / 2 > 0)
 		{
-			int accuracy = std::min(info.accuracy, maxAccuracy);
-			int colorsCount = (int)accuracyColors.size();
-			int y = 93;
+			int const accuracy = std::min(info.accuracy, maxAccuracy);
+			int const colorsCount = (int)accuracyColors.size();
+			int const y = 93;
 			if (right)
 			{
 				for (int x = 0; x < accuracy; x++)
@@ -4123,12 +4123,12 @@ void BattleView::updateItemInfo(bool right)
 		}
 		if (info.maxAmmo > 0 && info.curAmmo > 0)
 		{
-			int ammoDisplaySize = 90;
+			int const ammoDisplaySize = 90;
 
 			int ammoCount = info.curAmmo;
 			int ammoPadding = 1;
 			int ammoSize = ammoDisplaySize / info.maxAmmo - 1;
-			int x = right ? 1 : 47;
+			int const x = right ? 1 : 47;
 			if (ammoSize <= 0)
 			{
 				ammoSize = 1;
@@ -4192,15 +4192,15 @@ void BattleView::updateMotionInfo(bool right, Vec2<int> position)
 
 sp<RGBImage> BattleView::drawPsiBar(int cur, int max)
 {
-	int width = 137;
-	int height = 6;
-	Colour border = {150, 70, 150, 255};
-	Colour bar = {180, 120, 150, 255};
-	Colour black = {0, 0, 0, 255};
+	int const width = 137;
+	int const height = 6;
+	Colour const border = {150, 70, 150, 255};
+	Colour const bar = {180, 120, 150, 255};
+	Colour const black = {0, 0, 0, 255};
 	auto psiBar = mksp<RGBImage>(Vec2<int>{width, height});
 	{
-		int curWidth = clamp((width - 3) * cur / 100, 0, (width - 3)) + 1;
-		int maxWidth = clamp((width - 3) * max / 100, 0, (width - 3)) + 2;
+		int const curWidth = clamp((width - 3) * cur / 100, 0, (width - 3)) + 1;
+		int const maxWidth = clamp((width - 3) * max / 100, 0, (width - 3)) + 2;
 		{
 			RGBImageLock l(psiBar);
 			// Content
@@ -4371,7 +4371,7 @@ AgentInfo BattleView::createUnitInfo(int index)
 
 void BattleView::updateUnitInfo(int index)
 {
-	AgentInfo info = unitInfo[index];
+	AgentInfo const info = unitInfo[index];
 	auto baseControl = baseForm->findControlTyped<Graphic>(format("UNIT_%d", index + 1));
 	baseControl->Controls.clear();
 	if (!info.agent)
@@ -4424,7 +4424,7 @@ SquadInfo BattleView::createSquadInfo(int index)
 
 void BattleView::updateSquadInfo(int index)
 {
-	SquadInfo info = squadInfo[index];
+	SquadInfo const info = squadInfo[index];
 
 	baseForm->findControlTyped<Graphic>(format("SQUAD_%d", index + 1))
 	    ->setImage(squadNumber[info.units]);

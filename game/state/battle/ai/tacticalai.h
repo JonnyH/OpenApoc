@@ -25,7 +25,7 @@ class TacticalAI
 	};
 	Type type; // cannot hide because serializer won't work
 	virtual ~TacticalAI() = default;
-	const UString getName();
+	UString getName() const;
 
 	virtual void reset(GameState &, StateRef<Organisation>){};
 	virtual void beginTurnRoutine(GameState &, StateRef<Organisation>){};

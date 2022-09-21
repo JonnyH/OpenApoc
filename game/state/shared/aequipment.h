@@ -90,8 +90,8 @@ class AEquipment : public std::enable_shared_from_this<AEquipment>, public Equip
 	int getWeight() const;
 
 	// Returned value assumes 100 max TU and must be scaled
-	int getFireCost(WeaponAimingMode fireMode);
-	int getFireCost(WeaponAimingMode fireMode, int maxTU);
+	int getFireCost(WeaponAimingMode fireMode) const;
+	int getFireCost(WeaponAimingMode fireMode, int maxTU) const;
 	bool isFiring() const { return weapon_fire_ticks_remaining > 0 || readyToFire; };
 	bool canFire(GameState &state) const;
 	bool canFire(GameState &state, Vec3<float> to) const;
@@ -121,8 +121,8 @@ class AEquipment : public std::enable_shared_from_this<AEquipment>, public Equip
 	                         float &velocityZ) const;
 	bool getVelocityForLaunch(const BattleUnit &unit, Vec3<int> target, float &velocityXY,
 	                          float &velocityZ) const;
-	bool getCanThrow(const TileMap &map, int strength, Vec3<float> startPos, Vec3<int> target);
-	bool getCanThrow(const BattleUnit &unit, Vec3<int> target);
+	bool getCanThrow(const TileMap &map, int strength, Vec3<float> startPos, Vec3<int> target) const;
+	bool getCanThrow(const BattleUnit &unit, Vec3<int> target) const;
 
 	sp<Image> getEquipmentArmorImage() const override;
 	sp<Image> getEquipmentImage() const override;

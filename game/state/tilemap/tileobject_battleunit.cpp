@@ -57,9 +57,9 @@ void TileObjectBattleUnit::draw(Renderer &r, TileTransform &transform, Vec2<floa
 			if (unit->current_hand_state == HandState::Firing ||
 			    unit->target_hand_state == HandState::Aiming)
 			{
-				Vec3<float> targetVector = unit->targetTile - (Vec3<int>)unit->position -
+				Vec3<float> const targetVector = unit->targetTile - (Vec3<int>)unit->position -
 				                           Vec3<int>{0, 0, unit->isLarge() ? 1 : 0};
-				Vec3<float> targetVectorZeroZ = {targetVector.x, targetVector.y, 0.0f};
+				Vec3<float> const targetVectorZeroZ = {targetVector.x, targetVector.y, 0.0f};
 				// Firing angle is 0 for -10..10, +-1  for -20..-10 and 10..20, and 2 for else
 				firingAngle = (int)((glm::angle(glm::normalize(targetVector),
 				                                glm::normalize(targetVectorZeroZ)) *
@@ -88,9 +88,9 @@ void TileObjectBattleUnit::draw(Renderer &r, TileTransform &transform, Vec2<floa
 				Vec2<float> transformedScreenPos = screenPosition;
 				sp<Image> sprite;
 
-				int age = unit->fireDebuffTicksRemaining;
-				int maxLifetime = 5 * TICKS_PER_TURN;
-				int frame = std::min(unit->burningDoodad->frames.size() - 1,
+				int const age = unit->fireDebuffTicksRemaining;
+				int const maxLifetime = 5 * TICKS_PER_TURN;
+				int const frame = std::min(unit->burningDoodad->frames.size() - 1,
 				                     unit->burningDoodad->frames.size() * age / maxLifetime);
 				sprite = unit->burningDoodad->frames[frame].image;
 
@@ -106,17 +106,17 @@ void TileObjectBattleUnit::draw(Renderer &r, TileTransform &transform, Vec2<floa
 				break;
 
 			// 0 = friendly, 1 = enemy, 2 = neutral
-			int side_offset = friendly ? 0 : (hostile ? 1 : 2);
+			int const side_offset = friendly ? 0 : (hostile ? 1 : 2);
 			// Icon type, 0 = normal, 1 = prone, 2 = large
-			int icon_type = unit->isLarge() ? ICON_LARGE
+			int const icon_type = unit->isLarge() ? ICON_LARGE
 			                                : ((unit->current_body_state == BodyState::Prone ||
 			                                    unit->target_body_state == BodyState::Prone)
 			                                       ? ICON_PRONE
 			                                       : ICON_STANDART);
 			// Unit facing, in game starts with north (0,-1) and goes clockwise, from 0 to 7
-			int facing_offset = offset_dir_map.at(unit->facing);
+			int const facing_offset = offset_dir_map.at(unit->facing);
 			// Current level offset, 0 = current 1 = above 2 = below
-			int curent_level_offset = currentLevel < 0 ? 2 : (currentLevel > 0 ? 1 : 0);
+			int const curent_level_offset = currentLevel < 0 ? 2 : (currentLevel > 0 ? 1 : 0);
 
 			switch (icon_type)
 			{
@@ -208,7 +208,7 @@ void TileObjectBattleUnit::draw(Renderer &r, TileTransform &transform, Vec2<floa
 
 void TileObjectBattleUnit::removeFromMap()
 {
-	bool requireRecalc = owningTile != nullptr;
+	bool const requireRecalc = owningTile != nullptr;
 	std::set<Tile *> prevIntersectingTiles;
 	for (auto &t : intersectingTiles)
 	{
@@ -340,9 +340,9 @@ void TileObjectBattleUnit::addToDrawnTiles(Tile *tile)
 	}
 	for (auto &intersectingTile : intersectingTiles)
 	{
-		int x = intersectingTile->position.x;
-		int y = intersectingTile->position.y;
-		int z = intersectingTile->position.z;
+		int const x = intersectingTile->position.x;
+		int const y = intersectingTile->position.y;
+		int const z = intersectingTile->position.z;
 
 		// Units are drawn in the topmost tile their head pops into
 		// Otherwise, they can only be drawn in it if it's their owner tile

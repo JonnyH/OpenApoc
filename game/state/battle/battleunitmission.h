@@ -55,7 +55,7 @@ class BattleUnitMission
   private:
 	// INTERNAL: This checks if mission is actually finished. Called by isFinished.
 	// If it is finished, update() is called by isFinished so that any remaining work could be done
-	bool isFinishedInternal(GameState &state, BattleUnit &u);
+	bool isFinishedInternal(GameState &state, BattleUnit &u) const;
 	// INTERNAL: Never called directly
 	static BattleUnitMission *turn(BattleUnit &u, Vec3<float> from, Vec3<float> to, bool free,
 	                               bool requireGoal);

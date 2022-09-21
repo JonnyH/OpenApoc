@@ -29,10 +29,10 @@ VideoScreen::VideoScreen(const UString &videoPath, sp<Stage> nextScreen)
 		else
 		{
 			// Scale keeping aspect ratio to the max of the screen size
-			Vec2<float> unscaled_frame_size = this->video->getVideoSize();
-			Vec2<float> display_size = fw().displayGetSize();
-			Vec2<float> scale_factors = display_size / unscaled_frame_size;
-			float scale = std::min(scale_factors.x, scale_factors.y);
+			Vec2<float> const unscaled_frame_size = this->video->getVideoSize();
+			Vec2<float> const display_size = fw().displayGetSize();
+			Vec2<float> const scale_factors = display_size / unscaled_frame_size;
+			float const scale = std::min(scale_factors.x, scale_factors.y);
 			this->frame_size = unscaled_frame_size * scale;
 			LogInfo("Scaling video from %s to %s", this->video->getVideoSize(), this->frame_size);
 			this->frame_position = (fw().displayGetSize() / 2) - (this->frame_size / 2);

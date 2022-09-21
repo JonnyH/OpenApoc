@@ -269,7 +269,7 @@ void BattleExplosion::expand(GameState &state, const TileMap &map, const Vec3<in
 			{
 				auto mp = std::static_pointer_cast<TileObjectBattleMapPart>(obj)->getOwner();
 
-				int depletion = 2 * mp->type->block[damageType->blockType];
+				int const depletion = 2 * mp->type->block[damageType->blockType];
 
 				depletionNext = std::max(depletionNext, depletion);
 				// Feature in target tile does not block damage to the tile
@@ -281,7 +281,7 @@ void BattleExplosion::expand(GameState &state, const TileMap &map, const Vec3<in
 		}
 	}
 	// FIXME: Actually read this option
-	int distance = (1 + (dir.x != 0 ? 1 : 0) + (dir.y != 0 ? 1 : 0) + (dir.z != 0 ? 2 : 0));
+	int const distance = (1 + (dir.x != 0 ? 1 : 0) + (dir.y != 0 ? 1 : 0) + (dir.z != 0 ? 2 : 0));
 	nextPower -= depletionRate * distance / 2;
 
 	// If we reach the tile, and our type has no range dissipation, just apply power
@@ -355,10 +355,10 @@ void BattleExplosion::grow(GameState &state)
 				damage(state, map, pos.first, pos.second.x);
 			}
 			auto dir = pos.first - position;
-			int minX = dir.x <= 0 ? -1 : 0;
-			int maxX = dir.x >= 0 ? 1 : 0;
-			int minY = dir.y <= 0 ? -1 : 0;
-			int maxY = dir.y >= 0 ? 1 : 0;
+			int const minX = dir.x <= 0 ? -1 : 0;
+			int const maxX = dir.x >= 0 ? 1 : 0;
+			int const minY = dir.y <= 0 ? -1 : 0;
+			int const maxY = dir.y >= 0 ? 1 : 0;
 
 			for (int x = minX; x <= maxX; x++)
 			{
@@ -375,10 +375,10 @@ void BattleExplosion::grow(GameState &state)
 		for (auto &pos : locationsToExpand[0])
 		{
 			auto dir = pos.first - position;
-			int minX = dir.x <= 0 ? -1 : 0;
-			int maxX = dir.x >= 0 ? 1 : 0;
-			int minY = dir.y <= 0 ? -1 : 0;
-			int maxY = dir.y >= 0 ? 1 : 0;
+			int const minX = dir.x <= 0 ? -1 : 0;
+			int const maxX = dir.x >= 0 ? 1 : 0;
+			int const minY = dir.y <= 0 ? -1 : 0;
+			int const maxY = dir.y >= 0 ? 1 : 0;
 
 			for (int z = -1; z <= 1; z += 2)
 			{

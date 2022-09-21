@@ -55,7 +55,7 @@ bool test_gamestate_serialization(OpenApoc::sp<OpenApoc::GameState> state)
 	std::stringstream ss;
 	ss << "openapoc_test_serialize-" << std::this_thread::get_id();
 	auto tempPath = fs::temp_directory_path() / ss.str();
-	OpenApoc::UString pathString(tempPath.string());
+	OpenApoc::UString const pathString(tempPath.string());
 	LogInfo("Writing temp state to \"%s\"", pathString);
 	if (!test_gamestate_serialization_roundtrip(state, pathString))
 	{
@@ -93,7 +93,7 @@ int main(int argc, char **argv)
 		return EXIT_FAILURE;
 	}
 
-	OpenApoc::Framework fw("OpenApoc", false);
+	OpenApoc::Framework const fw("OpenApoc", false);
 
 	LogInfo("Loading \"%s\"", gamestate_name);
 
@@ -151,7 +151,7 @@ int main(int argc, char **argv)
 	if (false)
 	{
 
-		OpenApoc::StateRef<OpenApoc::Organisation> org = {state.get(),
+		OpenApoc::StateRef<OpenApoc::Organisation> const org = {state.get(),
 		                                                  OpenApoc::UString("ORG_ALIEN")};
 		auto v = OpenApoc::mksp<OpenApoc::Vehicle>();
 		auto vID = OpenApoc::Vehicle::generateObjectID(*state);
@@ -176,8 +176,8 @@ int main(int argc, char **argv)
 		v->name = OpenApoc::format("%s %d", v->type->name, ++v->type->numCreated);
 		state->vehicles[vID] = v;
 
-		OpenApoc::StateRef<OpenApoc::Vehicle> enemyVehicle = {state.get(), vID};
-		OpenApoc::StateRef<OpenApoc::Vehicle> playerVehicle = {};
+		OpenApoc::StateRef<OpenApoc::Vehicle> const enemyVehicle = {state.get(), vID};
+		OpenApoc::StateRef<OpenApoc::Vehicle> const playerVehicle = {};
 
 		std::list<OpenApoc::StateRef<OpenApoc::Agent>> agents;
 		for (auto &a : state->agents)

@@ -40,7 +40,7 @@ void Ticker::onRender()
 	}
 	else
 	{
-		UString out = text;
+		UString const out = text;
 		xpos = align(TextHAlign, Size.x, font->getFontWidth(out));
 		ypos = 0 - animTimer / 4;
 		auto outImage = font->getString(out);
@@ -48,7 +48,7 @@ void Ticker::onRender()
 
 		if (!messages.empty())
 		{
-			UString in = messages.front();
+			UString const in = messages.front();
 			xpos = align(TextHAlign, Size.x, font->getFontWidth(in));
 			ypos = 15 - animTimer / 4;
 			auto inImage = font->getString(in);
@@ -139,7 +139,7 @@ void Ticker::configureSelfFromXml(pugi::xml_node *node)
 	auto alignmentNode = node->child("alignment");
 	if (alignmentNode)
 	{
-		UString hAlign = alignmentNode.attribute("horizontal").as_string();
+		UString const hAlign = alignmentNode.attribute("horizontal").as_string();
 		if (hAlign == "left")
 		{
 			TextHAlign = HorizontalAlignment::Left;
@@ -152,7 +152,7 @@ void Ticker::configureSelfFromXml(pugi::xml_node *node)
 		{
 			TextHAlign = HorizontalAlignment::Right;
 		}
-		UString vAlign = alignmentNode.attribute("vertical").as_string();
+		UString const vAlign = alignmentNode.attribute("vertical").as_string();
 		if (vAlign == "top")
 		{
 			TextVAlign = VerticalAlignment::Top;

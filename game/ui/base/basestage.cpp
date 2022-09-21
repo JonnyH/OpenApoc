@@ -60,7 +60,7 @@ void BaseStage::begin()
 		auto viewImage = drawMiniBase(*viewBase, viewHighlight, viewFacility);
 		view->setImage(viewImage);
 		view->setDepressedImage(viewImage);
-		wp<GraphicButton> weakView(view);
+		wp<GraphicButton> const weakView(view);
 		view->addCallback(FormEventType::ButtonClick, [this, weakView](FormsEvent *e) {
 			auto base = e->forms().RaisedBy->getData<Base>();
 			if (this->state->current_base != base)
@@ -92,8 +92,8 @@ void BaseStage::render()
 		auto viewBase = currentView->getData<Base>();
 		if (state->current_base == viewBase)
 		{
-			Vec2<int> pos = currentView->getLocationOnScreen() - 2;
-			Vec2<int> size = currentView->Size + 4;
+			Vec2<int> const pos = currentView->getLocationOnScreen() - 2;
+			Vec2<int> const size = currentView->Size + 4;
 			fw().renderer->drawRect(pos, size, COLOUR_RED);
 		}
 	}

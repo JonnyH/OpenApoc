@@ -144,8 +144,8 @@ class RawMusicLoader : public MusicLoader
 			return nullptr;
 		}
 
-		unsigned int offset = Strings::toInteger(strings[2]);
-		unsigned int length = Strings::toInteger(strings[3]);
+		unsigned int const offset = Strings::toInteger(strings[2]);
+		unsigned int const length = Strings::toInteger(strings[3]);
 		return mksp<RawMusicTrack>(data, path, strings[1], offset,
 		                           length / (MusicChannels * MusicBytesPerSample));
 	}

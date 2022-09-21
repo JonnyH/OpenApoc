@@ -160,7 +160,7 @@ void BattlePreStart::eventOccurred(Event *e)
 	}
 	if (e->type() == EVENT_MOUSE_MOVE)
 	{
-		Vec2<int> mousePos{e->mouse().X, e->mouse().Y};
+		Vec2<int> const mousePos{e->mouse().X, e->mouse().Y};
 
 		selectedAgent = nullptr;
 		draggedMoved = true;
@@ -197,8 +197,8 @@ void BattlePreStart::eventOccurred(Event *e)
 
 		if (selectedAgent)
 		{
-			int num = selectedAgent->agent->unit->squadNumber;
-			int pos = selectedAgent->agent->unit->squadPosition;
+			int const num = selectedAgent->agent->unit->squadNumber;
+			int const pos = selectedAgent->agent->unit->squadPosition;
 			selectedAgent->agent->unit->removeFromSquad(*state->current_battle);
 			draggedAgent->agent->unit->assignToSquad(*state->current_battle, num, pos);
 			selectedAgent->agent->unit->assignToSquad(*state->current_battle, draggedOrigin);
@@ -252,7 +252,7 @@ void BattlePreStart::render()
 	}
 	if (draggedAgent)
 	{
-		Vec2<int> agentPos = fw().getCursor().getPosition() + draggedAgentOffset;
+		Vec2<int> const agentPos = fw().getCursor().getPosition() + draggedAgentOffset;
 		draggedAgent->setLocation(agentPos);
 		draggedAgent->selectedControl->render();
 	}
@@ -260,13 +260,13 @@ void BattlePreStart::render()
 
 bool BattlePreStart::isTransition() { return false; }
 
-void BattlePreStart::AgentIcon::setLocation(Vec2<int> pos)
+void BattlePreStart::AgentIcon::setLocation(Vec2<int> pos) const
 {
 	normalControl->Location = pos;
 	selectedControl->Location = pos;
 }
 
-void BattlePreStart::AgentIcon::update()
+void BattlePreStart::AgentIcon::update() const
 {
 	normalControl->update();
 	selectedControl->update();

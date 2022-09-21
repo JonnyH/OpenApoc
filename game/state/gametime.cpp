@@ -22,7 +22,7 @@ static std::locale *DATE_SHORT_FORMAT = nullptr;
 // FIXME: Refactor to always use ptime instead of ticks?
 static time_duration ticksToPosix(int64_t ticks)
 {
-	int64_t tickTotal = std::round(static_cast<double>(ticks * time_duration::ticks_per_second()) /
+	int64_t const tickTotal = std::round(static_cast<double>(ticks * time_duration::ticks_per_second()) /
 	                               TICKS_PER_SECOND);
 	return time_duration(0, 0, 0, tickTotal);
 }
@@ -70,18 +70,18 @@ UString GameTime::getLongDateString() const
 		apoc_date_facet *dateFacet = new apoc_date_facet("%A, %E %B, %Y");
 		DATE_LONG_FORMAT = new std::locale(std::locale::classic(), dateFacet);
 
-		std::vector<std::string> months = {tr("January"), tr("February"), tr("March"),
+		std::vector<std::string> const months = {tr("January"), tr("February"), tr("March"),
 		                                   tr("April"),   tr("May"),      tr("June"),
 		                                   tr("July"),    tr("August"),   tr("September"),
 		                                   tr("October"), tr("November"), tr("December")};
 		dateFacet->long_month_names(months);
 
-		std::vector<std::string> weekdays = {tr("Sunday"),    tr("Monday"),   tr("Tuesday"),
+		std::vector<std::string> const weekdays = {tr("Sunday"),    tr("Monday"),   tr("Tuesday"),
 		                                     tr("Wednesday"), tr("Thursday"), tr("Friday"),
 		                                     tr("Saturday")};
 		dateFacet->long_weekday_names(weekdays);
 
-		std::vector<std::string> days = {
+		std::vector<std::string> const days = {
 		    tr("1st"),  tr("2nd"),  tr("3rd"),  tr("4th"),  tr("5th"),  tr("6th"),  tr("7th"),
 		    tr("8th"),  tr("9th"),  tr("10th"), tr("11th"), tr("12th"), tr("13th"), tr("14th"),
 		    tr("15th"), tr("16th"), tr("17th"), tr("18th"), tr("19th"), tr("20th"), tr("21st"),
@@ -102,13 +102,13 @@ UString GameTime::getShortDateString() const
 		apoc_date_facet *dateFacet = new apoc_date_facet("%E %B, %Y");
 		DATE_SHORT_FORMAT = new std::locale(std::locale::classic(), dateFacet);
 
-		std::vector<std::string> months = {tr("January"), tr("February"), tr("March"),
+		std::vector<std::string> const months = {tr("January"), tr("February"), tr("March"),
 		                                   tr("April"),   tr("May"),      tr("June"),
 		                                   tr("July"),    tr("August"),   tr("September"),
 		                                   tr("October"), tr("November"), tr("December")};
 		dateFacet->long_month_names(months);
 
-		std::vector<std::string> days = {
+		std::vector<std::string> const days = {
 		    tr("1st"),  tr("2nd"),  tr("3rd"),  tr("4th"),  tr("5th"),  tr("6th"),  tr("7th"),
 		    tr("8th"),  tr("9th"),  tr("10th"), tr("11th"), tr("12th"), tr("13th"), tr("14th"),
 		    tr("15th"), tr("16th"), tr("17th"), tr("18th"), tr("19th"), tr("20th"), tr("21st"),
@@ -195,10 +195,10 @@ unsigned int GameTime::getTicksBetween(unsigned int fromDays, unsigned int fromH
 	if (fromDays <= toDays && fromHours <= toHours && fromMinutes <= toMinutes &&
 	    fromSeconds < toSeconds)
 	{
-		unsigned int days_diff_in_ticks = (toDays - fromDays) * TICKS_PER_DAY;
-		unsigned int hours_diff_in_ticks = (toHours - fromHours) * TICKS_PER_HOUR;
-		unsigned int minutes_diff_in_ticks = (toMinutes - fromMinutes) * TICKS_PER_MINUTE;
-		unsigned int seconds_diff_in_ticks = (toSeconds - fromSeconds) * TICKS_PER_SECOND;
+		unsigned int const days_diff_in_ticks = (toDays - fromDays) * TICKS_PER_DAY;
+		unsigned int const hours_diff_in_ticks = (toHours - fromHours) * TICKS_PER_HOUR;
+		unsigned int const minutes_diff_in_ticks = (toMinutes - fromMinutes) * TICKS_PER_MINUTE;
+		unsigned int const seconds_diff_in_ticks = (toSeconds - fromSeconds) * TICKS_PER_SECOND;
 
 		return days_diff_in_ticks + hours_diff_in_ticks + minutes_diff_in_ticks +
 		       seconds_diff_in_ticks;
@@ -231,20 +231,20 @@ void GameTime::clearFlags()
 void GameTime::addTicks(uint64_t ticks)
 {
 	this->ticks += ticks;
-	uint64_t secondTicks = this->ticks % (TICKS_PER_SECOND);
-	uint64_t fiveMinutesTicks = this->ticks % (5 * TICKS_PER_MINUTE);
+	uint64_t const secondTicks = this->ticks % (TICKS_PER_SECOND);
+	uint64_t const fiveMinutesTicks = this->ticks % (5 * TICKS_PER_MINUTE);
 	if (fiveMinutesTicks < ticks)
 	{
 		secondPassedFlag = true;
 		fiveMinutesPassedFlag = true;
-		uint64_t hourTicks = this->ticks % TICKS_PER_HOUR;
+		uint64_t const hourTicks = this->ticks % TICKS_PER_HOUR;
 		if (hourTicks < ticks)
 		{
 			hourPassedFlag = true;
-			uint64_t dayTicks = this->ticks % TICKS_PER_DAY;
+			uint64_t const dayTicks = this->ticks % TICKS_PER_DAY;
 			if (dayTicks < ticks)
 			{
-				uint64_t days = this->ticks / TICKS_PER_DAY;
+				uint64_t const days = this->ticks / TICKS_PER_DAY;
 				dayPassedFlag = true;
 				// game starts on Tuesday, so week rolls on day 6
 				if (days % 7 == 6)

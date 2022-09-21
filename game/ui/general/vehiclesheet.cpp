@@ -47,7 +47,7 @@ void VehicleSheet::clear()
 {
 	for (int i = 0; i < 10; i++)
 	{
-		for (char alignment : {'L', 'R'})
+		for (char const alignment : {'L', 'R'})
 		{
 			auto labelName = format("LABEL_%d_%c", i + 1, alignment);
 			auto label = form->findControlTyped<Label>(labelName);

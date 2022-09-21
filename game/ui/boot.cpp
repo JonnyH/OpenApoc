@@ -32,7 +32,7 @@ void BootUp::eventOccurred(Event *e) { std::ignore = e; }
 
 void BootUp::update()
 {
-	bool skipIntro = Options::skipIntroOption.get();
+	bool const skipIntro = Options::skipIntroOption.get();
 	// The first forms instance causes it to get loaded
 	sp<GameState> loadedState;
 	std::shared_future<void> loadTask;

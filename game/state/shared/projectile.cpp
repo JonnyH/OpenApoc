@@ -119,9 +119,9 @@ void Projectile::update(GameState &state, unsigned int ticks)
 		// Cross product is 0 if we are moving straight on target
 		if (cross.x != 0.0f || cross.y != 0.0f || cross.z != 0.0f)
 		{
-			float maxAngleToTurn = (float)ticks * turnRate * PROJECTILE_TURN_PER_TICK;
+			float const maxAngleToTurn = (float)ticks * turnRate * PROJECTILE_TURN_PER_TICK;
 			// angle is always > 0, turning direction determined by cross product
-			float angleToTarget =
+			float const angleToTarget =
 			    clamp(glm::angle(glm::normalize(velocity), glm::normalize(targetVector)), 0.0f,
 			          maxAngleToTurn);
 			glm::mat4 rotationMat(1);

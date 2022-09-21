@@ -67,7 +67,7 @@ sp<ImageSet> RawImage::loadSet(Data &data, const UString &filename, const Vec2<i
 		LogWarning("File \"%s\" has incorrect size for raw images of size %s", filename, size);
 	}
 
-	size_t numImages = infile.size() / (size.x * size.y);
+	size_t const numImages = infile.size() / (size.x * size.y);
 	auto imageSet = mksp<ImageSet>();
 	imageSet->maxSize = size;
 	imageSet->images.resize(numImages);

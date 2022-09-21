@@ -57,10 +57,10 @@ sp<Palette> OpenApoc::loadPNGPalette(Data &d, const UString fileName)
 	uint8_t *palPos = pixels.data();
 	for (unsigned int i = 0; i < 256; i++)
 	{
-		uint8_t r = *palPos++;
-		uint8_t g = *palPos++;
-		uint8_t b = *palPos++;
-		uint8_t a = *palPos++;
+		uint8_t const r = *palPos++;
+		uint8_t const g = *palPos++;
+		uint8_t const b = *palPos++;
+		uint8_t const a = *palPos++;
 		pal->setColour(i, Colour{r, g, b, a});
 	}
 	return pal;
@@ -84,7 +84,7 @@ class LodepngImageLoader : public OpenApoc::ImageLoader
 		unsigned int width, height;
 		lodepng::State png_state;
 
-		unsigned int err = lodepng_inspect(&width, &height, &png_state,
+		unsigned int const err = lodepng_inspect(&width, &height, &png_state,
 		                                   reinterpret_cast<unsigned char *>(data.get()), dataSize);
 		if (err)
 		{
@@ -101,7 +101,7 @@ class LodepngImageLoader : public OpenApoc::ImageLoader
 		// app modifying them
 
 		std::vector<unsigned char> image;
-		unsigned int error = lodepng::decode(
+		unsigned int const error = lodepng::decode(
 		    image, width, height, reinterpret_cast<unsigned char *>(data.get()), file.size());
 		if (error)
 		{
@@ -112,7 +112,7 @@ class LodepngImageLoader : public OpenApoc::ImageLoader
 			LogInfo("Failed to load image %s (not a PNG?)", file.systemPath());
 			return nullptr;
 		}
-		OpenApoc::Vec2<int> size(width, height);
+		OpenApoc::Vec2<int> const size(width, height);
 		auto img = mksp<OpenApoc::RGBImage>(size);
 		OpenApoc::RGBImageLock dst(img, OpenApoc::ImageLockUse::Write);
 
@@ -120,7 +120,7 @@ class LodepngImageLoader : public OpenApoc::ImageLoader
 		{
 			for (int x = 0; x < size.x; x++)
 			{
-				OpenApoc::Colour c(
+				OpenApoc::Colour const c(
 				    image[4 * size.x * y + 4 * x + 0], image[4 * size.x * y + 4 * x + 1],
 				    image[4 * size.x * y + 4 * x + 2], image[4 * size.x * y + 4 * x + 3]);
 				dst.set(OpenApoc::Vec2<int>(x, y), c);

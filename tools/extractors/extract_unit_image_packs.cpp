@@ -14,7 +14,7 @@ sp<BattleUnitImagePack> InitialGameStateExtractor::extractImagePack(GameState &s
                                                                     bool shadow) const
 {
 	std::ignore = state;
-	UString dirName = "xcom3/tacdata/";
+	UString const dirName = "xcom3/tacdata/";
 
 	auto imageTabFileName = format("%s%s.tab", dirName, path);
 	auto imageTabFile = fw().data->fs.open(imageTabFileName);
@@ -23,7 +23,7 @@ sp<BattleUnitImagePack> InitialGameStateExtractor::extractImagePack(GameState &s
 		LogError("Failed to open TAB file \"%s\"", imageTabFileName);
 		return nullptr;
 	}
-	size_t imageTabFileEntryCount = imageTabFile.size() / 4;
+	size_t const imageTabFileEntryCount = imageTabFile.size() / 4;
 
 	auto p = mksp<BattleUnitImagePack>();
 
@@ -43,7 +43,7 @@ sp<BattleUnitImagePack> InitialGameStateExtractor::extractItemImagePack(GameStat
                                                                         int item) const
 {
 	std::ignore = state;
-	UString dirName = "xcom3/tacdata/";
+	UString const dirName = "xcom3/tacdata/";
 
 	auto p = mksp<BattleUnitImagePack>();
 

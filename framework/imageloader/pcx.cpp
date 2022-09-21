@@ -84,7 +84,7 @@ class PCXImageLoader : public OpenApoc::ImageLoader
 			return nullptr;
 		}
 
-		uint8_t pal = data[size - (256 * 3) - 1];
+		uint8_t const pal = data[size - (256 * 3) - 1];
 		if (pal != 0x0C)
 		{
 			LogWarning("File \"%s\" had invalid PCX palette identifier byte 0x%02x", path,
@@ -97,10 +97,10 @@ class PCXImageLoader : public OpenApoc::ImageLoader
 		const uint8_t *palette_data = reinterpret_cast<uint8_t *>(&data[size - (256 * 3)]);
 		for (unsigned i = 0; i < 256; i++)
 		{
-			uint8_t r = *palette_data++;
-			uint8_t g = *palette_data++;
-			uint8_t b = *palette_data++;
-			Colour c{r, g, b, 255};
+			uint8_t const r = *palette_data++;
+			uint8_t const g = *palette_data++;
+			uint8_t const b = *palette_data++;
+			Colour const c{r, g, b, 255};
 			p->setColour(i, c);
 		}
 

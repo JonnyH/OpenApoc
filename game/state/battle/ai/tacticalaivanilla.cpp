@@ -52,7 +52,7 @@ TacticalAIVanilla::think(GameState &state, StateRef<Organisation> o)
 	}
 	LogAssert(unitsTotal > 0);
 	// Chance to retreat is [0 to 50]% as number of neutralised allies goes [50 to 100]%
-	bool retreat =
+	bool const retreat =
 	    randBoundsExclusive(state.rng, 0, 100) < (unitsActive - unitsTotal / 2) / unitsTotal;
 
 	// Find an idle unit that needs orders
@@ -94,7 +94,7 @@ TacticalAIVanilla::think(GameState &state, StateRef<Organisation> o)
 		{
 			continue;
 		}
-		AIDecision decision = {nullptr, std::get<1>(decisions)};
+		AIDecision const decision = {nullptr, std::get<1>(decisions)};
 
 		// Randomize civ movement kind
 		if (u.second->getAIType() == AIType::Civilian && decision.movement)
@@ -126,7 +126,7 @@ TacticalAIVanilla::think(GameState &state, StateRef<Organisation> o)
 std::tuple<std::list<StateRef<BattleUnit>>, sp<AIMovement>>
 TacticalAIVanilla::getPatrolMovement(GameState &state, BattleUnit &u)
 {
-	static float SQUAD_RANGE = 10.0f;
+	static float const SQUAD_RANGE = 10.0f;
 
 	auto result = mksp<AIMovement>();
 	std::list<StateRef<BattleUnit>> units = {};
@@ -166,7 +166,7 @@ TacticalAIVanilla::getPatrolMovement(GameState &state, BattleUnit &u)
 		}
 	}
 
-	int maxIterations = 50;
+	int const maxIterations = 50;
 	int iterationCount = 0;
 
 	while (iterationCount++ < maxIterations)

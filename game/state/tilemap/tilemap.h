@@ -85,7 +85,7 @@ class TileMap
 	std::vector<std::set<TileObject::Type>> layerMap;
 
   public:
-	const bool isTileInBounds(int x, int y, int z) const
+	bool isTileInBounds(int x, int y, int z) const
 	{
 		if (x < 0 || x >= size.x)
 			return false;
@@ -95,7 +95,7 @@ class TileMap
 			return false;
 		return true;
 	}
-	const bool isTileInBounds(Vec3<int> pos) const { return isTileInBounds(pos.x, pos.y, pos.z); }
+	bool isTileInBounds(Vec3<int> pos) const { return isTileInBounds(pos.x, pos.y, pos.z); }
 	const Tile *getTile(int x, int y, int z) const
 	{
 
@@ -158,13 +158,13 @@ class TileMap
 	}
 
 	Collision findCollision(Vec3<float> lineSegmentStart, Vec3<float> lineSegmentEnd,
-	                        const std::set<TileObject::Type> validTypes = {},
+	                        std::set<TileObject::Type> validTypes = {},
 	                        sp<TileObject> ignoredObject = nullptr, bool useLOS = false,
 	                        bool check_full_path = false, unsigned maxRange = 0,
 	                        bool recordPassedTiles = false,
 	                        StateRef<Organisation> ignoreOwnedProjectiles = nullptr) const;
 
-	bool checkThrowTrajectory(const sp<TileObject> thrower, Vec3<float> start, Vec3<int> end,
+	bool checkThrowTrajectory(sp<TileObject> thrower, Vec3<float> start, Vec3<int> end,
 	                          Vec3<float> targetVectorXY, float velocityXY, float velocityZ) const;
 
 	void addObjectToMap(sp<Projectile>);
@@ -181,7 +181,7 @@ class TileMap
 	bool tileIsValid(int x, int y, int z) const;
 	bool tileIsValid(Vec3<int> tile) const;
 
-	sp<Image> dumpVoxelView(const Rect<int> viewRect, const TileTransform &transform, float maxZ,
+	sp<Image> dumpVoxelView(Rect<int> viewRect, const TileTransform &transform, float maxZ,
 	                        bool fast = false, bool los = false) const;
 
 	void updateAllBattlescapeInfo();

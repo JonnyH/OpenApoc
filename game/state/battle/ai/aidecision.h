@@ -61,7 +61,7 @@ class AIAction
 	bool isFinished(BattleUnit &u);
 
   private:
-	bool inProgressInternal(BattleUnit &u);
+	bool inProgressInternal(BattleUnit &u) const;
 };
 
 class AIMovement
@@ -119,7 +119,7 @@ class AIMovement
 	bool isFinished(BattleUnit &u);
 
   private:
-	bool inProgressInternal(BattleUnit &u);
+	bool inProgressInternal(BattleUnit &u) const;
 };
 
 class AIDecision
@@ -127,7 +127,7 @@ class AIDecision
   public:
 	AIDecision() = default;
 	AIDecision(sp<AIAction> action, sp<AIMovement> movement);
-	bool isEmpty();
+	bool isEmpty() const;
 
 	// Parameters that are stored for future reference
 
@@ -141,6 +141,6 @@ class AIDecision
 
 	// Methods
 
-	UString getName();
+	UString getName() const;
 };
 } // namespace OpenApoc

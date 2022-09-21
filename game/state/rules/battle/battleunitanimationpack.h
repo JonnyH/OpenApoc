@@ -222,10 +222,10 @@ class BattleUnitAnimationPack : public StateObject<BattleUnitAnimationPack>
 	bool loadAnimationPack(GameState &state, const UString &path);
 
 	// high level api for saving
-	bool saveAnimationPack(const UString &path, bool pack = true, bool pretty = false);
+	bool saveAnimationPack(const UString &path, bool pack = true, bool pretty = false) const;
 
 	// Function used when getting file path
-	static const UString getNameFromID(UString id);
+	static UString getNameFromID(UString id);
 
 	static UString getAnimationPackPath();
 };

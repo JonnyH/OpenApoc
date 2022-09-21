@@ -244,7 +244,7 @@ int AEquipment::getAccuracy(BodyState bodyState, MovementState movementState,
 		berserkDispersion = unit->moraleState == MoraleState::Berserk ? 2.0f : 0.0f;
 	}
 
-	float totalDispersion =
+	float const totalDispersion =
 	    sqrtf(agentDispersion * agentDispersion + weaponDispersion * weaponDispersion +
 	          healthDispersion * healthDispersion + woundDispersion * woundDispersion +
 	          berserkDispersion * berserkDispersion);
@@ -256,12 +256,12 @@ int AEquipment::getWeight() const
 	return type->weight + ((payloadType && ammo > 0) ? payloadType->weight : 0);
 }
 
-int AEquipment::getFireCost(WeaponAimingMode fireMode)
+int AEquipment::getFireCost(WeaponAimingMode fireMode) const
 {
 	return getPayloadType()->fire_delay / TICKS_MULTIPLIER / (int)fireMode;
 }
 
-int AEquipment::getFireCost(WeaponAimingMode fireMode, int maxTU)
+int AEquipment::getFireCost(WeaponAimingMode fireMode, int maxTU) const
 {
 	return getFireCost(fireMode) * maxTU / 100;
 }
@@ -455,7 +455,7 @@ bool AEquipment::canBeUsed(GameState &state) const
 
 void AEquipment::update(GameState &state, unsigned int ticks)
 {
-	bool realTime = state.current_battle->mode == Battle::Mode::RealTime;
+	bool const realTime = state.current_battle->mode == Battle::Mode::RealTime;
 
 	// Firing update
 	if (weapon_fire_ticks_remaining > 0)
@@ -739,7 +739,7 @@ void AEquipment::fire(GameState &state, Vec3<float> targetPosition, StateRef<Bat
 
 	auto unit = ownerAgent->unit;
 	auto payload = getPayloadType();
-	Vec3<float> originalTarget = targetPosition;
+	Vec3<float> const originalTarget = targetPosition;
 	int number_of_shots;
 
 	if (payload->fire_sfx)
@@ -844,7 +844,7 @@ void AEquipment::throwItem(GameState &state, Vec3<int> targetPosition, float vel
                            float velocityZ, bool launch)
 {
 	auto &unit = *ownerUnit;
-	Vec3<float> position = unit.getThrownItemLocation();
+	Vec3<float> const position = unit.getThrownItemLocation();
 	if (state.battle_common_sample_list->throwSounds.size() > 0)
 	{
 		fw().soundBackend->playSample(
@@ -855,16 +855,16 @@ void AEquipment::throwItem(GameState &state, Vec3<int> targetPosition, float vel
 	Vec3<float> targetLocationModified =
 	    Vec3<float>(targetPosition) + Vec3<float>{0.5f, 0.5f, 0.0f};
 	// This is proper target vector, stored to get difference later
-	Vec3<float> targetVector = targetLocationModified - position;
+	Vec3<float> const targetVector = targetLocationModified - position;
 	// Apply accuracy (if launching apply normal, narrower spread)
 	Battle::accuracyAlgorithmBattle(state, position, targetLocationModified,
 	                                getAccuracy(unit.current_body_state,
 	                                            unit.current_movement_state, unit.fire_aiming_mode,
 	                                            true),
 	                                false, !launch);
-	Vec3<float> targetVectorModified = targetLocationModified - position;
+	Vec3<float> const targetVectorModified = targetLocationModified - position;
 	// Calculate difference in lengths to modify velocity
-	float targetVectorDifference = glm::length(targetVectorModified) / glm::length(targetVector);
+	float const targetVectorDifference = glm::length(targetVectorModified) / glm::length(targetVector);
 
 	velocityXY *= targetVectorDifference;
 	velocityZ *= targetVectorDifference;
@@ -900,7 +900,7 @@ bool AEquipment::canFire(GameState &state, Vec3<float> to) const
 {
 	if (!canFire(state))
 		return false;
-	float distanceToTarget =
+	float const distanceToTarget =
 	    glm::length((ownerAgent->unit->getMuzzleLocation() - to) * VELOCITY_SCALE_BATTLE);
 	if (getPayloadType()->range < distanceToTarget)
 		return false;
@@ -924,12 +924,12 @@ bool AEquipment::needsReload() const
 // But it may be completely wrong
 float AEquipment::getMaxThrowDistance(int weight, int strength, int heightDifference)
 {
-	static float max = 30.0f;
+	static float const max = 30.0f;
 	if (weight <= 2)
 	{
 		return max;
 	}
-	int mod = heightDifference > 0 ? heightDifference : heightDifference * 2;
+	int const mod = heightDifference > 0 ? heightDifference : heightDifference * 2;
 	return std::max(0.0f, std::min(max, (float)strength / ((float)weight - 1) - 2 + mod));
 }
 
@@ -937,7 +937,7 @@ float AEquipment::getMaxThrowDistance(int weight, int strength, int heightDiffer
 bool AEquipment::calculateNextVelocityForThrow(float distanceXY, float diffZ, float &velocityXY,
                                                float &velocityZ)
 {
-	static float dZ = 0.2f;
+	static float const dZ = 0.2f;
 
 	// Initial setup
 	// Start with X = 2.0f on first try, this is max speed item can have on XY
@@ -973,8 +973,8 @@ bool AEquipment::calculateNextVelocityForThrow(float distanceXY, float diffZ, fl
 	// Therefore, it's VelocityZ when arriving at target must be negative, and big enough
 	// If it's not, we must reduce VelocityX
 
-	float a = -FALLING_ACCELERATION_ITEM / VELOCITY_SCALE_BATTLE.z / 2.0f / TICK_SCALE;
-	float c = diffZ;
+	float const a = -FALLING_ACCELERATION_ITEM / VELOCITY_SCALE_BATTLE.z / 2.0f / TICK_SCALE;
+	float const c = diffZ;
 	float t = 0.0f;
 
 	// We will continue reducing velocityXY  until we find such a trajectory
@@ -1001,10 +1001,10 @@ bool AEquipment::getVelocityForThrowLaunch(const BattleUnit *unit, const TileMap
                                            float &velocityXY, float &velocityZ)
 {
 	// Check distance to target
-	Vec3<int> pos = startPos;
+	Vec3<int> const pos = startPos;
 	Vec3<float> targetVectorXY = target - pos;
 	targetVectorXY = {targetVectorXY.x, targetVectorXY.y, 0.0f};
-	float distance = glm::length(targetVectorXY);
+	float const distance = glm::length(targetVectorXY);
 	if (distance >= getMaxThrowDistance(weight, strength, pos.z - target.z))
 	{
 		return false;
@@ -1025,7 +1025,7 @@ bool AEquipment::getVelocityForThrowLaunch(const BattleUnit *unit, const TileMap
 	return valid;
 }
 bool AEquipment::getCanThrow(const TileMap &map, int strength, Vec3<float> startPos,
-                             Vec3<int> target)
+                             Vec3<int> target) const
 {
 	float nothing1 = 0.0f;
 	float nothing2 = 0.0f;
@@ -1039,7 +1039,7 @@ bool AEquipment::getVelocityForThrow(const TileMap &map, int strength, Vec3<floa
 	                                 velocityXY, velocityZ);
 }
 
-bool AEquipment::getCanThrow(const BattleUnit &unit, Vec3<int> target)
+bool AEquipment::getCanThrow(const BattleUnit &unit, Vec3<int> target) const
 {
 	float nothing1 = 0.0f;
 	float nothing2 = 0.0f;

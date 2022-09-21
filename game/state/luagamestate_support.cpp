@@ -112,7 +112,7 @@ template <> lua_CFunction getLuaObjectMethods<City>(const std::string &key)
 			getFromLua(L, 3, owner);
 			Vec3<float> position;
 			getFromLua(L, 4, position);
-			float facing = static_cast<float>(luaL_optnumber(L, 5, 0.0));
+			float const facing = static_cast<float>(luaL_optnumber(L, 5, 0.0));
 			lua_settop(L, 0);
 			pushToLua(L, (*obj)->placeVehicle(*getGameStateFromLua(L), vehicleType, owner, position,
 			                                  facing));

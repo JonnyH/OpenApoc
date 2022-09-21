@@ -48,7 +48,7 @@ void Organisation::takeOver(GameState &state, bool forced)
 	takenOver = true;
 	militarized = true;
 	infiltrationValue = 200;
-	StateRef<Organisation> org = {&state, id};
+	StateRef<Organisation> const org = {&state, id};
 	current_relations[state.getPlayer()] = -100.0f;
 	state.getPlayer()->current_relations[org] = -100.0f;
 	current_relations[state.getAliens()] = 100.0f;
@@ -171,7 +171,7 @@ StateRef<Building> Organisation::getPurchaseBuilding(GameState &state,
 }
 
 void Organisation::purchase(GameState &state, const StateRef<Building> &buyer,
-                            StateRef<VEquipmentType> vehicleEquipment, int count)
+                            StateRef<VEquipmentType> vehicleEquipment, int count) const
 {
 	int price = 0;
 	if (state.economy.find(vehicleEquipment.id) == state.economy.end())
@@ -205,7 +205,7 @@ void Organisation::purchase(GameState &state, const StateRef<Building> &buyer,
 }
 
 void Organisation::purchase(GameState &state, const StateRef<Building> &buyer,
-                            StateRef<VAmmoType> vehicleAmmo, int count)
+                            StateRef<VAmmoType> vehicleAmmo, int count) const
 {
 	int price = 0;
 	if (state.economy.find(vehicleAmmo.id) == state.economy.end())
@@ -239,7 +239,7 @@ void Organisation::purchase(GameState &state, const StateRef<Building> &buyer,
 }
 
 void Organisation::purchase(GameState &state, const StateRef<Building> &buyer,
-                            StateRef<AEquipmentType> agentEquipment, int count)
+                            StateRef<AEquipmentType> agentEquipment, int count) const
 {
 	int price = 0;
 	if (state.economy.find(agentEquipment.id) == state.economy.end())
@@ -275,7 +275,7 @@ void Organisation::purchase(GameState &state, const StateRef<Building> &buyer,
 }
 
 void Organisation::purchase(GameState &state, const StateRef<Building> &buyer,
-                            StateRef<VehicleType> vehicleType, int count)
+                            StateRef<VehicleType> vehicleType, int count) const
 {
 	int price = 0;
 	if (state.economy.find(vehicleType.id) == state.economy.end())
@@ -402,7 +402,7 @@ void Organisation::updateMissions(GameState &state)
 	{
 		return;
 	}
-	StateRef<Organisation> currentOrg{&state, id};
+	StateRef<Organisation> const currentOrg{&state, id};
 	auto &raidMissions = raid_missions[state.current_city];
 	auto it = raidMissions.begin();
 	while (it != raidMissions.end())
@@ -560,7 +560,7 @@ void Organisation::updateHirableAgents(GameState &state)
 	}
 	for (auto &entry : hirableAgentTypes)
 	{
-		int newAgents = randBoundsInclusive(state.rng, entry.second.first, entry.second.second);
+		int const newAgents = randBoundsInclusive(state.rng, entry.second.first, entry.second.second);
 		for (int i = 0; i < newAgents; i++)
 		{
 			auto a = state.agent_generator.createAgent(state, {&state, id}, entry.first);
@@ -591,8 +591,8 @@ void Organisation::updateInfiltration(GameState &state)
 	}
 
 	// FIXME: Properly read incursions value and difficulty
-	int ufoIncursions = 1;
-	int divizor = 42 - ufoIncursions;
+	int const ufoIncursions = 1;
+	int const divizor = 42 - ufoIncursions;
 
 	// Calculate infiltration modifier
 	int infiltrationModifier = 0;
@@ -788,7 +788,7 @@ void Organisation::adjustRelationTo(GameState &state, StateRef<Organisation> oth
 
 Organisation::Relation Organisation::isRelatedTo(const StateRef<Organisation> &other) const
 {
-	float x = this->getRelationTo(other);
+	float const x = this->getRelationTo(other);
 	// FIXME: Make the thresholds read from serialized GameState?
 	if (x < -50)
 	{
@@ -814,13 +814,13 @@ Organisation::Relation Organisation::isRelatedTo(const StateRef<Organisation> &o
 
 bool Organisation::isPositiveTo(const StateRef<Organisation> &other) const
 {
-	float x = this->getRelationTo(other);
+	float const x = this->getRelationTo(other);
 	return x >= 0;
 }
 
 bool Organisation::isNegativeTo(const StateRef<Organisation> &other) const
 {
-	float x = this->getRelationTo(other);
+	float const x = this->getRelationTo(other);
 	return x < 0;
 }
 
@@ -833,7 +833,7 @@ bool Organisation::isNegativeTo(const StateRef<Organisation> &other) const
 int Organisation::costOfBribeBy(GameState &state, const StateRef<Organisation> &other) const
 {
 	float improvement;
-	float x = this->getRelationTo(other);
+	float const x = this->getRelationTo(other);
 	if (x < -50) // Hostile
 	{
 		improvement = -50.0f - x;
@@ -867,7 +867,7 @@ int Organisation::costOfBribeBy(GameState &state, const StateRef<Organisation> &
  */
 int Organisation::diplomaticRiftOffer(GameState &state, const StateRef<Organisation> &other) const
 {
-	float relationship = this->getRelationTo(other);
+	float const relationship = this->getRelationTo(other);
 
 	// Organization won't offer this if relationship is good already
 	if (relationship > 25)
@@ -897,7 +897,7 @@ bool Organisation::bribedBy(GameState &state, StateRef<Organisation> other, int 
 	}
 
 	float improvement;
-	float x = this->getRelationTo(other);
+	float const x = this->getRelationTo(other);
 	if (x < -50) // Hostile
 	{
 		improvement = -50.0f - x;
@@ -940,7 +940,7 @@ void Organisation::signTreatyWith(GameState &state, StateRef<Organisation> other
 		return;
 	}
 
-	StateRef<Organisation> currentOrg{&state, id};
+	StateRef<Organisation> const currentOrg{&state, id};
 	const float myRelation = this->getRelationTo(other);
 	const float newValue = (forceAlliance)    ? 100.0f
 	                       : (myRelation > 0) ? std::max(myRelation + 25, 100.0f)
@@ -967,12 +967,12 @@ sp<Organisation> StateObject<Organisation>::get(const GameState &state, const US
 
 template <> const UString &StateObject<Organisation>::getPrefix()
 {
-	static UString prefix = "ORG_";
+	static UString const prefix = "ORG_";
 	return prefix;
 }
 template <> const UString &StateObject<Organisation>::getTypeName()
 {
-	static UString name = "Organisation";
+	static UString const name = "Organisation";
 	return name;
 }
 Organisation::RaidMission::RaidMission(uint64_t when, OrganisationRaid::Type type,

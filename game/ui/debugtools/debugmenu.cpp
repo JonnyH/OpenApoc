@@ -96,7 +96,7 @@ void DebugMenu::bulkExportPcks()
 	// Load them up
 	for (auto i = PaletteNames.begin(); i != PaletteNames.end(); i++)
 	{
-		UString palname = (*i);
+		UString const palname = (*i);
 		PaletteList.push_back(fw().data->loadPalette(palname));
 	}
 
@@ -134,13 +134,13 @@ void DebugMenu::bulkExportPcks()
 	// Load them up
 	for (auto i = PckNames.begin(); i != PckNames.end(); i++)
 	{
-		UString pckname = (*i);
-		UString pckloadstr = UString("PCK:") + pckname + UString(":") +
+		UString const pckname = (*i);
+		UString const pckloadstr = UString("PCK:") + pckname + UString(":") +
 		                     pckname.substr(0, pckname.length() - 3) + UString("tab");
 
 		LogInfo("Processing %s", pckloadstr);
 
-		sp<ImageSet> pckset = fw().data->loadImageSet(pckloadstr);
+		sp<ImageSet> const pckset = fw().data->loadImageSet(pckloadstr);
 
 		if (pckset != nullptr)
 		{
@@ -150,15 +150,15 @@ void DebugMenu::bulkExportPcks()
 			{
 				UString outputname = UString("Extracted/") + pckname + UString("/") +
 				                     Strings::fromInteger(idx) + UString(".png");
-				sp<Image> curimg = pckset->images.at(idx);
+				sp<Image> const curimg = pckset->images.at(idx);
 
-				if (sp<RGBImage> bi = std::dynamic_pointer_cast<RGBImage>(curimg))
+				if (sp<RGBImage> const bi = std::dynamic_pointer_cast<RGBImage>(curimg))
 				{
 
 					LogInfo("Saving %s", outputname);
 					fw().data->writeImage(outputname, bi);
 				}
-				else if (sp<PaletteImage> pi = std::dynamic_pointer_cast<PaletteImage>(curimg))
+				else if (sp<PaletteImage> const pi = std::dynamic_pointer_cast<PaletteImage>(curimg))
 				{
 
 					for (unsigned int palidx = 0; palidx < PaletteList.size(); palidx++)

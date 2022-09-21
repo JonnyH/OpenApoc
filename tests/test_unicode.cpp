@@ -32,7 +32,7 @@ struct example_unicode
 	{
 		LogInfo("Testing string \"%s\"", u8string);
 		const auto num_codepoints = expected_codepoints.size();
-		UString string(u8string);
+		UString const string(u8string);
 		U32String string2;
 		auto u32str = to_u32string(string);
 		if (u32str.length() != num_codepoints)
@@ -134,9 +134,9 @@ int main(int argc, char **argv)
 			return EXIT_FAILURE;
 	}
 
-	UString example = u8"€UPpa91£B\"#ð𐍈";
-	UString lower_example = u8"€uppa91£b\"#ð𐍈";
-	UString upper_example = u8"€UPPA91£B\"#ð𐍈";
+	UString const example = u8"€UPpa91£B\"#ð𐍈";
+	UString const lower_example = u8"€uppa91£b\"#ð𐍈";
+	UString const upper_example = u8"€UPPA91£B\"#ð𐍈";
 
 	auto lower = to_lower(example);
 	auto upper = to_upper(example);
@@ -151,11 +151,11 @@ int main(int argc, char **argv)
 		return EXIT_FAILURE;
 	}
 
-	UString removed_example1 = u8"€UPpa91£\"#ð𐍈";
-	UString removed_example2 = u8"€UPpa91£B\"#ð";
-	UString removed_example3 = u8"UPpa91£B\"#ð𐍈";
-	UString removed_example4 = u8"€UPpa91£𐍈";
-	UString empty = u8"";
+	UString const removed_example1 = u8"€UPpa91£\"#ð𐍈";
+	UString const removed_example2 = u8"€UPpa91£B\"#ð";
+	UString const removed_example3 = u8"UPpa91£B\"#ð𐍈";
+	UString const removed_example4 = u8"€UPpa91£𐍈";
+	UString const empty = u8"";
 
 	if (!test_remove(example, removed_example1, 8, 1))
 		return EXIT_FAILURE;
@@ -183,9 +183,9 @@ int main(int argc, char **argv)
 		return EXIT_FAILURE;
 	}
 
-	UString insert_example1 = u8"Ayy€UPpa91£B\"#ð𐍈";
-	UString insert_example2 = u8"€UPpaÞ91£B\"#ð𐍈";
-	UString insert_example3 = u8"€UPpa91£B\"#ð𐍈€UPpa91£B\"#ð𐍈";
+	UString const insert_example1 = u8"Ayy€UPpa91£B\"#ð𐍈";
+	UString const insert_example2 = u8"€UPpaÞ91£B\"#ð𐍈";
+	UString const insert_example3 = u8"€UPpa91£B\"#ð𐍈€UPpa91£B\"#ð𐍈";
 
 	test_insert(example, insert_example1, 0, u8"Ayy");
 	test_insert(example, insert_example2, 5, u8"Þ");

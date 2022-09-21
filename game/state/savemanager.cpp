@@ -44,7 +44,7 @@ std::shared_future<void> SaveManager::loadGame(const SaveMetadata &metadata,
 
 std::shared_future<void> SaveManager::loadGame(const UString &savePath, sp<GameState> state) const
 {
-	UString saveArchiveLocation = savePath;
+	UString const saveArchiveLocation = savePath;
 	auto loadTask = fw().threadPoolEnqueue([saveArchiveLocation, state]() -> void {
 		if (!state->loadGame(saveArchiveLocation))
 		{
@@ -84,7 +84,7 @@ std::shared_future<void> SaveManager::loadSpecialSave(const SaveType type,
 
 bool writeArchiveWithBackup(SerializationArchive *archive, const UString &path, bool pack)
 {
-	fs::path savePath = path;
+	fs::path const savePath = path;
 	fs::path tempPath;
 	bool shouldCleanup = false;
 	try
@@ -101,7 +101,7 @@ bool writeArchiveWithBackup(SerializationArchive *archive, const UString &path, 
 		// that is really bad, because if user clicks exit, save will be renamed to some random
 		// junk
 		// however it will still function as regular save file, so maybe not that bad?
-		fs::path saveDirectory = savePath.parent_path();
+		fs::path const saveDirectory = savePath.parent_path();
 		bool haveNewName = false;
 		for (int retries = 5; retries > 0; retries--)
 		{
@@ -124,7 +124,7 @@ bool writeArchiveWithBackup(SerializationArchive *archive, const UString &path, 
 
 		fs::rename(savePath, tempPath);
 		shouldCleanup = true;
-		bool saveSuccess = archive->write(path, pack);
+		bool const saveSuccess = archive->write(path, pack);
 		shouldCleanup = false;
 
 		if (saveSuccess)
@@ -188,16 +188,16 @@ bool SaveManager::newSaveGame(const UString &name, const sp<GameState> gameState
 		return false;
 	}
 
-	SaveMetadata manifest(name, path, time(nullptr), SaveType::Manual, gameState);
+	SaveMetadata const manifest(name, path, time(nullptr), SaveType::Manual, gameState);
 	return saveGame(manifest, gameState);
 }
 
 bool SaveManager::overrideGame(const SaveMetadata &metadata, const UString &newName,
                                const sp<GameState> gameState) const
 {
-	SaveMetadata updatedMetadata(newName, metadata.getFile(), time(nullptr), metadata.getType(),
+	SaveMetadata const updatedMetadata(newName, metadata.getFile(), time(nullptr), metadata.getType(),
 	                             gameState);
-	bool result = saveGame(updatedMetadata, gameState);
+	bool const result = saveGame(updatedMetadata, gameState);
 	if (result && newName != metadata.getName())
 	{
 		// if renamed file move to path with new name
@@ -220,7 +220,7 @@ bool SaveManager::overrideGame(const SaveMetadata &metadata, const UString &newN
 
 bool SaveManager::saveGame(const SaveMetadata &metadata, const sp<GameState> gameState) const
 {
-	bool pack = Options::packSaveOption.get();
+	bool const pack = Options::packSaveOption.get();
 	const UString path = metadata.getFile();
 	auto archive = SerializationArchive::createArchive();
 	if (gameState->serialize(archive.get()) && metadata.serializeManifest(archive.get()))
@@ -250,14 +250,14 @@ bool SaveManager::specialSaveGame(SaveType type, const sp<GameState> gameState) 
 		return false;
 	}
 
-	SaveMetadata manifest(saveName, createSavePath(saveName), time(nullptr), type, gameState);
+	SaveMetadata const manifest(saveName, createSavePath(saveName), time(nullptr), type, gameState);
 	return saveGame(manifest, gameState);
 }
 
 std::vector<SaveMetadata> SaveManager::getSaveList() const
 {
 	auto dirString = Options::saveDirOption.get();
-	fs::path saveDirectory = dirString;
+	fs::path const saveDirectory = dirString;
 	std::vector<SaveMetadata> saveList;
 	try
 	{
@@ -274,9 +274,9 @@ std::vector<SaveMetadata> SaveManager::getSaveList() const
 				continue;
 			}
 
-			std::string saveFileName = i->path().filename().string();
+			std::string const saveFileName = i->path().filename().string();
 			// miniz can't read paths not starting with dir or with windows slashes
-			UString savePath = saveDirectory.string() + "/" + saveFileName;
+			UString const savePath = saveDirectory.string() + "/" + saveFileName;
 			if (auto archive = SerializationArchive::readArchive(savePath))
 			{
 				SaveMetadata metadata;

@@ -70,19 +70,19 @@ int getCorridorSectorID(const Base &base, Vec2<int> pos)
 			}
 		}
 
-		bool north = pos.y > 0 && facilities[pos.x][pos.y - 1];
-		bool south = pos.y < Base::SIZE - 1 && facilities[pos.x][pos.y + 1];
-		bool west = pos.x > 0 && facilities[pos.x - 1][pos.y];
-		bool east = pos.x < Base::SIZE - 1 && facilities[pos.x + 1][pos.y];
+		bool const north = pos.y > 0 && facilities[pos.x][pos.y - 1];
+		bool const south = pos.y < Base::SIZE - 1 && facilities[pos.x][pos.y + 1];
+		bool const west = pos.x > 0 && facilities[pos.x - 1][pos.y];
+		bool const east = pos.x < Base::SIZE - 1 && facilities[pos.x + 1][pos.y];
 		return TILE_CORRIDORS.at({north, south, west, east}) - 3;
 		return 0;
 	}
 	else
 	{
-		bool north = pos.y > 0 && base.corridors[pos.x][pos.y - 1];
-		bool south = pos.y < Base::SIZE - 1 && base.corridors[pos.x][pos.y + 1];
-		bool west = pos.x > 0 && base.corridors[pos.x - 1][pos.y];
-		bool east = pos.x < Base::SIZE - 1 && base.corridors[pos.x + 1][pos.y];
+		bool const north = pos.y > 0 && base.corridors[pos.x][pos.y - 1];
+		bool const south = pos.y < Base::SIZE - 1 && base.corridors[pos.x][pos.y + 1];
+		bool const west = pos.x > 0 && base.corridors[pos.x - 1][pos.y];
+		bool const east = pos.x < Base::SIZE - 1 && base.corridors[pos.x + 1][pos.y];
 		return TILE_CORRIDORS.at({north, south, west, east}) - 3 + 15;
 	}
 }
@@ -100,12 +100,12 @@ template <> sp<BattleMap> StateObject<BattleMap>::get(const GameState &state, co
 }
 template <> const UString &StateObject<BattleMap>::getPrefix()
 {
-	static UString prefix = "BATTLEMAP_";
+	static UString const prefix = "BATTLEMAP_";
 	return prefix;
 }
 template <> const UString &StateObject<BattleMap>::getTypeName()
 {
-	static UString name = "BattleMap";
+	static UString const name = "BattleMap";
 	return name;
 }
 template <>
@@ -200,7 +200,7 @@ sp<Battle> BattleMap::createBattle(GameState &state, StateRef<Organisation> oppo
 		}
 
 		// Find which base is under attack
-		StateRef<Base> base = building->base;
+		StateRef<Base> const base = building->base;
 
 		// Add combat personnel
 		int playerAgentsCount = 0;
@@ -402,7 +402,7 @@ bool doesCellIntersectSomething(std::vector<sp<BattleMapSector>> &sec_map,
                                 const Vec3<int> &map_size, int x1, int y1, int z1)
 {
 	bool intersects = false;
-	static Vec3<int> cell_size = {1, 1, 1};
+	static Vec3<int> const cell_size = {1, 1, 1};
 	for (int x2 = 0; x2 < map_size.x; x2++)
 		for (int y2 = 0; y2 < map_size.y; y2++)
 			for (int z2 = 0; z2 < map_size.z; z2++)
@@ -448,12 +448,12 @@ bool placeSector(GameState &state, std::vector<sp<BattleMapSector>> &sec_map,
 				{
 					for (int z = 1; z < map_size.z; z++)
 					{
-						int x1 = invert_x_packing ? map_size.x - 1 - x : x;
-						int y1 = invert_y_packing ? map_size.y - 1 - y : y;
-						int z1 = z;
-						int dx1 = invert_x_packing ? -1 : 1;
-						int dy1 = invert_y_packing ? -1 : 1;
-						int dz1 = 1;
+						int const x1 = invert_x_packing ? map_size.x - 1 - x : x;
+						int const y1 = invert_y_packing ? map_size.y - 1 - y : y;
+						int const z1 = z;
+						int const dx1 = invert_x_packing ? -1 : 1;
+						int const dy1 = invert_y_packing ? -1 : 1;
+						int const dz1 = 1;
 
 						if (!sec_map[x1 + y1 * map_size.x + z1 * map_size.x * map_size.y])
 							continue;
@@ -586,7 +586,7 @@ bool BattleMap::generateMap(std::vector<sp<BattleMapSector>> &sec_map, Vec3<int>
 	// This switch will allow larger maps, +2 in size, which vanilla never did I think, and which is
 	// required for some vertical stacking maps to actually spawn because they contain too many
 	// mandatory sectors to fit into battle size even when enlarged by 1 on the smaller side
-	bool allow_very_large_maps = true;
+	bool const allow_very_large_maps = true;
 
 	// This switch allows maps to spawn only one of the mandatory sectors instead of
 	// every single one
@@ -728,8 +728,8 @@ bool BattleMap::generateMap(std::vector<sp<BattleMapSector>> &sec_map, Vec3<int>
 				break;
 		}
 
-		bool invert_x_packing = randBoundsInclusive(state.rng, 0, 1) == 1;
-		bool invert_y_packing = randBoundsInclusive(state.rng, 0, 1) == 1;
+		bool const invert_x_packing = randBoundsInclusive(state.rng, 0, 1) == 1;
+		bool const invert_y_packing = randBoundsInclusive(state.rng, 0, 1) == 1;
 
 		sec_map = {(unsigned)size.x * size.y * size.z, nullptr};
 		std::vector<int> sec_num_placed = std::vector<int>(secCount + 1, 0);
@@ -842,7 +842,7 @@ bool BattleMap::generateMap(std::vector<sp<BattleMapSector>> &sec_map, Vec3<int>
 				// complete or we cannot place another sector
 				while (!isMapComplete(sec_map, size) && remaining_sectors.size() > 0)
 				{
-					int i = randBoundsExclusive(state.rng, (int)0, (int)remaining_sectors.size());
+					int const i = randBoundsExclusive(state.rng, (int)0, (int)remaining_sectors.size());
 					if (placeSector(state, sec_map, size, secRefs[remaining_sectors[i]],
 					                attempt_fill_map == 2, invert_x_packing, invert_y_packing))
 					{
@@ -916,7 +916,7 @@ bool BattleMap::generateMap(std::vector<sp<BattleMapSector>> &sec_map, Vec3<int>
 bool BattleMap::generateBase(std::vector<sp<BattleMapSector>> &sec_map, Vec3<int> &size,
                              GameState &state, UString mission_location_id)
 {
-	StateRef<Building> building = {&state, mission_location_id};
+	StateRef<Building> const building = {&state, mission_location_id};
 	StateRef<Base> base;
 	for (auto &b : state.player_bases)
 	{
@@ -1020,7 +1020,7 @@ BattleMap::fillMap(std::vector<std::list<std::pair<Vec3<int>, sp<BattleMapPart>>
 					LogInfo("Using already-loaded sector tiles \"%s\"", sec->sectorTilesName);
 				}
 				auto &tiles = *sec->tiles;
-				Vec3<int> shift = {x * chunk_size.x, y * chunk_size.y, z * chunk_size.z};
+				Vec3<int> const shift = {x * chunk_size.x, y * chunk_size.y, z * chunk_size.z};
 
 				for (auto &pair : tiles.initial_grounds)
 				{
@@ -1407,7 +1407,7 @@ void BattleMap::initNewMap(sp<Battle> b)
 	// Init los block pathfinding
 
 	// Vars
-	int size = b->losBlocks.size();
+	int const size = b->losBlocks.size();
 	auto &losBlocks = b->losBlocks;
 	auto &linkAvailable = b->linkAvailable;
 

@@ -314,11 +314,11 @@ void CityTileView::render()
 	auto bottomLeft = offsetScreenToTileCoords(Vec2<int>{-isoTileSize.x, dpySize.y}, map.size.z);
 	auto bottomRight = offsetScreenToTileCoords(Vec2<int>{dpySize.x, dpySize.y}, map.size.z);
 
-	int minX = std::max(0, topLeft.x);
-	int maxX = std::min(map.size.x, bottomRight.x);
+	int const minX = std::max(0, topLeft.x);
+	int const maxX = std::min(map.size.x, bottomRight.x);
 
-	int minY = std::max(0, topRight.y);
-	int maxY = std::min(map.size.y, bottomLeft.y);
+	int const minY = std::max(0, topRight.y);
+	int const maxY = std::min(map.size.y, bottomLeft.y);
 
 	switch (this->viewMode)
 	{
@@ -372,7 +372,7 @@ void CityTileView::render()
 							for (size_t obj_id = 0; obj_id < object_count; obj_id++)
 							{
 								auto &obj = tile->drawnObjects[layer][obj_id];
-								Vec2<float> pos = tileToOffsetScreenCoords(obj->getCenter());
+								Vec2<float> const pos = tileToOffsetScreenCoords(obj->getCenter());
 								bool visible = true;
 
 								switch (obj->getType())
@@ -524,16 +524,16 @@ void CityTileView::render()
 			{
 				Vec3<float> size = obj->type->size.at(obj->type->getVoxelMapFacing(obj->facing));
 				size /= 2;
-				Vec2<float> pTop = tileToOffsetScreenCoords(obj->getPosition() +
+				Vec2<float> const pTop = tileToOffsetScreenCoords(obj->getPosition() +
 				                                            Vec3<float>{-size.x, -size.y, size.z});
-				Vec2<float> pLeft =
+				Vec2<float> const pLeft =
 				    tileToOffsetScreenCoords(obj->getPosition() + Vec3<float>{-size.x, +size.y, 0});
-				Vec2<float> pRight =
+				Vec2<float> const pRight =
 				    tileToOffsetScreenCoords(obj->getPosition() + Vec3<float>{size.x, -size.y, 0});
-				Vec2<float> pBottom = tileToOffsetScreenCoords(
+				Vec2<float> const pBottom = tileToOffsetScreenCoords(
 				    obj->getPosition() + Vec3<float>{size.x, size.y, -size.z});
 
-				int idx = vehiclesBracketsIndex[obj];
+				int const idx = vehiclesBracketsIndex[obj];
 				r.draw(selectionBrackets[idx][0], {pLeft.x - 2.0f, pTop.y - 2.0f});
 				r.draw(selectionBrackets[idx][1], {pRight.x - 2.0f, pTop.y - 2.0f});
 				r.draw(selectionBrackets[idx][2], {pLeft.x - 2.0f, pBottom.y - 2.0f});
@@ -567,7 +567,7 @@ void CityTileView::render()
 								bool friendly = false;
 								bool hostile = false;
 								auto &obj = tile->drawnObjects[layer][obj_id];
-								Vec2<float> pos = tileToOffsetScreenCoords(obj->getCenter());
+								Vec2<float> const pos = tileToOffsetScreenCoords(obj->getCenter());
 
 								switch (obj->getType())
 								{
@@ -578,7 +578,7 @@ void CityTileView::render()
 										friendly = v->owner == state.getPlayer();
 										hostile = state.getPlayer()->isRelatedTo(v->owner) ==
 										          Organisation::Relation::Hostile;
-										bool selected =
+										bool const selected =
 										    std::find(
 										        state.current_city->cityViewSelectedVehicles
 										            .begin(),
@@ -623,9 +623,9 @@ void CityTileView::render()
 					continue;
 				}
 
-				Vec3<float> posA = {building->bounds.p0.x, building->bounds.p0.y, 0};
+				Vec3<float> const posA = {building->bounds.p0.x, building->bounds.p0.y, 0};
 				Vec2<float> screenPosA = this->tileToOffsetScreenCoords(posA);
-				Vec3<float> posB = {building->bounds.p1.x, building->bounds.p1.y, 0};
+				Vec3<float> const posB = {building->bounds.p1.x, building->bounds.p1.y, 0};
 				Vec2<float> screenPosB = this->tileToOffsetScreenCoords(posB);
 
 				// Apply offset to borders every half-second
@@ -668,9 +668,9 @@ void CityTileView::render()
 					{
 						continue;
 					}
-					Vec3<float> posA = {b.second->bounds.p0.x, b.second->bounds.p0.y, 0};
+					Vec3<float> const posA = {b.second->bounds.p0.x, b.second->bounds.p0.y, 0};
 					Vec2<float> screenPosA = this->tileToOffsetScreenCoords(posA);
-					Vec3<float> posB = {b.second->bounds.p1.x, b.second->bounds.p1.y, 0};
+					Vec3<float> const posB = {b.second->bounds.p1.x, b.second->bounds.p1.y, 0};
 					Vec2<float> screenPosB = this->tileToOffsetScreenCoords(posB);
 
 					// Apply offset to borders every half-second
@@ -709,7 +709,7 @@ void CityTileView::render()
 				{
 					continue;
 				}
-				bool selected =
+				bool const selected =
 				    std::find(state.current_city->cityViewSelectedVehicles.begin(),
 				              state.current_city->cityViewSelectedVehicles.end(),
 				              v.second) != state.current_city->cityViewSelectedVehicles.end();
@@ -802,7 +802,7 @@ void CityTileView::render()
 				static const auto lineColorFriend = Colour(150, 250, 20, 255);
 				static const auto lineColorEnemy = Colour(255, 0, 0, 255);
 
-				bool targetDrawn = std::get<2>(obj);
+				bool const targetDrawn = std::get<2>(obj);
 				// Draw line from unit to target tile
 				r.drawLine(tileToOffsetScreenCoords(std::get<0>(obj)),
 				           tileToOffsetScreenCoords(std::get<1>(obj)),
@@ -828,7 +828,7 @@ void CityTileView::render()
 				// Draw unit selection brackets
 				if (selectionFrameTicksAccumulated / SELECTION_FRAME_ANIMATION_DELAY)
 				{
-					bool selected =
+					bool const selected =
 					    !state.current_city->cityViewSelectedAgents.empty() &&
 					    std::find(state.current_city->cityViewSelectedAgents.begin(),
 					              state.current_city->cityViewSelectedAgents.end(),
@@ -854,7 +854,7 @@ void CityTileView::render()
 			for (auto &obj : vehiclesToDraw)
 			{
 				auto vehicle = std::get<0>(obj);
-				Vec2<float> pos = tileToOffsetScreenCoords(vehicle->position);
+				Vec2<float> const pos = tileToOffsetScreenCoords(vehicle->position);
 				if (vehicle->tileObject)
 				{
 					vehicle->tileObject->draw(r, *this, pos, this->viewMode, true, 0,
@@ -915,11 +915,11 @@ void CityTileView::render()
 				// Detection of aliens
 				if (b.second->detected)
 				{
-					float initialRadius = std::max(alertImage->size.x, alertImage->size.y);
+					float const initialRadius = std::max(alertImage->size.x, alertImage->size.y);
 					// Eventually scale to 1/2 the size, but start with some bonus time of full
 					// size,
 					// so that it doesn't become distorted immediately, that's why we add extra 0.05
-					float radius = std::min(initialRadius,
+					float const radius = std::min(initialRadius,
 					                        initialRadius * (float)b.second->ticksDetectionTimeOut /
 					                                (float)TICKS_DETECTION_TIMEOUT / 2.0f +
 					                            0.55f);
@@ -951,11 +951,11 @@ void CityTileView::render()
 				if (hasCargo)
 				{
 					nearestExpiry -= state.gameTime.getTicks();
-					float initialRadius = std::max(cargoImage->size.x, cargoImage->size.y);
+					float const initialRadius = std::max(cargoImage->size.x, cargoImage->size.y);
 					// Eventually scale to 1/2 the size, but start with some bonus time of full
 					// size,
 					// so that it doesn't become distorted immediately, that's why we add extra 0.05
-					float radius = std::min(initialRadius, initialRadius * (float)nearestExpiry /
+					float const radius = std::min(initialRadius, initialRadius * (float)nearestExpiry /
 					                                               (float)TICKS_CARGO_TTL / 2.0f +
 					                                           0.55f);
 					Vec2<float> pos = tileToOffsetScreenCoords(
@@ -1034,7 +1034,7 @@ void CityTileView::update()
 	{
 		this->pal = this->mod_interpolated_palette[colorCurrent];
 
-		int minute = hour * 60 + state.gameTime.getMinutes();
+		int const minute = hour * 60 + state.gameTime.getMinutes();
 		if (std::abs(minute - interpolated_palette_minute[colorCurrent]) < 2)
 		{
 			return;
@@ -1048,7 +1048,7 @@ void CityTileView::update()
 		sp<Palette> palette2;
 		float factor = 0;
 		// TODO: use integer calculation instead
-		float hours_float = (float)minute / 60.0f;
+		float const hours_float = (float)minute / 60.0f;
 
 		if (hour >= 3 && hour < 6)
 		{

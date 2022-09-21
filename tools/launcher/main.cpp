@@ -8,7 +8,7 @@
 int main(int argc, char **argv)
 {
 	SDL_SetMainReady();
-	QApplication LauncherApp(argc, argv);
+	QApplication const LauncherApp(argc, argv);
 	LauncherWindow Launcher;
 	Launcher.show();
 

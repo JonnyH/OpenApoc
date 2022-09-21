@@ -15,9 +15,9 @@ int main(int argc, char **argv)
 	uint64_t r1 = rng();
 	uint64_t r2 = rng();
 
-	uint64_t expected_r1 = 0x03aacfee1f751183;
-	uint64_t expected_r2 = 0xcb8aa3521c8fc259;
-	uint64_t expected_r3 = 0xdd420b258a17fa82;
+	uint64_t const expected_r1 = 0x03aacfee1f751183;
+	uint64_t const expected_r2 = 0xcb8aa3521c8fc259;
+	uint64_t const expected_r3 = 0xdd420b258a17fa82;
 
 	if (r1 != expected_r1)
 	{
@@ -56,7 +56,7 @@ int main(int argc, char **argv)
 	rng.getState(s);
 	rng2.setState(s);
 
-	uint64_t r3 = rng2();
+	uint64_t const r3 = rng2();
 	if (r3 != expected_r3)
 	{
 		LogError("unexpected r3 0x%016x, expected 0x%016x", r3, expected_r3);

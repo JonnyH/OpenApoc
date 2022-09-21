@@ -142,7 +142,7 @@ std::map<UString, std::function<void(const InitialGameStateExtractor &e)>> thing
      }},
     {"item_image_packs",
      [](const InitialGameStateExtractor &e) {
-	     int itemImagePacksCount = e.getItemImagePacksCount();
+	     int const itemImagePacksCount = e.getItemImagePacksCount();
 	     for (int i = 0; i < itemImagePacksCount; i++)
 	     {
 		     GameState s;
@@ -273,7 +273,7 @@ std::map<UString, std::function<void(const InitialGameStateExtractor &e)>> thing
 
 int main(int argc, char *argv[])
 {
-	ConfigOptionString extractList(
+	ConfigOptionString const extractList(
 	    "Extractor", "extract",
 	    "Comma-separated list of things to extract  - \"all\" is special meaning everything",
 	    "all");
@@ -312,8 +312,8 @@ int main(int argc, char *argv[])
 			}
 		}
 	}
-	Framework fw(UString(argv[0]), false);
-	InitialGameStateExtractor initialGameStateExtractor;
+	Framework const fw(UString(argv[0]), false);
+	InitialGameStateExtractor const initialGameStateExtractor;
 	for (auto &ePair : extractorsToRun)
 	{
 		LogWarning("Running %s", ePair.first);

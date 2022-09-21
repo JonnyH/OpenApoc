@@ -134,7 +134,7 @@ class VehicleTargetHelper
 	//   above. adjustForFlying: If false, don't do any checks or adjustment for flyers and UFOs.
 	// Returns: AdjustTargetResult, see above for details.
 	static AdjustTargetResult adjustTargetToClosest(GameState &state, Vehicle &v, Vec3<int> &target,
-	                                                const VehicleAvoidance vehicleAvoidance,
+	                                                VehicleAvoidance vehicleAvoidance,
 	                                                bool adjustForFlying);
 
 	// Checks reachability of the target location for the given vehicle.
@@ -147,7 +147,7 @@ class VehicleTargetHelper
   private:
 	static AdjustTargetResult adjustTargetToClosestFlying(GameState &state, Vehicle &v,
 	                                                      Vec3<int> &target,
-	                                                      const VehicleAvoidance vehicleAvoidance);
+	                                                      VehicleAvoidance vehicleAvoidance);
 	static AdjustTargetResult adjustTargetToClosestRoad(Vehicle &v, Vec3<int> &target);
 	static AdjustTargetResult adjustTargetToClosestGround(Vehicle &v, Vec3<int> &target);
 
@@ -168,7 +168,7 @@ class VehicleMission
 	bool isFinishedInternal(GameState &state, Vehicle &v);
 
 	bool takeOffCheck(GameState &state, Vehicle &v);
-	bool teleportCheck(GameState &state, Vehicle &v);
+	bool teleportCheck(GameState &state, Vehicle &v) const;
 
   public:
 	VehicleMission() = default;
@@ -184,7 +184,7 @@ class VehicleMission
 	void setFollowPath(GameState &state, Vehicle &v);
 	bool advanceAlongPath(GameState &state, Vehicle &v, Vec3<float> &destPos, float &destFacing,
 	                      int &turboTiles);
-	bool isTakingOff(Vehicle &v);
+	bool isTakingOff(Vehicle &v) const;
 	int getDefaultIterationCount(Vehicle &v);
 	static Vec3<float> getRandomMapEdgeCoordinates(GameState &state, StateRef<City> city);
 	bool acquireTargetBuilding(GameState &state, Vehicle &v);

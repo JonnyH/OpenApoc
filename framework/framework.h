@@ -47,7 +47,7 @@ class Framework
 	std::unique_ptr<SoundBackend> soundBackend;
 	std::unique_ptr<JukeBox> jukebox;
 
-	Framework(const UString programName, bool createWindow = true);
+	Framework(UString programName, bool createWindow = true);
 	~Framework();
 
 	static Framework &getInstance();
@@ -122,7 +122,7 @@ class Framework
 	UString getDataDir() const;
 	UString getCDPath() const;
 
-	void setupModDataPaths();
+	void setupModDataPaths() const;
 };
 
 static inline Framework &fw() { return Framework::getInstance(); }

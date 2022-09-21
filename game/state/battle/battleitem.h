@@ -60,16 +60,16 @@ class BattleItem : public std::enable_shared_from_this<BattleItem>
 	void hopTo(GameState &state, Vec3<float> targetPosition);
 
 	void update(GameState &state, unsigned int ticks);
-	void updateTB(GameState &state);
+	void updateTB(GameState &state) const;
 
 	BattleItem() = default;
 	~BattleItem() = default;
 
 	void setPosition(const Vec3<float> &pos);
 
-	Collision checkItemCollision(Vec3<float> previousPosition, Vec3<float> nextPosition);
+	Collision checkItemCollision(Vec3<float> previousPosition, Vec3<float> nextPosition) const;
 
-	bool findSupport();
+	bool findSupport() const;
 	void getSupport();
 
 	// Following members are not serialized, but rather are set up in the initBattle method

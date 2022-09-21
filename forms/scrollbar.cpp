@@ -106,7 +106,7 @@ void ScrollBar::eventOccured(Event *e)
 				break;
 		}
 
-		int pos = static_cast<int>(segmentsize * (Value - Minimum));
+		int const pos = static_cast<int>(segmentsize * (Value - Minimum));
 		if (e->forms().RaisedBy == shared_from_this() &&
 		    e->forms().EventFlag == FormEventType::MouseDown)
 		{
@@ -154,7 +154,7 @@ void ScrollBar::onRender()
 	if (Minimum == Maximum)
 		return;
 
-	int pos = static_cast<int>(segmentsize * (Value - Minimum));
+	int const pos = static_cast<int>(segmentsize * (Value - Minimum));
 	Vec2<float> newpos, newsize;
 	switch (BarOrientation)
 	{
@@ -210,7 +210,7 @@ void ScrollBar::update()
 		size = Size.x;
 	}
 
-	int segments = (Maximum - Minimum) + 1;
+	int const segments = (Maximum - Minimum) + 1;
 	segmentsize = size / static_cast<float>(segments);
 	grippersize = segmentsize;
 	if (grippersize < 16.0f)
@@ -270,10 +270,10 @@ void ScrollBar::configureSelfFromXml(pugi::xml_node *node)
 	auto gripperColourNode = node->child("grippercolour");
 	if (gripperColourNode)
 	{
-		uint8_t r = gripperColourNode.attribute("r").as_uint(0);
-		uint8_t g = gripperColourNode.attribute("g").as_uint(0);
-		uint8_t b = gripperColourNode.attribute("b").as_uint(0);
-		uint8_t a = gripperColourNode.attribute("a").as_uint(255);
+		uint8_t const r = gripperColourNode.attribute("r").as_uint(0);
+		uint8_t const g = gripperColourNode.attribute("g").as_uint(0);
+		uint8_t const b = gripperColourNode.attribute("b").as_uint(0);
+		uint8_t const a = gripperColourNode.attribute("a").as_uint(255);
 		GripperColour = {r, g, b, a};
 	}
 	auto rangeNode = node->child("range");
@@ -294,7 +294,7 @@ void ScrollBar::scrollWheel(Event *e)
 {
 	// FIXME: Scrolling amount should match wheel amount
 	// Should wheel orientation match as well? Who has horizontal scrolls??
-	int wheelDelta = e->forms().MouseInfo.WheelVertical + e->forms().MouseInfo.WheelHorizontal;
+	int const wheelDelta = e->forms().MouseInfo.WheelVertical + e->forms().MouseInfo.WheelHorizontal;
 	if (wheelDelta > 0)
 	{
 		scrollPrev();

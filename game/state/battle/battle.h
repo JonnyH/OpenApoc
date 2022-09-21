@@ -63,13 +63,13 @@ class BattleScore
   public:
 	int combatRating = 0;
 	int casualtyPenalty = 0;
-	int getLeadershipBonus();
+	int getLeadershipBonus() const;
 	int friendlyFire = 0;
 	int liveAlienCaptured = 0;
 	int equipmentCaptured = 0;
 	int equipmentLost = 0;
-	int getTotal();
-	UString getText();
+	int getTotal() const;
+	UString getText() const;
 };
 
 class Battle : public std::enable_shared_from_this<Battle>
@@ -222,7 +222,7 @@ class Battle : public std::enable_shared_from_this<Battle>
 	// Move a group of units in formation
 	void groupMove(GameState &state, std::list<StateRef<BattleUnit>> &selectedUnits,
 	               Vec3<int> targetLocation, int facingDelta = 0, bool demandGiveWay = false,
-	               bool useTeleporter = false);
+	               bool useTeleporter = false) const;
 
 	int getLosBlockID(int x, int y, int z) const;
 	bool getVisible(StateRef<Organisation> org, int x, int y, int z) const;

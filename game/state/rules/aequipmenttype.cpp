@@ -9,13 +9,13 @@ namespace OpenApoc
 
 template <> const UString &StateObject<AEquipmentType>::getPrefix()
 {
-	static UString prefix = "AEQUIPMENTTYPE_";
+	static UString const prefix = "AEQUIPMENTTYPE_";
 	return prefix;
 }
 
 template <> const UString &StateObject<AEquipmentType>::getTypeName()
 {
-	static UString name = "AEquipmentType";
+	static UString const name = "AEquipmentType";
 	return name;
 }
 
@@ -33,13 +33,13 @@ sp<AEquipmentType> StateObject<AEquipmentType>::get(const GameState &state, cons
 
 template <> const UString &StateObject<EquipmentSet>::getPrefix()
 {
-	static UString prefix = "EQUIPMENTSET_";
+	static UString const prefix = "EQUIPMENTSET_";
 	return prefix;
 }
 
 template <> const UString &StateObject<EquipmentSet>::getTypeName()
 {
-	static UString name = "EquipmentSet";
+	static UString const name = "EquipmentSet";
 	return name;
 }
 

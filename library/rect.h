@@ -103,7 +103,7 @@ template <typename T> class Rect
 				}
 				if (canMerge)
 				{
-					Rect<T> mergedRect{rect1.p0, rect2.p1};
+					Rect<T> const mergedRect{rect1.p0, rect2.p1};
 					rectSet.erase(rect1);
 					rectSet.erase(rect2);
 					rectSet.insert(mergedRect);

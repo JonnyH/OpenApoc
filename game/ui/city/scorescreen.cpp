@@ -152,7 +152,7 @@ void ScoreScreen::setFinanceMode()
 		biochemists *= getSalary(AgentType::Role::BioChemist);
 		engineers *= getSalary(AgentType::Role::Engineer);
 		physicists *= getSalary(AgentType::Role::Physicist);
-		int agentsSalary = soldiers + biochemists + engineers + physicists;
+		int const agentsSalary = soldiers + biochemists + engineers + physicists;
 
 		formFinance->findControlTyped<Label>("AGENTS_W")->setText(format("$%d", soldiers));
 		formFinance->findControlTyped<Label>("BIOCHEMISTS_W")->setText(format("$%d", biochemists));

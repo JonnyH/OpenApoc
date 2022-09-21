@@ -695,8 +695,8 @@ void serializeOut(SerializationNode *node, const std::vector<T> &vector, const s
 	{
 		serializeOut(node->addNode("entry"), entry, defaultRef);
 	}
-	uint64_t sizeHint = vector.size();
-	uint64_t sizeHintDefault = 0;
+	uint64_t const sizeHint = vector.size();
+	uint64_t const sizeHintDefault = 0;
 	serializeOut(node->addNode("sizeHint"), sizeHint, sizeHintDefault);
 }
 

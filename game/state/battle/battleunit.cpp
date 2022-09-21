@@ -63,9 +63,9 @@ static int getPsiAttackChance(int psiAttack, int psiDefense, PsiStatus status, b
 
 	Note: As tested by Mell, Probe is min 20%
 	*/
-	int cost = getPsiCost(status, isAttack);
-	int attack = psiAttack * 40 / cost;
-	int defense = psiDefense;
+	int const cost = getPsiCost(status, isAttack);
+	int const attack = psiAttack * 40 / cost;
+	int const defense = psiDefense;
 	int chance = 0;
 	if (attack != 0 || defense != 0)
 	{
@@ -109,12 +109,12 @@ template <> sp<BattleUnit> StateObject<BattleUnit>::get(const GameState &state, 
 
 template <> const UString &StateObject<BattleUnit>::getPrefix()
 {
-	static UString prefix = "BATTLEUNIT_";
+	static UString const prefix = "BATTLEUNIT_";
 	return prefix;
 }
 template <> const UString &StateObject<BattleUnit>::getTypeName()
 {
-	static UString name = "BattleUnit";
+	static UString const name = "BattleUnit";
 	return name;
 }
 template <>
@@ -159,7 +159,7 @@ void BattleUnit::destroy()
 	}
 }
 
-void BattleUnit::removeFromSquad(Battle &battle)
+void BattleUnit::removeFromSquad(Battle &battle) const
 {
 	if (squadNumber != -1)
 	{
@@ -291,7 +291,7 @@ Vec3<float> BattleUnit::getVelocity() const
 	return targetVelocity;
 }
 
-void BattleUnit::refreshUnitVisibility(GameState &state)
+void BattleUnit::refreshUnitVisibility(GameState &state) const
 {
 	for (auto &entry : state.current_battle->units)
 	{
@@ -434,7 +434,7 @@ void BattleUnit::calculateVisionToLosBlocks(GameState &state, std::set<int> &dis
 		bool targetFound = false;
 		auto target = centerXY;
 		// Set target's Z to our level (or closest possible)
-		int posZ = position.z;
+		int const posZ = position.z;
 		if (posZ >= l.start.z && posZ < l.end.z)
 		{
 			target.z = posZ;
@@ -456,7 +456,7 @@ void BattleUnit::calculateVisionToLosBlocks(GameState &state, std::set<int> &dis
 		else
 		{
 			// Get point in the middle of our sight forward
-			int dist =
+			int const dist =
 			    facing.x != 0 && facing.y != 0 ? VIEW_DISTANCE * 100 / 141 / 2 : VIEW_DISTANCE / 2;
 			auto sightMiddleXY = (Vec3<int>)position;
 			sightMiddleXY.x += facing.x * dist;
@@ -508,7 +508,7 @@ void BattleUnit::calculateVisionToLosBlocks(GameState &state, std::set<int> &dis
 	}
 }
 
-void BattleUnit::calculateVisionToLosBlocksLazy(GameState &state, std::set<int> &discoveredBlocks)
+void BattleUnit::calculateVisionToLosBlocksLazy(GameState &state, std::set<int> &discoveredBlocks) const
 {
 	auto eyesPos = getEyeLocation();
 	auto &battle = *state.current_battle;
@@ -767,10 +767,10 @@ int BattleUnit::getAttackCost(GameState &state, AEquipment &item, Vec3<int> tile
 
 	// Step 1: Turning cost
 	auto targetFacing = BattleUnitMission::getFacing(*this, tile);
-	bool turning = goalFacing != targetFacing;
+	bool const turning = goalFacing != targetFacing;
 	if (turning)
 	{
-		int curFacing = facing_dir_map.at(goalFacing);
+		int const curFacing = facing_dir_map.at(goalFacing);
 		int tarFacing = facing_dir_map.at(targetFacing);
 		if (tarFacing > 7)
 			tarFacing -= 8;
@@ -809,7 +809,7 @@ int BattleUnit::getAttackCost(GameState &state, AEquipment &item, Vec3<int> tile
 
 void BattleUnit::setFocus(GameState &state, StateRef<BattleUnit> unit)
 {
-	StateRef<BattleUnit> sru = {&state, id};
+	StateRef<BattleUnit> const sru = {&state, id};
 	if (focusUnit)
 	{
 		auto it =
@@ -957,16 +957,16 @@ WeaponStatus BattleUnit::canAttackUnit(GameState &state, sp<BattleUnit> unit)
 WeaponStatus BattleUnit::canAttackUnit(GameState &state, sp<BattleUnit> unit,
                                        sp<AEquipment> rightHand, sp<AEquipment> leftHand)
 {
-	bool realTime = state.current_battle->mode == Battle::Mode::RealTime;
+	bool const realTime = state.current_battle->mode == Battle::Mode::RealTime;
 	auto targetPosition = unit->tileObject->getVoxelCentrePosition();
 	if (hasLineToUnit(unit))
 	{
 		// One of held weapons is in range
-		bool rightCanFire =
+		bool const rightCanFire =
 		    rightHand && rightHand->canFire(state, targetPosition) &&
 		    (realTime ||
 		     canAfford(state, getAttackCost(state, *rightHand, unit->position), true, true));
-		bool leftCanFire =
+		bool const leftCanFire =
 		    leftHand && leftHand->canFire(state, targetPosition) &&
 		    (realTime ||
 		     canAfford(state, getAttackCost(state, *leftHand, unit->position), true, true));
@@ -1056,12 +1056,12 @@ int BattleUnit::getPsiChanceForEquipment(StateRef<BattleUnit> target, PsiStatus 
 bool BattleUnit::startAttackPsi(GameState &state, StateRef<BattleUnit> target, PsiStatus status,
                                 StateRef<AEquipmentType> item)
 {
-	bool realTime = state.current_battle->mode == Battle::Mode::RealTime;
+	bool const realTime = state.current_battle->mode == Battle::Mode::RealTime;
 	if (agent->modified_stats.psi_energy < getPsiCost(status))
 	{
 		return false;
 	}
-	bool success = startAttackPsiInternal(state, target, status, item);
+	bool const success = startAttackPsiInternal(state, target, status, item);
 	agent->modified_stats.psi_energy -= getPsiCost(status);
 	if (success)
 	{
@@ -1090,8 +1090,8 @@ bool BattleUnit::startAttackPsiInternal(GameState &state, StateRef<BattleUnit> t
 	{
 		setHandState(HandState::Firing);
 	}
-	int chance = getPsiChanceForEquipment(target, status, item);
-	int roll = randBoundsExclusive(state.rng, 0, 100);
+	int const chance = getPsiChanceForEquipment(target, status, item);
+	int const roll = randBoundsExclusive(state.rng, 0, 100);
 	experiencePoints.psi_attack++;
 	experiencePoints.psi_energy++;
 	LogWarning("Psi Attack #%d Roll %d Chance %d %s Attacker %s Target %s", (int)status, roll,
@@ -1123,7 +1123,7 @@ void BattleUnit::applyPsiAttack(GameState &state, BattleUnit &attacker, PsiStatu
                                 StateRef<AEquipmentType> item, bool impact)
 {
 	std::ignore = item;
-	bool realTime = state.current_battle->mode == Battle::Mode::RealTime;
+	bool const realTime = state.current_battle->mode == Battle::Mode::RealTime;
 	if (impact)
 	{
 		sendAgentEvent(state,
@@ -1137,7 +1137,7 @@ void BattleUnit::applyPsiAttack(GameState &state, BattleUnit &attacker, PsiStatu
 		// In turn based, you attack over an over until you're done, and each attack costs extra
 		if (!realTime && !impact && status != PsiStatus::Probe)
 		{
-			int cost = getPsiCost(status, true);
+			int const cost = getPsiCost(status, true);
 			if (attacker.agent->modified_stats.psi_energy < cost)
 			{
 				finished = true;
@@ -1529,7 +1529,7 @@ bool BattleUnit::canProne(Vec3<int> pos, Vec2<int> fac) const
 	// 2) Target tile height is not too big compared to current tile
 	// 3) Target tile is passable
 	// 4) Target tile has no unit occupying it (other than us)
-	Vec3<int> legsPos = pos - Vec3<int>{fac.x, fac.y, 0};
+	Vec3<int> const legsPos = pos - Vec3<int>{fac.x, fac.y, 0};
 	if ((legsPos.x >= 0) && (legsPos.x < tileObject->map.size.x) && (legsPos.y >= 0) &&
 	    (legsPos.y < tileObject->map.size.y) && (legsPos.z >= 0) &&
 	    (legsPos.z < tileObject->map.size.z))
@@ -1574,7 +1574,7 @@ void BattleUnit::applyDamageDirect(GameState &state, int damage, bool generateFa
 		generateFatalWounds = false;
 	}
 
-	bool wasConscious = isConscious();
+	bool const wasConscious = isConscious();
 	bool fatal = false;
 
 	auto eventType = NO_EVENT;
@@ -1586,7 +1586,7 @@ void BattleUnit::applyDamageDirect(GameState &state, int damage, bool generateFa
 	// Deal health damage
 	else
 	{
-		bool lessThanOneThird = agent->modified_stats.health * 3 / agent->current_stats.health == 0;
+		bool const lessThanOneThird = agent->modified_stats.health * 3 / agent->current_stats.health == 0;
 		agent->modified_stats.health -= damage;
 		agent->modified_stats.loseMorale(damage * 50 * (15 - agent->modified_stats.bravery / 10) /
 		                                 agent->current_stats.health / 100);
@@ -1792,7 +1792,7 @@ bool BattleUnit::applyDamage(GameState &state, int power, StateRef<DamageType> d
 	if (damageType->dealsArmorDamage() && armor)
 	{
 		// Armor damage
-		int armorDamage = damage / 10 + 1;
+		int const armorDamage = damage / 10 + 1;
 		armor->armor -= armorDamage;
 		// Armor destroyed
 		if (armor->armor <= 0)
@@ -1805,7 +1805,7 @@ bool BattleUnit::applyDamage(GameState &state, int power, StateRef<DamageType> d
 	if (damageType->explosive && damageType->effectType == DamageType::EffectType::None)
 	{
 		// Deal 1/8 of explosive damage as stun
-		int stunDamage = damage / 8;
+		int const stunDamage = damage / 8;
 		applyDamageDirect(state, stunDamage, false, bodyPart, power, attacker);
 		damage -= stunDamage;
 	}
@@ -1835,13 +1835,13 @@ void BattleUnit::applyMoraleDamage(int moraleDamage, int psiAttackPower, GameSta
 }
 
 BodyPart BattleUnit::determineBodyPartHit(StateRef<DamageType> damageType, Vec3<float> cposition,
-                                          Vec3<float> direction)
+                                          Vec3<float> direction) const
 {
 	BodyPart bodyPartHit = BodyPart::Body;
 
 	// FIXME: Ensure body part determination is correct
 	// Assume top 25% is head, lower 25% is legs, and middle 50% is body/left/right
-	float altitude = (cposition.z - position.z) * 40.0f / (float)getCurrentHeight();
+	float const altitude = (cposition.z - position.z) * 40.0f / (float)getCurrentHeight();
 	if (damageType->alwaysImpactsHead()) // gas deals damage to the head
 	{
 		bodyPartHit = BodyPart::Helmet;
@@ -1859,7 +1859,7 @@ BodyPart BattleUnit::determineBodyPartHit(StateRef<DamageType> damageType, Vec3<
 		auto unitDir = glm::normalize(Vec3<float>{facing.x, facing.y, 0.0f});
 		auto projectileDir = glm::normalize(Vec3<float>{direction.x, direction.y, 0.0f});
 		auto cross = glm::cross(unitDir, projectileDir);
-		int angle =
+		int const angle =
 		    (int)((cross.z >= 0 ? -1 : 1) * glm::angle(unitDir, -projectileDir) / M_PI * 180.0f);
 		if (angle > 45 && angle < 135)
 		{
@@ -1917,7 +1917,7 @@ bool BattleUnit::handleCollision(GameState &state, Collision &c)
 
 void BattleUnit::update(GameState &state, unsigned int ticks)
 {
-	bool realTime = state.current_battle->mode == Battle::Mode::RealTime;
+	bool const realTime = state.current_battle->mode == Battle::Mode::RealTime;
 
 	// Animate
 	body_animation_ticks_static += ticks;
@@ -2072,7 +2072,7 @@ void BattleUnit::updateCloak(GameState &state [[maybe_unused]], unsigned int tic
 
 void BattleUnit::updateStateAndStats(GameState &state, unsigned int ticks)
 {
-	bool realTime = state.current_battle->mode == Battle::Mode::RealTime;
+	bool const realTime = state.current_battle->mode == Battle::Mode::RealTime;
 
 	if (isDead())
 	{
@@ -2226,7 +2226,7 @@ void BattleUnit::updateWoundsAndHealing(GameState &state, unsigned int ticks)
 		}
 	}
 
-	bool unconscious = isUnconscious();
+	bool const unconscious = isUnconscious();
 	woundTicksAccumulated += ticks;
 	while (woundTicksAccumulated >= TICKS_PER_WOUND_EFFECT)
 	{
@@ -2266,7 +2266,7 @@ void BattleUnit::updateWoundsAndHealing(GameState &state, unsigned int ticks)
 
 void BattleUnit::updateRegen(GameState &state, unsigned int ticks)
 {
-	bool realTime = state.current_battle->mode == Battle::Mode::RealTime;
+	bool const realTime = state.current_battle->mode == Battle::Mode::RealTime;
 
 	regenTicksAccumulated += ticks;
 	while (regenTicksAccumulated >= TICKS_PER_SECOND)
@@ -2294,7 +2294,7 @@ void BattleUnit::updateRegen(GameState &state, unsigned int ticks)
 				// Regen if not moving
 				case MovementState::None:
 				{
-					int staRegen = agent->current_stats.stamina >= 1920
+					int const staRegen = agent->current_stats.stamina >= 1920
 					                   ? 30
 					                   : (agent->current_stats.stamina >= 1280 ? 20 : 10);
 					agent->modified_stats.stamina = std::min(
@@ -2341,7 +2341,7 @@ void BattleUnit::updateRegen(GameState &state, unsigned int ticks)
 		int staRegen = agent->current_stats.stamina >= 1920
 		                   ? 60
 		                   : (agent->current_stats.stamina >= 1280 ? 40 : 20);
-		int tuLeft = 100 * agent->modified_stats.time_units / agent->current_stats.time_units;
+		int const tuLeft = 100 * agent->modified_stats.time_units / agent->current_stats.time_units;
 		staRegen = tuLeft < 9 ? 0 : (tuLeft < 18 ? staRegen / 2 : staRegen);
 		agent->modified_stats.stamina =
 		    std::min(agent->modified_stats.stamina + staRegen, agent->current_stats.stamina);
@@ -2459,7 +2459,7 @@ void BattleUnit::updateGiveWay(GameState &state)
 
 void BattleUnit::updateIdling(GameState &state)
 {
-	bool realTime = state.current_battle->mode == Battle::Mode::RealTime;
+	bool const realTime = state.current_battle->mode == Battle::Mode::RealTime;
 
 	if (missions.empty() && isConscious())
 	{
@@ -2821,7 +2821,7 @@ void BattleUnit::updateMovementFalling(GameState &state, unsigned int &moveTicks
 			prevGoalDist.z = 0.0f;
 			if (glm::length(newGoalDist) > glm::length(prevGoalDist))
 			{
-				float extraVelocity = sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
+				float const extraVelocity = sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
 				velocity.x = 0.0f;
 				velocity.y = 0.0f;
 				velocity.z -= extraVelocity / 2.0f / (float)VELOCITY_SCALE_BATTLE.x *
@@ -2829,7 +2829,7 @@ void BattleUnit::updateMovementFalling(GameState &state, unsigned int &moveTicks
 				launched = false;
 			}
 		}
-		bool movedTiles = (Vec3<int>)position != (Vec3<int>)newPosition;
+		bool const movedTiles = (Vec3<int>)position != (Vec3<int>)newPosition;
 		setPosition(state, newPosition, movedTiles);
 		triggerProximity(state);
 	}
@@ -2887,7 +2887,7 @@ void BattleUnit::updateFallingIntoUnit(GameState &state, BattleUnit &unit)
 				else
 				{
 					// Can suck this head, attach!
-					int facingDelta = BattleUnitMission::getFacingDelta(facing, unit.facing);
+					int const facingDelta = BattleUnitMission::getFacingDelta(facing, unit.facing);
 					cancelMissions(state, true);
 					spendRemainingTU(state, true);
 					setMission(state,
@@ -2932,8 +2932,8 @@ void BattleUnit::updateMovementNormal(GameState &state, unsigned int &moveTicksR
 		{
 			speedModifier = std::max((unsigned)1, flyingSpeedModifier);
 		}
-		Vec3<float> vectorToGoal = goalPosition - getPosition();
-		unsigned int distanceToGoal = (unsigned)ceilf(glm::length(
+		Vec3<float> const vectorToGoal = goalPosition - getPosition();
+		unsigned int const distanceToGoal = (unsigned)ceilf(glm::length(
 		    vectorToGoal * VELOCITY_SCALE_BATTLE * (float)TICKS_PER_UNIT_TRAVELLED_BATTLEUNIT));
 		unsigned int moveTicksConsumeRate = BASE_MOVETICKS_CONSUMPTION_RATE;
 		// Bring all jumpers to constant speed so that we can align leg animation with the edge
@@ -3047,7 +3047,7 @@ void BattleUnit::updateMovementBrainsucker(GameState &state, unsigned int &moveT
 		// Just increment ticks passed to play animation
 		movement_ticks_passed += moveTicksRemaining / BASE_MOVETICKS_CONSUMPTION_RATE;
 		moveTicksRemaining = 0;
-		bool movedTiles = (Vec3<int>)position != (Vec3<int>)goalPosition;
+		bool const movedTiles = (Vec3<int>)position != (Vec3<int>)goalPosition;
 		setPosition(state, goalPosition, movedTiles);
 		atGoal = true;
 	}
@@ -3076,9 +3076,9 @@ void BattleUnit::updateMovementJumping(GameState &state, unsigned int &moveTicks
 	else
 	{
 		launched = true;
-		Vec3<float> targetVector = goalPosition - position;
-		Vec3<float> targetVectorXY = {targetVector.x, targetVector.y, 0.0f};
-		float distance = glm::length(targetVectorXY);
+		Vec3<float> const targetVector = goalPosition - position;
+		Vec3<float> const targetVectorXY = {targetVector.x, targetVector.y, 0.0f};
+		float const distance = glm::length(targetVectorXY);
 		float velocityXY;
 		float velocityZ;
 		calculateVelocityForJump(distance, position.z - goalPosition.z, velocityXY, velocityZ,
@@ -3406,7 +3406,7 @@ void BattleUnit::updateAttacking(GameState &state, unsigned int ticks)
 		// Prepare all needed positions
 		static const Vec3<float> offsetTile = {0.5f, 0.5f, 0.0f};
 		static const Vec3<float> offsetTileGround = {0.5f, 0.5f, 10.0f / 40.0f};
-		Vec3<float> muzzleLocation = getMuzzleLocation();
+		Vec3<float> const muzzleLocation = getMuzzleLocation();
 		Vec3<float> targetPosition;
 		switch (targetingMode)
 		{
@@ -3513,8 +3513,8 @@ void BattleUnit::updateAttacking(GameState &state, unsigned int ticks)
 void BattleUnit::updateFiring(GameState &state, sp<AEquipment> &weaponLeft,
                               sp<AEquipment> &weaponRight, Vec3<float> &targetPosition)
 {
-	bool realTime = state.current_battle->mode == Battle::Mode::RealTime;
-	Vec3<float> muzzleLocation = getMuzzleLocation();
+	bool const realTime = state.current_battle->mode == Battle::Mode::RealTime;
+	Vec3<float> const muzzleLocation = getMuzzleLocation();
 
 	// Should we start aiming?
 	if (canHandStateChange(HandState::Aiming))
@@ -3560,10 +3560,10 @@ void BattleUnit::updateFiring(GameState &state, sp<AEquipment> &weaponLeft,
 				auto projectileVelocity =
 				    firingWeapon->getPayloadType()->speed * PROJECTILE_VELOCITY_MULTIPLIER;
 				// Target's velocity (if falling/jumping)
-				Vec3<float> targetVelocity = targetUnit->getVelocity();
+				Vec3<float> const targetVelocity = targetUnit->getVelocity();
 				auto distanceVoxels =
 				    glm::length((targetPosition - muzzleLocation) * VELOCITY_SCALE_BATTLE);
-				float timeToImpact = distanceVoxels * (float)TICK_SCALE / projectileVelocity;
+				float const timeToImpact = distanceVoxels * (float)TICK_SCALE / projectileVelocity;
 				targetPosAdjusted += Collision::getLeadingOffset(targetPosition - muzzleLocation,
 				                                                 projectileVelocity * timeToImpact,
 				                                                 targetVelocity * timeToImpact);
@@ -3683,7 +3683,7 @@ void BattleUnit::updateFiring(GameState &state, sp<AEquipment> &weaponLeft,
 }
 void BattleUnit::updatePsi(GameState &state, unsigned int ticks)
 {
-	bool realTime = state.current_battle->mode == Battle::Mode::RealTime;
+	bool const realTime = state.current_battle->mode == Battle::Mode::RealTime;
 	if (psiStatus != PsiStatus::NotEngaged)
 	{
 		auto e1 = agent->getFirstItemInSlot(EquipmentSlotType::RightHand);
@@ -3738,7 +3738,7 @@ void BattleUnit::updateAI(GameState &state, unsigned int)
 	}
 }
 
-void BattleUnit::triggerProximity(GameState &state)
+void BattleUnit::triggerProximity(GameState &state) const
 {
 	auto it = state.current_battle->items.begin();
 	while (it != state.current_battle->items.end())
@@ -3823,13 +3823,13 @@ void BattleUnit::startFalling(GameState &state)
 bool BattleUnit::calculateVelocityForLaunch(float distanceXY, float diffZ, float &velocityXY,
                                             float &velocityZ, float initialXY)
 {
-	static float dZ = 0.1f;
+	static float const dZ = 0.1f;
 
 	// Initial setup
 	velocityXY = initialXY;
 
-	float a = -FALLING_ACCELERATION_UNIT / VELOCITY_SCALE_BATTLE.z / 2.0f / TICK_SCALE;
-	float c = diffZ;
+	float const a = -FALLING_ACCELERATION_UNIT / VELOCITY_SCALE_BATTLE.z / 2.0f / TICK_SCALE;
+	float const c = diffZ;
 	float t = 0.0f;
 
 	// We will continue reducing velocityXY  until we find such a trajectory
@@ -3855,8 +3855,8 @@ void BattleUnit::calculateVelocityForJump(float distanceXY, float diffZ, float &
 {
 	velocityXY = diagonAlley ? 0.75f : 0.5f;
 
-	float a = -FALLING_ACCELERATION_UNIT / VELOCITY_SCALE_BATTLE.z / 2.0f / TICK_SCALE;
-	float c = diffZ;
+	float const a = -FALLING_ACCELERATION_UNIT / VELOCITY_SCALE_BATTLE.z / 2.0f / TICK_SCALE;
+	float const c = diffZ;
 	float t = 0.0f;
 
 	t = distanceXY * TICK_SCALE / (velocityXY);
@@ -3880,23 +3880,23 @@ bool BattleUnit::canLaunch(Vec3<float> targetPosition, Vec3<float> &targetVector
 	{
 		return false;
 	}
-	Vec3<float> targetVector = targetPosition - position;
+	Vec3<float> const targetVector = targetPosition - position;
 	// Cannot jump to the same XY
 	if (targetVector.x == 0.0f && targetVector.y == 0.0f)
 	{
 		return false;
 	}
 	// Cannot jump if target too far away and we are not a sucker
-	Vec3<int> posDiff = (Vec3<int>)position - (Vec3<int>)targetPosition;
-	bool sucker = agent->isBrainsucker;
-	int limit = sucker ? 5 : 1;
+	Vec3<int> const posDiff = (Vec3<int>)position - (Vec3<int>)targetPosition;
+	bool const sucker = agent->isBrainsucker;
+	int const limit = sucker ? 5 : 1;
 	if (std::abs(posDiff.x) > limit || std::abs(posDiff.y) > limit || std::abs(posDiff.z) > 1)
 	{
 		return false;
 	}
 	// Calculate starting velocity
 	targetVectorXY = {targetVector.x, targetVector.y, 0.0f};
-	float distance = glm::length(targetVectorXY);
+	float const distance = glm::length(targetVectorXY);
 	float initialXY = 0.5f;
 	if (sucker)
 	{
@@ -3970,11 +3970,11 @@ void BattleUnit::requestGiveWay(const BattleUnit &requestor,
 		std::vector<int> nextFacings = {facing_dir_map.at(facing), facing_dir_map.at(facing)};
 		for (int i = 0; i <= 4; i++)
 		{
-			int limit = i == 0 || i == 4 ? 0 : 1;
+			int const limit = i == 0 || i == 4 ? 0 : 1;
 			for (int j = 0; j <= limit; j++)
 			{
 				auto nextFacing = dir_facing_map.at(nextFacings[j]);
-				Vec3<int> nextPos = {position.x + nextFacing.x, position.y + nextFacing.y,
+				Vec3<int> const nextPos = {position.x + nextFacing.x, position.y + nextFacing.y,
 				                     position.z};
 				if (nextPos == (Vec3<int>)requestor.position ||
 				    std::find(plannedPath.begin(), plannedPath.end(), nextPos) != plannedPath.end())
@@ -4053,11 +4053,11 @@ void BattleUnit::applyEnzymeEffect(GameState &state)
 	enzymeDebuffIntensity--;
 }
 
-void BattleUnit::spawnEnzymeSmoke(GameState &state)
+void BattleUnit::spawnEnzymeSmoke(GameState &state) const
 {
 	// FIXME: Ensure this is proper, for now just emulating vanilla crudely
 	// This makes smoke spawned by enzyme grow smaller when debuff runs out
-	int divisor = std::max(1, 36 / enzymeDebuffIntensity);
+	int const divisor = std::max(1, 36 / enzymeDebuffIntensity);
 	StateRef<DamageType> smokeDamageType = {&state, "DAMAGETYPE_SMOKE"};
 	// Power of 0 means no spread
 	state.current_battle->placeHazard(state, owner, {&state, id}, smokeDamageType, position,
@@ -4105,7 +4105,7 @@ int BattleUnit::rollForPrimaryStat(GameState &state, int experience)
 // except psi which assumes it's same 3x limit that is applied when using psi gym
 void BattleUnit::processExperience(GameState &state)
 {
-	int secondaryXP = experiencePoints.accuracy + experiencePoints.bravery +
+	int const secondaryXP = experiencePoints.accuracy + experiencePoints.bravery +
 	                  experiencePoints.psi_attack + experiencePoints.psi_energy +
 	                  experiencePoints.reactions;
 	if (agent->current_stats.accuracy < 100)
@@ -4157,7 +4157,7 @@ void BattleUnit::processExperience(GameState &state)
 	{
 		if (agent->current_stats.health < 100)
 		{
-			int healthBoost = randBoundsInclusive(state.rng, 0, 2) +
+			int const healthBoost = randBoundsInclusive(state.rng, 0, 2) +
 			                  (100 - agent->current_stats.health) / 10 *
 			                      agent->type->improvementPercentagePhysical / 100;
 			agent->current_stats.health += healthBoost;
@@ -4479,7 +4479,7 @@ void BattleUnit::dropDown(GameState &state)
 	fireDebuffTicksRemaining = 0;
 	enzymeDebuffIntensity = 0;
 	moraleState = MoraleState::Normal;
-	BodyState targetState = isDead() ? BodyState::Dead : BodyState::Downed;
+	BodyState const targetState = isDead() ? BodyState::Dead : BodyState::Downed;
 	// Check if we can drop from current state
 	// Adjust current state so that we can then drop down
 	BodyState proposedBodyState = current_body_state;
@@ -4551,9 +4551,9 @@ void BattleUnit::dropDown(GameState &state)
 	this->markUnVisible(state);
 }
 
-void BattleUnit::markUnVisible(GameState &state)
+void BattleUnit::markUnVisible(GameState &state) const
 { // Remove from list of visible units
-	StateRef<BattleUnit> srThis = {&state, id};
+	StateRef<BattleUnit> const srThis = {&state, id};
 	for (auto &units : state.current_battle->visibleUnits)
 	{
 		if (units.first != owner)
@@ -4597,7 +4597,7 @@ void BattleUnit::retreat(GameState &state)
 bool BattleUnit::useSpawner(GameState &state, const AEquipmentType &item)
 {
 	std::list<Vec3<int>> posToCheck;
-	Vec3<int> curPos = position;
+	Vec3<int> const curPos = position;
 	posToCheck.push_back(curPos + Vec3<int>{1, 0, 0});
 	posToCheck.push_back(curPos + Vec3<int>{0, 1, 0});
 	posToCheck.push_back(curPos + Vec3<int>{-1, 0, 0});
@@ -4934,7 +4934,7 @@ void BattleUnit::beginBodyStateChange(GameState &state, BodyState bodyState)
 			setHandState(HandState::AtEase);
 		}
 	}
-	int ticks = frameCount * TICKS_PER_FRAME_UNIT;
+	int const ticks = frameCount * TICKS_PER_FRAME_UNIT;
 	if (ticks > 0)
 	{
 		target_body_state = bodyState;
@@ -4955,7 +4955,7 @@ void BattleUnit::beginBodyStateChange(GameState &state, BodyState bodyState)
 bool BattleUnit::useBrainsucker(GameState &state)
 {
 	StateRef<DamageType> brainsucker = {&state, "DAMAGETYPE_BRAINSUCKER"};
-	Vec3<int> targetPos = position;
+	Vec3<int> const targetPos = position;
 	// Fill target list
 	std::list<Vec3<int>> targetList;
 	targetList.push_back(targetPos + Vec3<int>(facing.x, facing.y, 0));
@@ -5163,7 +5163,7 @@ void BattleUnit::setBodyState(GameState &state, BodyState bodyState)
 		         agent->type->id, (int)bodyState);
 		return;
 	}
-	bool roseUp = current_body_state == BodyState::Downed;
+	bool const roseUp = current_body_state == BodyState::Downed;
 	current_body_state = bodyState;
 	target_body_state = bodyState;
 	body_animation_ticks_remaining = 0;
@@ -5243,10 +5243,10 @@ void BattleUnit::beginHandStateChange(HandState state)
 		return;
 	}
 
-	int frameCount = agent->getAnimationPack()->getFrameCountHands(
+	int const frameCount = agent->getAnimationPack()->getFrameCountHands(
 	    displayedItem, current_body_state, current_hand_state, state, current_movement_state,
 	    facing);
-	int ticks = frameCount * TICKS_PER_FRAME_UNIT;
+	int const ticks = frameCount * TICKS_PER_FRAME_UNIT;
 
 	if (ticks > 0 && target_hand_state != state)
 	{
@@ -5379,7 +5379,7 @@ void BattleUnit::setFirePermissionMode(FirePermissionMode mode) { fire_permissio
 
 void BattleUnit::setBehaviorMode(BehaviorMode mode) { behavior_mode = mode; }
 
-unsigned int BattleUnit::getWalkSoundIndex()
+unsigned int BattleUnit::getWalkSoundIndex() const
 {
 	if (current_movement_state == MovementState::Running)
 	{
@@ -5414,7 +5414,7 @@ void BattleUnit::playWalkSound(GameState &state)
 	}
 }
 
-void BattleUnit::playDistantSound(GameState &state, sp<Sample> sfx, float gainMult)
+void BattleUnit::playDistantSound(GameState &state, sp<Sample> sfx, float gainMult) const
 {
 	float distance = FLT_MAX;
 	if (owner == state.current_battle->currentPlayer)
@@ -5529,10 +5529,10 @@ bool BattleUnit::shouldPlaySoundNow()
 		return false;
 	}
 	bool play = false;
-	unsigned int sounds_to_play = getDistanceTravelled() / UNITS_TRAVELLED_PER_SOUND;
+	unsigned int const sounds_to_play = getDistanceTravelled() / UNITS_TRAVELLED_PER_SOUND;
 	if (sounds_to_play != movement_sounds_played)
 	{
-		unsigned int divisor = (current_movement_state == MovementState::Running)
+		unsigned int const divisor = (current_movement_state == MovementState::Running)
 		                           ? UNITS_TRAVELLED_PER_SOUND_RUNNING_DIVISOR
 		                           : 1;
 		play = ((sounds_to_play + divisor - 1) % divisor) == 0;

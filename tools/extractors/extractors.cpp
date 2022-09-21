@@ -332,7 +332,7 @@ void InitialGameStateExtractor::extractCommon(GameState &state) const
 	this->extractEconomy(state);
 
 	// The alien map doesn't change
-	UString alienMapId = City::getPrefix() + "ALIEN";
+	UString const alienMapId = City::getPrefix() + "ALIEN";
 	state.cities[alienMapId] = std::make_shared<City>();
 	state.cities[alienMapId]->id = alienMapId;
 	state.cities[alienMapId]->researchUnlock.emplace_back(&state,
@@ -359,7 +359,7 @@ void InitialGameStateExtractor::extract(GameState &state, Difficulty difficulty)
 	    {Difficulty::DIFFICULTY_5, "citymap5"},
 	};
 
-	UString humanMapId = City::getPrefix() + "HUMAN";
+	UString const humanMapId = City::getPrefix() + "HUMAN";
 
 	state.cities[humanMapId] = std::make_shared<City>();
 	state.cities[humanMapId]->id = humanMapId;

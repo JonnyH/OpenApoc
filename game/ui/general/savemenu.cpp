@@ -105,7 +105,7 @@ void SaveMenu::begin()
 			auto saveTimeLabel = newControl->findControlTyped<Label>("LABEL_TIME");
 			if (saveTimeLabel != nullptr)
 			{
-				std::time_t timestamp = it->getCreationDate();
+				std::time_t const timestamp = it->getCreationDate();
 				struct tm *tminfo = std::localtime(&timestamp);
 				std::stringstream ss;
 				if (timestamp != 0 && tminfo != nullptr)
@@ -117,7 +117,7 @@ void SaveMenu::begin()
 				saveTimeLabel->setText(ss.str());
 			}
 
-			GameTime gameTime(it->getGameTicks());
+			GameTime const gameTime(it->getGameTicks());
 			auto gameDayLabel = newControl->findControlTyped<Label>("LABEL_INGAME_DAY");
 			if (gameDayLabel != nullptr)
 			{
@@ -224,7 +224,7 @@ void SaveMenu::loadWithWarning(sp<Control> parent)
 {
 	if (parent->Name == existingSaveItemId)
 	{
-		sp<SaveMetadata> slot = parent->getData<SaveMetadata>();
+		sp<SaveMetadata> const slot = parent->getData<SaveMetadata>();
 		if (slot != nullptr)
 		{
 			std::function<void()> onSuccess = std::function<void()>([this, slot] {
@@ -243,7 +243,7 @@ void SaveMenu::loadWithWarning(sp<Control> parent)
 					     }
 				     })});
 			});
-			sp<MessageBox> messageBox = mksp<MessageBox>(
+			sp<MessageBox> const messageBox = mksp<MessageBox>(
 			    MessageBox("Load game", "Unsaved progress will be lost. Continue?",
 			               MessageBox::ButtonOptions::YesNo, std::move(onSuccess), nullptr));
 
@@ -256,7 +256,7 @@ void SaveMenu::tryToLoadGame(sp<Control> slotControl)
 {
 	if (slotControl->Name == existingSaveItemId)
 	{
-		sp<SaveMetadata> slot = slotControl->getData<SaveMetadata>();
+		sp<SaveMetadata> const slot = slotControl->getData<SaveMetadata>();
 		if (slot != nullptr)
 		{
 			auto state = mksp<GameState>();
@@ -292,7 +292,7 @@ void SaveMenu::tryToSaveGame(const UString &saveName, sp<Control> parent)
 	}
 	else
 	{
-		sp<SaveMetadata> slot = parent->getData<SaveMetadata>();
+		sp<SaveMetadata> const slot = parent->getData<SaveMetadata>();
 		std::function<void()> onSuccess = std::function<void()>([this, slot, saveName] {
 			if (saveManager.overrideGame(*slot, saveName, currentState))
 			{
@@ -305,7 +305,7 @@ void SaveMenu::tryToSaveGame(const UString &saveName, sp<Control> parent)
 		});
 		std::function<void()> onCancel =
 		    std::function<void()>([this] { clearTextEdit(activeTextEdit); });
-		sp<MessageBox> messageBox = mksp<MessageBox>(MessageBox(
+		sp<MessageBox> const messageBox = mksp<MessageBox>(MessageBox(
 		    "Override saved game", "Do you really want to override " + slot->getName() + "?",
 		    MessageBox::ButtonOptions::YesNo, std::move(onSuccess), std::move(onCancel)));
 
@@ -315,7 +315,7 @@ void SaveMenu::tryToSaveGame(const UString &saveName, sp<Control> parent)
 
 void SaveMenu::tryToDeleteSavedGame(sp<Control> &slotControl)
 {
-	sp<SaveMetadata> slot = slotControl->getData<SaveMetadata>();
+	sp<SaveMetadata> const slot = slotControl->getData<SaveMetadata>();
 	std::function<void()> onSuccess = std::function<void()>([this, slotControl, slot] {
 		if (saveManager.deleteGame(slot))
 		{
@@ -323,7 +323,7 @@ void SaveMenu::tryToDeleteSavedGame(sp<Control> &slotControl)
 			slotControl->setVisible(false);
 		}
 	});
-	sp<MessageBox> messageBox = mksp<MessageBox>(
+	sp<MessageBox> const messageBox = mksp<MessageBox>(
 	    MessageBox("Delete saved game", "Do you really want to delete " + slot->getName() + "?",
 	               MessageBox::ButtonOptions::YesNo, std::move(onSuccess), nullptr));
 
@@ -399,7 +399,7 @@ void SaveMenu::eventOccurred(Event *e)
 				break;
 			case FormEventType::TextEditFinish:
 			{
-				sp<TextEdit> textEdit = std::static_pointer_cast<TextEdit>(e->forms().RaisedBy);
+				sp<TextEdit> const textEdit = std::static_pointer_cast<TextEdit>(e->forms().RaisedBy);
 				auto slotControl = e->forms().RaisedBy->getParent();
 				if (!slotControl || !textEdit || (textEdit != activeTextEdit))
 				{

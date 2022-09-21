@@ -117,7 +117,7 @@ bool ProviderWithChecksum::parseManifest(const std::string &manifestData)
 	auto fileNode = rootNode.child("file");
 	while (fileNode)
 	{
-		UString fileName = fileNode.text().get();
+		UString const fileName = fileNode.text().get();
 
 		if (this->checksums.find(fileName) != this->checksums.end())
 		{
@@ -131,7 +131,7 @@ bool ProviderWithChecksum::parseManifest(const std::string &manifestData)
 		{
 			if (checksumNode.type() == pugi::xml_node_type::node_element)
 			{
-				UString checksumType = checksumNode.name();
+				UString const checksumType = checksumNode.name();
 				this->checksums[fileName][checksumType] = checksumNode.text().get();
 			}
 			checksumNode = checksumNode.next_sibling();
@@ -205,7 +205,7 @@ bool ProviderWithChecksum::saveDocument(const UString &path, const UString &cont
 }
 bool ProviderWithChecksum::finalizeSave()
 {
-	UString manifest = serializeManifest();
+	UString const manifest = serializeManifest();
 	inner->saveDocument("checksum.xml", manifest);
 	return inner->finalizeSave();
 }

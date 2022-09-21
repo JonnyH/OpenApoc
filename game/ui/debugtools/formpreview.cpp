@@ -197,7 +197,7 @@ void FormPreview::render()
 
 	if (currentSelectedControl != nullptr)
 	{
-		Vec2<int> border = currentSelectedControl->getLocationOnScreen();
+		Vec2<int> const border = currentSelectedControl->getLocationOnScreen();
 		if (glowindex < 256)
 		{
 			fw().renderer->drawRect(border, currentSelectedControl->Size,
@@ -205,7 +205,7 @@ void FormPreview::render()
 		}
 		else
 		{
-			int revglow = 255 - (glowindex - 256);
+			int const revglow = 255 - (glowindex - 256);
 			fw().renderer->drawRect(border, currentSelectedControl->Size,
 			                        Colour(revglow, revglow, revglow), 3.0f);
 		}

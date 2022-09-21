@@ -130,7 +130,7 @@ void InitialGameStateExtractor::extractVehicles(GameState &state) const
 	{
 		auto v = data.vehicle_data->get(i);
 
-		UString id = data.getVehicleId(i);
+		UString const id = data.getVehicleId(i);
 
 		state.vehicle_types[id] = std::make_shared<VehicleType>();
 		auto &vehicle = state.vehicle_types[id];
@@ -175,7 +175,7 @@ void InitialGameStateExtractor::extractVehicles(GameState &state) const
 			// that)
 			directions = {VehicleType::Direction::N, VehicleType::Direction::E,
 			              VehicleType::Direction::S, VehicleType::Direction::W};
-			std::vector<VehicleType::Banking> banking = {VehicleType::Banking::Ascending,
+			std::vector<VehicleType::Banking> const banking = {VehicleType::Banking::Ascending,
 			                                             VehicleType::Banking::Descending};
 			for (auto &bank : banking)
 			{
@@ -225,7 +225,7 @@ void InitialGameStateExtractor::extractVehicles(GameState &state) const
 				{
 					LogError("Unknown vehicle size {%d,%d}", v.size_x, v.size_y);
 				}
-				int animFrames = UFOAnimationFrames[id];
+				int const animFrames = UFOAnimationFrames[id];
 
 				for (int i = 0; i < animFrames; i++)
 				{
@@ -258,14 +258,14 @@ void InitialGameStateExtractor::extractVehicles(GameState &state) const
 			else
 			{
 				vehicle->type = VehicleType::Type::Flying;
-				std::vector<VehicleType::Direction> directions = {
+				std::vector<VehicleType::Direction> const directions = {
 				    VehicleType::Direction::N, VehicleType::Direction::NE,
 				    VehicleType::Direction::E, VehicleType::Direction::SE,
 				    VehicleType::Direction::S, VehicleType::Direction::SW,
 				    VehicleType::Direction::W, VehicleType::Direction::NW};
 				// When banking there are more sprites (16 instead of 8) and seem to start in a
 				// slightly different direction?
-				std::vector<VehicleType::Direction> bankingDirectionsR = {
+				std::vector<VehicleType::Direction> const bankingDirectionsR = {
 				    VehicleType::Direction::NWW, VehicleType::Direction::NW,
 				    VehicleType::Direction::NNW, VehicleType::Direction::N,
 				    VehicleType::Direction::NNE, VehicleType::Direction::NE,
@@ -275,7 +275,7 @@ void InitialGameStateExtractor::extractVehicles(GameState &state) const
 				    VehicleType::Direction::SSW, VehicleType::Direction::SW,
 				    VehicleType::Direction::SWW, VehicleType::Direction::W,
 				};
-				std::vector<VehicleType::Direction> bankingDirectionsL = {
+				std::vector<VehicleType::Direction> const bankingDirectionsL = {
 				    VehicleType::Direction::SWW, VehicleType::Direction::SW,
 				    VehicleType::Direction::SSW, VehicleType::Direction::S,
 				    VehicleType::Direction::SSE, VehicleType::Direction::SE,
@@ -285,7 +285,7 @@ void InitialGameStateExtractor::extractVehicles(GameState &state) const
 				    VehicleType::Direction::NNW, VehicleType::Direction::NW,
 				    VehicleType::Direction::NWW, VehicleType::Direction::W,
 				};
-				std::vector<VehicleType::Banking> bankings = {
+				std::vector<VehicleType::Banking> const bankings = {
 				    VehicleType::Banking::Flat,      VehicleType::Banking::Descending,
 				    VehicleType::Banking::Ascending, VehicleType::Banking::Right,
 				    VehicleType::Banking::Left,
@@ -359,7 +359,7 @@ void InitialGameStateExtractor::extractVehicles(GameState &state) const
 		char equipment_screen_filename[9];
 		memcpy((void *)&equipment_screen_filename[0], (void *)&v.equipment_screen_name[0], 8);
 		equipment_screen_filename[8] = '\0';
-		std::string equipment_screen_image =
+		std::string const equipment_screen_image =
 		    "xcom3/ufodata/" + to_lower(UString(equipment_screen_filename)) + ".pcx";
 		// If it's all NULLs skip (as it might be an alien ship or something and therefore no
 		// equipment screen)
@@ -490,7 +490,7 @@ void InitialGameStateExtractor::extractVehicles(GameState &state) const
 
 		// read indexes
 		int horizontalVoxelMapIndex = -1;
-		int verticalVoxelMapIdx = v.loftemps_index;
+		int const verticalVoxelMapIdx = v.loftemps_index;
 		int losVoxelMapIndex = -1;
 		switch (v.loftemps_index)
 		{
@@ -529,7 +529,7 @@ void InitialGameStateExtractor::extractVehicles(GameState &state) const
 		static const float FACING_WEST = M_PI * 1.5f;
 
 		// Free space in voxelmap
-		int freeSpace = v.size_z * 16 - v.loftemps_height;
+		int const freeSpace = v.size_z * 16 - v.loftemps_height;
 		int start = (freeSpace + 1) / 2;
 		int end = v.size_z * 16 - freeSpace / 2;
 		if (end > 16)
@@ -577,8 +577,8 @@ void InitialGameStateExtractor::extractVehicles(GameState &state) const
 							vehicle->voxelMapsLOS[FACING_NORTH]
 							                     [z * v.size_y * v.size_x + y * v.size_x + x] =
 							    std::make_shared<VoxelMap>(Vec3<int>{32, 32, 16});
-							int locStart = z == 0 ? start : 0;
-							int locEnd = z == v.size_z - 1 ? end : 16;
+							int const locStart = z == 0 ? start : 0;
+							int const locEnd = z == v.size_z - 1 ? end : 16;
 							for (int i = locStart; i < locEnd; i++)
 							{
 								vehicle
@@ -666,8 +666,8 @@ void InitialGameStateExtractor::extractVehicles(GameState &state) const
 							vehicle->voxelMapsLOS[FACING_WEST]
 							                     [z * v.size_y * v.size_x + y * v.size_x + x] =
 							    std::make_shared<VoxelMap>(Vec3<int>{32, 32, 16});
-							int locStart = z == 0 ? start : 0;
-							int locEnd = z == v.size_z - 1 ? end : 16;
+							int const locStart = z == 0 ? start : 0;
+							int const locEnd = z == v.size_z - 1 ? end : 16;
 							for (int i = locStart; i < locEnd; i++)
 							{
 								// Facing north
@@ -800,8 +800,8 @@ void InitialGameStateExtractor::extractVehicles(GameState &state) const
 							vehicle->voxelMapsLOS[FACING_WEST]
 							                     [z * v.size_y * v.size_x + y * v.size_x + x] =
 							    std::make_shared<VoxelMap>(Vec3<int>{32, 32, 16});
-							int locStart = z == 0 ? start : 0;
-							int locEnd = z == v.size_z - 1 ? end : 16;
+							int const locStart = z == 0 ? start : 0;
+							int const locEnd = z == v.size_z - 1 ? end : 16;
 							for (int i = locStart; i < locEnd; i++)
 							{
 								// Facing north
@@ -886,7 +886,7 @@ void InitialGameStateExtractor::extractVehicles(GameState &state) const
 				vehicle->voxelMapsLOS[FACING_NORTH] = std::vector<sp<VoxelMap>>(
 				    vehicle->size[FACING_NORTH].x * vehicle->size[FACING_NORTH].y *
 				    vehicle->size[FACING_NORTH].z);
-				std::map<Vec2<int>, int> loftempsMap = {
+				std::map<Vec2<int>, int> const loftempsMap = {
 				    {{0, 0}, 93}, {{1, 0}, 94}, {{0, 1}, 96}, {{1, 1}, 95}};
 				for (int z = 0; z < v.size_z; z++)
 				{
@@ -899,8 +899,8 @@ void InitialGameStateExtractor::extractVehicles(GameState &state) const
 						    ->voxelMapsLOS[FACING_NORTH][z * v.size_y * v.size_x +
 						                                 pair.first.y * v.size_x + pair.first.x] =
 						    std::make_shared<VoxelMap>(Vec3<int>{32, 32, 16});
-						int locStart = z == 0 ? start : 0;
-						int locEnd = z == v.size_z - 1 ? end : 16;
+						int const locStart = z == 0 ? start : 0;
+						int const locEnd = z == v.size_z - 1 ? end : 16;
 						for (int i = locStart; i < locEnd; i++)
 						{
 							vehicle
@@ -987,8 +987,8 @@ void InitialGameStateExtractor::extractVehicles(GameState &state) const
 							vehicle->voxelMapsLOS[FACING_WEST]
 							                     [z * v.size_y * v.size_x + y * v.size_x + x] =
 							    std::make_shared<VoxelMap>(Vec3<int>{32, 32, 16});
-							int locStart = z == 0 ? start : 0;
-							int locEnd = z == v.size_z - 1 ? end : 16;
+							int const locStart = z == 0 ? start : 0;
+							int const locEnd = z == v.size_z - 1 ? end : 16;
 							for (int i = locStart; i < locEnd; i++)
 							{
 								// Facing north

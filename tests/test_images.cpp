@@ -42,8 +42,8 @@ static bool testImage(const UString &imageName, const UString &referenceName)
 		return false;
 	}
 
-	RGBImageLock imgLock(rgbImg, ImageLockUse::Read);
-	RGBImageLock refLock(rgbReference, ImageLockUse::Read);
+	RGBImageLock const imgLock(rgbImg, ImageLockUse::Read);
+	RGBImageLock const refLock(rgbReference, ImageLockUse::Read);
 
 	for (unsigned int y = 0; y < img->size.y; y++)
 	{
@@ -71,7 +71,7 @@ int main(int argc, char **argv)
 	{
 		return EXIT_FAILURE;
 	}
-	std::map<UString, UString> testImages = {
+	std::map<UString, UString> const testImages = {
 	    // PCX files:
 	    {"xcom3/ufodata/titles.pcx", "test_images/ufodata_titles.png"},
 	    // RAW files:
@@ -106,7 +106,7 @@ int main(int argc, char **argv)
 	    {"LOFTEMPS:xcom3/ufodata/loftemps.dat:xcom3/ufodata/loftemps.tab:151",
 	     "test_images/ufodata_loftemps_151.png"},
 	};
-	Framework fw("OpenApoc", false);
+	Framework const fw("OpenApoc", false);
 
 	for (auto &imagePair : testImages)
 	{

@@ -60,7 +60,7 @@ class UnitAIVanilla : public UnitAI
 
 	// Calculate AI's next decision in case no enemy is engaged
 	// Return values are decision, priority, ticks until re-think
-	std::tuple<AIDecision, float, unsigned> thinkGreen(GameState &state, BattleUnit &u);
+	std::tuple<AIDecision, float, unsigned> thinkGreen(GameState &state, BattleUnit &u) const;
 	// Calculate AI's next decision in case enemy is engaged (attacking)
 	// Return values are decision, priority, ticks until re-think
 	std::tuple<AIDecision, float, unsigned> thinkRed(GameState &state, BattleUnit &u);

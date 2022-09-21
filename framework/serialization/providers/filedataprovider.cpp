@@ -19,8 +19,8 @@ bool FileDataProvider::openArchive(const UString &path, bool write)
 }
 bool FileDataProvider::readDocument(const UString &path, UString &result)
 {
-	std::string documentPath = (static_cast<fs::path>(archivePath) / path).string();
-	std::ifstream in(documentPath, std::ios::binary);
+	std::string const documentPath = (static_cast<fs::path>(archivePath) / path).string();
+	std::ifstream const in(documentPath, std::ios::binary);
 	std::ostringstream oss;
 	oss << in.rdbuf();
 	result = oss.str();
@@ -29,8 +29,8 @@ bool FileDataProvider::readDocument(const UString &path, UString &result)
 
 bool FileDataProvider::saveDocument(const UString &path, const UString &contents)
 {
-	fs::path documentPath = (static_cast<fs::path>(archivePath) / path);
-	fs::path directoryPath = documentPath.parent_path();
+	fs::path const documentPath = (static_cast<fs::path>(archivePath) / path);
+	fs::path const directoryPath = documentPath.parent_path();
 	if (!fs::exists(directoryPath))
 	{
 		if (!fs::create_directories(directoryPath))

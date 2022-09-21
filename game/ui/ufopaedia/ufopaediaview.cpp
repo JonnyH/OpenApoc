@@ -53,7 +53,7 @@ void UfopaediaView::eventOccurred(Event *e)
 			for (auto &cat : state->ufopaedia)
 			{
 				auto catName = cat.first;
-				UString butName = "BUTTON_" + catName;
+				UString const butName = "BUTTON_" + catName;
 				if (butName == e->forms().RaisedBy->Name)
 				{
 					fw().stageQueueCommand(

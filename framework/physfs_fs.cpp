@@ -72,7 +72,7 @@ class PhysfsIFileImpl : public std::streambuf, public IFileImpl
 		{
 			return traits_type::eof();
 		}
-		size_t bytesRead = PHYSFS_readBytes(file, buffer.get(), bufferSize);
+		size_t const bytesRead = PHYSFS_readBytes(file, buffer.get(), bufferSize);
 		if (bytesRead < 1)
 		{
 			return traits_type::eof();
@@ -300,7 +300,7 @@ std::list<UString> FileSystem::enumerateDirectory(const UString &basePath,
                                                   const UString &extension) const
 {
 	std::list<UString> result;
-	bool filterByExtension = !extension.empty();
+	bool const filterByExtension = !extension.empty();
 
 	char **elements = PHYSFS_enumerateFiles(basePath.c_str());
 	for (char **element = elements; *element != NULL; element++)
@@ -350,7 +350,7 @@ std::list<UString> FileSystem::enumerateDirectoryRecursive(const UString &basePa
 
 UString FileSystem::resolvePath(const UString &path) const
 {
-	UString realDir = PHYSFS_getRealDir(path.c_str());
+	UString const realDir = PHYSFS_getRealDir(path.c_str());
 	return realDir + "/" + path;
 }
 

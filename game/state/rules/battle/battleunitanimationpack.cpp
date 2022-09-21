@@ -24,12 +24,12 @@ sp<BattleUnitAnimationPack> StateObject<BattleUnitAnimationPack>::get(const Game
 
 template <> const UString &StateObject<BattleUnitAnimationPack>::getPrefix()
 {
-	static UString prefix = "BATTLEUNITIANIMATIONPACK_";
+	static UString const prefix = "BATTLEUNITIANIMATIONPACK_";
 	return prefix;
 }
 template <> const UString &StateObject<BattleUnitAnimationPack>::getTypeName()
 {
-	static UString name = "BattleUnitAnimationPack";
+	static UString const name = "BattleUnitAnimationPack";
 	return name;
 }
 template <>
@@ -46,7 +46,7 @@ const UString &StateObject<BattleUnitAnimationPack>::getId(const GameState &stat
 	return emptyString;
 }
 
-const UString BattleUnitAnimationPack::getNameFromID(UString id)
+UString BattleUnitAnimationPack::getNameFromID(UString id)
 {
 	static const UString emptyString = "";
 	auto plen = getPrefix().length();
@@ -73,7 +73,7 @@ int BattleUnitAnimationPack::getFrameCountBody(StateRef<AEquipmentType> heldItem
 	sp<AnimationEntry> e;
 	if (currentBody == targetBody)
 	{
-		AnimationKey key = {
+		AnimationKey const key = {
 		    heldItem ? (heldItem->two_handed ? ItemWieldMode::TwoHanded : ItemWieldMode::OneHanded)
 		             : ItemWieldMode::None,
 		    currentHands, movement, currentBody};
@@ -82,7 +82,7 @@ int BattleUnitAnimationPack::getFrameCountBody(StateRef<AEquipmentType> heldItem
 	}
 	else
 	{
-		ChangingBodyStateAnimationKey key = {
+		ChangingBodyStateAnimationKey const key = {
 		    heldItem ? (heldItem->two_handed ? ItemWieldMode::TwoHanded : ItemWieldMode::OneHanded)
 		             : ItemWieldMode::None,
 		    currentHands, movement, currentBody, targetBody};
@@ -102,7 +102,7 @@ int BattleUnitAnimationPack::getFrameCountHands(StateRef<AEquipmentType> heldIte
 	sp<AnimationEntry> e;
 	if (currentHands == targetHands)
 	{
-		AnimationKey key = {
+		AnimationKey const key = {
 		    heldItem ? (heldItem->two_handed ? ItemWieldMode::TwoHanded : ItemWieldMode::OneHanded)
 		             : ItemWieldMode::None,
 		    currentHands, movement, currentBody};
@@ -111,7 +111,7 @@ int BattleUnitAnimationPack::getFrameCountHands(StateRef<AEquipmentType> heldIte
 	}
 	else
 	{
-		ChangingHandAnimationKey key = {
+		ChangingHandAnimationKey const key = {
 		    heldItem ? (heldItem->two_handed ? ItemWieldMode::TwoHanded : ItemWieldMode::OneHanded)
 		             : ItemWieldMode::None,
 		    currentHands, targetHands, movement, currentBody};
@@ -129,7 +129,7 @@ int BattleUnitAnimationPack::getFrameCountFiring(StateRef<AEquipmentType> heldIt
 {
 	sp<AnimationEntry> e;
 	{
-		AnimationKey key = {
+		AnimationKey const key = {
 		    heldItem ? (heldItem->two_handed ? ItemWieldMode::TwoHanded : ItemWieldMode::OneHanded)
 		             : ItemWieldMode::None,
 		    HandState::Firing, movement, currentBody};
@@ -158,7 +158,7 @@ void BattleUnitAnimationPack::drawShadow(
 	int frame = -1;
 	if (currentHands != targetHands)
 	{
-		ChangingHandAnimationKey key = {
+		ChangingHandAnimationKey const key = {
 		    heldItem ? (heldItem->two_handed ? ItemWieldMode::TwoHanded : ItemWieldMode::OneHanded)
 		             : ItemWieldMode::None,
 		    currentHands, targetHands, movement, currentBody};
@@ -173,7 +173,7 @@ void BattleUnitAnimationPack::drawShadow(
 	}
 	else if (currentBody != targetBody)
 	{
-		ChangingBodyStateAnimationKey key = {
+		ChangingBodyStateAnimationKey const key = {
 		    heldItem ? (heldItem->two_handed ? ItemWieldMode::TwoHanded : ItemWieldMode::OneHanded)
 		             : ItemWieldMode::None,
 		    currentHands, movement, currentBody, targetBody};
@@ -188,7 +188,7 @@ void BattleUnitAnimationPack::drawShadow(
 	}
 	else
 	{
-		AnimationKey key = {
+		AnimationKey const key = {
 		    heldItem ? (heldItem->two_handed ? ItemWieldMode::TwoHanded : ItemWieldMode::OneHanded)
 		             : ItemWieldMode::None,
 		    currentHands, movement, currentBody};
@@ -212,7 +212,7 @@ void BattleUnitAnimationPack::drawShadow(
 		return;
 	}
 
-	AnimationEntry::Frame::InfoBlock &b =
+	AnimationEntry::Frame::InfoBlock  const&b =
 	    e->frames[frame].unit_image_parts[AnimationEntry::Frame::UnitImagePart::Shadow];
 
 	if (b.index == -1)
@@ -255,7 +255,7 @@ void BattleUnitAnimationPack::drawUnit(
 	int frame_legs = -1;
 	if (currentHands != targetHands)
 	{
-		ChangingHandAnimationKey key = {
+		ChangingHandAnimationKey const key = {
 		    heldItem ? (heldItem->two_handed ? ItemWieldMode::TwoHanded : ItemWieldMode::OneHanded)
 		             : ItemWieldMode::None,
 		    currentHands, targetHands, movement, currentBody};
@@ -269,7 +269,7 @@ void BattleUnitAnimationPack::drawUnit(
 		frame = e->frame_count - hands_animation_delay;
 		if (e->is_overlay)
 		{
-			AnimationKey standardKey = {heldItem ? (heldItem->two_handed ? ItemWieldMode::TwoHanded
+			AnimationKey const standardKey = {heldItem ? (heldItem->two_handed ? ItemWieldMode::TwoHanded
 			                                                             : ItemWieldMode::OneHanded)
 			                                     : ItemWieldMode::None,
 			                            HandState::AtEase, movement, currentBody};
@@ -280,7 +280,7 @@ void BattleUnitAnimationPack::drawUnit(
 	}
 	else if (currentBody != targetBody)
 	{
-		ChangingBodyStateAnimationKey key = {
+		ChangingBodyStateAnimationKey const key = {
 		    heldItem ? (heldItem->two_handed ? ItemWieldMode::TwoHanded : ItemWieldMode::OneHanded)
 		             : ItemWieldMode::None,
 		    currentHands, movement, currentBody, targetBody};
@@ -311,7 +311,7 @@ void BattleUnitAnimationPack::drawUnit(
 		}
 		else
 		{
-			AnimationKey key = {heldItem ? (heldItem->two_handed ? ItemWieldMode::TwoHanded
+			AnimationKey const key = {heldItem ? (heldItem->two_handed ? ItemWieldMode::TwoHanded
 			                                                     : ItemWieldMode::OneHanded)
 			                             : ItemWieldMode::None,
 			                    currentHands, movement, currentBody};
@@ -333,7 +333,7 @@ void BattleUnitAnimationPack::drawUnit(
 		// But since frame_count is 1, the previous line attains the same result, so why bother
 		if (e->is_overlay)
 		{
-			AnimationKey key = {heldItem ? (heldItem->two_handed ? ItemWieldMode::TwoHanded
+			AnimationKey const key = {heldItem ? (heldItem->two_handed ? ItemWieldMode::TwoHanded
 			                                                     : ItemWieldMode::OneHanded)
 			                             : ItemWieldMode::None,
 			                    HandState::AtEase, movement, currentBody};

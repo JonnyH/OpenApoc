@@ -15,7 +15,7 @@ namespace OpenApoc
 {
 
 SelectForces::SelectForces(sp<GameState> state, Skirmish &skirmish,
-                           std::map<StateRef<AgentType>, int> *aliens, int *guards, int *civilians)
+                           std::map<StateRef<AgentType>, int> *aliens, const int *guards, const int *civilians)
     : Stage(), menuform(ui().getForm("selectforces")), skirmish(skirmish), state(*state)
 {
 	menuform->findControlTyped<Label>("TEXT_FUNDS")->setText(state->getPlayerBalance());
@@ -361,8 +361,8 @@ void SelectForces::eventOccurred(Event *e)
 				}
 			}
 
-			int guards = menuform->findControlTyped<ScrollBar>("NUM_GUARD_SLIDER")->getValue();
-			int civilians =
+			int const guards = menuform->findControlTyped<ScrollBar>("NUM_GUARD_SLIDER")->getValue();
+			int const civilians =
 			    menuform->findControlTyped<ScrollBar>("NUM_CIVILIAN_SLIDER")->getValue();
 
 			skirmish.goToBattle(

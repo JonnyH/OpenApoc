@@ -15,7 +15,7 @@ makeUpChrysalisAnimationEntry(int from, int count, int fromB, int countB, bool b
                               Vec2<int> offset, bool first = false)
 {
 	auto e = mksp<BattleUnitAnimationPack::AnimationEntry>();
-	bool noHead = count == 0;
+	bool const noHead = count == 0;
 	if (noHead)
 	{
 		from = fromB;
@@ -24,12 +24,12 @@ makeUpChrysalisAnimationEntry(int from, int count, int fromB, int countB, bool b
 
 	for (int i = 0; i < (bidirectional ? count * 2 : count); i++)
 	{
-		int f = (bidirectional && i >= count) ? count * 2 - 1 - i : i;
+		int const f = (bidirectional && i >= count) ? count * 2 - 1 - i : i;
 
 		e->frames.push_back(BattleUnitAnimationPack::AnimationEntry::Frame());
 		for (int j = 1; j <= (noHead ? 1 : 2); j++)
 		{
-			int part_idx = j;
+			int const part_idx = j;
 			int frame = from + f;
 			auto part_type = BattleUnitAnimationPack::AnimationEntry::Frame::UnitImagePart::Shadow;
 			switch (part_idx)
@@ -66,8 +66,8 @@ makeUpChrysalisAnimationEntry(int from, int count, int fromB, int countB, bool b
 
 void extractAnimationPackChrysalisInternal(sp<BattleUnitAnimationPack> p, bool first)
 {
-	int x = first ? 0 : -1;
-	int y = first ? 1 : 0;
+	int const x = first ? 0 : -1;
+	int const y = first ? 1 : 0;
 
 	// Prone state:
 	p->standart_animations[{ItemWieldMode::None, HandState::AtEase, MovementState::None,

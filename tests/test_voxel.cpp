@@ -192,7 +192,7 @@ static void test_voxel(Vec3<int> voxel_size)
 		{
 			for (int x = -1; x < voxel_size.x + 1; x++)
 			{
-				Vec3<int> pos = {x, y, z};
+				Vec3<int> const pos = {x, y, z};
 				if (pos == bit_voxel_position || pos == bit_2_voxel_position)
 					check_voxel({x, y, z}, v, true);
 				else

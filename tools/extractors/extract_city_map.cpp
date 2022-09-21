@@ -17,11 +17,11 @@ namespace OpenApoc
 void InitialGameStateExtractor::extractCityMap(GameState &state, UString fileName,
                                                UString tilePrefix, sp<City> city) const
 {
-	UString map_prefix = "xcom3/ufodata/";
-	unsigned int sizeX = 100;
-	unsigned int sizeY = 100;
-	unsigned int sizeZ = 10;
-	Vec3<unsigned int> fullSize(140, 140, 13);
+	UString const map_prefix = "xcom3/ufodata/";
+	unsigned int const sizeX = 100;
+	unsigned int const sizeY = 100;
+	unsigned int const sizeZ = 10;
+	Vec3<unsigned int> const fullSize(140, 140, 13);
 
 	// We want a predictable RNG state to generate the 'same' random grass each time
 	Xorshift128Plus<uint32_t> rng{};
@@ -33,7 +33,7 @@ void InitialGameStateExtractor::extractCityMap(GameState &state, UString fileNam
 	}
 	auto fileSize = inFile.size();
 
-	unsigned int expectedFileSize = sizeX * sizeY * sizeZ * 2;
+	unsigned int const expectedFileSize = sizeX * sizeY * sizeZ * 2;
 
 	if (fileSize != expectedFileSize)
 	{

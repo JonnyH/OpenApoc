@@ -97,7 +97,7 @@ bool FlyingVehicleTileHelper::canEnterTile(Tile *from, Tile *to, bool, bool &, f
 		LogError("No 'to' position supplied");
 		return false;
 	}
-	Vec3<int> toPos = to->position;
+	Vec3<int> const toPos = to->position;
 	if (fromPos == toPos)
 	{
 		LogError("FromPos == ToPos %s", toPos);
@@ -132,7 +132,7 @@ bool FlyingVehicleTileHelper::canEnterTile(Tile *from, Tile *to, bool, bool &, f
 				continue;
 			}
 			// Non-crashed can go into crashed
-			bool vehicleCrashed = vehicleTile->getVehicle()->crashed;
+			bool const vehicleCrashed = vehicleTile->getVehicle()->crashed;
 			if (v.crashed || !vehicleCrashed)
 			{
 				return false;
@@ -233,7 +233,7 @@ bool FlyingVehicleTileHelper::canLandOnTile(Tile *to) const
 		LogError("No 'to' position supplied");
 		return false;
 	}
-	Vec3<int> toPos = to->position;
+	Vec3<int> const toPos = to->position;
 
 	for (int y = 0; y < size.y; y++)
 	{
@@ -266,7 +266,7 @@ Vec3<int> FlyingVehicleTileHelper::findTileToLandOn(GameState &, sp<TileObjectVe
 	{
 		for (int y = startPos.y - r; y <= startPos.y + r; y++)
 		{
-			bool middle = y > startPos.y - r && y < startPos.y + r;
+			bool const middle = y > startPos.y - r && y < startPos.y + r;
 			for (int x = startPos.x - r; x <= startPos.x + r;)
 			{
 				// Ensure we're not trying to land into a tile that's blocked
@@ -316,8 +316,8 @@ Vec3<float> FlyingVehicleTileHelper::findSidestep(GameState &state, sp<TileObjec
 
 	for (int i = 0; i < maxIterations; i++)
 	{
-		float xOffset = offset(state.rng);
-		float yOffset = offset(state.rng);
+		float const xOffset = offset(state.rng);
+		float const yOffset = offset(state.rng);
 		auto newPosition = vTile->getPosition();
 		newPosition.x += xOffset;
 		newPosition.y += yOffset;
@@ -335,7 +335,7 @@ Vec3<float> FlyingVehicleTileHelper::findSidestep(GameState &state, sp<TileObjec
 		if (static_cast<Vec3<int>>(newPosition) != vTile->getOwningTile()->position &&
 		    canEnterTile(vTile->getOwningTile(), map.getTile(newPosition)))
 		{
-			float currentDist = glm::abs(distancePref - targetTile->getDistanceTo(newPosition));
+			float const currentDist = glm::abs(distancePref - targetTile->getDistanceTo(newPosition));
 			if (currentDist < closest)
 			{
 				closest = currentDist;
@@ -379,7 +379,7 @@ VehicleMission VehicleMission::gotoPortal(GameState &state, Vehicle &v)
 		float closestPortalRange = std::numeric_limits<float>::max();
 		for (auto &p : v.city->portals)
 		{
-			float distance = vTile->getDistanceTo(p->tileObject);
+			float const distance = vTile->getDistanceTo(p->tileObject);
 			if (distance < closestPortalRange)
 			{
 				closestPortalRange = distance;
@@ -643,7 +643,7 @@ AdjustTargetResult VehicleTargetHelper::adjustTargetToClosestRoad(Vehicle &v, Ve
 				auto reachabilityHere = isReachableTargetRoad(v, {x, y, z});
 				if (reachabilityHere == Reachability::Reachable)
 				{
-					int dist = std::abs(target.x - x) + std::abs(target.y - y) +
+					int const dist = std::abs(target.x - x) + std::abs(target.y - y) +
 					           std::abs(target.z - z) / 2;
 					if (dist < closestDist)
 					{
@@ -674,7 +674,7 @@ AdjustTargetResult VehicleTargetHelper::adjustTargetToClosestRoad(Vehicle &v, Ve
 				auto reachabilityHere = isReachableTargetRoad(v, {x, y, z});
 				if (reachabilityHere == Reachability::Reachable)
 				{
-					int dist = std::abs(target.x - x) + std::abs(target.y - y) +
+					int const dist = std::abs(target.x - x) + std::abs(target.y - y) +
 					           std::abs(target.z - z) / 2;
 					if (dist < closestDist)
 					{
@@ -715,7 +715,7 @@ AdjustTargetResult VehicleTargetHelper::adjustTargetToClosestGround(Vehicle &v, 
 				auto reachabilityHere = isReachableTargetGround(v, {x, y, z});
 				if (reachabilityHere == Reachability::Reachable)
 				{
-					int dist = std::abs(target.x - x) + std::abs(target.y - y) +
+					int const dist = std::abs(target.x - x) + std::abs(target.y - y) +
 					           std::abs(target.z - z) / 2;
 					if (dist < closestDist)
 					{
@@ -746,7 +746,7 @@ AdjustTargetResult VehicleTargetHelper::adjustTargetToClosestGround(Vehicle &v, 
 				auto reachabilityHere = isReachableTargetGround(v, {x, y, z});
 				if (reachabilityHere == Reachability::Reachable)
 				{
-					int dist = std::abs(target.x - x) + std::abs(target.y - y) +
+					int const dist = std::abs(target.x - x) + std::abs(target.y - y) +
 					           std::abs(target.z - z) / 2;
 					if (dist < closestDist)
 					{
@@ -802,7 +802,7 @@ VehicleTargetHelper::adjustTargetToClosestFlying(GameState &state, Vehicle &v, V
 	// Find a random location around the blocking vehicle that is not blocked
 
 	// How far to deviate from target point
-	int maxDiff = 2;
+	int const maxDiff = 2;
 	// Calculate bounds
 	int midX = target.x;
 	midX = midX + maxDiff + 1 > map.size.x ? map.size.x - maxDiff - 1
@@ -1031,7 +1031,7 @@ bool VehicleMission::takeOffCheck(GameState &state, Vehicle &v)
 	return false;
 }
 
-bool VehicleMission::teleportCheck(GameState &state, Vehicle &v)
+bool VehicleMission::teleportCheck(GameState &state, Vehicle &v) const
 {
 	if (allowTeleporter && v.canTeleport() &&
 	    (std::abs(targetLocation.x - (int)v.position.x) > TELEPORTER_SPREAD ||
@@ -1123,11 +1123,11 @@ bool VehicleMission::getNextDestination(GameState &state, Vehicle &v, Vec3<float
 						if (targetFacingVector.x != 0 || targetFacingVector.y != 0)
 						{
 							targetFacingVector = glm::normalize(targetFacingVector);
-							float a1 = acosf(-targetFacingVector.y);
-							float a2 = asinf(targetFacingVector.x);
+							float const a1 = acosf(-targetFacingVector.y);
+							float const a2 = asinf(targetFacingVector.x);
 							float angleToTarget = a2 >= 0 ? a1 : 2.0f * (float)M_PI - a1;
 							// Bring angle to one of directional alignments
-							int angleToTargetInt = angleToTarget / (float)M_PI * 4.0f + 0.5f;
+							int const angleToTargetInt = angleToTarget / (float)M_PI * 4.0f + 0.5f;
 							angleToTarget = (float)angleToTargetInt * (float)M_PI / 4.0f;
 							if (destFacing != angleToTarget)
 							{
@@ -1149,7 +1149,7 @@ bool VehicleMission::getNextDestination(GameState &state, Vehicle &v, Vec3<float
 				else
 				{
 					auto &map = vTile->map;
-					FlyingVehicleTileHelper tileHelper(map, v);
+					FlyingVehicleTileHelper const tileHelper(map, v);
 
 					float distancePreference = 5 * VELOCITY_SCALE_CITY.x;
 					if (this->type == MissionType::AttackVehicle && v.getFiringRange())
@@ -1213,11 +1213,11 @@ bool VehicleMission::getNextDestination(GameState &state, Vehicle &v, Vec3<float
 							if (targetFacingVector.x != 0 || targetFacingVector.y != 0)
 							{
 								targetFacingVector = glm::normalize(targetFacingVector);
-								float a1 = acosf(-targetFacingVector.y);
-								float a2 = asinf(targetFacingVector.x);
+								float const a1 = acosf(-targetFacingVector.y);
+								float const a2 = asinf(targetFacingVector.x);
 								float angleToTarget = a2 >= 0 ? a1 : 2.0f * (float)M_PI - a1;
 								// Bring angle to one of directional alignments
-								int angleToTargetInt = angleToTarget / (float)M_PI * 4.0f + 0.5f;
+								int const angleToTargetInt = angleToTarget / (float)M_PI * 4.0f + 0.5f;
 								angleToTarget = (float)angleToTargetInt * (float)M_PI / 4.0f;
 								if (destFacing != angleToTarget)
 								{
@@ -1298,13 +1298,13 @@ void VehicleMission::update(GameState &state, Vehicle &v, unsigned int ticks, bo
 			{
 				return;
 			}
-			float range = v.getFiringRange();
+			float const range = v.getFiringRange();
 			if (v.tileObject && range > 0)
 			{
 				auto enemy = v.findClosestEnemy(state, v.tileObject);
 				if (enemy && v.tileObject->getDistanceTo(enemy) < range)
 				{
-					StateRef<Vehicle> vehicleRef(&state, enemy->getVehicle());
+					StateRef<Vehicle> const vehicleRef(&state, enemy->getVehicle());
 					currentPlannedPath.clear();
 					v.addMission(state, VehicleMission::attackVehicle(state, v, vehicleRef));
 				}
@@ -1338,7 +1338,7 @@ void VehicleMission::update(GameState &state, Vehicle &v, unsigned int ticks, bo
 					// Update score for UFO incursion
 					if (v.owner == state.getAliens() && v.city.id == "CITYMAP_HUMAN")
 					{
-						int incursionScore = -v.type->score / 4;
+						int const incursionScore = -v.type->score / 4;
 						state.weekScore.incursions += incursionScore;
 						state.totalScore.incursions += incursionScore;
 					}
@@ -1748,7 +1748,7 @@ void VehicleMission::start(GameState &state, Vehicle &v)
 						LogError("Invalid landing pad location %s - outside map?", padLocation.x);
 						continue;
 					}
-					FlyingVehicleTileHelper tileHelper(map, v);
+					FlyingVehicleTileHelper const tileHelper(map, v);
 					Vec3<float> belowPadLocation = padLocation;
 					belowPadLocation += offsetLaunch;
 					auto belowPadTile = map.getTile(belowPadLocation);
@@ -2006,7 +2006,7 @@ void VehicleMission::start(GameState &state, Vehicle &v)
 				return;
 			}
 			auto &map = vehicleTile->map;
-			FlyingVehicleTileHelper tileHelper(map, v);
+			FlyingVehicleTileHelper const tileHelper(map, v);
 
 			auto tile = tileHelper.findTileToLandOn(state, vehicleTile);
 			if (tile == vehicleTile->getOwningTile()->position)
@@ -2181,10 +2181,10 @@ void VehicleMission::start(GameState &state, Vehicle &v)
 						aboveDest.z += 1;
 						if (position == aboveDest)
 							continue;
-						Vec3<float> currentPosition = position;
-						Vec3<float> landingPadPosition = aboveDest;
+						Vec3<float> const currentPosition = position;
+						Vec3<float> const landingPadPosition = aboveDest;
 
-						float distance = glm::length(currentPosition - landingPadPosition);
+						float const distance = glm::length(currentPosition - landingPadPosition);
 
 						if (distance < shortestPathCost)
 						{
@@ -2245,7 +2245,7 @@ void VehicleMission::start(GameState &state, Vehicle &v)
 					{
 						missionCounter++;
 
-						StateRef<Vehicle> thisRef = {&state,
+						StateRef<Vehicle> const thisRef = {&state,
 						                             Vehicle::getId(state, v.shared_from_this())};
 
 						// Launch vehicle assault on aliens
@@ -2727,7 +2727,7 @@ void VehicleMission::setFollowPath(GameState &state, Vehicle &v)
 			// Maneuver if path is empty and enemies nearby
 			else if (currentPlannedPath.empty())
 			{
-				float range = v.getFiringRange();
+				float const range = v.getFiringRange();
 				if (range > 0.0f)
 				{
 					auto enemy = v.findClosestEnemy(state, v.tileObject);
@@ -2944,7 +2944,7 @@ bool VehicleMission::advanceAlongPath(GameState &state, Vehicle &v, Vec3<float> 
 	return true;
 }
 
-bool VehicleMission::isTakingOff(Vehicle &v)
+bool VehicleMission::isTakingOff(Vehicle &v) const
 {
 	return type == MissionType::TakeOff && currentPlannedPath.size() > 2 &&
 	       (v.position.z - ((int)v.position.z)) <= 0.5f;
@@ -3176,13 +3176,13 @@ bool GroundVehicleTileHelper::canEnterTile(Tile *from, Tile *to, bool, bool &, f
 		LogError("No 'from' position supplied");
 		return false;
 	}
-	Vec3<int> fromPos = from->position;
+	Vec3<int> const fromPos = from->position;
 	if (!to)
 	{
 		LogError("No 'to' position supplied");
 		return false;
 	}
-	Vec3<int> toPos = to->position;
+	Vec3<int> const toPos = to->position;
 	if (fromPos == toPos)
 	{
 		LogError("FromPos == ToPos %s", toPos);
@@ -3202,14 +3202,14 @@ bool GroundVehicleTileHelper::canEnterTile(Tile *from, Tile *to, bool, bool &, f
 		return false;
 	}
 
-	sp<Scenery> sceneryFrom = from->presentScenery;
-	sp<Scenery> sceneryTo = to->presentScenery;
+	sp<Scenery> const sceneryFrom = from->presentScenery;
+	sp<Scenery> const sceneryTo = to->presentScenery;
 	if (!sceneryFrom || !sceneryTo)
 	{
 		return false;
 	}
-	int forward = convertDirection(dir);
-	int backward = convertDirection(-dir);
+	int const forward = convertDirection(dir);
+	int const backward = convertDirection(-dir);
 	if (type == VehicleType::Type::Road)
 	{
 		// General passability check

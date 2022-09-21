@@ -32,7 +32,7 @@ bool TextEdit::isFocused() const { return editing; }
 
 void TextEdit::eventOccured(Event *e)
 {
-	UString keyname;
+	UString const keyname;
 
 	Control::eventOccured(e);
 
@@ -131,7 +131,7 @@ void TextEdit::eventOccured(Event *e)
 					case SDLK_v: // CTRL+V
 						if (e->forms().KeyInfo.Modifiers & KMOD_CTRL)
 						{
-							U32String clipboard = to_u32string(fw().textGetClipboard());
+							U32String const clipboard = to_u32string(fw().textGetClipboard());
 
 							if (text.length() + clipboard.length() >= this->textMaxLength)
 							{
@@ -154,7 +154,7 @@ void TextEdit::eventOccured(Event *e)
 					return;
 				}
 
-				U32String inputCharacter = to_u32string(e->forms().Input.Input);
+				U32String const inputCharacter = to_u32string(e->forms().Input.Input);
 				if (allowedCharacters.empty() ||
 				    allowedCharacters.find(inputCharacter) != std::string::npos)
 				{
@@ -174,7 +174,7 @@ void TextEdit::onRender()
 	auto u8str = to_ustring(text);
 
 	int xpos = align(TextHAlign, Size.x, font->getFontWidth(u8str));
-	int ypos = align(TextVAlign, Size.y, font->getFontHeight());
+	int const ypos = align(TextVAlign, Size.y, font->getFontHeight());
 
 	if (editing)
 	{
@@ -292,7 +292,7 @@ void TextEdit::configureSelfFromXml(pugi::xml_node *node)
 	auto alignmentNode = node->child("alignment");
 	if (alignmentNode)
 	{
-		UString hAlign = alignmentNode.attribute("horizontal").as_string();
+		UString const hAlign = alignmentNode.attribute("horizontal").as_string();
 		if (hAlign == "left")
 		{
 			TextHAlign = HorizontalAlignment::Left;
@@ -305,7 +305,7 @@ void TextEdit::configureSelfFromXml(pugi::xml_node *node)
 		{
 			TextHAlign = HorizontalAlignment::Right;
 		}
-		UString vAlign = alignmentNode.attribute("vertical").as_string();
+		UString const vAlign = alignmentNode.attribute("vertical").as_string();
 		if (vAlign == "top")
 		{
 			TextVAlign = VerticalAlignment::Top;

@@ -54,7 +54,7 @@ UString AIAction::getName()
 	return "";
 }
 
-bool AIAction::inProgressInternal(BattleUnit &u)
+bool AIAction::inProgressInternal(BattleUnit &u) const
 {
 	switch (type)
 	{
@@ -127,7 +127,7 @@ UString AIMovement::getName()
 	return "";
 }
 
-bool AIMovement::inProgressInternal(BattleUnit &u)
+bool AIMovement::inProgressInternal(BattleUnit &u) const
 {
 	switch (type)
 	{
@@ -196,11 +196,11 @@ bool AIMovement::inProgress(BattleUnit &u)
 
 bool AIMovement::isFinished(BattleUnit &u) { return !inProgress(u) && executed; }
 
-UString AIDecision::getName()
+UString AIDecision::getName() const
 {
 	return format("Action: [%s] Movement: [%s]", action ? action->getName() : "NULL",
 	              movement ? movement->getName() : "NULL");
 }
 
-bool AIDecision::isEmpty() { return !action && !movement; }
+bool AIDecision::isEmpty() const { return !action && !movement; }
 } // namespace OpenApoc

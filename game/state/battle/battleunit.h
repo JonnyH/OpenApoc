@@ -371,7 +371,7 @@ class BattleUnit : public StateObject<BattleUnit>, public std::enable_shared_fro
 	// Squad
 
 	// Remove unit from squad in battle's forces
-	void removeFromSquad(Battle &b);
+	void removeFromSquad(Battle &b) const;
 	// Assign unit to squad (optionally specify squad number and position)
 	bool assignToSquad(Battle &b, int squadNumber = -1, int squadPosition = -1);
 
@@ -405,7 +405,7 @@ class BattleUnit : public StateObject<BattleUnit>, public std::enable_shared_fro
 	                           sp<AEquipment> leftHand = nullptr);
 	// Clear LOF means no friendly fire and no map part in between
 	// Clear LOS means nothing in between
-	bool hasLineToUnit(const sp<BattleUnit> unit, bool useLOS = false) const;
+	bool hasLineToUnit(sp<BattleUnit> unit, bool useLOS = false) const;
 	// Clear LOF means no friendly fire and no map part in between
 	// Clear LOS means nothing in between
 	bool hasLineToPosition(Vec3<float> targetPosition, bool useLOS = false) const;
@@ -486,11 +486,11 @@ class BattleUnit : public StateObject<BattleUnit>, public std::enable_shared_fro
 	// Should the unit play walk step sound now
 	bool shouldPlaySoundNow();
 	// Current sound index for the unit
-	unsigned int getWalkSoundIndex();
+	unsigned int getWalkSoundIndex() const;
 	// Play walking sound
 	void playWalkSound(GameState &state);
 	// Play sound adjusting gain by distance to closest player unit
-	void playDistantSound(GameState &state, sp<Sample> sfx, float gainMult = 1.0f);
+	void playDistantSound(GameState &state, sp<Sample> sfx, float gainMult = 1.0f) const;
 	// Init the delay before first time unit emits a cry in combat
 	void initCryTimer(GameState &state);
 	// Reset the delay before unit emits a cry next time in combat
@@ -675,7 +675,7 @@ class BattleUnit : public StateObject<BattleUnit>, public std::enable_shared_fro
 
 	// Determine body part hit
 	BodyPart determineBodyPartHit(StateRef<DamageType> damageType, Vec3<float> cposition,
-	                              Vec3<float> direction);
+	                              Vec3<float> direction) const;
 
 	// Returns true if sound and doodad were handled by it
 	bool applyDamage(GameState &state, int power, StateRef<DamageType> damageType,
@@ -702,14 +702,14 @@ class BattleUnit : public StateObject<BattleUnit>, public std::enable_shared_fro
 	// Apply enzyme to this unit
 	void applyEnzymeEffect(GameState &state);
 	// Spawn enzyme smoke on this unit
-	void spawnEnzymeSmoke(GameState &state);
+	void spawnEnzymeSmoke(GameState &state) const;
 	// Send AgentEvent of specified type
 	// checkOwnership means event not set unless agent owned by player
 	// checkVisibility means event not sent unless agent seen by player
 	void sendAgentEvent(GameState &state, GameEventType type, bool checkOwnership = false,
 	                    bool checkVisibility = false) const;
 	// Trigger proximity mines around unit
-	void triggerProximity(GameState &state);
+	void triggerProximity(GameState &state) const;
 	// Trigger brainsucker pods around unit
 	void triggerBrainsuckers(GameState &state);
 	// Retreat unit
@@ -723,7 +723,7 @@ class BattleUnit : public StateObject<BattleUnit>, public std::enable_shared_fro
 	// Process unit dying
 	void die(GameState &state, StateRef<BattleUnit> attacker = nullptr, bool violently = true);
 	// Remove unit from any 'visible' lists
-	void markUnVisible(GameState &state);
+	void markUnVisible(GameState &state) const;
 
 	// Update
 
@@ -774,7 +774,7 @@ class BattleUnit : public StateObject<BattleUnit>, public std::enable_shared_fro
 	void updateMovement(GameState &state, unsigned int &moveTicksRemaining, bool &wasUsingLift);
 	// Updates unit's transition and acquires new target
 	void updateTurning(GameState &state, unsigned int &turnTicksRemaining,
-	                   unsigned int const handsTicksRemaining);
+	                   unsigned int handsTicksRemaining);
 	// Updates unit's displayed item (which one will draw in unit's hands on screen)
 	void updateDisplayedItem(GameState &state);
 	// Runs all fire checks and returns false if we must stop attacking
@@ -822,7 +822,7 @@ class BattleUnit : public StateObject<BattleUnit>, public std::enable_shared_fro
 	                                std::set<int> &blocksToCheck);
 	// Calculate unit's vision to LBs using "shotgun" approach:
 	// Shoot 25 beams and include everything that was passed through into list of visible blocks
-	void calculateVisionToLosBlocksLazy(GameState &state, std::set<int> &discoveredBlocks);
+	void calculateVisionToLosBlocksLazy(GameState &state, std::set<int> &discoveredBlocks) const;
 	// Calculate vision to every other unit
 	void calculateVisionToUnits(GameState &state);
 	// Return if unit sees unit
@@ -831,7 +831,7 @@ class BattleUnit : public StateObject<BattleUnit>, public std::enable_shared_fro
 	bool isWithinVision(Vec3<int> pos);
 
 	// Update unit's vision of other units and terrain
-	void refreshUnitVisibility(GameState &state);
+	void refreshUnitVisibility(GameState &state) const;
 	// Update other units's vision of this unit
 	void refreshUnitVision(GameState &state, bool forceBlind = false,
 	                       StateRef<BattleUnit> targetUnit = StateRef<BattleUnit>());

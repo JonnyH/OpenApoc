@@ -14,7 +14,7 @@ sp<BattleUnitAnimationPack::AnimationEntry> makeUpQAnimationEntry(int from, int 
                                                                   int countB, Vec2<int> offset)
 {
 	auto e = mksp<BattleUnitAnimationPack::AnimationEntry>();
-	bool noHead = count == 0;
+	bool const noHead = count == 0;
 	if (noHead)
 	{
 		from = fromB;
@@ -27,7 +27,7 @@ sp<BattleUnitAnimationPack::AnimationEntry> makeUpQAnimationEntry(int from, int 
 		e->frames.push_back(BattleUnitAnimationPack::AnimationEntry::Frame());
 		for (int j = 1; j <= (noHead ? 1 : 2); j++)
 		{
-			int part_idx = j;
+			int const part_idx = j;
 			int frame = from + i;
 			auto part_type = BattleUnitAnimationPack::AnimationEntry::Frame::UnitImagePart::Shadow;
 			switch (part_idx)
@@ -63,7 +63,7 @@ sp<BattleUnitAnimationPack::AnimationEntry> makeUpQAnimationEntry(int from, int 
 
 void extractAnimationPackQInternal(sp<BattleUnitAnimationPack> p)
 {
-	Vec2<int> offset = {-60, -42};
+	Vec2<int> const offset = {-60, -42};
 
 	// Standing/Aiming/Firing state:
 	p->standart_animations[{ItemWieldMode::None, HandState::AtEase, MovementState::None,

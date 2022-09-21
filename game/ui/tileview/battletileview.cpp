@@ -34,10 +34,10 @@ void BattleTileView::updateHiddenBar()
 {
 	hiddenBarTicksAccumulated = 0;
 
-	int width = 321;
-	int height = 33;
-	Colour bar = {142, 142, 142, 255};
-	Colour black = {0, 0, 0, 0};
+	int const width = 321;
+	int const height = 33;
+	Colour const bar = {142, 142, 142, 255};
+	Colour const black = {0, 0, 0, 0};
 
 	int totalTU = 0;
 	int remainingTU = 0;
@@ -49,13 +49,13 @@ void BattleTileView::updateHiddenBar()
 		{
 			continue;
 		}
-		int reserve = u.second->reserveShotCost +
+		int const reserve = u.second->reserveShotCost +
 		              u.second->getBodyStateChangeCost(BodyState::Standing, BodyState::Kneeling);
 
 		totalTU += u.second->initialTU - reserve;
 		remainingTU += std::max(0, u.second->agent->modified_stats.time_units - reserve);
 	}
-	int maxWidth = totalTU ? clamp(width - remainingTU * width / totalTU, 0, width) : 0;
+	int const maxWidth = totalTU ? clamp(width - remainingTU * width / totalTU, 0, width) : 0;
 
 	auto progressBar = mksp<RGBImage>(Vec2<int>{width, height});
 	{
@@ -451,11 +451,11 @@ void BattleTileView::render()
 	auto bottomLeft = offsetScreenToTileCoords(Vec2<int>{-isoTileSize.x, dpySize.y}, map.size.z);
 	auto bottomRight = offsetScreenToTileCoords(Vec2<int>{dpySize.x, dpySize.y}, map.size.z);
 
-	int minX = std::max(0, topLeft.x);
-	int maxX = std::min(map.size.x, bottomRight.x);
+	int const minX = std::max(0, topLeft.x);
+	int const maxX = std::min(map.size.x, bottomRight.x);
 
-	int minY = std::max(0, topRight.y);
-	int maxY = std::min(map.size.y, bottomLeft.y);
+	int const minY = std::max(0, topRight.y);
+	int const maxY = std::min(map.size.y, bottomLeft.y);
 
 	int zFrom = 0;
 	int zTo = maxZDraw;
@@ -502,9 +502,9 @@ void BattleTileView::render()
 			// List of waypointLocations to draw
 			// std::map<Vec3<int>, std::list<Vec3<float>>> waypointLocations;
 			std::set<Vec3<int>> waypointLocations;
-			bool drawWaypoints = config().getBool("OpenApoc.NewFeature.DisplayUnitPaths");
+			bool const drawWaypoints = config().getBool("OpenApoc.NewFeature.DisplayUnitPaths");
 			bool darkenWaypoints = false;
-			std::list<StateRef<BattleUnit>> allUnits;
+			std::list<StateRef<BattleUnit>> const allUnits;
 			if (revealWholeMap)
 			{
 				for (auto &entry : battle.units)
@@ -585,7 +585,7 @@ void BattleTileView::render()
 
 			for (int z = zFrom; z < zTo; z++)
 			{
-				int currentLevel = z - battle.battleViewZLevel + 1;
+				int const currentLevel = z - battle.battleViewZLevel + 1;
 
 				// Find out when to draw selection bracket parts (if ever)
 				Tile *selTileOnCurLevel = nullptr;
@@ -648,7 +648,7 @@ void BattleTileView::render()
 						for (int x = minX; x < maxX; x++)
 						{
 							auto tile = map.getTile(x, y, z);
-							bool visible = battle.getVisible(battle.currentPlayer, x, y, z);
+							bool const visible = battle.getVisible(battle.currentPlayer, x, y, z);
 							auto object_count = tile->drawnObjects[layer].size();
 							size_t obj_id = 0;
 							do
@@ -814,7 +814,7 @@ void BattleTileView::render()
 									default:
 										break;
 								}
-								Vec2<float> pos = tileToOffsetScreenCoords(obj->getCenter());
+								Vec2<float> const pos = tileToOffsetScreenCoords(obj->getCenter());
 								obj->draw(r, *this, pos, this->viewMode,
 								          revealWholeMap || objectVisible, currentLevel, friendly,
 								          hostile);
@@ -935,12 +935,12 @@ void BattleTileView::render()
 			// Draw next level, units whose "legs" are below "zTo", projectiles and items moving
 			for (int z = zTo; z < maxZDraw && z < zTo + 1; z++)
 			{
-				int currentLevel = z - battle.battleViewZLevel + 1;
+				int const currentLevel = z - battle.battleViewZLevel + 1;
 
-				unsigned int layer1 = map.getLayer(TileObject::Type::Unit);
-				unsigned int layer2 = map.getLayer(TileObject::Type::Shadow);
-				unsigned int minLayer = std::min(layer1, layer2);
-				unsigned int maxLayer = std::max(layer1, layer2);
+				unsigned int const layer1 = map.getLayer(TileObject::Type::Unit);
+				unsigned int const layer2 = map.getLayer(TileObject::Type::Shadow);
+				unsigned int const minLayer = std::min(layer1, layer2);
+				unsigned int const maxLayer = std::max(layer1, layer2);
 
 				for (unsigned int layer = minLayer; layer <= maxLayer; layer++)
 				{
@@ -949,7 +949,7 @@ void BattleTileView::render()
 						for (int x = minX; x < maxX; x++)
 						{
 							auto tile = map.getTile(x, y, z);
-							bool visible = battle.getVisible(battle.currentPlayer, x, y, z);
+							bool const visible = battle.getVisible(battle.currentPlayer, x, y, z);
 							auto object_count = tile->drawnObjects[layer].size();
 							size_t obj_id = 0;
 							do
@@ -1084,7 +1084,7 @@ void BattleTileView::render()
 								}
 								if (draw)
 								{
-									Vec2<float> pos = tileToOffsetScreenCoords(obj->getCenter());
+									Vec2<float> const pos = tileToOffsetScreenCoords(obj->getCenter());
 									obj->draw(r, *this, pos, this->viewMode,
 									          revealWholeMap || objectVisible, currentLevel,
 									          friendly, hostile);
@@ -1132,13 +1132,13 @@ void BattleTileView::render()
 				static const Vec2<float> offsetHealth = {6.0f, 2.0f};
 
 				// Health from 0 to 15, where 15 = 100%, 14 = less than 99.9% and 0 = 0%+
-				int health = obj.first->agent->modified_stats.health * 15 /
+				int const health = obj.first->agent->modified_stats.health * 15 /
 				             obj.first->agent->current_stats.health;
 
 				if (health < 0)
 					continue;
 
-				Vec2<float> pos =
+				Vec2<float> const pos =
 				    tileToOffsetScreenCoords(
 				        obj.first->getPosition() +
 				        Vec3<float>{0.0f, 0.0f,
@@ -1190,7 +1190,7 @@ void BattleTileView::render()
 					{
 						continue;
 					}
-					Vec2<float> pos = tileToOffsetScreenCoords(
+					Vec2<float> const pos = tileToOffsetScreenCoords(
 					    u.second->getPosition() +
 					    Vec3<float>{0.0f, 0.0f,
 					                (u.second->getCurrentHeight() - 4.0f) * 1.5f / 40.0f});
@@ -1227,7 +1227,7 @@ void BattleTileView::render()
 				// Offset goes like this: 0 1 2 3 4 3 2 1  (example for 5 frames)
 				// Therefore, if value is >=frames, we do 2*frames -2 -offset
 				// For example, 2*5 - 2 - 5 = 3, that's how we get 3 that's after 4
-				Vec2<float> imgOffset = {
+				Vec2<float> const imgOffset = {
 				    (float)battle.common_image_list->focusArrows[0]->size.x / 2.0f,
 				    (float)battle.common_image_list->focusArrows[0]->size.y / 2.0f};
 				if (offset >= FOCUS_ICONS_ANIMATION_FRAMES)
@@ -1235,8 +1235,8 @@ void BattleTileView::render()
 
 				for (auto &obj : unitsToDrawFocusArrows)
 				{
-					float largeOffset = obj.second ? 2.0f : 1.0f;
-					Vec2<float> pos = tileToOffsetScreenCoords(obj.first->getCenter());
+					float const largeOffset = obj.second ? 2.0f : 1.0f;
+					Vec2<float> const pos = tileToOffsetScreenCoords(obj.first->getCenter());
 
 					r.draw(battle.common_image_list->focusArrows[0],
 					       pos - imgOffset + largeOffset * offset1 + offset * offsetd14);
@@ -1281,13 +1281,13 @@ void BattleTileView::render()
 									{
 										auto u = std::static_pointer_cast<TileObjectBattleUnit>(obj)
 										             ->getUnit();
-										bool objectVisible =
+										bool const objectVisible =
 										    !u->isConscious() || u->owner == battle.currentPlayer ||
 										    battle.visibleUnits.at(battle.currentPlayer)
 										            .find({&state, u->id}) !=
 										        battle.visibleUnits.at(battle.currentPlayer).end();
-										bool friendly = u->owner == battle.currentPlayer;
-										bool hostile =
+										bool const friendly = u->owner == battle.currentPlayer;
+										bool const hostile =
 										    battle.currentPlayer->isRelatedTo(u->owner) ==
 										    Organisation::Relation::Hostile;
 										bool selected = false;
@@ -1340,7 +1340,7 @@ void BattleTileView::render()
 			for (int z = zFrom; z < zTo; z++)
 			{
 				// currentZLevel is an upper exclusive boundary, that's why we need to sub 1 here
-				int currentLevel = z - (battle.battleViewZLevel - 1);
+				int const currentLevel = z - (battle.battleViewZLevel - 1);
 
 				for (unsigned int layer = 0; layer < map.getLayerCount(); layer++)
 				{
@@ -1349,7 +1349,7 @@ void BattleTileView::render()
 						for (int x = minX; x < maxX; x++)
 						{
 							auto tile = map.getTile(x, y, z);
-							bool visible = battle.getVisible(battle.currentPlayer, x, y, z);
+							bool const visible = battle.getVisible(battle.currentPlayer, x, y, z);
 							auto object_count = tile->drawnObjects[layer].size();
 
 							for (size_t obj_id = 0; obj_id < object_count; obj_id++)
@@ -1367,8 +1367,8 @@ void BattleTileView::render()
 										    battle.visibleUnits.at(battle.currentPlayer)
 										            .find({&state, u->id}) !=
 										        battle.visibleUnits.at(battle.currentPlayer).end();
-										bool friendly = u->owner == battle.currentPlayer;
-										bool hostile =
+										bool const friendly = u->owner == battle.currentPlayer;
+										bool const hostile =
 										    battle.currentPlayer->isRelatedTo(u->owner) ==
 										    Organisation::Relation::Hostile;
 										bool selected = false;
@@ -1442,7 +1442,7 @@ void BattleTileView::render()
 									default:
 										break;
 								}
-								Vec2<float> pos = tileToOffsetScreenCoords(obj->getCenter());
+								Vec2<float> const pos = tileToOffsetScreenCoords(obj->getCenter());
 								obj->draw(r, *this, pos, this->viewMode,
 								          revealWholeMap || objectVisible, currentLevel);
 							}
@@ -1472,13 +1472,13 @@ void BattleTileView::render()
 									{
 										auto u = std::static_pointer_cast<TileObjectBattleUnit>(obj)
 										             ->getUnit();
-										bool objectVisible =
+										bool const objectVisible =
 										    !u->isConscious() || u->owner == battle.currentPlayer ||
 										    battle.visibleUnits.at(battle.currentPlayer)
 										            .find({&state, u->id}) !=
 										        battle.visibleUnits.at(battle.currentPlayer).end();
-										bool friendly = u->owner == battle.currentPlayer;
-										bool hostile =
+										bool const friendly = u->owner == battle.currentPlayer;
+										bool const hostile =
 										    battle.currentPlayer->isRelatedTo(u->owner) ==
 										    Organisation::Relation::Hostile;
 										bool selected = false;
@@ -1541,7 +1541,7 @@ void BattleTileView::render()
 			for (auto &obj : unitsToDraw)
 			{
 				auto unit = std::get<0>(obj);
-				Vec2<float> pos = tileToOffsetScreenCoords(unit->getCenter());
+				Vec2<float> const pos = tileToOffsetScreenCoords(unit->getCenter());
 				unit->draw(r, *this, pos, this->viewMode, std::get<1>(obj), std::get<2>(obj),
 				           std::get<3>(obj), std::get<4>(obj));
 				// Draw unit selection brackets
@@ -1555,7 +1555,7 @@ void BattleTileView::render()
 			}
 			for (auto &obj : itemsToDraw)
 			{
-				Vec2<float> pos = tileToOffsetScreenCoords(std::get<0>(obj)->getCenter());
+				Vec2<float> const pos = tileToOffsetScreenCoords(std::get<0>(obj)->getCenter());
 				std::get<0>(obj)->draw(r, *this, pos, this->viewMode, std::get<1>(obj),
 				                       std::get<2>(obj));
 			}
@@ -1613,7 +1613,7 @@ void BattleTileView::setZLevel(int zLevel)
 	setScreenCenterTile(Vec3<float>{centerPos.x, centerPos.y, battle.battleViewZLevel - 1});
 }
 
-int BattleTileView::getZLevel() { return battle.battleViewZLevel; }
+int BattleTileView::getZLevel() const { return battle.battleViewZLevel; }
 
 void BattleTileView::setLayerDrawingMode(LayerDrawingMode mode) { layerDrawingMode = mode; }
 

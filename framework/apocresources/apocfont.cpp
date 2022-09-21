@@ -89,14 +89,14 @@ sp<BitmapFont> ApocalypseFont::loadFont(const UString &fontDescPath)
 	for (auto glyphNode = fontNode.child("glyph"); glyphNode;
 	     glyphNode = glyphNode.next_sibling("glyph"))
 	{
-		UString glyphPath = glyphNode.attribute("glyph").value();
+		UString const glyphPath = glyphNode.attribute("glyph").value();
 		if (glyphPath.empty())
 		{
 			LogError("Font \"%s\" has glyph with missing string attribute - skipping glyph",
 			         fontName);
 			continue;
 		}
-		UString glyphString = glyphNode.attribute("string").value();
+		UString const glyphString = glyphNode.attribute("string").value();
 		if (glyphString.empty())
 		{
 			LogError("apocfont \"%s\" has glyph with missing string attribute - skipping glyph",
@@ -113,7 +113,7 @@ sp<BitmapFont> ApocalypseFont::loadFont(const UString &fontDescPath)
 			         fontName, glyphString, pointString.length());
 			continue;
 		}
-		char32_t c = pointString[0];
+		char32_t const c = pointString[0];
 
 		if (charMap.find(c) != charMap.end())
 		{

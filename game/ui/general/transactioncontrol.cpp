@@ -96,7 +96,7 @@ void TransactionControl::updateValues()
 	{
 		if (manufacturerHostile || manufacturerUnavailable)
 		{
-			int defaultRightStock = tradeState.getRightStock();
+			int const defaultRightStock = tradeState.getRightStock();
 			if ((tradeState.getLeftIndex() == ECONOMY_IDX &&
 			     scrollBar->getValue() > defaultRightStock) ||
 			    (tradeState.getRightIndex() == ECONOMY_IDX &&
@@ -140,8 +140,8 @@ void TransactionControl::updateValues()
 		}
 	}
 
-	int curDeltaRight = tradeState.getLROrder();
-	int curDeltaLeft = -curDeltaRight;
+	int const curDeltaRight = tradeState.getLROrder();
+	int const curDeltaLeft = -curDeltaRight;
 
 	stockLeft->setText(format("%d", tradeState.getLeftStock(true)));
 	stockRight->setText(format("%d", tradeState.getRightStock(true)));
@@ -232,15 +232,15 @@ sp<TransactionControl> TransactionControl::createControl(GameState &state, State
 			return nullptr;
 	}
 
-	int price = 0;
-	int storeSpace = 0;
-	bool isAmmo = false;
-	bool isBio = false;
-	bool isPerson = true;
-	bool researched = true;
+	int const price = 0;
+	int const storeSpace = 0;
+	bool const isAmmo = false;
+	bool const isBio = false;
+	bool const isPerson = true;
+	bool const researched = true;
 	auto manufacturer = agent->owner;
-	bool manufacturerHostile = false;
-	bool manufacturerUnavailable = false;
+	bool const manufacturerHostile = false;
+	bool const manufacturerUnavailable = false;
 
 	return createControl(agent.id, type, agent->name, manufacturer, isAmmo, isBio, isPerson,
 	                     researched, manufacturerHostile, manufacturerUnavailable, price,
@@ -251,10 +251,10 @@ sp<TransactionControl>
 TransactionControl::createControl(GameState &state, StateRef<AEquipmentType> agentEquipmentType,
                                   int indexLeft, int indexRight)
 {
-	bool isBio = agentEquipmentType->bioStorage;
+	bool const isBio = agentEquipmentType->bioStorage;
 	int price = 0;
-	int storeSpace = agentEquipmentType->store_space;
-	bool researched = isBio ? true : agentEquipmentType->research_dependency.satisfied();
+	int const storeSpace = agentEquipmentType->store_space;
+	bool const researched = isBio ? true : agentEquipmentType->research_dependency.satisfied();
 
 	std::vector<int> initialStock;
 	bool hasStock = false;
@@ -264,7 +264,7 @@ TransactionControl::createControl(GameState &state, StateRef<AEquipmentType> age
 		int baseIndex = 0;
 		for (auto &b : state.player_bases)
 		{
-			int divisor = (agentEquipmentType->type == AEquipmentType::Type::Ammo && !isBio)
+			int const divisor = (agentEquipmentType->type == AEquipmentType::Type::Ammo && !isBio)
 			                  ? agentEquipmentType->max_ammo
 			                  : 1;
 			initialStock[baseIndex] =
@@ -285,7 +285,7 @@ TransactionControl::createControl(GameState &state, StateRef<AEquipmentType> age
 		if (state.economy.find(agentEquipmentType.id) != state.economy.end())
 		{
 			auto &economy = state.economy[agentEquipmentType.id];
-			int week = state.gameTime.getWeek();
+			int const week = state.gameTime.getWeek();
 			initialStock[ECONOMY_IDX] = economy.currentStock;
 			price = economy.currentPrice;
 			economyUnavailable =
@@ -302,13 +302,13 @@ TransactionControl::createControl(GameState &state, StateRef<AEquipmentType> age
 	}
 
 	auto manufacturer = agentEquipmentType->manufacturer;
-	bool isAmmo = agentEquipmentType->type == AEquipmentType::Type::Ammo;
-	bool isPerson = false;
+	bool const isAmmo = agentEquipmentType->type == AEquipmentType::Type::Ammo;
+	bool const isPerson = false;
 	auto canBuy = isBio ? Organisation::PurchaseResult::OK
 	                    : agentEquipmentType->manufacturer->canPurchaseFrom(
 	                          state, state.current_base->building, false);
-	bool manufacturerHostile = canBuy == Organisation::PurchaseResult::OrgHostile;
-	bool manufacturerUnavailable = manufacturer != state.getPlayer() &&
+	bool const manufacturerHostile = canBuy == Organisation::PurchaseResult::OrgHostile;
+	bool const manufacturerUnavailable = manufacturer != state.getPlayer() &&
 	                               canBuy == Organisation::PurchaseResult::OrgHasNoBuildings;
 
 	return createControl(agentEquipmentType.id,
@@ -323,8 +323,8 @@ TransactionControl::createControl(GameState &state, StateRef<VEquipmentType> veh
                                   int indexLeft, int indexRight)
 {
 	int price = 0;
-	int storeSpace = vehicleEquipmentType->store_space;
-	bool researched = vehicleEquipmentType->research_dependency.satisfied();
+	int const storeSpace = vehicleEquipmentType->store_space;
+	bool const researched = vehicleEquipmentType->research_dependency.satisfied();
 
 	std::vector<int> initialStock;
 	bool hasStock = false;
@@ -348,7 +348,7 @@ TransactionControl::createControl(GameState &state, StateRef<VEquipmentType> veh
 		if (state.economy.find(vehicleEquipmentType.id) != state.economy.end())
 		{
 			auto &economy = state.economy[vehicleEquipmentType.id];
-			int week = state.gameTime.getWeek();
+			int const week = state.gameTime.getWeek();
 			initialStock[ECONOMY_IDX] = economy.currentStock;
 			price = economy.currentPrice;
 			economyUnavailable =
@@ -361,14 +361,14 @@ TransactionControl::createControl(GameState &state, StateRef<VEquipmentType> veh
 	}
 
 	auto manufacturer = vehicleEquipmentType->manufacturer;
-	bool isAmmo = false;
-	bool isBio = false;
-	bool isPerson = false;
+	bool const isAmmo = false;
+	bool const isBio = false;
+	bool const isPerson = false;
 	// Expecting all bases to be in one city
 	auto canBuy = vehicleEquipmentType->manufacturer->canPurchaseFrom(
 	    state, state.current_base->building, false);
-	bool manufacturerHostile = canBuy == Organisation::PurchaseResult::OrgHostile;
-	bool manufacturerUnavailable = manufacturer != state.getPlayer() &&
+	bool const manufacturerHostile = canBuy == Organisation::PurchaseResult::OrgHostile;
+	bool const manufacturerUnavailable = manufacturer != state.getPlayer() &&
 	                               canBuy == Organisation::PurchaseResult::OrgHasNoBuildings;
 
 	return createControl(vehicleEquipmentType.id, Type::VehicleEquipment,
@@ -382,7 +382,7 @@ sp<TransactionControl> TransactionControl::createControl(GameState &state,
                                                          int indexLeft, int indexRight)
 {
 	int price = 0;
-	int storeSpace = vehicleAmmoType->store_space;
+	int const storeSpace = vehicleAmmoType->store_space;
 	std::vector<int> initialStock;
 	bool hasStock = false;
 	// Fill out stock
@@ -405,7 +405,7 @@ sp<TransactionControl> TransactionControl::createControl(GameState &state,
 		if (state.economy.find(vehicleAmmoType.id) != state.economy.end())
 		{
 			auto &economy = state.economy[vehicleAmmoType.id];
-			int week = state.gameTime.getWeek();
+			int const week = state.gameTime.getWeek();
 			initialStock[ECONOMY_IDX] = economy.currentStock;
 			price = economy.currentPrice;
 			economyUnavailable = economy.weekAvailable == 0 || economy.weekAvailable > week;
@@ -417,15 +417,15 @@ sp<TransactionControl> TransactionControl::createControl(GameState &state,
 	}
 
 	auto manufacturer = vehicleAmmoType->manufacturer;
-	bool isAmmo = true;
-	bool isBio = false;
-	bool isPerson = false;
-	bool researched = true;
+	bool const isAmmo = true;
+	bool const isBio = false;
+	bool const isPerson = false;
+	bool const researched = true;
 	// Expecting all bases to be in one city
 	auto canBuy =
 	    vehicleAmmoType->manufacturer->canPurchaseFrom(state, state.current_base->building, false);
-	bool manufacturerHostile = canBuy == Organisation::PurchaseResult::OrgHostile;
-	bool manufacturerUnavailable = manufacturer != state.getPlayer() &&
+	bool const manufacturerHostile = canBuy == Organisation::PurchaseResult::OrgHostile;
+	bool const manufacturerUnavailable = manufacturer != state.getPlayer() &&
 	                               canBuy == Organisation::PurchaseResult::OrgHasNoBuildings;
 
 	return createControl(vehicleAmmoType.id, Type::VehicleAmmo, vehicleAmmoType->name, manufacturer,
@@ -444,7 +444,7 @@ sp<TransactionControl> TransactionControl::createControl(GameState &state,
 		return nullptr;
 	}
 	int price = 0;
-	int storeSpace = 0;
+	int const storeSpace = 0;
 	std::vector<int> initialStock;
 	// Fill out stock
 	{
@@ -457,7 +457,7 @@ sp<TransactionControl> TransactionControl::createControl(GameState &state,
 		if (state.economy.find(vehicleType.id) != state.economy.end())
 		{
 			auto &economy = state.economy[vehicleType.id];
-			int week = state.gameTime.getWeek();
+			int const week = state.gameTime.getWeek();
 			initialStock[ECONOMY_IDX] = economy.currentStock;
 			price = economy.currentPrice;
 			economyUnavailable = economy.weekAvailable == 0 || economy.weekAvailable > week;
@@ -469,15 +469,15 @@ sp<TransactionControl> TransactionControl::createControl(GameState &state,
 	}
 
 	auto manufacturer = vehicleType->manufacturer;
-	bool isAmmo = false;
-	bool isBio = false;
-	bool isPerson = false;
-	bool researched = true;
+	bool const isAmmo = false;
+	bool const isBio = false;
+	bool const isPerson = false;
+	bool const researched = true;
 	// Expecting all bases to be in one city
 	auto canBuy =
 	    vehicleType->manufacturer->canPurchaseFrom(state, state.current_base->building, true);
-	bool manufacturerHostile = canBuy == Organisation::PurchaseResult::OrgHostile;
-	bool manufacturerUnavailable = manufacturer != state.getPlayer() &&
+	bool const manufacturerHostile = canBuy == Organisation::PurchaseResult::OrgHostile;
+	bool const manufacturerUnavailable = manufacturer != state.getPlayer() &&
 	                               canBuy == Organisation::PurchaseResult::OrgHasNoBuildings;
 
 	return createControl(vehicleType.id, Type::VehicleType, vehicleType->name, manufacturer, isAmmo,
@@ -495,7 +495,7 @@ sp<TransactionControl> TransactionControl::createControl(GameState &state,
 		return nullptr;
 	}
 	int price = 0;
-	int storeSpace = 0;
+	int const storeSpace = 0;
 	std::vector<int> initialStock;
 	// Fill out stock
 	{
@@ -518,7 +518,7 @@ sp<TransactionControl> TransactionControl::createControl(GameState &state,
 		if (state.economy.find(vehicle->type.id) != state.economy.end())
 		{
 			auto &economy = state.economy[vehicle->type.id];
-			int week = state.gameTime.getWeek();
+			int const week = state.gameTime.getWeek();
 			price = economy.currentPrice;
 			economyUnavailable = economy.weekAvailable == 0 || economy.weekAvailable > week;
 		}
@@ -555,12 +555,12 @@ sp<TransactionControl> TransactionControl::createControl(GameState &state,
 	LogInfo("Vehicle type %s final price %d", vehicle->type.id, price);
 
 	auto manufacturer = vehicle->type->manufacturer;
-	bool isAmmo = false;
-	bool isBio = false;
-	bool isPerson = false;
-	bool researched = true;
-	bool manufacturerHostile = false;
-	bool manufacturerUnavailable = false;
+	bool const isAmmo = false;
+	bool const isBio = false;
+	bool const isPerson = false;
+	bool const researched = true;
+	bool const manufacturerHostile = false;
+	bool const manufacturerUnavailable = false;
 
 	return createControl(vehicle.id, Type::Vehicle, vehicle->name, manufacturer, isAmmo, isBio,
 	                     isPerson, researched, manufacturerHostile, manufacturerUnavailable, price,
@@ -690,7 +690,7 @@ TransactionControl::createControl(const UString &id, Type type, const UString &n
 
 void TransactionControl::setupCallbacks()
 {
-	std::function<void(FormsEvent * e)> onScrollChange = [this](FormsEvent *) {
+	std::function<void(FormsEvent * e)> const onScrollChange = [this](FormsEvent *) {
 		if (!this->suspendUpdates)
 		{
 			this->updateValues();
@@ -728,12 +728,12 @@ void TransactionControl::onRender()
 {
 	Control::onRender();
 
-	static Vec2<int> bgLeftPos = {0, 2};
-	static Vec2<int> bgRightPos = {172, 2};
-	static Vec2<int> ammoPos = {4, 2};
-	static Vec2<int> iconLeftPos = {58, 24};
-	static Vec2<int> iconRightPos = {270, 24};
-	static Vec2<int> iconSize = {22, 20};
+	static Vec2<int> const bgLeftPos = {0, 2};
+	static Vec2<int> const bgRightPos = {172, 2};
+	static Vec2<int> const ammoPos = {4, 2};
+	static Vec2<int> const iconLeftPos = {58, 24};
+	static Vec2<int> const iconRightPos = {270, 24};
+	static Vec2<int> const iconSize = {22, 20};
 
 	// Draw BG
 	fw().renderer->draw(bgLeft, bgLeftPos);
@@ -781,7 +781,7 @@ void TransactionControl::postRender()
 	Control::postRender();
 
 	// Draw shade if inactive
-	static Vec2<int> shadePos = {0, 0};
+	static Vec2<int> const shadePos = {0, 0};
 	if (tradeState.getLeftIndex() == tradeState.getRightIndex() ||
 	    (tradeState.getLeftStock() == 0 && tradeState.getRightStock() == 0))
 	{
@@ -910,7 +910,7 @@ int TransactionControl::Trade::getStock(const int baseIdx, const int oppositeIdx
  */
 int TransactionControl::Trade::setBalance(const int balance)
 {
-	int orderLR = balance - getRightStock();
+	int const orderLR = balance - getRightStock();
 	if (orderLR == 0)
 	{
 		cancelOrder();

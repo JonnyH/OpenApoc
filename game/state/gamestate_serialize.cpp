@@ -430,7 +430,7 @@ bool operator==(const TacticalAI &a, const TacticalAI &b)
 }
 bool operator!=(const TacticalAI &a, const TacticalAI &b) { return !(a == b); }
 
-bool GameState::saveGame(const UString &path, bool pack, bool pretty)
+bool GameState::saveGame(const UString &path, bool pack, bool pretty) const
 {
 	auto archive = SerializationArchive::createArchive();
 	if (serialize(archive.get()))
@@ -442,7 +442,7 @@ bool GameState::saveGame(const UString &path, bool pack, bool pretty)
 }
 
 bool GameState::saveGameDelta(const UString &path, const GameState &reference, bool pack,
-                              bool pretty)
+                              bool pretty) const
 {
 	auto archive = SerializationArchive::createArchive();
 	if (serialize(archive.get(), reference))
@@ -470,7 +470,7 @@ bool GameState::serialize(SerializationArchive *archive) const
 {
 	try
 	{
-		GameState defaultState;
+		GameState const defaultState;
 		auto root = archive->newRoot("", "gamestate");
 		root->addNode("serialization_version", GAMESTATE_SERIALIZATION_VERSION);
 		serializeOut(root, *this, defaultState);
@@ -517,7 +517,7 @@ static bool serialize(const BattleMapTileset &tileSet, SerializationArchive *arc
 {
 	try
 	{
-		BattleMapTileset defaultTileset;
+		BattleMapTileset const defaultTileset;
 		serializeOut(archive->newRoot("", "tileset"), tileSet, defaultTileset);
 	}
 	catch (SerializationException &e)
@@ -543,7 +543,7 @@ static bool deserialize(BattleMapTileset &tileSet, const GameState &state,
 	return true;
 }
 
-bool BattleMapTileset::saveTileset(const UString &path, bool pack, bool pretty)
+bool BattleMapTileset::saveTileset(const UString &path, bool pack, bool pretty) const
 {
 	auto archive = SerializationArchive::createArchive();
 	if (serialize(*this, archive.get()))
@@ -571,7 +571,7 @@ static bool serialize(const BattleUnitImagePack &imagePack, SerializationArchive
 {
 	try
 	{
-		BattleUnitImagePack defaultImagePack;
+		BattleUnitImagePack const defaultImagePack{};
 		serializeOut(archive->newRoot("", "imagepack"), imagePack, defaultImagePack);
 	}
 	catch (SerializationException &e)
@@ -597,7 +597,7 @@ static bool deserialize(BattleUnitImagePack &imagePack, const GameState &state,
 	return true;
 }
 
-bool BattleUnitImagePack::saveImagePack(const UString &path, bool pack, bool pretty)
+bool BattleUnitImagePack::saveImagePack(const UString &path, bool pack, bool pretty) const
 {
 	auto archive = SerializationArchive::createArchive();
 	if (serialize(*this, archive.get()))
@@ -633,7 +633,7 @@ static bool serialize(const BattleUnitAnimationPack &animationPack, Serializatio
 {
 	try
 	{
-		BattleUnitAnimationPack defaultAnimationPack;
+		BattleUnitAnimationPack const defaultAnimationPack;
 		serializeOut(archive->newRoot("", "animationpack"), animationPack, defaultAnimationPack);
 	}
 	catch (SerializationException &e)
@@ -659,7 +659,7 @@ static bool deserialize(BattleUnitAnimationPack &animationPack, const GameState 
 	return true;
 }
 
-bool BattleUnitAnimationPack::saveAnimationPack(const UString &path, bool pack, bool pretty)
+bool BattleUnitAnimationPack::saveAnimationPack(const UString &path, bool pack, bool pretty) const
 {
 	auto archive = SerializationArchive::createArchive();
 	if (serialize(*this, archive.get()))
@@ -693,7 +693,7 @@ static bool serialize(const BattleMapSectorTiles &mapSector, SerializationArchiv
 {
 	try
 	{
-		BattleMapSectorTiles defaultMapSector;
+		BattleMapSectorTiles const defaultMapSector;
 		serializeOut(archive->newRoot("", "mapsector"), mapSector, defaultMapSector);
 	}
 	catch (SerializationException &e)
@@ -719,7 +719,7 @@ static bool deserialize(BattleMapSectorTiles &mapSector, const GameState &state,
 	return true;
 }
 
-bool BattleMapSectorTiles::saveSector(const UString &path, bool pack, bool pretty)
+bool BattleMapSectorTiles::saveSector(const UString &path, bool pack, bool pretty) const
 {
 	auto archive = SerializationArchive::createArchive();
 	if (serialize(*this, archive.get()))

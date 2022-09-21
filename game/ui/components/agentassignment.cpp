@@ -371,7 +371,7 @@ void AgentAssignment::updateLocation()
 		// set visibility filter
 		agentLeftList->setFuncIsVisibleItem([](sp<Control> c) {
 			auto agent = c->getData<Agent>();
-			bool visible =
+			bool const visible =
 			    !agent->currentVehicle &&
 			    agent->currentBuilding == c->getParent()->getParent()->getData<Building>();
 			c->setVisible(visible);
@@ -509,7 +509,7 @@ void AgentAssignment::addVehiclesToList(sp<MultilistBox> list, const int listOff
 		// set visibility filter
 		agentRightList->setFuncIsVisibleItem([](sp<Control> c) {
 			auto agent = c->getData<Agent>();
-			bool visible = agent->currentVehicle == c->getParent()->getParent()->getData<Vehicle>();
+			bool const visible = agent->currentVehicle == c->getParent()->getParent()->getData<Vehicle>();
 			c->setVisible(visible);
 			return visible;
 		});
@@ -551,7 +551,7 @@ void AgentAssignment::addBuildingToRightList(sp<Building> building, sp<Multilist
 	// set visibility filter
 	vehicleRightList->setFuncIsVisibleItem([](sp<Control> c) {
 		auto vehicle = c->getData<Vehicle>();
-		bool visible = vehicle->currentBuilding == c->getParent()->getParent()->getData<Building>();
+		bool const visible = vehicle->currentBuilding == c->getParent()->getParent()->getData<Building>();
 		c->setVisible(visible);
 		return visible;
 	});
@@ -696,7 +696,7 @@ void AgentAssignment::eventOccured(Event *e)
 			// if dragged - change location of dragged list
 			if (isDragged)
 			{
-				int distance = (positionX - e->mouse().X) * (positionX - e->mouse().X) +
+				int const distance = (positionX - e->mouse().X) * (positionX - e->mouse().X) +
 				               (positionY - e->mouse().Y) * (positionY - e->mouse().Y);
 				if (distance > insensibility)
 				{

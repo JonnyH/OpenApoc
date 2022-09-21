@@ -87,7 +87,7 @@ struct VorbisMusicTrack : public MusicTrack
 	{
 		// FIXME: May overflow on 32bit machines trying to read a 4gb+ file?
 		// But then there's no way that *ptr can point to that much memory anyway.....
-		size_t byte_size = size * nmemb;
+		size_t const byte_size = size * nmemb;
 		auto *file = static_cast<IFile *>(datasource);
 
 		file->read(static_cast<char *>(ptr), byte_size);

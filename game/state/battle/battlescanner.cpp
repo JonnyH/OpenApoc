@@ -12,13 +12,13 @@ BattleScanner::BattleScanner()
 
 template <> const UString &StateObject<BattleScanner>::getPrefix()
 {
-	static UString prefix = "BATTLESCANNER_";
+	static UString const prefix = "BATTLESCANNER_";
 	return prefix;
 }
 
 template <> const UString &StateObject<BattleScanner>::getTypeName()
 {
-	static UString name = "BattleScanner";
+	static UString const name = "BattleScanner";
 	return name;
 }
 
@@ -58,7 +58,7 @@ void BattleScanner::update(GameState &state, unsigned int ticks)
 		}
 	}
 
-	Vec3<int> newPosition = holder->position;
+	Vec3<int> const newPosition = holder->position;
 
 	if (newPosition.x != lastPosition.x || newPosition.y != lastPosition.y)
 	{

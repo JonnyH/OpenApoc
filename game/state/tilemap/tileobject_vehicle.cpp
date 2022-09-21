@@ -112,7 +112,7 @@ void TileObjectVehicle::drawStatic(Renderer &r, sp<Vehicle> vehicle, TileTransfo
 				{
 					d2 += 2.0f * (float)M_PI;
 				}
-				float diff = std::min(d1, d2);
+				float const diff = std::min(d1, d2);
 				if (diff < closestDiff)
 				{
 					closestDiff = diff;
@@ -121,7 +121,7 @@ void TileObjectVehicle::drawStatic(Renderer &r, sp<Vehicle> vehicle, TileTransfo
 			}
 
 			// 1 = friendly, 0 = enemy, 2 = neutral
-			int side_offset = friendly ? 1 : (hostile ? 0 : 2);
+			int const side_offset = friendly ? 1 : (hostile ? 0 : 2);
 
 			switch (vehicle->type->mapIconType)
 			{
@@ -264,9 +264,9 @@ void TileObjectVehicle::addToDrawnTiles(Tile *tile)
 	Vec3<int> maxCoords = {-1, -1, -1};
 	for (auto &intersectingTile : intersectingTiles)
 	{
-		int x = intersectingTile->position.x;
-		int y = intersectingTile->position.y;
-		int z = intersectingTile->position.z;
+		int const x = intersectingTile->position.x;
+		int const y = intersectingTile->position.y;
+		int const z = intersectingTile->position.z;
 
 		// Vehicles are drawn in the topmost tile they intersect
 		if (maxCoords.z * 1000 + maxCoords.x + maxCoords.y < z * 1000 + x + y)

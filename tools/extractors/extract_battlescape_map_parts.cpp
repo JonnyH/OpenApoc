@@ -38,7 +38,7 @@ void InitialGameStateExtractor::readBattleMapParts(
 		LogError("Failed to open strategy sprite TAB file \"%s\"", strategySpriteTabFileName);
 		return;
 	}
-	size_t strategySpriteCount = strategySpriteTabFile.size() / 4;
+	size_t const strategySpriteCount = strategySpriteTabFile.size() / 4;
 
 	LogInfo("Loading %zu entries from \"%s\"", objectCount, datFileName);
 
@@ -53,7 +53,7 @@ void InitialGameStateExtractor::readBattleMapParts(
 			return;
 		}
 
-		UString id = format("%s%u", idPrefix, i);
+		UString const id = format("%s%u", idPrefix, i);
 		auto object = mksp<BattleMapPartType>();
 		if (entry.alternative_object_idx != 0)
 		{
@@ -108,7 +108,7 @@ void InitialGameStateExtractor::readBattleMapParts(
 				LogError("Failed to open animate sprite TAB file \"%s\"", animateTabFileName);
 				return;
 			}
-			size_t animateSpriteCount = animateTabFile.size() / 4;
+			size_t const animateSpriteCount = animateTabFile.size() / 4;
 
 			if (animateSpriteCount < entry.animation_idx + entry.animation_length)
 			{
@@ -306,12 +306,12 @@ void InitialGameStateExtractor::readBattleMapParts(
 sp<BattleMapTileset> InitialGameStateExtractor::extractTileSet(GameState &state,
                                                                const UString &name) const
 {
-	UString tilePrefix = format("%s_", name);
-	UString map_prefix = "xcom3/maps/";
-	UString mapunits_suffix = "/mapunits/";
-	UString spriteFile;
-	UString datFile;
-	UString fileName;
+	UString const tilePrefix = format("%s_", name);
+	UString const map_prefix = "xcom3/maps/";
+	UString const mapunits_suffix = "/mapunits/";
+	UString const spriteFile;
+	UString const datFile;
+	UString const fileName;
 
 	auto t = mksp<BattleMapTileset>();
 

@@ -91,7 +91,7 @@ void BuyAndSellScreen::updateFormValues(bool queueHighlightUpdate)
 	TransactionScreen::updateFormValues(queueHighlightUpdate);
 
 	// Update money
-	int balance = state->getPlayer()->balance + moneyDelta;
+	int const balance = state->getPlayer()->balance + moneyDelta;
 	form->findControlTyped<Label>("TEXT_FUNDS")->setText(Strings::fromInteger(balance));
 	form->findControlTyped<Label>("TEXT_FUNDS_DELTA")
 	    ->setText(format("%s%s", moneyDelta > 0 ? "+" : "", Strings::fromInteger(moneyDelta)));
@@ -130,7 +130,7 @@ void BuyAndSellScreen::closeScreen()
 					int i = 0;
 					for ([[maybe_unused]] const auto &b : state->player_bases)
 					{
-						int cargoDelta = c->getCargoDelta(i);
+						int const cargoDelta = c->getCargoDelta(i);
 						if (cargoDelta)
 						{
 							vecCargoDelta[i] += cargoDelta;
@@ -159,8 +159,8 @@ void BuyAndSellScreen::closeScreen()
 		// Found bad base
 		if (bad_base)
 		{
-			UString title(tr("Storage space exceeded"));
-			UString message(forceLimits
+			UString const title(tr("Storage space exceeded"));
+			UString const message(forceLimits
 			                    ? tr("Storage space exceeded. Sell off more items!")
 			                    : tr("Order limited by the available storage space at this base."));
 
@@ -249,13 +249,13 @@ void BuyAndSellScreen::closeScreen()
 		// There are bad orgs
 		if (!badOrgs.empty())
 		{
-			UString title =
+			UString const title =
 			    format("%s%s", badOrgs.front()->name, badOrgs.size() > 1 ? " & others" : "");
 
 			// If player can ferry themselves then give option
 			if (config().getBool("OpenApoc.NewFeature.AllowManualCargoFerry"))
 			{
-				UString message = transportationHostile
+				UString const message = transportationHostile
 				                      ? format("%s %s",
 				                               tr("Hostile organization refuses to carry out the "
 				                                  "requested transportation for this company."),
@@ -274,7 +274,7 @@ void BuyAndSellScreen::closeScreen()
 			else if (!transportationHostile)
 			{
 				// FIXME: Different message maybe? Same for now
-				UString message = format("%s %s",
+				UString const message = format("%s %s",
 				                         tr("No free transport to carry out the requested "
 				                            "transportation detected in the city."),
 				                         tr("Proceed?"));
@@ -308,7 +308,7 @@ void BuyAndSellScreen::closeScreen()
 		{
 			if (o.second->providesTransportationServices)
 			{
-				StateRef<Organisation> org{state.get(), o.first};
+				StateRef<Organisation> const org{state.get(), o.first};
 				if (o.second->isRelatedTo(player) == Organisation::Relation::Hostile)
 				{
 					badOrgs.push_back(org);
@@ -321,7 +321,7 @@ void BuyAndSellScreen::closeScreen()
 		}
 
 		bool transportationBusy = false;
-		bool transportationHostile = ferryCompanies.empty();
+		bool const transportationHostile = ferryCompanies.empty();
 		if (!transportationHostile)
 		{
 			// Check if ferry provider has free ferries
@@ -357,13 +357,13 @@ void BuyAndSellScreen::closeScreen()
 
 		if (transportationBusy || transportationHostile)
 		{
-			UString title =
+			UString const title =
 			    format("%s%s", badOrgs.front()->name, badOrgs.size() > 1 ? " & others" : "");
 
 			// If player can ferry themselves then give option
 			if (config().getBool("OpenApoc.NewFeature.AllowManualCargoFerry"))
 			{
-				UString message =
+				UString const message =
 				    transportationHostile
 				        ? format("%s %s",
 				                 tr("This hostile organization refuses to carry out the "
@@ -383,7 +383,7 @@ void BuyAndSellScreen::closeScreen()
 			else if (!transportationHostile)
 			{
 				// FIXME: Different message maybe? Same for now
-				UString message = format("%s %s",
+				UString const message = format("%s %s",
 				                         tr("No free transport to carry out the requested "
 				                            "transportation detected in the city."),
 				                         tr("Proceed?"));
@@ -433,7 +433,7 @@ void BuyAndSellScreen::executeOrders()
 				auto &economy = state->economy[c->itemId];
 				for (auto &b : state->player_bases)
 				{
-					int order = c->tradeState.shipmentsTotal(i++);
+					int const order = c->tradeState.shipmentsTotal(i++);
 
 					// Sell
 					if (order > 0)
@@ -542,25 +542,25 @@ void BuyAndSellScreen::executeOrders()
 							}
 							case TransactionControl::Type::AgentEquipmentCargo:
 							{
-								StateRef<AEquipmentType> equipment{state.get(), c->itemId};
+								StateRef<AEquipmentType> const equipment{state.get(), c->itemId};
 								org->purchase(*state, b.second->building, equipment, -order);
 								break;
 							}
 							case TransactionControl::Type::VehicleAmmo:
 							{
-								StateRef<VAmmoType> ammo{state.get(), c->itemId};
+								StateRef<VAmmoType> const ammo{state.get(), c->itemId};
 								org->purchase(*state, b.second->building, ammo, -order);
 								break;
 							}
 							case TransactionControl::Type::VehicleEquipment:
 							{
-								StateRef<VEquipmentType> equipment{state.get(), c->itemId};
+								StateRef<VEquipmentType> const equipment{state.get(), c->itemId};
 								org->purchase(*state, b.second->building, equipment, -order);
 								break;
 							}
 							case TransactionControl::Type::VehicleType:
 							{
-								StateRef<VehicleType> vehicle{state.get(), c->itemId};
+								StateRef<VehicleType> const vehicle{state.get(), c->itemId};
 								org->purchase(*state, b.second->building, vehicle, -order);
 								break;
 							}

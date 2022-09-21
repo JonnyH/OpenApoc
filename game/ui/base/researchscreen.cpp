@@ -458,7 +458,7 @@ void ResearchScreen::updateProgressInfo()
 		// This creates an image with the size of the PROGRESS_BAR control, then fills
 		// up a proportion of it with red pixels (starting from the left) corresponding
 		// to the progress of the project.
-		int redWidth = progressBar->Size.x * projectProgress;
+		int const redWidth = progressBar->Size.x * projectProgress;
 		{
 			RGBImageLock l(progressImage);
 			for (int y = 0; y < progressBar->Size.y; y++)

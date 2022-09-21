@@ -20,12 +20,12 @@ sp<SceneryTileType> StateObject<SceneryTileType>::get(const GameState &state, co
 
 template <> const UString &StateObject<SceneryTileType>::getPrefix()
 {
-	static UString prefix = "CITYTILE_";
+	static UString const prefix = "CITYTILE_";
 	return prefix;
 }
 template <> const UString &StateObject<SceneryTileType>::getTypeName()
 {
-	static UString name = "SceneryTileType";
+	static UString const name = "SceneryTileType";
 	return name;
 }
 

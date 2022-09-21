@@ -237,7 +237,7 @@ void Battle::initBattle(GameState &state, bool first)
 		refreshLeadershipBonus(o);
 	}
 	// Let pre-placed fires spawn smokes
-	StateRef<DamageType> dt = {&state, "DAMAGETYPE_INCENDIARY"};
+	StateRef<DamageType> const dt = {&state, "DAMAGETYPE_INCENDIARY"};
 	std::list<sp<BattleHazard>> fires;
 	for (auto &h : hazards)
 	{
@@ -517,8 +517,8 @@ void Battle::initialMapPartLinkUp()
 	// Try to link to objects of same type first, then to anything
 	for (int iteration = 0; iteration <= 2; iteration++)
 	{
-		bool skipTypeCheck = iteration > 0;
-		bool skipHardCheck = iteration > 1;
+		bool const skipTypeCheck = iteration > 0;
+		bool const skipHardCheck = iteration > 1;
 		do
 		{
 			foundSupport = false;
@@ -729,7 +729,7 @@ void Battle::initialUnitSpawn(GameState &state)
 	for (auto &f : state.current_battle->forces)
 	{
 		// Note if we need to spawn non-combatants at civilian spots
-		bool baseDefendingSide =
+		bool const baseDefendingSide =
 		    state.current_battle->mission_type == Battle::MissionType::BaseDefense &&
 		    f.first == state.current_battle->currentPlayer;
 
@@ -933,7 +933,7 @@ void Battle::initialUnitSpawn(GameState &state)
 				if (!block->positions[needWalker].empty())
 				{
 					auto spawnPos = pickRandom(state.rng, block->positions[needWalker]);
-					int z = spawnPos.z;
+					int const z = spawnPos.z;
 					int offset = 0;
 					bool stopSpawning = false;
 					// While we're not completely out of bounds for this block
@@ -1067,8 +1067,8 @@ void Battle::initialUnitSpawn(GameState &state)
 	for (auto &p : units)
 	{
 		auto u = p.second;
-		int x_diff = (int)(u->position.x - size.x / 2);
-		int y_diff = (int)(u->position.y - size.y / 2);
+		int const x_diff = (int)(u->position.x - size.x / 2);
+		int const y_diff = (int)(u->position.y - size.y / 2);
 		if (std::abs(x_diff) > std::abs(y_diff))
 		{
 			if (x_diff > 0)
@@ -1203,7 +1203,7 @@ sp<BattleExplosion> Battle::addExplosion(GameState &state, Vec3<int> position,
 sp<BattleUnit> Battle::placeUnit(GameState &state, StateRef<Agent> agent)
 {
 	auto unit = mksp<BattleUnit>();
-	UString id = BattleUnit::generateObjectID(state);
+	UString const id = BattleUnit::generateObjectID(state);
 	unit->id = id;
 	unit->agent = agent;
 	unit->strategyImages = state.battle_common_image_list->strategyImages;
@@ -1231,7 +1231,7 @@ sp<BattleUnit> Battle::placeUnit(GameState &state, StateRef<Agent> agent, Vec3<f
 sp<BattleDoor> Battle::addDoor(GameState &state)
 {
 	auto door = mksp<BattleDoor>();
-	UString id = BattleDoor::generateObjectID(state);
+	UString const id = BattleDoor::generateObjectID(state);
 	door->id = id;
 	door->doorSound = state.battle_common_sample_list->door;
 	doors[id] = door;
@@ -1270,7 +1270,7 @@ sp<BattleHazard> Battle::placeHazard(GameState &state, StateRef<Organisation> ow
                                      Vec3<int> position, int ttl, int power,
                                      int initialAgeTTLDivizor, bool delayVisibility)
 {
-	bool fire = type->hazardType->fire;
+	bool const fire = type->hazardType->fire;
 	auto hazard = mksp<BattleHazard>(state, type, delayVisibility);
 	hazard->ownerOrganisation = owner;
 	hazard->ownerUnit = unit;
@@ -1339,7 +1339,7 @@ sp<BattleHazard> Battle::placeHazard(GameState &state, StateRef<Organisation> ow
 sp<BattleScanner> Battle::addScanner(GameState &state, AEquipment &item)
 {
 	auto scanner = mksp<BattleScanner>();
-	UString id = BattleScanner::generateObjectID(state);
+	UString const id = BattleScanner::generateObjectID(state);
 	item.battleScanner = {&state, id};
 	scanner->holder = item.ownerAgent->unit;
 	scanner->lastPosition = scanner->holder->position;
@@ -1456,9 +1456,9 @@ bool findLosBlockCenter(TileMap &map, BattleUnitType type,
                         const BattleMapSector::LineOfSightBlock &lb, Vec3<int> center,
                         Vec3<int> &closestValidPos)
 {
-	bool large = type == BattleUnitType::LargeFlyer || type == BattleUnitType::LargeWalker;
-	bool flying = type == BattleUnitType::LargeFlyer || type == BattleUnitType::SmallFlyer;
-	int height = large ? 70 : 32;
+	bool const large = type == BattleUnitType::LargeFlyer || type == BattleUnitType::LargeWalker;
+	bool const flying = type == BattleUnitType::LargeFlyer || type == BattleUnitType::SmallFlyer;
+	int const height = large ? 70 : 32;
 	int dist = -1;
 	bool somethingHappened;
 	do
@@ -1467,21 +1467,21 @@ bool findLosBlockCenter(TileMap &map, BattleUnitType type,
 		somethingHappened = false;
 		for (int dx = -dist; dx <= dist; dx++)
 		{
-			int x = center.x + dx;
+			int const x = center.x + dx;
 			if (x < lb.start.x || x >= lb.end.x)
 			{
 				continue;
 			}
 			for (int dy = -dist; dy <= dist; dy++)
 			{
-				int y = center.y + dy;
+				int const y = center.y + dy;
 				if (y < lb.start.y || y >= lb.end.y)
 				{
 					continue;
 				}
 				for (int dz = -dist; dz <= dist; dz++)
 				{
-					int z = center.z + dz;
+					int const z = center.z + dz;
 					if (z < lb.start.z || z >= lb.end.z)
 					{
 						continue;
@@ -1521,7 +1521,7 @@ void Battle::updatePathfinding(GameState &, unsigned int ticks)
 	// How much can resulting path differ from optimal path
 	static const int PATH_COST_LIMIT_MULTIPLIER = 2;
 
-	int lbCount = losBlocks.size();
+	int const lbCount = losBlocks.size();
 	auto &mapRef = *map;
 
 	// Fill up map of helpers
@@ -1594,10 +1594,10 @@ void Battle::updatePathfinding(GameState &, unsigned int ticks)
 
 				// See if path from one center to another center is possible
 				// within reasonable number of attempts
-				int dX = std::abs(blockCenterPos[type][i].x - blockCenterPos[type][j].x);
-				int dY = std::abs(blockCenterPos[type][i].y - blockCenterPos[type][j].y);
-				int dZ = std::abs(blockCenterPos[type][i].z - blockCenterPos[type][j].z);
-				int distance = (dX + dY + dZ + std::max(dX, std::max(dY, dZ))) / 2;
+				int const dX = std::abs(blockCenterPos[type][i].x - blockCenterPos[type][j].x);
+				int const dY = std::abs(blockCenterPos[type][i].y - blockCenterPos[type][j].y);
+				int const dZ = std::abs(blockCenterPos[type][i].z - blockCenterPos[type][j].z);
+				int const distance = (dX + dY + dZ + std::max(dX, std::max(dY, dZ))) / 2;
 
 				float cost = 0.0f;
 
@@ -1913,7 +1913,7 @@ int Battle::killStrandedUnits(GameState &state, StateRef<Organisation> org, bool
 		float distanceToExit = FLT_MAX;
 		for (auto &e : exits)
 		{
-			float distance = glm::length(u.second->position - (Vec3<float>)e);
+			float const distance = glm::length(u.second->position - (Vec3<float>)e);
 			if (distance < distanceToExit)
 			{
 				distanceToExit = distance;
@@ -1941,7 +1941,7 @@ int Battle::killStrandedUnits(GameState &state, StateRef<Organisation> org, bool
 					{
 						continue;
 					}
-					float distance = glm::length(u.second->position - e.second->position);
+					float const distance = glm::length(u.second->position - e.second->position);
 					if (distance < distanceToEnemy)
 					{
 						distanceToEnemy = distance;
@@ -2157,7 +2157,7 @@ void Battle::spawnReinforcements(GameState &state)
 		{
 			continue;
 		}
-		Vec3<int> pos = mp->position;
+		Vec3<int> const pos = mp->position;
 		if (map->getTile(pos)->getUnitIfPresent(true, true))
 		{
 			continue;
@@ -2275,7 +2275,7 @@ void Battle::accuracyAlgorithmBattle(GameState &state, Vec3<float> firePosition,
 	if (cloaked)
 	{
 		dispersion *= dispersion;
-		float cloakDispersion =
+		float const cloakDispersion =
 		    2000.0f / (BattleUnitTileHelper::getDistanceStatic(firePosition, target) / 4.0f + 3.0f);
 		dispersion += cloakDispersion * cloakDispersion;
 		dispersion = sqrtf(dispersion);
@@ -2287,7 +2287,7 @@ void Battle::accuracyAlgorithmBattle(GameState &state, Vec3<float> firePosition,
 		return;
 	}
 
-	float length_vector =
+	float const length_vector =
 	    1.0f / std::sqrt(delta.x * delta.x + delta.y * delta.y + delta.z * delta.z);
 
 	std::vector<float> rnd(3);
@@ -2302,9 +2302,9 @@ void Battle::accuracyAlgorithmBattle(GameState &state, Vec3<float> firePosition,
 		}
 	}
 
-	float k1 = (2 * randBoundsInclusive(state.rng, 0, 1) - 1) * rnd[1] *
+	float const k1 = (2 * randBoundsInclusive(state.rng, 0, 1) - 1) * rnd[1] *
 	           std::sqrt(-2 * std::log(rnd[0]) / rnd[0]);
-	float k2 = (2 * randBoundsInclusive(state.rng, 0, 1) - 1) * rnd[2] *
+	float const k2 = (2 * randBoundsInclusive(state.rng, 0, 1) - 1) * rnd[2] *
 	           std::sqrt(-2 * std::log(rnd[0]) / rnd[0]);
 
 	// Vertical misses only go down
@@ -2664,7 +2664,7 @@ void Battle::finishBattle(GameState &state)
 	// - give him alien remains
 	if (state.current_battle->playerWon && !state.current_battle->winnerHasRetreated)
 	{
-		bool playerHasBioStorage = state.current_battle->player_craft &&
+		bool const playerHasBioStorage = state.current_battle->player_craft &&
 		                           state.current_battle->player_craft->getMaxBio() > 0;
 		// Live alien loot
 		for (auto &u : liveAliens)
@@ -2768,7 +2768,7 @@ void Battle::finishBattle(GameState &state)
 		{
 			state.current_battle->score.equipmentCaptured += e->type->score;
 		}
-		int mult = e->type->type == AEquipmentType::Type::Ammo ? e->ammo : 1;
+		int const mult = e->type->type == AEquipmentType::Type::Ammo ? e->ammo : 1;
 		if (e->type->bioStorage)
 		{
 			state.current_battle->bioLoot[e->type] = state.current_battle->bioLoot[e->type] + mult;
@@ -2803,7 +2803,7 @@ void Battle::finishBattle(GameState &state)
 		int closestDistance = INT_MAX;
 		for (auto &b : city->buildings)
 		{
-			int distance = std::abs(b.second->bounds.p0.x - battleLocation.x) +
+			int const distance = std::abs(b.second->bounds.p0.x - battleLocation.x) +
 			               std::abs(b.second->bounds.p0.y - battleLocation.y);
 			if (distance < closestDistance)
 			{
@@ -3143,13 +3143,13 @@ void Battle::exitBattle(GameState &state)
 				}
 				for (auto &e : leftoverCargoLoot)
 				{
-					int price = 0;
+					int const price = 0;
 					location->cargo.emplace_back(state, e.first, e.second, price, nullptr,
 					                             homeBuilding);
 				}
 				for (auto &e : leftoverVehicleLoot)
 				{
-					int price = 0;
+					int const price = 0;
 					location->cargo.emplace_back(state, e.first, e.second, price, nullptr,
 					                             homeBuilding);
 				}
@@ -3175,14 +3175,14 @@ void Battle::exitBattle(GameState &state)
 				{
 					continue;
 				}
-				int maxAmount = config().getBool("OpenApoc.NewFeature.EnforceCargoLimits")
+				int const maxAmount = config().getBool("OpenApoc.NewFeature.EnforceCargoLimits")
 				                    ? std::min(e.second, (v->getMaxCargo() - v->getCargo()) /
 				                                             e.first->store_space)
 				                    : e.second;
 				if (maxAmount > 0)
 				{
 					e.second -= maxAmount;
-					int price = 0;
+					int const price = 0;
 					v->cargo.emplace_back(state, e.first, maxAmount, price, nullptr,
 					                      v->homeBuilding);
 					returningVehicles.insert(v);
@@ -3207,11 +3207,11 @@ void Battle::exitBattle(GameState &state)
 				{
 					continue;
 				}
-				int maxAmount = e.second;
+				int const maxAmount = e.second;
 				if (maxAmount > 0)
 				{
 					e.second -= maxAmount;
-					int price = 0;
+					int const price = 0;
 					v->cargo.emplace_back(state, e.first, maxAmount, price, nullptr,
 					                      v->homeBuilding);
 					returningVehicles.insert(v);
@@ -3233,15 +3233,15 @@ void Battle::exitBattle(GameState &state)
 				{
 					continue;
 				}
-				int divisor = e.first->type == AEquipmentType::Type::Ammo ? e.first->max_ammo : 1;
-				int maxAmount = config().getBool("OpenApoc.NewFeature.EnforceCargoLimits")
+				int const divisor = e.first->type == AEquipmentType::Type::Ammo ? e.first->max_ammo : 1;
+				int const maxAmount = config().getBool("OpenApoc.NewFeature.EnforceCargoLimits")
 				                    ? std::min(e.second, (v->getMaxCargo() - v->getCargo()) /
 				                                             e.first->store_space * divisor)
 				                    : e.second;
 				if (maxAmount > 0)
 				{
 					e.second -= maxAmount;
-					int price = 0;
+					int const price = 0;
 					v->cargo.emplace_back(state, e.first, maxAmount, price, nullptr,
 					                      v->homeBuilding);
 					returningVehicles.insert(v);
@@ -3266,11 +3266,11 @@ void Battle::exitBattle(GameState &state)
 				{
 					continue;
 				}
-				int maxAmount = e.second;
+				int const maxAmount = e.second;
 				if (maxAmount > 0)
 				{
 					e.second -= maxAmount;
-					int price = 0;
+					int const price = 0;
 					v->cargo.emplace_back(state, e.first, maxAmount, price, nullptr,
 					                      v->homeBuilding);
 					returningVehicles.insert(v);
@@ -3292,15 +3292,15 @@ void Battle::exitBattle(GameState &state)
 				{
 					continue;
 				}
-				int divisor = e.first->type == AEquipmentType::Type::Ammo ? e.first->max_ammo : 1;
-				int maxAmount = config().getBool("OpenApoc.NewFeature.EnforceCargoLimits")
+				int const divisor = e.first->type == AEquipmentType::Type::Ammo ? e.first->max_ammo : 1;
+				int const maxAmount = config().getBool("OpenApoc.NewFeature.EnforceCargoLimits")
 				                    ? std::min(e.second, (v->getMaxBio() - v->getBio()) /
 				                                             e.first->store_space * divisor)
 				                    : e.second;
 				if (maxAmount > 0)
 				{
 					e.second -= maxAmount;
-					int price = 0;
+					int const price = 0;
 					v->cargo.emplace_back(state, e.first, maxAmount, price, nullptr,
 					                      v->homeBuilding);
 					returningVehicles.insert(v);
@@ -3325,11 +3325,11 @@ void Battle::exitBattle(GameState &state)
 				{
 					continue;
 				}
-				int maxAmount = e.second;
+				int const maxAmount = e.second;
 				if (maxAmount > 0)
 				{
 					e.second -= maxAmount;
-					int price = 0;
+					int const price = 0;
 					v->cargo.emplace_back(state, e.first, maxAmount, price, nullptr,
 					                      v->homeBuilding);
 					returningVehicles.insert(v);
@@ -3476,10 +3476,10 @@ void Battle::loadImagePacks(GameState &state)
 	}
 	// Find out all image packs used by map's units and items
 	std::set<UString> imagePacks;
-	UString brainsucker = "bsk";
+	UString const brainsucker = "bsk";
 	bool brainsuckerFound = false;
-	UString hyperworm = "hypr";
-	UString multiworm = "multi";
+	UString const hyperworm = "hypr";
+	UString const multiworm = "multi";
 	bool hyperwormFound = false;
 
 	for (auto &o : participants)
@@ -3617,10 +3617,10 @@ void Battle::loadAnimationPacks(GameState &state)
 	}
 	// Find out all animation packs used by units
 	std::set<UString> animationPacks;
-	UString brainsucker = "bsk";
+	UString const brainsucker = "bsk";
 	bool brainsuckerFound = false;
-	UString hyperworm = "hypr";
-	UString multiworm = "multi";
+	UString const hyperworm = "hypr";
+	UString const multiworm = "multi";
 	bool hyperwormFound = false;
 	for (auto &o : participants)
 	{
@@ -3712,18 +3712,18 @@ void Battle::unloadAnimationPacks(GameState &state)
 	LogInfo("Unloaded all animation packs.");
 }
 
-int BattleScore::getLeadershipBonus()
+int BattleScore::getLeadershipBonus() const
 {
 	return (100 + 3 * casualtyPenalty) * (combatRating + friendlyFire + liveAlienCaptured) / 100;
 }
 
-int BattleScore::getTotal()
+int BattleScore::getTotal() const
 {
 	return combatRating + casualtyPenalty + getLeadershipBonus() + liveAlienCaptured +
 	       equipmentCaptured + equipmentLost;
 }
 
-UString BattleScore::getText()
+UString BattleScore::getText() const
 {
 	auto total = getTotal();
 	if (total > 500)

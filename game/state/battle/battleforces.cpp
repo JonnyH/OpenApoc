@@ -50,5 +50,5 @@ void BattleForces::removeAt(unsigned squad, unsigned position)
 
 BattleSquad::BattleSquad(){};
 
-int BattleSquad::getNumUnits() { return (int)units.size(); }
+int BattleSquad::getNumUnits() const { return (int)units.size(); }
 } // namespace OpenApoc

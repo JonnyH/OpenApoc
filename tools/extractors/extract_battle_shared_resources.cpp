@@ -78,7 +78,7 @@ void InitialGameStateExtractor::extractSharedBattleResources(GameState &state) c
 		         gameObjectStrategySpriteTabFileName);
 		return;
 	}
-	size_t gameObjectStrategySpriteCount = gameObjectStrategySpriteTabFile.size() / 4;
+	size_t const gameObjectStrategySpriteCount = gameObjectStrategySpriteTabFile.size() / 4;
 
 	state.battle_common_image_list = mksp<BattleCommonImageList>();
 

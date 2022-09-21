@@ -70,7 +70,7 @@ void TileMap::addObjectToMap(sp<Projectile> projectile)
 	}
 	// FIXME: mksp<> doesn't work for private (but accessible due to friend)
 	// constructors?
-	sp<TileObjectProjectile> obj(new TileObjectProjectile(*this, projectile));
+	sp<TileObjectProjectile> const obj(new TileObjectProjectile(*this, projectile));
 	obj->setPosition(projectile->getPosition());
 	projectile->tileObject = obj;
 }
@@ -91,19 +91,19 @@ void TileMap::addObjectToMap(GameState &state, sp<Vehicle> vehicle)
 	}
 	// FIXME: mksp<> doesn't work for private (but accessible due to friend)
 	// constructors?
-	sp<TileObjectVehicle> obj(new TileObjectVehicle(*this, vehicle));
+	sp<TileObjectVehicle> const obj(new TileObjectVehicle(*this, vehicle));
 	obj->setPosition(vehicle->getPosition());
 	vehicle->tileObject = obj;
 
 	if (vehicle->type->directional_shadow_sprites.size() > 0)
 	{
-		sp<TileObjectShadow> shadow(new TileObjectShadow(*this, vehicle));
+		sp<TileObjectShadow> const shadow(new TileObjectShadow(*this, vehicle));
 		shadow->setPosition(vehicle->getPosition());
 		vehicle->shadowObject = shadow;
 	}
 	if (vehicle->crashed && !vehicle->carriedByVehicle)
 	{
-		sp<Doodad> smoke = mksp<Doodad>(vehicle->position + SMOKE_DOODAD_SHIFT,
+		sp<Doodad> const smoke = mksp<Doodad>(vehicle->position + SMOKE_DOODAD_SHIFT,
 		                                StateRef<DoodadType>{&state, "DOODAD_13_SMOKE_FUME"});
 		addObjectToMap(smoke);
 		vehicle->smokeDoodad = smoke;
@@ -118,7 +118,7 @@ void TileMap::addObjectToMap(sp<Scenery> scenery)
 	}
 	// FIXME: mksp<> doesn't work for private (but accessible due to friend)
 	// constructors?
-	sp<TileObjectScenery> obj(new TileObjectScenery(*this, scenery));
+	sp<TileObjectScenery> const obj(new TileObjectScenery(*this, scenery));
 	obj->setPosition(scenery->getPosition());
 	scenery->tileObject = obj;
 }
@@ -131,7 +131,7 @@ void TileMap::addObjectToMap(sp<Doodad> doodad)
 	}
 	// FIXME: mksp<> doesn't work for private (but accessible due to friend)
 	// constructors?
-	sp<TileObjectDoodad> obj(new TileObjectDoodad(*this, doodad));
+	sp<TileObjectDoodad> const obj(new TileObjectDoodad(*this, doodad));
 	obj->setPosition(doodad->getPosition());
 	doodad->tileObject = obj;
 }
@@ -144,7 +144,7 @@ void TileMap::addObjectToMap(sp<BattleMapPart> map_part)
 	}
 	// FIXME: mksp<> doesn't work for private (but accessible due to friend)
 	// constructors?
-	sp<TileObjectBattleMapPart> obj(new TileObjectBattleMapPart(*this, map_part));
+	sp<TileObjectBattleMapPart> const obj(new TileObjectBattleMapPart(*this, map_part));
 	obj->setPosition(map_part->getPosition());
 	map_part->tileObject = obj;
 }
@@ -161,11 +161,11 @@ void TileMap::addObjectToMap(sp<BattleItem> item)
 	}
 	// FIXME: mksp<> doesn't work for private (but accessible due to friend)
 	// constructors?
-	sp<TileObjectBattleItem> obj(new TileObjectBattleItem(*this, item));
+	sp<TileObjectBattleItem> const obj(new TileObjectBattleItem(*this, item));
 	obj->setPosition(item->getPosition());
 	item->tileObject = obj;
 
-	sp<TileObjectShadow> shadow(new TileObjectShadow(*this, item));
+	sp<TileObjectShadow> const shadow(new TileObjectShadow(*this, item));
 	shadow->setPosition(item->getPosition());
 	item->shadowObject = shadow;
 }
@@ -182,14 +182,14 @@ void TileMap::addObjectToMap(sp<BattleUnit> unit)
 	}
 	// FIXME: mksp<> doesn't work for private (but accessible due to friend)
 	// constructors?
-	sp<TileObjectBattleUnit> obj(new TileObjectBattleUnit(*this, unit));
+	sp<TileObjectBattleUnit> const obj(new TileObjectBattleUnit(*this, unit));
 	obj->setPosition(unit->getPosition());
 	unit->tileObject = obj;
 
 	if (!unit->agent->type->shadow_pack)
 		return;
 
-	sp<TileObjectShadow> shadow(new TileObjectShadow(*this, unit));
+	sp<TileObjectShadow> const shadow(new TileObjectShadow(*this, unit));
 	shadow->setPosition(unit->getPosition());
 	unit->shadowObject = shadow;
 }
@@ -202,7 +202,7 @@ void TileMap::addObjectToMap(sp<BattleHazard> hazard)
 	}
 	// FIXME: mksp<> doesn't work for private (but accessible due to friend)
 	// constructors?
-	sp<TileObjectBattleHazard> obj(new TileObjectBattleHazard(*this, hazard));
+	sp<TileObjectBattleHazard> const obj(new TileObjectBattleHazard(*this, hazard));
 	obj->setPosition(hazard->getPosition());
 	hazard->tileObject = obj;
 }
@@ -247,15 +247,15 @@ sp<Image> TileMap::dumpVoxelView(const Rect<int> viewRect, const TileTransform &
 	std::uniform_int_distribution<int> colourDist(0, 255);
 
 	RGBImageLock lock(img);
-	int h = viewRect.p1.y - viewRect.p0.y;
-	int w = viewRect.p1.x - viewRect.p0.x;
-	Vec2<float> offset = {viewRect.p0.x, viewRect.p0.y};
+	int const h = viewRect.p1.y - viewRect.p0.y;
+	int const w = viewRect.p1.x - viewRect.p0.x;
+	Vec2<float> const offset = {viewRect.p0.x, viewRect.p0.y};
 
 	LogWarning("ViewRect %s", viewRect);
 
 	LogWarning("Dumping voxels {%d,%d} voxels w/offset %s", w, h, offset);
 
-	int inc = fast ? 2 : 1;
+	int const inc = fast ? 2 : 1;
 
 	for (int y = 0; y < h; y += inc)
 	{
@@ -269,7 +269,7 @@ sp<Image> TileMap::dumpVoxelView(const Rect<int> viewRect, const TileTransform &
 			{
 				if (objectColours.find(collision.obj) == objectColours.end())
 				{
-					Colour c = {static_cast<uint8_t>(colourDist(colourRNG)),
+					Colour const c = {static_cast<uint8_t>(colourDist(colourRNG)),
 					            static_cast<uint8_t>(colourDist(colourRNG)),
 					            static_cast<uint8_t>(colourDist(colourRNG)), 255};
 					objectColours[collision.obj] = c;

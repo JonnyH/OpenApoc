@@ -12,11 +12,11 @@ std::map<UString, sp<Image>> InitialGameStateExtractor::extractBulletSpritesCity
 	std::map<UString, sp<Image>> sprites;
 	auto &data = this->ufo2p;
 
-	UString path_prefix = "bulletsprites/city/";
+	UString const path_prefix = "bulletsprites/city/";
 
 	for (unsigned i = 0; i < data.bullet_sprites->count(); i++)
 	{
-		UString path = format("%s%02u.png", path_prefix, i);
+		UString const path = format("%s%02u.png", path_prefix, i);
 		auto sprite = data.bullet_sprites->get(i);
 		auto img = mksp<PaletteImage>(Vec2<unsigned int>{3, 3});
 		PaletteImageLock l(img);
@@ -39,11 +39,11 @@ std::map<UString, sp<Image>> InitialGameStateExtractor::extractBulletSpritesBatt
 	std::map<UString, sp<Image>> sprites;
 	auto &data = this->tacp;
 
-	UString path_prefix = "bulletsprites/battle/";
+	UString const path_prefix = "bulletsprites/battle/";
 
 	for (unsigned i = 0; i < data.bullet_sprites->count(); i++)
 	{
-		UString path = format("%s%02u.png", path_prefix, i);
+		UString const path = format("%s%02u.png", path_prefix, i);
 		auto sprite = data.bullet_sprites->get(i);
 		auto img = mksp<PaletteImage>(Vec2<unsigned int>{3, 3});
 		PaletteImageLock l(img);

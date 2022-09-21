@@ -106,7 +106,7 @@ void InitialGameStateExtractor::extractAlienEquipmentSets(GameState &state,
 		{
 			auto es = mksp<EquipmentSet>();
 
-			UString id = format("%sALIEN_%d", EquipmentSet::getPrefix(), (int)i + 1);
+			UString const id = format("%sALIEN_%d", EquipmentSet::getPrefix(), (int)i + 1);
 			es->id = id;
 
 			for (unsigned j = 0; j < 10; j++)
@@ -212,7 +212,7 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 		LogError("Failed to open dropped item sprite TAB file \"%s\"", gameObjectSpriteTabFileName);
 		return;
 	}
-	size_t gameObjectSpriteCount = gameObjectSpriteTabFile.size() / 4;
+	size_t const gameObjectSpriteCount = gameObjectSpriteTabFile.size() / 4;
 
 	auto gameObjectShadowSpriteTabFileName = UString("xcom3/tacdata/oshadow.tab");
 	auto gameObjectShadowSpriteTabFile = fw().data->fs.open(gameObjectShadowSpriteTabFileName);
@@ -222,7 +222,7 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 		         gameObjectShadowSpriteTabFileName);
 		return;
 	}
-	size_t gameObjectShadowSpriteCount = gameObjectShadowSpriteTabFile.size() / 4;
+	size_t const gameObjectShadowSpriteCount = gameObjectShadowSpriteTabFile.size() / 4;
 
 	auto heldSpriteTabFileName = UString("xcom3/tacdata/unit/equip.tab");
 	auto heldSpriteTabFile = fw().data->fs.open(heldSpriteTabFileName);
@@ -231,14 +231,14 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 		LogError("Failed to open held item sprite TAB file \"%s\"", heldSpriteTabFileName);
 		return;
 	}
-	size_t heldSpriteCount = heldSpriteTabFile.size() / 4 / 8;
+	size_t const heldSpriteCount = heldSpriteTabFile.size() / 4 / 8;
 
 	std::map<int, sp<AEquipmentType>> weapons;
 	UString tracker_gun_clip_id = "";
 
 	// Hazards
 	{
-		UString id = format("%s%s", HazardType::getPrefix(), "STUN_GAS");
+		UString const id = format("%s%s", HazardType::getPrefix(), "STUN_GAS");
 		auto h = mksp<HazardType>();
 		h->doodadType = {&state, "DOODAD_20_STUN_GAS"};
 		h->minLifetime = 1;
@@ -246,7 +246,7 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 		state.hazard_types[id] = h;
 	}
 	{
-		UString id = format("%s%s", HazardType::getPrefix(), "ALIEN_GAS");
+		UString const id = format("%s%s", HazardType::getPrefix(), "ALIEN_GAS");
 		auto h = mksp<HazardType>();
 		h->doodadType = {&state, "DOODAD_19_ALIEN_GAS"};
 		// FIXME: Confirm these values
@@ -255,7 +255,7 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 		state.hazard_types[id] = h;
 	}
 	{
-		UString id = format("%s%s", HazardType::getPrefix(), "SMOKE");
+		UString const id = format("%s%s", HazardType::getPrefix(), "SMOKE");
 		auto h = mksp<HazardType>();
 		h->doodadType = {&state, "DOODAD_18_SMOKE"};
 		h->minLifetime = 12;
@@ -263,7 +263,7 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 		state.hazard_types[id] = h;
 	}
 	{
-		UString id = format("%s%s", HazardType::getPrefix(), "FIRE");
+		UString const id = format("%s%s", HazardType::getPrefix(), "FIRE");
 		auto h = mksp<HazardType>();
 		h->doodadType = {&state, "DOODAD_17_FIRE"};
 		// Fire has a starting deviation of 0 to 2, fire's ttl works in a completely different way
@@ -277,7 +277,7 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 	for (unsigned j = 0; j <= data_t.damage_type_names->count(); j++)
 	{
 		// extra enzyme entry for the purpose of implementing the entropy launcher
-		unsigned i = j == data_t.damage_type_names->count() ? DT_ENTROPY : j;
+		unsigned const i = j == data_t.damage_type_names->count() ? DT_ENTROPY : j;
 		auto d = mksp<DamageType>();
 
 		UString id = data_t.getDTypeId(i);
@@ -379,7 +379,7 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 		auto d = mksp<DamageModifier>();
 		auto ddata = data_t.damage_modifiers->get(i);
 
-		UString id = data_t.getDModId(i);
+		UString const id = data_t.getDModId(i);
 
 		state.damage_modifiers[id] = d;
 
@@ -405,7 +405,7 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 		auto edata = data_t.agent_equipment->get(i);
 
 		e->name = data_u.agent_equipment_names->get(i);
-		UString id = format("%s%s", AEquipmentType::getPrefix(), canon_string(e->name));
+		UString const id = format("%s%s", AEquipmentType::getPrefix(), canon_string(e->name));
 
 		e->id = id;
 
@@ -730,7 +730,7 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 		// Armor pieces go last, and held sprites for every single item after the first armor piece
 		// are identical
 		// There is a total 60 of them
-		int held_sprite_index = std::min((int)edata.sprite_idx, (int)heldSpriteCount - 1);
+		int const held_sprite_index = std::min((int)edata.sprite_idx, (int)heldSpriteCount - 1);
 		e->held_image_pack = {
 		    &state, format("%s%s%d", BattleUnitImagePack::getPrefix(), "item", held_sprite_index)};
 
@@ -1038,7 +1038,7 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 			{
 				auto es = mksp<EquipmentSet>();
 
-				UString id = format("%sHUMAN_%d", EquipmentSet::getPrefix(), (int)i + 1);
+				UString const id = format("%sHUMAN_%d", EquipmentSet::getPrefix(), (int)i + 1);
 				es->id = id;
 
 				for (unsigned j = 0; j < 10; j++)

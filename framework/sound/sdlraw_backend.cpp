@@ -51,7 +51,7 @@ static bool ConvertAudio(AudioFormat input_format, SDL_AudioSpec &output_spec, i
 			return false;
 	}
 
-	int ret =
+	int const ret =
 	    SDL_BuildAudioCVT(&cvt, sdl_input_format, input_format.channels, input_format.frequency,
 	                      output_spec.format, output_spec.channels, output_spec.freq);
 	if (ret < 0)
@@ -67,7 +67,7 @@ static bool ConvertAudio(AudioFormat input_format, SDL_AudioSpec &output_spec, i
 	else
 	{
 		cvt.len = input_size_bytes;
-		size_t neededSize = std::max(1, cvt.len_mult) * cvt.len;
+		size_t const neededSize = std::max(1, cvt.len_mult) * cvt.len;
 		if (samples.size() < neededSize)
 		{
 			LogInfo("Expanding sample output buffer from %zu to %zu bytes", samples.size(),
@@ -86,7 +86,7 @@ class SDLSampleData : public BackendSampleData
   public:
 	SDLSampleData(sp<Sample> sample, SDL_AudioSpec &output_spec)
 	{
-		unsigned long int input_size =
+		unsigned long int const input_size =
 		    sample->format.getSampleSize() * sample->format.channels * sample->sampleCount;
 		this->samples.resize(input_size);
 		memcpy(this->samples.data(), sample->data.get(), input_size);
@@ -130,7 +130,7 @@ class SDLRawBackend : public SoundBackend
 
 	void getMoreMusic()
 	{
-		std::lock_guard<std::recursive_mutex> lock(this->audio_lock);
+		std::lock_guard<std::recursive_mutex> const lock(this->audio_lock);
 		if (!this->music_playing)
 		{
 			// Music probably disabled in the time it took us to be scheduled?
@@ -165,7 +165,7 @@ class SDLRawBackend : public SoundBackend
 			output_size = (SDL_AUDIO_BITSIZE(this->output_spec.format) / 8) *
 			              this->output_spec.channels * returned_samples;
 
-			bool convert_ret =
+			bool const convert_ret =
 			    ConvertAudio(this->track->format, this->output_spec, input_size, data->samples);
 			if (!convert_ret)
 			{
@@ -189,11 +189,11 @@ class SDLRawBackend : public SoundBackend
 	{
 		// initialize stream buffer
 		memset(stream, 0, len);
-		std::lock_guard<std::recursive_mutex> lock(this->audio_lock);
+		std::lock_guard<std::recursive_mutex> const lock(this->audio_lock);
 
 		if (this->current_music_data || !this->music_queue.empty())
 		{
-			int int_music_volume =
+			int const int_music_volume =
 			    clamp((int)lrint(this->overall_volume * this->music_volume * 128.0f), 0, 128);
 			int music_bytes = 0;
 			while (music_bytes < len)
@@ -210,7 +210,7 @@ class SDLRawBackend : public SoundBackend
 					this->current_music_data = this->music_queue.front();
 					this->music_queue.pop();
 				}
-				int bytes_from_this_chunk =
+				int const bytes_from_this_chunk =
 				    std::min(len - music_bytes, (int)(this->current_music_data->samples.size() -
 				                                      this->current_music_data->sample_position));
 				SDL_MixAudioFormat(stream + music_bytes,
@@ -233,7 +233,7 @@ class SDLRawBackend : public SoundBackend
 		auto sampleIt = this->live_samples.begin();
 		while (sampleIt != this->live_samples.end())
 		{
-			int int_sample_volume = clamp(
+			int const int_sample_volume = clamp(
 			    (int)lrint(this->overall_volume * this->sound_volume * sampleIt->gain * 128.0f), 0,
 			    128);
 			auto sampleData =
@@ -253,7 +253,7 @@ class SDLRawBackend : public SoundBackend
 				continue;
 			}
 
-			unsigned bytes_to_mix =
+			unsigned const bytes_to_mix =
 			    std::min(len, (int)(sampleData->samples.size() - sampleIt->sample_position));
 			SDL_MixAudioFormat(stream, sampleData->samples.data() + sampleIt->sample_position,
 			                   this->output_spec.format, bytes_to_mix, int_sample_volume);
@@ -274,7 +274,7 @@ class SDLRawBackend : public SoundBackend
 		preferred_format.frequency = 22050;
 		LogInfo("Current audio driver: %s", SDL_GetCurrentAudioDriver());
 		LogWarning("Changing audio drivers is not currently implemented!");
-		int numDevices = SDL_GetNumAudioDevices(0); // Request playback devices only
+		int const numDevices = SDL_GetNumAudioDevices(0); // Request playback devices only
 		LogInfo("Number of audio devices: %d", numDevices);
 		for (int i = 0; i < numDevices; ++i)
 		{
@@ -316,7 +316,7 @@ class SDLRawBackend : public SoundBackend
 			sample->backendData.reset(new SDLSampleData(sample, this->output_spec));
 		}
 		{
-			std::lock_guard<std::recursive_mutex> l(this->audio_lock);
+			std::lock_guard<std::recursive_mutex> const l(this->audio_lock);
 			this->live_samples.emplace_back(sample, gain);
 		}
 		LogInfo("Placed sound %s on queue", sample->path);
@@ -324,7 +324,7 @@ class SDLRawBackend : public SoundBackend
 
 	void playMusic(std::function<void(void *)> finishedCallback, void *callbackData) override
 	{
-		std::lock_guard<std::recursive_mutex> l(this->audio_lock);
+		std::lock_guard<std::recursive_mutex> const l(this->audio_lock);
 		while (!music_queue.empty())
 			music_queue.pop();
 		music_finished_callback = finishedCallback;
@@ -337,7 +337,7 @@ class SDLRawBackend : public SoundBackend
 
 	void setTrack(sp<MusicTrack> track) override
 	{
-		std::lock_guard<std::recursive_mutex> l(this->audio_lock);
+		std::lock_guard<std::recursive_mutex> const l(this->audio_lock);
 		LogInfo("Setting track to %s", track->path);
 		this->track = track;
 		while (!music_queue.empty())
@@ -348,7 +348,7 @@ class SDLRawBackend : public SoundBackend
 	{
 		std::shared_future<void> outstanding_get_music;
 		{
-			std::lock_guard<std::recursive_mutex> l(this->audio_lock);
+			std::lock_guard<std::recursive_mutex> const l(this->audio_lock);
 			this->music_playing = false;
 			this->track = nullptr;
 			if (this->get_music_future.valid())
@@ -422,7 +422,7 @@ class SDLRawBackendFactory : public SoundBackendFactory
 	SoundBackend *create() override
 	{
 		LogWarning("Creating SDLRaw sound backend (Might have issues!)");
-		int ret = SDL_InitSubSystem(SDL_INIT_AUDIO);
+		int const ret = SDL_InitSubSystem(SDL_INIT_AUDIO);
 		if (ret < 0)
 		{
 			LogWarning("Failed to init SDL_AUDIO (%d) - %s", ret, SDL_GetError());

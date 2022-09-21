@@ -5,7 +5,7 @@ namespace OpenApoc
 {
 bool Event::isPressed(int mask, MouseButton button)
 {
-	int bmask = SDL_BUTTON(static_cast<int>(button));
+	int const bmask = SDL_BUTTON(static_cast<int>(button));
 	return (mask & bmask) == bmask;
 }
 

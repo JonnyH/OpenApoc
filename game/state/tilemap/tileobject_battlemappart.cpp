@@ -20,7 +20,7 @@ void TileObjectBattleMapPart::draw(Renderer &r, TileTransform &transform,
 	{
 		case TileViewMode::Isometric:
 		{
-			int frame = map_part->getAnimationFrame();
+			int const frame = map_part->getAnimationFrame();
 			if (frame == -1)
 			{
 				sprite = type->sprite;
@@ -80,7 +80,7 @@ void TileObjectBattleMapPart::setPosition(Vec3<float> newPosition)
 
 void TileObjectBattleMapPart::removeFromMap()
 {
-	bool requireRecalc = owningTile != nullptr;
+	bool const requireRecalc = owningTile != nullptr;
 	auto prevOwningTile = owningTile;
 	auto prevDrawOnTile = drawOnTile;
 
@@ -151,9 +151,9 @@ void TileObjectBattleMapPart::addToDrawnTiles(Tile *tile)
 	Vec3<int> maxCoords = {-1, -1, -1};
 	for (auto &intersectingTile : intersectingTiles)
 	{
-		int x = intersectingTile->position.x;
-		int y = intersectingTile->position.y;
-		int z = intersectingTile->position.z;
+		int const x = intersectingTile->position.x;
+		int const y = intersectingTile->position.y;
+		int const z = intersectingTile->position.z;
 
 		// Map parts are drawn in the topmost tile their head pops into
 		// Otherwise, they can only be drawn in it if it's their owner tile

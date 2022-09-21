@@ -122,7 +122,7 @@ void TileObjectScenery::setPosition(Vec3<float> newPosition)
 
 void TileObjectScenery::removeFromMap()
 {
-	bool requireRecalc = owningTile != nullptr;
+	bool const requireRecalc = owningTile != nullptr;
 	auto prevOwningTile = owningTile;
 
 	TileObject::removeFromMap();
@@ -139,9 +139,9 @@ void TileObjectScenery::addToDrawnTiles(Tile *tile)
 	Vec3<int> maxCoords = {-1, -1, -1};
 	for (auto &intersectingTile : intersectingTiles)
 	{
-		int x = intersectingTile->position.x;
-		int y = intersectingTile->position.y;
-		int z = intersectingTile->position.z;
+		int const x = intersectingTile->position.x;
+		int const y = intersectingTile->position.y;
+		int const z = intersectingTile->position.z;
 
 		// Map parts are drawn in the topmost tile their head pops into
 		// Otherwise, they can only be drawn in it if it's their owner tile

@@ -24,7 +24,7 @@ void iterateDepthFirstByNames(First first, Last last, std::ostream &out, std::st
 		while (substrEnd != std::string::npos)
 		{
 			substrEnd = (e.*name).find("::", substrStart);
-			size_t count =
+			size_t const count =
 			    substrEnd == std::string::npos ? std::string::npos : substrEnd - substrStart;
 			currentName.push_back((e.*name).substr(substrStart, count));
 			substrStart = substrEnd + 2;

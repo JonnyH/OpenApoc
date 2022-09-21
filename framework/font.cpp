@@ -17,8 +17,8 @@ sp<PaletteImage> BitmapFont::getString(const UString &Text)
 		    "Multiline text not supported. Newline characters will be ignored. Text : \"%s\"",
 		    Text);
 	}
-	int height = this->getFontHeight();
-	int width = this->getFontWidth(Text);
+	int const height = this->getFontHeight();
+	int const width = this->getFontWidth(Text);
 	int pos = 0;
 
 	auto img = fw().data->getFontStringCacheEntry(this->name, Text);
@@ -59,7 +59,7 @@ int BitmapFont::getFontHeight() const { return fontheight; }
 
 int BitmapFont::getFontHeight(const UString &Text, int MaxWidth)
 {
-	std::list<UString> lines = wordWrapText(Text, MaxWidth);
+	std::list<UString> const lines = wordWrapText(Text, MaxWidth);
 	return lines.size() * fontheight;
 }
 
@@ -120,7 +120,7 @@ sp<BitmapFont> BitmapFont::loadFont(const std::map<char32_t, UString> &glyphMap,
 		// FIXME: Proper kerning
 		// First find the widest non-transparent part of the glyph
 		{
-			PaletteImageLock imgLock(paletteImage, ImageLockUse::Read);
+			PaletteImageLock const imgLock(paletteImage, ImageLockUse::Read);
 			for (unsigned int y = 0; y < paletteImage->size.y; y++)
 			{
 				for (unsigned int x = 0; x < paletteImage->size.x; x++)

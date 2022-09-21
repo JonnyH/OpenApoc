@@ -159,7 +159,7 @@ void InGameOptions::loadList(int id)
 		auto checkBox = mksp<CheckBox>(fw().data->loadImage("BUTTON_CHECKBOX_TRUE"),
 		                               fw().data->loadImage("BUTTON_CHECKBOX_FALSE"));
 		checkBox->Size = {240, listControl->ItemSize};
-		UString full_name = p.first + "." + p.second;
+		UString const full_name = p.first + "." + p.second;
 		checkBox->setData(mksp<UString>(full_name));
 		checkBox->setChecked(config().getBool(full_name));
 		auto label = checkBox->createChild<Label>(tr(config().describe(p.first, p.second)), font);
@@ -305,7 +305,7 @@ void InGameOptions::eventOccurred(Event *e)
 		}
 		if (e->forms().RaisedBy->Name == "BUTTON_EXIT_BATTLE")
 		{
-			int unitsLost = state->current_battle->killStrandedUnits(
+			int const unitsLost = state->current_battle->killStrandedUnits(
 			    *state, state->current_battle->currentPlayer, true);
 			fw().stageQueueCommand(
 			    {StageCmd::Command::PUSH,
@@ -334,7 +334,7 @@ void InGameOptions::eventOccurred(Event *e)
 				LogError("Failed to cast \"GLOBAL_GAIN_SLIDER\" control to ScrollBar");
 				return;
 			}
-			float gain =
+			float const gain =
 			    static_cast<float>(slider->getValue()) / static_cast<float>(slider->getMaximum());
 			fw().soundBackend->setGain(SoundBackend::Gain::Global, gain);
 		}
@@ -346,7 +346,7 @@ void InGameOptions::eventOccurred(Event *e)
 				LogError("Failed to cast \"MUSIC_GAIN_SLIDER\" control to ScrollBar");
 				return;
 			}
-			float gain =
+			float const gain =
 			    static_cast<float>(slider->getValue()) / static_cast<float>(slider->getMaximum());
 			fw().soundBackend->setGain(SoundBackend::Gain::Music, gain);
 		}
@@ -358,7 +358,7 @@ void InGameOptions::eventOccurred(Event *e)
 				LogError("Failed to cast \"SAMPLE_GAIN_SLIDER\" control to ScrollBar");
 				return;
 			}
-			float gain =
+			float const gain =
 			    static_cast<float>(slider->getValue()) / static_cast<float>(slider->getMaximum());
 			fw().soundBackend->setGain(SoundBackend::Gain::Sample, gain);
 		}

@@ -40,9 +40,9 @@ void Label::onRender()
 {
 	Control::onRender();
 
-	std::list<UString> lines = font->wordWrapText(text, Size.x);
+	std::list<UString> const lines = font->wordWrapText(text, Size.x);
 
-	int ysize = font->getFontHeight(text, Size.x);
+	int const ysize = font->getFontHeight(text, Size.x);
 	if (scroller)
 	{
 		scroller->setVisible(ysize > this->Size.y && lines.size() > 1);
@@ -57,7 +57,7 @@ void Label::onRender()
 
 	for (const auto &line : lines)
 	{
-		int xpos = align(TextHAlign, Size.x, font->getFontWidth(line));
+		int const xpos = align(TextHAlign, Size.x, font->getFontWidth(line));
 
 		auto textImage = font->getString(line);
 		fw().renderer->drawTinted(textImage, Vec2<float>{xpos, ypos}, Tint);
@@ -151,7 +151,7 @@ void Label::configureSelfFromXml(pugi::xml_node *node)
 	auto alignmentNode = node->child("alignment");
 	if (alignmentNode)
 	{
-		UString hAlign = alignmentNode.attribute("horizontal").as_string();
+		UString const hAlign = alignmentNode.attribute("horizontal").as_string();
 		if (hAlign == "left")
 		{
 			TextHAlign = HorizontalAlignment::Left;
@@ -164,7 +164,7 @@ void Label::configureSelfFromXml(pugi::xml_node *node)
 		{
 			TextHAlign = HorizontalAlignment::Right;
 		}
-		UString vAlign = alignmentNode.attribute("vertical").as_string();
+		UString const vAlign = alignmentNode.attribute("vertical").as_string();
 		if (vAlign == "top")
 		{
 			TextVAlign = VerticalAlignment::Top;

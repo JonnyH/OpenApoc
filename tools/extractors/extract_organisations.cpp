@@ -33,7 +33,7 @@ void InitialGameStateExtractor::extractOrganisations(GameState &state) const
 		auto odata = data.organisation_data->get(i);
 		auto rdata = data.organisation_starting_relationships_data->get(i);
 
-		UString id = data.getOrgId(i);
+		UString const id = data.getOrgId(i);
 
 		o->name = data.organisation_names->get(i);
 		o->id = id;
@@ -119,7 +119,7 @@ void InitialGameStateExtractor::extractOrganisations(GameState &state) const
 		// relationship
 		for (int j = 0; j < 28; j++)
 		{
-			StateRef<Organisation> o2 = {&state, data.getOrgId(j)};
+			StateRef<Organisation> const o2 = {&state, data.getOrgId(j)};
 
 			o->current_relations[o2] = (float)rdata.relationships[j];
 			o->long_term_relations[o2] = (float)rdata.relationships[j];
@@ -257,15 +257,15 @@ void InitialGameStateExtractor::extractOrganisations(GameState &state) const
 
 			// Missions
 			// Minute shortcut
-			uint64_t m = (uint64_t)TICKS_PER_MINUTE;
+			uint64_t const m = (uint64_t)TICKS_PER_MINUTE;
 			// Second shortcut
-			uint64_t s = (uint64_t)TICKS_PER_SECOND;
+			uint64_t const s = (uint64_t)TICKS_PER_SECOND;
 			// Relation sets
-			std::set<Organisation::Relation> Allied = {Organisation::Relation::Allied};
-			std::set<Organisation::Relation> NeutralPlus = {Organisation::Relation::Allied,
+			std::set<Organisation::Relation> const Allied = {Organisation::Relation::Allied};
+			std::set<Organisation::Relation> const NeutralPlus = {Organisation::Relation::Allied,
 			                                                Organisation::Relation::Friendly,
 			                                                Organisation::Relation::Neutral};
-			std::set<Organisation::Relation> UnfriendlyMinus = {Organisation::Relation::Unfriendly,
+			std::set<Organisation::Relation> const UnfriendlyMinus = {Organisation::Relation::Unfriendly,
 			                                                    Organisation::Relation::Hostile};
 
 			auto &missions = o->recurring_missions[{&state, "CITYMAP_HUMAN"}];

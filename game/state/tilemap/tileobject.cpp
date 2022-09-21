@@ -46,7 +46,7 @@ void TileObject::removeFromMap()
 		{
 			LogError("Nothing erased?");
 		}
-		int layer = map.getLayer(this->type);
+		int const layer = map.getLayer(this->type);
 		this->drawOnTile->drawnObjects[layer].erase(
 		    std::remove(this->drawOnTile->drawnObjects[layer].begin(),
 		                this->drawOnTile->drawnObjects[layer].end(), thisPtr),
@@ -67,10 +67,10 @@ class TileObjectZComparer
   public:
 	bool operator()(const sp<TileObject> &lhs, const sp<TileObject> &rhs) const
 	{
-		float lhsZ = lhs->getCenter().x * lhs->map.velocityScale.x +
+		float const lhsZ = lhs->getCenter().x * lhs->map.velocityScale.x +
 		             lhs->getCenter().y * lhs->map.velocityScale.y +
 		             lhs->getZOrder() * lhs->map.velocityScale.z;
-		float rhsZ = rhs->getCenter().x * rhs->map.velocityScale.x +
+		float const rhsZ = rhs->getCenter().x * rhs->map.velocityScale.x +
 		             rhs->getCenter().y * rhs->map.velocityScale.y +
 		             rhs->getZOrder() * rhs->map.velocityScale.z;
 		return (lhsZ < rhsZ);
@@ -120,10 +120,10 @@ void TileObject::setPosition(Vec3<float> newPosition)
 		LogError("Object already in owned object list?");
 	}
 
-	Vec3<int> minBounds = {floorf(newPosition.x + getCenterOffset().x - this->bounds_div_2.x),
+	Vec3<int> const minBounds = {floorf(newPosition.x + getCenterOffset().x - this->bounds_div_2.x),
 	                       floorf(newPosition.y + getCenterOffset().y - this->bounds_div_2.y),
 	                       floorf(newPosition.z + getCenterOffset().z - this->bounds_div_2.z)};
-	Vec3<int> maxBounds = {ceilf(newPosition.x + getCenterOffset().x + this->bounds_div_2.x),
+	Vec3<int> const maxBounds = {ceilf(newPosition.x + getCenterOffset().x + this->bounds_div_2.x),
 	                       ceilf(newPosition.y + getCenterOffset().y + this->bounds_div_2.y),
 	                       ceilf(newPosition.z + getCenterOffset().z + this->bounds_div_2.z)};
 
@@ -165,7 +165,7 @@ void TileObject::setPosition(Vec3<float> newPosition)
 void TileObject::addToDrawnTiles(Tile *tile)
 {
 	this->drawOnTile = tile;
-	int layer = map.getLayer(this->type);
+	int const layer = map.getLayer(this->type);
 	this->drawOnTile->drawnObjects[layer].push_back(shared_from_this());
 	std::sort(this->drawOnTile->drawnObjects[layer].begin(),
 	          this->drawOnTile->drawnObjects[layer].end(), TileObjectZComparer{});

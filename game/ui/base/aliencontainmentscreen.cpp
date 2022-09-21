@@ -69,7 +69,7 @@ void AlienContainmentScreen::closeScreen()
 			int i = 0;
 			for ([[maybe_unused]] const auto &b : state->player_bases)
 			{
-				int bioDelta = c->getBioDelta(i);
+				int const bioDelta = c->getBioDelta(i);
 				if (bioDelta)
 				{
 					vecBioDelta[i] += bioDelta;
@@ -103,8 +103,8 @@ void AlienContainmentScreen::closeScreen()
 		// Found bad base
 		if (bad_base)
 		{
-			UString title(tr("Alien Containment space exceeded"));
-			UString message(tr("Alien Containment space exceeded. Destroy more Aliens!"));
+			UString const title(tr("Alien Containment space exceeded"));
+			UString const message(tr("Alien Containment space exceeded. Destroy more Aliens!"));
 
 			fw().stageQueueCommand(
 			    {StageCmd::Command::PUSH,
@@ -134,7 +134,7 @@ void AlienContainmentScreen::closeScreen()
 
 void AlienContainmentScreen::executeOrders()
 {
-	int rightIdx = getRightIndex();
+	int const rightIdx = getRightIndex();
 
 	// AlienContainment: Simply apply
 	for (auto &c : transactionControls[Type::Aliens])

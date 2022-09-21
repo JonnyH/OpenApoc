@@ -44,13 +44,13 @@ bool AgentTileHelper::canEnterTile(Tile *from, Tile *to, bool, bool &, float &co
 		LogError("No 'from' position supplied");
 		return false;
 	}
-	Vec3<int> fromPos = from->position;
+	Vec3<int> const fromPos = from->position;
 	if (!to)
 	{
 		LogError("No 'to' position supplied");
 		return false;
 	}
-	Vec3<int> toPos = to->position;
+	Vec3<int> const toPos = to->position;
 	if (fromPos == toPos)
 	{
 		LogError("FromPos == ToPos %s", toPos);
@@ -70,15 +70,15 @@ bool AgentTileHelper::canEnterTile(Tile *from, Tile *to, bool, bool &, float &co
 	}
 
 	// Agents can only move to and from scenery
-	sp<Scenery> sceneryFrom = from->presentScenery;
-	sp<Scenery> sceneryTo = to->presentScenery;
+	sp<Scenery> const sceneryFrom = from->presentScenery;
+	sp<Scenery> const sceneryTo = to->presentScenery;
 	if (!sceneryFrom || !sceneryTo)
 	{
 		return false;
 	}
 
 	// General passability check
-	int forward = convertDirection(dir);
+	int const forward = convertDirection(dir);
 	if (!isMoveAllowed(*sceneryFrom, forward) || !isMoveAllowed(*sceneryTo, convertDirection(-dir)))
 	{
 		return false;
@@ -116,7 +116,7 @@ bool AgentTileHelper::canEnterTile(Tile *from, Tile *to, bool, bool &, float &co
 				continue;
 			}
 			auto checkedTile = map.getTile(checkedPos);
-			sp<Scenery> checkedScenery = checkedTile->presentScenery;
+			sp<Scenery> const checkedScenery = checkedTile->presentScenery;
 			if (checkedScenery &&
 			    checkedScenery->type->tile_type == SceneryTileType::TileType::PeopleTubeJunction)
 			{
@@ -263,7 +263,7 @@ AgentMission AgentMission::investigateBuilding(GameState &, Agent &a, StateRef<B
 	return mission;
 }
 
-bool AgentMission::teleportCheck(GameState &state, Agent &a)
+bool AgentMission::teleportCheck(GameState &state, Agent &a) const
 {
 	if (allowTeleporter && a.canTeleport())
 	{
@@ -346,7 +346,7 @@ bool AgentMission::isFinished(GameState &state, Agent &a, bool callUpdateIfFinis
 	return false;
 }
 
-bool AgentMission::isFinishedInternal(GameState &, Agent &a)
+bool AgentMission::isFinishedInternal(GameState &, Agent &a) const
 {
 	if (cancelled)
 	{
@@ -433,7 +433,7 @@ void AgentMission::start(GameState &state, Agent &a)
 						// For now just get into closest building
 						fw().pushEvent(new GameAgentEvent(GameEventType::AgentUnableToReach,
 						                                  {&state, a.shared_from_this()}, true));
-						float closestDistance = FLT_MAX;
+						float const closestDistance = FLT_MAX;
 						StateRef<Building> closestBuilding;
 						for (auto &b : a.city->buildings)
 						{

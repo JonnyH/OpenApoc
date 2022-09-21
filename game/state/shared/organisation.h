@@ -163,13 +163,13 @@ class Organisation : public StateObject<Organisation>
 	                               bool vehicle) const;
 	StateRef<Building> getPurchaseBuilding(GameState &state, const StateRef<Building> &buyer) const;
 	void purchase(GameState &state, const StateRef<Building> &buyer,
-	              StateRef<VEquipmentType> vehicleEquipment, int count);
+	              StateRef<VEquipmentType> vehicleEquipment, int count) const;
 	void purchase(GameState &state, const StateRef<Building> &buyer,
-	              StateRef<VAmmoType> vehicleAmmo, int count);
+	              StateRef<VAmmoType> vehicleAmmo, int count) const;
 	void purchase(GameState &state, const StateRef<Building> &buyer,
-	              StateRef<AEquipmentType> agentEquipment, int count);
+	              StateRef<AEquipmentType> agentEquipment, int count) const;
 	void purchase(GameState &state, const StateRef<Building> &buyer,
-	              StateRef<VehicleType> vehicleType, int count);
+	              StateRef<VehicleType> vehicleType, int count) const;
 
 	Relation isRelatedTo(const StateRef<Organisation> &other) const;
 	bool isPositiveTo(const StateRef<Organisation> &other) const;

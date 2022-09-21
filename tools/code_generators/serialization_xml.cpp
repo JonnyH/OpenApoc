@@ -8,7 +8,7 @@ bool readXml(std::istream &in, StateDefinition &state)
 	auto fileSize = in.tellg();
 	in.seekg(0, std::ios::beg);
 
-	std::unique_ptr<char[]> fileData(new char[fileSize]);
+	std::unique_ptr<char[]> const fileData(new char[fileSize]);
 	in.read(fileData.get(), fileSize);
 	if (!in)
 	{
@@ -58,7 +58,7 @@ bool readXml(std::istream &in, StateDefinition &state)
 					auto externalAttr = objectNode.attribute("external");
 					if (!externalAttr.empty())
 					{
-						std::string externalValue = externalAttr.as_string();
+						std::string const externalValue = externalAttr.as_string();
 						if (externalValue == "true")
 						{
 							obj.external = true;
@@ -72,7 +72,7 @@ bool readXml(std::istream &in, StateDefinition &state)
 					auto fullAttr = objectNode.attribute("full");
 					if (!fullAttr.empty())
 					{
-						std::string fullValue = fullAttr.as_string();
+						std::string const fullValue = fullAttr.as_string();
 						if (fullValue == "true")
 						{
 							obj.full = true;
@@ -87,12 +87,12 @@ bool readXml(std::istream &in, StateDefinition &state)
 					{
 						if (std::string(memberNode.name()) == "member")
 						{
-							std::string memberName = memberNode.text().as_string();
+							std::string const memberName = memberNode.text().as_string();
 							NodeType type = NodeType::Normal;
 							auto typeAttr = memberNode.attribute("type");
 							if (!typeAttr.empty())
 							{
-								std::string typeName = typeAttr.as_string();
+								std::string const typeName = typeAttr.as_string();
 								if (typeName == "Normal")
 									type = NodeType::Normal;
 								else if (typeName == "Section")
@@ -121,7 +121,7 @@ bool readXml(std::istream &in, StateDefinition &state)
 					auto externalAttr = objectNode.attribute("external");
 					if (!externalAttr.empty())
 					{
-						std::string externalValue = externalAttr.as_string();
+						std::string const externalValue = externalAttr.as_string();
 						if (externalValue == "true")
 						{
 							sEnum.external = true;

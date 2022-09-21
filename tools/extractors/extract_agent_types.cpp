@@ -118,7 +118,7 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 		LogError("Failed to open small portrait TAB file \"%s\"", portraitSmallTabFileName);
 		return;
 	}
-	size_t portraitSmallCount = portraitSmallTabFile.size() / 4;
+	size_t const portraitSmallCount = portraitSmallTabFile.size() / 4;
 
 	auto portraitLargeTabFileName = UString("xcom3/ufodata/photo.tab");
 	auto portraitLargeTabFile = fw().data->fs.open(portraitLargeTabFileName);
@@ -127,7 +127,7 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 		LogError("Failed to open Large portrait TAB file \"%s\"", portraitLargeTabFileName);
 		return;
 	}
-	size_t portraitLargeCount = portraitLargeTabFile.size() / 4;
+	size_t const portraitLargeCount = portraitLargeTabFile.size() / 4;
 
 	std::vector<AgentPortrait> portraits;
 
@@ -155,7 +155,7 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 		auto data = data_u.agent_types->get(i);
 
 		a->name = data_u.agent_type_names->get(i);
-		UString id = format("%s%s", AgentType::getPrefix(), canon_string(a->name));
+		UString const id = format("%s%s", AgentType::getPrefix(), canon_string(a->name));
 
 		a->id = id;
 
@@ -1250,8 +1250,8 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 
 	// None layout slot
 	{
-		UString name = "NONE";
-		UString id = format("%s%s", AgentEquipmentLayout::getPrefix(), canon_string(name));
+		UString const name = "NONE";
+		UString const id = format("%s%s", AgentEquipmentLayout::getPrefix(), canon_string(name));
 
 		auto a = mksp<AgentEquipmentLayout>();
 
@@ -1260,8 +1260,8 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 
 	// Builtin layout slot
 	{
-		UString name = "BUILTIN";
-		UString id = format("%s%s", AgentEquipmentLayout::getPrefix(), canon_string(name));
+		UString const name = "BUILTIN";
+		UString const id = format("%s%s", AgentEquipmentLayout::getPrefix(), canon_string(name));
 
 		auto a = mksp<AgentEquipmentLayout>();
 		// Located off-screen, invisible in inventory
@@ -1275,8 +1275,8 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 
 	// FULL layout slot
 	{
-		UString name = "FULL";
-		UString id = format("%s%s", AgentEquipmentLayout::getPrefix(), canon_string(name));
+		UString const name = "FULL";
+		UString const id = format("%s%s", AgentEquipmentLayout::getPrefix(), canon_string(name));
 
 		auto a = mksp<AgentEquipmentLayout>();
 		pushEquipmentSlot(a, 1, 6, 3, 5, EquipmentSlotType::RightHand, AlignmentX::Centre,
@@ -1414,7 +1414,7 @@ void InitialGameStateExtractor::extractAgentBodyTypes(GameState &state) const
 		a->allowed_movement_states.insert(MovementState::None);
 		a->allowed_body_states.insert(BodyState::Dead);
 
-		UString id = format("%s%s", AgentBodyType::getPrefix(), canon_string(name));
+		UString const id = format("%s%s", AgentBodyType::getPrefix(), canon_string(name));
 
 		// Allowed facings (nothing means everything allowed)
 		switch (i)
@@ -1694,7 +1694,7 @@ void InitialGameStateExtractor::extractAgentBodyTypes(GameState &state) const
 										             y * a->size[entry.first][pair.first].x + x] =
 										    std::make_shared<VoxelMap>(Vec3<int>{24, 24, 20});
 										// Fill slices
-										int limit =
+										int const limit =
 										    std::max(20, (a->height[entry.first] - 40 * z) / 2);
 										for (int i = 0; i < limit; i++)
 										{
@@ -1742,7 +1742,7 @@ void InitialGameStateExtractor::extractAgentBodyTypes(GameState &state) const
 								{
 									continue;
 								}
-								Vec2<int> facing = {fx, fy};
+								Vec2<int> const facing = {fx, fy};
 								a->size[entry.first][facing] = {1, 1, 1};
 
 								// Create voxelmap

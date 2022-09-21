@@ -92,8 +92,8 @@ std::shared_future<void> loadBattleBuilding(sp<GameState> state, sp<Building> bu
 {
 	auto loadTask = fw().threadPoolEnqueue(
 	    [hotseat, building, state, raid, playerAgents, playerVehicle]() mutable -> void {
-		    StateRef<Organisation> org = raid ? building->owner : state->getAliens();
-		    StateRef<Building> bld = {state.get(), building};
+		    StateRef<Organisation> const org = raid ? building->owner : state->getAliens();
+		    StateRef<Building> const bld = {state.get(), building};
 
 		    const std::map<StateRef<AgentType>, int> *aliens = nullptr;
 		    const int *guards = nullptr;
@@ -119,8 +119,8 @@ std::shared_future<void> loadBattleVehicle(sp<GameState> state, StateRef<Vehicle
 			}
 		}
 
-		StateRef<Organisation> org = ufo->owner;
-		bool hotseat = false;
+		StateRef<Organisation> const org = ufo->owner;
+		bool const hotseat = false;
 		const std::map<StateRef<AgentType>, int> *aliens = nullptr;
 		Battle::beginBattle(*state, hotseat, org, agents, aliens, playerVehicle, ufo);
 	});
@@ -570,7 +570,7 @@ void CityView::orderGoToBase()
 
 void CityView::orderMove(Vec3<float> position, bool alternative, bool portal)
 {
-	bool useTeleporter =
+	bool const useTeleporter =
 	    alternative && config().getBool("OpenApoc.NewFeature.AllowManualCityTeleporters");
 	if (activeTab == uiTabs[1])
 	{
@@ -595,7 +595,7 @@ void CityView::orderMove(Vec3<float> position, bool alternative, bool portal)
 
 void CityView::orderMove(StateRef<Building> building, bool alternative)
 {
-	bool useTeleporter =
+	bool const useTeleporter =
 	    alternative && config().getBool("OpenApoc.NewFeature.AllowManualCityTeleporters");
 	if (activeTab == uiTabs[1])
 	{
@@ -613,7 +613,7 @@ void CityView::orderMove(StateRef<Building> building, bool alternative)
 	}
 	if (activeTab == uiTabs[2])
 	{
-		bool useTaxi = alternative && config().getBool("OpenApoc.NewFeature.AllowSoldierTaxiUse");
+		bool const useTaxi = alternative && config().getBool("OpenApoc.NewFeature.AllowSoldierTaxiUse");
 		for (auto &a : this->state->current_city->cityViewSelectedAgents)
 		{
 			if (a->type->role != AgentType::Role::Soldier)
@@ -1007,7 +1007,7 @@ CityView::CityView(sp<GameState> state)
 	baseForm->findControlTyped<RadioButton>("BUTTON_SPEED1")->setChecked(true);
 	for (size_t i = 0; i < NUM_TABS; ++i)
 	{
-		sp<Form> f = baseForm->findControlTyped<Form>(format("SUBFORM_TAB_%d", i + 1));
+		sp<Form> const f = baseForm->findControlTyped<Form>(format("SUBFORM_TAB_%d", i + 1));
 		f->takesFocus = false;
 		this->uiTabs.push_back(f);
 	}
@@ -1029,7 +1029,7 @@ CityView::CityView(sp<GameState> state)
 	    });
 	this->baseForm->findControl("BUTTON_TOGGLE_STRATMAP")
 	    ->addCallback(FormEventType::CheckBoxChange, [this](FormsEvent *e) {
-		    bool strategy = std::dynamic_pointer_cast<CheckBox>(e->forms().RaisedBy)->isChecked();
+		    bool const strategy = std::dynamic_pointer_cast<CheckBox>(e->forms().RaisedBy)->isChecked();
 		    this->setViewMode(strategy ? TileViewMode::Strategy : TileViewMode::Isometric);
 	    });
 	this->baseForm->findControl("BUTTON_SPEED0")
@@ -1400,7 +1400,7 @@ CityView::CityView(sp<GameState> state)
 	this->uiTabs[3]
 	    ->findControl("BUTTON_RESEARCH")
 	    ->addCallback(FormEventType::ButtonClick, [this](Event *) {
-		    sp<Facility> lab = findCurrentResearchFacility(this->state, AgentType::Role::BioChemist,
+		    sp<Facility> const lab = findCurrentResearchFacility(this->state, AgentType::Role::BioChemist,
 		                                                   FacilityType::Capacity::Chemistry);
 		    fw().stageQueueCommand(
 		        {StageCmd::Command::PUSH, mksp<ResearchScreen>(this->state, lab)});
@@ -1408,7 +1408,7 @@ CityView::CityView(sp<GameState> state)
 	this->uiTabs[4]
 	    ->findControl("BUTTON_RESEARCH")
 	    ->addCallback(FormEventType::ButtonClick, [this](Event *) {
-		    sp<Facility> lab = findCurrentResearchFacility(this->state, AgentType::Role::Engineer,
+		    sp<Facility> const lab = findCurrentResearchFacility(this->state, AgentType::Role::Engineer,
 		                                                   FacilityType::Capacity::Workshop);
 		    fw().stageQueueCommand(
 		        {StageCmd::Command::PUSH, mksp<ResearchScreen>(this->state, lab)});
@@ -1416,7 +1416,7 @@ CityView::CityView(sp<GameState> state)
 	this->uiTabs[5]
 	    ->findControl("BUTTON_RESEARCH")
 	    ->addCallback(FormEventType::ButtonClick, [this](Event *) {
-		    sp<Facility> lab = findCurrentResearchFacility(this->state, AgentType::Role::Physicist,
+		    sp<Facility> const lab = findCurrentResearchFacility(this->state, AgentType::Role::Physicist,
 		                                                   FacilityType::Capacity::Physics);
 		    fw().stageQueueCommand(
 		        {StageCmd::Command::PUSH, mksp<ResearchScreen>(this->state, lab)});
@@ -1584,7 +1584,7 @@ void CityView::render()
 	if (drawCity)
 	{
 		this->drawCity = false;
-		RendererSurfaceBinding b(*fw().renderer, this->surface);
+		RendererSurfaceBinding const b(*fw().renderer, this->surface);
 
 		CityTileView::render();
 		if (DEBUG_SHOW_VEHICLE_PATH)
@@ -1609,8 +1609,8 @@ void CityView::render()
 				{
 					Vec3<float> posf = pos;
 					posf += Vec3<float>{0.5f, 0.5f, 0.5f};
-					Vec2<float> screenPosA = this->tileToOffsetScreenCoords(prevPos);
-					Vec2<float> screenPosB = this->tileToOffsetScreenCoords(posf);
+					Vec2<float> const screenPosA = this->tileToOffsetScreenCoords(prevPos);
+					Vec2<float> const screenPosB = this->tileToOffsetScreenCoords(posf);
 
 					fw().renderer->drawLine(screenPosA, screenPosB,
 					                        v->type->isGround() ? groundColor : flyingColor);
@@ -1674,8 +1674,8 @@ void CityView::render()
 				auto viewBase = view->getData<Base>();
 				if (state->current_base == viewBase)
 				{
-					Vec2<int> pos = view->getLocationOnScreen() - 1;
-					Vec2<int> size = view->Size + 2;
+					Vec2<int> const pos = view->getLocationOnScreen() - 1;
+					Vec2<int> const size = view->Size + 2;
 					fw().renderer->drawRect(pos, size, Colour{255, 0, 0});
 					break;
 				}
@@ -1697,7 +1697,7 @@ void CityView::render()
 void CityView::update()
 {
 	unsigned int ticks = 0;
-	int day = state->gameTime.getDay();
+	int const day = state->gameTime.getDay();
 	bool turbo = false;
 	switch (this->updateSpeed)
 	{
@@ -1749,7 +1749,7 @@ void CityView::update()
 	{
 		while (ticks > 0)
 		{
-			int ticksPerUpdate = UPDATE_EVERY_TICK ? 1 : ticks;
+			int const ticksPerUpdate = UPDATE_EVERY_TICK ? 1 : ticks;
 			state->update(ticksPerUpdate);
 			ticks -= ticksPerUpdate;
 		}
@@ -1841,7 +1841,7 @@ void CityView::update()
 			currentVehicleIndex++;
 			auto info = ControlGenerator::createVehicleInfo(*state, vehicle);
 			vehiclesMIA.erase(info.vehicle);
-			bool redo = currentVehicleIndex >= ownedVehicleInfoList.size() ||
+			bool const redo = currentVehicleIndex >= ownedVehicleInfoList.size() ||
 			            ownedVehicleInfoList[currentVehicleIndex] != info;
 			if (redo)
 			{
@@ -1925,13 +1925,13 @@ void CityView::update()
 		for (int i = 0; i < weaponType.size(); i++)
 		{
 			auto currentWeaponType = currentWeapons.size() > i ? currentWeapons[i]->type : nullptr;
-			int currentAmmo =
+			int const currentAmmo =
 			    currentWeaponType
 			        ? (currentWeaponType->max_ammo > 0
 			               ? currentWeapons[i]->ammo * 32 / currentWeaponType->max_ammo
 			               : 32)
 			        : 0;
-			bool currentDisabled = currentWeaponType && currentWeapons[i]->disabled;
+			bool const currentDisabled = currentWeaponType && currentWeapons[i]->disabled;
 
 			if (currentWeaponType != weaponType[i])
 			{
@@ -1968,7 +1968,7 @@ void CityView::update()
 				auto size = Vec2<int>{6, 32};
 				auto bar = mksp<RGBImage>(size);
 
-				int redHeight = currentAmmo;
+				int const redHeight = currentAmmo;
 				{
 					static const Colour redColor = {215, 0, 0, 255};
 					static const Colour orangeColor = {146, 89, 0, 255};
@@ -2008,8 +2008,8 @@ void CityView::update()
 		auto ownedAgentList = uiTabs[2]->findControlTyped<ListBox>("OWNED_AGENT_LIST");
 
 		auto agentForm = uiTabs[2];
-		sp<Label> agentName = agentForm->findControlTyped<Label>("TEXT_AGENT_NAME");
-		sp<Label> agentAssignment = agentForm->findControlTyped<Label>("TEXT_AGENT_ASSIGNMENT");
+		sp<Label> const agentName = agentForm->findControlTyped<Label>("TEXT_AGENT_NAME");
+		sp<Label> const agentAssignment = agentForm->findControlTyped<Label>("TEXT_AGENT_ASSIGNMENT");
 		if (state->current_city->cityViewSelectedAgents.empty())
 		{
 			agentName->setText("");
@@ -2132,7 +2132,7 @@ void CityView::update()
 			currentAgentIndex++;
 			auto info = ControlGenerator::createAgentInfo(*state, agent);
 			agentsMIA.erase(info.agent);
-			bool redo = currentAgentIndex >= ownedSoldierInfoList.size() ||
+			bool const redo = currentAgentIndex >= ownedSoldierInfoList.size() ||
 			            ownedSoldierInfoList[currentAgentIndex] != info;
 			if (redo)
 			{
@@ -2191,8 +2191,8 @@ void CityView::update()
 		auto ownedAgentList = uiTabs[3]->findControlTyped<ListBox>("OWNED_AGENT_LIST");
 
 		auto agentForm = uiTabs[3];
-		sp<Label> agentName = agentForm->findControlTyped<Label>("TEXT_AGENT_NAME");
-		sp<Label> agentAssignment = agentForm->findControlTyped<Label>("TEXT_AGENT_ASSIGNMENT");
+		sp<Label> const agentName = agentForm->findControlTyped<Label>("TEXT_AGENT_NAME");
+		sp<Label> const agentAssignment = agentForm->findControlTyped<Label>("TEXT_AGENT_ASSIGNMENT");
 		if (state->current_city->cityViewSelectedAgents.empty())
 		{
 			agentName->setText("");
@@ -2219,8 +2219,8 @@ void CityView::update()
 						{
 							if (fac->lab->current_project)
 							{
-								UString pr = tr(fac->lab->current_project->name);
-								int progress = (static_cast<float>(
+								UString const pr = tr(fac->lab->current_project->name);
+								int const progress = (static_cast<float>(
 								                    fac->lab->current_project->man_hours_progress) /
 								                fac->lab->current_project->man_hours) *
 								               100;
@@ -2264,7 +2264,7 @@ void CityView::update()
 			currentAgentIndex++;
 			auto info = ControlGenerator::createAgentInfo(*state, agent);
 			agentsMIA.erase(info.agent);
-			bool redo = currentAgentIndex >= ownedBioInfoList.size() ||
+			bool const redo = currentAgentIndex >= ownedBioInfoList.size() ||
 			            ownedBioInfoList[currentAgentIndex] != info;
 			if (redo)
 			{
@@ -2314,8 +2314,8 @@ void CityView::update()
 		auto ownedAgentList = uiTabs[4]->findControlTyped<ListBox>("OWNED_AGENT_LIST");
 
 		auto agentForm = uiTabs[4];
-		sp<Label> agentName = agentForm->findControlTyped<Label>("TEXT_AGENT_NAME");
-		sp<Label> agentAssignment = agentForm->findControlTyped<Label>("TEXT_AGENT_ASSIGNMENT");
+		sp<Label> const agentName = agentForm->findControlTyped<Label>("TEXT_AGENT_NAME");
+		sp<Label> const agentAssignment = agentForm->findControlTyped<Label>("TEXT_AGENT_ASSIGNMENT");
 		if (state->current_city->cityViewSelectedAgents.empty())
 		{
 			agentName->setText("");
@@ -2342,8 +2342,8 @@ void CityView::update()
 						{
 							if (fac->lab->current_project)
 							{
-								UString pr = tr(fac->lab->current_project->name);
-								int progress =
+								UString const pr = tr(fac->lab->current_project->name);
+								int const progress =
 								    (static_cast<float>(fac->lab->manufacture_man_hours_invested +
 								                        fac->lab->current_project->man_hours *
 								                            fac->lab->manufacture_done) /
@@ -2390,7 +2390,7 @@ void CityView::update()
 			currentAgentIndex++;
 			auto info = ControlGenerator::createAgentInfo(*state, agent);
 			agentsMIA.erase(info.agent);
-			bool redo = currentAgentIndex >= ownedEngineerInfoList.size() ||
+			bool const redo = currentAgentIndex >= ownedEngineerInfoList.size() ||
 			            ownedEngineerInfoList[currentAgentIndex] != info;
 			if (redo)
 			{
@@ -2440,8 +2440,8 @@ void CityView::update()
 		auto ownedAgentList = uiTabs[5]->findControlTyped<ListBox>("OWNED_AGENT_LIST");
 
 		auto agentForm = uiTabs[5];
-		sp<Label> agentName = agentForm->findControlTyped<Label>("TEXT_AGENT_NAME");
-		sp<Label> agentAssignment = agentForm->findControlTyped<Label>("TEXT_AGENT_ASSIGNMENT");
+		sp<Label> const agentName = agentForm->findControlTyped<Label>("TEXT_AGENT_NAME");
+		sp<Label> const agentAssignment = agentForm->findControlTyped<Label>("TEXT_AGENT_ASSIGNMENT");
 		if (state->current_city->cityViewSelectedAgents.empty())
 		{
 			agentName->setText("");
@@ -2468,8 +2468,8 @@ void CityView::update()
 						{
 							if (fac->lab->current_project)
 							{
-								UString pr = tr(fac->lab->current_project->name);
-								int progress = (static_cast<float>(
+								UString const pr = tr(fac->lab->current_project->name);
+								int const progress = (static_cast<float>(
 								                    fac->lab->current_project->man_hours_progress) /
 								                fac->lab->current_project->man_hours) *
 								               100;
@@ -2513,7 +2513,7 @@ void CityView::update()
 			currentAgentIndex++;
 			auto info = ControlGenerator::createAgentInfo(*state, agent);
 			agentsMIA.erase(info.agent);
-			bool redo = currentAgentIndex >= ownedPhysicsInfoList.size() ||
+			bool const redo = currentAgentIndex >= ownedPhysicsInfoList.size() ||
 			            ownedPhysicsInfoList[currentAgentIndex] != info;
 			if (redo)
 			{
@@ -2615,7 +2615,7 @@ void CityView::update()
 			currentVehicleIndex++;
 			auto info = ControlGenerator::createVehicleInfo(*state, vehicle);
 			vehiclesMIA.erase(info.vehicle);
-			bool redo = currentVehicleIndex >= hostileVehicleInfoList.size() ||
+			bool const redo = currentVehicleIndex >= hostileVehicleInfoList.size() ||
 			            hostileVehicleInfoList[currentVehicleIndex] != info;
 			if (redo)
 			{
@@ -2736,7 +2736,7 @@ void CityView::update()
 			currentOrgIndex++;
 			auto info = ControlGenerator::createOrganisationInfo(*state, org);
 			orgsMIA.erase(info.organisation);
-			bool redo = currentOrgIndex >= organisationInfoList.size() ||
+			bool const redo = currentOrgIndex >= organisationInfoList.size() ||
 			            organisationInfoList[currentOrgIndex] != info;
 			if (redo)
 			{
@@ -2834,8 +2834,8 @@ void CityView::update()
 
 void CityView::initiateUfoMission(StateRef<Vehicle> ufo, StateRef<Vehicle> playerCraft)
 {
-	bool isBuilding = false;
-	bool isRaid = false;
+	bool const isBuilding = false;
+	bool const isRaid = false;
 	fw().stageQueueCommand({StageCmd::Command::REPLACEALL,
 	                        mksp<BattleBriefing>(state, ufo->owner, ufo.id, isBuilding, isRaid,
 	                                             loadBattleVehicle(state, ufo, playerCraft))});
@@ -2844,9 +2844,9 @@ void CityView::initiateUfoMission(StateRef<Vehicle> ufo, StateRef<Vehicle> playe
 void CityView::initiateBuildingMission(sp<GameState> state, StateRef<Building> building,
                                        std::list<StateRef<Agent>> agents)
 {
-	bool inBuilding = true;
-	bool raid = false;
-	bool hotseat = false;
+	bool const inBuilding = true;
+	bool const raid = false;
+	bool const hotseat = false;
 	fw().stageQueueCommand(
 	    {StageCmd::Command::REPLACEALL,
 	     mksp<BattleBriefing>(
@@ -3032,7 +3032,7 @@ bool CityView::handleKeyDown(Event *e)
 				case SDLK_b:
 				{
 					LogWarning("Spawning base defense mission");
-					Vec3<float> pos = {state->current_base->building->bounds.p0.x - 1,
+					Vec3<float> const pos = {state->current_base->building->bounds.p0.x - 1,
 					                   state->current_base->building->bounds.p0.y - 1, 10};
 					auto v = state->cities["CITYMAP_HUMAN"]->placeVehicle(
 					    *state, StateRef<VehicleType>{state.get(), "VEHICLETYPE_ALIEN_TRANSPORTER"},
@@ -3151,7 +3151,7 @@ bool CityView::handleMouseDown(Event *e)
 	if (Event::isPressed(e->mouse().Button, Event::MouseButton::Middle) ||
 	    (Event::isPressed(e->mouse().Button, Event::MouseButton::Right) && vanillaControls))
 	{
-		Vec2<float> screenOffset = {this->getScreenOffset().x, this->getScreenOffset().y};
+		Vec2<float> const screenOffset = {this->getScreenOffset().x, this->getScreenOffset().y};
 		auto clickTile =
 		    this->screenToTileCoords(Vec2<float>{e->mouse().X, e->mouse().Y} - screenOffset, 0.0f);
 		this->setScreenCenterTile(Vec2<float>{clickTile.x, clickTile.y});
@@ -3181,7 +3181,7 @@ bool CityView::handleMouseDown(Event *e)
 
 		// If a click has not been handled by a form it's in the map. See if we intersect with
 		// anything
-		Vec2<float> screenOffset = {this->getScreenOffset().x, this->getScreenOffset().y};
+		Vec2<float> const screenOffset = {this->getScreenOffset().x, this->getScreenOffset().y};
 		auto clickTop = this->screenToTileCoords(
 		    Vec2<float>{e->mouse().X, e->mouse().Y} - screenOffset, 12.99f);
 		auto clickBottom =
@@ -3212,7 +3212,7 @@ bool CityView::handleMouseDown(Event *e)
 					building = scenery->building;
 					if (true)
 					{
-						Vec3<int> t = scenery->currentPosition;
+						Vec3<int> const t = scenery->currentPosition;
 						UString debug = "";
 						debug +=
 						    format("\nCLICKED %s SCENERY %s at %s BUILDING %s",
@@ -3604,8 +3604,8 @@ bool CityView::handleGameStateEvent(Event *e)
 				break;
 			}
 
-			UString title = tr("Commence investigation");
-			UString message = format(tr("All selected units and crafts have arrived at %s. "
+			UString const title = tr("Commence investigation");
+			UString const message = format(tr("All selected units and crafts have arrived at %s. "
 			                            "Proceed with investigation? (%d units)"),
 			                         building->name, agents.size());
 			fw().stageQueueCommand({StageCmd::Command::PUSH,

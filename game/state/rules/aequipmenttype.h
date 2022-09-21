@@ -225,7 +225,7 @@ class EquipmentSet : public StateObject<EquipmentSet>
 
 	int min_score = std::numeric_limits<int>::min();
 	int max_score = std::numeric_limits<int>::max();
-	bool isAppropriate(int score) { return score >= min_score && score < max_score; };
+	bool isAppropriate(int score) const { return score >= min_score && score < max_score; };
 
 	std::vector<WeaponData> weapons;
 	std::vector<GrenadeData> grenades;
@@ -233,8 +233,8 @@ class EquipmentSet : public StateObject<EquipmentSet>
 
 	std::list<const AEquipmentType *> generateEquipmentList(GameState &state);
 
-	static sp<EquipmentSet> getByScore(const GameState &state, const int score);
-	static sp<EquipmentSet> getByLevel(const GameState &state, const int level);
+	static sp<EquipmentSet> getByScore(const GameState &state, int score);
+	static sp<EquipmentSet> getByLevel(const GameState &state, int level);
 };
 
 class EquipmentTemplate

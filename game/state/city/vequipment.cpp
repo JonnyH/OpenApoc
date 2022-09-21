@@ -190,8 +190,8 @@ void VEquipment::noAmmoToReload(const GameState &state [[maybe_unused]],
 int VEquipment::reload(int ammoAvailable)
 {
 	// TODO implement proper reloading speed. Now it is instant
-	int ammoRequired = this->type->max_ammo - this->ammo;
-	int reloadAmount = std::min(ammoRequired, ammoAvailable);
+	int const ammoRequired = this->type->max_ammo - this->ammo;
+	int const reloadAmount = std::min(ammoRequired, ammoAvailable);
 	this->ammo += reloadAmount;
 	return reloadAmount;
 }
@@ -208,10 +208,10 @@ bool VEquipment::reload(GameState &state, StateRef<Base> base)
 		{
 			return reload(type->max_ammo) > 0;
 		}
-		int ammoAvailable = base->inventoryVehicleAmmo[type->ammo_type.id];
+		int const ammoAvailable = base->inventoryVehicleAmmo[type->ammo_type.id];
 		auto ammoSpent = reload(ammoAvailable);
 		base->inventoryVehicleAmmo[type->ammo_type.id] -= ammoSpent;
-		int ammoAfterReload = base->inventoryVehicleAmmo[type->ammo_type.id];
+		int const ammoAfterReload = base->inventoryVehicleAmmo[type->ammo_type.id];
 		// If we run out of ammo/fuel
 		if (ammoAfterReload == 0 && ammoSpent > 0)
 		{

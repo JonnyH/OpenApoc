@@ -22,34 +22,34 @@ using UStringView = std::basic_string_view<char>;
 using U32String = std::basic_string<char32_t>;
 using U32StringView = std::basic_string_view<char32_t>;
 
-[[nodiscard]] U32String to_u32string(const UStringView str);
-[[nodiscard]] UString to_ustring(const std::u32string_view str);
-[[nodiscard]] char32_t to_char32(const char c);
+[[nodiscard]] U32String to_u32string(UStringView str);
+[[nodiscard]] UString to_ustring(std::u32string_view str);
+[[nodiscard]] char32_t to_char32(char c);
 
-[[nodiscard]] UString to_lower(const UStringView str);
-[[nodiscard]] UString to_upper(const UStringView str);
+[[nodiscard]] UString to_lower(UStringView str);
+[[nodiscard]] UString to_upper(UStringView str);
 
-[[nodiscard]] bool ends_with(const UStringView str, const UStringView ending);
+[[nodiscard]] bool ends_with(UStringView str, UStringView ending);
 
 // Removes 'count' codepoints at 'offset' codepoints into the string (note: Not bytes!)
-[[nodiscard]] UString remove(const UStringView str, size_t offset, size_t count);
-[[nodiscard]] U32String remove(const U32StringView str, size_t offset, size_t count);
+[[nodiscard]] UString remove(UStringView str, size_t offset, size_t count);
+[[nodiscard]] U32String remove(U32StringView str, size_t offset, size_t count);
 
-[[nodiscard]] std::vector<UString> split(const UStringView str, const UStringView delims);
+[[nodiscard]] std::vector<UString> split(UStringView str, UStringView delims);
 
 // Insert the 'insert' string at 'offset' codepoints into the string 'str' and returns the string
-[[nodiscard]] UString insert_codepoints(const UStringView str, size_t offset,
-                                        const UStringView insert);
+[[nodiscard]] UString insert_codepoints(UStringView str, size_t offset,
+                                        UStringView insert);
 
 class Strings
 {
 
   public:
-	[[nodiscard]] static bool isFloat(const UStringView s);
-	[[nodiscard]] static bool isInteger(const UStringView s);
-	[[nodiscard]] static int toInteger(const UStringView s);
-	[[nodiscard]] static uint8_t toU8(const UStringView s);
-	[[nodiscard]] static float toFloat(const UStringView s);
+	[[nodiscard]] static bool isFloat(UStringView s);
+	[[nodiscard]] static bool isInteger(UStringView s);
+	[[nodiscard]] static int toInteger(UStringView s);
+	[[nodiscard]] static uint8_t toU8(UStringView s);
+	[[nodiscard]] static float toFloat(UStringView s);
 	[[nodiscard]] static UString fromInteger(int i);
 	[[nodiscard]] static UString fromU64(uint64_t i);
 	[[nodiscard]] static UString fromFloat(float f);

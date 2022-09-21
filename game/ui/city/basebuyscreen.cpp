@@ -26,7 +26,7 @@ namespace OpenApoc
 BaseBuyScreen::BaseBuyScreen(sp<GameState> state, sp<Building> building)
     : Stage(), form(ui().getForm("city/basebuy")), state(state)
 {
-	Vec2<int> size = building->bounds.size();
+	Vec2<int> const size = building->bounds.size();
 	price = std::min(size.x, 8) * std::min(size.y, 8) * COST_PER_TILE;
 	base = mksp<Base>(*state, StateRef<Building>{state.get(), building});
 }

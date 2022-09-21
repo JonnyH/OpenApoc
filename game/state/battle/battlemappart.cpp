@@ -33,7 +33,7 @@ void BattleMapPart::die(GameState &state, bool explosive, bool violently)
 		}
 	}
 
-	bool mustCheckForObjective = type->missionObjective;
+	bool const mustCheckForObjective = type->missionObjective;
 
 	// If falling just cease to be, do damage
 	if (falling)
@@ -170,7 +170,7 @@ bool BattleMapPart::applyBurning(GameState &state, int age)
 bool BattleMapPart::canBurn(int age)
 {
 	// Explanation for how fire works is at the end of battlehazard.h
-	int penetrativePower = std::min(255.0f, 3.0f * std::pow(2.0f, 9.0f - age / 10.0f));
+	int const penetrativePower = std::min(255.0f, 3.0f * std::pow(2.0f, 9.0f - age / 10.0f));
 
 	return penetrativePower > type->fire_resist && type->fire_burn_time < 255 &&
 	       burnTicksAccumulated < type->fire_burn_time * (int)TICKS_PER_SECOND;
@@ -228,7 +228,7 @@ void BattleMapPart::ceaseDoorFunction()
 	if (alternative_type)
 		type = alternative_type;
 	// Remove from door's map parts
-	wp<BattleMapPart> sft = shared_from_this();
+	wp<BattleMapPart> const sft = shared_from_this();
 	door->mapParts.remove_if([sft](wp<BattleMapPart> p) {
 		auto swp = sft.lock();
 		auto sp = p.lock();
@@ -275,9 +275,9 @@ bool BattleMapPart::attachToSomething(bool checkType, bool checkHard)
 	// Search for map parts
 	for (auto &dir : directionList)
 	{
-		int x = pos.x + dir.x;
-		int y = pos.y + dir.y;
-		int z = pos.z + dir.z;
+		int const x = pos.x + dir.x;
+		int const y = pos.y + dir.y;
+		int const z = pos.z + dir.z;
 		if (x < 0 || x >= map.size.x || y < 0 || y >= map.size.y || z < 0 || z >= map.size.z)
 		{
 			continue;
@@ -315,7 +315,7 @@ bool BattleMapPart::attachToSomething(bool checkType, bool checkHard)
 				auto mp = std::static_pointer_cast<TileObjectBattleMapPart>(o)->getOwner();
 				if (mp != sft && mp->isAlive())
 				{
-					bool canSupport =
+					bool const canSupport =
 					    !mp->damaged && (mp->providesHardSupport || !checkHard) &&
 					    (mp->type->type != BattleMapPartType::Type::Ground || z == pos.z) &&
 					    (mp->type->provides_support || z >= pos.z);
@@ -410,7 +410,7 @@ bool BattleMapPart::findSupport(bool allowClinging)
 	int endX = pos.x + 1;
 	int startY = pos.y - 1;
 	int endY = pos.y + 1;
-	int startZ = pos.z - 1;
+	int const startZ = pos.z - 1;
 	int endZ = pos.z + 1;
 	switch (type->type)
 	{
@@ -740,7 +740,7 @@ bool BattleMapPart::findSupport(bool allowClinging)
 					auto mp = std::static_pointer_cast<TileObjectBattleMapPart>(o)->getOwner();
 					if (mp != sft && mp->isAlive())
 					{
-						bool canSupport = !mp->damaged &&
+						bool const canSupport = !mp->damaged &&
 						                  (mp->type->type != BattleMapPartType::Type::Ground ||
 						                   pair.first.z == pos.z) &&
 						                  (mp->type->provides_support || pair.first.z >= pos.z);
@@ -846,8 +846,8 @@ bool BattleMapPart::findSupport(bool allowClinging)
 	// Scan on X
 	if (type->type != BattleMapPartType::Type::LeftWall && !damaged)
 	{
-		int y = pos.y;
-		int z = pos.z;
+		int const y = pos.y;
+		int const z = pos.z;
 
 		bool found;
 		for (int increment = -1; increment <= 1; increment += 2)
@@ -897,7 +897,7 @@ bool BattleMapPart::findSupport(bool allowClinging)
 		{
 			for (int increment = -1; increment <= 1; increment += 2)
 			{
-				int x = pos.x + increment;
+				int const x = pos.x + increment;
 				if (x < 0 || x >= map.size.x)
 				{
 					continue;
@@ -925,8 +925,8 @@ bool BattleMapPart::findSupport(bool allowClinging)
 	// Scan on Y
 	if (type->type != BattleMapPartType::Type::RightWall && !damaged)
 	{
-		int x = pos.x;
-		int z = pos.z;
+		int const x = pos.x;
+		int const z = pos.z;
 
 		bool found;
 		for (int increment = -1; increment <= 1; increment += 2)
@@ -976,7 +976,7 @@ bool BattleMapPart::findSupport(bool allowClinging)
 		{
 			for (int increment = -1; increment <= 1; increment += 2)
 			{
-				int y = pos.y + increment;
+				int const y = pos.y + increment;
 				if (y < 0 || y >= map.size.y)
 				{
 					continue;
@@ -1255,7 +1255,7 @@ void BattleMapPart::updateFalling(GameState &state, unsigned int ticks)
 				{
 					// If no rubble present - spawn rubble
 					auto rubble = mksp<BattleMapPart>();
-					Vec3<int> initialPosition = position;
+					Vec3<int> const initialPosition = position;
 					rubble->damaged = true;
 					rubble->owner = owner;
 					rubble->position = initialPosition;

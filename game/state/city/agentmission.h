@@ -50,9 +50,9 @@ class AgentTileHelper : public CanEnterTileHelper
 class AgentMission
 {
   private:
-	bool isFinishedInternal(GameState &state, Agent &a);
+	bool isFinishedInternal(GameState &state, Agent &a) const;
 
-	bool teleportCheck(GameState &state, Agent &a);
+	bool teleportCheck(GameState &state, Agent &a) const;
 
   public:
 	AgentMission() = default;

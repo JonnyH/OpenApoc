@@ -17,12 +17,12 @@ template <> sp<UFOGrowth> StateObject<UFOGrowth>::get(const GameState &state, co
 
 template <> const UString &StateObject<UFOGrowth>::getPrefix()
 {
-	static UString prefix = "UFO_GROWTH_";
+	static UString const prefix = "UFO_GROWTH_";
 	return prefix;
 }
 template <> const UString &StateObject<UFOGrowth>::getTypeName()
 {
-	static UString name = "UFOGrowth";
+	static UString const name = "UFOGrowth";
 	return name;
 }
 }; // namespace OpenApoc

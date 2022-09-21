@@ -16,7 +16,7 @@ void extractAnimationPackMegaInternal(sp<BattleUnitAnimationPack> p,
                                       std::vector<AnimationDataUF> &dataUF, int x, int y,
                                       const InitialGameStateExtractor &e)
 {
-	Vec2<int> offset = {-28, -46};
+	Vec2<int> const offset = {-28, -46};
 	// Units per 100 frames
 	static const int wFrames = 300; // Walk
 

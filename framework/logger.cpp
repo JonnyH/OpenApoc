@@ -42,7 +42,7 @@ static LogFunction logFunction = defaultLogFunction;
 
 void Log(LogLevel level, UString prefix, const UString &text)
 {
-	std::lock_guard<std::mutex> lock(loggerMutex);
+	std::lock_guard<std::mutex> const lock(loggerMutex);
 	logFunction(level, prefix, text);
 }
 
@@ -55,14 +55,14 @@ void _logAssert(UString prefix, UString string, int line, UString file)
 
 void setLogCallback(LogFunction function)
 {
-	std::lock_guard<std::mutex> lock(loggerMutex);
+	std::lock_guard<std::mutex> const lock(loggerMutex);
 	logFunction = function;
 }
 
 LogFunction getLogCallback()
 {
 
-	std::lock_guard<std::mutex> lock(loggerMutex);
+	std::lock_guard<std::mutex> const lock(loggerMutex);
 	return logFunction;
 }
 

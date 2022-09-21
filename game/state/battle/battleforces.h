@@ -23,7 +23,7 @@ class BattleSquad
 {
   public:
 	std::vector<sp<BattleUnit>> units;
-	int getNumUnits();
+	int getNumUnits() const;
 	BattleSquad();
 };
 } // namespace OpenApoc

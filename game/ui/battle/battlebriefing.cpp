@@ -56,7 +56,7 @@ BattleBriefing::BattleBriefing(sp<GameState> state,
 		{
 			menuform->findControlTyped<Graphic>("BRIEFING_IMAGE")
 			    ->setImage(fw().data->loadImage("xcom3/tacdata/brief4.pcx"));
-			bool lastBase = state->player_bases.size() == 1;
+			bool const lastBase = state->player_bases.size() == 1;
 			briefing = lastBase ? "You must lorem ipisum etc. (Here be briefing text) (Text: "
 			                      "Building Last Base Assault)"
 			                    : "You must lorem ipisum etc. (Here be briefing text) (Text: "
@@ -80,7 +80,7 @@ BattleBriefing::BattleBriefing(sp<GameState> state,
 			}
 			else
 			{
-				int briefingID = alienFunctionMap.at(building->function->name);
+				int const briefingID = alienFunctionMap.at(building->function->name);
 				menuform->findControlTyped<Graphic>("BRIEFING_IMAGE")
 				    ->setImage(
 				        fw().data->loadImage(format("xcom3/tacdata/alienm%d.pcx", briefingID)));

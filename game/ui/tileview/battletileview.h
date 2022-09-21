@@ -137,7 +137,7 @@ class BattleTileView : public TileView
 	bool revealWholeMap = false;
 
 	void setZLevel(int zLevel);
-	int getZLevel();
+	int getZLevel() const;
 
 	void setScreenCenterTile(Vec2<float> center) override;
 	void setScreenCenterTile(Vec3<float> center) override;

@@ -24,12 +24,12 @@ sp<UfopaediaEntry> StateObject<UfopaediaEntry>::get(const GameState &state, cons
 
 template <> const UString &StateObject<UfopaediaEntry>::getPrefix()
 {
-	static UString prefix = "PAEDIAENTRY_";
+	static UString const prefix = "PAEDIAENTRY_";
 	return prefix;
 }
 template <> const UString &StateObject<UfopaediaEntry>::getTypeName()
 {
-	static UString name = "UfopaediaEntry";
+	static UString const name = "UfopaediaEntry";
 	return name;
 }
 

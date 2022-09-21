@@ -13,12 +13,12 @@ LuaGameState::LuaGameState() : L(luaL_newstate()) {}
 
 LuaGameState::~LuaGameState() { lua_close(L); }
 
-bool LuaGameState::pushHook(const char *hookName)
+bool LuaGameState::pushHook(const char *hookName) const
 {
 	lua_getglobal(L, "OpenApoc");
 	lua_getfield(L, -1, "hook");
 	lua_remove(L, -2); // remove openapoc table
-	int type = lua_getfield(L, -1, hookName);
+	int const type = lua_getfield(L, -1, hookName);
 	lua_remove(L, -2); // remove hook table
 	if (type == LUA_TFUNCTION || type == LUA_TTABLE || type == LUA_TUSERDATA)
 	{
@@ -104,7 +104,7 @@ int LuaGameState::callHook(const UString &hookName, int nresults, int nargs)
 	return nresults;
 }
 
-bool LuaGameState::runScript(const UString &scriptPath)
+bool LuaGameState::runScript(const UString &scriptPath) const
 {
 	LogInfo("Running script \"%s\"", scriptPath);
 	auto scriptFile = fw().data->fs.open(scriptPath);

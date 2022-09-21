@@ -312,7 +312,7 @@ void BattleHazard::grow(GameState &state)
 			return;
 		}
 		auto &map = tileObject->map;
-		int newTTL = lifetime - age;
+		int const newTTL = lifetime - age;
 
 		for (int x = position.x - 1; x <= position.x + 1; x++)
 		{
@@ -489,7 +489,7 @@ bool BattleHazard::updateInner(GameState &state, unsigned int ticks)
 
 bool BattleHazard::update(GameState &state, unsigned int ticks)
 {
-	bool realTime = state.current_battle->mode == Battle::Mode::RealTime;
+	bool const realTime = state.current_battle->mode == Battle::Mode::RealTime;
 
 	if (ticksUntilVisible > 0)
 	{
@@ -522,7 +522,7 @@ bool BattleHazard::updateTB(GameState &state) { return updateInner(state, TICKS_
 
 void BattleHazard::updateTileVisionBlock(GameState &state)
 {
-	int visionBlock =
+	int const visionBlock =
 	    damageType->effectType == DamageType::EffectType::Smoke ? (lifetime - age) / 3 : 0;
 	if (tileObject->getOwningTile()->updateVisionBlockage(visionBlock))
 	{

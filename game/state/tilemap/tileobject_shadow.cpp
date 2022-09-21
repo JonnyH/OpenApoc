@@ -83,9 +83,9 @@ void TileObjectShadow::addToDrawnTiles(Tile *tile)
 		Vec3<int> maxCoords = {-1, -1, -1};
 		for (auto &intersectingTile : intersectingTiles)
 		{
-			int x = intersectingTile->position.x;
-			int y = intersectingTile->position.y;
-			int z = intersectingTile->position.z;
+			int const x = intersectingTile->position.x;
+			int const y = intersectingTile->position.y;
+			int const z = intersectingTile->position.z;
 
 			// Shadows are drawn in the topmost tile they intersect
 			if (maxCoords.z * 1000 + maxCoords.x + maxCoords.y < z * 1000 + x + y)

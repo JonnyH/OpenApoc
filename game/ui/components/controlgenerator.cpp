@@ -206,7 +206,7 @@ sp<Control> ControlGenerator::createVehicleControl(GameState &state, const Vehic
 	auto healthGraphic = baseControl->createChild<Graphic>(healthImg);
 	// This is a bit annoying as the health bar starts at the bottom, but the coord origin is
 	// top-left, so fix that up a bit
-	int healthBarHeight = (int)((float)healthBarSize.y * info.healthProportion);
+	int const healthBarHeight = (int)((float)healthBarSize.y * info.healthProportion);
 	healthBarOffset.y = healthBarOffset.y + (healthBarSize.y - healthBarHeight);
 	healthBarSize.y = healthBarHeight;
 	healthGraphic->Location = healthBarOffset;
@@ -449,7 +449,7 @@ AgentInfo ControlGenerator::createAgentInfo(GameState &state, sp<Agent> a,
 		// Stunned health
 		if (!i.shield)
 		{
-			float stunHealth = a->unit->stunDamage;
+			float const stunHealth = a->unit->stunDamage;
 			i.stunProportion = stunHealth / maxHealth;
 			i.stunProportion = clamp(i.stunProportion, 0.0f, i.healthProportion);
 		}
@@ -709,7 +709,7 @@ void ControlGenerator::fillAgentControl(GameState &state, sp<Graphic> baseContro
 		auto healthGraphic = baseControl->createChild<Graphic>(healthImg);
 		// This is a bit annoying as the health bar starts at the bottom, but the coord origin is
 		// top-left, so fix that up a bit
-		int healthBarHeight = (int)((float)healthBarSize.y * info.healthProportion);
+		int const healthBarHeight = (int)((float)healthBarSize.y * info.healthProportion);
 		healthBarOffset.y = healthBarOffset.y + (healthBarSize.y - healthBarHeight);
 		healthBarSize.y = healthBarHeight;
 		healthGraphic->Location = healthBarOffset;
@@ -726,7 +726,7 @@ void ControlGenerator::fillAgentControl(GameState &state, sp<Graphic> baseContro
 		auto healthGraphic = baseControl->createChild<Graphic>(healthImg);
 		// This is a bit annoying as the health bar starts at the bottom, but the coord origin is
 		// top-left, so fix that up a bit
-		int healthBarHeight = (int)((float)healthBarSize.y * info.stunProportion);
+		int const healthBarHeight = (int)((float)healthBarSize.y * info.stunProportion);
 		healthBarOffset.y = healthBarOffset.y + (healthBarSize.y - healthBarHeight);
 		healthBarSize.y = healthBarHeight;
 		healthGraphic->Location = healthBarOffset;

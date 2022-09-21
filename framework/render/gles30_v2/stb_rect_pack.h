@@ -276,7 +276,7 @@ static int stbrp__skyline_find_min_y(stbrp_context *, stbrp_node *first, int x0,
                                      int *pwaste)
 {
 	stbrp_node *node = first;
-	int x1 = x0 + width;
+	int const x1 = x0 + width;
 	int min_y, visited_width, waste_area;
 	STBRP_ASSERT(first->x <= x0);
 
@@ -403,7 +403,7 @@ static stbrp__findresult stbrp__skyline_find_best_pos(stbrp_context *c, int widt
 			tail = tail->next;
 		while (tail)
 		{
-			int xpos = tail->x - width;
+			int const xpos = tail->x - width;
 			int y, waste;
 			STBRP_ASSERT(xpos >= 0);
 			// find the left position that matches this
@@ -578,7 +578,7 @@ STBRP_DEF void stbrp_pack_rects(stbrp_context *context, stbrp_rect *rects, int n
 		}
 		else
 		{
-			stbrp__findresult fr = stbrp__skyline_pack_rectangle(context, rects[i].w, rects[i].h);
+			stbrp__findresult const fr = stbrp__skyline_pack_rectangle(context, rects[i].w, rects[i].h);
 			if (fr.prev_link)
 			{
 				rects[i].x = (stbrp_coord)fr.x;

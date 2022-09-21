@@ -7,13 +7,13 @@ namespace OpenApoc
 
 template <> const UString &StateObject<HazardType>::getPrefix()
 {
-	static UString prefix = "HAZARD_";
+	static UString const prefix = "HAZARD_";
 	return prefix;
 }
 
 template <> const UString &StateObject<HazardType>::getTypeName()
 {
-	static UString name = "HazardType";
+	static UString const name = "HazardType";
 	return name;
 }
 
@@ -30,13 +30,13 @@ template <> sp<HazardType> StateObject<HazardType>::get(const GameState &state, 
 
 template <> const UString &StateObject<DamageModifier>::getPrefix()
 {
-	static UString prefix = "DAMAGEMODIFIER_";
+	static UString const prefix = "DAMAGEMODIFIER_";
 	return prefix;
 }
 
 template <> const UString &StateObject<DamageModifier>::getTypeName()
 {
-	static UString name = "DamageModifier";
+	static UString const name = "DamageModifier";
 	return name;
 }
 
@@ -54,13 +54,13 @@ sp<DamageModifier> StateObject<DamageModifier>::get(const GameState &state, cons
 
 template <> const UString &StateObject<DamageType>::getPrefix()
 {
-	static UString prefix = "DAMAGETYPE_";
+	static UString const prefix = "DAMAGETYPE_";
 	return prefix;
 }
 
 template <> const UString &StateObject<DamageType>::getTypeName()
 {
-	static UString name = "DamageType";
+	static UString const name = "DamageType";
 	return name;
 }
 
@@ -92,16 +92,16 @@ sp<Image> HazardType::getFrame(unsigned age, int offset)
 	{
 		// Explanation how fire frames work is at the end of battlehazard.h
 		// Round stage to nearest 0,5
-		int stage = (age + 2) / 5 * 5;
+		int const stage = (age + 2) / 5 * 5;
 		// Get min and max frames for this stage
-		int minFrame = clamp((stage - 5) / 10, 0, 11);
-		int maxFrame = clamp((stage + 5 + 5) / 10, 0, 11);
+		int const minFrame = clamp((stage - 5) / 10, 0, 11);
+		int const maxFrame = clamp((stage + 5 + 5) / 10, 0, 11);
 		// Trunc offset if it's too big
 		if (minFrame + offset > maxFrame)
 		{
 			offset = 0;
 		}
-		int frame = minFrame + offset;
+		int const frame = minFrame + offset;
 		// Scale to the actual frames of the doodad (crude support for more/less frames)
 		return doodadType->frames[frame * doodadType->frames.size() / 12].image;
 	}
@@ -112,14 +112,14 @@ sp<Image> HazardType::getFrame(unsigned age, int offset)
 			LogError("Age must be lower than max lifetime");
 			return nullptr;
 		}
-		int frame = age * doodadType->frames.size() / (2 * maxLifetime);
+		int const frame = age * doodadType->frames.size() / (2 * maxLifetime);
 		while (frame + offset >= (int)doodadType->frames.size())
 			offset -= (doodadType->frames.size() - frame);
 		return doodadType->frames[frame + offset].image;
 	}
 }
 
-int HazardType::getLifetime(GameState &state)
+int HazardType::getLifetime(GameState &state) const
 {
 	return randBoundsInclusive(state.rng, 2 * minLifetime, 2 * maxLifetime);
 }

@@ -178,7 +178,7 @@ template <> lua_CFunction getLuaObjectMethods<Xorshift128Plus<uint32_t>>(const s
 		return [](lua_State *L) {
 			Xorshift128Plus<uint32_t> **xorshift =
 			    (Xorshift128Plus<uint32_t> **)lua_touserdata(L, 1);
-			uint64_t buf = static_cast<uint64_t>(luaL_checkinteger(L, 2));
+			uint64_t const buf = static_cast<uint64_t>(luaL_checkinteger(L, 2));
 			lua_settop(L, 0);
 			(*xorshift)->seed(buf);
 			return 0;
@@ -186,8 +186,8 @@ template <> lua_CFunction getLuaObjectMethods<Xorshift128Plus<uint32_t>>(const s
 	else if (key == "randBoundsInclusive")
 		return [](lua_State *L) {
 			Xorshift128Plus<uint32_t> **obj = (Xorshift128Plus<uint32_t> **)lua_touserdata(L, 1);
-			int minimum = luaL_checkinteger(L, 2);
-			int maximum = luaL_checkinteger(L, 3);
+			int const minimum = luaL_checkinteger(L, 2);
+			int const maximum = luaL_checkinteger(L, 3);
 			lua_settop(L, 0);
 			lua_pushinteger(L, randBoundsInclusive(**obj, minimum, maximum));
 			return 1;
@@ -195,8 +195,8 @@ template <> lua_CFunction getLuaObjectMethods<Xorshift128Plus<uint32_t>>(const s
 	else if (key == "randBoundsExclusive")
 		return [](lua_State *L) {
 			Xorshift128Plus<uint32_t> **obj = (Xorshift128Plus<uint32_t> **)lua_touserdata(L, 1);
-			int minimum = luaL_checkinteger(L, 2);
-			int maximum = luaL_checkinteger(L, 3);
+			int const minimum = luaL_checkinteger(L, 2);
+			int const maximum = luaL_checkinteger(L, 3);
 			lua_settop(L, 0);
 			lua_pushinteger(L, randBoundsExclusive(**obj, minimum, maximum));
 			return 1;
@@ -204,8 +204,8 @@ template <> lua_CFunction getLuaObjectMethods<Xorshift128Plus<uint32_t>>(const s
 	else if (key == "randBoundsReal")
 		return [](lua_State *L) {
 			Xorshift128Plus<uint32_t> **obj = (Xorshift128Plus<uint32_t> **)lua_touserdata(L, 1);
-			int minimum = luaL_checknumber(L, 2);
-			int maximum = luaL_checknumber(L, 3);
+			int const minimum = luaL_checknumber(L, 2);
+			int const maximum = luaL_checknumber(L, 3);
 			lua_settop(L, 0);
 			std::uniform_real_distribution<double> dist(minimum, maximum);
 			lua_pushnumber(L, dist(**obj));
@@ -244,7 +244,7 @@ void handleLuaError(lua_State *L, LogLevel level)
 {
 	size_t count;
 	const char *buf = luaL_checklstring(L, -1, &count);
-	UString str{buf, count};
+	UString const str{buf, count};
 	// TODO: unwind stack and show previously called c function?
 	Log(level, LOGGER_PREFIX, "Lua: " + str);
 	lua_pop(L, 1); // pop error object we just printed

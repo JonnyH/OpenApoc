@@ -298,7 +298,7 @@ void BaseScreen::eventOccurred(Event *e)
 			{
 				if (selection != NO_SELECTION)
 				{
-					Base::BuildError error =
+					Base::BuildError const error =
 					    state->current_base->canBuildFacility(dragFacility, selection);
 					switch (error)
 					{
@@ -350,7 +350,7 @@ void BaseScreen::eventOccurred(Event *e)
 			{
 				if (selection != NO_SELECTION)
 				{
-					Base::BuildError error =
+					Base::BuildError const error =
 					    state->current_base->canDestroyFacility(*state, selection);
 					switch (error)
 					{
@@ -414,7 +414,7 @@ void BaseScreen::eventOccurred(Event *e)
 	}
 	else if (selection != NO_SELECTION)
 	{
-		int sprite = BaseGraphics::getCorridorSprite(*state->current_base, selection);
+		int const sprite = BaseGraphics::getCorridorSprite(*state->current_base, selection);
 		auto image = format(
 		    "PCK:xcom3/ufodata/base.pck:xcom3/ufodata/base.tab:%d:xcom3/ufodata/base.pcx", sprite);
 		if (sprite != 0)
@@ -468,7 +468,7 @@ void BaseScreen::renderBase()
 	// Draw dragged facility
 	if (drag && dragFacility)
 	{
-		sp<Image> facility = dragFacility->sprite;
+		sp<Image> const facility = dragFacility->sprite;
 		Vec2<int> pos;
 		if (selection == NO_SELECTION)
 		{

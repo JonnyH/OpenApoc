@@ -146,7 +146,7 @@ void Graphic::configureSelfFromXml(pugi::xml_node *node)
 	auto alignNode = node->child("alignment");
 	if (alignNode)
 	{
-		UString hAlign = alignNode.attribute("horizontal").as_string();
+		UString const hAlign = alignNode.attribute("horizontal").as_string();
 		if (hAlign == "left")
 		{
 			ImageHAlign = HorizontalAlignment::Left;
@@ -159,7 +159,7 @@ void Graphic::configureSelfFromXml(pugi::xml_node *node)
 		{
 			ImageHAlign = HorizontalAlignment::Right;
 		}
-		UString vAlign = alignNode.attribute("vertical").as_string();
+		UString const vAlign = alignNode.attribute("vertical").as_string();
 		if (vAlign == "top")
 		{
 			ImageVAlign = VerticalAlignment::Top;
@@ -176,7 +176,7 @@ void Graphic::configureSelfFromXml(pugi::xml_node *node)
 	auto imagePositionNode = node->child("imageposition");
 	if (imagePositionNode)
 	{
-		UString position = imagePositionNode.text().get();
+		UString const position = imagePositionNode.text().get();
 		if (position == "stretch")
 		{
 			ImagePosition = FillMethod::Stretch;

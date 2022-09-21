@@ -67,7 +67,7 @@ std::tuple<AIDecision, bool> UnitAILowMorale::think(GameState &state, BattleUnit
 					// Find all adjacent LOS blocks
 					auto &linkCost = state.current_battle->linkCost;
 					auto type = u.getType();
-					int lbCount = state.current_battle->losBlocks.size();
+					int const lbCount = state.current_battle->losBlocks.size();
 					auto curLB = state.current_battle->getLosBlockID(u.position.x, u.position.y,
 					                                                 u.position.z);
 					std::list<int> adjacentBlocks;
@@ -118,10 +118,10 @@ std::tuple<AIDecision, bool> UnitAILowMorale::think(GameState &state, BattleUnit
 				auto e2 = u.agent->getFirstItemInSlot(EquipmentSlotType::RightHand);
 				auto canFire = ((e1 && e1->canFire(state)) || (e2 && e2->canFire(state)));
 				// Roll for what kind of action we take with berserk
-				int roll = randBoundsExclusive(state.rng, 0, 100);
+				int const roll = randBoundsExclusive(state.rng, 0, 100);
 				// 20% chance to attack a friendly, 40% chance to attack an enemy, 40% chance to
 				// attack random tile
-				int shootType = roll < 20 ? 1 : (roll < 60 ? 2 : 3);
+				int const shootType = roll < 20 ? 1 : (roll < 60 ? 2 : 3);
 				// Intentional fall-through in case we cannot find a valid target
 				switch (shootType)
 				{
@@ -192,9 +192,9 @@ std::tuple<AIDecision, bool> UnitAILowMorale::think(GameState &state, BattleUnit
 					}
 					case 3:
 					{
-						int x = randBoundsInclusive(state.rng, -10, 10);
-						int y = randBoundsInclusive(state.rng, -10, 10);
-						int z = randBoundsInclusive(state.rng, -1, 1);
+						int const x = randBoundsInclusive(state.rng, -10, 10);
+						int const y = randBoundsInclusive(state.rng, -10, 10);
+						int const z = randBoundsInclusive(state.rng, -1, 1);
 
 						auto targetPos = (Vec3<int>)u.position + Vec3<int>{x, y, z};
 						auto &map = u.tileObject->map;

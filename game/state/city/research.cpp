@@ -66,7 +66,7 @@ bool ItemDependency::satisfied(StateRef<Base> base) const
 {
 	for (auto &e : agentItemsRequired)
 	{
-		int mult = e.first->type == AEquipmentType::Type::Ammo ? e.first->max_ammo : 1;
+		int const mult = e.first->type == AEquipmentType::Type::Ammo ? e.first->max_ammo : 1;
 		if (e.first->bioStorage)
 		{
 			if (base->inventoryBioEquipment[e.first.id] < e.second * mult)
@@ -96,7 +96,7 @@ void ItemDependency::consume(StateRef<Base> base)
 {
 	for (auto &e : agentItemsConsumed)
 	{
-		int mult = e.first->type == AEquipmentType::Type::Ammo ? e.first->max_ammo : 1;
+		int const mult = e.first->type == AEquipmentType::Type::Ammo ? e.first->max_ammo : 1;
 		if (e.first->bioStorage)
 		{
 			base->inventoryBioEquipment[e.first.id] -= e.second * mult;
@@ -131,7 +131,7 @@ void ItemDependency::produceRemains(StateRef<Base> base)
 		}
 		else
 		{
-			int mult = e.first->type == AEquipmentType::Type::Ammo ? e.first->max_ammo : 1;
+			int const mult = e.first->type == AEquipmentType::Type::Ammo ? e.first->max_ammo : 1;
 			base->inventoryAgentEquipment[e.first.id] =
 			    base->inventoryAgentEquipment[e.first.id] + e.second * mult;
 		}
@@ -163,12 +163,12 @@ sp<ResearchTopic> StateObject<ResearchTopic>::get(const GameState &state, const 
 }
 template <> const UString &StateObject<ResearchTopic>::getPrefix()
 {
-	static UString prefix = "RESEARCH_";
+	static UString const prefix = "RESEARCH_";
 	return prefix;
 }
 template <> const UString &StateObject<ResearchTopic>::getTypeName()
 {
-	static UString name = "ResearchTopic";
+	static UString const name = "ResearchTopic";
 	return name;
 }
 
@@ -199,12 +199,12 @@ template <> sp<Lab> StateObject<Lab>::get(const GameState &state, const UString 
 
 template <> const UString &StateObject<Lab>::getPrefix()
 {
-	static UString prefix = "LAB_";
+	static UString const prefix = "LAB_";
 	return prefix;
 }
 template <> const UString &StateObject<Lab>::getTypeName()
 {
-	static UString name = "Lab";
+	static UString const name = "Lab";
 	return name;
 }
 
@@ -384,8 +384,8 @@ void Lab::update(unsigned int ticks, StateRef<Lab> lab, sp<GameState> state)
 		// working with sub-single progress 'unit' time units.
 		// This also leaves any remaining ticks in the lab's ticks_since_last_progress, so they will
 		// get added onto the next project that lab undertakes at the first update.
-		unsigned ticks_per_progress_hour = TICKS_PER_HOUR / skill;
-		unsigned ticks_remaining_to_progress = ticks + lab->ticks_since_last_progress;
+		unsigned const ticks_per_progress_hour = TICKS_PER_HOUR / skill;
+		unsigned const ticks_remaining_to_progress = ticks + lab->ticks_since_last_progress;
 
 		unsigned progress_hours = 0;
 
@@ -406,7 +406,7 @@ void Lab::update(unsigned int ticks, StateRef<Lab> lab, sp<GameState> state)
 				LogError("Unexpected lab type");
 		}
 
-		unsigned ticks_left =
+		unsigned const ticks_left =
 		    ticks_remaining_to_progress - progress_hours * ticks_per_progress_hour;
 		lab->ticks_since_last_progress = ticks_left;
 
@@ -448,7 +448,7 @@ void Lab::update(unsigned int ticks, StateRef<Lab> lab, sp<GameState> state)
 				{
 					// Add item to base
 					bool found = false;
-					UString item_name;
+					UString const item_name;
 					for (auto &base : state->player_bases)
 					{
 						for (auto &facility : base.second->facilities)

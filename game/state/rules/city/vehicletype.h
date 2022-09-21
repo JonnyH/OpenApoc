@@ -101,7 +101,7 @@ class VehicleType : public StateObject<VehicleType>
 
 		while (first != last)
 		{
-			sp<VEquipmentType> vet = *first;
+			sp<VEquipmentType> const vet = *first;
 			if (vet->type == EquipmentSlotType::VehicleGeneral)
 			{
 				maxShield += vet->shielding;
@@ -134,7 +134,7 @@ class VehicleType : public StateObject<VehicleType>
 
 		while (first != last)
 		{
-			sp<VEquipmentType> vet = *first;
+			sp<VEquipmentType> const vet = *first;
 			if (vet->type == EquipmentSlotType::VehicleGeneral && vet->accuracy_modifier > 0)
 			{
 				// accuracy percentages are inverted in the data (e.g. 10% module gives 90)
@@ -164,11 +164,11 @@ class VehicleType : public StateObject<VehicleType>
 		static_assert(std::is_same<typename std::iterator_traits<IterT>::value_type,
 		                           sp<VEquipmentType>>::value,
 		              "iterator must return sp<VehicleEquipmentType>");
-		int weight = this->getWeight(first, last);
+		int const weight = this->getWeight(first, last);
 		int power = 0;
 		while (first != last)
 		{
-			sp<VEquipmentType> vet = *first;
+			sp<VEquipmentType> const vet = *first;
 			if (vet->type == EquipmentSlotType::VehicleEngine)
 			{
 				power += vet->power;
@@ -179,7 +179,7 @@ class VehicleType : public StateObject<VehicleType>
 		{
 			return 0;
 		}
-		int acceleration = this->acceleration + std::max(1, power / weight);
+		int const acceleration = this->acceleration + std::max(1, power / weight);
 		if (power == 0 && acceleration == 0)
 		{
 			// No engine shows a '0' acceleration in the stats ui
@@ -214,7 +214,7 @@ class VehicleType : public StateObject<VehicleType>
 
 		while (first != last)
 		{
-			sp<VEquipmentType> vet = *first;
+			sp<VEquipmentType> const vet = *first;
 			if (vet->type == EquipmentSlotType::VehicleEngine)
 			{
 				fuel += vet->max_ammo;

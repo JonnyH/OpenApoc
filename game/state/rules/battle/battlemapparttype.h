@@ -116,7 +116,7 @@ class BattleMapPartType : public StateObject<BattleMapPartType>
 			return 0;
 		if (supportedByDirections.size() == 2 && supportedByTypes.size() == 3)
 			return 36;
-		int result = (int)*supportedByDirections.begin();
+		int const result = (int)*supportedByDirections.begin();
 		if (supportedByTypes.empty())
 			return result;
 		if (supportedByTypes.size() == 1)

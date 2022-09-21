@@ -22,7 +22,7 @@ static void drawOrgLine(sp<RGBImage> image, const Organisation &org, const Colou
 {
 	const float step_width = static_cast<float>(image->size.x - 1) / static_cast<float>(steps);
 	constexpr int max_infiltration_value = 100;
-	float infiltration_y_scale =
+	float const infiltration_y_scale =
 	    static_cast<float>(image->size.y - 1) / static_cast<float>(max_infiltration_value);
 
 	// Initialise all steps to zero, in case there's not enough history (we assume anything

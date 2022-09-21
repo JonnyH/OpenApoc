@@ -22,12 +22,12 @@ sp<BattleUnitImagePack> StateObject<BattleUnitImagePack>::get(const GameState &s
 
 template <> const UString &StateObject<BattleUnitImagePack>::getPrefix()
 {
-	static UString prefix = "BATTLEUNITIMAGEPACK_";
+	static UString const prefix = "BATTLEUNITIMAGEPACK_";
 	return prefix;
 }
 template <> const UString &StateObject<BattleUnitImagePack>::getTypeName()
 {
-	static UString name = "BattleUnitImagePack";
+	static UString const name = "BattleUnitImagePack";
 	return name;
 }
 template <>
@@ -44,7 +44,7 @@ const UString &StateObject<BattleUnitImagePack>::getId(const GameState &state,
 	return emptyString;
 }
 
-const UString BattleUnitImagePack::getNameFromID(UString id)
+UString BattleUnitImagePack::getNameFromID(UString id)
 {
 	static const UString emptyString = "";
 	if (id.length() == 0)

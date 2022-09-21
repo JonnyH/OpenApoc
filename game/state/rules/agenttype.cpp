@@ -35,12 +35,12 @@ template <> sp<AgentType> StateObject<AgentType>::get(const GameState &state, co
 
 template <> const UString &StateObject<AgentType>::getPrefix()
 {
-	static UString prefix = "AGENTTYPE_";
+	static UString const prefix = "AGENTTYPE_";
 	return prefix;
 }
 template <> const UString &StateObject<AgentType>::getTypeName()
 {
-	static UString name = "AgentType";
+	static UString const name = "AgentType";
 	return name;
 }
 
@@ -71,12 +71,12 @@ sp<AgentBodyType> StateObject<AgentBodyType>::get(const GameState &state, const 
 
 template <> const UString &StateObject<AgentBodyType>::getPrefix()
 {
-	static UString prefix = "AGENTBODYTYPE_";
+	static UString const prefix = "AGENTBODYTYPE_";
 	return prefix;
 }
 template <> const UString &StateObject<AgentBodyType>::getTypeName()
 {
-	static UString name = "AgentBodyType";
+	static UString const name = "AgentBodyType";
 	return name;
 }
 
@@ -109,12 +109,12 @@ sp<AgentEquipmentLayout> StateObject<AgentEquipmentLayout>::get(const GameState 
 
 template <> const UString &StateObject<AgentEquipmentLayout>::getPrefix()
 {
-	static UString prefix = "AGENTEQUIPMENTLAYOUT_";
+	static UString const prefix = "AGENTEQUIPMENTLAYOUT_";
 	return prefix;
 }
 template <> const UString &StateObject<AgentEquipmentLayout>::getTypeName()
 {
-	static UString name = "AgentEquipmentLayout";
+	static UString const name = "AgentEquipmentLayout";
 	return name;
 }
 

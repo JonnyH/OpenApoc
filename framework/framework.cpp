@@ -146,7 +146,7 @@ Framework::Framework(const UString programName, bool createWindow)
 	{
 		if (PHYSFS_init(programName.c_str()) == 0)
 		{
-			PHYSFS_ErrorCode error = PHYSFS_getLastErrorCode();
+			PHYSFS_ErrorCode const error = PHYSFS_getLastErrorCode();
 			LogError("Failed to init code %i PHYSFS: %s", (int)error, PHYSFS_getErrorByCode(error));
 		}
 	}
@@ -176,7 +176,7 @@ Framework::Framework(const UString programName, bool createWindow)
 	settingsPath += "/settings.cfg";
 
 	UString logPath(PHYSFS_getPrefDir(PROGRAM_ORGANISATION, PROGRAM_NAME));
-	std::ifstream portableFile("./portable.txt");
+	std::ifstream const portableFile("./portable.txt");
 	if (portableFile)
 	{
 		logPath = ".";
@@ -211,14 +211,14 @@ Framework::Framework(const UString programName, bool createWindow)
 		gen.add_messages_path(langPath);
 	}
 
-	std::vector<UString> translationDomains = {"paedia_string", "ufo_string"};
+	std::vector<UString> const translationDomains = {"paedia_string", "ufo_string"};
 	for (auto &domain : translationDomains)
 	{
 		LogInfo("Adding \"%s\" to translation domains", domain);
 		gen.add_messages_domain(domain);
 	}
 
-	std::locale loc = gen(desiredLanguageName);
+	std::locale const loc = gen(desiredLanguageName);
 	std::locale::global(loc);
 
 	auto localeName = std::use_facet<boost::locale::info>(loc).name();
@@ -299,7 +299,7 @@ Framework *Framework::tryGetInstance() { return instance; }
 
 void Framework::run(sp<Stage> initialStage)
 {
-	size_t frameCount = Options::frameLimit.get();
+	size_t const frameCount = Options::frameLimit.get();
 	if (!createWindow)
 	{
 		LogError("Trying to run framework without window");
@@ -350,7 +350,7 @@ void Framework::run(sp<Stage> initialStage)
 			p->ProgramStages.current()->update();
 		}
 
-		for (StageCmd cmd : stageCommands)
+		for (StageCmd const cmd : stageCommands)
 		{
 			switch (cmd.cmd)
 			{
@@ -383,7 +383,7 @@ void Framework::run(sp<Stage> initialStage)
 		stageCommands.clear();
 
 		auto surface = p->scaleSurface ? p->scaleSurface : p->defaultSurface;
-		RendererSurfaceBinding b(*this->renderer, surface);
+		RendererSurfaceBinding const b(*this->renderer, surface);
 		{
 			this->renderer->clear();
 		}
@@ -397,7 +397,7 @@ void Framework::run(sp<Stage> initialStage)
 			this->cursor->render();
 			if (p->scaleSurface)
 			{
-				RendererSurfaceBinding scaleBind(*this->renderer, p->defaultSurface);
+				RendererSurfaceBinding const scaleBind(*this->renderer, p->defaultSurface);
 				this->renderer->clear();
 				this->renderer->drawScaled(p->scaleSurface, {0, 0}, p->windowSize);
 			}
@@ -430,7 +430,7 @@ void Framework::processEvents()
 	{
 		up<Event> e;
 		{
-			std::lock_guard<std::mutex> l(p->eventQueueLock);
+			std::lock_guard<std::mutex> const l(p->eventQueueLock);
 			e = std::move(p->eventQueue.front());
 			p->eventQueue.pop_front();
 		}
@@ -493,14 +493,14 @@ void Framework::processEvents()
 	/* Drop any events left in the list, as it's possible an event caused the last stage to pop
 	 * with events outstanding, but they can safely be ignored as we're quitting anyway */
 	{
-		std::lock_guard<std::mutex> l(p->eventQueueLock);
+		std::lock_guard<std::mutex> const l(p->eventQueueLock);
 		p->eventQueue.clear();
 	}
 }
 
 void Framework::pushEvent(up<Event> e)
 {
-	std::lock_guard<std::mutex> l(p->eventQueueLock);
+	std::lock_guard<std::mutex> const l(p->eventQueueLock);
 	p->eventQueue.push_back(std::move(e));
 }
 
@@ -510,7 +510,7 @@ void Framework::translateSdlEvents()
 {
 	SDL_Event e;
 	Event *fwE;
-	bool touch_events_enabled = Options::optionEnableTouchEvents.get();
+	bool const touch_events_enabled = Options::optionEnableTouchEvents.get();
 
 	// FIXME: That's not the right way to figure out the primary finger!
 	int primaryFingerID = -1;
@@ -787,8 +787,8 @@ void Framework::displayInitialise()
 		displayNumber = 0;
 	}
 
-	int scrW = Options::screenWidthOption.get();
-	int scrH = Options::screenHeightOption.get();
+	int const scrW = Options::screenWidthOption.get();
+	int const scrH = Options::screenHeightOption.get();
 
 	if (scrW < 640 || scrH < 480)
 	{
@@ -891,8 +891,8 @@ void Framework::displayInitialise()
 
 	// FIXME: Scale is currently stored as an integer in 1/100 units (ie 100 is 1.0 == same
 	// size)
-	int scaleX = Options::screenScaleXOption.get();
-	int scaleY = Options::screenScaleYOption.get();
+	int const scaleX = Options::screenScaleXOption.get();
+	int const scaleY = Options::screenScaleYOption.get();
 	const bool autoScale = Options::screenAutoScale.get();
 
 	if (scaleX != 100 || scaleY != 100 || autoScale)
@@ -1066,7 +1066,7 @@ void Framework::textStopInput() { SDL_StopTextInput(); }
 
 void Framework::toolTipStartTimer(up<Event> e)
 {
-	int delay = config().getInt("Options.Misc.ToolTipDelay");
+	int const delay = config().getInt("Options.Misc.ToolTipDelay");
 	if (delay <= 0)
 	{
 		return;
@@ -1125,7 +1125,7 @@ void Framework::threadPoolTaskEnqueue(std::function<void()> task) { p->threadPoo
 
 void *Framework::getWindowHandle() const { return static_cast<void *>(p->window); }
 
-void Framework::setupModDataPaths()
+void Framework::setupModDataPaths() const
 {
 	auto mods = split(Options::modList.get(), ":");
 	for (const auto &modString : mods)

@@ -69,12 +69,12 @@ bool Scenery::attachToSomething()
 	auto &map = tileObject->map;
 	auto thisPtr = shared_from_this();
 
-	int startX = pos.x - 1;
-	int endX = pos.x + 1;
-	int startY = pos.y - 1;
-	int endY = pos.y + 1;
-	int startZ = pos.z - 1;
-	int endZ = pos.z;
+	int const startX = pos.x - 1;
+	int const endX = pos.x + 1;
+	int const startY = pos.y - 1;
+	int const endY = pos.y + 1;
+	int const startZ = pos.z - 1;
+	int const endZ = pos.z;
 	for (int x = startX; x <= endX; x++)
 	{
 		for (int y = startY; y <= endY; y++)
@@ -270,11 +270,11 @@ bool Scenery::findSupport(bool allowClinging)
 		    type->tile_type == SceneryTileType::TileType::PeopleTubeJunction)
 		{
 			std::set<sp<Scenery>> supports;
-			int startX = pos.x - 1;
-			int endX = pos.x + 1;
-			int startY = pos.y - 1;
-			int endY = pos.y + 1;
-			int z = pos.z;
+			int const startX = pos.x - 1;
+			int const endX = pos.x + 1;
+			int const startY = pos.y - 1;
+			int const endY = pos.y + 1;
+			int const z = pos.z;
 			for (int x = startX; x <= endX; x++)
 			{
 				for (int y = startY; y <= endY; y++)
@@ -380,9 +380,9 @@ bool Scenery::findSupport(bool allowClinging)
 			// Only check one tile here
 			do // Provides a "continue/break" exit as in similar loops around
 			{
-				int x = pos.x;
-				int y = pos.y;
-				int z = pos.z + 1;
+				int const x = pos.x;
+				int const y = pos.y;
+				int const z = pos.z + 1;
 				// Cannot support diagonally on xy
 				if (z >= map.size.z)
 				{
@@ -416,13 +416,13 @@ bool Scenery::findSupport(bool allowClinging)
 		// Step 03.03: Check adjacent above and below (for General)
 		if (type->tile_type == SceneryTileType::TileType::General)
 		{
-			int startX = pos.x - 1;
-			int endX = pos.x + 1;
-			int startY = pos.y - 1;
-			int endY = pos.y + 1;
-			int startZ = pos.z - 1;
-			int endZ = pos.z + 1;
-			std::list<int> listZ = {startZ, endZ};
+			int const startX = pos.x - 1;
+			int const endX = pos.x + 1;
+			int const startY = pos.y - 1;
+			int const endY = pos.y + 1;
+			int const startZ = pos.z - 1;
+			int const endZ = pos.z + 1;
+			std::list<int> const listZ = {startZ, endZ};
 			for (int x = startX; x <= endX; x++)
 			{
 				for (int y = startY; y <= endY; y++)
@@ -479,11 +479,11 @@ bool Scenery::findSupport(bool allowClinging)
 		// Step 03.04: Check adjacent below (for Wall)
 		if (type->tile_type == SceneryTileType::TileType::CityWall)
 		{
-			int startX = pos.x - 1;
-			int endX = pos.x + 1;
-			int startY = pos.y - 1;
-			int endY = pos.y + 1;
-			int z = pos.z - 1;
+			int const startX = pos.x - 1;
+			int const endX = pos.x + 1;
+			int const startY = pos.y - 1;
+			int const endY = pos.y + 1;
+			int const z = pos.z - 1;
 			// Find two supports
 			std::set<sp<Scenery>> supports;
 			for (int x = startX; x <= endX; x++)
@@ -534,11 +534,11 @@ bool Scenery::findSupport(bool allowClinging)
 		// Step 03.05: Check adjacents (for Tube)
 		if (type->tile_type == SceneryTileType::TileType::PeopleTube)
 		{
-			std::set<sp<Scenery>> supports;
-			int startX = pos.x - 1;
-			int endX = pos.x + 1;
-			int startY = pos.y - 1;
-			int endY = pos.y + 1;
+			std::set<sp<Scenery>> const supports;
+			int const startX = pos.x - 1;
+			int const endX = pos.x + 1;
+			int const startY = pos.y - 1;
+			int const endY = pos.y + 1;
 			for (int x = startX; x <= endX; x++)
 			{
 				for (int y = startY; y <= endY; y++)
@@ -605,8 +605,8 @@ bool Scenery::findSupport(bool allowClinging)
 
 		for (int i = 0; i < 4; i++)
 		{
-			bool road = type->connection[i];
-			bool tube = type->tube[i];
+			bool const road = type->connection[i];
+			bool const tube = type->tube[i];
 			if (!tube && !road)
 			{
 				continue;
@@ -668,7 +668,7 @@ bool Scenery::findSupport(bool allowClinging)
 						// If we're a road - try to go one down, look for a hill facing towards us
 						if (increment.second.x)
 						{
-							int zDiff =
+							int const zDiff =
 							    lastMp->type->hill[vecToIntForward.at(increment.first)] ? 1 : -1;
 							if (z + zDiff < map.size.z)
 							{
@@ -709,8 +709,8 @@ bool Scenery::findSupport(bool allowClinging)
 								{
 									continue;
 								}
-								int forward = zInc == -1 ? 5 : 4;
-								int backward = zInc == 1 ? 5 : 4;
+								int const forward = zInc == -1 ? 5 : 4;
+								int const backward = zInc == 1 ? 5 : 4;
 								if (lastMp->type->tube[forward])
 								{
 									if (lastMp->currentPosition.z + zInc < map.size.z)
@@ -866,8 +866,8 @@ bool Scenery::findSupport(bool allowClinging)
 									{
 										continue;
 									}
-									int forward = zInc == -1 ? 5 : 4;
-									int backward = zInc == 1 ? 5 : 4;
+									int const forward = zInc == -1 ? 5 : 4;
+									int const backward = zInc == 1 ? 5 : 4;
 									if (lastMp->type->tube[forward])
 									{
 										if (lastMp->currentPosition.z + zInc < map.size.z)
@@ -980,7 +980,7 @@ bool Scenery::findSupport(bool allowClinging)
 				found = false;
 				int x = pos.x + increment.x;
 				int y = pos.y + increment.y;
-				int z = pos.z;
+				int const z = pos.z;
 				auto lastMp = thisPtr;
 				do
 				{
@@ -1038,7 +1038,7 @@ bool Scenery::findSupport(bool allowClinging)
 			{
 				int x = pos.x + increment.x;
 				int y = pos.y + increment.y;
-				int z = pos.z;
+				int const z = pos.z;
 				auto lastMp = thisPtr;
 				bool lastMPSupportedByFilled = false;
 				do
@@ -1166,7 +1166,7 @@ void Scenery::updateRelationWithAttacker(GameState &state, StateRef<Organisation
 	auto ourOrg = building->owner;
 
 	// Killing scenery is 4x as influential
-	float multiplier = killed ? 4.0f : 1.0f;
+	float const multiplier = killed ? 4.0f : 1.0f;
 	// Lose 5 points
 	ourOrg->adjustRelationTo(state, attackerOrg, -5.0f * multiplier);
 	// Our allies lose 2.5 points, enemies gain 1 point
@@ -1194,7 +1194,7 @@ bool Scenery::handleCollision(GameState &state, Collision &c)
 	{
 		attackerOrg = c.projectile->firerVehicle->owner;
 		updateRelationWithAttacker(state, attackerOrg, false);
-		bool intentional =
+		bool const intentional =
 		    c.projectile->manualFire || (!c.projectile->firerVehicle->missions.empty() &&
 		                                 c.projectile->firerVehicle->missions.front().type ==
 		                                     VehicleMission::MissionType::AttackBuilding);

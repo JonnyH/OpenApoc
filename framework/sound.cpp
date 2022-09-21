@@ -27,12 +27,12 @@ void SoundBackend::playSample(sp<Sample> sample, Vec3<float> position, float gai
 
 	for (auto &lutEntry : positionalAudioLUT)
 	{
-		float lutDistance = lutEntry.first;
-		float lutGain = lutEntry.second;
+		float const lutDistance = lutEntry.first;
+		float const lutGain = lutEntry.second;
 		if (distance <= lutDistance)
 		{
-			float factor = distance / lutDistance;
-			float newGain = mix(gain, lutGain, factor);
+			float const factor = distance / lutDistance;
+			float const newGain = mix(gain, lutGain, factor);
 			gain = newGain;
 			break;
 		}

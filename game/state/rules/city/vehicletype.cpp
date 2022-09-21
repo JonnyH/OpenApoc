@@ -35,7 +35,7 @@ static const std::map<VehicleType::Direction, Vec3<float>> DirectionVectors = {
 
 const Vec3<float> &VehicleType::directionToVector(Direction d)
 {
-	static Vec3<float> fallback = {1, 0, 0};
+	static Vec3<float> const fallback = {1, 0, 0};
 	auto it = DirectionVectors.find(d);
 	if (it == DirectionVectors.end())
 	{
@@ -60,12 +60,12 @@ template <> sp<VehicleType> StateObject<VehicleType>::get(const GameState &state
 
 template <> const UString &StateObject<VehicleType>::getPrefix()
 {
-	static UString prefix = "VEHICLETYPE_";
+	static UString const prefix = "VEHICLETYPE_";
 	return prefix;
 }
 template <> const UString &StateObject<VehicleType>::getTypeName()
 {
-	static UString name = "VehicleType";
+	static UString const name = "VehicleType";
 	return name;
 }
 template <>
@@ -97,7 +97,7 @@ float VehicleType::getVoxelMapFacing(float facing) const
 		{
 			d2 += 2.0f * (float)M_PI;
 		}
-		float diff = std::min(d1, d2);
+		float const diff = std::min(d1, d2);
 		if (diff < closestDiff)
 		{
 			closestDiff = diff;
@@ -114,7 +114,7 @@ static const float M_2xPI = 2.0f * M_PI;
 
 VehicleType::Direction VehicleType::getDirectionLarge(float facing)
 {
-	static std::map<float, VehicleType::Direction> DirectionMap = {
+	static std::map<float, VehicleType::Direction> const DirectionMap = {
 	    {0.0f * (float)M_PI, VehicleType::Direction::N},
 	    {0.125f * (float)M_PI, VehicleType::Direction::NNE},
 	    {0.25f * (float)M_PI, VehicleType::Direction::NE},
@@ -147,7 +147,7 @@ VehicleType::Direction VehicleType::getDirectionLarge(float facing)
 		{
 			d2 += M_2xPI;
 		}
-		float diff = std::min(d1, d2);
+		float const diff = std::min(d1, d2);
 		if (diff < closestDiff)
 		{
 			closestDiff = diff;
@@ -159,7 +159,7 @@ VehicleType::Direction VehicleType::getDirectionLarge(float facing)
 
 VehicleType::Direction VehicleType::getDirectionSmall(float facing)
 {
-	static std::map<float, VehicleType::Direction> DirectionMap = {
+	static std::map<float, VehicleType::Direction> const DirectionMap = {
 	    {0.0f * (float)M_PI, VehicleType::Direction::N},
 	    {0.25f * (float)M_PI, VehicleType::Direction::NE},
 	    {0.5f * (float)M_PI, VehicleType::Direction::E},
@@ -184,7 +184,7 @@ VehicleType::Direction VehicleType::getDirectionSmall(float facing)
 		{
 			d2 += M_2xPI;
 		}
-		float diff = std::min(d1, d2);
+		float const diff = std::min(d1, d2);
 		if (diff < closestDiff)
 		{
 			closestDiff = diff;

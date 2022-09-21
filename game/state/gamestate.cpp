@@ -124,14 +124,10 @@ StateRef<Organisation> GameState::getOrganisation(const UString &orgID)
 	return StateRef<Organisation>(this, orgID);
 }
 
-const StateRef<Organisation> &GameState::getPlayer() const { return this->player; }
-StateRef<Organisation> GameState::getPlayer() { return this->player; }
-const StateRef<Organisation> &GameState::getAliens() const { return this->aliens; }
-StateRef<Organisation> GameState::getAliens() { return this->aliens; }
-const StateRef<Organisation> &GameState::getGovernment() const { return this->government; }
-StateRef<Organisation> GameState::getGovernment() { return this->government; }
-const StateRef<Organisation> &GameState::getCivilian() const { return this->civilian; }
-StateRef<Organisation> GameState::getCivilian() { return this->civilian; }
+StateRef<Organisation> GameState::getPlayer() const { return this->player; }
+StateRef<Organisation> GameState::getAliens() const { return this->aliens; }
+StateRef<Organisation> GameState::getGovernment() const { return this->government; }
+StateRef<Organisation> GameState::getCivilian() const { return this->civilian; }
 
 void GameState::initState()
 {
@@ -148,7 +144,7 @@ void GameState::initState()
 			for (auto &b : city->buildings)
 			{
 				auto &building = b.second;
-				Vec2<int> pos2d{s->initialPosition.x, s->initialPosition.y};
+				Vec2<int> const pos2d{s->initialPosition.x, s->initialPosition.y};
 				if (building->bounds.within(pos2d))
 				{
 					s->building = {this, building};
@@ -611,11 +607,11 @@ void GameState::startGame()
 
 	// Add aliens into random building
 	int counter = 0;
-	int giveUpCount = 100;
+	int const giveUpCount = 100;
 	auto buildingIt = this->cities["CITYMAP_HUMAN"]->buildings.begin();
 	do
 	{
-		int buildID =
+		int const buildID =
 		    randBoundsExclusive(rng, 0, (int)this->cities["CITYMAP_HUMAN"]->buildings.size());
 		buildingIt = this->cities["CITYMAP_HUMAN"]->buildings.begin();
 		for (int i = 0; i < buildID; i++)
@@ -646,7 +642,7 @@ void GameState::fillPlayerStartingProperty()
 {
 	// Create the initial starting base
 	// Randomly shuffle buildings until we find one with a base layout
-	sp<City> humanCity = this->cities["CITYMAP_HUMAN"];
+	sp<City> const humanCity = this->cities["CITYMAP_HUMAN"];
 	setCurrentCity({this, humanCity});
 
 	std::vector<sp<Building>> buildingsWithBases;
@@ -775,7 +771,7 @@ void GameState::fillPlayerStartingProperty()
 	// Start player centered on base
 	auto bldBounds = bld->bounds;
 
-	Vec2<int> buildingCenter = (bldBounds.p0 + bldBounds.p1) / 2;
+	Vec2<int> const buildingCenter = (bldBounds.p0 + bldBounds.p1) / 2;
 	bld->city->cityViewScreenCenter = {buildingCenter.x, buildingCenter.y, 1.0f};
 }
 
@@ -807,7 +803,7 @@ void GameState::invasion()
 		}
 	}
 	// Select a random mission type
-	int week = this->gameTime.getWeek();
+	int const week = this->gameTime.getWeek();
 	auto preference =
 	    this->ufo_mission_preference.find(format("%s%d", UFOMissionPreference::getPrefix(), week));
 	if (preference == this->ufo_mission_preference.end())
@@ -1165,7 +1161,7 @@ void GameState::updateEndOfFiveMinutes()
 	// Detection calculation stops when detection happens
 	for (auto &b : current_city->buildings)
 	{
-		bool detected = b.second->ticksDetectionTimeOut > 0;
+		bool const detected = b.second->ticksDetectionTimeOut > 0;
 		b.second->updateDetection(*this, TICKS_PER_MINUTE * 5);
 		if (b.second->ticksDetectionTimeOut > 0 && !detected)
 		{
@@ -1484,7 +1480,7 @@ void GameState::updateTurbo()
 	}
 	unsigned ticksToUpdate = TURBO_TICKS;
 	// Turbo always re-aligns to TURBO_TICKS (5 minutes)
-	unsigned int align = this->gameTime.getTicks() % TURBO_TICKS;
+	unsigned int const align = this->gameTime.getTicks() % TURBO_TICKS;
 	if (align != 0)
 	{
 		ticksToUpdate -= align;
@@ -1601,7 +1597,7 @@ void GameState::logEvent(GameEvent *ev)
 
 uint64_t getNextObjectID(GameState &state, const UString &objectPrefix)
 {
-	std::lock_guard<std::mutex> l(state.objectIdCountLock);
+	std::lock_guard<std::mutex> const l(state.objectIdCountLock);
 	return state.objectIdCount[objectPrefix]++;
 }
 

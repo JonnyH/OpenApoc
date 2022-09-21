@@ -78,7 +78,7 @@ void InitialGameStateExtractor::extractEconomy(GameState &state) const
 	}
 	for (unsigned idx = 0; idx < data.economy_data2->count(); idx++)
 	{
-		int i = idx;
+		int const i = idx;
 		auto e = data.economy_data2->get(i);
 
 		auto economyInfo = EconomyInfo();
@@ -103,7 +103,7 @@ void InitialGameStateExtractor::extractEconomy(GameState &state) const
 	}
 	for (unsigned idx = 0; idx < data.economy_data3->count(); idx++)
 	{
-		int i = idx;
+		int const i = idx;
 		auto e = data.economy_data3->get(i);
 
 		auto economyInfo = EconomyInfo();

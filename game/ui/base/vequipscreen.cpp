@@ -239,7 +239,7 @@ void VEquipScreen::eventOccurred(Event *e)
 		// Wipe any previously-highlighted stuff
 		this->highlightedEquipment = "";
 
-		Vec2<int> mousePos{e->mouse().X, e->mouse().Y};
+		Vec2<int> const mousePos{e->mouse().X, e->mouse().Y};
 
 		// Check if we're over any equipment in the paper doll
 		auto mouseSlotPos = this->paperDoll->getSlotPositionFromScreenPosition(mousePos);
@@ -273,7 +273,7 @@ void VEquipScreen::eventOccurred(Event *e)
 	// Only allow removing equipment if we're in a base, otherwise it'll disappear
 	if (e->type() == EVENT_MOUSE_DOWN && base)
 	{
-		Vec2<int> mousePos{e->mouse().X, e->mouse().Y};
+		Vec2<int> const mousePos{e->mouse().X, e->mouse().Y};
 
 		// Check if we're over any equipment in the paper doll
 		auto mouseSlotPos = this->paperDoll->getSlotPositionFromScreenPosition(mousePos);
@@ -330,9 +330,9 @@ void VEquipScreen::eventOccurred(Event *e)
 		{
 			// Are we over the grid? If so try to place it on the vehicle.
 			auto paperDollControl = form->findControlTyped<Graphic>("PAPER_DOLL");
-			Vec2<int> equipOffset = paperDollControl->getLocationOnScreen();
+			Vec2<int> const equipOffset = paperDollControl->getLocationOnScreen();
 
-			Vec2<int> equipmentPos = fw().getCursor().getPosition() + this->draggedEquipmentOffset;
+			Vec2<int> const equipmentPos = fw().getCursor().getPosition() + this->draggedEquipmentOffset;
 			// If this is within the grid try to snap it
 			Vec2<int> equipmentGridPos = equipmentPos - equipOffset;
 			equipmentGridPos /= EQUIP_GRID_SLOT_SIZE;
@@ -367,7 +367,7 @@ void VEquipScreen::render()
 	// Now draw the form, the actual equipment is then drawn on top
 	form->render();
 
-	Vec2<int> equipOffset = this->paperDoll->getLocationOnScreen();
+	Vec2<int> const equipOffset = this->paperDoll->getLocationOnScreen();
 
 	// Only draw inventory that can be used by this type of craft
 	VEquipmentType::User allowedEquipmentUser;
@@ -422,7 +422,7 @@ void VEquipScreen::render()
 				// The selected vehicle is not a valid user of the equipment, don't draw
 				continue;
 			}
-			int count = invPair.second;
+			int const count = invPair.second;
 			if (count == 0)
 			{
 				// Not in stock
@@ -450,10 +450,10 @@ void VEquipScreen::render()
 	}
 	if (this->drawHighlightBox)
 	{
-		Vec2<int> p00 = highlightBox.p0;
-		Vec2<int> p11 = highlightBox.p1;
-		Vec2<int> p01 = {p00.x, p11.y};
-		Vec2<int> p10 = {p11.x, p00.y};
+		Vec2<int> const p00 = highlightBox.p0;
+		Vec2<int> const p11 = highlightBox.p1;
+		Vec2<int> const p01 = {p00.x, p11.y};
+		Vec2<int> const p10 = {p11.x, p00.y};
 		fw().renderer->drawLine(p00, p01, highlightBoxColour, 1);
 		fw().renderer->drawLine(p01, p11, highlightBoxColour, 1);
 		fw().renderer->drawLine(p11, p10, highlightBoxColour, 1);

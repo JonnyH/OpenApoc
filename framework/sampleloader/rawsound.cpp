@@ -39,7 +39,7 @@ class RawSampleLoader : public SampleLoader
 			LogInfo("String \"%s\" doesn't look like a rawsample - no RAWSOUND prefix", path);
 			return nullptr;
 		}
-		int frequency = Strings::toInteger(splitString[2]);
+		int const frequency = Strings::toInteger(splitString[2]);
 		if (allowedSampleRates.find(frequency) == allowedSampleRates.end())
 		{
 			LogWarning("Rawsound \"%s\" has invalid sample rate of %d", path, frequency);

@@ -19,7 +19,7 @@ void InitialGameStateExtractor::extractFacilities(GameState &state) const
 	// in openapoc terms
 	for (unsigned i = 2; i < data.facility_names->count(); i++)
 	{
-		UString id = data.getFacilityId(i);
+		UString const id = data.getFacilityId(i);
 		auto f = data.facility_data->get(i);
 
 		LogInfo(

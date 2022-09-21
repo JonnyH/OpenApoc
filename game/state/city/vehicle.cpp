@@ -44,8 +44,8 @@ namespace
 static const float M_2xPI = 2.0f * M_PI;
 float xyToFacing(const Vec2<float> &xy)
 {
-	float a1 = acosf(-xy.y);
-	float a2 = asinf(xy.x);
+	float const a1 = acosf(-xy.y);
+	float const a2 = asinf(xy.x);
 	return a2 >= 0 ? a1 : M_2xPI - a1;
 }
 Vec2<float> facingToXY(float facing) { return {sinf(facing), -cosf(facing)}; }
@@ -68,13 +68,13 @@ float facingDistance(float f1, float f2)
 
 template <> const UString &StateObject<Vehicle>::getPrefix()
 {
-	static UString prefix = "VEHICLE_";
+	static UString const prefix = "VEHICLE_";
 	return prefix;
 }
 
 template <> const UString &StateObject<Vehicle>::getTypeName()
 {
-	static UString name = "Vehicle";
+	static UString const name = "Vehicle";
 	return name;
 }
 
@@ -207,8 +207,8 @@ class FlyingVehicleMover : public VehicleMover
 				}
 				auto lineNorm = glm::normalize(line);
 				auto pointNorm = glm::normalize(point);
-				float angle = glm::angle(lineNorm, pointNorm);
-				float distanceToHit = glm::length(point) * cosf(angle);
+				float const angle = glm::angle(lineNorm, pointNorm);
+				float const distanceToHit = glm::length(point) * cosf(angle);
 				Vec3<float> hitPoint = {0.0f, 0.0f, 0.0f};
 				if (angle > M_PI_2)
 				{
@@ -231,7 +231,7 @@ class FlyingVehicleMover : public VehicleMover
 				}
 				// Find furthest distance from vehicle that can be hit
 				auto size = vehicle.type->size.begin()->second;
-				float maxSize = std::max(size.x, size.y) * 1.41f / 2.0f;
+				float const maxSize = std::max(size.x, size.y) * 1.41f / 2.0f;
 				if (glm::length(point - hitPoint) > maxSize)
 				{
 					continue;
@@ -265,10 +265,10 @@ class FlyingVehicleMover : public VehicleMover
 				// Rule:
 				//   - if hit within 0.125f we can dodge either way on this axis
 				//   - otherwise it doesn't matter, since projectile is too close to our center
-				bool dodgeLeft = hitPointRel.x > -0.125f;
-				bool dodgeRight = hitPointRel.x < 0.125f;
-				bool dodgeDown = hitPointRel.z > -0.125f;
-				bool dodgeUp = hitPointRel.z < 0.125f;
+				bool const dodgeLeft = hitPointRel.x > -0.125f;
+				bool const dodgeRight = hitPointRel.x < 0.125f;
+				bool const dodgeDown = hitPointRel.z > -0.125f;
+				bool const dodgeUp = hitPointRel.z < 0.125f;
 
 				// Step 02.03: Figure out which tile we can dodge into
 
@@ -290,7 +290,7 @@ class FlyingVehicleMover : public VehicleMover
 							// Angle between vector to us and vector towards location
 							auto angle = glm::angle(point2d, glm::normalize(Vec2<float>{x, y}));
 							// Whether this location lies to our right side
-							bool right =
+							bool const right =
 							    asinf(glm::angle(point2d,
 							                     glm::normalize(point2d + Vec2<float>{x, y}))) >= 0;
 							// Can't dodge this way at all
@@ -404,7 +404,7 @@ class FlyingVehicleMover : public VehicleMover
 		// so this = ticks_per_sec / (speed * ticks_per_sec / tick_scale / city_scale )
 		// which simplifies to 1 / (speed / tick_scale / city_scale)
 		// or to tick_scale * city_scale / speed
-		int ticksPerTile = TICK_SCALE * VELOCITY_SCALE_CITY.x / vehicle.getSpeed();
+		int const ticksPerTile = TICK_SCALE * VELOCITY_SCALE_CITY.x / vehicle.getSpeed();
 
 		// Flag whether we need to update banking and direction
 		bool updateSprite = false;
@@ -456,8 +456,8 @@ class FlyingVehicleMover : public VehicleMover
 			if (ticksToMove > 0 && vehicle.goalPosition != vehicle.position)
 			{
 				updateSprite = true;
-				Vec3<float> vectorToGoal = vehicle.goalPosition - vehicle.position;
-				int distanceToGoal =
+				Vec3<float> const vectorToGoal = vehicle.goalPosition - vehicle.position;
+				int const distanceToGoal =
 				    glm::length(vectorToGoal * VELOCITY_SCALE_CITY) /
 				    std::max(0.00001f, glm::length(vehicle.velocity / (float)TICK_SCALE));
 				// Cannot reach in one go
@@ -486,7 +486,7 @@ class FlyingVehicleMover : public VehicleMover
 				// Vehicle is considered idle if at goal even if there's more missions to do
 				updateIdle(state);
 				int turboTiles = state.skipTurboCalculations ? ticksToMove / ticksPerTile : 0;
-				int turboTilesBefore = turboTiles;
+				int const turboTilesBefore = turboTiles;
 				// Get new goal from mission
 				if (!vehicle.getNewGoal(state, turboTiles))
 				{
@@ -497,11 +497,11 @@ class FlyingVehicleMover : public VehicleMover
 					break;
 				}
 				// Turbo movement
-				int turboTilesMoved = turboTilesBefore - turboTiles;
+				int const turboTilesMoved = turboTilesBefore - turboTiles;
 				if (turboTilesMoved > 0)
 				{
 					// Figure out facing
-					Vec3<float> vectorToGoal = vehicle.goalPosition - vehicle.position;
+					Vec3<float> const vectorToGoal = vehicle.goalPosition - vehicle.position;
 					Vec2<float> targetFacingVector = {vectorToGoal.x, vectorToGoal.y};
 					// New facing as well?
 					if (targetFacingVector.x != 0.0f || targetFacingVector.y != 0.0f)
@@ -517,11 +517,11 @@ class FlyingVehicleMover : public VehicleMover
 					updateSprite = true;
 					ticksToMove -= ticksPerTile * turboTilesMoved;
 				}
-				float speed = vehicle.getSpeed();
+				float const speed = vehicle.getSpeed();
 				// New position goal acquired, set velocity and angles
 				if (vehicle.position != vehicle.goalPosition)
 				{
-					Vec3<float> vectorToGoal =
+					Vec3<float> const vectorToGoal =
 					    (vehicle.goalPosition - vehicle.position) * VELOCITY_SCALE_CITY;
 					vehicle.velocity = glm::normalize(vectorToGoal) * speed;
 					Vec2<float> targetFacingVector = {vectorToGoal.x, vectorToGoal.y};
@@ -535,7 +535,7 @@ class FlyingVehicleMover : public VehicleMover
 				// If new position requires new facing or we acquired new facing only
 				if (vehicle.facing != vehicle.goalFacing)
 				{
-					float d = facingDistance(vehicle.goalFacing, vehicle.facing);
+					float const d = facingDistance(vehicle.goalFacing, vehicle.facing);
 					if (d > 0.0f)
 					{
 						// Rotate CW towards goal
@@ -555,9 +555,9 @@ class FlyingVehicleMover : public VehicleMover
 					// Here we just slow down velocity if we're moving too quickly
 					if (vehicle.position != vehicle.goalPosition)
 					{
-						Vec3<float> vectorToGoal =
+						Vec3<float> const vectorToGoal =
 						    (vehicle.goalPosition - vehicle.position) * VELOCITY_SCALE_CITY;
-						int ticksToMove =
+						int const ticksToMove =
 						    std::max(floorf(glm::length(vectorToGoal) /
 						                    glm::length(vehicle.velocity) * (float)TICK_SCALE) -
 						                 5.0f,
@@ -631,7 +631,7 @@ class GroundVehicleMover : public VehicleMover
 		// so this = ticks_per_sec / (speed * ticks_per_sec / tick_scale / city_scale )
 		// which simplifies to 1 / (speed / tick_scale / city_scale)
 		// or to tick_scale * city_scale / speed
-		int ticksPerTile = TICK_SCALE * VELOCITY_SCALE_CITY.x / vehicle.getSpeed();
+		int const ticksPerTile = TICK_SCALE * VELOCITY_SCALE_CITY.x / vehicle.getSpeed();
 
 		unsigned lastTicksToMove = 0;
 
@@ -670,8 +670,8 @@ class GroundVehicleMover : public VehicleMover
 			if (ticksToMove > 0 && vehicle.goalPosition != vehicle.position)
 			{
 				updateSprite = true;
-				Vec3<float> vectorToGoal = vehicle.goalPosition - vehicle.position;
-				int distanceToGoal =
+				Vec3<float> const vectorToGoal = vehicle.goalPosition - vehicle.position;
+				int const distanceToGoal =
 				    glm::length(vectorToGoal * VELOCITY_SCALE_CITY) /
 				    std::max(0.00001f, glm::length(vehicle.velocity / (float)TICK_SCALE));
 				// Cannot reach in one go
@@ -709,7 +709,7 @@ class GroundVehicleMover : public VehicleMover
 					// Vehicle is considered idle if at goal even if there's more missions to do
 					updateIdle(state);
 					int turboTiles = state.skipTurboCalculations ? ticksToMove / ticksPerTile : 0;
-					int turboTilesBefore = turboTiles;
+					int const turboTilesBefore = turboTiles;
 					// Get new goal from mission
 					if (!vehicle.getNewGoal(state, turboTiles))
 					{
@@ -720,7 +720,7 @@ class GroundVehicleMover : public VehicleMover
 						break;
 					}
 					// Turbo movement
-					int turboTilesMoved = turboTilesBefore - turboTiles;
+					int const turboTilesMoved = turboTilesBefore - turboTiles;
 					if (turboTilesMoved > 0)
 					{
 						vehicle.position = vehicle.goalPosition;
@@ -729,7 +729,7 @@ class GroundVehicleMover : public VehicleMover
 						ticksToMove -= ticksPerTile * turboTilesMoved;
 					}
 				}
-				float speed = vehicle.getSpeed();
+				float const speed = vehicle.getSpeed();
 				// New position goal acquired, set velocity and angles
 				if (vehicle.position != vehicle.goalPosition)
 				{
@@ -742,15 +742,15 @@ class GroundVehicleMover : public VehicleMover
 							auto heightCurrent = vehicle.position.z - floorf(vehicle.position.z);
 							auto heightGoal =
 							    vehicle.goalPosition.z - floorf(vehicle.goalPosition.z);
-							bool fromFlat = heightCurrent < 0.25f || heightCurrent > 0.75f;
-							bool toFlat = heightGoal < 0.25f || heightGoal > 0.75f;
+							bool const fromFlat = heightCurrent < 0.25f || heightCurrent > 0.75f;
+							bool const toFlat = heightGoal < 0.25f || heightGoal > 0.75f;
 							// If we move from flat to flat then we're changing from into to onto
 							// Change Z in the middle of the way
 							if (fromFlat && toFlat)
 							{
 								vehicle.goalWaypoints.push_back(vehicle.goalPosition);
 								// Add waypoint after midpoint at target z level
-								Vec3<float> waypoint = {
+								Vec3<float> const waypoint = {
 								    vehicle.position.x * 0.45f + vehicle.goalPosition.x * 0.55f,
 								    vehicle.position.y * 0.45f + vehicle.goalPosition.y * 0.55f,
 								    vehicle.goalPosition.z};
@@ -791,7 +791,7 @@ class GroundVehicleMover : public VehicleMover
 						}
 					}
 
-					Vec3<float> vectorToGoal =
+					Vec3<float> const vectorToGoal =
 					    (vehicle.goalPosition - vehicle.position) * VELOCITY_SCALE_CITY;
 					vehicle.velocity = glm::normalize(vectorToGoal) * speed;
 					Vec2<float> targetFacingVector = {vectorToGoal.x, vectorToGoal.y};
@@ -880,7 +880,7 @@ void VehicleMover::updateFalling(GameState &state, unsigned int ticks)
 		    randBoundsExclusive(state.rng, 0, 100) < 2)
 		{
 			LogWarning("Doodads");
-			UString doodadId = randBool(state.rng) ? "DOODAD_1_AUTOCANNON" : "DOODAD_2_AIRGUARD";
+			UString const doodadId = randBool(state.rng) ? "DOODAD_1_AUTOCANNON" : "DOODAD_2_AIRGUARD";
 			auto doodadPos = vehicle.position;
 			doodadPos.x += (float)randBoundsInclusive(state.rng, -3, 3) / 10.0f;
 			doodadPos.y += (float)randBoundsInclusive(state.rng, -3, 3) / 10.0f;
@@ -921,7 +921,7 @@ void VehicleMover::updateFalling(GameState &state, unsigned int ticks)
 
 		// Check tile we're in (or falling into)
 		auto tile = map.getTile(newPosition);
-		bool newTile = (Vec3<int>)newPosition != (Vec3<int>)vehicle.position;
+		bool const newTile = (Vec3<int>)newPosition != (Vec3<int>)vehicle.position;
 		if (tile->presentScenery)
 		{
 			auto collisionDamage =
@@ -968,11 +968,11 @@ void VehicleMover::updateFalling(GameState &state, unsigned int ticks)
 				// - Fast Annihilator	: 104%/64% plow chance before/after reduction
 				// - Fast Valkyrie		: 90%/50% plow chance before/after reduction
 				// - Fast Phoenix		: 61%/21% plow chance before/after reduction
-				float velocityMult =
+				float const velocityMult =
 				    (glm::length(vehicle.velocity) > FV_PLOW_CHANCE_HIGH_SPEED_THRESHOLD)
 				        ? FV_PLOW_CHANCE_HIGH_SPEED_MULTIPLIER
 				        : 1.0f;
-				int plowThroughChance =
+				int const plowThroughChance =
 				    FV_PLOW_CHANCE_FLAT +
 				    velocityMult * vehicle.getWeight() * FV_PLOW_CHANCE_WEIGHT_MULTIPLIER -
 				    (float)tile->presentScenery->type->constitution *
@@ -1071,7 +1071,7 @@ void VehicleMover::updateFalling(GameState &state, unsigned int ticks)
 					return;
 				}
 				// Move to resting position in the tile
-				Vec3<float> newGoal = tile->getRestingPosition(false, true);
+				Vec3<float> const newGoal = tile->getRestingPosition(false, true);
 				vehicle.goalWaypoints.push_back(newGoal);
 				newPosition.z = newGoal.z;
 				// Translate Z velocity into XY velocity
@@ -1167,7 +1167,7 @@ void VehicleMover::updateSliding(GameState &state, unsigned int ticks)
 		if (vehicle.getMaxHealth() / vehicle.getHealth() >= 3 &&
 		    randBoundsExclusive(state.rng, 0, 100) < 2)
 		{
-			UString doodadId = randBool(state.rng) ? "DOODAD_1_AUTOCANNON" : "DOODAD_2_AIRGUARD";
+			UString const doodadId = randBool(state.rng) ? "DOODAD_1_AUTOCANNON" : "DOODAD_2_AIRGUARD";
 			auto doodadPos = vehicle.position;
 			doodadPos.x += (float)randBoundsInclusive(state.rng, -3, 3) / 10.0f;
 			doodadPos.y += (float)randBoundsInclusive(state.rng, -3, 3) / 10.0f;
@@ -1445,7 +1445,7 @@ void Vehicle::setCrashed(GameState &state, bool crashed)
 	}
 	if (crashed)
 	{
-		sp<Doodad> smoke = mksp<Doodad>(position + SMOKE_DOODAD_SHIFT,
+		sp<Doodad> const smoke = mksp<Doodad>(position + SMOKE_DOODAD_SHIFT,
 		                                StateRef<DoodadType>{&state, "DOODAD_13_SMOKE_FUME"});
 		city->map->addObjectToMap(smoke);
 		smokeDoodad = smoke;
@@ -1556,7 +1556,7 @@ void Vehicle::provideService(GameState &state, bool otherOrg)
 		LogError("Called provideService when not in building, wtf?");
 		return;
 	}
-	bool agentPriority = type->provideFreightAgent;
+	bool const agentPriority = type->provideFreightAgent;
 	if (agentPriority)
 	{
 		provideServicePassengers(state, otherOrg);
@@ -1633,7 +1633,7 @@ void Vehicle::provideServiceCargo(GameState &state, bool bio, bool otherOrg)
 			continue;
 		}
 		// How much can we pick up
-		int maxAmount = std::min(spaceRemaining / c.space * c.divisor, c.count);
+		int const maxAmount = std::min(spaceRemaining / c.space * c.divisor, c.count);
 		if (maxAmount == 0)
 		{
 			continue;
@@ -1937,7 +1937,7 @@ void Vehicle::startFalling(GameState &state, StateRef<Vehicle> attacker)
 	falling = true;
 	if (angularVelocity == 0.0f)
 	{
-		float vel = getSpeed() * (float)M_PI / (float)TICK_SCALE / VELOCITY_SCALE_CITY.x / 1.5f;
+		float const vel = getSpeed() * (float)M_PI / (float)TICK_SCALE / VELOCITY_SCALE_CITY.x / 1.5f;
 
 		switch (randBoundsInclusive(state.rng, -1, 1))
 		{
@@ -2044,7 +2044,7 @@ void Vehicle::update(GameState &state, unsigned int ticks)
 		return;
 	}
 
-	bool turbo = ticks > TICKS_PER_SECOND;
+	bool const turbo = ticks > TICKS_PER_SECOND;
 	bool IsIdle;
 
 	if (stunTicksRemaining >= ticks)
@@ -2083,7 +2083,7 @@ void Vehicle::update(GameState &state, unsigned int ticks)
 
 	popFinishedMissions(state);
 
-	int maxShield = this->getMaxShield();
+	int const maxShield = this->getMaxShield();
 	if (maxShield)
 	{
 		this->shieldRecharge += ticks;
@@ -2208,7 +2208,7 @@ void Vehicle::update(GameState &state, unsigned int ticks)
 									if (angleXY > (float)arc.x * (float)M_PI / 8.0f)
 									{
 										this->goalFacing = xyToFacing(target2d);
-										float d = facingDistance(this->goalFacing, this->facing);
+										float const d = facingDistance(this->goalFacing, this->facing);
 										// TODO: Should this nudge CCW/CW for animation purposes?
 										if (d > 0.0f)
 										{
@@ -2249,7 +2249,7 @@ void Vehicle::updateEachSecond(GameState &state)
 		if (fuelSpentTicks > FUEL_TICKS_PER_UNIT)
 		{
 			fuelSpentTicks -= FUEL_TICKS_PER_UNIT;
-			sp<VEquipment> engine = getEngine();
+			sp<VEquipment> const engine = getEngine();
 			if (engine && engine->type->max_ammo > 0)
 			{
 				if (engine->ammo > 0)
@@ -2545,7 +2545,7 @@ bool Vehicle::applyDamage(GameState &state, int damage, float armour, bool &soun
 		damage -= (int)armour;
 		if (damage > 0)
 		{
-			bool wasBelowCrashThreshold = health <= type->crash_health;
+			bool const wasBelowCrashThreshold = health <= type->crash_health;
 			this->health -= damage;
 			if (this->health <= 0)
 			{
@@ -2680,11 +2680,11 @@ sp<TileObjectVehicle> Vehicle::findClosestEnemy(GameState &state, sp<TileObjectV
 		{
 			auto facing = type->directionToVector(direction);
 			auto vecToTarget = otherVehicleTile->getPosition() - position;
-			float angleXY = glm::angle(glm::normalize(Vec2<float>{facing.x, facing.y}),
+			float const angleXY = glm::angle(glm::normalize(Vec2<float>{facing.x, facing.y}),
 			                           glm::normalize(Vec2<float>{vecToTarget.x, vecToTarget.y}));
-			float vecToTargetXY =
+			float const vecToTargetXY =
 			    sqrtf(vecToTarget.x * vecToTarget.x + vecToTarget.y * vecToTarget.y);
-			float angleZ = glm::angle(Vec2<float>{1.0f, 0.0f},
+			float const angleZ = glm::angle(Vec2<float>{1.0f, 0.0f},
 			                          glm::normalize(Vec2<float>{vecToTargetXY, vecToTarget.z}));
 			if (angleXY > (float)arc.x * (float)M_PI / 8.0f ||
 			    angleZ > (float)arc.y * (float)M_PI / 8.0f)
@@ -2693,7 +2693,7 @@ sp<TileObjectVehicle> Vehicle::findClosestEnemy(GameState &state, sp<TileObjectV
 			}
 		}
 		// Finally add closest
-		float distance = vehicleTile->getDistanceTo(otherVehicleTile);
+		float const distance = vehicleTile->getDistanceTo(otherVehicleTile);
 		if (distance < closestEnemyRange)
 		{
 			closestEnemyRange = distance;
@@ -2730,11 +2730,11 @@ sp<TileObjectProjectile> Vehicle::findClosestHostileMissile(GameState &state,
 		{
 			auto facing = type->directionToVector(direction);
 			auto vecToTarget = projectile->getPosition() - position;
-			float angleXY = glm::angle(glm::normalize(Vec2<float>{facing.x, facing.y}),
+			float const angleXY = glm::angle(glm::normalize(Vec2<float>{facing.x, facing.y}),
 			                           glm::normalize(Vec2<float>{vecToTarget.x, vecToTarget.y}));
-			float vecToTargetXY =
+			float const vecToTargetXY =
 			    sqrtf(vecToTarget.x * vecToTarget.x + vecToTarget.y * vecToTarget.y);
-			float angleZ = glm::angle(Vec2<float>{1.0f, 0.0f},
+			float const angleZ = glm::angle(Vec2<float>{1.0f, 0.0f},
 			                          glm::normalize(Vec2<float>{vecToTargetXY, vecToTarget.z}));
 			if (angleXY > (float)arc.x * (float)M_PI / 8.0f ||
 			    angleZ > (float)arc.y * (float)M_PI / 8.0f)
@@ -2743,7 +2743,7 @@ sp<TileObjectProjectile> Vehicle::findClosestHostileMissile(GameState &state,
 			}
 		}
 		// Finally add closest
-		float distance = vehicleTile->getDistanceTo(projectile->position);
+		float const distance = vehicleTile->getDistanceTo(projectile->position);
 		if (distance < closestEnemyRange)
 		{
 			closestEnemyRange = distance;
@@ -2756,7 +2756,7 @@ sp<TileObjectProjectile> Vehicle::findClosestHostileMissile(GameState &state,
 bool Vehicle::fireWeaponsPointDefense(GameState &state, Vec2<int> arc)
 {
 	// Find something to shoot at!
-	sp<TileObjectProjectile> missile = findClosestHostileMissile(state, tileObject, arc);
+	sp<TileObjectProjectile> const missile = findClosestHostileMissile(state, tileObject, arc);
 	if (missile)
 	{
 		return attackTarget(state, missile);
@@ -2828,7 +2828,7 @@ bool Vehicle::attackTarget(GameState &state, sp<TileObjectVehicle> enemyTile)
 {
 	auto target = enemyTile->getVoxelCentrePosition();
 	auto targetVelocity = enemyTile->getVehicle()->velocity;
-	bool checkLOF = true;
+	bool const checkLOF = true;
 	auto eq = getFirstFiringWeapon(state, target, checkLOF, targetVelocity, enemyTile);
 
 	if (eq)
@@ -2853,7 +2853,7 @@ bool Vehicle::attackTarget(GameState &state, sp<TileObjectProjectile> projectile
 	auto target = projectileTile->getPosition();
 	auto initialTarget = target;
 	auto targetVelocity = projectileTile->getProjectile()->velocity;
-	bool checkLOF = true;
+	bool const checkLOF = true;
 	auto eq = getFirstFiringWeapon(state, target, checkLOF, targetVelocity, nullptr, true);
 
 	if (eq)
@@ -2926,14 +2926,14 @@ sp<VEquipment> Vehicle::getFirstFiringWeapon(GameState &state [[maybe_unused]], 
 		if (type->type != VehicleType::Type::UFO &&
 		    (eq->type->firing_arc_1 < 8 || eq->type->firing_arc_2 < 8))
 		{
-			Vec2<int> arc = {eq->type->firing_arc_1, eq->type->firing_arc_2};
+			Vec2<int> const arc = {eq->type->firing_arc_1, eq->type->firing_arc_2};
 			auto facing = type->directionToVector(direction);
 			auto vecToTarget = target - position;
-			float angleXY = glm::angle(glm::normalize(Vec2<float>{facing.x, facing.y}),
+			float const angleXY = glm::angle(glm::normalize(Vec2<float>{facing.x, facing.y}),
 			                           glm::normalize(Vec2<float>{vecToTarget.x, vecToTarget.y}));
-			float vecToTargetXY =
+			float const vecToTargetXY =
 			    sqrtf(vecToTarget.x * vecToTarget.x + vecToTarget.y * vecToTarget.y);
-			float angleZ = glm::angle(
+			float const angleZ = glm::angle(
 			    Vec2<float>{1.0f,
 			                banking == VehicleType::Banking::Ascending
 			                    ? 0.5f
@@ -2972,7 +2972,7 @@ sp<VEquipment> Vehicle::getFirstFiringWeapon(GameState &state [[maybe_unused]], 
 		attepmpt = 0;
 		// Lead the target
 		auto projectileVelocity = firingWeapon->type->speed * PROJECTILE_VELOCITY_MULTIPLIER;
-		float timeToImpact = distanceVoxels * (float)TICK_SCALE / projectileVelocity;
+		float const timeToImpact = distanceVoxels * (float)TICK_SCALE / projectileVelocity;
 		target +=
 		    Collision::getLeadingOffset(target - firePosition, projectileVelocity * timeToImpact,
 		                                targetVelocity * timeToImpact);
@@ -3560,7 +3560,7 @@ bool Vehicle::canAddEquipment(Vec2<int> pos, StateRef<VEquipmentType> type) cons
 	}
 	// Check that the equipment doesn't overlap with any other and doesn't
 	// go outside a slot of the correct type
-	Rect<int> bounds{pos, pos + type->equipscreen_size};
+	Rect<int> const bounds{pos, pos + type->equipscreen_size};
 	for (auto &otherEquipment : this->equipment)
 	{
 		// Something is already in that slot, fail
@@ -3568,7 +3568,7 @@ bool Vehicle::canAddEquipment(Vec2<int> pos, StateRef<VEquipmentType> type) cons
 		{
 			return false;
 		}
-		Rect<int> otherBounds{otherEquipment->equippedPosition,
+		Rect<int> const otherBounds{otherEquipment->equippedPosition,
 		                      otherEquipment->equippedPosition +
 		                          otherEquipment->type->equipscreen_size};
 		if (otherBounds.intersects(bounds))
@@ -3777,7 +3777,7 @@ sp<Equipment> Vehicle::getEquipmentAt(const Vec2<int> &position) const
 	}
 	for (auto &eq : this->equipment)
 	{
-		Rect<int> eqBounds{eq->equippedPosition, eq->equippedPosition + eq->type->equipscreen_size};
+		Rect<int> const eqBounds{eq->equippedPosition, eq->equippedPosition + eq->type->equipscreen_size};
 		if (eqBounds.within(slotPosition))
 		{
 			return eq;
@@ -3996,7 +3996,7 @@ void Cargo::seize(GameState &state, StateRef<Organisation> org [[maybe_unused]])
 			}
 			break;
 	}
-	int worth = cost * count / divisor;
+	int const worth = cost * count / divisor;
 	// FIXME: Adjust relationship accordingly to seized cargo's worth
 	LogWarning("Adjust relationship accordingly to worth: %d", worth);
 	if (destination->owner == state.getPlayer())

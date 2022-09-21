@@ -116,7 +116,7 @@ class ControlGenerator
 	// Create lab icon control with quantity label.
 	static sp<Control> createLabControl(sp<GameState> state, sp<Facility> facility);
 	// Control containing two MultilistBox for assignment state
-	static sp<Control> createDoubleListControl(const int controlLength);
+	static sp<Control> createDoubleListControl(int controlLength);
 
 	static OrganisationInfo createOrganisationInfo(GameState &state, sp<Organisation> org);
 	static sp<Control> createOrganisationControl(GameState &state, const OrganisationInfo &info);

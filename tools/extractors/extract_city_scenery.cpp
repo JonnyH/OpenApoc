@@ -70,7 +70,7 @@ void InitialGameStateExtractor::extractCityScenery(GameState &state, UString til
 {
 	auto &data = this->ufo2p;
 	auto minimap_palette = fw().data->loadPalette(SCENERY_MINIMAP_PALETTE);
-	bool alien = datFile == "alienmap";
+	bool const alien = datFile == "alienmap";
 	auto inFile = fw().data->fs.open("xcom3/ufodata/" + datFile + ".dat");
 	if (!inFile)
 	{
@@ -91,7 +91,7 @@ void InitialGameStateExtractor::extractCityScenery(GameState &state, UString til
 		struct citymap_tile_entry entry;
 		inFile.read((char *)&entry, sizeof(entry));
 
-		UString id = format("%s%s%u", SceneryTileType::getPrefix(), tilePrefix, i);
+		UString const id = format("%s%s%u", SceneryTileType::getPrefix(), tilePrefix, i);
 
 		auto tile = mksp<SceneryTileType>();
 
@@ -298,7 +298,7 @@ void InitialGameStateExtractor::extractCityScenery(GameState &state, UString til
 		// exist for the alien map?
 		if (datFile == "citymap")
 		{
-			uint8_t palette_index = data.scenery_minimap_colour->get(i).palette_index;
+			uint8_t const palette_index = data.scenery_minimap_colour->get(i).palette_index;
 			tile->minimap_colour = minimap_palette->getColour(palette_index);
 		}
 

@@ -21,7 +21,7 @@ MessageLogScreen::MessageLogScreen(sp<GameState> state, CityView &cityView)
     : Stage(), menuform(ui().getForm("messagelog")), state(state)
 {
 	auto listbox = menuform->findControlTyped<ListBox>("LISTBOX_MESSAGES");
-	for (EventMessage message : state->messages)
+	for (EventMessage const message : state->messages)
 	{
 		listbox->addItem(createMessageRow(message, state, cityView));
 	}
@@ -32,7 +32,7 @@ MessageLogScreen::MessageLogScreen(sp<GameState> state, BattleView &battleView)
     : Stage(), menuform(ui().getForm("messagelog")), state(state)
 {
 	auto listbox = menuform->findControlTyped<ListBox>("LISTBOX_MESSAGES");
-	for (EventMessage message : state->messages)
+	for (EventMessage const message : state->messages)
 	{
 		listbox->addItem(createMessageRow(message, state, battleView));
 	}

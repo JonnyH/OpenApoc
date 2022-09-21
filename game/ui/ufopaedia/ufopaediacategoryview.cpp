@@ -259,8 +259,8 @@ void UfopaediaCategoryView::setFormStats()
 	unsigned int row = 0;
 	if (this->position_iterator != this->category->entries.end())
 	{
-		UString data_id = this->position_iterator->second->data_id;
-		UfopaediaEntry::Data data_type = this->position_iterator->second->data_type;
+		UString const data_id = this->position_iterator->second->data_id;
+		UfopaediaEntry::Data const data_type = this->position_iterator->second->data_type;
 		if (data_id.length() > 0)
 		{
 			switch (data_type)
@@ -328,7 +328,7 @@ void UfopaediaCategoryView::setFormStats()
 					int generalSpace = 0;
 					for (auto &slot : ref->equipment_layout_slots)
 					{
-						int space = slot.bounds.size().x * slot.bounds.size().y;
+						int const space = slot.bounds.size().x * slot.bounds.size().y;
 						switch (slot.type)
 						{
 							case EquipmentSlotType::VehicleEngine:

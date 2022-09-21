@@ -26,13 +26,13 @@ sp<FacilityType> StateObject<FacilityType>::get(const GameState &state, const US
 
 template <> const UString &StateObject<FacilityType>::getPrefix()
 {
-	static UString prefix = "FACILITYTYPE_";
+	static UString const prefix = "FACILITYTYPE_";
 	return prefix;
 }
 
 template <> const UString &StateObject<FacilityType>::getTypeName()
 {
-	static UString name = "FacilityType";
+	static UString const name = "FacilityType";
 	return name;
 }
 

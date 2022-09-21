@@ -56,12 +56,12 @@ template <> sp<Building> StateObject<Building>::get(const GameState &state, cons
 
 template <> const UString &StateObject<Building>::getPrefix()
 {
-	static UString prefix = "BUILDING_";
+	static UString const prefix = "BUILDING_";
 	return prefix;
 }
 template <> const UString &StateObject<Building>::getTypeName()
 {
-	static UString name = "Building";
+	static UString const name = "Building";
 	return name;
 }
 
@@ -163,7 +163,7 @@ void Building::updateDetection(GameState &state, unsigned int ticks)
 }
 void Building::updateCargo(GameState &state)
 {
-	StateRef<Building> thisRef = {&state, getId(state, shared_from_this())};
+	StateRef<Building> const thisRef = {&state, getId(state, shared_from_this())};
 
 	// Step 01: Consume cargo with destination = this or zero count or hostile destination
 	for (auto it = cargo.begin(); it != cargo.end();)
@@ -238,7 +238,7 @@ void Building::updateCargo(GameState &state)
 			for (auto &c : cargo)
 			{
 				// Find org that will ferry for us
-				bool checkRelationship =
+				bool const checkRelationship =
 				    config().getBool("OpenApoc.NewFeature.FerryChecksRelationshipWhenBuying") ||
 				    c.cost == 0;
 				StateRef<Organisation> ferryCompany;
@@ -265,7 +265,7 @@ void Building::updateCargo(GameState &state)
 					continue;
 				}
 				// Find a vehicle type that will work for this type of cargo
-				bool needBio = c.type == Cargo::Type::Bio;
+				bool const needBio = c.type == Cargo::Type::Bio;
 				std::list<StateRef<VehicleType>> ferries;
 				for (auto &t : state.vehicle_types)
 				{
@@ -441,7 +441,7 @@ void Building::updateCargo(GameState &state)
 				// Check if agrees to ferry for us:
 				// - if this is not a purchase
 				// - or if we're set to check purchases
-				bool checkRelationship =
+				bool const checkRelationship =
 				    config().getBool("OpenApoc.NewFeature.FerryChecksRelationshipWhenBuying") ||
 				    containsPurchase.find(bld.first) == containsPurchase.end();
 				bool checkBuildingRelationship = false;
@@ -475,21 +475,21 @@ void Building::updateCargo(GameState &state)
 					if (v.second->type->provideFreightAgent && e.second[2] > 0)
 					{
 						reserved = true;
-						int maxAmount = std::min(
+						int const maxAmount = std::min(
 						    v.second->getMaxPassengers() - v.second->getPassengers(), e.second[2]);
 						e.second[2] -= maxAmount;
 					}
 					if (v.second->type->provideFreightCargo && e.second[1] > 0)
 					{
 						reserved = true;
-						int maxAmount =
+						int const maxAmount =
 						    std::min(v.second->getMaxCargo() - v.second->getCargo(), e.second[1]);
 						e.second[1] -= maxAmount;
 					}
 					if (v.second->type->provideFreightBio && e.second[0] > 0)
 					{
 						reserved = true;
-						int maxAmount =
+						int const maxAmount =
 						    std::min(v.second->getMaxBio() - v.second->getBio(), e.second[0]);
 						e.second[0] -= maxAmount;
 					}
@@ -563,7 +563,7 @@ void Building::updateCargo(GameState &state)
 				{
 					continue;
 				}
-				bool checkRelationship =
+				bool const checkRelationship =
 				    config().getBool("OpenApoc.NewFeature.FerryChecksRelationshipWhenBuying") ||
 				    containsPurchase.find(bld.first) == containsPurchase.end();
 				// Agrees to ferry for us
@@ -595,28 +595,28 @@ void Building::updateCargo(GameState &state)
 					}
 // Check what exactly can it ferry
 #ifdef DEBUG_VERBOSE_CARGO_SYSTEM
-					bool DEBUG_PASS = v.second->type->provideFreightAgent && e.second[2] > 0;
-					bool DEBUG_CARGO = (v.second->type->provideFreightCargo && e.second[1] > 0) ||
+					bool const DEBUG_PASS = v.second->type->provideFreightAgent && e.second[2] > 0;
+					bool const DEBUG_CARGO = (v.second->type->provideFreightCargo && e.second[1] > 0) ||
 					                   (v.second->type->provideFreightBio && e.second[0] > 0);
 #endif
 					if (v.second->type->provideFreightAgent && e.second[2] > 0)
 					{
 						reserved = true;
-						int maxAmount = std::min(
+						int const maxAmount = std::min(
 						    v.second->getMaxPassengers() - v.second->getPassengers(), e.second[2]);
 						e.second[2] -= maxAmount;
 					}
 					if (v.second->type->provideFreightCargo && e.second[1] > 0)
 					{
 						reserved = true;
-						int maxAmount =
+						int const maxAmount =
 						    std::min(v.second->getMaxCargo() - v.second->getCargo(), e.second[1]);
 						e.second[1] -= maxAmount;
 					}
 					if (v.second->type->provideFreightBio && e.second[0] > 0)
 					{
 						reserved = true;
-						int maxAmount =
+						int const maxAmount =
 						    std::min(v.second->getMaxBio() - v.second->getBio(), e.second[0]);
 						e.second[0] -= maxAmount;
 					}
@@ -852,7 +852,7 @@ void Building::alienGrowth(GameState &state)
 		change_crew[pair.first] -= growth;
 		// And are replaced with a random one from available options
 		// (or simply die if they don't have any)
-		int rand = randBoundsExclusive(state.rng, 0, 100);
+		int const rand = randBoundsExclusive(state.rng, 0, 100);
 		for (auto &g : pair.first->growthOptions)
 		{
 			if (rand < g.first)
@@ -894,7 +894,7 @@ void Building::alienMovement(GameState &state)
 	{
 		auto distVec = bounds.p0 + bounds.p1 - b.second->bounds.p0 - b.second->bounds.p1;
 		distVec /= 2;
-		int distance = std::abs(distVec.x) + std::abs(distVec.y);
+		int const distance = std::abs(distVec.x) + std::abs(distVec.y);
 		if (distance > 0 && distance <= 15)
 		{
 			neighbours.emplace_back(&state, b.first);
@@ -921,9 +921,9 @@ void Building::alienMovement(GameState &state)
 		{
 			continue;
 		}
-		int movePercent =
+		int const movePercent =
 		    std::min(100, e.first->movementPercent + randBoundsInclusive(state.rng, 0, 30));
-		int moveAmount = e.second * movePercent / 100;
+		int const moveAmount = e.second * movePercent / 100;
 		if (moveAmount > 0)
 		{
 			moveAmounts[e.first] = moveAmount;
@@ -947,7 +947,7 @@ void Building::alienMovement(GameState &state)
 			friendlyBonus = 0;
 			break;
 	}
-	bool moving = randBoundsInclusive(state.rng, 0, 100) < 15 + 3 * totalMoveAmount + friendlyBonus;
+	bool const moving = randBoundsInclusive(state.rng, 0, 100) < 15 + 3 * totalMoveAmount + friendlyBonus;
 	if (!moving)
 	{
 		return;

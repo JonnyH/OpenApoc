@@ -7,7 +7,7 @@ namespace OpenApoc
 {
 class Palette;
 class Data;
-sp<Palette> loadApocPalette(Data &data, const UString fileName);
-sp<Palette> loadPCXPalette(Data &data, const UString fileName);
-sp<Palette> loadPNGPalette(Data &data, const UString fileName);
+sp<Palette> loadApocPalette(Data &data, UString fileName);
+sp<Palette> loadPCXPalette(Data &data, UString fileName);
+sp<Palette> loadPNGPalette(Data &data, UString fileName);
 }; // namespace OpenApoc

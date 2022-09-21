@@ -55,7 +55,7 @@ class RecruitScreen : public BaseStage
 	// Loads and returns big pictures of ranks.
 	static std::vector<sp<Image>> getBigUnitRanks();
 
-	void setDisplayType(const AgentType::Role role);
+	void setDisplayType(AgentType::Role role);
 
 	int getLeftIndex();
 

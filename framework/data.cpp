@@ -183,7 +183,7 @@ DataImpl::DataImpl(std::vector<UString> paths) : Data(paths)
 
 sp<VoxelSlice> DataImpl::loadVoxelSlice(const UString &path)
 {
-	std::lock_guard<std::recursive_mutex> l(this->voxelCacheLock);
+	std::lock_guard<std::recursive_mutex> const l(this->voxelCacheLock);
 	if (path == "")
 		return nullptr;
 
@@ -229,7 +229,7 @@ sp<VoxelSlice> DataImpl::loadVoxelSlice(const UString &path)
 			this->pinnedLOFVoxels.push(lofTemps);
 			this->pinnedLOFVoxels.pop();
 		}
-		int idx = Strings::toInteger(splitString[3]);
+		int const idx = Strings::toInteger(splitString[3]);
 		slice = lofTemps->getSlice(idx);
 		if (!slice)
 		{
@@ -239,12 +239,12 @@ sp<VoxelSlice> DataImpl::loadVoxelSlice(const UString &path)
 	else
 	{
 		auto img = loadImage(path);
-		Vec2<int> size = img->size;
+		Vec2<int> const size = img->size;
 		slice = mksp<VoxelSlice>(size);
 		if (img)
 		{
-			Colour filledColour{255, 255, 255, 255};
-			RGBImageLock l(std::dynamic_pointer_cast<RGBImage>(img), ImageLockUse::Read);
+			Colour const filledColour{255, 255, 255, 255};
+			RGBImageLock const l(std::dynamic_pointer_cast<RGBImage>(img), ImageLockUse::Read);
 			Vec2<int> pos;
 			for (pos.x = 0; pos.x < size.x; pos.x++)
 			{
@@ -270,7 +270,7 @@ sp<VoxelSlice> DataImpl::loadVoxelSlice(const UString &path)
 
 sp<ImageSet> DataImpl::loadImageSet(const UString &path)
 {
-	std::lock_guard<std::recursive_mutex> l(this->imageSetCacheLock);
+	std::lock_guard<std::recursive_mutex> const l(this->imageSetCacheLock);
 
 	auto alias = this->imageSetAliases.find(path);
 	if (alias != this->imageSetAliases.end())
@@ -279,7 +279,7 @@ sp<ImageSet> DataImpl::loadImageSet(const UString &path)
 		return this->loadImageSet(alias->second);
 	}
 
-	UString cacheKey = to_upper(path);
+	UString const cacheKey = to_upper(path);
 	sp<ImageSet> imgSet = this->imageSetCache[cacheKey].lock();
 	if (imgSet)
 	{
@@ -327,7 +327,7 @@ sp<ImageSet> DataImpl::loadImageSet(const UString &path)
 
 sp<Sample> DataImpl::loadSample(UString path)
 {
-	std::lock_guard<std::recursive_mutex> l(this->sampleCacheLock);
+	std::lock_guard<std::recursive_mutex> const l(this->sampleCacheLock);
 
 	auto alias = this->sampleAliases.find(path);
 	if (alias != this->sampleAliases.end())
@@ -336,7 +336,7 @@ sp<Sample> DataImpl::loadSample(UString path)
 		return this->loadSample(alias->second);
 	}
 
-	UString cacheKey = to_upper(path);
+	UString const cacheKey = to_upper(path);
 	sp<Sample> sample = this->sampleCache[cacheKey].lock();
 	if (sample)
 		return sample;
@@ -359,7 +359,7 @@ sp<Sample> DataImpl::loadSample(UString path)
 
 sp<MusicTrack> DataImpl::loadMusic(const UString &path)
 {
-	std::lock_guard<std::recursive_mutex> l(this->musicCacheLock);
+	std::lock_guard<std::recursive_mutex> const l(this->musicCacheLock);
 	auto alias = this->musicAliases.find(path);
 	if (alias != this->musicAliases.end())
 	{
@@ -383,7 +383,7 @@ sp<MusicTrack> DataImpl::loadMusic(const UString &path)
 
 sp<Image> DataImpl::loadImage(const UString &path, bool lazy)
 {
-	std::lock_guard<std::recursive_mutex> l(this->imageCacheLock);
+	std::lock_guard<std::recursive_mutex> const l(this->imageCacheLock);
 	if (path == "")
 	{
 		return nullptr;
@@ -397,7 +397,7 @@ sp<Image> DataImpl::loadImage(const UString &path, bool lazy)
 	}
 
 	// Use an uppercase version of the path for the cache key
-	UString cacheKey = to_upper(path);
+	UString const cacheKey = to_upper(path);
 	sp<Image> img;
 	// Don't cache lazy loading image wrappers, the image data when really loaded will go through
 	// the cache as normal, but we don't want to think we've loaded an image when it's just a lazy
@@ -499,7 +499,7 @@ sp<Image> DataImpl::loadImage(const UString &path, bool lazy)
 			}
 			case 5:
 			{
-				sp<PaletteImage> pImg = std::dynamic_pointer_cast<PaletteImage>(this->loadImage(
+				sp<PaletteImage> const pImg = std::dynamic_pointer_cast<PaletteImage>(this->loadImage(
 				    "PCK:" + splitString[1] + ":" + splitString[2] + ":" + splitString[3]));
 				// In some cases, PCKS do not have enough pictures even though TAB references them.
 				// Example: tacdata/unit/xcom1a.pck
@@ -544,7 +544,7 @@ sp<Image> DataImpl::loadImage(const UString &path, bool lazy)
 			}
 			case 5:
 			{
-				sp<PaletteImage> pImg = std::dynamic_pointer_cast<PaletteImage>(this->loadImage(
+				sp<PaletteImage> const pImg = std::dynamic_pointer_cast<PaletteImage>(this->loadImage(
 				    "PCKSTRAT:" + splitString[1] + ":" + splitString[2] + ":" + splitString[3]));
 				LogAssert(pImg);
 				auto pal = this->loadPalette(splitString[4]);
@@ -584,7 +584,7 @@ sp<Image> DataImpl::loadImage(const UString &path, bool lazy)
 			}
 			case 5:
 			{
-				sp<PaletteImage> pImg = std::dynamic_pointer_cast<PaletteImage>(this->loadImage(
+				sp<PaletteImage> const pImg = std::dynamic_pointer_cast<PaletteImage>(this->loadImage(
 				    "PCKSHADOW:" + splitString[1] + ":" + splitString[2] + ":" + splitString[3]));
 				LogAssert(pImg);
 				auto pal = this->loadPalette(splitString[4]);
@@ -605,8 +605,8 @@ sp<Image> DataImpl::loadImage(const UString &path, bool lazy)
 		{
 			return nullptr;
 		}
-		Colour emptyColour{0, 0, 0, 0};
-		Colour filledColour{255, 255, 255, 255};
+		Colour const emptyColour{0, 0, 0, 0};
+		Colour const filledColour{255, 255, 255, 255};
 		auto rgbImg = mksp<RGBImage>(voxelSlice->size);
 		RGBImageLock l(rgbImg, ImageLockUse::Write);
 		for (int y = 0; y < voxelSlice->size.y; y++)
@@ -660,7 +660,7 @@ sp<Image> DataImpl::loadImage(const UString &path, bool lazy)
 
 sp<Palette> DataImpl::loadPalette(const UString &path)
 {
-	std::lock_guard<std::recursive_mutex> l(this->paletteCacheLock);
+	std::lock_guard<std::recursive_mutex> const l(this->paletteCacheLock);
 	if (path == "")
 	{
 		LogWarning("Invalid palette path");
@@ -675,7 +675,7 @@ sp<Palette> DataImpl::loadPalette(const UString &path)
 	}
 
 	// Use an uppercase version of the path for the cache key
-	UString cacheKey = to_upper(path);
+	UString const cacheKey = to_upper(path);
 
 	auto pal = this->paletteCache[cacheKey].lock();
 	if (pal)
@@ -702,17 +702,17 @@ sp<Palette> DataImpl::loadPalette(const UString &path)
 		return pal;
 	}
 
-	sp<RGBImage> img = std::dynamic_pointer_cast<RGBImage>(this->loadImage(path));
+	sp<RGBImage> const img = std::dynamic_pointer_cast<RGBImage>(this->loadImage(path));
 	if (img)
 	{
 		unsigned int idx = 0;
 		auto p = mksp<Palette>(img->size.x * img->size.y);
-		RGBImageLock src{img, ImageLockUse::Read};
+		RGBImageLock const src{img, ImageLockUse::Read};
 		for (unsigned int y = 0; y < img->size.y; y++)
 		{
 			for (unsigned int x = 0; x < img->size.x; x++)
 			{
-				Colour c = src.get(Vec2<int>{x, y});
+				Colour const c = src.get(Vec2<int>{x, y});
 				p->setColour(idx, c);
 				idx++;
 			}
@@ -799,7 +799,7 @@ bool DataImpl::writeImage(UString systemPath, sp<Image> image, sp<Palette> palet
 		{
 			if (!palette)
 			{
-				UString defaultPalettePath = "xcom3/ufodata/pal_01.dat";
+				UString const defaultPalettePath = "xcom3/ufodata/pal_01.dat";
 				LogInfo("Loading default palette \"%s\"", defaultPalettePath);
 				palette = this->loadPalette(defaultPalettePath);
 				if (!palette)
@@ -850,7 +850,7 @@ bool DataImpl::writeImage(UString systemPath, sp<Image> image, sp<Palette> palet
 
 sp<PaletteImage> DataImpl::getFontStringCacheEntry(const UString &font_name, const UString &string)
 {
-	std::lock_guard<std::recursive_mutex> l(this->fontStringCacheLock);
+	std::lock_guard<std::recursive_mutex> const l(this->fontStringCacheLock);
 	if (font_name == "")
 	{
 		LogError("invalid font_name");
@@ -868,7 +868,7 @@ sp<PaletteImage> DataImpl::getFontStringCacheEntry(const UString &font_name, con
 void DataImpl::putFontStringCacheEntry(const UString &font_name, const UString &string,
                                        sp<PaletteImage> &img)
 {
-	std::lock_guard<std::recursive_mutex> l(this->fontStringCacheLock);
+	std::lock_guard<std::recursive_mutex> const l(this->fontStringCacheLock);
 	if (font_name == "")
 	{
 		LogError("invalid font_name");
@@ -886,7 +886,7 @@ void DataImpl::putFontStringCacheEntry(const UString &font_name, const UString &
 
 void DataImpl::addSampleAlias(const UString &name, const UString &value)
 {
-	std::lock_guard<std::recursive_mutex> l(this->sampleCacheLock);
+	std::lock_guard<std::recursive_mutex> const l(this->sampleCacheLock);
 	LogAssert(name != value);
 	auto current = this->sampleAliases.find(name);
 	if (current != this->sampleAliases.end() && current->second != value)
@@ -897,7 +897,7 @@ void DataImpl::addSampleAlias(const UString &name, const UString &value)
 }
 void DataImpl::addMusicAlias(const UString &name, const UString &value)
 {
-	std::lock_guard<std::recursive_mutex> l(this->musicCacheLock);
+	std::lock_guard<std::recursive_mutex> const l(this->musicCacheLock);
 	LogAssert(name != value);
 	auto current = this->musicAliases.find(name);
 	if (current != this->musicAliases.end() && current->second != value)
@@ -908,7 +908,7 @@ void DataImpl::addMusicAlias(const UString &name, const UString &value)
 }
 void DataImpl::addImageAlias(const UString &name, const UString &value)
 {
-	std::lock_guard<std::recursive_mutex> l(this->imageCacheLock);
+	std::lock_guard<std::recursive_mutex> const l(this->imageCacheLock);
 	LogAssert(name != value);
 	auto current = this->imageAliases.find(name);
 	if (current != this->imageAliases.end() && current->second != value)
@@ -919,7 +919,7 @@ void DataImpl::addImageAlias(const UString &name, const UString &value)
 }
 void DataImpl::addImageSetAlias(const UString &name, const UString &value)
 {
-	std::lock_guard<std::recursive_mutex> l(this->imageSetCacheLock);
+	std::lock_guard<std::recursive_mutex> const l(this->imageSetCacheLock);
 	LogAssert(name != value);
 	auto current = this->imageSetAliases.find(name);
 	if (current != this->imageSetAliases.end() && current->second != value)
@@ -930,7 +930,7 @@ void DataImpl::addImageSetAlias(const UString &name, const UString &value)
 }
 void DataImpl::addPaletteAlias(const UString &name, const UString &value)
 {
-	std::lock_guard<std::recursive_mutex> l(this->paletteCacheLock);
+	std::lock_guard<std::recursive_mutex> const l(this->paletteCacheLock);
 	LogAssert(name != value);
 	auto current = this->paletteAliases.find(name);
 	if (current != this->paletteAliases.end() && current->second != value)
@@ -941,7 +941,7 @@ void DataImpl::addPaletteAlias(const UString &name, const UString &value)
 }
 void DataImpl::addVoxelSliceAlias(const UString &name, const UString &value)
 {
-	std::lock_guard<std::recursive_mutex> l(this->voxelCacheLock);
+	std::lock_guard<std::recursive_mutex> const l(this->voxelCacheLock);
 	LogAssert(name != value);
 	auto current = this->voxelAliases.find(name);
 	if (current != this->voxelAliases.end() && current->second != value)
@@ -994,19 +994,19 @@ void DataImpl::readAliasFile(const UString &path)
 	for (auto aliasNode = openapocNode.child("alias"); aliasNode;
 	     aliasNode = aliasNode.next_sibling("alias"))
 	{
-		UString name = aliasNode.attribute("id").value();
+		UString const name = aliasNode.attribute("id").value();
 		if (name.empty())
 		{
 			LogWarning("Alias with missing 'id' attribute in \"%s\"", path);
 			continue;
 		}
-		UString type = aliasNode.attribute("type").value();
+		UString const type = aliasNode.attribute("type").value();
 		if (type.empty())
 		{
 			LogWarning("Alias \"%s\" with missing 'type' attribute in \"%s\"", name, path);
 			continue;
 		}
-		UString value = aliasNode.text().get();
+		UString const value = aliasNode.text().get();
 		if (value.empty())
 		{
 			LogWarning("Alias \"%s\" with missing value in \"%s\"", name, path);

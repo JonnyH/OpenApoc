@@ -127,7 +127,7 @@ class Gles3::Gles3Loader
 #elif defined(GLESWRAP_PLATFORM_MACHO)
 			NSSymbol symbol = NULL;
 			// MacOS adds a '_' to C symbols apparently
-			std::string symName = std::string("_") + full_proc_name;
+			std::string const symName = std::string("_") + full_proc_name;
 			if (NSIsSymbolNameDefined(symName.c_str()))
 			{
 				symbol = NSLookupAndBindSymbol(symName.c_str());
@@ -164,7 +164,7 @@ class Gles3::Gles3Loader
 
 bool Gles3::supported(bool desktop_extension, std::string lib_name)
 {
-	Gles3Loader tmp_loader(desktop_extension, lib_name);
+	Gles3Loader const tmp_loader(desktop_extension, lib_name);
 
 	const GLubyte *(GLESWRAP_APIENTRY * LocalGetString)(GLenum name) = nullptr;
 
@@ -176,7 +176,7 @@ bool Gles3::supported(bool desktop_extension, std::string lib_name)
 
 	if (desktop_extension)
 	{
-		std::string extension_list = reinterpret_cast<const char *>(LocalGetString(EXTENSIONS));
+		std::string const extension_list = reinterpret_cast<const char *>(LocalGetString(EXTENSIONS));
 		LogInfo("GL_EXTENSIONS: \"%s\"", extension_list.c_str());
 		if (extension_list.find("GL_ARB_ES3_compatibility ") != extension_list.npos)
 		{
@@ -195,7 +195,7 @@ bool Gles3::supported(bool desktop_extension, std::string lib_name)
 		version_string = version_string.substr(10, version_string.npos);
 		// Then check the version in 'x.y' format
 		auto major_version = version_string.substr(0, 1);
-		int major_version_int = stoi(major_version);
+		int const major_version_int = stoi(major_version);
 		// We don't actually care about the minor version here
 		if (major_version_int >= 3)
 		{

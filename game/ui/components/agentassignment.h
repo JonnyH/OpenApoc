@@ -48,11 +48,11 @@ class AgentAssignment : public Form
 	// Hover render
 	std::function<void(sp<Control>)> funcHoverItemRender;
 
-	void addAgentsToList(sp<MultilistBox> list, const int listOffset);
+	void addAgentsToList(sp<MultilistBox> list, int listOffset);
 
-	void addVehiclesToList(sp<MultilistBox> list, const int listOffset);
+	void addVehiclesToList(sp<MultilistBox> list, int listOffset);
 
-	void addBuildingToRightList(sp<Building> building, sp<MultilistBox> list, const int listOffset);
+	void addBuildingToRightList(sp<Building> building, sp<MultilistBox> list, int listOffset);
 
   public:
 	static const UString AGENT_SELECT_BOX;

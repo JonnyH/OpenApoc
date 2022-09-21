@@ -19,7 +19,7 @@ template <typename T, bool conservative> class LineSegment
 	LineSegment(Vec3<T> start, Vec3<T> end, T increment = 1)
 	    : startPoint(start), endPoint(end), increment(increment)
 	{
-		Vec3<T> d = endPoint - startPoint;
+		Vec3<T> const d = endPoint - startPoint;
 		inc.x = (d.x < static_cast<T>(0)) ? -increment : increment;
 		inc.y = (d.y < static_cast<T>(0)) ? -increment : increment;
 		inc.z = (d.z < static_cast<T>(0)) ? -increment : increment;
@@ -51,9 +51,9 @@ template <typename T, bool conservative> class LineSegmentIterator
 	{
 		err = {static_cast<T>(0), static_cast<T>(0), static_cast<T>(0)};
 		step = {static_cast<T>(0), static_cast<T>(0), static_cast<T>(0)};
-		Vec3<T> d = l.endPoint - l.startPoint;
+		Vec3<T> const d = l.endPoint - l.startPoint;
 		inc = l.inc;
-		Vec3<T> absd = glm::abs(d);
+		Vec3<T> const absd = glm::abs(d);
 		d2 = absd * static_cast<T>(2);
 		if (absd.x >= absd.y && absd.x >= absd.z)
 		{

@@ -19,12 +19,12 @@ sp<DoodadType> StateObject<DoodadType>::get(const GameState &state, const UStrin
 
 template <> const UString &StateObject<DoodadType>::getPrefix()
 {
-	static UString prefix = "DOODAD_";
+	static UString const prefix = "DOODAD_";
 	return prefix;
 }
 template <> const UString &StateObject<DoodadType>::getTypeName()
 {
-	static UString name = "DoodadType";
+	static UString const name = "DoodadType";
 	return name;
 }
 }; // namespace OpenApoc

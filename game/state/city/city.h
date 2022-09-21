@@ -136,16 +136,16 @@ class City : public StateObject<City>, public std::enable_shared_from_this<City>
 
 	sp<Doodad> placeDoodad(StateRef<DoodadType> type, Vec3<float> position);
 	sp<Vehicle> createVehicle(GameState &state, StateRef<VehicleType> type,
-	                          StateRef<Organisation> owner);
+	                          StateRef<Organisation> owner) const;
 	sp<Vehicle> createVehicle(GameState &state, StateRef<VehicleType> type,
-	                          StateRef<Organisation> owner, StateRef<Building> building);
+	                          StateRef<Organisation> owner, StateRef<Building> building) const;
 	sp<Vehicle> placeVehicle(GameState &state, StateRef<VehicleType> type,
-	                         StateRef<Organisation> owner);
+	                         StateRef<Organisation> owner) const;
 	sp<Vehicle> placeVehicle(GameState &state, StateRef<VehicleType> type,
-	                         StateRef<Organisation> owner, StateRef<Building> building);
+	                         StateRef<Organisation> owner, StateRef<Building> building) const;
 	sp<Vehicle> placeVehicle(GameState &state, StateRef<VehicleType> type,
 	                         StateRef<Organisation> owner, Vec3<float> position,
-	                         float facing = 0.0f);
+	                         float facing = 0.0f) const;
 
 	// Pathfinding functions
 
@@ -158,7 +158,7 @@ class City : public StateObject<City>, public std::enable_shared_from_this<City>
 
 	// Move a group of vehicles in formation
 	void groupMove(GameState &state, std::list<StateRef<Vehicle>> &selectedVehicles,
-	               Vec3<int> targetLocation, bool useTeleporter = false);
+	               Vec3<int> targetLocation, bool useTeleporter = false) const;
 
 	static void accuracyAlgorithmCity(GameState &state, Vec3<float> firePosition,
 	                                  Vec3<float> &target, int accuracy, bool cloaked);

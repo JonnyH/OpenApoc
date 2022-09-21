@@ -172,7 +172,7 @@ void MultilistBox::eventOccured(Event *e)
 	}
 	if (e->type() == EVENT_FORM_INTERACTION)
 	{
-		sp<Control> ctrl = e->forms().RaisedBy;
+		sp<Control> const ctrl = e->forms().RaisedBy;
 		sp<Control> child = ctrl->getAncestor(shared_from_this());
 
 		switch (e->forms().EventFlag)
@@ -348,7 +348,7 @@ sp<Control> MultilistBox::operator[](int Index) { return Controls.at(Index); }
 sp<Control> MultilistBox::copyTo(sp<Control> CopyParent)
 {
 	sp<MultilistBox> copy;
-	sp<ScrollBar> scrollCopy =
+	sp<ScrollBar> const scrollCopy =
 	    scroller ? std::dynamic_pointer_cast<ScrollBar>(scroller->lastCopiedTo.lock()) : nullptr;
 
 	if (CopyParent)
@@ -428,19 +428,19 @@ void MultilistBox::configureSelfFromXml(pugi::xml_node *node)
 	auto hoverColourNode = node->child("hovercolour");
 	if (hoverColourNode)
 	{
-		uint8_t r = hoverColourNode.attribute("r").as_uint(0);
-		uint8_t g = hoverColourNode.attribute("g").as_uint(0);
-		uint8_t b = hoverColourNode.attribute("b").as_uint(0);
-		uint8_t a = hoverColourNode.attribute("a").as_uint(255);
+		uint8_t const r = hoverColourNode.attribute("r").as_uint(0);
+		uint8_t const g = hoverColourNode.attribute("g").as_uint(0);
+		uint8_t const b = hoverColourNode.attribute("b").as_uint(0);
+		uint8_t const a = hoverColourNode.attribute("a").as_uint(255);
 		HoverColour = {r, g, b, a};
 	}
 	auto selColourNode = node->child("selcolour");
 	if (selColourNode)
 	{
-		uint8_t r = selColourNode.attribute("r").as_uint(0);
-		uint8_t g = selColourNode.attribute("g").as_uint(0);
-		uint8_t b = selColourNode.attribute("b").as_uint(0);
-		uint8_t a = selColourNode.attribute("a").as_uint(255);
+		uint8_t const r = selColourNode.attribute("r").as_uint(0);
+		uint8_t const g = selColourNode.attribute("g").as_uint(0);
+		uint8_t const b = selColourNode.attribute("b").as_uint(0);
+		uint8_t const a = selColourNode.attribute("a").as_uint(255);
 		SelectedColour = {r, g, b, a};
 	}
 }

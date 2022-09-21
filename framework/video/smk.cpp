@@ -79,7 +79,7 @@ class SMKVideo : public Video, public std::enable_shared_from_this<SMKVideo>
 
 	sp<FrameImage> popImage() override
 	{
-		std::lock_guard<std::recursive_mutex> l(this->frame_queue_lock);
+		std::lock_guard<std::recursive_mutex> const l(this->frame_queue_lock);
 		if (this->image_queue.empty())
 		{
 			if (this->readNextFrame() == false)
@@ -95,7 +95,7 @@ class SMKVideo : public Video, public std::enable_shared_from_this<SMKVideo>
 
 	sp<FrameAudio> popAudio() override
 	{
-		std::lock_guard<std::recursive_mutex> l(this->frame_queue_lock);
+		std::lock_guard<std::recursive_mutex> const l(this->frame_queue_lock);
 		if (this->audio_queue.empty())
 		{
 			if (this->readNextFrame() == false)
@@ -111,7 +111,7 @@ class SMKVideo : public Video, public std::enable_shared_from_this<SMKVideo>
 
 	bool readNextFrame()
 	{
-		std::lock_guard<std::recursive_mutex> l(this->frame_queue_lock);
+		std::lock_guard<std::recursive_mutex> const l(this->frame_queue_lock);
 		if (this->stopped)
 			return false;
 
@@ -167,7 +167,7 @@ class SMKVideo : public Video, public std::enable_shared_from_this<SMKVideo>
 		auto audio_frame = mksp<FrameAudio>();
 		audio_frame->frame = current_frame_read;
 		audio_frame->format = this->audio_format;
-		unsigned long audio_bytes = smk_get_audio_size(this->smk_ctx, 0);
+		unsigned long const audio_bytes = smk_get_audio_size(this->smk_ctx, 0);
 		if (audio_bytes == 0)
 		{
 			LogWarning("Error reading audio size for frame %u", this->current_frame_read);
@@ -371,15 +371,15 @@ MusicTrack::MusicCallbackReturn SMKMusicTrack::fillData(unsigned int maxSamples,
 	unsigned int output_offset_bytes = 0;
 	while (*returnedSamples < maxSamples && this->current_frame)
 	{
-		unsigned int samples_in_this_frame =
+		unsigned int const samples_in_this_frame =
 		    std::min(maxSamples - *returnedSamples,
 		             this->current_frame->sample_count - this->current_frame_sample_position);
 
-		unsigned int audio_size_bytes = samples_in_this_frame *
+		unsigned int const audio_size_bytes = samples_in_this_frame *
 		                                this->current_frame->format.getSampleSize() *
 		                                this->current_frame->format.channels;
 
-		unsigned int audio_offset_bytes = this->current_frame_sample_position *
+		unsigned int const audio_offset_bytes = this->current_frame_sample_position *
 		                                  this->current_frame->format.getSampleSize() *
 		                                  this->current_frame->format.channels;
 

@@ -233,7 +233,7 @@ void City::update(GameState &state, unsigned int ticks)
 	/* FIXME: Temporary 'get something working' HACK
 	 * Every now and then give a landed vehicle a new 'goto random building' mission, so there's
 	 * some activity in the city*/
-	std::uniform_int_distribution<int> bld_distribution(0, (int)this->buildings.size() - 1);
+	std::uniform_int_distribution<int> const bld_distribution(0, (int)this->buildings.size() - 1);
 
 	// Need to use a 'safe' iterator method (IE keep the next it before calling ->update)
 	// as update() calls can erase it's object from the lists
@@ -364,7 +364,7 @@ void City::generatePortals(GameState &state)
 			{
 				for (int i = 0; i < iterLimit; i++)
 				{
-					Vec3<float> pos(xyPos(state.rng), xyPos(state.rng), zPos(state.rng));
+					Vec3<float> const pos(xyPos(state.rng), xyPos(state.rng), zPos(state.rng));
 
 					if (map->tileIsValid(pos) && map->getTile(pos)->ownedObjects.empty())
 					{
@@ -531,7 +531,7 @@ void City::repairVehicles(GameState &state [[maybe_unused]])
 			}
 			if (!vehiclesToRepair.empty())
 			{
-				int repairPerVehicle = std::max(1, repairPoints / (int)vehiclesToRepair.size());
+				int const repairPerVehicle = std::max(1, repairPoints / (int)vehiclesToRepair.size());
 				// Twice since we can have a situation like 1 repair bay and 7 vehicles,
 				// in this case we repair them for 1 and we have 5 points remaining
 				// which we assign again
@@ -543,7 +543,7 @@ void City::repairVehicles(GameState &state [[maybe_unused]])
 						{
 							break;
 						}
-						int repair = std::min(std::min(repairPoints, repairPerVehicle),
+						int const repair = std::min(std::min(repairPoints, repairPerVehicle),
 						                      v->getMaxHealth() - v->getHealth());
 						auto veh = v;
 						veh->health += repair;
@@ -559,7 +559,7 @@ void City::repairVehicles(GameState &state [[maybe_unused]])
 			{
 				if (v->homeBuilding == v->currentBuilding)
 				{
-					int repair = std::min(12, v->getMaxHealth() - v->getHealth());
+					int const repair = std::min(12, v->getMaxHealth() - v->getHealth());
 					auto veh = v;
 					veh->health += repair;
 				}
@@ -679,7 +679,7 @@ sp<Doodad> City::placeDoodad(StateRef<DoodadType> type, Vec3<float> position)
 }
 
 sp<Vehicle> City::createVehicle(GameState &state, StateRef<VehicleType> type,
-                                StateRef<Organisation> owner)
+                                StateRef<Organisation> owner) const
 {
 	auto v = mksp<Vehicle>();
 	v->type = type;
@@ -693,13 +693,13 @@ sp<Vehicle> City::createVehicle(GameState &state, StateRef<VehicleType> type,
 
 	// Vehicle::equipDefaultEquipment uses the state reference from itself, so make sure the
 	// vehicle table has the entry before calling it
-	UString vID = Vehicle::generateObjectID(state);
+	UString const vID = Vehicle::generateObjectID(state);
 	state.vehicles[vID] = v;
 
 	return v;
 }
 sp<Vehicle> City::createVehicle(GameState &state, StateRef<VehicleType> type,
-                                StateRef<Organisation> owner, StateRef<Building> building)
+                                StateRef<Organisation> owner, StateRef<Building> building) const
 {
 	if (building->city.id != id)
 	{
@@ -714,7 +714,7 @@ sp<Vehicle> City::createVehicle(GameState &state, StateRef<VehicleType> type,
 }
 
 sp<Vehicle> City::placeVehicle(GameState &state, StateRef<VehicleType> type,
-                               StateRef<Organisation> owner)
+                               StateRef<Organisation> owner) const
 {
 	auto v = createVehicle(state, type, owner);
 	v->equipDefaultEquipment(state);
@@ -722,7 +722,7 @@ sp<Vehicle> City::placeVehicle(GameState &state, StateRef<VehicleType> type,
 }
 
 sp<Vehicle> City::placeVehicle(GameState &state, StateRef<VehicleType> type,
-                               StateRef<Organisation> owner, StateRef<Building> building)
+                               StateRef<Organisation> owner, StateRef<Building> building) const
 {
 	if (building->city.id != id)
 	{
@@ -737,7 +737,7 @@ sp<Vehicle> City::placeVehicle(GameState &state, StateRef<VehicleType> type,
 }
 
 sp<Vehicle> City::placeVehicle(GameState &state, StateRef<VehicleType> type,
-                               StateRef<Organisation> owner, Vec3<float> position, float facing)
+                               StateRef<Organisation> owner, Vec3<float> position, float facing) const
 {
 	auto v = placeVehicle(state, type, owner);
 
@@ -759,12 +759,12 @@ template <> sp<City> StateObject<City>::get(const GameState &state, const UStrin
 
 template <> const UString &StateObject<City>::getPrefix()
 {
-	static UString prefix = "CITYMAP_";
+	static UString const prefix = "CITYMAP_";
 	return prefix;
 }
 template <> const UString &StateObject<City>::getTypeName()
 {
-	static UString name = "City";
+	static UString const name = "City";
 	return name;
 }
 
@@ -792,7 +792,7 @@ void City::accuracyAlgorithmCity(GameState &state, Vec3<float> firePosition, Vec
 	if (cloaked)
 	{
 		dispersion *= dispersion;
-		float cloakDispersion = 2000.0f / (glm::length(firePosition - target) + 3.0f);
+		float const cloakDispersion = 2000.0f / (glm::length(firePosition - target) + 3.0f);
 		dispersion += cloakDispersion * cloakDispersion;
 		dispersion = sqrtf(dispersion);
 	}
@@ -803,7 +803,7 @@ void City::accuracyAlgorithmCity(GameState &state, Vec3<float> firePosition, Vec
 		return;
 	}
 
-	float length_vector =
+	float const length_vector =
 	    1.0f / std::sqrt(delta.x * delta.x + delta.y * delta.y + delta.z * delta.z);
 
 	std::vector<float> rnd(3);
@@ -818,9 +818,9 @@ void City::accuracyAlgorithmCity(GameState &state, Vec3<float> firePosition, Vec
 		}
 	}
 
-	float k1 = (2 * randBoundsInclusive(state.rng, 0, 1) - 1) * rnd[1] *
+	float const k1 = (2 * randBoundsInclusive(state.rng, 0, 1) - 1) * rnd[1] *
 	           std::sqrt(-2 * std::log(rnd[0]) / rnd[0]);
-	float k2 = (2 * randBoundsInclusive(state.rng, 0, 1) - 1) * rnd[2] *
+	float const k2 = (2 * randBoundsInclusive(state.rng, 0, 1) - 1) * rnd[2] *
 	           std::sqrt(-2 * std::log(rnd[0]) / rnd[0]);
 
 	// Misses can go both ways on the axis

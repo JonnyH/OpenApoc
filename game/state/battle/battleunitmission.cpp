@@ -141,13 +141,13 @@ bool BattleUnitTileHelper::canEnterTile(Tile *from, Tile *to, bool allowJumping,
 		LogError("No 'to' position supplied");
 		return false;
 	}
-	Vec3<int> toPos = to->position;
+	Vec3<int> const toPos = to->position;
 	if (!from)
 	{
 		// Only check if target tile can be occupied
 		return to->getPassable(large, maxHeight);
 	}
-	Vec3<int> fromPos = from->position;
+	Vec3<int> const fromPos = from->position;
 	if (fromPos == toPos)
 	{
 		LogError("FromPos == ToPos %s", toPos);
@@ -496,9 +496,9 @@ bool BattleUnitTileHelper::canEnterTile(Tile *from, Tile *to, bool allowJumping,
 	// Also check if we bump into lifts upon descending
 	// (unless going strictly down, we cannot intersect lifts)
 	// If going up, check on upper level, otherwise check on current level
-	int z = std::max(fromPos.z, toPos.z);
+	int const z = std::max(fromPos.z, toPos.z);
 	// If going down, additionally check that ground tiles we intersect are empty
-	bool goingDown = fromPos.z > toPos.z;
+	bool const goingDown = fromPos.z > toPos.z;
 	// STEP 06: For large units
 	if (large)
 	{
@@ -1143,8 +1143,8 @@ BattleUnitMission *BattleUnitMission::dropItem(BattleUnit &, sp<AEquipment> item
 
 int BattleUnitMission::getFacingDelta(Vec2<int> curFacing, Vec2<int> tarFacing)
 {
-	int curFac = facing_dir_map.at(curFacing);
-	int tarFac = facing_dir_map.at(tarFacing);
+	int const curFac = facing_dir_map.at(curFacing);
+	int const tarFac = facing_dir_map.at(tarFacing);
 	int result = curFac - tarFac;
 	if (result < 0)
 	{
@@ -1211,7 +1211,7 @@ Vec2<int> BattleUnitMission::getFacing(BattleUnit &u, Vec3<float> from, Vec3<flo
 		targetFacing.z = 0;
 		for (auto &a : angles)
 		{
-			float angle = glm::angle(glm::normalize(targetFacing), glm::normalize(a));
+			float const angle = glm::angle(glm::normalize(targetFacing), glm::normalize(a));
 			if (angle < closestAngle && u.agent->isFacingAllowed(Vec2<int>{a.x, a.y}))
 			{
 				closestAngle = angle;
@@ -1225,7 +1225,7 @@ Vec2<int> BattleUnitMission::getFacing(BattleUnit &u, Vec3<float> from, Vec3<flo
 	}
 	else
 	{
-		Vec2<int> targetFacing = {closestVector.x, closestVector.y};
+		Vec2<int> const targetFacing = {closestVector.x, closestVector.y};
 		int tarFacing = facing_dir_map.at(targetFacing) + facingDelta;
 		if (tarFacing > 7)
 			tarFacing -= 8;
@@ -1559,7 +1559,7 @@ void BattleUnitMission::update(GameState &state, BattleUnit &u, unsigned int tic
 			    u.target_body_state == targetBodyState)
 			{
 				// Jumping cost assumed same as walking into tile
-				int cost = STANDART_MOVE_TU_COST;
+				int const cost = STANDART_MOVE_TU_COST;
 				if (!spendAgentTUs(state, u, cost, true))
 				{
 					return;
@@ -1711,7 +1711,7 @@ bool BattleUnitMission::isFinished(GameState &state, BattleUnit &u, bool callUpd
 	return false;
 }
 
-bool BattleUnitMission::isFinishedInternal(GameState &, BattleUnit &u)
+bool BattleUnitMission::isFinishedInternal(GameState &, BattleUnit &u) const
 {
 	if (cancelled)
 	{
@@ -1773,7 +1773,7 @@ void BattleUnitMission::start(GameState &state, BattleUnit &u)
 			{
 				// Check if we can be there
 				auto t = u.tileObject->map.getTile(targetLocation);
-				bool canStand = t->getCanStand(u.isLarge());
+				bool const canStand = t->getCanStand(u.isLarge());
 				if (!t->getPassable(u.isLarge(), u.agent->type->bodyType->maxHeight) ||
 				    t->getUnitIfPresent(true, true, false, nullptr, false, u.isLarge()) ||
 				    (!u.canFly() && !canStand))
@@ -1794,7 +1794,7 @@ void BattleUnitMission::start(GameState &state, BattleUnit &u)
 					cancelled = true;
 					return;
 				}
-				int cost = u.getTeleporterCost();
+				int const cost = u.getTeleporterCost();
 				if (!spendAgentTUs(state, u, cost, true))
 				{
 					return;
@@ -2082,7 +2082,7 @@ void BattleUnitMission::setPathTo(GameState &state, BattleUnit &u, Vec3<int> tar
 
 bool BattleUnitMission::advanceAlongPath(GameState &state, BattleUnit &u, Vec3<float> &dest)
 {
-	bool realTime = state.current_battle->mode == Battle::Mode::RealTime;
+	bool const realTime = state.current_battle->mode == Battle::Mode::RealTime;
 
 	if (u.isUnconscious() || u.isDead() || currentPlannedPath.empty())
 	{
@@ -2310,7 +2310,7 @@ bool BattleUnitMission::advanceAlongPath(GameState &state, BattleUnit &u, Vec3<f
 		cost *= 3;
 		cost /= 2;
 	}
-	int intCost = (int)cost;
+	int const intCost = (int)cost;
 	// See if we can afford doing this move
 	if (!spendAgentTUs(state, u, intCost))
 	{
@@ -2427,7 +2427,7 @@ bool BattleUnitMission::advanceFacing(GameState &state, BattleUnit &u, Vec2<int>
 	// If throwing then pay up front so that we can't turn for free
 	if (targetBodyState == BodyState::Throwing)
 	{
-		int cost = u.getBodyStateChangeCost(u.current_body_state, targetBodyState);
+		int const cost = u.getBodyStateChangeCost(u.current_body_state, targetBodyState);
 		if (!spendAgentTUs(state, u, cost, true, true, true))
 		{
 			return false;
@@ -2438,7 +2438,7 @@ bool BattleUnitMission::advanceFacing(GameState &state, BattleUnit &u, Vec2<int>
 	dest = getFacingStep(u, targetFacing);
 
 	// Calculate and spend cost
-	int cost = freeTurn ? 0 : u.getTurnCost();
+	int const cost = freeTurn ? 0 : u.getTurnCost();
 	if (!spendAgentTUs(state, u, cost, true))
 	{
 		return false;
@@ -2497,7 +2497,7 @@ bool BattleUnitMission::advanceBodyState(GameState &state, BattleUnit &u, BodySt
 	// Calculate and spend cost
 
 	// Cost to reach goal is free
-	int cost =
+	int const cost =
 	    type == Type::ReachGoal ? 0 : u.getBodyStateChangeCost(u.target_body_state, targetState);
 	// If insufficient TUs - cancel missions other than GotoLocation
 	if (!spendAgentTUs(state, u, cost, type != Type::GotoLocation,

@@ -32,22 +32,22 @@ class ConfigFile
 	bool get(const UString &key); // returns true if the option was specified
 	UString describe(const UString &section, const UString &name);
 
-	void set(const UString &key, const bool value);
-	void set(const UString &key, const int value);
-	void set(const UString &key, const UString value);
-	void set(const UString &key, const float value);
+	void set(const UString &key, bool value);
+	void set(const UString &key, int value);
+	void set(const UString &key, UString value);
+	void set(const UString &key, float value);
 
-	void addOptionString(const UString section, const UString longName, const UString shortName,
-	                     const UString description, const UString defaultValue);
-	void addOptionInt(const UString section, const UString longName, const UString shortName,
-	                  const UString description, const int defaultValue);
-	void addOptionBool(const UString section, const UString longName, const UString shortName,
-	                   const UString description, const bool defaultValue);
-	void addOptionFloat(const UString section, const UString longName, const UString shortName,
-	                    const UString description, const float defaultValue);
-	void addOption(const UString section, const UString longName, const UString shortName,
-	               const UString description);
-	void addPositionalArgument(const UString name, const UString description);
+	void addOptionString(UString section, UString longName, UString shortName,
+	                     UString description, UString defaultValue);
+	void addOptionInt(UString section, UString longName, UString shortName,
+	                  UString description, int defaultValue);
+	void addOptionBool(UString section, UString longName, UString shortName,
+	                   UString description, bool defaultValue);
+	void addOptionFloat(UString section, UString longName, UString shortName,
+	                    UString description, float defaultValue);
+	void addOption(UString section, UString longName, UString shortName,
+	               UString description);
+	void addPositionalArgument(UString name, UString description);
 
 	// returns 'true' if the program should exit (invalid option/'--help' specified)
 	bool parseOptions(int argc, const char *const argv[]);
@@ -69,7 +69,7 @@ class ConfigOption
 	UString description;
 
   public:
-	ConfigOption(const UString section, const UString name, const UString description);
+	ConfigOption(UString section, UString name, UString description);
 	const UString &getName() const { return name; }
 	const UString &getSection() const { return section; }
 	const UString &getDescription() const { return description; }
@@ -79,8 +79,8 @@ class ConfigOption
 class ConfigOptionString : public ConfigOption
 {
   public:
-	ConfigOptionString(const UString section, const UString name, const UString description,
-	                   const UString defaultValue = "");
+	ConfigOptionString(UString section, UString name, UString description,
+	                   UString defaultValue = "");
 	UString get() const;
 	void set(const UString &newValue);
 };
@@ -88,8 +88,8 @@ class ConfigOptionString : public ConfigOption
 class ConfigOptionInt : public ConfigOption
 {
   public:
-	ConfigOptionInt(const UString section, const UString name, const UString description,
-	                const int defaultValue = 0);
+	ConfigOptionInt(UString section, UString name, UString description,
+	                int defaultValue = 0);
 	int get() const;
 	void set(int newValue);
 };
@@ -97,8 +97,8 @@ class ConfigOptionInt : public ConfigOption
 class ConfigOptionBool : public ConfigOption
 {
   public:
-	ConfigOptionBool(const UString section, const UString name, const UString description,
-	                 const bool defaultValue = false);
+	ConfigOptionBool(UString section, UString name, UString description,
+	                 bool defaultValue = false);
 	bool get() const;
 	void set(bool newValue);
 };
@@ -106,8 +106,8 @@ class ConfigOptionBool : public ConfigOption
 class ConfigOptionFloat : public ConfigOption
 {
   public:
-	ConfigOptionFloat(const UString section, const UString name, const UString description,
-	                  const float defaultValue = 0.0f);
+	ConfigOptionFloat(UString section, UString name, UString description,
+	                  float defaultValue = 0.0f);
 	float get() const;
 };
 static inline ConfigFile &config() { return ConfigFile::getInstance(); }

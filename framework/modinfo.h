@@ -73,7 +73,7 @@ class ModInfo
 	const UString &getModLoadScript() const { return modLoadScript; }
 	void setModLoadScript(const UString &newScript) { modLoadScript = newScript; }
 
-	const std::list<UString> getSupportedLanguages() const { return supported_languages; }
+	std::list<UString> getSupportedLanguages() const { return supported_languages; }
 	void setSupportedLanguage(const std::list<UString> &newLanguages)
 	{
 		supported_languages = newLanguages;

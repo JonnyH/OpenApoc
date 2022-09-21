@@ -68,18 +68,18 @@ class TransactionControl : public Control
 		int getRightIndex() const { return rightIdx; }
 		// Get the sum of shipment orders from the base (economy).
 		// from - 0-7 for bases, 8 for economy
-		int shipmentsFrom(const int from, const int exclude = -1) const;
+		int shipmentsFrom(int from, int exclude = -1) const;
 		// Get total shipment orders from(+) and to(-) the base (economy).
 		// baseIdx - 0-7 for bases, 8 for economy
-		int shipmentsTotal(const int baseIdx) const;
+		int shipmentsTotal(int baseIdx) const;
 		// Get shipment order.
-		int getOrder(const int from, const int to) const;
+		int getOrder(int from, int to) const;
 		int getLROrder() const { return getOrder(leftIdx, rightIdx); }
 		// Cancel shipment order.
-		void cancelOrder(const int from, const int to);
+		void cancelOrder(int from, int to);
 		void cancelOrder() { cancelOrder(leftIdx, rightIdx); }
 		// Get current stock.
-		int getStock(const int baseIdx, const int oppositeIdx, bool currentStock = false) const;
+		int getStock(int baseIdx, int oppositeIdx, bool currentStock = false) const;
 		// Get current left stock.
 		int getLeftStock(bool currentStock = false) const
 		{
@@ -93,7 +93,7 @@ class TransactionControl : public Control
 		// ScrollBar support. Get current value.
 		int getBalance() const { return getRightStock(true); }
 		// ScrollBar support. Set current value.
-		int setBalance(const int balance);
+		int setBalance(int balance);
 	};
 
   private:

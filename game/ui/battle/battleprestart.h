@@ -32,8 +32,8 @@ class BattlePreStart : public Stage
 		sp<Control> normalControl;
 		sp<Control> selectedControl;
 
-		void setLocation(Vec2<int> pos);
-		void update();
+		void setLocation(Vec2<int> pos) const;
+		void update() const;
 
 		AgentIcon() = default;
 		AgentIcon(sp<Agent> agent, sp<Control> normalControl, sp<Control> selectedControl);

@@ -19,12 +19,12 @@ sp<UFOMissionPreference> StateObject<UFOMissionPreference>::get(const GameState 
 
 template <> const UString &StateObject<UFOMissionPreference>::getPrefix()
 {
-	static UString prefix = "UFO_MISSION_PREFERENCE_";
+	static UString const prefix = "UFO_MISSION_PREFERENCE_";
 	return prefix;
 }
 template <> const UString &StateObject<UFOMissionPreference>::getTypeName()
 {
-	static UString name = "UFOMissionPreference";
+	static UString const name = "UFOMissionPreference";
 	return name;
 }
 }; // namespace OpenApoc

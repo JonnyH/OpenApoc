@@ -48,13 +48,13 @@ bool ZipDataProvider::openArchive(const UString &path, bool write)
 			return false;
 		}
 
-		unsigned fileCount = mz_zip_reader_get_num_files(&archive);
+		unsigned const fileCount = mz_zip_reader_get_num_files(&archive);
 		for (unsigned idx = 0; idx < fileCount; idx++)
 		{
-			unsigned filenameLength = mz_zip_reader_get_filename(&archive, idx, nullptr, 0);
-			up<char[]> data(new char[(unsigned int)filenameLength]);
+			unsigned const filenameLength = mz_zip_reader_get_filename(&archive, idx, nullptr, 0);
+			up<char[]> const data(new char[(unsigned int)filenameLength]);
 			mz_zip_reader_get_filename(&archive, idx, data.get(), filenameLength);
-			std::string filename(data.get());
+			std::string const filename(data.get());
 			fileLookup[filename] = idx;
 		}
 	}
@@ -70,7 +70,7 @@ bool ZipDataProvider::readDocument(const UString &filename, UString &result)
 		LogInfo("File \"%s\" not found in zip in zip \"%s\"", filename, zipPath);
 		return false;
 	}
-	unsigned int fileId = it->second;
+	unsigned int const fileId = it->second;
 	mz_zip_archive_file_stat stat;
 	memset(&stat, 0, sizeof(stat));
 	if (!mz_zip_reader_file_stat(&archive, fileId, &stat))
@@ -87,7 +87,7 @@ bool ZipDataProvider::readDocument(const UString &filename, UString &result)
 	LogInfo("Reading %lu bytes for file \"%s\" in zip \"%s\"", (unsigned long)stat.m_uncomp_size,
 	        filename, zipPath);
 
-	up<char[]> data(new char[(unsigned int)stat.m_uncomp_size]);
+	up<char[]> const data(new char[(unsigned int)stat.m_uncomp_size]);
 	if (!mz_zip_reader_extract_to_mem(&archive, fileId, data.get(), (size_t)stat.m_uncomp_size, 0))
 	{
 		LogWarning("Failed to extract file \"%s\" in zip \"%s\"", filename, zipPath);

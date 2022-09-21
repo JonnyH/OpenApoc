@@ -6,19 +6,19 @@
 namespace OpenApoc
 {
 
-bool BattleMapSector::LineOfSightBlock::contains(Vec3<int> tile)
+bool BattleMapSector::LineOfSightBlock::contains(Vec3<int> tile) const
 {
 	return tile.x >= start.x && tile.y >= start.y && tile.z >= start.z && tile.x < end.x &&
 	       tile.y < end.y && tile.z < end.z;
 }
 
-bool BattleMapSector::LineOfSightBlock::contains(Vec3<float> position)
+bool BattleMapSector::LineOfSightBlock::contains(Vec3<float> position) const
 {
 	return position.x >= start.x && position.y >= start.y && position.z >= start.z &&
 	       position.x < end.x && position.y < end.y && position.z < end.z;
 }
 
-sp<BattleMapSector::LineOfSightBlock> BattleMapSector::LineOfSightBlock::clone(Vec3<int> shift)
+sp<BattleMapSector::LineOfSightBlock> BattleMapSector::LineOfSightBlock::clone(Vec3<int> shift) const
 {
 	auto b = mksp<BattleMapSector::LineOfSightBlock>();
 

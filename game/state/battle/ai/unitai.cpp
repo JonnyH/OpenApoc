@@ -35,7 +35,7 @@ const UString UnitAI::getName()
 void AIBlockUnit::init(GameState &state, BattleUnit &u)
 {
 	// FIXME: Actually read this option
-	bool USER_OPTION_USE_HARDCORE_AI = false;
+	bool const USER_OPTION_USE_HARDCORE_AI = false;
 
 	aiList.clear();
 	aiList.push_back(mksp<UnitAILowMorale>());
