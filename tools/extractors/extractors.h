@@ -102,8 +102,7 @@ class InitialGameStateExtractor
 	void extractEconomy(GameState &state) const;
 
 	void extractBattlescapeMap(GameState &state, const std::vector<OpenApoc::UString> &paths) const;
-	void extractBattlescapeMapFromPath(GameState &state, UString dirName,
-	                                   int index) const;
+	void extractBattlescapeMapFromPath(GameState &state, UString dirName, int index) const;
 	void readBattleMapParts(GameState &state, const TACP &data_t, sp<BattleMapTileset> t,
 	                        BattleMapPartType::Type type, const UString &idPrefix,
 	                        const UString &mapName, const UString &dirName, const UString &datName,

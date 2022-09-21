@@ -335,7 +335,8 @@ Vec3<float> FlyingVehicleTileHelper::findSidestep(GameState &state, sp<TileObjec
 		if (static_cast<Vec3<int>>(newPosition) != vTile->getOwningTile()->position &&
 		    canEnterTile(vTile->getOwningTile(), map.getTile(newPosition)))
 		{
-			float const currentDist = glm::abs(distancePref - targetTile->getDistanceTo(newPosition));
+			float const currentDist =
+			    glm::abs(distancePref - targetTile->getDistanceTo(newPosition));
 			if (currentDist < closest)
 			{
 				closest = currentDist;
@@ -644,7 +645,7 @@ AdjustTargetResult VehicleTargetHelper::adjustTargetToClosestRoad(Vehicle &v, Ve
 				if (reachabilityHere == Reachability::Reachable)
 				{
 					int const dist = std::abs(target.x - x) + std::abs(target.y - y) +
-					           std::abs(target.z - z) / 2;
+					                 std::abs(target.z - z) / 2;
 					if (dist < closestDist)
 					{
 						closestDist = dist;
@@ -675,7 +676,7 @@ AdjustTargetResult VehicleTargetHelper::adjustTargetToClosestRoad(Vehicle &v, Ve
 				if (reachabilityHere == Reachability::Reachable)
 				{
 					int const dist = std::abs(target.x - x) + std::abs(target.y - y) +
-					           std::abs(target.z - z) / 2;
+					                 std::abs(target.z - z) / 2;
 					if (dist < closestDist)
 					{
 						closestDist = dist;
@@ -716,7 +717,7 @@ AdjustTargetResult VehicleTargetHelper::adjustTargetToClosestGround(Vehicle &v, 
 				if (reachabilityHere == Reachability::Reachable)
 				{
 					int const dist = std::abs(target.x - x) + std::abs(target.y - y) +
-					           std::abs(target.z - z) / 2;
+					                 std::abs(target.z - z) / 2;
 					if (dist < closestDist)
 					{
 						closestDist = dist;
@@ -747,7 +748,7 @@ AdjustTargetResult VehicleTargetHelper::adjustTargetToClosestGround(Vehicle &v, 
 				if (reachabilityHere == Reachability::Reachable)
 				{
 					int const dist = std::abs(target.x - x) + std::abs(target.y - y) +
-					           std::abs(target.z - z) / 2;
+					                 std::abs(target.z - z) / 2;
 					if (dist < closestDist)
 					{
 						closestDist = dist;
@@ -1217,7 +1218,8 @@ bool VehicleMission::getNextDestination(GameState &state, Vehicle &v, Vec3<float
 								float const a2 = asinf(targetFacingVector.x);
 								float angleToTarget = a2 >= 0 ? a1 : 2.0f * (float)M_PI - a1;
 								// Bring angle to one of directional alignments
-								int const angleToTargetInt = angleToTarget / (float)M_PI * 4.0f + 0.5f;
+								int const angleToTargetInt =
+								    angleToTarget / (float)M_PI * 4.0f + 0.5f;
 								angleToTarget = (float)angleToTargetInt * (float)M_PI / 4.0f;
 								if (destFacing != angleToTarget)
 								{
@@ -2245,8 +2247,8 @@ void VehicleMission::start(GameState &state, Vehicle &v)
 					{
 						missionCounter++;
 
-						StateRef<Vehicle> const thisRef = {&state,
-						                             Vehicle::getId(state, v.shared_from_this())};
+						StateRef<Vehicle> const thisRef = {
+						    &state, Vehicle::getId(state, v.shared_from_this())};
 
 						// Launch vehicle assault on aliens
 						if (targetVehicle->owner == state.getAliens())

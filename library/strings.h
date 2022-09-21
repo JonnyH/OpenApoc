@@ -38,8 +38,7 @@ using U32StringView = std::basic_string_view<char32_t>;
 [[nodiscard]] std::vector<UString> split(UStringView str, UStringView delims);
 
 // Insert the 'insert' string at 'offset' codepoints into the string 'str' and returns the string
-[[nodiscard]] UString insert_codepoints(UStringView str, size_t offset,
-                                        UStringView insert);
+[[nodiscard]] UString insert_codepoints(UStringView str, size_t offset, UStringView insert);
 
 class Strings
 {

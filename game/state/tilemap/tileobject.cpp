@@ -68,11 +68,11 @@ class TileObjectZComparer
 	bool operator()(const sp<TileObject> &lhs, const sp<TileObject> &rhs) const
 	{
 		float const lhsZ = lhs->getCenter().x * lhs->map.velocityScale.x +
-		             lhs->getCenter().y * lhs->map.velocityScale.y +
-		             lhs->getZOrder() * lhs->map.velocityScale.z;
+		                   lhs->getCenter().y * lhs->map.velocityScale.y +
+		                   lhs->getZOrder() * lhs->map.velocityScale.z;
 		float const rhsZ = rhs->getCenter().x * rhs->map.velocityScale.x +
-		             rhs->getCenter().y * rhs->map.velocityScale.y +
-		             rhs->getZOrder() * rhs->map.velocityScale.z;
+		                   rhs->getCenter().y * rhs->map.velocityScale.y +
+		                   rhs->getZOrder() * rhs->map.velocityScale.z;
 		return (lhsZ < rhsZ);
 	}
 };
@@ -120,12 +120,13 @@ void TileObject::setPosition(Vec3<float> newPosition)
 		LogError("Object already in owned object list?");
 	}
 
-	Vec3<int> const minBounds = {floorf(newPosition.x + getCenterOffset().x - this->bounds_div_2.x),
-	                       floorf(newPosition.y + getCenterOffset().y - this->bounds_div_2.y),
-	                       floorf(newPosition.z + getCenterOffset().z - this->bounds_div_2.z)};
+	Vec3<int> const minBounds = {
+	    floorf(newPosition.x + getCenterOffset().x - this->bounds_div_2.x),
+	    floorf(newPosition.y + getCenterOffset().y - this->bounds_div_2.y),
+	    floorf(newPosition.z + getCenterOffset().z - this->bounds_div_2.z)};
 	Vec3<int> const maxBounds = {ceilf(newPosition.x + getCenterOffset().x + this->bounds_div_2.x),
-	                       ceilf(newPosition.y + getCenterOffset().y + this->bounds_div_2.y),
-	                       ceilf(newPosition.z + getCenterOffset().z + this->bounds_div_2.z)};
+	                             ceilf(newPosition.y + getCenterOffset().y + this->bounds_div_2.y),
+	                             ceilf(newPosition.z + getCenterOffset().z + this->bounds_div_2.z)};
 
 	for (int x = minBounds.x; x < maxBounds.x; x++)
 	{

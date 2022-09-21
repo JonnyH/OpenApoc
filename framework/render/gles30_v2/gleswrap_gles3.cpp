@@ -176,7 +176,8 @@ bool Gles3::supported(bool desktop_extension, std::string lib_name)
 
 	if (desktop_extension)
 	{
-		std::string const extension_list = reinterpret_cast<const char *>(LocalGetString(EXTENSIONS));
+		std::string const extension_list =
+		    reinterpret_cast<const char *>(LocalGetString(EXTENSIONS));
 		LogInfo("GL_EXTENSIONS: \"%s\"", extension_list.c_str());
 		if (extension_list.find("GL_ARB_ES3_compatibility ") != extension_list.npos)
 		{

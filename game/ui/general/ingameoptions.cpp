@@ -311,7 +311,9 @@ void InGameOptions::eventOccurred(Event *e)
 			    {StageCmd::Command::PUSH,
 			     mksp<MessageBox>(tr("Abort Mission"),
 			                      format("%s %d", tr("Units Lost :"), unitsLost),
-			                      MessageBox::ButtonOptions::YesNo, [this] {
+			                      MessageBox::ButtonOptions::YesNo,
+			                      [this]
+			                      {
 				                      state->current_battle->abortMission(*state);
 				                      Battle::finishBattle(*state);
 				                      fw().stageQueueCommand({StageCmd::Command::REPLACEALL,

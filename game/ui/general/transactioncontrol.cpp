@@ -265,8 +265,8 @@ TransactionControl::createControl(GameState &state, StateRef<AEquipmentType> age
 		for (auto &b : state.player_bases)
 		{
 			int const divisor = (agentEquipmentType->type == AEquipmentType::Type::Ammo && !isBio)
-			                  ? agentEquipmentType->max_ammo
-			                  : 1;
+			                        ? agentEquipmentType->max_ammo
+			                        : 1;
 			initialStock[baseIndex] =
 			    isBio ? b.second->inventoryBioEquipment[agentEquipmentType.id]
 			          : b.second->inventoryAgentEquipment[agentEquipmentType.id];
@@ -309,7 +309,7 @@ TransactionControl::createControl(GameState &state, StateRef<AEquipmentType> age
 	                          state, state.current_base->building, false);
 	bool const manufacturerHostile = canBuy == Organisation::PurchaseResult::OrgHostile;
 	bool const manufacturerUnavailable = manufacturer != state.getPlayer() &&
-	                               canBuy == Organisation::PurchaseResult::OrgHasNoBuildings;
+	                                     canBuy == Organisation::PurchaseResult::OrgHasNoBuildings;
 
 	return createControl(agentEquipmentType.id,
 	                     isBio ? Type::AgentEquipmentBio : Type::AgentEquipmentCargo,
@@ -369,7 +369,7 @@ TransactionControl::createControl(GameState &state, StateRef<VEquipmentType> veh
 	    state, state.current_base->building, false);
 	bool const manufacturerHostile = canBuy == Organisation::PurchaseResult::OrgHostile;
 	bool const manufacturerUnavailable = manufacturer != state.getPlayer() &&
-	                               canBuy == Organisation::PurchaseResult::OrgHasNoBuildings;
+	                                     canBuy == Organisation::PurchaseResult::OrgHasNoBuildings;
 
 	return createControl(vehicleEquipmentType.id, Type::VehicleEquipment,
 	                     vehicleEquipmentType->name, manufacturer, isAmmo, isBio, isPerson,
@@ -426,7 +426,7 @@ sp<TransactionControl> TransactionControl::createControl(GameState &state,
 	    vehicleAmmoType->manufacturer->canPurchaseFrom(state, state.current_base->building, false);
 	bool const manufacturerHostile = canBuy == Organisation::PurchaseResult::OrgHostile;
 	bool const manufacturerUnavailable = manufacturer != state.getPlayer() &&
-	                               canBuy == Organisation::PurchaseResult::OrgHasNoBuildings;
+	                                     canBuy == Organisation::PurchaseResult::OrgHasNoBuildings;
 
 	return createControl(vehicleAmmoType.id, Type::VehicleAmmo, vehicleAmmoType->name, manufacturer,
 	                     isAmmo, isBio, isPerson, researched, manufacturerHostile,
@@ -478,7 +478,7 @@ sp<TransactionControl> TransactionControl::createControl(GameState &state,
 	    vehicleType->manufacturer->canPurchaseFrom(state, state.current_base->building, true);
 	bool const manufacturerHostile = canBuy == Organisation::PurchaseResult::OrgHostile;
 	bool const manufacturerUnavailable = manufacturer != state.getPlayer() &&
-	                               canBuy == Organisation::PurchaseResult::OrgHasNoBuildings;
+	                                     canBuy == Organisation::PurchaseResult::OrgHasNoBuildings;
 
 	return createControl(vehicleType.id, Type::VehicleType, vehicleType->name, manufacturer, isAmmo,
 	                     isBio, isPerson, researched, manufacturerHostile, manufacturerUnavailable,
@@ -690,7 +690,8 @@ TransactionControl::createControl(const UString &id, Type type, const UString &n
 
 void TransactionControl::setupCallbacks()
 {
-	std::function<void(FormsEvent * e)> const onScrollChange = [this](FormsEvent *) {
+	std::function<void(FormsEvent * e)> const onScrollChange = [this](FormsEvent *)
+	{
 		if (!this->suspendUpdates)
 		{
 			this->updateValues();

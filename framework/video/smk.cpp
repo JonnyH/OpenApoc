@@ -376,12 +376,12 @@ MusicTrack::MusicCallbackReturn SMKMusicTrack::fillData(unsigned int maxSamples,
 		             this->current_frame->sample_count - this->current_frame_sample_position);
 
 		unsigned int const audio_size_bytes = samples_in_this_frame *
-		                                this->current_frame->format.getSampleSize() *
-		                                this->current_frame->format.channels;
+		                                      this->current_frame->format.getSampleSize() *
+		                                      this->current_frame->format.channels;
 
 		unsigned int const audio_offset_bytes = this->current_frame_sample_position *
-		                                  this->current_frame->format.getSampleSize() *
-		                                  this->current_frame->format.channels;
+		                                        this->current_frame->format.getSampleSize() *
+		                                        this->current_frame->format.channels;
 
 		memcpy((uint8_t *)sampleBuffer + output_offset_bytes,
 		       this->current_frame->samples.get() + audio_offset_bytes, audio_size_bytes);

@@ -49,8 +49,9 @@ void BattleTileView::updateHiddenBar()
 		{
 			continue;
 		}
-		int const reserve = u.second->reserveShotCost +
-		              u.second->getBodyStateChangeCost(BodyState::Standing, BodyState::Kneeling);
+		int const reserve =
+		    u.second->reserveShotCost +
+		    u.second->getBodyStateChangeCost(BodyState::Standing, BodyState::Kneeling);
 
 		totalTU += u.second->initialTU - reserve;
 		remainingTU += std::max(0, u.second->agent->modified_stats.time_units - reserve);
@@ -1084,7 +1085,8 @@ void BattleTileView::render()
 								}
 								if (draw)
 								{
-									Vec2<float> const pos = tileToOffsetScreenCoords(obj->getCenter());
+									Vec2<float> const pos =
+									    tileToOffsetScreenCoords(obj->getCenter());
 									obj->draw(r, *this, pos, this->viewMode,
 									          revealWholeMap || objectVisible, currentLevel,
 									          friendly, hostile);
@@ -1133,7 +1135,7 @@ void BattleTileView::render()
 
 				// Health from 0 to 15, where 15 = 100%, 14 = less than 99.9% and 0 = 0%+
 				int const health = obj.first->agent->modified_stats.health * 15 /
-				             obj.first->agent->current_stats.health;
+				                   obj.first->agent->current_stats.health;
 
 				if (health < 0)
 					continue;

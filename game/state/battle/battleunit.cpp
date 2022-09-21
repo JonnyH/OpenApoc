@@ -508,7 +508,8 @@ void BattleUnit::calculateVisionToLosBlocks(GameState &state, std::set<int> &dis
 	}
 }
 
-void BattleUnit::calculateVisionToLosBlocksLazy(GameState &state, std::set<int> &discoveredBlocks) const
+void BattleUnit::calculateVisionToLosBlocksLazy(GameState &state,
+                                                std::set<int> &discoveredBlocks) const
 {
 	auto eyesPos = getEyeLocation();
 	auto &battle = *state.current_battle;
@@ -1586,7 +1587,8 @@ void BattleUnit::applyDamageDirect(GameState &state, int damage, bool generateFa
 	// Deal health damage
 	else
 	{
-		bool const lessThanOneThird = agent->modified_stats.health * 3 / agent->current_stats.health == 0;
+		bool const lessThanOneThird =
+		    agent->modified_stats.health * 3 / agent->current_stats.health == 0;
 		agent->modified_stats.health -= damage;
 		agent->modified_stats.loseMorale(damage * 50 * (15 - agent->modified_stats.bravery / 10) /
 		                                 agent->current_stats.health / 100);
@@ -2295,8 +2297,8 @@ void BattleUnit::updateRegen(GameState &state, unsigned int ticks)
 				case MovementState::None:
 				{
 					int const staRegen = agent->current_stats.stamina >= 1920
-					                   ? 30
-					                   : (agent->current_stats.stamina >= 1280 ? 20 : 10);
+					                         ? 30
+					                         : (agent->current_stats.stamina >= 1280 ? 20 : 10);
 					agent->modified_stats.stamina = std::min(
 					    agent->modified_stats.stamina + staRegen, agent->current_stats.stamina);
 				}
@@ -3975,7 +3977,7 @@ void BattleUnit::requestGiveWay(const BattleUnit &requestor,
 			{
 				auto nextFacing = dir_facing_map.at(nextFacings[j]);
 				Vec3<int> const nextPos = {position.x + nextFacing.x, position.y + nextFacing.y,
-				                     position.z};
+				                           position.z};
 				if (nextPos == (Vec3<int>)requestor.position ||
 				    std::find(plannedPath.begin(), plannedPath.end(), nextPos) != plannedPath.end())
 				{
@@ -4106,8 +4108,8 @@ int BattleUnit::rollForPrimaryStat(GameState &state, int experience)
 void BattleUnit::processExperience(GameState &state)
 {
 	int const secondaryXP = experiencePoints.accuracy + experiencePoints.bravery +
-	                  experiencePoints.psi_attack + experiencePoints.psi_energy +
-	                  experiencePoints.reactions;
+	                        experiencePoints.psi_attack + experiencePoints.psi_energy +
+	                        experiencePoints.reactions;
 	if (agent->current_stats.accuracy < 100)
 	{
 		agent->current_stats.accuracy += rollForPrimaryStat(
@@ -4158,8 +4160,8 @@ void BattleUnit::processExperience(GameState &state)
 		if (agent->current_stats.health < 100)
 		{
 			int const healthBoost = randBoundsInclusive(state.rng, 0, 2) +
-			                  (100 - agent->current_stats.health) / 10 *
-			                      agent->type->improvementPercentagePhysical / 100;
+			                        (100 - agent->current_stats.health) / 10 *
+			                            agent->type->improvementPercentagePhysical / 100;
 			agent->current_stats.health += healthBoost;
 			agent->modified_stats.health += healthBoost;
 		}
@@ -5533,8 +5535,8 @@ bool BattleUnit::shouldPlaySoundNow()
 	if (sounds_to_play != movement_sounds_played)
 	{
 		unsigned int const divisor = (current_movement_state == MovementState::Running)
-		                           ? UNITS_TRAVELLED_PER_SOUND_RUNNING_DIVISOR
-		                           : 1;
+		                                 ? UNITS_TRAVELLED_PER_SOUND_RUNNING_DIVISOR
+		                                 : 1;
 		play = ((sounds_to_play + divisor - 1) % divisor) == 0;
 		movement_sounds_played = sounds_to_play;
 	}

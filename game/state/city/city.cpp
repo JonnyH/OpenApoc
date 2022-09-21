@@ -531,7 +531,8 @@ void City::repairVehicles(GameState &state [[maybe_unused]])
 			}
 			if (!vehiclesToRepair.empty())
 			{
-				int const repairPerVehicle = std::max(1, repairPoints / (int)vehiclesToRepair.size());
+				int const repairPerVehicle =
+				    std::max(1, repairPoints / (int)vehiclesToRepair.size());
 				// Twice since we can have a situation like 1 repair bay and 7 vehicles,
 				// in this case we repair them for 1 and we have 5 points remaining
 				// which we assign again
@@ -544,7 +545,7 @@ void City::repairVehicles(GameState &state [[maybe_unused]])
 							break;
 						}
 						int const repair = std::min(std::min(repairPoints, repairPerVehicle),
-						                      v->getMaxHealth() - v->getHealth());
+						                            v->getMaxHealth() - v->getHealth());
 						auto veh = v;
 						veh->health += repair;
 						repairPoints -= repair;
@@ -737,7 +738,8 @@ sp<Vehicle> City::placeVehicle(GameState &state, StateRef<VehicleType> type,
 }
 
 sp<Vehicle> City::placeVehicle(GameState &state, StateRef<VehicleType> type,
-                               StateRef<Organisation> owner, Vec3<float> position, float facing) const
+                               StateRef<Organisation> owner, Vec3<float> position,
+                               float facing) const
 {
 	auto v = placeVehicle(state, type, owner);
 
@@ -819,9 +821,9 @@ void City::accuracyAlgorithmCity(GameState &state, Vec3<float> firePosition, Vec
 	}
 
 	float const k1 = (2 * randBoundsInclusive(state.rng, 0, 1) - 1) * rnd[1] *
-	           std::sqrt(-2 * std::log(rnd[0]) / rnd[0]);
+	                 std::sqrt(-2 * std::log(rnd[0]) / rnd[0]);
 	float const k2 = (2 * randBoundsInclusive(state.rng, 0, 1) - 1) * rnd[2] *
-	           std::sqrt(-2 * std::log(rnd[0]) / rnd[0]);
+	                 std::sqrt(-2 * std::log(rnd[0]) / rnd[0]);
 
 	// Misses can go both ways on the axis
 	auto diffVertical =

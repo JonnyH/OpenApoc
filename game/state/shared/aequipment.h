@@ -121,7 +121,8 @@ class AEquipment : public std::enable_shared_from_this<AEquipment>, public Equip
 	                         float &velocityZ) const;
 	bool getVelocityForLaunch(const BattleUnit &unit, Vec3<int> target, float &velocityXY,
 	                          float &velocityZ) const;
-	bool getCanThrow(const TileMap &map, int strength, Vec3<float> startPos, Vec3<int> target) const;
+	bool getCanThrow(const TileMap &map, int strength, Vec3<float> startPos,
+	                 Vec3<int> target) const;
 	bool getCanThrow(const BattleUnit &unit, Vec3<int> target) const;
 
 	sp<Image> getEquipmentArmorImage() const override;

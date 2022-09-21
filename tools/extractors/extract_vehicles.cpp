@@ -176,7 +176,7 @@ void InitialGameStateExtractor::extractVehicles(GameState &state) const
 			directions = {VehicleType::Direction::N, VehicleType::Direction::E,
 			              VehicleType::Direction::S, VehicleType::Direction::W};
 			std::vector<VehicleType::Banking> const banking = {VehicleType::Banking::Ascending,
-			                                             VehicleType::Banking::Descending};
+			                                                   VehicleType::Banking::Descending};
 			for (auto &bank : banking)
 			{
 				for (auto &dir : directions)

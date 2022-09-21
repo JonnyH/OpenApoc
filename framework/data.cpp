@@ -499,8 +499,9 @@ sp<Image> DataImpl::loadImage(const UString &path, bool lazy)
 			}
 			case 5:
 			{
-				sp<PaletteImage> const pImg = std::dynamic_pointer_cast<PaletteImage>(this->loadImage(
-				    "PCK:" + splitString[1] + ":" + splitString[2] + ":" + splitString[3]));
+				sp<PaletteImage> const pImg =
+				    std::dynamic_pointer_cast<PaletteImage>(this->loadImage(
+				        "PCK:" + splitString[1] + ":" + splitString[2] + ":" + splitString[3]));
 				// In some cases, PCKS do not have enough pictures even though TAB references them.
 				// Example: tacdata/unit/xcom1a.pck
 				// We should not throw in this case.
@@ -544,8 +545,9 @@ sp<Image> DataImpl::loadImage(const UString &path, bool lazy)
 			}
 			case 5:
 			{
-				sp<PaletteImage> const pImg = std::dynamic_pointer_cast<PaletteImage>(this->loadImage(
-				    "PCKSTRAT:" + splitString[1] + ":" + splitString[2] + ":" + splitString[3]));
+				sp<PaletteImage> const pImg = std::dynamic_pointer_cast<PaletteImage>(
+				    this->loadImage("PCKSTRAT:" + splitString[1] + ":" + splitString[2] + ":" +
+				                    splitString[3]));
 				LogAssert(pImg);
 				auto pal = this->loadPalette(splitString[4]);
 				LogAssert(pal);
@@ -584,8 +586,9 @@ sp<Image> DataImpl::loadImage(const UString &path, bool lazy)
 			}
 			case 5:
 			{
-				sp<PaletteImage> const pImg = std::dynamic_pointer_cast<PaletteImage>(this->loadImage(
-				    "PCKSHADOW:" + splitString[1] + ":" + splitString[2] + ":" + splitString[3]));
+				sp<PaletteImage> const pImg = std::dynamic_pointer_cast<PaletteImage>(
+				    this->loadImage("PCKSHADOW:" + splitString[1] + ":" + splitString[2] + ":" +
+				                    splitString[3]));
 				LogAssert(pImg);
 				auto pal = this->loadPalette(splitString[4]);
 				LogAssert(pal);

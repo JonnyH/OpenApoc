@@ -84,8 +84,8 @@ class LodepngImageLoader : public OpenApoc::ImageLoader
 		unsigned int width, height;
 		lodepng::State png_state;
 
-		unsigned int const err = lodepng_inspect(&width, &height, &png_state,
-		                                   reinterpret_cast<unsigned char *>(data.get()), dataSize);
+		unsigned int const err = lodepng_inspect(
+		    &width, &height, &png_state, reinterpret_cast<unsigned char *>(data.get()), dataSize);
 		if (err)
 		{
 			LogInfo("Failed to read PNG headers from \"%s\" (%u) : %s", file.systemPath(), err,

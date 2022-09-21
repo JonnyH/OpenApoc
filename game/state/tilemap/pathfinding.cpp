@@ -968,12 +968,14 @@ void Battle::groupMove(GameState &state, std::list<StateRef<BattleUnit>> &select
 	// Sort units based on proximity to target and speed
 
 	auto localUnits = selectedUnits;
-	localUnits.sort([targetLocation](const StateRef<BattleUnit> &a, const StateRef<BattleUnit> &b) {
-		return BattleUnitTileHelper::getDistanceStatic((Vec3<int>)a->position, targetLocation) /
-		           a->agent->modified_stats.getActualSpeedValue() <
-		       BattleUnitTileHelper::getDistanceStatic((Vec3<int>)b->position, targetLocation) /
-		           b->agent->modified_stats.getActualSpeedValue();
-	});
+	localUnits.sort(
+	    [targetLocation](const StateRef<BattleUnit> &a, const StateRef<BattleUnit> &b)
+	    {
+		    return BattleUnitTileHelper::getDistanceStatic((Vec3<int>)a->position, targetLocation) /
+		               a->agent->modified_stats.getActualSpeedValue() <
+		           BattleUnitTileHelper::getDistanceStatic((Vec3<int>)b->position, targetLocation) /
+		               b->agent->modified_stats.getActualSpeedValue();
+	    });
 
 	// Find the unit that will lead the group
 
@@ -1070,7 +1072,8 @@ void Battle::groupMove(GameState &state, std::list<StateRef<BattleUnit>> &select
 	// Sort remaining units based on proximity to target and speed
 	auto h = BattleUnitTileHelper(*map, *leadUnit);
 	localUnits.sort(
-	    [h, targetLocation](const StateRef<BattleUnit> &a, const StateRef<BattleUnit> &b) {
+	    [h, targetLocation](const StateRef<BattleUnit> &a, const StateRef<BattleUnit> &b)
+	    {
 		    return h.getDistance((Vec3<int>)a->position, targetLocation) /
 		               a->agent->modified_stats.getActualSpeedValue() <
 		           h.getDistance((Vec3<int>)b->position, targetLocation) /
@@ -1108,8 +1111,8 @@ void Battle::groupMove(GameState &state, std::list<StateRef<BattleUnit>> &select
 			              targetLocationOffsetted.x, targetLocationOffsetted.y,
 			              targetLocationOffsetted.z, offset.x, offset.y, offset.z);
 			float const costLimit = 1.50f * 2.0f *
-			                  (float)(std::max(std::abs(offset.x), std::abs(offset.y)) +
-			                          std::abs(offset.x) + std::abs(offset.y));
+			                        (float)(std::max(std::abs(offset.x), std::abs(offset.y)) +
+			                                std::abs(offset.x) + std::abs(offset.y));
 			auto path =
 			    map->findShortestPath(targetLocation, targetLocationOffsetted, costLimit / 2.0f, h,
 			                          false, true, true, false, nullptr, costLimit);
@@ -1187,7 +1190,8 @@ std::list<Vec3<int>> City::findShortestPath(Vec3<int> origin, Vec3<int> destinat
 			// For non-roads check tile number 0
 			// For roads check based on where we came from
 			auto nextSeg = roadSegments[originSeg.connections[0]];
-			int const intoConnect = nextSeg.length == 1 || nextSeg.connections[0] == originID ? 0 : 1;
+			int const intoConnect =
+			    nextSeg.length == 1 || nextSeg.connections[0] == originID ? 0 : 1;
 			// Entrance intact
 			if (nextSeg.getIntactByConnectID(intoConnect))
 			{
@@ -1208,7 +1212,8 @@ std::list<Vec3<int>> City::findShortestPath(Vec3<int> origin, Vec3<int> destinat
 			// For non-roads check tile number 0
 			// For roads check based on where we came from
 			auto nextSeg = roadSegments[originSeg.connections[1]];
-			int const intoConnect = nextSeg.length == 1 || nextSeg.connections[0] == originID ? 0 : 1;
+			int const intoConnect =
+			    nextSeg.length == 1 || nextSeg.connections[0] == originID ? 0 : 1;
 			// Entrance intact
 			if (nextSeg.getIntactByConnectID(intoConnect))
 			{

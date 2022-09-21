@@ -135,7 +135,8 @@ UnitAIVanilla::getWeaponDecision(GameState &state, BattleUnit &u, sp<AEquipment>
 		                       reThinkDelay);
 	}
 
-	float const time = (float)payload->fire_delay / (float)u.fire_aiming_mode / (float)TICKS_PER_SECOND;
+	float const time =
+	    (float)payload->fire_delay / (float)u.fire_aiming_mode / (float)TICKS_PER_SECOND;
 	float const cth = std::max(
 	    1.0f, 100.f - (float)(100 - e->getAccuracy(u.target_body_state, u.current_movement_state,
 	                                               u.fire_aiming_mode)) *
@@ -234,13 +235,13 @@ UnitAIVanilla::getGrenadeDecision(GameState &state, BattleUnit &u, sp<AEquipment
 	auto payload = e->getPayloadType();
 	float const cth = 0.8f;
 	float const time = (u.current_body_state == BodyState::Standing ? 1.0f : 2.0f) *
-	             (float)(u.agent->getAnimationPack()->getFrameCountBody(
-	                         e->type, BodyState::Standing, BodyState::Throwing, HandState::AtEase,
-	                         MovementState::None, {1, 1}) +
-	                     u.agent->getAnimationPack()->getFrameCountBody(
-	                         e->type, BodyState::Throwing, BodyState::Standing, HandState::AtEase,
-	                         MovementState::None, {1, 1})) *
-	             (float)TICKS_PER_FRAME_UNIT / (float)TICKS_PER_SECOND;
+	                   (float)(u.agent->getAnimationPack()->getFrameCountBody(
+	                               e->type, BodyState::Standing, BodyState::Throwing,
+	                               HandState::AtEase, MovementState::None, {1, 1}) +
+	                           u.agent->getAnimationPack()->getFrameCountBody(
+	                               e->type, BodyState::Throwing, BodyState::Standing,
+	                               HandState::AtEase, MovementState::None, {1, 1})) *
+	                   (float)TICKS_PER_FRAME_UNIT / (float)TICKS_PER_SECOND;
 
 	float damage = 0.0f;
 	for (auto &t : state.current_battle->units)
@@ -249,7 +250,8 @@ UnitAIVanilla::getGrenadeDecision(GameState &state, BattleUnit &u, sp<AEquipment
 		{
 			continue;
 		}
-		float const distance = BattleUnitTileHelper::getDistanceStatic(t.second->position, u.position);
+		float const distance =
+		    BattleUnitTileHelper::getDistanceStatic(t.second->position, u.position);
 		if (distance > 16.0f)
 		{
 			continue;
@@ -574,7 +576,8 @@ std::tuple<AIDecision, float, unsigned> UnitAIVanilla::getAttackDecision(GameSta
 }
 
 // Calculate AI's next action in case the unit is not attacking
-std::tuple<AIDecision, float, unsigned> UnitAIVanilla::thinkGreen(GameState &state, BattleUnit &u) const
+std::tuple<AIDecision, float, unsigned> UnitAIVanilla::thinkGreen(GameState &state,
+                                                                  BattleUnit &u) const
 {
 #ifdef VANILLA_AI_DEBUG_OUTPUT
 	LogWarning("VANILLA AI %s: thinkGreen()", u.id);
@@ -901,9 +904,10 @@ void UnitAIVanilla::routine(GameState &state, BattleUnit &u)
 		// Ensure at least half of move is available for moving
 		u.setReserveKneelMode(KneelingMode::Kneeling);
 		u.setReserveShotMode(state, ReserveShotMode::Aimed);
-		int const kneelCost = u.reserve_kneel_mode == KneelingMode::None
-		                    ? 0
-		                    : u.getBodyStateChangeCost(BodyState::Standing, BodyState::Kneeling);
+		int const kneelCost =
+		    u.reserve_kneel_mode == KneelingMode::None
+		        ? 0
+		        : u.getBodyStateChangeCost(BodyState::Standing, BodyState::Kneeling);
 		if (u.reserveShotCost + kneelCost > u.initialTU / 2)
 		{
 			u.setReserveShotMode(state, ReserveShotMode::Snap);

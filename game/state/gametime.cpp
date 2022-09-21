@@ -22,8 +22,8 @@ static std::locale *DATE_SHORT_FORMAT = nullptr;
 // FIXME: Refactor to always use ptime instead of ticks?
 static time_duration ticksToPosix(int64_t ticks)
 {
-	int64_t const tickTotal = std::round(static_cast<double>(ticks * time_duration::ticks_per_second()) /
-	                               TICKS_PER_SECOND);
+	int64_t const tickTotal = std::round(
+	    static_cast<double>(ticks * time_duration::ticks_per_second()) / TICKS_PER_SECOND);
 	return time_duration(0, 0, 0, tickTotal);
 }
 
@@ -71,14 +71,14 @@ UString GameTime::getLongDateString() const
 		DATE_LONG_FORMAT = new std::locale(std::locale::classic(), dateFacet);
 
 		std::vector<std::string> const months = {tr("January"), tr("February"), tr("March"),
-		                                   tr("April"),   tr("May"),      tr("June"),
-		                                   tr("July"),    tr("August"),   tr("September"),
-		                                   tr("October"), tr("November"), tr("December")};
+		                                         tr("April"),   tr("May"),      tr("June"),
+		                                         tr("July"),    tr("August"),   tr("September"),
+		                                         tr("October"), tr("November"), tr("December")};
 		dateFacet->long_month_names(months);
 
 		std::vector<std::string> const weekdays = {tr("Sunday"),    tr("Monday"),   tr("Tuesday"),
-		                                     tr("Wednesday"), tr("Thursday"), tr("Friday"),
-		                                     tr("Saturday")};
+		                                           tr("Wednesday"), tr("Thursday"), tr("Friday"),
+		                                           tr("Saturday")};
 		dateFacet->long_weekday_names(weekdays);
 
 		std::vector<std::string> const days = {
@@ -103,9 +103,9 @@ UString GameTime::getShortDateString() const
 		DATE_SHORT_FORMAT = new std::locale(std::locale::classic(), dateFacet);
 
 		std::vector<std::string> const months = {tr("January"), tr("February"), tr("March"),
-		                                   tr("April"),   tr("May"),      tr("June"),
-		                                   tr("July"),    tr("August"),   tr("September"),
-		                                   tr("October"), tr("November"), tr("December")};
+		                                         tr("April"),   tr("May"),      tr("June"),
+		                                         tr("July"),    tr("August"),   tr("September"),
+		                                         tr("October"), tr("November"), tr("December")};
 		dateFacet->long_month_names(months);
 
 		std::vector<std::string> const days = {

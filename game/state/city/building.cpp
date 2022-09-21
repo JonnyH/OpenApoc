@@ -596,8 +596,9 @@ void Building::updateCargo(GameState &state)
 // Check what exactly can it ferry
 #ifdef DEBUG_VERBOSE_CARGO_SYSTEM
 					bool const DEBUG_PASS = v.second->type->provideFreightAgent && e.second[2] > 0;
-					bool const DEBUG_CARGO = (v.second->type->provideFreightCargo && e.second[1] > 0) ||
-					                   (v.second->type->provideFreightBio && e.second[0] > 0);
+					bool const DEBUG_CARGO =
+					    (v.second->type->provideFreightCargo && e.second[1] > 0) ||
+					    (v.second->type->provideFreightBio && e.second[0] > 0);
 #endif
 					if (v.second->type->provideFreightAgent && e.second[2] > 0)
 					{
@@ -947,7 +948,8 @@ void Building::alienMovement(GameState &state)
 			friendlyBonus = 0;
 			break;
 	}
-	bool const moving = randBoundsInclusive(state.rng, 0, 100) < 15 + 3 * totalMoveAmount + friendlyBonus;
+	bool const moving =
+	    randBoundsInclusive(state.rng, 0, 100) < 15 + 3 * totalMoveAmount + friendlyBonus;
 	if (!moving)
 	{
 		return;

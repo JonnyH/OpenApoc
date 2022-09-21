@@ -524,8 +524,8 @@ void CityTileView::render()
 			{
 				Vec3<float> size = obj->type->size.at(obj->type->getVoxelMapFacing(obj->facing));
 				size /= 2;
-				Vec2<float> const pTop = tileToOffsetScreenCoords(obj->getPosition() +
-				                                            Vec3<float>{-size.x, -size.y, size.z});
+				Vec2<float> const pTop = tileToOffsetScreenCoords(
+				    obj->getPosition() + Vec3<float>{-size.x, -size.y, size.z});
 				Vec2<float> const pLeft =
 				    tileToOffsetScreenCoords(obj->getPosition() + Vec3<float>{-size.x, +size.y, 0});
 				Vec2<float> const pRight =
@@ -919,10 +919,10 @@ void CityTileView::render()
 					// Eventually scale to 1/2 the size, but start with some bonus time of full
 					// size,
 					// so that it doesn't become distorted immediately, that's why we add extra 0.05
-					float const radius = std::min(initialRadius,
-					                        initialRadius * (float)b.second->ticksDetectionTimeOut /
-					                                (float)TICKS_DETECTION_TIMEOUT / 2.0f +
-					                            0.55f);
+					float const radius = std::min(
+					    initialRadius, initialRadius * (float)b.second->ticksDetectionTimeOut /
+					                           (float)TICKS_DETECTION_TIMEOUT / 2.0f +
+					                       0.55f);
 					Vec2<float> pos = tileToOffsetScreenCoords(
 					    Vec3<int>{(b.second->bounds.p0.x + b.second->bounds.p1.x) / 2,
 					              (b.second->bounds.p0.y + b.second->bounds.p1.y) / 2, 2});
@@ -955,9 +955,10 @@ void CityTileView::render()
 					// Eventually scale to 1/2 the size, but start with some bonus time of full
 					// size,
 					// so that it doesn't become distorted immediately, that's why we add extra 0.05
-					float const radius = std::min(initialRadius, initialRadius * (float)nearestExpiry /
-					                                               (float)TICKS_CARGO_TTL / 2.0f +
-					                                           0.55f);
+					float const radius =
+					    std::min(initialRadius, initialRadius * (float)nearestExpiry /
+					                                    (float)TICKS_CARGO_TTL / 2.0f +
+					                                0.55f);
 					Vec2<float> pos = tileToOffsetScreenCoords(
 					    Vec3<int>{(b.second->bounds.p0.x + b.second->bounds.p1.x) / 2,
 					              (b.second->bounds.p0.y + b.second->bounds.p1.y) / 2, 2});

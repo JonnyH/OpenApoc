@@ -110,8 +110,9 @@ void LoadingScreen::render()
 	float const logosch = logoh / static_cast<float>(backgroundimage->size.y);
 	float const logosc = std::min(logoscw, logosch);
 
-	Vec2<float> const logoPosition{fw().displayGetWidth() / 2 - (backgroundimage->size.x * logosc / 2),
-	                         fw().displayGetHeight() / 2 - (backgroundimage->size.y * logosc / 2)};
+	Vec2<float> const logoPosition{
+	    fw().displayGetWidth() / 2 - (backgroundimage->size.x * logosc / 2),
+	    fw().displayGetHeight() / 2 - (backgroundimage->size.y * logosc / 2)};
 	Vec2<float> const logoSize{backgroundimage->size.x * logosc, backgroundimage->size.y * logosc};
 
 	fw().renderer->drawScaled(backgroundimage, logoPosition, logoSize);

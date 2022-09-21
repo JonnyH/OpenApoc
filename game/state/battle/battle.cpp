@@ -2303,9 +2303,9 @@ void Battle::accuracyAlgorithmBattle(GameState &state, Vec3<float> firePosition,
 	}
 
 	float const k1 = (2 * randBoundsInclusive(state.rng, 0, 1) - 1) * rnd[1] *
-	           std::sqrt(-2 * std::log(rnd[0]) / rnd[0]);
+	                 std::sqrt(-2 * std::log(rnd[0]) / rnd[0]);
 	float const k2 = (2 * randBoundsInclusive(state.rng, 0, 1) - 1) * rnd[2] *
-	           std::sqrt(-2 * std::log(rnd[0]) / rnd[0]);
+	                 std::sqrt(-2 * std::log(rnd[0]) / rnd[0]);
 
 	// Vertical misses only go down
 	auto diffVertical =
@@ -2665,7 +2665,7 @@ void Battle::finishBattle(GameState &state)
 	if (state.current_battle->playerWon && !state.current_battle->winnerHasRetreated)
 	{
 		bool const playerHasBioStorage = state.current_battle->player_craft &&
-		                           state.current_battle->player_craft->getMaxBio() > 0;
+		                                 state.current_battle->player_craft->getMaxBio() > 0;
 		// Live alien loot
 		for (auto &u : liveAliens)
 		{
@@ -2804,7 +2804,7 @@ void Battle::finishBattle(GameState &state)
 		for (auto &b : city->buildings)
 		{
 			int const distance = std::abs(b.second->bounds.p0.x - battleLocation.x) +
-			               std::abs(b.second->bounds.p0.y - battleLocation.y);
+			                     std::abs(b.second->bounds.p0.y - battleLocation.y);
 			if (distance < closestDistance)
 			{
 				closestDistance = distance;
@@ -3176,9 +3176,9 @@ void Battle::exitBattle(GameState &state)
 					continue;
 				}
 				int const maxAmount = config().getBool("OpenApoc.NewFeature.EnforceCargoLimits")
-				                    ? std::min(e.second, (v->getMaxCargo() - v->getCargo()) /
-				                                             e.first->store_space)
-				                    : e.second;
+				                          ? std::min(e.second, (v->getMaxCargo() - v->getCargo()) /
+				                                                   e.first->store_space)
+				                          : e.second;
 				if (maxAmount > 0)
 				{
 					e.second -= maxAmount;
@@ -3233,11 +3233,12 @@ void Battle::exitBattle(GameState &state)
 				{
 					continue;
 				}
-				int const divisor = e.first->type == AEquipmentType::Type::Ammo ? e.first->max_ammo : 1;
+				int const divisor =
+				    e.first->type == AEquipmentType::Type::Ammo ? e.first->max_ammo : 1;
 				int const maxAmount = config().getBool("OpenApoc.NewFeature.EnforceCargoLimits")
-				                    ? std::min(e.second, (v->getMaxCargo() - v->getCargo()) /
-				                                             e.first->store_space * divisor)
-				                    : e.second;
+				                          ? std::min(e.second, (v->getMaxCargo() - v->getCargo()) /
+				                                                   e.first->store_space * divisor)
+				                          : e.second;
 				if (maxAmount > 0)
 				{
 					e.second -= maxAmount;
@@ -3292,11 +3293,12 @@ void Battle::exitBattle(GameState &state)
 				{
 					continue;
 				}
-				int const divisor = e.first->type == AEquipmentType::Type::Ammo ? e.first->max_ammo : 1;
+				int const divisor =
+				    e.first->type == AEquipmentType::Type::Ammo ? e.first->max_ammo : 1;
 				int const maxAmount = config().getBool("OpenApoc.NewFeature.EnforceCargoLimits")
-				                    ? std::min(e.second, (v->getMaxBio() - v->getBio()) /
-				                                             e.first->store_space * divisor)
-				                    : e.second;
+				                          ? std::min(e.second, (v->getMaxBio() - v->getBio()) /
+				                                                   e.first->store_space * divisor)
+				                          : e.second;
 				if (maxAmount > 0)
 				{
 					e.second -= maxAmount;

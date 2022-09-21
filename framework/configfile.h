@@ -37,16 +37,15 @@ class ConfigFile
 	void set(const UString &key, UString value);
 	void set(const UString &key, float value);
 
-	void addOptionString(UString section, UString longName, UString shortName,
-	                     UString description, UString defaultValue);
-	void addOptionInt(UString section, UString longName, UString shortName,
-	                  UString description, int defaultValue);
-	void addOptionBool(UString section, UString longName, UString shortName,
-	                   UString description, bool defaultValue);
-	void addOptionFloat(UString section, UString longName, UString shortName,
-	                    UString description, float defaultValue);
-	void addOption(UString section, UString longName, UString shortName,
-	               UString description);
+	void addOptionString(UString section, UString longName, UString shortName, UString description,
+	                     UString defaultValue);
+	void addOptionInt(UString section, UString longName, UString shortName, UString description,
+	                  int defaultValue);
+	void addOptionBool(UString section, UString longName, UString shortName, UString description,
+	                   bool defaultValue);
+	void addOptionFloat(UString section, UString longName, UString shortName, UString description,
+	                    float defaultValue);
+	void addOption(UString section, UString longName, UString shortName, UString description);
 	void addPositionalArgument(UString name, UString description);
 
 	// returns 'true' if the program should exit (invalid option/'--help' specified)
@@ -88,8 +87,7 @@ class ConfigOptionString : public ConfigOption
 class ConfigOptionInt : public ConfigOption
 {
   public:
-	ConfigOptionInt(UString section, UString name, UString description,
-	                int defaultValue = 0);
+	ConfigOptionInt(UString section, UString name, UString description, int defaultValue = 0);
 	int get() const;
 	void set(int newValue);
 };
@@ -97,8 +95,7 @@ class ConfigOptionInt : public ConfigOption
 class ConfigOptionBool : public ConfigOption
 {
   public:
-	ConfigOptionBool(UString section, UString name, UString description,
-	                 bool defaultValue = false);
+	ConfigOptionBool(UString section, UString name, UString description, bool defaultValue = false);
 	bool get() const;
 	void set(bool newValue);
 };

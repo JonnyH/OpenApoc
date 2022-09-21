@@ -560,7 +560,8 @@ void Organisation::updateHirableAgents(GameState &state)
 	}
 	for (auto &entry : hirableAgentTypes)
 	{
-		int const newAgents = randBoundsInclusive(state.rng, entry.second.first, entry.second.second);
+		int const newAgents =
+		    randBoundsInclusive(state.rng, entry.second.first, entry.second.second);
 		for (int i = 0; i < newAgents; i++)
 		{
 			auto a = state.agent_generator.createAgent(state, {&state, id}, entry.first);

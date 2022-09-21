@@ -45,15 +45,17 @@ std::shared_future<void> SaveManager::loadGame(const SaveMetadata &metadata,
 std::shared_future<void> SaveManager::loadGame(const UString &savePath, sp<GameState> state) const
 {
 	UString const saveArchiveLocation = savePath;
-	auto loadTask = fw().threadPoolEnqueue([saveArchiveLocation, state]() -> void {
-		if (!state->loadGame(saveArchiveLocation))
-		{
-			LogError("Failed to load '%s'", saveArchiveLocation);
-			return;
-		}
-		state->initState();
-		return;
-	});
+	auto loadTask = fw().threadPoolEnqueue(
+	    [saveArchiveLocation, state]() -> void
+	    {
+		    if (!state->loadGame(saveArchiveLocation))
+		    {
+			    LogError("Failed to load '%s'", saveArchiveLocation);
+			    return;
+		    }
+		    state->initState();
+		    return;
+	    });
 
 	return loadTask;
 }
@@ -195,8 +197,8 @@ bool SaveManager::newSaveGame(const UString &name, const sp<GameState> gameState
 bool SaveManager::overrideGame(const SaveMetadata &metadata, const UString &newName,
                                const sp<GameState> gameState) const
 {
-	SaveMetadata const updatedMetadata(newName, metadata.getFile(), time(nullptr), metadata.getType(),
-	                             gameState);
+	SaveMetadata const updatedMetadata(newName, metadata.getFile(), time(nullptr),
+	                                   metadata.getType(), gameState);
 	bool const result = saveGame(updatedMetadata, gameState);
 	if (result && newName != metadata.getName())
 	{
@@ -297,9 +299,9 @@ std::vector<SaveMetadata> SaveManager::getSaveList() const
 		LogError("Error while enumerating directory: \"%s\"", er.what());
 	}
 
-	sort(saveList.begin(), saveList.end(), [](const SaveMetadata &lhs, const SaveMetadata &rhs) {
-		return lhs.getCreationDate() > rhs.getCreationDate();
-	});
+	sort(saveList.begin(), saveList.end(),
+	     [](const SaveMetadata &lhs, const SaveMetadata &rhs)
+	     { return lhs.getCreationDate() > rhs.getCreationDate(); });
 
 	return saveList;
 }

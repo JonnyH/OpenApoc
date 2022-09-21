@@ -140,7 +140,8 @@ void BattleItem::setPosition(const Vec3<float> &pos)
 	}
 }
 
-Collision BattleItem::checkItemCollision(Vec3<float> previousPosition, Vec3<float> nextPosition) const
+Collision BattleItem::checkItemCollision(Vec3<float> previousPosition,
+                                         Vec3<float> nextPosition) const
 {
 	if (collisionIgnoredTicks > 0)
 		return {};

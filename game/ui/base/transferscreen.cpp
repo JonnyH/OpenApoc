@@ -166,7 +166,8 @@ void TransferScreen::updateBaseHighlight()
 			facilityPic->setVisible(true);
 			facilityPic->setImage(state->facility_types["FACILITYTYPE_LIVING_QUARTERS"]->sprite);
 			form->findControlTyped<Graphic>("FACILITY_SECOND_BAR")->setVisible(true);
-			int const usage = second_base->getUsage(*state, FacilityType::Capacity::Quarters, lq2Delta);
+			int const usage =
+			    second_base->getUsage(*state, FacilityType::Capacity::Quarters, lq2Delta);
 			fillBaseBar(false, usage);
 			auto facilityLabel = form->findControlTyped<Label>("FACILITY_SECOND_TEXT");
 			facilityLabel->setVisible(true);
@@ -179,7 +180,8 @@ void TransferScreen::updateBaseHighlight()
 			facilityPic->setVisible(true);
 			facilityPic->setImage(state->facility_types["FACILITYTYPE_STORES"]->sprite);
 			form->findControlTyped<Graphic>("FACILITY_SECOND_BAR")->setVisible(true);
-			int const usage = second_base->getUsage(*state, FacilityType::Capacity::Stores, cargo2Delta);
+			int const usage =
+			    second_base->getUsage(*state, FacilityType::Capacity::Stores, cargo2Delta);
 			fillBaseBar(false, usage);
 			auto facilityLabel = form->findControlTyped<Label>("FACILITY_SECOND_TEXT");
 			facilityLabel->setVisible(true);
@@ -192,7 +194,8 @@ void TransferScreen::updateBaseHighlight()
 			facilityPic->setVisible(true);
 			facilityPic->setImage(state->facility_types["FACILITYTYPE_ALIEN_CONTAINMENT"]->sprite);
 			form->findControlTyped<Graphic>("FACILITY_SECOND_BAR")->setVisible(true);
-			int const usage = second_base->getUsage(*state, FacilityType::Capacity::Aliens, bio2Delta);
+			int const usage =
+			    second_base->getUsage(*state, FacilityType::Capacity::Aliens, bio2Delta);
 			fillBaseBar(false, usage);
 			auto facilityLabel = form->findControlTyped<Label>("FACILITY_SECOND_TEXT");
 			facilityLabel->setVisible(true);
@@ -442,9 +445,9 @@ void TransferScreen::closeScreen()
 			{
 				// FIXME: Different message maybe? Same for now
 				UString const message = format("%s %s",
-				                         tr("No free transport to carry out the requested "
-				                            "transportation detected in the city."),
-				                         tr("Proceed?"));
+				                               tr("No free transport to carry out the requested "
+				                                  "transportation detected in the city."),
+				                               tr("Proceed?"));
 				fw().stageQueueCommand(
 				    {StageCmd::Command::PUSH,
 				     mksp<MessageBox>(title, message, MessageBox::ButtonOptions::YesNo,
@@ -540,7 +543,8 @@ void TransferScreen::executeOrders()
 						StateRef<Vehicle> vehicle{state.get(), c->itemId};
 						if (vehicle->homeBuilding != newBase->building)
 						{
-							bool const wasInBase = vehicle->currentBuilding == vehicle->homeBuilding;
+							bool const wasInBase =
+							    vehicle->currentBuilding == vehicle->homeBuilding;
 							vehicle->homeBuilding = newBase->building;
 							if (wasInBase)
 							{
@@ -673,25 +677,31 @@ void TransferScreen::initViewSecondBase()
 		view->setImage(viewImage);
 		view->setDepressedImage(viewImage);
 		wp<GraphicButton> const weakView(view);
-		view->addCallback(FormEventType::ButtonClick, [this, weakView](FormsEvent *e) {
-			auto base = e->forms().RaisedBy->getData<Base>();
-			if (this->second_base != base)
-			{
-				this->changeSecondBase(base);
-				this->currentSecondView = weakView.lock();
-			}
-		});
-		view->addCallback(FormEventType::MouseEnter, [this](FormsEvent *e) {
-			auto base = e->forms().RaisedBy->getData<Base>();
-			this->textViewSecondBase->setText(base->name);
-			this->textViewSecondBase->setVisible(true);
-			this->textViewSecondBaseStatic->setVisible(false);
-		});
-		view->addCallback(FormEventType::MouseLeave, [this](FormsEvent *) {
-			// this->textViewSecondBase->setText("");
-			this->textViewSecondBase->setVisible(false);
-			this->textViewSecondBaseStatic->setVisible(true);
-		});
+		view->addCallback(FormEventType::ButtonClick,
+		                  [this, weakView](FormsEvent *e)
+		                  {
+			                  auto base = e->forms().RaisedBy->getData<Base>();
+			                  if (this->second_base != base)
+			                  {
+				                  this->changeSecondBase(base);
+				                  this->currentSecondView = weakView.lock();
+			                  }
+		                  });
+		view->addCallback(FormEventType::MouseEnter,
+		                  [this](FormsEvent *e)
+		                  {
+			                  auto base = e->forms().RaisedBy->getData<Base>();
+			                  this->textViewSecondBase->setText(base->name);
+			                  this->textViewSecondBase->setVisible(true);
+			                  this->textViewSecondBaseStatic->setVisible(false);
+		                  });
+		view->addCallback(FormEventType::MouseLeave,
+		                  [this](FormsEvent *)
+		                  {
+			                  // this->textViewSecondBase->setText("");
+			                  this->textViewSecondBase->setVisible(false);
+			                  this->textViewSecondBaseStatic->setVisible(true);
+		                  });
 	}
 	textViewSecondBase = form->findControlTyped<Label>("TEXT_BUTTON_SECOND_BASE");
 	textViewSecondBase->setVisible(false);

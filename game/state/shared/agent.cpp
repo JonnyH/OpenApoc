@@ -515,8 +515,8 @@ bool Agent::canAddEquipment(Vec2<int> pos, StateRef<AEquipmentType> equipmentTyp
 				return false;
 			}
 			Rect<int> const otherBounds{otherEquipment->equippedPosition,
-			                      otherEquipment->equippedPosition +
-			                          otherEquipment->type->equipscreen_size};
+			                            otherEquipment->equippedPosition +
+			                                otherEquipment->type->equipscreen_size};
 			if (otherBounds.intersects(bounds))
 			{
 				return false;
@@ -1367,7 +1367,8 @@ sp<Equipment> Agent::getEquipmentAt(const Vec2<int> &position) const
 	// Find whatever occupies this space
 	for (auto &eq : this->equipment)
 	{
-		Rect<int> const eqBounds{eq->equippedPosition, eq->equippedPosition + eq->type->equipscreen_size};
+		Rect<int> const eqBounds{eq->equippedPosition,
+		                         eq->equippedPosition + eq->type->equipscreen_size};
 		if (eqBounds.within(slotPosition))
 		{
 			return eq;

@@ -115,7 +115,7 @@ T probabilityMapRandomizer(Generator &g, const std::map<T, float> &probabilityMa
 	{
 		total += p.second;
 	}
-	std::uniform_real_distribution<float> dist(0, total); //NOLINT (misc-const-correctness)
+	std::uniform_real_distribution<float> dist(0, total); // NOLINT (misc-const-correctness)
 
 	float const val = dist(g);
 

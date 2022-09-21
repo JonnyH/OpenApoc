@@ -49,18 +49,21 @@ sp<BattleUnitAnimationPack::AnimationEntry> InitialGameStateExtractor::getAnimat
 	int const offset_ua = dataAD[index * 8 + offset_dir].offset;
 	int const offset_uf = dataUA[offset_ua].offset;
 	int const from = left_side ? 0 : split_point;
-	int const to = singleFrame ? from + 1 : (left_side ? split_point : dataUA[offset_ua].frame_count);
+	int const to =
+	    singleFrame ? from + 1 : (left_side ? split_point : dataUA[offset_ua].frame_count);
 
 	for (int i = from; i < to; i++)
 	{
 		int const k = inverse ? to - i - 1 : i;
 
-		int const x_offset = (to == from + 1) ? (beginOffset.x + targetOffset.x) / 2
-		                                : beginOffset.x * (to - from - 1 - i) / (to - from - 1) +
-		                                      targetOffset.x * (i - from) / (to - from - 1);
-		int const y_offset = (to == from + 1) ? (beginOffset.y + targetOffset.y) / 2
-		                                : beginOffset.y * (to - from - 1 - i) / (to - from - 1) +
-		                                      targetOffset.y * (i - from) / (to - from - 1);
+		int const x_offset = (to == from + 1)
+		                         ? (beginOffset.x + targetOffset.x) / 2
+		                         : beginOffset.x * (to - from - 1 - i) / (to - from - 1) +
+		                               targetOffset.x * (i - from) / (to - from - 1);
+		int const y_offset = (to == from + 1)
+		                         ? (beginOffset.y + targetOffset.y) / 2
+		                         : beginOffset.y * (to - from - 1 - i) / (to - from - 1) +
+		                               targetOffset.y * (i - from) / (to - from - 1);
 
 		auto data = dataUF[offset_uf + k];
 

@@ -294,7 +294,8 @@ void ScrollBar::scrollWheel(Event *e)
 {
 	// FIXME: Scrolling amount should match wheel amount
 	// Should wheel orientation match as well? Who has horizontal scrolls??
-	int const wheelDelta = e->forms().MouseInfo.WheelVertical + e->forms().MouseInfo.WheelHorizontal;
+	int const wheelDelta =
+	    e->forms().MouseInfo.WheelVertical + e->forms().MouseInfo.WheelHorizontal;
 	if (wheelDelta > 0)
 	{
 		scrollPrev();

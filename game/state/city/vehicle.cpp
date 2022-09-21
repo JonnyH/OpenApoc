@@ -763,29 +763,29 @@ class GroundVehicleMover : public VehicleMover
 								vehicle.goalPosition.z = vehicle.position.z;
 							}
 							else
-							    // If we're on flat surface then first move to midpoint then start
-							    // to
-							    // change Z
-							    if (fromFlat)
-							{
-								vehicle.goalWaypoints.push_back(vehicle.goalPosition);
-								// Add midpoint waypoint at target z level
-								vehicle.goalPosition.x =
-								    (vehicle.position.x + vehicle.goalPosition.x) / 2.0f;
-								vehicle.goalPosition.y =
-								    (vehicle.position.y + vehicle.goalPosition.y) / 2.0f;
-								vehicle.goalPosition.z = vehicle.position.z;
-							}
-							// Else if we end on flat surface first change Z then move flat
-							else if (toFlat)
-							{
-								vehicle.goalWaypoints.push_back(vehicle.goalPosition);
-								// Add midpoint waypoint at current z level
-								vehicle.goalPosition.x =
-								    (vehicle.position.x + vehicle.goalPosition.x) / 2.0f;
-								vehicle.goalPosition.y =
-								    (vehicle.position.y + vehicle.goalPosition.y) / 2.0f;
-							}
+								// If we're on flat surface then first move to midpoint then start
+								// to
+								// change Z
+								if (fromFlat)
+								{
+									vehicle.goalWaypoints.push_back(vehicle.goalPosition);
+									// Add midpoint waypoint at target z level
+									vehicle.goalPosition.x =
+									    (vehicle.position.x + vehicle.goalPosition.x) / 2.0f;
+									vehicle.goalPosition.y =
+									    (vehicle.position.y + vehicle.goalPosition.y) / 2.0f;
+									vehicle.goalPosition.z = vehicle.position.z;
+								}
+								// Else if we end on flat surface first change Z then move flat
+								else if (toFlat)
+								{
+									vehicle.goalWaypoints.push_back(vehicle.goalPosition);
+									// Add midpoint waypoint at current z level
+									vehicle.goalPosition.x =
+									    (vehicle.position.x + vehicle.goalPosition.x) / 2.0f;
+									vehicle.goalPosition.y =
+									    (vehicle.position.y + vehicle.goalPosition.y) / 2.0f;
+								}
 							// If we're moving from nonflat to nonflat then we need no midpoint at
 							// all
 						}
@@ -880,7 +880,8 @@ void VehicleMover::updateFalling(GameState &state, unsigned int ticks)
 		    randBoundsExclusive(state.rng, 0, 100) < 2)
 		{
 			LogWarning("Doodads");
-			UString const doodadId = randBool(state.rng) ? "DOODAD_1_AUTOCANNON" : "DOODAD_2_AIRGUARD";
+			UString const doodadId =
+			    randBool(state.rng) ? "DOODAD_1_AUTOCANNON" : "DOODAD_2_AIRGUARD";
 			auto doodadPos = vehicle.position;
 			doodadPos.x += (float)randBoundsInclusive(state.rng, -3, 3) / 10.0f;
 			doodadPos.y += (float)randBoundsInclusive(state.rng, -3, 3) / 10.0f;
@@ -1167,7 +1168,8 @@ void VehicleMover::updateSliding(GameState &state, unsigned int ticks)
 		if (vehicle.getMaxHealth() / vehicle.getHealth() >= 3 &&
 		    randBoundsExclusive(state.rng, 0, 100) < 2)
 		{
-			UString const doodadId = randBool(state.rng) ? "DOODAD_1_AUTOCANNON" : "DOODAD_2_AIRGUARD";
+			UString const doodadId =
+			    randBool(state.rng) ? "DOODAD_1_AUTOCANNON" : "DOODAD_2_AIRGUARD";
 			auto doodadPos = vehicle.position;
 			doodadPos.x += (float)randBoundsInclusive(state.rng, -3, 3) / 10.0f;
 			doodadPos.y += (float)randBoundsInclusive(state.rng, -3, 3) / 10.0f;
@@ -1446,7 +1448,7 @@ void Vehicle::setCrashed(GameState &state, bool crashed)
 	if (crashed)
 	{
 		sp<Doodad> const smoke = mksp<Doodad>(position + SMOKE_DOODAD_SHIFT,
-		                                StateRef<DoodadType>{&state, "DOODAD_13_SMOKE_FUME"});
+		                                      StateRef<DoodadType>{&state, "DOODAD_13_SMOKE_FUME"});
 		city->map->addObjectToMap(smoke);
 		smokeDoodad = smoke;
 	}
@@ -1937,7 +1939,8 @@ void Vehicle::startFalling(GameState &state, StateRef<Vehicle> attacker)
 	falling = true;
 	if (angularVelocity == 0.0f)
 	{
-		float const vel = getSpeed() * (float)M_PI / (float)TICK_SCALE / VELOCITY_SCALE_CITY.x / 1.5f;
+		float const vel =
+		    getSpeed() * (float)M_PI / (float)TICK_SCALE / VELOCITY_SCALE_CITY.x / 1.5f;
 
 		switch (randBoundsInclusive(state.rng, -1, 1))
 		{
@@ -2208,7 +2211,8 @@ void Vehicle::update(GameState &state, unsigned int ticks)
 									if (angleXY > (float)arc.x * (float)M_PI / 8.0f)
 									{
 										this->goalFacing = xyToFacing(target2d);
-										float const d = facingDistance(this->goalFacing, this->facing);
+										float const d =
+										    facingDistance(this->goalFacing, this->facing);
 										// TODO: Should this nudge CCW/CW for animation purposes?
 										if (d > 0.0f)
 										{
@@ -2680,12 +2684,13 @@ sp<TileObjectVehicle> Vehicle::findClosestEnemy(GameState &state, sp<TileObjectV
 		{
 			auto facing = type->directionToVector(direction);
 			auto vecToTarget = otherVehicleTile->getPosition() - position;
-			float const angleXY = glm::angle(glm::normalize(Vec2<float>{facing.x, facing.y}),
-			                           glm::normalize(Vec2<float>{vecToTarget.x, vecToTarget.y}));
+			float const angleXY =
+			    glm::angle(glm::normalize(Vec2<float>{facing.x, facing.y}),
+			               glm::normalize(Vec2<float>{vecToTarget.x, vecToTarget.y}));
 			float const vecToTargetXY =
 			    sqrtf(vecToTarget.x * vecToTarget.x + vecToTarget.y * vecToTarget.y);
-			float const angleZ = glm::angle(Vec2<float>{1.0f, 0.0f},
-			                          glm::normalize(Vec2<float>{vecToTargetXY, vecToTarget.z}));
+			float const angleZ = glm::angle(
+			    Vec2<float>{1.0f, 0.0f}, glm::normalize(Vec2<float>{vecToTargetXY, vecToTarget.z}));
 			if (angleXY > (float)arc.x * (float)M_PI / 8.0f ||
 			    angleZ > (float)arc.y * (float)M_PI / 8.0f)
 			{
@@ -2730,12 +2735,13 @@ sp<TileObjectProjectile> Vehicle::findClosestHostileMissile(GameState &state,
 		{
 			auto facing = type->directionToVector(direction);
 			auto vecToTarget = projectile->getPosition() - position;
-			float const angleXY = glm::angle(glm::normalize(Vec2<float>{facing.x, facing.y}),
-			                           glm::normalize(Vec2<float>{vecToTarget.x, vecToTarget.y}));
+			float const angleXY =
+			    glm::angle(glm::normalize(Vec2<float>{facing.x, facing.y}),
+			               glm::normalize(Vec2<float>{vecToTarget.x, vecToTarget.y}));
 			float const vecToTargetXY =
 			    sqrtf(vecToTarget.x * vecToTarget.x + vecToTarget.y * vecToTarget.y);
-			float const angleZ = glm::angle(Vec2<float>{1.0f, 0.0f},
-			                          glm::normalize(Vec2<float>{vecToTargetXY, vecToTarget.z}));
+			float const angleZ = glm::angle(
+			    Vec2<float>{1.0f, 0.0f}, glm::normalize(Vec2<float>{vecToTargetXY, vecToTarget.z}));
 			if (angleXY > (float)arc.x * (float)M_PI / 8.0f ||
 			    angleZ > (float)arc.y * (float)M_PI / 8.0f)
 			{
@@ -2929,8 +2935,9 @@ sp<VEquipment> Vehicle::getFirstFiringWeapon(GameState &state [[maybe_unused]], 
 			Vec2<int> const arc = {eq->type->firing_arc_1, eq->type->firing_arc_2};
 			auto facing = type->directionToVector(direction);
 			auto vecToTarget = target - position;
-			float const angleXY = glm::angle(glm::normalize(Vec2<float>{facing.x, facing.y}),
-			                           glm::normalize(Vec2<float>{vecToTarget.x, vecToTarget.y}));
+			float const angleXY =
+			    glm::angle(glm::normalize(Vec2<float>{facing.x, facing.y}),
+			               glm::normalize(Vec2<float>{vecToTarget.x, vecToTarget.y}));
 			float const vecToTargetXY =
 			    sqrtf(vecToTarget.x * vecToTarget.x + vecToTarget.y * vecToTarget.y);
 			float const angleZ = glm::angle(
@@ -3569,8 +3576,8 @@ bool Vehicle::canAddEquipment(Vec2<int> pos, StateRef<VEquipmentType> type) cons
 			return false;
 		}
 		Rect<int> const otherBounds{otherEquipment->equippedPosition,
-		                      otherEquipment->equippedPosition +
-		                          otherEquipment->type->equipscreen_size};
+		                            otherEquipment->equippedPosition +
+		                                otherEquipment->type->equipscreen_size};
 		if (otherBounds.intersects(bounds))
 		{
 			return false;
@@ -3777,7 +3784,8 @@ sp<Equipment> Vehicle::getEquipmentAt(const Vec2<int> &position) const
 	}
 	for (auto &eq : this->equipment)
 	{
-		Rect<int> const eqBounds{eq->equippedPosition, eq->equippedPosition + eq->type->equipscreen_size};
+		Rect<int> const eqBounds{eq->equippedPosition,
+		                         eq->equippedPosition + eq->type->equipscreen_size};
 		if (eqBounds.within(slotPosition))
 		{
 			return eq;

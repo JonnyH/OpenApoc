@@ -152,7 +152,7 @@ int main(int argc, char **argv)
 	{
 
 		OpenApoc::StateRef<OpenApoc::Organisation> const org = {state.get(),
-		                                                  OpenApoc::UString("ORG_ALIEN")};
+		                                                        OpenApoc::UString("ORG_ALIEN")};
 		auto v = OpenApoc::mksp<OpenApoc::Vehicle>();
 		auto vID = OpenApoc::Vehicle::generateObjectID(*state);
 		OpenApoc::sp<OpenApoc::VehicleType> vType;

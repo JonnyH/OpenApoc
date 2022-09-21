@@ -864,7 +864,8 @@ void AEquipment::throwItem(GameState &state, Vec3<int> targetPosition, float vel
 	                                false, !launch);
 	Vec3<float> const targetVectorModified = targetLocationModified - position;
 	// Calculate difference in lengths to modify velocity
-	float const targetVectorDifference = glm::length(targetVectorModified) / glm::length(targetVector);
+	float const targetVectorDifference =
+	    glm::length(targetVectorModified) / glm::length(targetVector);
 
 	velocityXY *= targetVectorDifference;
 	velocityZ *= targetVectorDifference;

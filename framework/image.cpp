@@ -52,8 +52,9 @@ void PaletteImage::blit(sp<PaletteImage> src, sp<PaletteImage> dst, Vec2<unsigne
 	PaletteImageLock const reader(src, ImageLockUse::Read);
 	PaletteImageLock writer(dst, ImageLockUse::Write);
 
-	Vec2<unsigned int> const size = {std::min(src->size.x - srcOffset.x, dst->size.x - dstOffset.x),
-	                           std::min(src->size.y - srcOffset.y, dst->size.y - dstOffset.y)};
+	Vec2<unsigned int> const size = {
+	    std::min(src->size.x - srcOffset.x, dst->size.x - dstOffset.x),
+	    std::min(src->size.y - srcOffset.y, dst->size.y - dstOffset.y)};
 	Vec2<unsigned int> pos;
 	for (pos.y = 0; pos.y < size.y; pos.y++)
 	{
@@ -89,8 +90,9 @@ void RGBImage::blit(sp<RGBImage> src, sp<RGBImage> dst, Vec2<unsigned int> srcOf
 	RGBImageLock const reader(src, ImageLockUse::Read);
 	RGBImageLock writer(dst, ImageLockUse::Write);
 
-	Vec2<unsigned int> const size = {std::min(src->size.x - srcOffset.x, dst->size.x - dstOffset.x),
-	                           std::min(src->size.y - srcOffset.y, dst->size.y - dstOffset.y)};
+	Vec2<unsigned int> const size = {
+	    std::min(src->size.x - srcOffset.x, dst->size.x - dstOffset.x),
+	    std::min(src->size.y - srcOffset.y, dst->size.y - dstOffset.y)};
 	Vec2<unsigned int> pos;
 	for (pos.y = 0; pos.y < size.y; pos.y++)
 	{

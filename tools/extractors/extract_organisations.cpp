@@ -263,10 +263,10 @@ void InitialGameStateExtractor::extractOrganisations(GameState &state) const
 			// Relation sets
 			std::set<Organisation::Relation> const Allied = {Organisation::Relation::Allied};
 			std::set<Organisation::Relation> const NeutralPlus = {Organisation::Relation::Allied,
-			                                                Organisation::Relation::Friendly,
-			                                                Organisation::Relation::Neutral};
-			std::set<Organisation::Relation> const UnfriendlyMinus = {Organisation::Relation::Unfriendly,
-			                                                    Organisation::Relation::Hostile};
+			                                                      Organisation::Relation::Friendly,
+			                                                      Organisation::Relation::Neutral};
+			std::set<Organisation::Relation> const UnfriendlyMinus = {
+			    Organisation::Relation::Unfriendly, Organisation::Relation::Hostile};
 
 			auto &missions = o->recurring_missions[{&state, "CITYMAP_HUMAN"}];
 			// Agents

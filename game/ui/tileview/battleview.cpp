@@ -173,7 +173,8 @@ BattleView::BattleView(sp<GameState> gameState)
 	{
 		executePlanPopup = mksp<BattleTurnBasedConfirmBox>(
 		    tr("Execute remaining movement orders for this unit?"),
-		    [this] {
+		    [this]
+		    {
 			    unitPendingConfirmation->missions.pop_front();
 			    unitPendingConfirmation = nullptr;
 		    },
@@ -266,21 +267,16 @@ BattleView::BattleView(sp<GameState> gameState)
 	motionScannerUnit[true] =
 	    motionScannerForms[true]->findControlTyped<Graphic>("MOTION_SCANNER_UNIT");
 
-	std::function<void(FormsEvent * e)> const medikitButtonHead = [this](Event *) {
-		orderHeal(BodyPart::Helmet);
-	};
-	std::function<void(FormsEvent * e)> const medikitButtonBody = [this](Event *) {
-		orderHeal(BodyPart::Body);
-	};
-	std::function<void(FormsEvent * e)> const medikitButtonLeftHand = [this](Event *) {
-		orderHeal(BodyPart::LeftArm);
-	};
-	std::function<void(FormsEvent * e)> const medikitButtonRightHand = [this](Event *) {
-		orderHeal(BodyPart::RightArm);
-	};
-	std::function<void(FormsEvent * e)> const medikitButtonLegs = [this](Event *) {
-		orderHeal(BodyPart::Legs);
-	};
+	std::function<void(FormsEvent * e)> const medikitButtonHead = [this](Event *)
+	{ orderHeal(BodyPart::Helmet); };
+	std::function<void(FormsEvent * e)> const medikitButtonBody = [this](Event *)
+	{ orderHeal(BodyPart::Body); };
+	std::function<void(FormsEvent * e)> const medikitButtonLeftHand = [this](Event *)
+	{ orderHeal(BodyPart::LeftArm); };
+	std::function<void(FormsEvent * e)> const medikitButtonRightHand = [this](Event *)
+	{ orderHeal(BodyPart::RightArm); };
+	std::function<void(FormsEvent * e)> const medikitButtonLegs = [this](Event *)
+	{ orderHeal(BodyPart::Legs); };
 	medikitForms[false]
 	    ->findControlTyped<GraphicButton>("MEDIKIT_HEAD_BUTTON")
 	    ->addCallback(FormEventType::ButtonClick, medikitButtonHead);
@@ -346,211 +342,264 @@ BattleView::BattleView(sp<GameState> gameState)
 	resume();
 
 	baseForm->findControl("BUTTON_FOLLOW_AGENT")
-	    ->addCallback(FormEventType::CheckBoxChange, [this](FormsEvent *e) {
-		    this->followAgent =
-		        std::dynamic_pointer_cast<CheckBox>(e->forms().RaisedBy)->isChecked();
-	    });
+	    ->addCallback(FormEventType::CheckBoxChange,
+	                  [this](FormsEvent *e) {
+		                  this->followAgent =
+		                      std::dynamic_pointer_cast<CheckBox>(e->forms().RaisedBy)->isChecked();
+	                  });
 	baseForm->findControl("BUTTON_TOGGLE_STRATMAP")
-	    ->addCallback(FormEventType::CheckBoxChange, [this](FormsEvent *e) {
-		    bool const strategy = std::dynamic_pointer_cast<CheckBox>(e->forms().RaisedBy)->isChecked();
-		    this->setViewMode(strategy ? TileViewMode::Strategy : TileViewMode::Isometric);
-	    });
+	    ->addCallback(FormEventType::CheckBoxChange,
+	                  [this](FormsEvent *e)
+	                  {
+		                  bool const strategy =
+		                      std::dynamic_pointer_cast<CheckBox>(e->forms().RaisedBy)->isChecked();
+		                  this->setViewMode(strategy ? TileViewMode::Strategy
+		                                             : TileViewMode::Isometric);
+	                  });
 	baseForm->findControl("BUTTON_LAYERING")
-	    ->addCallback(FormEventType::TriStateBoxChange, [this](FormsEvent *e) {
-		    int const state = std::dynamic_pointer_cast<TriStateBox>(e->forms().RaisedBy)->getState();
-		    switch (state)
-		    {
-			    case 1:
-				    setLayerDrawingMode(LayerDrawingMode::UpToCurrentLevel);
-				    break;
-			    case 2:
-				    setLayerDrawingMode(LayerDrawingMode::AllLevels);
-				    break;
-			    case 3:
-				    setLayerDrawingMode(LayerDrawingMode::OnlyCurrentLevel);
-				    break;
-		    }
-	    });
+	    ->addCallback(
+	        FormEventType::TriStateBoxChange,
+	        [this](FormsEvent *e)
+	        {
+		        int const state =
+		            std::dynamic_pointer_cast<TriStateBox>(e->forms().RaisedBy)->getState();
+		        switch (state)
+		        {
+			        case 1:
+				        setLayerDrawingMode(LayerDrawingMode::UpToCurrentLevel);
+				        break;
+			        case 2:
+				        setLayerDrawingMode(LayerDrawingMode::AllLevels);
+				        break;
+			        case 3:
+				        setLayerDrawingMode(LayerDrawingMode::OnlyCurrentLevel);
+				        break;
+		        }
+	        });
 
 	baseForm->findControl("BUTTON_CEASE_FIRE")
-	    ->addCallback(FormEventType::MouseClick, [this](Event *) {
-		    bool at_will = false;
-		    for (auto &u : this->battle.battleViewSelectedUnits)
-		    {
-			    if (u->fire_permission_mode == BattleUnit::FirePermissionMode::AtWill)
-			    {
-				    at_will = true;
-			    }
-		    }
-		    for (auto &u : this->battle.battleViewSelectedUnits)
-		    {
-			    if (at_will)
-			    {
-				    u->setFirePermissionMode(BattleUnit::FirePermissionMode::CeaseFire);
-			    }
-			    else
-			    {
-				    u->setFirePermissionMode(BattleUnit::FirePermissionMode::AtWill);
-			    }
-		    }
-	    });
-	baseForm->findControl("BUTTON_AIMED")->addCallback(FormEventType::MouseClick, [this](Event *) {
-		for (auto &u : this->battle.battleViewSelectedUnits)
-		{
-			u->setWeaponAimingMode(WeaponAimingMode::Aimed);
-		}
-	});
-	baseForm->findControl("BUTTON_SNAP")->addCallback(FormEventType::MouseClick, [this](Event *) {
-		for (auto &u : this->battle.battleViewSelectedUnits)
-		{
-			u->setWeaponAimingMode(WeaponAimingMode::Snap);
-		}
-	});
-	baseForm->findControl("BUTTON_AUTO")->addCallback(FormEventType::MouseClick, [this](Event *) {
-		for (auto &u : this->battle.battleViewSelectedUnits)
-		{
-			u->setWeaponAimingMode(WeaponAimingMode::Auto);
-		}
-	});
-	baseForm->findControl("BUTTON_KNEEL")->addCallback(FormEventType::MouseClick, [this](Event *) {
-		bool not_kneeling = false;
+	    ->addCallback(FormEventType::MouseClick,
+	                  [this](Event *)
+	                  {
+		                  bool at_will = false;
+		                  for (auto &u : this->battle.battleViewSelectedUnits)
+		                  {
+			                  if (u->fire_permission_mode == BattleUnit::FirePermissionMode::AtWill)
+			                  {
+				                  at_will = true;
+			                  }
+		                  }
+		                  for (auto &u : this->battle.battleViewSelectedUnits)
+		                  {
+			                  if (at_will)
+			                  {
+				                  u->setFirePermissionMode(
+				                      BattleUnit::FirePermissionMode::CeaseFire);
+			                  }
+			                  else
+			                  {
+				                  u->setFirePermissionMode(BattleUnit::FirePermissionMode::AtWill);
+			                  }
+		                  }
+	                  });
+	baseForm->findControl("BUTTON_AIMED")
+	    ->addCallback(FormEventType::MouseClick,
+	                  [this](Event *)
+	                  {
+		                  for (auto &u : this->battle.battleViewSelectedUnits)
+		                  {
+			                  u->setWeaponAimingMode(WeaponAimingMode::Aimed);
+		                  }
+	                  });
+	baseForm->findControl("BUTTON_SNAP")
+	    ->addCallback(FormEventType::MouseClick,
+	                  [this](Event *)
+	                  {
+		                  for (auto &u : this->battle.battleViewSelectedUnits)
+		                  {
+			                  u->setWeaponAimingMode(WeaponAimingMode::Snap);
+		                  }
+	                  });
+	baseForm->findControl("BUTTON_AUTO")
+	    ->addCallback(FormEventType::MouseClick,
+	                  [this](Event *)
+	                  {
+		                  for (auto &u : this->battle.battleViewSelectedUnits)
+		                  {
+			                  u->setWeaponAimingMode(WeaponAimingMode::Auto);
+		                  }
+	                  });
+	baseForm->findControl("BUTTON_KNEEL")
+	    ->addCallback(FormEventType::MouseClick,
+	                  [this](Event *)
+	                  {
+		                  bool not_kneeling = false;
 
-		for (auto &u : this->battle.battleViewSelectedUnits)
-		{
-			if (u->kneeling_mode == KneelingMode::None &&
-			    u->agent->isBodyStateAllowed(BodyState::Kneeling))
-			{
-				not_kneeling = true;
-			}
-		}
-		for (auto &u : this->battle.battleViewSelectedUnits)
-		{
-			if (not_kneeling)
-			{
-				u->setKneelingMode(KneelingMode::Kneeling);
-			}
-			else
-			{
-				u->setKneelingMode(KneelingMode::None);
-			}
-		}
-	});
-	baseForm->findControl("BUTTON_PRONE")->addCallback(FormEventType::MouseClick, [this](Event *) {
-		for (auto &u : this->battle.battleViewSelectedUnits)
-		{
-			u->setMovementMode(MovementMode::Prone);
-		}
-	});
-	baseForm->findControl("BUTTON_WALK")->addCallback(FormEventType::MouseClick, [this](Event *) {
-		for (auto &u : this->battle.battleViewSelectedUnits)
-		{
-			u->setMovementMode(MovementMode::Walking);
-		}
-	});
-	baseForm->findControl("BUTTON_RUN")->addCallback(FormEventType::MouseClick, [this](Event *) {
-		for (auto &u : this->battle.battleViewSelectedUnits)
-		{
-			u->setMovementMode(MovementMode::Running);
-		}
-	});
+		                  for (auto &u : this->battle.battleViewSelectedUnits)
+		                  {
+			                  if (u->kneeling_mode == KneelingMode::None &&
+			                      u->agent->isBodyStateAllowed(BodyState::Kneeling))
+			                  {
+				                  not_kneeling = true;
+			                  }
+		                  }
+		                  for (auto &u : this->battle.battleViewSelectedUnits)
+		                  {
+			                  if (not_kneeling)
+			                  {
+				                  u->setKneelingMode(KneelingMode::Kneeling);
+			                  }
+			                  else
+			                  {
+				                  u->setKneelingMode(KneelingMode::None);
+			                  }
+		                  }
+	                  });
+	baseForm->findControl("BUTTON_PRONE")
+	    ->addCallback(FormEventType::MouseClick,
+	                  [this](Event *)
+	                  {
+		                  for (auto &u : this->battle.battleViewSelectedUnits)
+		                  {
+			                  u->setMovementMode(MovementMode::Prone);
+		                  }
+	                  });
+	baseForm->findControl("BUTTON_WALK")
+	    ->addCallback(FormEventType::MouseClick,
+	                  [this](Event *)
+	                  {
+		                  for (auto &u : this->battle.battleViewSelectedUnits)
+		                  {
+			                  u->setMovementMode(MovementMode::Walking);
+		                  }
+	                  });
+	baseForm->findControl("BUTTON_RUN")
+	    ->addCallback(FormEventType::MouseClick,
+	                  [this](Event *)
+	                  {
+		                  for (auto &u : this->battle.battleViewSelectedUnits)
+		                  {
+			                  u->setMovementMode(MovementMode::Running);
+		                  }
+	                  });
 	baseForm->findControl("BUTTON_EVASIVE")
-	    ->addCallback(FormEventType::MouseClick, [this](Event *) {
-		    for (auto &u : this->battle.battleViewSelectedUnits)
-		    {
-			    u->setBehaviorMode(BattleUnit::BehaviorMode::Evasive);
-		    }
-	    });
-	baseForm->findControl("BUTTON_NORMAL")->addCallback(FormEventType::MouseClick, [this](Event *) {
-		for (auto &u : this->battle.battleViewSelectedUnits)
-		{
-			u->setBehaviorMode(BattleUnit::BehaviorMode::Normal);
-		}
-	});
+	    ->addCallback(FormEventType::MouseClick,
+	                  [this](Event *)
+	                  {
+		                  for (auto &u : this->battle.battleViewSelectedUnits)
+		                  {
+			                  u->setBehaviorMode(BattleUnit::BehaviorMode::Evasive);
+		                  }
+	                  });
+	baseForm->findControl("BUTTON_NORMAL")
+	    ->addCallback(FormEventType::MouseClick,
+	                  [this](Event *)
+	                  {
+		                  for (auto &u : this->battle.battleViewSelectedUnits)
+		                  {
+			                  u->setBehaviorMode(BattleUnit::BehaviorMode::Normal);
+		                  }
+	                  });
 	baseForm->findControl("BUTTON_AGGRESSIVE")
-	    ->addCallback(FormEventType::MouseClick, [this](Event *) {
-		    for (auto &u : this->battle.battleViewSelectedUnits)
-		    {
-			    u->setBehaviorMode(BattleUnit::BehaviorMode::Aggressive);
-		    }
-	    });
+	    ->addCallback(FormEventType::MouseClick,
+	                  [this](Event *)
+	                  {
+		                  for (auto &u : this->battle.battleViewSelectedUnits)
+		                  {
+			                  u->setBehaviorMode(BattleUnit::BehaviorMode::Aggressive);
+		                  }
+	                  });
 
 	baseForm->findControl("BUTTON_RESERVE_AIMED")
-	    ->addCallback(FormEventType::MouseClick, [this](Event *) {
-		    bool pushed = false;
-		    for (auto &u : this->battle.battleViewSelectedUnits)
-		    {
-			    if (u->reserve_shot_mode == ReserveShotMode::Aimed)
-			    {
-				    pushed = true;
-			    }
-		    }
-		    for (auto &u : this->battle.battleViewSelectedUnits)
-		    {
-			    u->setReserveShotMode(*state,
-			                          pushed ? ReserveShotMode::None : ReserveShotMode::Aimed);
-		    }
-	    });
+	    ->addCallback(FormEventType::MouseClick,
+	                  [this](Event *)
+	                  {
+		                  bool pushed = false;
+		                  for (auto &u : this->battle.battleViewSelectedUnits)
+		                  {
+			                  if (u->reserve_shot_mode == ReserveShotMode::Aimed)
+			                  {
+				                  pushed = true;
+			                  }
+		                  }
+		                  for (auto &u : this->battle.battleViewSelectedUnits)
+		                  {
+			                  u->setReserveShotMode(*state, pushed ? ReserveShotMode::None
+			                                                       : ReserveShotMode::Aimed);
+		                  }
+	                  });
 
 	baseForm->findControl("BUTTON_RESERVE_SNAP")
-	    ->addCallback(FormEventType::MouseClick, [this](Event *) {
-		    bool pushed = false;
-		    for (auto &u : this->battle.battleViewSelectedUnits)
-		    {
-			    if (u->reserve_shot_mode == ReserveShotMode::Snap)
-			    {
-				    pushed = true;
-			    }
-		    }
-		    for (auto &u : this->battle.battleViewSelectedUnits)
-		    {
-			    u->setReserveShotMode(*state,
-			                          pushed ? ReserveShotMode::None : ReserveShotMode::Snap);
-		    }
-	    });
+	    ->addCallback(FormEventType::MouseClick,
+	                  [this](Event *)
+	                  {
+		                  bool pushed = false;
+		                  for (auto &u : this->battle.battleViewSelectedUnits)
+		                  {
+			                  if (u->reserve_shot_mode == ReserveShotMode::Snap)
+			                  {
+				                  pushed = true;
+			                  }
+		                  }
+		                  for (auto &u : this->battle.battleViewSelectedUnits)
+		                  {
+			                  u->setReserveShotMode(*state, pushed ? ReserveShotMode::None
+			                                                       : ReserveShotMode::Snap);
+		                  }
+	                  });
 
 	baseForm->findControl("BUTTON_RESERVE_AUTO")
-	    ->addCallback(FormEventType::MouseClick, [this](Event *) {
-		    bool pushed = false;
-		    for (auto &u : this->battle.battleViewSelectedUnits)
-		    {
-			    if (u->reserve_shot_mode == ReserveShotMode::Auto)
-			    {
-				    pushed = true;
-			    }
-		    }
-		    for (auto &u : this->battle.battleViewSelectedUnits)
-		    {
-			    u->setReserveShotMode(*state,
-			                          pushed ? ReserveShotMode::None : ReserveShotMode::Auto);
-		    }
-	    });
+	    ->addCallback(FormEventType::MouseClick,
+	                  [this](Event *)
+	                  {
+		                  bool pushed = false;
+		                  for (auto &u : this->battle.battleViewSelectedUnits)
+		                  {
+			                  if (u->reserve_shot_mode == ReserveShotMode::Auto)
+			                  {
+				                  pushed = true;
+			                  }
+		                  }
+		                  for (auto &u : this->battle.battleViewSelectedUnits)
+		                  {
+			                  u->setReserveShotMode(*state, pushed ? ReserveShotMode::None
+			                                                       : ReserveShotMode::Auto);
+		                  }
+	                  });
 
 	baseForm->findControl("BUTTON_RESERVE_KNEEL")
-	    ->addCallback(FormEventType::MouseClick, [this](Event *) {
-		    bool pushed = false;
-		    for (auto &u : this->battle.battleViewSelectedUnits)
-		    {
-			    if (u->reserve_kneel_mode == KneelingMode::Kneeling)
-			    {
-				    pushed = true;
-			    }
-		    }
-		    for (auto &u : this->battle.battleViewSelectedUnits)
-		    {
-			    u->setReserveKneelMode(pushed ? KneelingMode::None : KneelingMode::Kneeling);
-		    }
-	    });
+	    ->addCallback(FormEventType::MouseClick,
+	                  [this](Event *)
+	                  {
+		                  bool pushed = false;
+		                  for (auto &u : this->battle.battleViewSelectedUnits)
+		                  {
+			                  if (u->reserve_kneel_mode == KneelingMode::Kneeling)
+			                  {
+				                  pushed = true;
+			                  }
+		                  }
+		                  for (auto &u : this->battle.battleViewSelectedUnits)
+		                  {
+			                  u->setReserveKneelMode(pushed ? KneelingMode::None
+			                                                : KneelingMode::Kneeling);
+		                  }
+	                  });
 
 	baseForm->findControl("BUTTON_LAYER_UP")
-	    ->addCallback(FormEventType::ButtonClick, [this](Event *) {
-		    this->setZLevel(getZLevel() + 1);
-		    updateLayerButtons();
-	    });
+	    ->addCallback(FormEventType::ButtonClick,
+	                  [this](Event *)
+	                  {
+		                  this->setZLevel(getZLevel() + 1);
+		                  updateLayerButtons();
+	                  });
 	baseForm->findControl("BUTTON_LAYER_DOWN")
-	    ->addCallback(FormEventType::ButtonClick, [this](Event *) {
-		    this->setZLevel(getZLevel() - 1);
-		    updateLayerButtons();
-	    });
+	    ->addCallback(FormEventType::ButtonClick,
+	                  [this](Event *)
+	                  {
+		                  this->setZLevel(getZLevel() - 1);
+		                  updateLayerButtons();
+	                  });
 
 	baseForm->findControl("BUTTON_MOVE_GROUP")
 	    ->addCallback(FormEventType::ButtonClick,
@@ -567,7 +616,8 @@ BattleView::BattleView(sp<GameState> gameState)
 		baseForm->findControlTyped<RadioButton>("BUTTON_MOVE_INDIVIDUALLY")->setChecked(true);
 	}
 
-	std::function<void(int index)> const clickedSquad = [this](int index) {
+	std::function<void(int index)> const clickedSquad = [this](int index)
+	{
 		if (baseForm->findControlTyped<CheckBox>("BUTTON_SQUAD_ASSIGN")->isChecked())
 		{
 			baseForm->findControlTyped<CheckBox>("BUTTON_SQUAD_ASSIGN")->setChecked(false);
@@ -623,24 +673,18 @@ BattleView::BattleView(sp<GameState> gameState)
 		}
 	};
 
-	std::function<void(FormsEvent * e)> const clickedSquad1 = [clickedSquad](FormsEvent *) {
-		clickedSquad(0);
-	};
-	std::function<void(FormsEvent * e)> const clickedSquad2 = [clickedSquad](FormsEvent *) {
-		clickedSquad(1);
-	};
-	std::function<void(FormsEvent * e)> const clickedSquad3 = [clickedSquad](FormsEvent *) {
-		clickedSquad(2);
-	};
-	std::function<void(FormsEvent * e)> const clickedSquad4 = [clickedSquad](FormsEvent *) {
-		clickedSquad(3);
-	};
-	std::function<void(FormsEvent * e)> const clickedSquad5 = [clickedSquad](FormsEvent *) {
-		clickedSquad(4);
-	};
-	std::function<void(FormsEvent * e)> const clickedSquad6 = [clickedSquad](FormsEvent *) {
-		clickedSquad(5);
-	};
+	std::function<void(FormsEvent * e)> const clickedSquad1 = [clickedSquad](FormsEvent *)
+	{ clickedSquad(0); };
+	std::function<void(FormsEvent * e)> const clickedSquad2 = [clickedSquad](FormsEvent *)
+	{ clickedSquad(1); };
+	std::function<void(FormsEvent * e)> const clickedSquad3 = [clickedSquad](FormsEvent *)
+	{ clickedSquad(2); };
+	std::function<void(FormsEvent * e)> const clickedSquad4 = [clickedSquad](FormsEvent *)
+	{ clickedSquad(3); };
+	std::function<void(FormsEvent * e)> const clickedSquad5 = [clickedSquad](FormsEvent *)
+	{ clickedSquad(4); };
+	std::function<void(FormsEvent * e)> const clickedSquad6 = [clickedSquad](FormsEvent *)
+	{ clickedSquad(5); };
 	baseForm->findControlTyped<Graphic>("SQUAD_1_OVERLAY")
 	    ->addCallback(FormEventType::MouseClick, clickedSquad1);
 	baseForm->findControlTyped<Graphic>("SQUAD_2_OVERLAY")
@@ -654,7 +698,8 @@ BattleView::BattleView(sp<GameState> gameState)
 	baseForm->findControlTyped<Graphic>("SQUAD_6_OVERLAY")
 	    ->addCallback(FormEventType::MouseClick, clickedSquad6);
 
-	std::function<void(int index)> const clickedUnitPortrait = [this](int index) {
+	std::function<void(int index)> const clickedUnitPortrait = [this](int index)
+	{
 		if (!this->unitInfo[index].agent || this->unitInfo[index].faded)
 		{
 			return;
@@ -662,7 +707,7 @@ BattleView::BattleView(sp<GameState> gameState)
 		bool const ctrl = this->modifierRCtrl || this->modifierLCtrl;
 		StateRef<BattleUnit> unit = this->unitInfo[index].agent->unit;
 		bool const needZoom = !this->battle.battleViewSelectedUnits.empty() &&
-		                this->battle.battleViewSelectedUnits.front() == unit;
+		                      this->battle.battleViewSelectedUnits.front() == unit;
 		if (!ctrl)
 		{
 			this->battle.battleViewSelectedUnits.clear();
@@ -682,24 +727,18 @@ BattleView::BattleView(sp<GameState> gameState)
 			this->zoomAt(unit->position);
 		}
 	};
-	std::function<void(FormsEvent * e)> const clickedUnitPortrait1 = [clickedUnitPortrait](FormsEvent *) {
-		clickedUnitPortrait(0);
-	};
-	std::function<void(FormsEvent * e)> const clickedUnitPortrait2 = [clickedUnitPortrait](FormsEvent *) {
-		clickedUnitPortrait(1);
-	};
-	std::function<void(FormsEvent * e)> const clickedUnitPortrait3 = [clickedUnitPortrait](FormsEvent *) {
-		clickedUnitPortrait(2);
-	};
-	std::function<void(FormsEvent * e)> const clickedUnitPortrait4 = [clickedUnitPortrait](FormsEvent *) {
-		clickedUnitPortrait(3);
-	};
-	std::function<void(FormsEvent * e)> const clickedUnitPortrait5 = [clickedUnitPortrait](FormsEvent *) {
-		clickedUnitPortrait(4);
-	};
-	std::function<void(FormsEvent * e)> const clickedUnitPortrait6 = [clickedUnitPortrait](FormsEvent *) {
-		clickedUnitPortrait(5);
-	};
+	std::function<void(FormsEvent * e)> const clickedUnitPortrait1 =
+	    [clickedUnitPortrait](FormsEvent *) { clickedUnitPortrait(0); };
+	std::function<void(FormsEvent * e)> const clickedUnitPortrait2 =
+	    [clickedUnitPortrait](FormsEvent *) { clickedUnitPortrait(1); };
+	std::function<void(FormsEvent * e)> const clickedUnitPortrait3 =
+	    [clickedUnitPortrait](FormsEvent *) { clickedUnitPortrait(2); };
+	std::function<void(FormsEvent * e)> const clickedUnitPortrait4 =
+	    [clickedUnitPortrait](FormsEvent *) { clickedUnitPortrait(3); };
+	std::function<void(FormsEvent * e)> const clickedUnitPortrait5 =
+	    [clickedUnitPortrait](FormsEvent *) { clickedUnitPortrait(4); };
+	std::function<void(FormsEvent * e)> const clickedUnitPortrait6 =
+	    [clickedUnitPortrait](FormsEvent *) { clickedUnitPortrait(5); };
 	baseForm->findControlTyped<Graphic>("UNIT_1")->addCallback(FormEventType::MouseClick,
 	                                                           clickedUnitPortrait1);
 	baseForm->findControlTyped<Graphic>("UNIT_2")->addCallback(FormEventType::MouseClick,
@@ -713,7 +752,8 @@ BattleView::BattleView(sp<GameState> gameState)
 	baseForm->findControlTyped<Graphic>("UNIT_6")->addCallback(FormEventType::MouseClick,
 	                                                           clickedUnitPortrait6);
 
-	std::function<void(int index)> const clickedUnitHostiles = [this](int index) {
+	std::function<void(int index)> const clickedUnitHostiles = [this](int index)
+	{
 		if (!this->unitInfo[index].agent ||
 		    this->unitInfo[index].agent->unit->visibleEnemies.empty())
 		{
@@ -732,24 +772,18 @@ BattleView::BattleView(sp<GameState> gameState)
 		}
 		this->zoomAt((*it)->position);
 	};
-	std::function<void(FormsEvent * e)> const clickedUnitHostiles1 = [clickedUnitHostiles](FormsEvent *) {
-		clickedUnitHostiles(0);
-	};
-	std::function<void(FormsEvent * e)> const clickedUnitHostiles2 = [clickedUnitHostiles](FormsEvent *) {
-		clickedUnitHostiles(1);
-	};
-	std::function<void(FormsEvent * e)> const clickedUnitHostiles3 = [clickedUnitHostiles](FormsEvent *) {
-		clickedUnitHostiles(2);
-	};
-	std::function<void(FormsEvent * e)> const clickedUnitHostiles4 = [clickedUnitHostiles](FormsEvent *) {
-		clickedUnitHostiles(3);
-	};
-	std::function<void(FormsEvent * e)> const clickedUnitHostiles5 = [clickedUnitHostiles](FormsEvent *) {
-		clickedUnitHostiles(4);
-	};
-	std::function<void(FormsEvent * e)> const clickedUnitHostiles6 = [clickedUnitHostiles](FormsEvent *) {
-		clickedUnitHostiles(5);
-	};
+	std::function<void(FormsEvent * e)> const clickedUnitHostiles1 =
+	    [clickedUnitHostiles](FormsEvent *) { clickedUnitHostiles(0); };
+	std::function<void(FormsEvent * e)> const clickedUnitHostiles2 =
+	    [clickedUnitHostiles](FormsEvent *) { clickedUnitHostiles(1); };
+	std::function<void(FormsEvent * e)> const clickedUnitHostiles3 =
+	    [clickedUnitHostiles](FormsEvent *) { clickedUnitHostiles(2); };
+	std::function<void(FormsEvent * e)> const clickedUnitHostiles4 =
+	    [clickedUnitHostiles](FormsEvent *) { clickedUnitHostiles(3); };
+	std::function<void(FormsEvent * e)> const clickedUnitHostiles5 =
+	    [clickedUnitHostiles](FormsEvent *) { clickedUnitHostiles(4); };
+	std::function<void(FormsEvent * e)> const clickedUnitHostiles6 =
+	    [clickedUnitHostiles](FormsEvent *) { clickedUnitHostiles(5); };
 	baseForm->findControlTyped<Graphic>("UNIT_1_HOSTILES")
 	    ->addCallback(FormEventType::MouseClick, clickedUnitHostiles1);
 	baseForm->findControlTyped<Graphic>("UNIT_2_HOSTILES")
@@ -792,151 +826,187 @@ BattleView::BattleView(sp<GameState> gameState)
 	    ->addCallback(FormEventType::CheckBoxSelected, [this](Event *) { setZLevel(9); });
 	uiTabsTB[0]
 	    ->findControl("BUTTON_LAYER_1")
-	    ->addCallback(FormEventType::CheckBoxSelected, [this](Event *) {
-		    setZLevel(1);
-		    uiTabsTB[3]->findControlTyped<RadioButton>("BUTTON_LAYER_1")->setChecked(true);
-	    });
+	    ->addCallback(
+	        FormEventType::CheckBoxSelected,
+	        [this](Event *)
+	        {
+		        setZLevel(1);
+		        uiTabsTB[3]->findControlTyped<RadioButton>("BUTTON_LAYER_1")->setChecked(true);
+	        });
 	uiTabsTB[0]
 	    ->findControl("BUTTON_LAYER_2")
-	    ->addCallback(FormEventType::CheckBoxSelected, [this](Event *) {
-		    setZLevel(2);
-		    uiTabsTB[3]->findControlTyped<RadioButton>("BUTTON_LAYER_2")->setChecked(true);
-	    });
+	    ->addCallback(
+	        FormEventType::CheckBoxSelected,
+	        [this](Event *)
+	        {
+		        setZLevel(2);
+		        uiTabsTB[3]->findControlTyped<RadioButton>("BUTTON_LAYER_2")->setChecked(true);
+	        });
 	uiTabsTB[0]
 	    ->findControl("BUTTON_LAYER_3")
-	    ->addCallback(FormEventType::CheckBoxSelected, [this](Event *) {
-		    setZLevel(3);
-		    uiTabsTB[3]->findControlTyped<RadioButton>("BUTTON_LAYER_3")->setChecked(true);
-	    });
+	    ->addCallback(
+	        FormEventType::CheckBoxSelected,
+	        [this](Event *)
+	        {
+		        setZLevel(3);
+		        uiTabsTB[3]->findControlTyped<RadioButton>("BUTTON_LAYER_3")->setChecked(true);
+	        });
 	uiTabsTB[0]
 	    ->findControl("BUTTON_LAYER_4")
-	    ->addCallback(FormEventType::CheckBoxSelected, [this](Event *) {
-		    setZLevel(4);
-		    uiTabsTB[3]->findControlTyped<RadioButton>("BUTTON_LAYER_4")->setChecked(true);
-	    });
+	    ->addCallback(
+	        FormEventType::CheckBoxSelected,
+	        [this](Event *)
+	        {
+		        setZLevel(4);
+		        uiTabsTB[3]->findControlTyped<RadioButton>("BUTTON_LAYER_4")->setChecked(true);
+	        });
 	uiTabsTB[0]
 	    ->findControl("BUTTON_LAYER_5")
-	    ->addCallback(FormEventType::CheckBoxSelected, [this](Event *) {
-		    setZLevel(5);
-		    uiTabsTB[3]->findControlTyped<RadioButton>("BUTTON_LAYER_5")->setChecked(true);
-	    });
+	    ->addCallback(
+	        FormEventType::CheckBoxSelected,
+	        [this](Event *)
+	        {
+		        setZLevel(5);
+		        uiTabsTB[3]->findControlTyped<RadioButton>("BUTTON_LAYER_5")->setChecked(true);
+	        });
 	uiTabsTB[0]
 	    ->findControl("BUTTON_LAYER_6")
-	    ->addCallback(FormEventType::CheckBoxSelected, [this](Event *) {
-		    setZLevel(6);
-		    uiTabsTB[3]->findControlTyped<RadioButton>("BUTTON_LAYER_6")->setChecked(true);
-	    });
+	    ->addCallback(
+	        FormEventType::CheckBoxSelected,
+	        [this](Event *)
+	        {
+		        setZLevel(6);
+		        uiTabsTB[3]->findControlTyped<RadioButton>("BUTTON_LAYER_6")->setChecked(true);
+	        });
 	uiTabsTB[0]
 	    ->findControl("BUTTON_LAYER_7")
-	    ->addCallback(FormEventType::CheckBoxSelected, [this](Event *) {
-		    setZLevel(7);
-		    uiTabsTB[3]->findControlTyped<RadioButton>("BUTTON_LAYER_7")->setChecked(true);
-	    });
+	    ->addCallback(
+	        FormEventType::CheckBoxSelected,
+	        [this](Event *)
+	        {
+		        setZLevel(7);
+		        uiTabsTB[3]->findControlTyped<RadioButton>("BUTTON_LAYER_7")->setChecked(true);
+	        });
 	uiTabsTB[0]
 	    ->findControl("BUTTON_LAYER_8")
-	    ->addCallback(FormEventType::CheckBoxSelected, [this](Event *) {
-		    setZLevel(8);
-		    uiTabsTB[3]->findControlTyped<RadioButton>("BUTTON_LAYER_8")->setChecked(true);
-	    });
+	    ->addCallback(
+	        FormEventType::CheckBoxSelected,
+	        [this](Event *)
+	        {
+		        setZLevel(8);
+		        uiTabsTB[3]->findControlTyped<RadioButton>("BUTTON_LAYER_8")->setChecked(true);
+	        });
 	uiTabsTB[0]
 	    ->findControl("BUTTON_LAYER_9")
-	    ->addCallback(FormEventType::CheckBoxSelected, [this](Event *) {
-		    setZLevel(9);
-		    uiTabsTB[3]->findControlTyped<RadioButton>("BUTTON_LAYER_9")->setChecked(true);
-	    });
+	    ->addCallback(
+	        FormEventType::CheckBoxSelected,
+	        [this](Event *)
+	        {
+		        setZLevel(9);
+		        uiTabsTB[3]->findControlTyped<RadioButton>("BUTTON_LAYER_9")->setChecked(true);
+	        });
 	uiTabsTB[3]
 	    ->findControl("BUTTON_LAYER_1")
-	    ->addCallback(FormEventType::CheckBoxSelected, [this](Event *) {
-		    uiTabsTB[0]->findControlTyped<RadioButton>("BUTTON_LAYER_1")->setChecked(true);
-	    });
+	    ->addCallback(
+	        FormEventType::CheckBoxSelected, [this](Event *)
+	        { uiTabsTB[0]->findControlTyped<RadioButton>("BUTTON_LAYER_1")->setChecked(true); });
 	uiTabsTB[3]
 	    ->findControl("BUTTON_LAYER_2")
-	    ->addCallback(FormEventType::CheckBoxSelected, [this](Event *) {
-		    uiTabsTB[0]->findControlTyped<RadioButton>("BUTTON_LAYER_2")->setChecked(true);
-	    });
+	    ->addCallback(
+	        FormEventType::CheckBoxSelected, [this](Event *)
+	        { uiTabsTB[0]->findControlTyped<RadioButton>("BUTTON_LAYER_2")->setChecked(true); });
 	uiTabsTB[3]
 	    ->findControl("BUTTON_LAYER_3")
-	    ->addCallback(FormEventType::CheckBoxSelected, [this](Event *) {
-		    uiTabsTB[0]->findControlTyped<RadioButton>("BUTTON_LAYER_3")->setChecked(true);
-	    });
+	    ->addCallback(
+	        FormEventType::CheckBoxSelected, [this](Event *)
+	        { uiTabsTB[0]->findControlTyped<RadioButton>("BUTTON_LAYER_3")->setChecked(true); });
 	uiTabsTB[3]
 	    ->findControl("BUTTON_LAYER_4")
-	    ->addCallback(FormEventType::CheckBoxSelected, [this](Event *) {
-		    uiTabsTB[0]->findControlTyped<RadioButton>("BUTTON_LAYER_4")->setChecked(true);
-	    });
+	    ->addCallback(
+	        FormEventType::CheckBoxSelected, [this](Event *)
+	        { uiTabsTB[0]->findControlTyped<RadioButton>("BUTTON_LAYER_4")->setChecked(true); });
 	uiTabsTB[3]
 	    ->findControl("BUTTON_LAYER_5")
-	    ->addCallback(FormEventType::CheckBoxSelected, [this](Event *) {
-		    uiTabsTB[0]->findControlTyped<RadioButton>("BUTTON_LAYER_5")->setChecked(true);
-	    });
+	    ->addCallback(
+	        FormEventType::CheckBoxSelected, [this](Event *)
+	        { uiTabsTB[0]->findControlTyped<RadioButton>("BUTTON_LAYER_5")->setChecked(true); });
 	uiTabsTB[3]
 	    ->findControl("BUTTON_LAYER_6")
-	    ->addCallback(FormEventType::CheckBoxSelected, [this](Event *) {
-		    uiTabsTB[0]->findControlTyped<RadioButton>("BUTTON_LAYER_6")->setChecked(true);
-	    });
+	    ->addCallback(
+	        FormEventType::CheckBoxSelected, [this](Event *)
+	        { uiTabsTB[0]->findControlTyped<RadioButton>("BUTTON_LAYER_6")->setChecked(true); });
 	uiTabsTB[3]
 	    ->findControl("BUTTON_LAYER_7")
-	    ->addCallback(FormEventType::CheckBoxSelected, [this](Event *) {
-		    uiTabsTB[0]->findControlTyped<RadioButton>("BUTTON_LAYER_7")->setChecked(true);
-	    });
+	    ->addCallback(
+	        FormEventType::CheckBoxSelected, [this](Event *)
+	        { uiTabsTB[0]->findControlTyped<RadioButton>("BUTTON_LAYER_7")->setChecked(true); });
 	uiTabsTB[3]
 	    ->findControl("BUTTON_LAYER_8")
-	    ->addCallback(FormEventType::CheckBoxSelected, [this](Event *) {
-		    uiTabsTB[0]->findControlTyped<RadioButton>("BUTTON_LAYER_8")->setChecked(true);
-	    });
+	    ->addCallback(
+	        FormEventType::CheckBoxSelected, [this](Event *)
+	        { uiTabsTB[0]->findControlTyped<RadioButton>("BUTTON_LAYER_8")->setChecked(true); });
 	uiTabsTB[3]
 	    ->findControl("BUTTON_LAYER_9")
-	    ->addCallback(FormEventType::CheckBoxSelected, [this](Event *) {
-		    uiTabsTB[0]->findControlTyped<RadioButton>("BUTTON_LAYER_9")->setChecked(true);
-	    });
+	    ->addCallback(
+	        FormEventType::CheckBoxSelected, [this](Event *)
+	        { uiTabsTB[0]->findControlTyped<RadioButton>("BUTTON_LAYER_9")->setChecked(true); });
 
 	baseForm->findControl("BUTTON_SHOW_OPTIONS")
-	    ->addCallback(FormEventType::ButtonClick, [this](Event *) {
-		    fw().stageQueueCommand(
-		        {StageCmd::Command::PUSH, mksp<InGameOptions>(this->state->shared_from_this())});
-	    });
+	    ->addCallback(FormEventType::ButtonClick,
+	                  [this](Event *)
+	                  {
+		                  fw().stageQueueCommand(
+		                      {StageCmd::Command::PUSH,
+		                       mksp<InGameOptions>(this->state->shared_from_this())});
+	                  });
 	this->baseForm->findControl("BUTTON_SHOW_LOG")
-	    ->addCallback(FormEventType::ButtonClick, [this](Event *) {
-		    fw().stageQueueCommand(
-		        {StageCmd::Command::PUSH, mksp<MessageLogScreen>(this->state, *this)});
-	    });
+	    ->addCallback(FormEventType::ButtonClick,
+	                  [this](Event *) {
+		                  fw().stageQueueCommand({StageCmd::Command::PUSH,
+		                                          mksp<MessageLogScreen>(this->state, *this)});
+	                  });
 	this->baseForm->findControl("BUTTON_ZOOM_EVENT")
-	    ->addCallback(FormEventType::ButtonClick, [this](Event *) {
-		    if (baseForm->findControlTyped<Ticker>("NEWS_TICKER")->hasMessages())
-		    {
-			    LogWarning("Has Messages!");
-			    this->zoomLastEvent();
-		    }
-	    });
+	    ->addCallback(FormEventType::ButtonClick,
+	                  [this](Event *)
+	                  {
+		                  if (baseForm->findControlTyped<Ticker>("NEWS_TICKER")->hasMessages())
+		                  {
+			                  LogWarning("Has Messages!");
+			                  this->zoomLastEvent();
+		                  }
+	                  });
 
 	// FIXME: When clicking on items or weapons, activate them or go into fire / teleport mode
 	// accordingly
 
-	std::function<void(FormsEvent * e)> const clickedRightHand = [this](FormsEvent *e) {
+	std::function<void(FormsEvent * e)> const clickedRightHand = [this](FormsEvent *e)
+	{
 		if (Event::isPressed(e->forms().MouseInfo.Button, Event::MouseButton::Right))
 			orderUse(true, true);
 		else if (Event::isPressed(e->forms().MouseInfo.Button, Event::MouseButton::Left))
 			orderUse(true, false);
 	};
 
-	std::function<void(FormsEvent * e)> const clickedLeftHand = [this](FormsEvent *e) {
+	std::function<void(FormsEvent * e)> const clickedLeftHand = [this](FormsEvent *e)
+	{
 		if (Event::isPressed(e->forms().MouseInfo.Button, Event::MouseButton::Right))
 			orderUse(false, true);
 		else if (Event::isPressed(e->forms().MouseInfo.Button, Event::MouseButton::Left))
 			orderUse(false, false);
 	};
 
-	std::function<void(FormsEvent * e)> const openInventory = [this](Event *) { openAgentInventory(); };
+	std::function<void(FormsEvent * e)> const openInventory = [this](Event *)
+	{ openAgentInventory(); };
 
 	std::function<void(FormsEvent * e)> const dropRightHand = [this](Event *) { orderDrop(true); };
 
 	std::function<void(FormsEvent * e)> const dropLeftHand = [this](Event *) { orderDrop(false); };
 
-	std::function<void(FormsEvent * e)> const cancelThrow = [this](Event *) {
-		this->setSelectedTab(this->mainTab);
-	};
+	std::function<void(FormsEvent * e)> const cancelThrow = [this](Event *)
+	{ this->setSelectedTab(this->mainTab); };
 
-	std::function<void(bool right)> const throwItem = [this](bool right) {
+	std::function<void(bool right)> const throwItem = [this](bool right)
+	{
 		bool fail = false;
 		if (this->battle.battleViewSelectedUnits.empty())
 		{
@@ -971,11 +1041,14 @@ BattleView::BattleView(sp<GameState> gameState)
 		}
 	};
 
-	std::function<void(FormsEvent * e)> const throwRightHand = [throwItem](Event *) { throwItem(true); };
+	std::function<void(FormsEvent * e)> const throwRightHand = [throwItem](Event *)
+	{ throwItem(true); };
 
-	std::function<void(FormsEvent * e)> const throwLeftHand = [throwItem](Event *) { throwItem(false); };
+	std::function<void(FormsEvent * e)> const throwLeftHand = [throwItem](Event *)
+	{ throwItem(false); };
 
-	std::function<void(FormsEvent * e)> const finishPriming = [this, throwItem](Event *) {
+	std::function<void(FormsEvent * e)> const finishPriming = [this, throwItem](Event *)
+	{
 		bool const right =
 		    this->primingTab->findControlTyped<CheckBox>("HIDDEN_CHECK_RIGHT_HAND")->isChecked();
 		auto unit = this->battle.battleViewSelectedUnits.front();
@@ -1003,9 +1076,11 @@ BattleView::BattleView(sp<GameState> gameState)
 		this->setSelectedTab(this->mainTab);
 	};
 
-	std::function<void(FormsEvent * e)> const updateDelay = [this](Event *) { this->refreshDelayText(); };
+	std::function<void(FormsEvent * e)> const updateDelay = [this](Event *)
+	{ this->refreshDelayText(); };
 
-	std::function<void(FormsEvent * e)> const updateRange = [this](Event *) { this->refreshRangeText(); };
+	std::function<void(FormsEvent * e)> const updateRange = [this](Event *)
+	{ this->refreshRangeText(); };
 
 	// Priming controls
 
@@ -1038,7 +1113,8 @@ BattleView::BattleView(sp<GameState> gameState)
 	    ->findControlTyped<ScrollBar>("RANGE_SLIDER")
 	    ->addCallback(FormEventType::ScrollBarChange, updateRange);
 
-	std::function<void(FormsEvent * e)> const psiControl = [this](Event *) {
+	std::function<void(FormsEvent * e)> const psiControl = [this](Event *)
+	{
 		bool const control = this->psiInfo.status == PsiStatus::Control;
 		this->orderCancelPsi();
 		if (control)
@@ -1047,7 +1123,8 @@ BattleView::BattleView(sp<GameState> gameState)
 		}
 		this->selectionState = BattleSelectionState::PsiControl;
 	};
-	std::function<void(FormsEvent * e)> const psiPanic = [this](Event *) {
+	std::function<void(FormsEvent * e)> const psiPanic = [this](Event *)
+	{
 		bool const control = this->psiInfo.status == PsiStatus::Control;
 		this->orderCancelPsi();
 		if (control)
@@ -1056,7 +1133,8 @@ BattleView::BattleView(sp<GameState> gameState)
 		}
 		this->selectionState = BattleSelectionState::PsiPanic;
 	};
-	std::function<void(FormsEvent * e)> const psiStun = [this](Event *) {
+	std::function<void(FormsEvent * e)> const psiStun = [this](Event *)
+	{
 		bool const control = this->psiInfo.status == PsiStatus::Control;
 		this->orderCancelPsi();
 		if (control)
@@ -1065,7 +1143,8 @@ BattleView::BattleView(sp<GameState> gameState)
 		}
 		this->selectionState = BattleSelectionState::PsiStun;
 	};
-	std::function<void(FormsEvent * e)> const psiProbe = [this](Event *) {
+	std::function<void(FormsEvent * e)> const psiProbe = [this](Event *)
+	{
 		bool const control = this->psiInfo.status == PsiStatus::Control;
 		this->orderCancelPsi();
 		if (control)
@@ -1075,7 +1154,8 @@ BattleView::BattleView(sp<GameState> gameState)
 		this->selectionState = BattleSelectionState::PsiProbe;
 	};
 
-	std::function<void(FormsEvent * e)> const cancelPsi = [this](Event *) {
+	std::function<void(FormsEvent * e)> const cancelPsi = [this](Event *)
+	{
 		this->setSelectedTab(this->mainTab);
 		this->selectionState = BattleSelectionState::Normal;
 	};
@@ -1161,10 +1241,12 @@ BattleView::BattleView(sp<GameState> gameState)
 	// We need these in TB because we will be able to allow pausing then
 
 	baseForm->findControl("BUTTON_SPEED0")
-	    ->addCallback(FormEventType::CheckBoxSelected, [this](Event *) {
-		    this->lastSpeed = this->updateSpeed;
-		    this->updateSpeed = BattleUpdateSpeed::Pause;
-	    });
+	    ->addCallback(FormEventType::CheckBoxSelected,
+	                  [this](Event *)
+	                  {
+		                  this->lastSpeed = this->updateSpeed;
+		                  this->updateSpeed = BattleUpdateSpeed::Pause;
+	                  });
 	baseForm->findControl("BUTTON_SPEED1")
 	    ->addCallback(FormEventType::CheckBoxSelected,
 	                  [this](Event *) { this->updateSpeed = BattleUpdateSpeed::Speed1; });
@@ -1357,7 +1439,8 @@ void BattleView::update()
 				         "Next Turn",
 				         format("%s, it is your turn!",
 				                state->current_battle->currentActiveOrganisation->name),
-				         MessageBox::ButtonOptions::Ok, [this] {
+				         MessageBox::ButtonOptions::Ok,
+				         [this] {
 					         state->current_battle->currentPlayer =
 					             state->current_battle->currentActiveOrganisation;
 				         })});
@@ -1368,8 +1451,8 @@ void BattleView::update()
 
 		// Figure out whether our/not our turn state has changed
 		bool const notMyTurn = endTurnRequested || battle.turnEndAllowed ||
-		                 !battle.interruptUnits.empty() || !battle.interruptQueue.empty() ||
-		                 battle.currentActiveOrganisation != battle.currentPlayer;
+		                       !battle.interruptUnits.empty() || !battle.interruptQueue.empty() ||
+		                       battle.currentActiveOrganisation != battle.currentPlayer;
 		if (notMyTurn && activeTab != notMyTurnTab)
 		{
 			setSelectedTab(notMyTurnTab);
@@ -2091,7 +2174,7 @@ void BattleView::updateSoldierButtons()
 	    ->setState(reserve_kneel_set && reserve_kneel_unset ? 3 : (reserve_kneel_set ? 2 : 1));
 
 	bool const throwing = !battle.battleViewSelectedUnits.empty() &&
-	                battle.battleViewSelectedUnits.front()->isThrowing();
+	                      battle.battleViewSelectedUnits.front()->isThrowing();
 
 	mainTab->findControlTyped<CheckBox>("BUTTON_LEFT_HAND_THROW")
 	    ->setChecked(selectionState == BattleSelectionState::ThrowLeft || leftThrowDelay > 0 ||
@@ -2133,7 +2216,7 @@ void BattleView::updateHiddenForm()
 	hiddenForm->findControlTyped<Label>("TEXT_SIDE")
 	    ->setText(battle.currentActiveOrganisation->name);
 	bool const player = state->current_battle->hotseat &&
-	              state->current_battle->currentActiveOrganisation != state->getCivilian();
+	                    state->current_battle->currentActiveOrganisation != state->getCivilian();
 	hiddenForm->findControlTyped<Label>("TEXT_PLAYER")->setText(player ? "Player" : "Computer");
 	hiddenForm->findControlTyped<Graphic>("HIDDEN_IMAGE")
 	    ->setImage(fw().data->loadImage(pickRandom(state->rng, HIDDEN_BACKGROUNDS)));
@@ -2398,8 +2481,8 @@ void BattleView::orderMove(Vec3<int> target, bool strafe, bool demandGiveWay)
 	temp.agent = u->agent;
 	temp.position = u->position;
 	int const facingDelta = strafe ? BattleUnitMission::getFacingDelta(
-	                               u->facing, BattleUnitMission::getFacing(temp, target))
-	                         : 0;
+	                                     u->facing, BattleUnitMission::getFacing(temp, target))
+	                               : 0;
 
 	if (battle.battleViewGroupMove && battle.battleViewSelectedUnits.size() > 1 && !runAway)
 	{
@@ -2748,7 +2831,8 @@ void BattleView::orderTeleport(Vec3<int> target, bool right)
 
 void BattleView::orderFire(Vec3<int> target, WeaponStatus status, bool modifier)
 {
-	bool const atGround = modifier || !config().getBool("OpenApoc.NewFeature.AllowForceFiringParallel");
+	bool const atGround =
+	    modifier || !config().getBool("OpenApoc.NewFeature.AllowForceFiringParallel");
 	for (auto &unit : battle.battleViewSelectedUnits)
 	{
 		unit->startAttacking(*state, target, status, atGround);

@@ -272,7 +272,8 @@ void TileView::renderStrategyOverlay(Renderer &r)
 		Vec2<float> const topLeftRectPos = this->tileToOffsetScreenCoords(topLeftIsoTilePos);
 		Vec2<float> const topRightRectPos = this->tileToOffsetScreenCoords(topRightIsoTilePos);
 		Vec2<float> const bottomLeftRectPos = this->tileToOffsetScreenCoords(bottomLeftIsoTilePos);
-		Vec2<float> const bottomRightRectPos = this->tileToOffsetScreenCoords(bottomRightIsoTilePos);
+		Vec2<float> const bottomRightRectPos =
+		    this->tileToOffsetScreenCoords(bottomRightIsoTilePos);
 
 		r.drawLine(topLeftRectPos, topRightRectPos, this->strategyViewBoxColour,
 		           this->strategyViewBoxThickness);

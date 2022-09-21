@@ -229,13 +229,15 @@ void BattleMapPart::ceaseDoorFunction()
 		type = alternative_type;
 	// Remove from door's map parts
 	wp<BattleMapPart> const sft = shared_from_this();
-	door->mapParts.remove_if([sft](wp<BattleMapPart> p) {
-		auto swp = sft.lock();
-		auto sp = p.lock();
-		if (swp && sp)
-			return swp == sp;
-		return false;
-	});
+	door->mapParts.remove_if(
+	    [sft](wp<BattleMapPart> p)
+	    {
+		    auto swp = sft.lock();
+		    auto sp = p.lock();
+		    if (swp && sp)
+			    return swp == sp;
+		    return false;
+	    });
 	door.clear();
 }
 
@@ -740,10 +742,11 @@ bool BattleMapPart::findSupport(bool allowClinging)
 					auto mp = std::static_pointer_cast<TileObjectBattleMapPart>(o)->getOwner();
 					if (mp != sft && mp->isAlive())
 					{
-						bool const canSupport = !mp->damaged &&
-						                  (mp->type->type != BattleMapPartType::Type::Ground ||
-						                   pair.first.z == pos.z) &&
-						                  (mp->type->provides_support || pair.first.z >= pos.z);
+						bool const canSupport =
+						    !mp->damaged &&
+						    (mp->type->type != BattleMapPartType::Type::Ground ||
+						     pair.first.z == pos.z) &&
+						    (mp->type->provides_support || pair.first.z >= pos.z);
 						if (canSupport)
 						{
 							mp->supportedParts.emplace_back(position, type->type);

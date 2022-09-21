@@ -842,7 +842,8 @@ bool BattleMap::generateMap(std::vector<sp<BattleMapSector>> &sec_map, Vec3<int>
 				// complete or we cannot place another sector
 				while (!isMapComplete(sec_map, size) && remaining_sectors.size() > 0)
 				{
-					int const i = randBoundsExclusive(state.rng, (int)0, (int)remaining_sectors.size());
+					int const i =
+					    randBoundsExclusive(state.rng, (int)0, (int)remaining_sectors.size());
 					if (placeSector(state, sec_map, size, secRefs[remaining_sectors[i]],
 					                attempt_fill_map == 2, invert_x_packing, invert_y_packing))
 					{

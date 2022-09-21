@@ -578,7 +578,8 @@ STBRP_DEF void stbrp_pack_rects(stbrp_context *context, stbrp_rect *rects, int n
 		}
 		else
 		{
-			stbrp__findresult const fr = stbrp__skyline_pack_rectangle(context, rects[i].w, rects[i].h);
+			stbrp__findresult const fr =
+			    stbrp__skyline_pack_rectangle(context, rects[i].w, rects[i].h);
 			if (fr.prev_link)
 			{
 				rects[i].x = (stbrp_coord)fr.x;

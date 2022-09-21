@@ -18,7 +18,8 @@ bool BattleMapSector::LineOfSightBlock::contains(Vec3<float> position) const
 	       position.x < end.x && position.y < end.y && position.z < end.z;
 }
 
-sp<BattleMapSector::LineOfSightBlock> BattleMapSector::LineOfSightBlock::clone(Vec3<int> shift) const
+sp<BattleMapSector::LineOfSightBlock>
+BattleMapSector::LineOfSightBlock::clone(Vec3<int> shift) const
 {
 	auto b = mksp<BattleMapSector::LineOfSightBlock>();
 

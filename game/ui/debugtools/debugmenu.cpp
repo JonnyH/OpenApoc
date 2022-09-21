@@ -136,7 +136,7 @@ void DebugMenu::bulkExportPcks()
 	{
 		UString const pckname = (*i);
 		UString const pckloadstr = UString("PCK:") + pckname + UString(":") +
-		                     pckname.substr(0, pckname.length() - 3) + UString("tab");
+		                           pckname.substr(0, pckname.length() - 3) + UString("tab");
 
 		LogInfo("Processing %s", pckloadstr);
 
@@ -158,7 +158,8 @@ void DebugMenu::bulkExportPcks()
 					LogInfo("Saving %s", outputname);
 					fw().data->writeImage(outputname, bi);
 				}
-				else if (sp<PaletteImage> const pi = std::dynamic_pointer_cast<PaletteImage>(curimg))
+				else if (sp<PaletteImage> const pi =
+				             std::dynamic_pointer_cast<PaletteImage>(curimg))
 				{
 
 					for (unsigned int palidx = 0; palidx < PaletteList.size(); palidx++)

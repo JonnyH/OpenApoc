@@ -212,7 +212,7 @@ void BattleUnitAnimationPack::drawShadow(
 		return;
 	}
 
-	AnimationEntry::Frame::InfoBlock  const&b =
+	AnimationEntry::Frame::InfoBlock const &b =
 	    e->frames[frame].unit_image_parts[AnimationEntry::Frame::UnitImagePart::Shadow];
 
 	if (b.index == -1)
@@ -269,10 +269,11 @@ void BattleUnitAnimationPack::drawUnit(
 		frame = e->frame_count - hands_animation_delay;
 		if (e->is_overlay)
 		{
-			AnimationKey const standardKey = {heldItem ? (heldItem->two_handed ? ItemWieldMode::TwoHanded
-			                                                             : ItemWieldMode::OneHanded)
-			                                     : ItemWieldMode::None,
-			                            HandState::AtEase, movement, currentBody};
+			AnimationKey const standardKey = {
+			    heldItem
+			        ? (heldItem->two_handed ? ItemWieldMode::TwoHanded : ItemWieldMode::OneHanded)
+			        : ItemWieldMode::None,
+			    HandState::AtEase, movement, currentBody};
 			e_legs = standart_animations[standardKey][facing];
 			frame_legs =
 			    (distance_travelled * 100 / e_legs->units_per_100_frames) % e_legs->frame_count;
@@ -312,9 +313,9 @@ void BattleUnitAnimationPack::drawUnit(
 		else
 		{
 			AnimationKey const key = {heldItem ? (heldItem->two_handed ? ItemWieldMode::TwoHanded
-			                                                     : ItemWieldMode::OneHanded)
-			                             : ItemWieldMode::None,
-			                    currentHands, movement, currentBody};
+			                                                           : ItemWieldMode::OneHanded)
+			                                   : ItemWieldMode::None,
+			                          currentHands, movement, currentBody};
 			e = standart_animations[key][facing];
 			if (!e)
 			{
@@ -334,9 +335,9 @@ void BattleUnitAnimationPack::drawUnit(
 		if (e->is_overlay)
 		{
 			AnimationKey const key = {heldItem ? (heldItem->two_handed ? ItemWieldMode::TwoHanded
-			                                                     : ItemWieldMode::OneHanded)
-			                             : ItemWieldMode::None,
-			                    HandState::AtEase, movement, currentBody};
+			                                                           : ItemWieldMode::OneHanded)
+			                                   : ItemWieldMode::None,
+			                          HandState::AtEase, movement, currentBody};
 			e_legs = standart_animations[key][facing];
 			frame_legs =
 			    (distance_travelled * 100 / e_legs->units_per_100_frames) % e_legs->frame_count;

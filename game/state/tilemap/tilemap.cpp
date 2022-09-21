@@ -104,7 +104,7 @@ void TileMap::addObjectToMap(GameState &state, sp<Vehicle> vehicle)
 	if (vehicle->crashed && !vehicle->carriedByVehicle)
 	{
 		sp<Doodad> const smoke = mksp<Doodad>(vehicle->position + SMOKE_DOODAD_SHIFT,
-		                                StateRef<DoodadType>{&state, "DOODAD_13_SMOKE_FUME"});
+		                                      StateRef<DoodadType>{&state, "DOODAD_13_SMOKE_FUME"});
 		addObjectToMap(smoke);
 		vehicle->smokeDoodad = smoke;
 	}
@@ -270,8 +270,8 @@ sp<Image> TileMap::dumpVoxelView(const Rect<int> viewRect, const TileTransform &
 				if (objectColours.find(collision.obj) == objectColours.end())
 				{
 					Colour const c = {static_cast<uint8_t>(colourDist(colourRNG)),
-					            static_cast<uint8_t>(colourDist(colourRNG)),
-					            static_cast<uint8_t>(colourDist(colourRNG)), 255};
+					                  static_cast<uint8_t>(colourDist(colourRNG)),
+					                  static_cast<uint8_t>(colourDist(colourRNG)), 255};
 					objectColours[collision.obj] = c;
 				}
 				lock.set({x, y}, objectColours[collision.obj]);

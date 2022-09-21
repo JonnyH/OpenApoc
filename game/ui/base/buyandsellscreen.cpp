@@ -160,9 +160,9 @@ void BuyAndSellScreen::closeScreen()
 		if (bad_base)
 		{
 			UString const title(tr("Storage space exceeded"));
-			UString const message(forceLimits
-			                    ? tr("Storage space exceeded. Sell off more items!")
-			                    : tr("Order limited by the available storage space at this base."));
+			UString const message(
+			    forceLimits ? tr("Storage space exceeded. Sell off more items!")
+			                : tr("Order limited by the available storage space at this base."));
 
 			fw().stageQueueCommand(
 			    {StageCmd::Command::PUSH,
@@ -255,15 +255,16 @@ void BuyAndSellScreen::closeScreen()
 			// If player can ferry themselves then give option
 			if (config().getBool("OpenApoc.NewFeature.AllowManualCargoFerry"))
 			{
-				UString const message = transportationHostile
-				                      ? format("%s %s",
-				                               tr("Hostile organization refuses to carry out the "
-				                                  "requested transportation for this company."),
-				                               tr("Proceed?"))
-				                      : format("%s %s",
-				                               tr("No free transport to carry out the requested "
-				                                  "transportation detected in the city."),
-				                               tr("Proceed?"));
+				UString const message =
+				    transportationHostile
+				        ? format("%s %s",
+				                 tr("Hostile organization refuses to carry out the "
+				                    "requested transportation for this company."),
+				                 tr("Proceed?"))
+				        : format("%s %s",
+				                 tr("No free transport to carry out the requested "
+				                    "transportation detected in the city."),
+				                 tr("Proceed?"));
 				fw().stageQueueCommand(
 				    {StageCmd::Command::PUSH,
 				     mksp<MessageBox>(title, message, MessageBox::ButtonOptions::YesNo,
@@ -275,9 +276,9 @@ void BuyAndSellScreen::closeScreen()
 			{
 				// FIXME: Different message maybe? Same for now
 				UString const message = format("%s %s",
-				                         tr("No free transport to carry out the requested "
-				                            "transportation detected in the city."),
-				                         tr("Proceed?"));
+				                               tr("No free transport to carry out the requested "
+				                                  "transportation detected in the city."),
+				                               tr("Proceed?"));
 				fw().stageQueueCommand(
 				    {StageCmd::Command::PUSH,
 				     mksp<MessageBox>(title, message, MessageBox::ButtonOptions::YesNo,
@@ -384,9 +385,9 @@ void BuyAndSellScreen::closeScreen()
 			{
 				// FIXME: Different message maybe? Same for now
 				UString const message = format("%s %s",
-				                         tr("No free transport to carry out the requested "
-				                            "transportation detected in the city."),
-				                         tr("Proceed?"));
+				                               tr("No free transport to carry out the requested "
+				                                  "transportation detected in the city."),
+				                               tr("Proceed?"));
 				fw().stageQueueCommand(
 				    {StageCmd::Command::PUSH,
 				     mksp<MessageBox>(title, message, MessageBox::ButtonOptions::YesNo,

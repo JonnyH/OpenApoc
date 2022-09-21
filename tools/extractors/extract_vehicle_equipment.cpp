@@ -35,7 +35,8 @@ void InitialGameStateExtractor::extractVehicleEquipment(GameState &state) const
 		e->name = data.vehicle_equipment_names->get(i);
 		UString const id = format("%s%s", VEquipmentType::getPrefix(), canon_string(e->name));
 
-		UString const research_id = format("%s%s", ResearchTopic::getPrefix(), canon_string(e->name));
+		UString const research_id =
+		    format("%s%s", ResearchTopic::getPrefix(), canon_string(e->name));
 
 		auto research_it = state.research.topics.find(research_id);
 		if (research_it != state.research.topics.end())
