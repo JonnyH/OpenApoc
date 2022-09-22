@@ -63,7 +63,7 @@ jobs:
         
 
     - name: clang-tidy lint
-      working-directory: ${{runner.workspace}}
+      working-directory: ${{runner.workspace}}/build
       shell: bash
       run: |
         ninja
