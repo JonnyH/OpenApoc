@@ -45,7 +45,7 @@ jobs:
       # Note the current convention is to use the -S and -B options here to specify source 
       # and build directories, but this is only available with CMake 3.13 and higher.  
       # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -GNinja -DCLANG_FORMAT=clang-format=15 -DCLANG_TIDY=clang-tidy-14
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -GNinja -DCLANG_FORMAT=clang-format=15 -DCLANG_TIDY=clang-tidy-14 -DENABLE_CLANG_TIDY=ON
 
     - name: format lint
       working-directory: ${{runner.workspace}}
@@ -66,13 +66,5 @@ jobs:
       working-directory: ${{runner.workspace}}
       shell: bash
       run: |
-        cd $GITHUB_WORKSPACE
-        if [[ -z "${{ github.event.before }}" ]]
-        then
-          echo 'CLANG_TIDY=clang-tidy-14 BUILD_DIR=${{runner.workspace}}/build $GITHUB_WORKSPACE/tools/lint-tidy.sh ${{ github.sha }} || true;'
-          CLANG_TIDY=clang-tidy-14 BUILD_DIR=${{runner.workspace}}/build $GITHUB_WORKSPACE/tools/lint-tidy.sh ${{ github.sha }} || true;
-        else
-          echo 'CLANG_TIDY=clang-tidy-14 BUILD_DIR=${{runner.workspace}}/build $GITHUB_WORKSPACE/tools/lint-tidy.sh ${{ github.event.before }}..${{ github.event.after }} || true;'
-          CLANG_TIDY=clang-tidy-14 BUILD_DIR=${{runner.workspace}}/build $GITHUB_WORKSPACE/tools/lint-tidy.sh ${{ github.event.before }}..${{ github.event.after }} || true;
-        fi
+        ninja
         
