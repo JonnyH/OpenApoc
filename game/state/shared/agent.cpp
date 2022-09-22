@@ -774,7 +774,6 @@ void Agent::addEquipment(GameState &state, Vec2<int> pos, const sp<AEquipment> &
 
 void Agent::removeEquipment(GameState &state, const sp<AEquipment> &object)
 {
-	this->equipment.remove(object);
 	if (object->equippedSlotType == EquipmentSlotType::RightHand)
 	{
 		rightHandItem = nullptr;
@@ -796,6 +795,8 @@ void Agent::removeEquipment(GameState &state, const sp<AEquipment> &object)
 	object->ownerAgent.clear();
 	updateSpeed();
 	updateIsBrainsucker();
+
+	this->equipment.remove(object);
 }
 
 void Agent::updateSpeed()
