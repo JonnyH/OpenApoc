@@ -130,7 +130,7 @@ set(PHYSFS_BUILD_TEST OFF CACHE BOOL "")
 
 add_subdirectory(physfs)
 
-file (GLOB_RECURSE LUA_SOURCE_FILES lua/*.c)
+file (GLOB_RECURSE LUA_SOURCE_FILES lua/onelua.c)
 file (GLOB_RECURSE LUA_HEADER_FILES lua/*.h)
 add_library(OpenApoc_Lua STATIC ${LUA_SOURCE_FILES})
 list(APPEND ALL_SOURCE_FILES ${LUA_SOURCE_FILES})
