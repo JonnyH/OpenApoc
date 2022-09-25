@@ -13,6 +13,7 @@
 #include "library/backtrace.h"
 #include "library/strings_format.h"
 
+#include <fmt/format.h>
 #include <mutex>
 #ifdef BACKTRACE_LIBUNWIND
 #ifndef _GNU_SOURCE
@@ -91,22 +92,6 @@ UString libunwind_backtrace::symbolicate(unw_cursor_t frame)
 	}
 	else
 		return format("  0x%zx\n", static_cast<uintptr_t>(ip));
-}
-
-std::ostream &operator<<(std::ostream &lhs, const backtrace &bt)
-{
-	const auto *unwind_backtrace = dynamic_cast<const libunwind_backtrace *>(&bt);
-	if (!unwind_backtrace)
-	{
-		lhs << "invalid backtrace object";
-		return lhs;
-	}
-
-	for (const auto &frame : unwind_backtrace->frames)
-	{
-		lhs << unwind_backtrace->symbolicate(frame) << "\n";
-	}
-	return lhs;
 }
 
 #elif defined(BACKTRACE_WINDOWS)
@@ -223,3 +208,24 @@ std::ostream &operator<<(std::ostream &lhs, const backtrace &bt)
 #endif
 
 } // namespace OpenApoc
+
+template <> struct fmt::formatter<OpenApoc::backtrace> : public fmt::formatter<std::string_view>
+{
+	template <typename FormatContext>
+	auto format(const OpenApoc::backtrace &bt, FormatContext &ctx) const -> decltype(ctx.out())
+	{
+		const auto *unwind_backtrace = dynamic_cast<const OpenApoc::libunwind_backtrace *>(&bt);
+		if (!unwind_backtrace)
+		{
+			return fmt::format_to(ctx.out(), "Invalid backtrace");
+		}
+		auto out = ctx.out();
+		for (const auto &frame : unwind_backtrace->frames)
+		{
+			out = fmt::format_to(ctx.out(), "{}\n", unwind_backtrace->symbolicate(frame));
+		}
+		return out;
+	}
+};
+
+OpenApoc::UString OpenApoc::backtrace::to_string() const { return OpenApoc::format("{}", *this); }

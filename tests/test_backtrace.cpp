@@ -4,6 +4,6 @@
 int main(int argc, char **argv)
 {
 	const auto bt = OpenApoc::new_backtrace();
-	std::cout << *bt << std::endl;
+	std::cout << bt->to_string() << std::endl;
 	return 0;
 }

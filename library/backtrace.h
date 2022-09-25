@@ -2,6 +2,7 @@
 
 #include "library/sp.h"
 #include "library/strings.h"
+#include <fmt/format.h>
 #include <list>
 
 namespace OpenApoc
@@ -11,9 +12,8 @@ class backtrace
 {
   public:
 	virtual ~backtrace() = default;
+	UString to_string() const;
 };
-
-std::ostream &operator<<(std::ostream &lhs, const backtrace &bt);
 
 up<backtrace> new_backtrace();
 

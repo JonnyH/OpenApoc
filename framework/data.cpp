@@ -780,7 +780,7 @@ bool DataImpl::writeImage(UString systemPath, sp<Image> image, sp<Palette> palet
 		}
 		else if (!fs::is_directory(outDir))
 		{
-			LogWarning("Cannot open %s: %s is not a directory", outPath, outDir);
+			LogWarning("Cannot open %s: %s is not a directory", outPath.native(), outDir.native());
 			return false;
 		}
 	}

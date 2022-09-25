@@ -44,19 +44,23 @@ MessageLogScreen::~MessageLogScreen() = default;
 sp<Control> MessageLogScreen::createMessageRow(EventMessage message, sp<GameState> state,
                                                CityView &cityView)
 {
-	return createMessageRow(message, state, [message, state, &cityView](Event *) {
-		cityView.setScreenCenterTile(message.location);
-		fw().stageQueueCommand({StageCmd::Command::POP});
-	});
+	return createMessageRow(message, state,
+	                        [message, state, &cityView](Event *)
+	                        {
+		                        cityView.setScreenCenterTile(message.location);
+		                        fw().stageQueueCommand({StageCmd::Command::POP});
+	                        });
 }
 
 sp<Control> MessageLogScreen::createMessageRow(EventMessage message, sp<GameState> state,
                                                BattleView &battleView)
 {
-	return createMessageRow(message, state, [message, state, &battleView](Event *) {
-		battleView.setScreenCenterTile(message.location);
-		fw().stageQueueCommand({StageCmd::Command::POP});
-	});
+	return createMessageRow(message, state,
+	                        [message, state, &battleView](Event *)
+	                        {
+		                        battleView.setScreenCenterTile(message.location);
+		                        fw().stageQueueCommand({StageCmd::Command::POP});
+	                        });
 }
 
 sp<Control> MessageLogScreen::createMessageRow(EventMessage message,

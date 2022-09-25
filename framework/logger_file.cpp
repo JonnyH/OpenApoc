@@ -2,6 +2,7 @@
 #include "framework/logger.h"
 #include "framework/options.h"
 #include "library/backtrace.h"
+#include "library/strings_format.h"
 
 #include <fstream>
 
@@ -51,7 +52,7 @@ void FileLogFunction(LogLevel level, UString prefix, const UString &text)
 	if (level <= backtraceLogLevel)
 	{
 		const auto backtrace = new_backtrace();
-		logFile << *backtrace << std::endl;
+		logFile << backtrace->to_string() << std::endl;
 		flush = true;
 	}
 	if (flush)

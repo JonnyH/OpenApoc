@@ -690,7 +690,8 @@ TransactionControl::createControl(const UString &id, Type type, const UString &n
 
 void TransactionControl::setupCallbacks()
 {
-	std::function<void(FormsEvent * e)> onScrollChange = [this](FormsEvent *) {
+	std::function<void(FormsEvent * e)> onScrollChange = [this](FormsEvent *)
+	{
 		if (!this->suspendUpdates)
 		{
 			this->updateValues();

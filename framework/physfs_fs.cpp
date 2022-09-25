@@ -255,7 +255,7 @@ FileSystem::FileSystem(std::vector<UString> paths)
 	auto current_path = fs::current_path();
 	auto canonical_current_path = fs::canonical(current_path);
 
-	LogInfo("Current path: \"%s\"", canonical_current_path);
+	LogInfo("Current path: \"%s\"", canonical_current_path.native());
 
 	LogInfo("Physfs search dirs:");
 	char **search_paths = PHYSFS_getSearchPath();

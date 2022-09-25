@@ -136,7 +136,7 @@ Framework::Framework(const UString programName, bool createWindow)
 		}
 		else
 		{
-			LogWarning("Leaving default working directory \"%s\"", fs::current_path());
+			LogWarning("Leaving default working directory \"%s\"", fs::current_path().native());
 		}
 		SDL_free(basePath);
 	}
@@ -465,17 +465,19 @@ void Framework::processEvents()
 					}
 					else
 					{
-						this->threadPoolTaskEnqueue([img, screenshotName] {
-							auto ret = fw().data->writeImage(screenshotName, img);
-							if (!ret)
-							{
-								LogWarning("Failed to write screenshot");
-							}
-							else
-							{
-								LogWarning("Wrote screenshot to \"%s\"", screenshotName);
-							}
-						});
+						this->threadPoolTaskEnqueue(
+						    [img, screenshotName]
+						    {
+							    auto ret = fw().data->writeImage(screenshotName, img);
+							    if (!ret)
+							    {
+								    LogWarning("Failed to write screenshot");
+							    }
+							    else
+							    {
+								    LogWarning("Wrote screenshot to \"%s\"", screenshotName);
+							    }
+						    });
 					}
 				}
 			}
@@ -1076,7 +1078,8 @@ void Framework::toolTipStartTimer(up<Event> e)
 	p->toolTipTimerEvent = std::move(e);
 	p->toolTipTimerId = SDL_AddTimer(
 	    delay,
-	    [](unsigned int interval, void *data) -> unsigned int {
+	    [](unsigned int interval, void *data) -> unsigned int
+	    {
 		    fw().toolTipTimerCallback(interval, data);
 		    // remove this sdl timer
 		    return 0;

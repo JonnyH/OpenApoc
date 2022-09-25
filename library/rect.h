@@ -116,10 +116,12 @@ template <typename T> class Rect
 	}
 };
 
-template <typename T> std::ostream &operator<<(std::ostream &lhs, const OpenApoc::Rect<T> &rhs)
-{
-	lhs << "{" << rhs.p0 << "," << rhs.p1 << "}";
-	return lhs;
-}
-
 }; // namespace OpenApoc
+template <typename T> struct fmt::formatter<OpenApoc::Rect<T>> : fmt::formatter<string_view>
+{
+	template <typename FormatContext>
+	auto format(const OpenApoc::Rect<T> &rect, FormatContext &ctx) const -> decltype(ctx.out())
+	{
+		return fmt::format_to(ctx.out(), "\\{{1},{2}\\}", rect.p0, rect.p1);
+	}
+};
