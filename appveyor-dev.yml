@@ -32,6 +32,8 @@ before_build:
   - git submodule update --init --recursive
   - curl http://s2.jonnyh.net/pub/cd_minimal.iso.xz -o temp\cd.iso.xz
   - 7z e temp\cd.iso.xz -odata\
+  - choco upgrade chocolatey
+  - choco install nsis -pre
   - call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %VCVARS_ARCH%
 build_script:
   - cmake -DMSVC_PDB=ON . -GNinja -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_BUILD_TYPE="%CONFIGURATION%" -DCMAKE_PREFIX_PATH=%QTPATH% -DUSE_SYSTEM_QT=ON
@@ -56,6 +58,7 @@ after_build:
   - 7z a %OPENAPOC_FILENAME% OpenApoc-%OPENAPOC_VERSION% -mx=9 -myx=7
   - copy bin\OpenApoc.pdb OpenApoc-%OPENAPOC_VERSION%\
   - 7z a %OPENAPOC_DEBUG_FILENAME% OpenApoc-%OPENAPOC_VERSION%\*.pdb -mx=9 -myx=7
+  - '"C:\Program Files (x86)\NSIS\makensis.exe" /DGAME_VERSION=%OPENAPOC_VERSION% install\windows\installer.nsi'
   - appveyor PushArtifact %OPENAPOC_FILENAME%
   - appveyor PushArtifact %OPENAPOC_DEBUG_FILENAME%
 before_test:
