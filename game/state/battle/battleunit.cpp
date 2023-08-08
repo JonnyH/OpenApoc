@@ -1,7 +1,9 @@
 #ifndef _USE_MATH_DEFINES
 #define _USE_MATH_DEFINES
 #endif
+
 #include "game/state/battle/battleunit.h"
+#include "game/state/battle/ai/aitype.h"
 #include "framework/configfile.h"
 #include "framework/framework.h"
 #include "framework/sound.h"

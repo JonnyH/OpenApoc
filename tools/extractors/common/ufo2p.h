@@ -1,11 +1,9 @@
 #pragma once
 
 #include "game/state/rules/city/facilitytype.h"
-#include "game/state/rules/city/vammotype.h"
 #include "game/state/rules/city/vehicletype.h"
 #include "game/state/rules/city/vequipmenttype.h"
 #include "game/state/shared/organisation.h"
-#include "tools/extractors/common/aequipment.h"
 #include "tools/extractors/common/agent.h"
 #include "tools/extractors/common/audio.h"
 #include "tools/extractors/common/baselayout.h"
@@ -20,7 +18,6 @@
 #include "tools/extractors/common/research.h"
 #include "tools/extractors/common/scenerytile.h"
 #include "tools/extractors/common/strtab.h"
-#include "tools/extractors/common/ufopaedia.h"
 #include "tools/extractors/common/vehicle.h"
 #include "tools/extractors/common/vequipment.h"
 #include <algorithm>

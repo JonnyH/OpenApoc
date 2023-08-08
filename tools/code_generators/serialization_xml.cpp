@@ -1,4 +1,5 @@
 #include "serialization_xml.h"
+#include <iostream>
 
 bool readXml(std::istream &in, StateDefinition &state)
 {

@@ -1,13 +1,11 @@
 #pragma once
 
-#include "game/state/rules/aequipmenttype.h"
 #include "game/state/rules/battle/damage.h"
 #include "tools/extractors/common/aequipment.h"
 #include "tools/extractors/common/bulletsprite.h"
 #include "tools/extractors/common/canonstring.h"
 #include "tools/extractors/common/datachunk.h"
 #include "tools/extractors/common/strtab.h"
-#include <algorithm>
 #include <memory>
 #include <string>
 

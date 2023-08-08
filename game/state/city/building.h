@@ -5,7 +5,6 @@
 #include "library/rect.h"
 #include "library/vec.h"
 #include <set>
-#include <vector>
 
 namespace OpenApoc
 {

@@ -17,6 +17,7 @@
 #include "game/state/battle/battlemappart.h"
 #include "game/state/battle/battleunitmission.h"
 #include "game/state/gamestate.h"
+#include "game/state/battle/ai/aitype.h"
 #include "game/state/rules/battle/battlecommonimagelist.h"
 #include "game/state/rules/battle/battlecommonsamplelist.h"
 #include "game/state/shared/organisation.h"

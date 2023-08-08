@@ -1,6 +1,5 @@
 #pragma once
 
-#include <cstdint>
 struct BaseLayoutData
 {
 	char module[8][8];

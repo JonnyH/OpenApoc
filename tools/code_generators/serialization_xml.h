@@ -2,8 +2,6 @@
 // Disable automatic #pragma linking for boost - only enabled in msvc and that should provide boost
 // symbols as part of the module that uses it
 #include "dependencies/pugixml/src/pugixml.hpp"
-#include <fstream>
-#include <iostream>
 #include <list>
 #include <vector>
 

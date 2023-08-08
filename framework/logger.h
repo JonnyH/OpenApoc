@@ -2,9 +2,7 @@
 
 #include "library/strings.h"
 #include "library/strings_format.h"
-
 #include <functional>
-#include <list>
 
 #if defined(_MSC_VER) && _MSC_VER > 1400
 #include <sal.h>

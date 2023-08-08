@@ -2,8 +2,6 @@
 
 #include "game/state/rules/city/ufoincursion.h"
 #include "game/state/stateobject.h"
-#include "library/strings.h"
-#include <vector>
 
 namespace OpenApoc
 {

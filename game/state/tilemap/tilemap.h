@@ -5,7 +5,6 @@
 #include "game/state/stateobject.h"
 #include "game/state/tilemap/tile.h"
 #include "game/state/tilemap/tileobject.h"
-#include "library/colour.h"
 #include "library/rect.h"
 #include "library/sp.h"
 #include <map>

@@ -3,6 +3,7 @@
 #include "library/sp.h"
 #include "library/strings.h"
 #include <map>
+#include <list>
 
 namespace OpenApoc
 {

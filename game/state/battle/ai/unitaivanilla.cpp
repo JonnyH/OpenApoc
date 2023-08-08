@@ -1,4 +1,6 @@
 #include "game/state/battle/ai/unitaivanilla.h"
+
+#include "game/state/battle/ai/aitype.h"
 #include "game/state/battle/ai/aidecision.h"
 #include "game/state/battle/ai/unitaihelper.h"
 #include "game/state/battle/battleunit.h"

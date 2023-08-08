@@ -1,9 +1,10 @@
 #pragma once
 
-#include "framework/sound.h"
-
 namespace OpenApoc
 {
+
+class SoundBackend;
+
 class SoundBackendFactory
 {
   public:

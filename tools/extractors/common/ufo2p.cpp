@@ -1,4 +1,6 @@
-#include "ufo2p.h"
+#include "tools/extractors/common/ufo2p.h"
+#include "tools/extractors/common/aequipment.h"
+#include "tools/extractors/common/ufopaedia.h"
 #include "framework/data.h"
 #include "framework/framework.h"
 

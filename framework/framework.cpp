@@ -15,6 +15,7 @@
 #include "framework/renderer_interface.h"
 #include "framework/sound_interface.h"
 #include "framework/stagestack.h"
+#include "framework/sound.h"
 #include "library/sp.h"
 #include "library/xorshift.h"
 #include <SDL.h>

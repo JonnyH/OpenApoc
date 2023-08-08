@@ -1,12 +1,8 @@
 #pragma once
 
 #include "framework/logger.h"
-#include "game/state/gametime.h"
-#include "game/state/stateobject.h"
-#include "library/colour.h"
 #include "library/rect.h"
 #include "library/sp.h"
-#include <map>
 #include <set>
 #include <vector>
 
