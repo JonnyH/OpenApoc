@@ -58,7 +58,7 @@ jobs:
       # Note the current convention is to use the -S and -B options here to specify source 
       # and build directories, but this is only available with CMake 3.13 and higher.  
       # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
-      run: cmake -DMSVC_PDB=ON ${env:GITHUB_WORKSPACE} -GNinja -DCMAKE_TOOLCHAIN_FILE=c:/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_BUILD_TYPE="${env:BUILD_TYPE}" -DUSE_SYSTEM_QT=ON
+      run: cmake -DMSVC_PDB=ON ${env:GITHUB_WORKSPACE} -GNinja -DCMAKE_TOOLCHAIN_FILE=${{ runner.workspace }}/b/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_BUILD_TYPE="${env:BUILD_TYPE}" -DUSE_SYSTEM_QT=ON
 
     - name: Build
       working-directory: ${{runner.workspace}}/build
