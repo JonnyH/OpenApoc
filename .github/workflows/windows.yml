@@ -35,6 +35,7 @@ jobs:
     
     - name: Extract minimal cd image
       run: | 
+        echo 7z e ${env:GITHUB_WORKSPACE}\data\cd.iso.xz -o ${env:GITHUB_WORKSPACE}\data\
         7z e ${env:GITHUB_WORKSPACE}\data\cd.iso.xz -o ${env:GITHUB_WORKSPACE}\data\
 
     - name: Setup vcpkg
