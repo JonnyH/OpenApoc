@@ -70,28 +70,31 @@ jobs:
       run: ctest -C ${env:BUILD_TYPE} -V
 
     - name: Package debug files
-      working-directory: ${{runner.workspace}}/build/bin
+      working-directory: ${{runner.workspace}}
       run: |
-        git describe --tags > build-id
+        git -C ${env:GITHUB_WORKSPACE} describe --tags > build-id
         $OPENAPOC_VERSION = Get-Content build-id
-        mkdir ..\packaged
-        7z a ..\packaged\OpenApoc-debug-${OPENAPOC_VERSION}.7z *.pdb
+        mkdir OpenApoc-${OPENAPOC_VERSION}
+        cp build-id OpenApoc-${OPENAPOC_VERSION}\
+        xcopy /E ${env:GITHUB_WORKSPACE}\build\bin\* OpenApoc-${OPENAPOC_VERSION}\
+        7z a OpenApoc-debug-${OPENAPOC_VERSION}.7z OpenApoc-${OPENAPOC_VERSION}\*.pdb
         del ${env:GITHUB_WORKSPACE}\data\cd.iso
-        xcopy /E ${env:GITHUB_WORKSPACE}\data .\data\
-        del *.pdb
-        del *.lib
-        del *.ilk
-        del *.exp
-        copy ${env:GITHUB_WORKSPACE}\README* .
-        copy ${env:GITHUB_WORKSPACE}\portable.txt .
-        7z a ..\packaged\OpenApoc-portable-${OPENAPOC_VERSION}.7z *
-        del portable.txt
+        del ${env:GITHUB_WORKSPACE}\data\cd.iso.xz
+        xcopy /E ${env:GITHUB_WORKSPACE}\data OpenApoc-${OPENAPOC_VERSION}\data
+        del OpenApoc-${OPENAPOC_VERSION}\*.pdb
+        del OpenApoc-${OPENAPOC_VERSION}\*.lib
+        del OpenApoc-${OPENAPOC_VERSION}\*.ilk
+        del OpenApoc-${OPENAPOC_VERSION}\*.exp
+        copy ${env:GITHUB_WORKSPACE}\README* OpenApoc-${OPENAPOC_VERSION}\
+        copy ${env:GITHUB_WORKSPACE}\portable.txt OpenApoc-${OPENAPOC_VERSION}\
+        7z a OpenApoc-portable-${OPENAPOC_VERSION}.7z OpenApoc-${OPENAPOC_VERSION}\
+        del OpenApoc-${OPENAPOC_VERSION}\portable.txt
         makensis /DGAME_VERSION=${OPENAPOC_VERSION} ${env:GITHUB_WORKSPACE}\install\windows\installer.nsi
 
     - uses: actions/upload-artifact@v3
       with:
         name: openapoc-msvc-build
         path: |
-          ${{runner.workspace}}/build/packaged/OpenApoc-debug-${OPENAPOC_VERSION}.7z
-          ${{runner.workspace}}/build/packaged/OpenApoc-portable-${OPENAPOC_VERSION}.7z
-          ${{runner.workspace}}/build/packaged/install-openapoc-${OPENAPOC_VERSION}.exe
+          ${{runner.workspace}}/OpenApoc-debug-${OPENAPOC_VERSION}.7z
+          ${{runner.workspace}}/OpenApoc-portable-${OPENAPOC_VERSION}.7z
+          ${{runner.workspace}}/install-openapoc-${OPENAPOC_VERSION}.exe
