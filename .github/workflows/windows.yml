@@ -36,7 +36,6 @@ jobs:
         curl http://s2.jonnyh.net/pub/cd_minimal.iso.xz -o ${env:GITHUB_WORKSPACE}/data/cd.iso.xz
     
     - name: Extract minimal cd image
-      working-directory: ${env:GITHUB_WORKSPACE}
       run: | 
         7z e data\cd.iso.xz -odata\
 
@@ -77,8 +76,10 @@ jobs:
     - name: Package debug files
       working-directory: ${{runner.workspace}}/build/bin
       run: |
+        git describe --tags > build-id
+        $OPENAPOC_VERSION = Get-Content build-id
         mkdir ..\packaged
-        7z a ..\packaged\OpenApoc-debug.7z *.pdb
+        7z a ..\packaged\OpenApoc-debug-${OPENAPOC_VERSION}.7z *.pdb
         del ${env:GITHUB_WORKSPACE}\cd.iso
         xcopy /E ${env:GITHUB_WORKSPACE}\data .\data\
         del *.pdb
@@ -86,11 +87,15 @@ jobs:
         del *.ilk
         del *.exp
         copy ${env:GITHUB_WORKSPACE}\README* .
-        makensis ${env:GITHUB_WORKSPACE}\install\windows\installer.nsi
+        copy ${env:GITHUB_WORKSPACE}\portable.txt .
+        7z a ..\packaged\OpenApoc-portable-${OPENAPOC_VERSION}.7z *
+        del portable.txt
+        makensis /DGAME_VERSION=${OPENAPOC_VERSION} ${env:GITHUB_WORKSPACE}\install\windows\installer.nsi
 
     - uses: actions/upload-artifact@v3
       with:
         name: openapoc-msvc-build
         path: |
-          ${{runner.workspace}}/build/packaged/OpenApoc-debug.7z
-          ${{runner.workspace}}/build/packaged/install-openapoc-.exe
+          ${{runner.workspace}}/build/packaged/OpenApoc-debug-${OPENAPOC_VERSION}.7z
+          ${{runner.workspace}}/build/packaged/OpenApoc-portable-${OPENAPOC_VERSION}.7z
+          ${{runner.workspace}}/build/packaged/install-openapoc-${OPENAPOC_VERSION}.exe
