@@ -49,8 +49,8 @@ jobs:
     - name: Install dependencies
       run: |
         choco install nsis -pre
-    
-    -name: ENV
+
+    - name: ENV
       run: env
 
     - name: Configure CMake
