@@ -76,7 +76,7 @@ jobs:
         $OPENAPOC_VERSION = Get-Content build-id
         mkdir ..\packaged
         7z a ..\packaged\OpenApoc-debug-${OPENAPOC_VERSION}.7z *.pdb
-        del ${env:GITHUB_WORKSPACE}\cd.iso
+        del ${env:GITHUB_WORKSPACE}\data\cd.iso
         xcopy /E ${env:GITHUB_WORKSPACE}\data .\data\
         del *.pdb
         del *.lib
