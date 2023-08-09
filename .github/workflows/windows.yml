@@ -49,10 +49,6 @@ jobs:
         # Tag 2023.07.21, but this only seems to support the SHA directly
         vcpkgGitCommitId: '9d47b24eacbd1cd94f139457ef6cd35e5d92cc84'
 
-    - name: Install dependencies
-      run: |
-        choco install nsis -pre
-
     - name: Configure CMake
       # Use a bash shell so we can use the same syntax for environment variable
       # access regardless of the host operating system
