@@ -43,7 +43,6 @@ jobs:
         cd ${env:VCPKG_INSTALLATION_ROOT}
         git pull
         .\bootstrap-vcpkg.bat
-        vcpkg install
 
     - name: Install dependencies
       run: |
