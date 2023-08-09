@@ -82,6 +82,7 @@ jobs:
         mkdir OpenApoc-${OPENAPOC_VERSION}
         copy build-id OpenApoc-${OPENAPOC_VERSION}\
         xcopy /E ${{runner.workspace}}\build\bin\* OpenApoc-${OPENAPOC_VERSION}\
+        windeployqt --no-angle --no-opengl-sw --no-compiler-runtime OpenApoc-%OPENAPOC_VERSION%\OpenApoc_Launcher.exe
         7z a OpenApoc-debug-${OPENAPOC_VERSION}.7z OpenApoc-${OPENAPOC_VERSION}\*.pdb
         del ${env:GITHUB_WORKSPACE}\data\cd.iso
         del ${env:GITHUB_WORKSPACE}\data\cd.iso.xz
