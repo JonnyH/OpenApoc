@@ -31,14 +31,10 @@ jobs:
 
     - name: Download minimal cd image
       run: |
-        ls
-        ls data
-        ls ${env:GITHUB_WORKSPACE}
-        ls ${env:GITHUB_WORKSPACE}/data
         curl http://s2.jonnyh.net/pub/cd_minimal.iso.xz -o ${env:GITHUB_WORKSPACE}/data/cd.iso.xz
     
     - name: Extract minimal cd image
-      run: 7z e ${env:GITHUB_WORKSPACE}\data\cd.iso.xz -odata\
+      run: 7z e ${env:GITHUB_WORKSPACE}\data\cd.iso.xz -o${env:GITHUB_WORKSPACE}\data\
 
     - name: Setup vcpkg
       uses: lukka/run-vcpkg@main
@@ -53,6 +49,9 @@ jobs:
     - name: Install dependencies
       run: |
         choco install nsis -pre
+    
+    -name: ENV
+      run: env
 
     - name: Configure CMake
       # Use a bash shell so we can use the same syntax for environment variable
@@ -70,7 +69,31 @@ jobs:
 
     - name: Test
       working-directory: ${{runner.workspace}}/build
-      shell: bash
       # Execute tests defined by the CMake configuration.  
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: ctest -C ${env:BUILD_TYPE} -V
+
+    - name: Package debug files
+      working-directory: ${{runner.workspace}}/build/bin
+      run: |
+        mkdir ..\packaged
+        7z a ..\packaged\OpenApoc-debug.7z *.pdb
+        del ${env:GITHUB_WORKSPACE}\cd.iso
+        xcopy /E ${env:GITHUB_WORKSPACE}\data .\data\
+        del *.pdb
+        del *.lib
+        del *.ilk
+        del *.exp
+        copy ${env:GITHUB_WORKSPACE}\README* .
+        makensis ${env:GITHUB_WORKSPACE}\install\windows\installer.nsi
+        
+    - uses: actions/upload-artifact@v3
+      with::
+        name: openapoc-msvc-build
+        path: |
+          ${{runner.workspace}}/build/packaged/OpenApoc-debug.7z
+          ${{runner.workspace}}/build/packaged/install-openapoc-.exe
+          
+        
+    
+    
