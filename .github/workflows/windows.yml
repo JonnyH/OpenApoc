@@ -76,6 +76,7 @@ jobs:
         cd ${env:GITHUB_WORKSPACE}
         git -C ${env:GITHUB_WORKSPACE} describe --tags > build-id
         $OPENAPOC_VERSION = Get-Content build-id
+        $Env:OPENAPOC_VERSION = Get-Content build-id
         echo "Version: ${OPENAPOC_VERSION}"
         echo "runner.workspace: ${{runner.workspace}}"
         echo "GITHUB_WORKSPACE: ${env:GITHUB_WORKSPACE}"
