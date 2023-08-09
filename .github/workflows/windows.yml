@@ -38,11 +38,14 @@ jobs:
     - name: Extract minimal cd image
       run: 7z e ${env:GITHUB_WORKSPACE}\data\cd.iso.xz -odata\
 
-    - name: Update vcpkg
-      run: |
-        cd ${env:VCPKG_INSTALLATION_ROOT}
-        git pull
-        .\bootstrap-vcpkg.bat
+    - name: Setup vcpkg
+      uses: lukka/run-vcpkg@main
+      id: runvcpkg
+      with:
+        # This specifies the location of vcpkg, where it is going to be restored from cache, or create from scratch.
+        vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
+        # The Git commit id of vcpkg to be checked out.
+        vcpkgGitCommitId: '$2023.07.21'
 
     - name: Install dependencies
       run: |
@@ -60,7 +63,7 @@ jobs:
     - name: Build
       working-directory: ${{runner.workspace}}/build
       # Execute the build.  You can specify a specific target with "--target <NAME>"
-      run: cmake --build . --config %BUILD_TYPE%
+      run: cmake --build . --config ${env:BUILD_TYPE}
 
     - name: Test
       working-directory: ${{runner.workspace}}/build
