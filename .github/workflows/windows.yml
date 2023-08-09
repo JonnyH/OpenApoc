@@ -28,7 +28,12 @@ jobs:
       run: cmake -E make_directory ${{runner.workspace}}/build
 
     - name: Download minimal cd image
-      run: curl http://s2.jonnyh.net/pub/cd_minimal.iso.xz -o ${{runner.workspace}}\data\cd.iso.xz
+      run: |
+        ls
+        ls data
+        ls ${{runner.workspace}}
+        ls ${{runner.workspace}}/data
+        curl http://s2.jonnyh.net/pub/cd_minimal.iso.xz -o ${{runner.workspace}}/data/cd.iso.xz
     
     - name: Extract minimal cd image
       run: 7z e $GITHUB_WORKSPACE\data\cd.iso.xz -odata\
