@@ -73,6 +73,7 @@ jobs:
     - name: Package debug files
       working-directory: ${{runner.workspace}}
       run: |
+        cd ${env:GITHUB_WORKSPACE}
         git -C ${env:GITHUB_WORKSPACE} describe --tags > build-id
         $OPENAPOC_VERSION = Get-Content build-id
         echo "Version: ${OPENAPOC_VERSION}"
