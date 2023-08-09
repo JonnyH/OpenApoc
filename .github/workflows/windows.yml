@@ -28,14 +28,14 @@ jobs:
       run: cmake -E make_directory ${{runner.workspace}}/build
 
     - name: Download minimal cd image
-      run: curl http://s2.jonnyh.net/pub/cd_minimal.iso.xz -o $GITHUB_WORKSPACE\data\cd.iso.xz
+      run: curl http://s2.jonnyh.net/pub/cd_minimal.iso.xz -o ${{runner.workspace}}\data\cd.iso.xz
     
     - name: Extract minimal cd image
       run: 7z e $GITHUB_WORKSPACE\data\cd.iso.xz -odata\
 
     - name: Update vcpkg
       run: |
-        cd %VCPKG_INSTALLATION_ROOT%
+        cd ${env:VCPKG_INSTALLATION_ROOT}
         git pull
         .\bootstrap-vcpkg.bat
         vcpkg install
@@ -52,7 +52,7 @@ jobs:
       # Note the current convention is to use the -S and -B options here to specify source 
       # and build directories, but this is only available with CMake 3.13 and higher.  
       # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
-      run: cmake -DMSVC_PDB=ON .. -GNinja -DCMAKE_TOOLCHAIN_FILE=c:/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_BUILD_TYPE="%BUILD_TYPE%" -DUSE_SYSTEM_QT=ON
+      run: cmake -DMSVC_PDB=ON .. -GNinja -DCMAKE_TOOLCHAIN_FILE=c:/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_BUILD_TYPE="${env:BUILD_TYPE}" -DUSE_SYSTEM_QT=ON
 
     - name: Build
       working-directory: ${{runner.workspace}}/build
@@ -64,4 +64,4 @@ jobs:
       shell: bash
       # Execute tests defined by the CMake configuration.  
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: ctest -C %BUILD_TYPE%
+      run: ctest -C ${env:BUILD_TYPE}
