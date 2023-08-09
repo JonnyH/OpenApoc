@@ -45,7 +45,8 @@ jobs:
         # This specifies the location of vcpkg, where it is going to be restored from cache, or create from scratch.
         vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
         # The Git commit id of vcpkg to be checked out.
-        vcpkgGitCommitId: '$2023.07.21'
+        # Tag 2023.07.21, but this only seems to support the SHA directly
+        vcpkgGitCommitId: '9d47b24eacbd1cd94f139457ef6cd35e5d92cc84'
 
     - name: Install dependencies
       run: |
