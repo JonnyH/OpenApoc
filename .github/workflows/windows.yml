@@ -16,6 +16,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
+    - uses: ilammy/msvc-dev-cmd@v1
     - uses: actions/checkout@v3
       with:
         submodules: recursive
