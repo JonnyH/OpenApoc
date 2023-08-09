@@ -86,14 +86,10 @@ jobs:
         del *.exp
         copy ${env:GITHUB_WORKSPACE}\README* .
         makensis ${env:GITHUB_WORKSPACE}\install\windows\installer.nsi
-        
+
     - uses: actions/upload-artifact@v3
       with:
         name: openapoc-msvc-build
         path: |
           ${{runner.workspace}}/build/packaged/OpenApoc-debug.7z
           ${{runner.workspace}}/build/packaged/install-openapoc-.exe
-          
-        
-    
-    
