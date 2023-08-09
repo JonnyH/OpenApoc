@@ -13,7 +13,7 @@ namespace OpenApoc
 
 namespace
 {
-static const std::tuple<AIDecision, bool> NULLTUPLE2 = std::make_tuple(AIDecision(), false);
+static const std::tuple<AIDecision, bool> _NULLTUPLE2 = std::make_tuple(AIDecision(), false);
 static const Vec3<int> NONE = {-1, -1, -1};
 } // namespace
 
@@ -48,7 +48,7 @@ std::tuple<AIDecision, bool> UnitAIDefault::think(GameState &state, BattleUnit &
 
 	if (!active)
 	{
-		return NULLTUPLE2;
+		return _NULLTUPLE2;
 	}
 
 	sp<AIAction> action;

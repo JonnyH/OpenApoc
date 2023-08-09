@@ -19,10 +19,10 @@ namespace OpenApoc
 {
 namespace
 {
-static const std::map<Vec2<int>, int> facing_dir_map = {{{0, -1}, 0}, {{1, -1}, 1}, {{1, 0}, 2},
+static const std::map<Vec2<int>, int> _facing_dir_map = {{{0, -1}, 0}, {{1, -1}, 1}, {{1, 0}, 2},
                                                         {{1, 1}, 3},  {{0, 1}, 4},  {{-1, 1}, 5},
                                                         {{-1, 0}, 6}, {{-1, -1}, 7}};
-static const std::map<int, Vec2<int>> dir_facing_map = {{0, {0, -1}}, {1, {1, -1}}, {2, {1, 0}},
+static const std::map<int, Vec2<int>> _dir_facing_map = {{0, {0, -1}}, {1, {1, -1}}, {2, {1, 0}},
                                                         {3, {1, 1}},  {4, {0, 1}},  {5, {-1, 1}},
                                                         {6, {-1, 0}}, {7, {-1, -1}}};
 static const std::list<Vec3<float>> angles = {
@@ -1143,8 +1143,8 @@ BattleUnitMission *BattleUnitMission::dropItem(BattleUnit &, sp<AEquipment> item
 
 int BattleUnitMission::getFacingDelta(Vec2<int> curFacing, Vec2<int> tarFacing)
 {
-	int curFac = facing_dir_map.at(curFacing);
-	int tarFac = facing_dir_map.at(tarFacing);
+	int curFac = _facing_dir_map.at(curFacing);
+	int tarFac = _facing_dir_map.at(tarFacing);
 	int result = curFac - tarFac;
 	if (result < 0)
 	{
@@ -1163,8 +1163,8 @@ Vec2<int> BattleUnitMission::getFacingStep(BattleUnit &u, Vec2<int> targetFacing
 	Vec2<int> dest = u.facing;
 
 	// Turn
-	int curFacing = facing_dir_map.at(u.facing);
-	int tarFacing = facing_dir_map.at(targetFacing) + facingDelta;
+	int curFacing = _facing_dir_map.at(u.facing);
+	int tarFacing = _facing_dir_map.at(targetFacing) + facingDelta;
 	if (tarFacing > 7)
 		tarFacing -= 8;
 	if (curFacing == tarFacing)
@@ -1190,7 +1190,7 @@ Vec2<int> BattleUnitMission::getFacingStep(BattleUnit &u, Vec2<int> targetFacing
 		{
 			curFacing = curFacing == 0 ? 7 : (curFacing - 1);
 		}
-		dest = dir_facing_map.at(curFacing);
+		dest = _dir_facing_map.at(curFacing);
 
 	} while (!u.agent->isFacingAllowed(dest));
 	return dest;
@@ -1226,12 +1226,12 @@ Vec2<int> BattleUnitMission::getFacing(BattleUnit &u, Vec3<float> from, Vec3<flo
 	else
 	{
 		Vec2<int> targetFacing = {closestVector.x, closestVector.y};
-		int tarFacing = facing_dir_map.at(targetFacing) + facingDelta;
+		int tarFacing = _facing_dir_map.at(targetFacing) + facingDelta;
 		if (tarFacing > 7)
 			tarFacing -= 8;
 		if (tarFacing < 0)
 			tarFacing += 8;
-		return dir_facing_map.at(tarFacing);
+		return _dir_facing_map.at(tarFacing);
 	}
 }
 

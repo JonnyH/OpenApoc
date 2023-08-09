@@ -5,7 +5,7 @@ PROJECT(OpenApoc_Library CXX C)
 CMAKE_MINIMUM_REQUIRED(VERSION 3.9)
 
 find_package(Boost REQUIRED COMPONENTS locale)
-
+set(CMAKE_UNITY_BUILD ON)
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package (Threads REQUIRED)
 
@@ -45,6 +45,7 @@ target_include_directories(OpenApoc_Library PUBLIC ${Boost_INCLUDE_DIRS})
 if(NOT WIN32)
 	target_compile_definitions(OpenApoc_Library PUBLIC PTHREADS_AVAILABLE)
 endif()
+target_compile_definitions(OpenApoc_Library PUBLIC _USE_MATH_DEFINES)
 
 
 option(ENABLE_BACKTRACE "Enable gathering backtraces on some errors to aid debugging (Requires libunwind on linux, no extra dependencies on windows or macos)" ON)
