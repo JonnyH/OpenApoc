@@ -47,7 +47,6 @@ jobs:
     - name: Install dependencies
       run: |
         choco install nsis -pre
-        vcpkg install
 
     - name: Configure CMake
       # Use a bash shell so we can use the same syntax for environment variable
