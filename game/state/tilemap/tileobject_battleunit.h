@@ -4,6 +4,7 @@
 #include "library/sp.h"
 #include "library/vec.h"
 #include <set>
+#include <list>
 
 namespace OpenApoc
 {
