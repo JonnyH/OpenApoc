@@ -85,7 +85,7 @@ jobs:
         7z a OpenApoc-debug-${OPENAPOC_VERSION}.7z OpenApoc-${OPENAPOC_VERSION}\*.pdb
         del ${env:GITHUB_WORKSPACE}\data\cd.iso
         del ${env:GITHUB_WORKSPACE}\data\cd.iso.xz
-        xcopy /E ${env:GITHUB_WORKSPACE}\data OpenApoc-${OPENAPOC_VERSION}\data
+        xcopy /E ${env:GITHUB_WORKSPACE}\data\ OpenApoc-${OPENAPOC_VERSION}\data\
         del OpenApoc-${OPENAPOC_VERSION}\*.pdb
         del OpenApoc-${OPENAPOC_VERSION}\*.lib
         del OpenApoc-${OPENAPOC_VERSION}\*.ilk
@@ -100,6 +100,6 @@ jobs:
       with:
         name: openapoc-msvc-build
         path: |
-          ${{runner.workspace}}/OpenApoc-debug-${OPENAPOC_VERSION}.7z
-          ${{runner.workspace}}/OpenApoc-portable-${OPENAPOC_VERSION}.7z
-          ${{runner.workspace}}/install-openapoc-${OPENAPOC_VERSION}.exe
+          ${env:GITHUB_WORKSPACE}/OpenApoc-debug-${OPENAPOC_VERSION}.7z
+          ${env:GITHUB_WORKSPACE}/OpenApoc-portable-${OPENAPOC_VERSION}.7z
+          ${env:GITHUB_WORKSPACE}/install-openapoc-${OPENAPOC_VERSION}.exe
