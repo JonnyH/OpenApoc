@@ -34,7 +34,8 @@ jobs:
         curl http://s2.jonnyh.net/pub/cd_minimal.iso.xz -o ${env:GITHUB_WORKSPACE}/data/cd.iso.xz
     
     - name: Extract minimal cd image
-      run: 7z e ${env:GITHUB_WORKSPACE}\data\cd.iso.xz -o${env:GITHUB_WORKSPACE}\data\
+      run: | 
+        7z e ${env:GITHUB_WORKSPACE}\data\cd.iso.xz -o${env:GITHUB_WORKSPACE}\data\
 
     - name: Setup vcpkg
       uses: lukka/run-vcpkg@main
