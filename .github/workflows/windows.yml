@@ -75,7 +75,7 @@ jobs:
         git -C ${env:GITHUB_WORKSPACE} describe --tags > build-id
         $OPENAPOC_VERSION = Get-Content build-id
         mkdir OpenApoc-${OPENAPOC_VERSION}
-        cp build-id OpenApoc-${OPENAPOC_VERSION}\
+        copy build-id OpenApoc-${OPENAPOC_VERSION}\
         xcopy /E ${env:GITHUB_WORKSPACE}\build\bin\* OpenApoc-${OPENAPOC_VERSION}\
         7z a OpenApoc-debug-${OPENAPOC_VERSION}.7z OpenApoc-${OPENAPOC_VERSION}\*.pdb
         del ${env:GITHUB_WORKSPACE}\data\cd.iso
