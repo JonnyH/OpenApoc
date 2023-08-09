@@ -6,6 +6,7 @@
 #include "library/sp.h"
 #include "library/vec.h"
 #include <map>
+#include <list>
 
 namespace OpenApoc
 {

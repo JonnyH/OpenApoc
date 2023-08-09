@@ -11,6 +11,7 @@
 #include <map>
 #include <set>
 #include <vector>
+#include <list>
 
 static constexpr float VELOCITY_SCALE_CITY_X = 32.0f;
 static constexpr float VELOCITY_SCALE_CITY_Y = 32.0f;

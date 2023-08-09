@@ -6,6 +6,7 @@
 #include "library/vec.h"
 #include <set>
 #include <vector>
+#include <list>
 
 namespace OpenApoc
 {

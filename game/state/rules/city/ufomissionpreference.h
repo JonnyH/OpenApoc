@@ -4,6 +4,7 @@
 #include "game/state/stateobject.h"
 #include "library/strings.h"
 #include <vector>
+#include <list>
 
 namespace OpenApoc
 {

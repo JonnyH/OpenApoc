@@ -5,6 +5,7 @@
 #include "library/sp.h"
 #include "library/vec.h"
 #include <set>
+#include <list>
 
 #define FALLING_ACCELERATION_MAP_PART 0.16666667f // 1/6th
 
