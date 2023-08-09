@@ -96,10 +96,12 @@ jobs:
         del OpenApoc-${OPENAPOC_VERSION}\portable.txt
         makensis /DGAME_VERSION=${OPENAPOC_VERSION} ${env:GITHUB_WORKSPACE}\install\windows\installer.nsi
 
-    - uses: actions/upload-artifact@v3
+    - name: Upload
+      uses: actions/upload-artifact@v3
+      run: 
       with:
         name: openapoc-msvc-build
         path: |
-          ${env:GITHUB_WORKSPACE}/OpenApoc-debug-${OPENAPOC_VERSION}.7z
-          ${env:GITHUB_WORKSPACE}/OpenApoc-portable-${OPENAPOC_VERSION}.7z
-          ${env:GITHUB_WORKSPACE}/install-openapoc-${OPENAPOC_VERSION}.exe
+          OpenApoc-debug-${{env.OPENAPOC_VERSION}}.7z
+          OpenApoc-portable-${{env.OPENAPOC_VERSION}}.7z
+          install-openapoc-${{env.OPENAPOC_VERSION}}.exe
