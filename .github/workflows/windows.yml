@@ -98,7 +98,6 @@ jobs:
 
     - name: Upload
       uses: actions/upload-artifact@v3
-      run: 
       with:
         name: openapoc-msvc-build
         path: |
