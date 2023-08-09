@@ -75,6 +75,9 @@ jobs:
       run: |
         git -C ${env:GITHUB_WORKSPACE} describe --tags > build-id
         $OPENAPOC_VERSION = Get-Content build-id
+        echo "Version: ${OPENAPOC_VERSION}"
+        echo "runner.workspace: ${{runner.workspace}}"
+        echo "GITHUB_WORKSPACE: ${env:GITHUB_WORKSPACE}"
         mkdir OpenApoc-${OPENAPOC_VERSION}
         copy build-id OpenApoc-${OPENAPOC_VERSION}\
         xcopy /E ${env:GITHUB_WORKSPACE}\build\bin\* OpenApoc-${OPENAPOC_VERSION}\
