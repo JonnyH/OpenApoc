@@ -2,7 +2,6 @@
 
 #include "library/sp.h"
 #include "library/strings.h"
-#include <list>
 
 namespace OpenApoc
 {
