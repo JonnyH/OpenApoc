@@ -103,6 +103,5 @@ jobs:
       with:
         name: openapoc-msvc-build
         path: |
-          OpenApoc-debug-${{env.OPENAPOC_VERSION}}.7z
-          OpenApoc-portable-${{env.OPENAPOC_VERSION}}.7z
-          install-openapoc-${{env.OPENAPOC_VERSION}}.exe
+          *.7z
+          *.exe
