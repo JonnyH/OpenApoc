@@ -115,7 +115,7 @@ jobs:
     - name: Upload installer package
       uses: actions/upload-artifact@v3
       with:
-        name: Portable build
+        name: Installer
         path: |
           install/windows/install-openapoc-*.exe
 
