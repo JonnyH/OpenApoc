@@ -279,19 +279,19 @@ UString Agent::getRankName() const
 	switch (rank)
 	{
 		case Rank::Rookie:
-			return tr("Rookie");
+			return tr("Rookie").value;
 		case Rank::Squaddie:
-			return tr("Squaddie");
+			return tr("Squaddie").value;
 		case Rank::SquadLeader:
-			return tr("Squad leader");
+			return tr("Squad leader").value;
 		case Rank::Sergeant:
-			return tr("Sergeant");
+			return tr("Sergeant").value;
 		case Rank::Captain:
-			return tr("Captain");
+			return tr("Captain").value;
 		case Rank::Colonel:
-			return tr("Colonel");
+			return tr("Colonel").value;
 		case Rank::Commander:
-			return tr("Commander");
+			return tr("Commander").value;
 	}
 	LogError("Unknown rank %d", (int)rank);
 	return "";

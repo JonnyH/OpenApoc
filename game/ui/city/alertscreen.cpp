@@ -27,9 +27,9 @@ AlertScreen::AlertScreen(sp<GameState> state, sp<Building> building)
     : Stage(), menuform(ui().getForm("city/alert")), state(state), building(building)
 {
 	menuform->findControlTyped<Label>("TEXT_FUNDS")->setText(state->getPlayerBalance());
-	menuform->findControlTyped<Label>("TEXT_OWNER_NAME")->setText(tr(building->owner->name));
+	menuform->findControlTyped<Label>("TEXT_OWNER_NAME")->setText(tr(building->owner->name).value);
 	menuform->findControlTyped<Label>("TEXT_BUILDING_FUNCTION")
-	    ->setText(tr(building->function->name));
+	    ->setText(tr(building->function->name).value);
 }
 
 AlertScreen::~AlertScreen() = default;
@@ -75,9 +75,10 @@ void AlertScreen::eventOccurred(Event *e)
 			{
 				fw().stageQueueCommand(
 				    {StageCmd::Command::PUSH,
-				     mksp<MessageBox>(tr("No Agents Selected"),
+				     mksp<MessageBox>(tr("No Agents Selected").value,
 				                      tr("You need to select the agents you want to "
-				                         "become active within the building."),
+				                         "become active within the building.")
+				                          .value,
 				                      MessageBox::ButtonOptions::Ok)});
 				return;
 			}
@@ -155,9 +156,10 @@ void AlertScreen::eventOccurred(Event *e)
 			case GameEventType::AgentUnableToReach:
 				fw().stageQueueCommand(
 				    {StageCmd::Command::PUSH,
-				     mksp<MessageBox>(tr("Unable to Reach"),
+				     mksp<MessageBox>(tr("Unable to Reach").value,
 				                      tr("The Agent is unable to reach the Target Building by "
-				                         "Foot. Canceling Mission!"),
+				                         "Foot. Canceling Mission!")
+				                          .value,
 				                      MessageBox::ButtonOptions::Ok)});
 				break;
 		}

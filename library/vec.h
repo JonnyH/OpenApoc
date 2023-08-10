@@ -4,10 +4,10 @@
 #define GLM_ENABLE_EXPERIMENTAL
 
 #define GLM_FORCE_RADIANS
+#include "fmt/ostream.h"
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
 #include <ostream>
-#include "fmt/ostream.h"
 
 namespace OpenApoc
 {

@@ -154,7 +154,7 @@ static sp<PaletteImage> readPckCompression3(std::istream &input, Vec2<unsigned> 
 					}
 					else
 					{
-						LogWarning("{%d,%d} out of bounds", col, row);
+						LogWarning("{{%d,%d}} out of bounds", col, row);
 					}
 				}
 				blkOffset++;
@@ -316,7 +316,7 @@ static sp<PaletteImage> loadStrategy(IFile &file)
 
 			if (x >= 8 || y >= 8)
 			{
-				LogInfo("Writing to {%d,%d} in 8x8 stratmap image", x, y);
+				LogInfo("Writing to {{%d,%d}} in 8x8 stratmap image", x, y);
 			}
 			else
 			{
@@ -364,7 +364,7 @@ sp<ImageSet> PCKLoader::loadStrat(Data &data, UString PckFilename, UString TabFi
 		}
 		if (img->size != Vec2<unsigned int>{8, 8})
 		{
-			LogError("Invalid size of {%d,%d} in stratmap image", img->size.x, img->size.y);
+			LogError("Invalid size of {{%d,%d}} in stratmap image", img->size.x, img->size.y);
 			return nullptr;
 		}
 		imageSet->images.push_back(img);

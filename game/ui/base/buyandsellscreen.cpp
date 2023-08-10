@@ -28,7 +28,7 @@ namespace OpenApoc
 BuyAndSellScreen::BuyAndSellScreen(sp<GameState> state, bool forceLimits)
     : TransactionScreen(state, forceLimits)
 {
-	form->findControlTyped<Label>("TITLE")->setText(tr("BUY AND SELL"));
+	form->findControlTyped<Label>("TITLE")->setText(tr("BUY AND SELL").value);
 	form->findControlTyped<Graphic>("BG")->setImage(
 	    fw().data->loadImage("xcom3/ufodata/buy&sell.pcx"));
 	form->findControlTyped<Graphic>("DOLLAR_ICON")->setVisible(true);
@@ -66,7 +66,7 @@ BuyAndSellScreen::BuyAndSellScreen(sp<GameState> state, bool forceLimits)
 	    ->addCallback(FormEventType::CheckBoxSelected,
 	                  [this](Event *) { this->setDisplayType(Type::GroundEquipment); });
 
-	confirmClosureText = tr("Confirm Sales/Purchases");
+	confirmClosureText = tr("Confirm Sales/Purchases").value;
 
 	type = Type::Vehicle;
 	form->findControlTyped<RadioButton>("BUTTON_VEHICLES")->setChecked(true);
@@ -105,10 +105,11 @@ void BuyAndSellScreen::closeScreen()
 	{
 		if (player->balance + moneyDelta < 0)
 		{
-			fw().stageQueueCommand({StageCmd::Command::PUSH,
-			                        mksp<MessageBox>(tr("Funds exceeded"),
-			                                         tr("Order limited by your available funds."),
-			                                         MessageBox::ButtonOptions::Ok)});
+			fw().stageQueueCommand(
+			    {StageCmd::Command::PUSH,
+			     mksp<MessageBox>(tr("Funds exceeded").value,
+			                      tr("Order limited by your available funds.").value,
+			                      MessageBox::ButtonOptions::Ok)});
 			return;
 		}
 	}
@@ -159,10 +160,11 @@ void BuyAndSellScreen::closeScreen()
 		// Found bad base
 		if (bad_base)
 		{
-			UString title(tr("Storage space exceeded"));
-			UString message(forceLimits
-			                    ? tr("Storage space exceeded. Sell off more items!")
-			                    : tr("Order limited by the available storage space at this base."));
+			UString title(tr("Storage space exceeded").value);
+			UString message(
+			    forceLimits
+			        ? tr("Storage space exceeded. Sell off more items!").value
+			        : tr("Order limited by the available storage space at this base.").value);
 
 			fw().stageQueueCommand(
 			    {StageCmd::Command::PUSH,
@@ -258,12 +260,14 @@ void BuyAndSellScreen::closeScreen()
 				UString message = transportationHostile
 				                      ? format("%s %s",
 				                               tr("Hostile organization refuses to carry out the "
-				                                  "requested transportation for this company."),
-				                               tr("Proceed?"))
+				                                  "requested transportation for this company.")
+				                                   .value,
+				                               tr("Proceed?").value)
 				                      : format("%s %s",
 				                               tr("No free transport to carry out the requested "
-				                                  "transportation detected in the city."),
-				                               tr("Proceed?"));
+				                                  "transportation detected in the city.")
+				                                   .value,
+				                               tr("Proceed?").value);
 				fw().stageQueueCommand(
 				    {StageCmd::Command::PUSH,
 				     mksp<MessageBox>(title, message, MessageBox::ButtonOptions::YesNo,
@@ -276,8 +280,9 @@ void BuyAndSellScreen::closeScreen()
 				// FIXME: Different message maybe? Same for now
 				UString message = format("%s %s",
 				                         tr("No free transport to carry out the requested "
-				                            "transportation detected in the city."),
-				                         tr("Proceed?"));
+				                            "transportation detected in the city.")
+				                             .value,
+				                         tr("Proceed?").value);
 				fw().stageQueueCommand(
 				    {StageCmd::Command::PUSH,
 				     mksp<MessageBox>(title, message, MessageBox::ButtonOptions::YesNo,
@@ -291,7 +296,8 @@ void BuyAndSellScreen::closeScreen()
 				    {StageCmd::Command::PUSH,
 				     mksp<MessageBox>(title,
 				                      tr("Hostile organization refuses to carry out the "
-				                         "requested transportation for this company."),
+				                         "requested transportation for this company.")
+				                          .value,
 				                      MessageBox::ButtonOptions::Ok)});
 				return;
 			}
@@ -367,12 +373,14 @@ void BuyAndSellScreen::closeScreen()
 				    transportationHostile
 				        ? format("%s %s",
 				                 tr("This hostile organization refuses to carry out the "
-				                    "requested transfer."),
-				                 tr("Proceed?"))
+				                    "requested transfer.")
+				                     .value,
+				                 tr("Proceed?").value)
 				        : format("%s %s",
 				                 tr("No free transport to carry out the requested "
-				                    "transportation detected in the city."),
-				                 tr("Proceed?"));
+				                    "transportation detected in the city.")
+				                     .value,
+				                 tr("Proceed?").value);
 				fw().stageQueueCommand(
 				    {StageCmd::Command::PUSH,
 				     mksp<MessageBox>(title, message, MessageBox::ButtonOptions::YesNo,
@@ -385,8 +393,9 @@ void BuyAndSellScreen::closeScreen()
 				// FIXME: Different message maybe? Same for now
 				UString message = format("%s %s",
 				                         tr("No free transport to carry out the requested "
-				                            "transportation detected in the city."),
-				                         tr("Proceed?"));
+				                            "transportation detected in the city.")
+				                             .value,
+				                         tr("Proceed?").value);
 				fw().stageQueueCommand(
 				    {StageCmd::Command::PUSH,
 				     mksp<MessageBox>(title, message, MessageBox::ButtonOptions::YesNo,
@@ -400,7 +409,8 @@ void BuyAndSellScreen::closeScreen()
 				    {StageCmd::Command::PUSH,
 				     mksp<MessageBox>(title,
 				                      tr("This hostile organization refuses to carry out "
-				                         "the requested transfer."),
+				                         "the requested transfer.")
+				                          .value,
 				                      MessageBox::ButtonOptions::Ok)});
 				return;
 			}

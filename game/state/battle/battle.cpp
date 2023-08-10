@@ -3751,23 +3751,23 @@ UString BattleScore::getText()
 	auto total = getTotal();
 	if (total > 500)
 	{
-		return tr("Very Good");
+		return tr("Very Good").value;
 	}
 	else if (total > 200)
 	{
-		return tr("Good");
+		return tr("Good").value;
 	}
 	else if (total > 0)
 	{
-		return tr("OK");
+		return tr("OK").value;
 	}
 	else if (total > -200)
 	{
-		return tr("Poor");
+		return tr("Poor").value;
 	}
 	else
 	{
-		return tr("Very Poor");
+		return tr("Very Poor").value;
 	}
 }
 

@@ -78,7 +78,8 @@ UString libunwind_backtrace::symbolicate(unw_cursor_t frame)
 	dladdr(reinterpret_cast<void *>(ip), &info);
 	if (info.dli_sname)
 	{
-		return format("  0x%zx %s+0x%zx (%s)\n", static_cast<uintptr_t>(ip), info.dli_sname,
+		return format("  0x{:X} {}(0x{:X}+0x{:X} ({})\n", reinterpret_cast<uintptr_t>(ip),
+		              info.dli_sname, reinterpret_cast<uintptr_t>(info.dli_saddr),
 		              static_cast<uintptr_t>(ip) - reinterpret_cast<uintptr_t>(info.dli_saddr),
 		              info.dli_fname);
 	}
@@ -87,11 +88,10 @@ UString libunwind_backtrace::symbolicate(unw_cursor_t frame)
 	char fnName[MAX_SYMBOL_LENGTH];
 	if (!unw_get_proc_name(&frame, fnName, MAX_SYMBOL_LENGTH, &offsetInFn))
 	{
-		return format("  0x%zx %s+0x%zx (%s)\n", static_cast<uintptr_t>(ip), fnName, offsetInFn,
-		              info.dli_fname);
+		return format("  0x{:X} {}+0x{:X} ({})\n", ip, fnName, offsetInFn, info.dli_fname);
 	}
 	else
-		return format("  0x%zx\n", static_cast<uintptr_t>(ip));
+		return format("  0x{:X}\n", ip);
 }
 
 std::ostream &operator<<(std::ostream &lhs, const backtrace &bt)
@@ -173,7 +173,7 @@ UString win32_backtrace::symbolicate(const void *ip)
 	sym->SizeOfStruct = sizeof(SYMBOL_INFO);
 
 	SymFromAddr(process, (DWORD64)(ip), 0, sym);
-	str = format("  0x%p %s+0x%x\n", ip, sym->Name, (uintptr_t)ip - (uintptr_t)sym->Address);
+	str = format("  0x{} {}+0x{}\n", ip, sym->Name, (uintptr_t)ip - (uintptr_t)sym->Address);
 
 	free(sym);
 	return str;

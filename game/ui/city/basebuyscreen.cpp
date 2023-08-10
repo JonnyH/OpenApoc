@@ -153,9 +153,9 @@ void BaseBuyScreen::eventOccurred(Event *e)
 			}
 			else
 			{
-				auto messagebox =
-				    mksp<MessageBox>(tr("No Sale"), tr("Not enough money to buy this building."),
-				                     MessageBox::ButtonOptions::Ok);
+				auto messagebox = mksp<MessageBox>(
+				    tr("No Sale").value, tr("Not enough money to buy this building.").value,
+				    MessageBox::ButtonOptions::Ok);
 				fw().stageQueueCommand({StageCmd::Command::PUSH, messagebox});
 			}
 		}

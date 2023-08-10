@@ -32,7 +32,7 @@ namespace OpenApoc
 TransferScreen::TransferScreen(sp<GameState> state, bool forceLimits)
     : TransactionScreen(state, forceLimits), bigUnitRanks(RecruitScreen::getBigUnitRanks())
 {
-	form->findControlTyped<Label>("TITLE")->setText(tr("TRANSFER"));
+	form->findControlTyped<Label>("TITLE")->setText(tr("TRANSFER").value);
 	form->findControlTyped<Graphic>("BG")->setImage(
 	    fw().data->loadImage("xcom3/ufodata/transfer.pcx"));
 	form->findControlTyped<Graphic>("DOLLAR_ICON")->setVisible(false);
@@ -100,7 +100,7 @@ TransferScreen::TransferScreen(sp<GameState> state, bool forceLimits)
 		}
 	}
 
-	confirmClosureText = tr("Confirm Transfers");
+	confirmClosureText = tr("Confirm Transfers").value;
 
 	type = Type::Soldier;
 	form->findControlTyped<RadioButton>("BUTTON_SOLDIERS")->setChecked(true);
@@ -321,20 +321,20 @@ void TransferScreen::closeScreen()
 			UString message;
 			if (crewOverLimit)
 			{
-				title = tr("Accomodation exceeded");
-				message = tr("Transfer limited by available accommodation.");
+				title = tr("Accomodation exceeded").value;
+				message = tr("Transfer limited by available accommodation.").value;
 				type = Type::Soldier;
 			}
 			else if (cargoOverLimit)
 			{
-				title = tr("Storage space exceeded");
-				message = tr("Transfer limited by available storage space.");
+				title = tr("Storage space exceeded").value;
+				message = tr("Transfer limited by available storage space.").value;
 				type = Type::AgentEquipment;
 			}
 			else if (alienOverLimit)
 			{
-				title = tr("Alien Containment space exceeded");
-				message = tr("Transfer limited by available Alien Containment space.");
+				title = tr("Alien Containment space exceeded").value;
+				message = tr("Transfer limited by available Alien Containment space.").value;
 				type = Type::Aliens;
 			}
 			fw().stageQueueCommand(
@@ -425,12 +425,14 @@ void TransferScreen::closeScreen()
 				    transportationHostile
 				        ? format("%s %s",
 				                 tr("This hostile organization refuses to carry out the "
-				                    "requested transfer."),
-				                 tr("Proceed?"))
+				                    "requested transfer.")
+				                     .value,
+				                 tr("Proceed?").value)
 				        : format("%s %s",
 				                 tr("No free transport to carry out the requested "
-				                    "transportation detected in the city."),
-				                 tr("Proceed?"));
+				                    "transportation detected in the city.")
+				                     .value,
+				                 tr("Proceed?").value);
 				fw().stageQueueCommand(
 				    {StageCmd::Command::PUSH,
 				     mksp<MessageBox>(title, message, MessageBox::ButtonOptions::YesNo,
@@ -443,8 +445,9 @@ void TransferScreen::closeScreen()
 				// FIXME: Different message maybe? Same for now
 				UString message = format("%s %s",
 				                         tr("No free transport to carry out the requested "
-				                            "transportation detected in the city."),
-				                         tr("Proceed?"));
+				                            "transportation detected in the city.")
+				                             .value,
+				                         tr("Proceed?").value);
 				fw().stageQueueCommand(
 				    {StageCmd::Command::PUSH,
 				     mksp<MessageBox>(title, message, MessageBox::ButtonOptions::YesNo,
@@ -458,7 +461,8 @@ void TransferScreen::closeScreen()
 				    {StageCmd::Command::PUSH,
 				     mksp<MessageBox>(title,
 				                      tr("This hostile organization refuses to carry out "
-				                         "the requested transfer."),
+				                         "the requested transfer.")
+				                          .value,
 				                      MessageBox::ButtonOptions::Ok)});
 				return;
 			}

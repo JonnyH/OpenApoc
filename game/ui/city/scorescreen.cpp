@@ -94,7 +94,7 @@ void ScoreScreen::setScoreMode()
 		    format("%d", state->totalScore.getTotal()));
 	}
 
-	title->setText(tr("SCORE"));
+	title->setText(tr("SCORE").value);
 	formScore->setVisible(true);
 	formFinance->setVisible(false);
 }
@@ -183,13 +183,12 @@ void ScoreScreen::setFinanceMode()
 		}
 
 		formFinance->findControlTyped<Label>("INITIAL")->setText(
-		    format("%s $%d", tr("Initial funds>"), balance));
+		    format(tr("Initial funds> $%d"), balance));
 		formFinance->findControlTyped<Label>("REMAINING")
-		    ->setText(
-		        format("%s $%d", tr("Remaining funds>"), balance - agentsSalary - basesCosts));
+		    ->setText(format(tr("Remaining funds> $%d"), balance - agentsSalary - basesCosts));
 	}
 
-	title->setText(tr("FINANCE"));
+	title->setText(tr("FINANCE").value);
 	formScore->setVisible(false);
 	formFinance->setVisible(true);
 }

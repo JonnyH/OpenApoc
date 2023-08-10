@@ -773,7 +773,7 @@ void Framework::displayInitialise()
 	ScreenMode mode = optionsScreenMode();
 	if (mode == ScreenMode::Unknown)
 	{
-		LogError("Unknown screen mode specified: {%s}", Options::screenModeOption.get());
+		LogError("Unknown screen mode specified: {}", Options::screenModeOption.get());
 		mode = ScreenMode::Windowed;
 	}
 
@@ -795,7 +795,7 @@ void Framework::displayInitialise()
 	if (scrW < 640 || scrH < 480)
 	{
 		LogError(
-		    "Requested display size of {%d,%d} is lower than {640,480} and probably won't work",
+		    "Requested display size of {{%d,%d}} is lower than {{640,480}} and probably won't work",
 		    scrW, scrH);
 	}
 
@@ -912,7 +912,7 @@ void Framework::displayInitialise()
 		p->displaySize.y = (int)((float)p->windowSize.y * scaleYFloat);
 		if (p->displaySize.x < 640 || p->displaySize.y < 480)
 		{
-			LogWarning("Requested scaled size of %d is lower than {640,480} and probably "
+			LogWarning("Requested scaled size of %d is lower than {{640,480}} and probably "
 			           "won't work, so forcing 640x480",
 			           p->displaySize.x);
 			p->displaySize.x = std::max(640, p->displaySize.x);

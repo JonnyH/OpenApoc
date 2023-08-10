@@ -70,23 +70,27 @@ UString GameTime::getLongDateString() const
 		apoc_date_facet *dateFacet = new apoc_date_facet("%A, %E %B, %Y");
 		DATE_LONG_FORMAT = new std::locale(std::locale::classic(), dateFacet);
 
-		std::vector<std::string> months = {tr("January"), tr("February"), tr("March"),
-		                                   tr("April"),   tr("May"),      tr("June"),
-		                                   tr("July"),    tr("August"),   tr("September"),
-		                                   tr("October"), tr("November"), tr("December")};
+		std::vector<std::string> months = {
+		    tr("January").value, tr("February").value, tr("March").value,
+		    tr("April").value,   tr("May").value,      tr("June").value,
+		    tr("July").value,    tr("August").value,   tr("September").value,
+		    tr("October").value, tr("November").value, tr("December").value};
 		dateFacet->long_month_names(months);
 
-		std::vector<std::string> weekdays = {tr("Sunday"),    tr("Monday"),   tr("Tuesday"),
-		                                     tr("Wednesday"), tr("Thursday"), tr("Friday"),
-		                                     tr("Saturday")};
+		std::vector<std::string> weekdays = {
+		    tr("Sunday").value,   tr("Monday").value, tr("Tuesday").value, tr("Wednesday").value,
+		    tr("Thursday").value, tr("Friday").value, tr("Saturday").value};
 		dateFacet->long_weekday_names(weekdays);
 
 		std::vector<std::string> days = {
-		    tr("1st"),  tr("2nd"),  tr("3rd"),  tr("4th"),  tr("5th"),  tr("6th"),  tr("7th"),
-		    tr("8th"),  tr("9th"),  tr("10th"), tr("11th"), tr("12th"), tr("13th"), tr("14th"),
-		    tr("15th"), tr("16th"), tr("17th"), tr("18th"), tr("19th"), tr("20th"), tr("21st"),
-		    tr("22nd"), tr("23rd"), tr("24th"), tr("25th"), tr("26th"), tr("27th"), tr("28th"),
-		    tr("29th"), tr("30th"), tr("31st")};
+		    tr("1st").value,  tr("2nd").value,  tr("3rd").value,  tr("4th").value,
+		    tr("5th").value,  tr("6th").value,  tr("7th").value,  tr("8th").value,
+		    tr("9th").value,  tr("10th").value, tr("11th").value, tr("12th").value,
+		    tr("13th").value, tr("14th").value, tr("15th").value, tr("16th").value,
+		    tr("17th").value, tr("18th").value, tr("19th").value, tr("20th").value,
+		    tr("21st").value, tr("22nd").value, tr("23rd").value, tr("24th").value,
+		    tr("25th").value, tr("26th").value, tr("27th").value, tr("28th").value,
+		    tr("29th").value, tr("30th").value, tr("31st").value};
 		dateFacet->longDayNames(days);
 	}
 	ss.imbue(*DATE_LONG_FORMAT);
@@ -102,18 +106,22 @@ UString GameTime::getShortDateString() const
 		apoc_date_facet *dateFacet = new apoc_date_facet("%E %B, %Y");
 		DATE_SHORT_FORMAT = new std::locale(std::locale::classic(), dateFacet);
 
-		std::vector<std::string> months = {tr("January"), tr("February"), tr("March"),
-		                                   tr("April"),   tr("May"),      tr("June"),
-		                                   tr("July"),    tr("August"),   tr("September"),
-		                                   tr("October"), tr("November"), tr("December")};
+		std::vector<std::string> months = {
+		    tr("January").value, tr("February").value, tr("March").value,
+		    tr("April").value,   tr("May").value,      tr("June").value,
+		    tr("July").value,    tr("August").value,   tr("September").value,
+		    tr("October").value, tr("November").value, tr("December").value};
 		dateFacet->long_month_names(months);
 
 		std::vector<std::string> days = {
-		    tr("1st"),  tr("2nd"),  tr("3rd"),  tr("4th"),  tr("5th"),  tr("6th"),  tr("7th"),
-		    tr("8th"),  tr("9th"),  tr("10th"), tr("11th"), tr("12th"), tr("13th"), tr("14th"),
-		    tr("15th"), tr("16th"), tr("17th"), tr("18th"), tr("19th"), tr("20th"), tr("21st"),
-		    tr("22nd"), tr("23rd"), tr("24th"), tr("25th"), tr("26th"), tr("27th"), tr("28th"),
-		    tr("29th"), tr("30th"), tr("31st")};
+		    tr("1st").value,  tr("2nd").value,  tr("3rd").value,  tr("4th").value,
+		    tr("5th").value,  tr("6th").value,  tr("7th").value,  tr("8th").value,
+		    tr("9th").value,  tr("10th").value, tr("11th").value, tr("12th").value,
+		    tr("13th").value, tr("14th").value, tr("15th").value, tr("16th").value,
+		    tr("17th").value, tr("18th").value, tr("19th").value, tr("20th").value,
+		    tr("21st").value, tr("22nd").value, tr("23rd").value, tr("24th").value,
+		    tr("25th").value, tr("26th").value, tr("27th").value, tr("28th").value,
+		    tr("29th").value, tr("30th").value, tr("31st").value};
 		dateFacet->longDayNames(days);
 	}
 	ss.imbue(*DATE_SHORT_FORMAT);
@@ -121,7 +129,7 @@ UString GameTime::getShortDateString() const
 	return ss.str();
 }
 
-UString GameTime::getWeekString() const { return format("%s %d", tr("Week"), getWeek()); }
+UString GameTime::getWeekString() const { return format(tr("Week %d"), getWeek()); }
 
 unsigned int GameTime::getMonth() const
 {

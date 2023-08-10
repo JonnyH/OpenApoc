@@ -2,13 +2,13 @@
 #define _CRT_SECURE_NO_WARNINGS
 #endif
 
+#include "fmt/std.h"
 #include "framework/data.h"
 #include "framework/filesystem.h"
 #include "framework/framework.h"
 #include "framework/fs.h"
 #include "framework/logger.h"
 #include <physfs.h>
-#include "fmt/std.h"
 
 #ifdef _WIN32
 #define _CRT_SECURE_NO_WARNINGS
@@ -97,7 +97,7 @@ class PhysfsIFileImpl : public std::streambuf, public IFileImpl
 				PHYSFS_seek(file, PHYSFS_fileLength(file) + pos);
 				break;
 			default:
-				LogError("Unknown direction in seekoff (%d)", dir);
+				LogError("Unknown direction in seekoff ({})", (unsigned)dir);
 				LogAssert(0);
 		}
 

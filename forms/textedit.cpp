@@ -282,7 +282,7 @@ void TextEdit::configureSelfFromXml(pugi::xml_node *node)
 
 	if (node->attribute("text"))
 	{
-		text = to_u32string(tr(node->attribute("text").as_string()));
+		text = to_u32string(tr(node->attribute("text").as_string()).value);
 	}
 	auto fontNode = node->child("font");
 	if (fontNode)

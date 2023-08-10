@@ -174,7 +174,7 @@ BattleView::BattleView(sp<GameState> gameState)
 	}
 	{
 		executePlanPopup = mksp<BattleTurnBasedConfirmBox>(
-		    tr("Execute remaining movement orders for this unit?"),
+		    tr("Execute remaining movement orders for this unit?").value,
 		    [this]
 		    {
 			    unitPendingConfirmation->missions.pop_front();
@@ -1773,30 +1773,30 @@ void BattleView::update()
 			if ((battle.loserHasRetreated && battle.playerWon) ||
 			    (battle.winnerHasRetreated && !battle.playerWon))
 			{
-				message = tr("All hostile units have fled the combat zone. You win.");
+				message = tr("All hostile units have fled the combat zone. You win.").value;
 			}
 			else if ((battle.loserHasRetreated && !battle.playerWon) ||
 			         (battle.winnerHasRetreated && battle.playerWon) ||
 			         (!battle.playerWon && !battle.loserHasRetreated && !battle.winnerHasRetreated))
 			{
-				message = tr("All your units have fled the combat zone. You win.");
+				message = tr("All your units have fled the combat zone. You win.").value;
 			}
 			else
 			{
-				message = tr("All hostile units are dead or unconscious. You win.");
+				message = tr("All hostile units are dead or unconscious. You win.").value;
 			}
 		}
 		else if (battle.loserHasRetreated)
 		{
-			message = tr("All your units have fled the combat zone. You lose.");
+			message = tr("All your units have fled the combat zone. You lose.").value;
 		}
 		else if (battle.winnerHasRetreated)
 		{
-			message = tr("All hostile units have fled the combat zone. You lose.");
+			message = tr("All hostile units have fled the combat zone. You lose.").value;
 		}
 		else
 		{
-			message = tr("All your units are unconscious or dead. You lose.");
+			message = tr("All your units are unconscious or dead. You lose.").value;
 		}
 		fw().stageQueueCommand(
 		    {StageCmd::Command::PUSH, mksp<MessageBox>("", message, MessageBox::ButtonOptions::Ok,
@@ -2143,9 +2143,9 @@ void BattleView::updateSoldierButtons()
 	baseForm->findControlTyped<CheckBox>("BUTTON_SNAP")->setChecked(snap);
 	baseForm->findControlTyped<CheckBox>("BUTTON_AUTO")->setChecked(auto_fire);
 
-	UString aimedTooltip = tr("Aimed shot");
-	UString snapTooltip = tr("Snap shot");
-	UString autoTooltip = tr("Auto shot");
+	UString aimedTooltip = tr("Aimed shot").value;
+	UString snapTooltip = tr("Snap shot").value;
+	UString autoTooltip = tr("Auto shot").value;
 
 	// In turnbased : If a single unit is selected and it has active weapon - show TU cost for aim
 	// types in tooltips
@@ -2162,13 +2162,14 @@ void BattleView::updateSoldierButtons()
 		{
 			const int aimedCost =
 			    weapon->getFireCost(WeaponAimingMode::Aimed, selectedUnit->initialTU);
-			aimedTooltip = format("%s\n%s %d", aimedTooltip, tr("TU cost per shot:"), aimedCost);
+			aimedTooltip =
+			    format("%s\n%s %d", aimedTooltip, tr("TU cost per shot:").value, aimedCost);
 			const int snapCost =
 			    weapon->getFireCost(WeaponAimingMode::Snap, selectedUnit->initialTU);
-			snapTooltip = format("%s\n%s %d", snapTooltip, tr("TU cost per shot:"), snapCost);
+			snapTooltip = format("%s\n%s %d", snapTooltip, tr("TU cost per shot:").value, snapCost);
 			const int autoCost =
 			    weapon->getFireCost(WeaponAimingMode::Auto, selectedUnit->initialTU);
-			autoTooltip = format("%s\n%s %d", autoTooltip, tr("TU cost per shot:"), autoCost);
+			autoTooltip = format("%s\n%s %d", autoTooltip, tr("TU cost per shot:").value, autoCost);
 		}
 	}
 	baseForm->findControlTyped<CheckBox>("BUTTON_AIMED")->ToolTipText = aimedTooltip;
@@ -2263,7 +2264,7 @@ void BattleView::refreshDelayText()
 			}
 			else
 			{
-				text = format("%s %d", tr("Turns before activation:"), delay - 1);
+				text = format(tr("Turns before activation: %d"), delay - 1);
 			}
 		}
 		else
@@ -2605,9 +2606,10 @@ void BattleView::orderUse(bool right, bool automatic)
 	}
 	if (!item->canBeUsed(*state))
 	{
-		auto message_box = mksp<MessageBox>(
-		    tr("Alien Artifact"), tr("You must research Alien technology before you can use it."),
-		    MessageBox::ButtonOptions::Ok);
+		auto message_box =
+		    mksp<MessageBox>(tr("Alien Artifact").value,
+		                     tr("You must research Alien technology before you can use it.").value,
+		                     MessageBox::ButtonOptions::Ok);
 		fw().stageQueueCommand({StageCmd::Command::PUSH, message_box});
 		return;
 	}
@@ -4202,29 +4204,30 @@ void BattleView::updateItemInfo(bool right)
 		activeTab->findControlTyped<Graphic>("IMAGE_" + name + "_HAND")
 		    ->setImage(info.itemType->equipscreen_sprite);
 		activeTab->findControlTyped<Graphic>("IMAGE_" + name + "_HAND")->ToolTipText =
-		    tr(info.itemType->name);
+		    tr(info.itemType->name).value;
 		if (info.damageType)
 		{
 			activeTab->findControlTyped<Graphic>("IMAGE_" + name + "_DAMAGETYPE")
 			    ->setImage(info.damageType->icon_sprite);
 			activeTab->findControlTyped<Graphic>("IMAGE_" + name + "_DAMAGETYPE")->ToolTipText =
-			    tr(info.damageType->name);
+			    tr(info.damageType->name).value;
 		}
 		else
 		{
 			activeTab->findControlTyped<Graphic>("IMAGE_" + name + "_DAMAGETYPE")
 			    ->setImage(nullptr);
 			activeTab->findControlTyped<Graphic>("IMAGE_" + name + "_DAMAGETYPE")->ToolTipText =
-			    tr("None");
+			    tr("None").value;
 		}
 	}
 	else
 	{
 		activeTab->findControlTyped<Graphic>("IMAGE_" + name + "_HAND")->setImage(nullptr);
-		activeTab->findControlTyped<Graphic>("IMAGE_" + name + "_HAND")->ToolTipText = tr("Empty");
+		activeTab->findControlTyped<Graphic>("IMAGE_" + name + "_HAND")->ToolTipText =
+		    tr("Empty").value;
 		activeTab->findControlTyped<Graphic>("IMAGE_" + name + "_DAMAGETYPE")->setImage(nullptr);
 		activeTab->findControlTyped<Graphic>("IMAGE_" + name + "_DAMAGETYPE")->ToolTipText =
-		    tr("None");
+		    tr("None").value;
 	}
 
 	// Selection bracket

@@ -43,22 +43,22 @@ void ResearchSelect::begin()
 	switch (this->lab->type)
 	{
 		case ResearchTopic::Type::BioChem:
-			title->setText(tr("Select Biochemistry Project"));
-			progress->setText(tr("Progress"));
-			skill->setText(tr("Skill"));
+			title->setText(tr("Select Biochemistry Project").value);
+			progress->setText(tr("Progress").value);
+			skill->setText(tr("Skill").value);
 			break;
 		case ResearchTopic::Type::Physics:
-			title->setText(tr("Select Physics Project"));
-			progress->setText(tr("Progress"));
-			skill->setText(tr("Skill"));
+			title->setText(tr("Select Physics Project").value);
+			progress->setText(tr("Progress").value);
+			skill->setText(tr("Skill").value);
 			break;
 		case ResearchTopic::Type::Engineering:
-			title->setText(tr("Select Manufacturing Project"));
-			progress->setText(tr("Unit Cost"));
-			skill->setText(tr("Skill Hours"));
+			title->setText(tr("Select Manufacturing Project").value);
+			progress->setText(tr("Unit Cost").value);
+			skill->setText(tr("Skill Hours").value);
 			break;
 		default:
-			title->setText(tr("Select Unknown Project"));
+			title->setText(tr("Select Unknown Project").value);
 			break;
 	}
 	this->populateResearchList();
@@ -82,9 +82,9 @@ void ResearchSelect::begin()
 			    if (topic->isComplete())
 			    {
 				    LogInfo("Topic already complete");
-				    auto message_box = mksp<MessageBox>(tr("PROJECT COMPLETE"),
-				                                        tr("This project is already complete."),
-				                                        MessageBox::ButtonOptions::Ok);
+				    auto message_box = mksp<MessageBox>(
+				        tr("PROJECT COMPLETE").value, tr("This project is already complete.").value,
+				        MessageBox::ButtonOptions::Ok);
 				    fw().stageQueueCommand({StageCmd::Command::PUSH, message_box});
 				    // Restore previous selection
 				    list->setSelected(current_topic ? control_map[current_topic] : nullptr);
@@ -94,10 +94,10 @@ void ResearchSelect::begin()
 			        this->lab->size == ResearchTopic::LabSize::Small)
 			    {
 				    LogInfo("Topic is large and lab is small");
-				    auto message_box =
-				        mksp<MessageBox>(tr("PROJECT TOO LARGE"),
-				                         tr("This project requires an advanced lab or workshop."),
-				                         MessageBox::ButtonOptions::Ok);
+				    auto message_box = mksp<MessageBox>(
+				        tr("PROJECT TOO LARGE").value,
+				        tr("This project requires an advanced lab or workshop.").value,
+				        MessageBox::ButtonOptions::Ok);
 				    fw().stageQueueCommand({StageCmd::Command::PUSH, message_box});
 				    // Restore previous selection
 				    list->setSelected(current_topic ? control_map[current_topic] : nullptr);
@@ -107,9 +107,10 @@ void ResearchSelect::begin()
 			        topic->cost > state->player->balance)
 			    {
 				    LogInfo("Cannot afford to manufacture");
-				    auto message_box = mksp<MessageBox>(
-				        tr("FUNDS EXCEEDED"), tr("Production costs exceed your available funds."),
-				        MessageBox::ButtonOptions::Ok);
+				    auto message_box =
+				        mksp<MessageBox>(tr("FUNDS EXCEEDED").value,
+				                         tr("Production costs exceed your available funds.").value,
+				                         MessageBox::ButtonOptions::Ok);
 				    fw().stageQueueCommand({StageCmd::Command::PUSH, message_box});
 				    // Restore previous selection
 				    list->setSelected(current_topic ? control_map[current_topic] : nullptr);
@@ -136,8 +137,8 @@ void ResearchSelect::begin()
 		    auto pic = this->form->findControlTyped<Graphic>("GRAPHIC_SELECTED");
 		    if (topic)
 		    {
-			    title->setText(tr(topic->name));
-			    description->setText(tr(topic->description));
+			    title->setText(tr(topic->name).value);
+			    description->setText(tr(topic->description).value);
 			    if (topic->picture)
 			    {
 				    pic->setImage(topic->picture);
@@ -256,7 +257,7 @@ void ResearchSelect::populateResearchList()
 			if (this->lab->type == ResearchTopic::Type::Engineering)
 				progress_text = format("$%d", t->cost);
 			else
-				progress_text = tr("Complete");
+				progress_text = tr("Complete").value;
 			auto progress_label =
 			    control->createChild<Label>(progress_text, ui().getFont("smalfont"));
 			progress_label->Size = {100, 18};
@@ -315,13 +316,13 @@ void ResearchSelect::populateResearchList()
 		switch (t->required_lab_size)
 		{
 			case ResearchTopic::LabSize::Small:
-				labSize = tr("Small");
+				labSize = tr("Small").value;
 				break;
 			case ResearchTopic::LabSize::Large:
-				labSize = tr("Large");
+				labSize = tr("Large").value;
 				break;
 			default:
-				labSize = tr("UNKNOWN");
+				labSize = tr("UNKNOWN").value;
 				break;
 		}
 

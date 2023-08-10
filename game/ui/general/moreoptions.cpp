@@ -133,10 +133,11 @@ void MoreOptions::loadLists()
 		UString full_name = p.first + "." + p.second;
 		checkBox->setData(mksp<UString>(full_name));
 		checkBox->setChecked(config().getBool(full_name));
-		auto label = checkBox->createChild<Label>(tr(config().describe(p.first, p.second)), font);
+		auto label =
+		    checkBox->createChild<Label>(tr(config().describe(p.first, p.second)).value, font);
 		label->Size = {216, citylistControl->ItemSize};
 		label->Location = {24, 0};
-		label->ToolTipText = tr(config().describe(p.first, p.second));
+		label->ToolTipText = tr(config().describe(p.first, p.second)).value;
 		label->ToolTipFont = font;
 		citylistControl->addItem(checkBox);
 	}
@@ -149,10 +150,11 @@ void MoreOptions::loadLists()
 		UString full_name = p.first + "." + p.second;
 		checkBox->setData(mksp<UString>(full_name));
 		checkBox->setChecked(config().getBool(full_name));
-		auto label = checkBox->createChild<Label>(tr(config().describe(p.first, p.second)), font);
+		auto label =
+		    checkBox->createChild<Label>(tr(config().describe(p.first, p.second)).value, font);
 		label->Size = {216, battlelistControl->ItemSize};
 		label->Location = {24, 0};
-		label->ToolTipText = tr(config().describe(p.first, p.second));
+		label->ToolTipText = tr(config().describe(p.first, p.second)).value;
 		label->ToolTipFont = font;
 		battlelistControl->addItem(checkBox);
 	}

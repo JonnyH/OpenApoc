@@ -61,7 +61,7 @@ LOFTemps::LOFTemps(IFile &datFile, IFile &tabFile)
 				uint32_t bitmask;
 				if (!datFile.readule32(bitmask))
 				{
-					LogError("Failed to read bitmask at {%u,%u}", x, y);
+					LogError("Failed to read bitmask at {{%u,%u}}", x, y);
 					return;
 				}
 				for (unsigned int bit = 0; bit < 32; bit++)
@@ -78,7 +78,7 @@ LOFTemps::LOFTemps(IFile &datFile, IFile &tabFile)
 				}
 			}
 		}
-		LogInfo("Read voxel slice of size {%u,%u}", width, height);
+		LogInfo("Read voxel slice of size {{%u,%u}}", width, height);
 		this->slices.push_back(slice);
 	}
 }

@@ -1,8 +1,8 @@
 #pragma once
 
+#include "fmt/ostream.h"
 #include "library/vec.h"
 #include <set>
-#include "fmt/ostream.h"
 
 namespace OpenApoc
 {
@@ -124,7 +124,6 @@ template <typename T> std::ostream &operator<<(std::ostream &lhs, const OpenApoc
 }
 
 }; // namespace OpenApoc
-
 
 template <typename T> struct fmt::formatter<OpenApoc::Rect<T>> : fmt::ostream_formatter
 {

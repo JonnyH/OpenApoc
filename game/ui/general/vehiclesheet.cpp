@@ -71,15 +71,15 @@ void VehicleSheet::displayImplementation(sp<Vehicle> vehicle, sp<VehicleType> ve
 	    ->setText(vehicle ? vehicle->name : vehicleType->name);
 	form->findControlTyped<Graphic>("SELECTED_IMAGE")->setImage(vehicleType->equip_icon_small);
 
-	form->findControlTyped<Label>("LABEL_1_L")->setText(tr("Constitution"));
-	form->findControlTyped<Label>("LABEL_2_L")->setText(tr("Armor"));
-	form->findControlTyped<Label>("LABEL_3_L")->setText(tr("Accuracy"));
-	form->findControlTyped<Label>("LABEL_4_L")->setText(tr("Top Speed"));
-	form->findControlTyped<Label>("LABEL_5_L")->setText(tr("Acceleration"));
-	form->findControlTyped<Label>("LABEL_6_L")->setText(tr("Weight"));
-	form->findControlTyped<Label>("LABEL_7_L")->setText(tr("Fuel"));
-	form->findControlTyped<Label>("LABEL_8_L")->setText(tr("Passengers"));
-	form->findControlTyped<Label>("LABEL_9_L")->setText(tr("Cargo"));
+	form->findControlTyped<Label>("LABEL_1_L")->setText(tr("Constitution").value);
+	form->findControlTyped<Label>("LABEL_2_L")->setText(tr("Armor").value);
+	form->findControlTyped<Label>("LABEL_3_L")->setText(tr("Accuracy").value);
+	form->findControlTyped<Label>("LABEL_4_L")->setText(tr("Top Speed").value);
+	form->findControlTyped<Label>("LABEL_5_L")->setText(tr("Acceleration").value);
+	form->findControlTyped<Label>("LABEL_6_L")->setText(tr("Weight").value);
+	form->findControlTyped<Label>("LABEL_7_L")->setText(tr("Fuel").value);
+	form->findControlTyped<Label>("LABEL_8_L")->setText(tr("Passengers").value);
+	form->findControlTyped<Label>("LABEL_9_L")->setText(tr("Cargo").value);
 
 	std::list<sp<VEquipmentType>> defaultEquipment;
 	for (auto &e : vehicleType->initial_equipment_list)
@@ -134,7 +134,7 @@ void VehicleSheet::displayEquipImplementation(sp<VEquipment> item, sp<VEquipment
 	form->findControlTyped<Label>("ITEM_NAME")->setText(item ? item->type->name : type->name);
 	form->findControlTyped<Graphic>("SELECTED_IMAGE")->setImage(type->equipscreen_sprite);
 
-	form->findControlTyped<Label>("LABEL_1_L")->setText(tr("Weight"));
+	form->findControlTyped<Label>("LABEL_1_L")->setText(tr("Weight").value);
 	form->findControlTyped<Label>("LABEL_1_R")->setText(format("%d", type->weight));
 
 	// Draw equipment stats
@@ -157,25 +157,25 @@ void VehicleSheet::displayEquipImplementation(sp<VEquipment> item, sp<VEquipment
 
 void VehicleSheet::displayEngine(sp<VEquipment> item [[maybe_unused]], sp<VEquipmentType> type)
 {
-	form->findControlTyped<Label>("LABEL_2_L")->setText(tr("Top Speed"));
+	form->findControlTyped<Label>("LABEL_2_L")->setText(tr("Top Speed").value);
 	form->findControlTyped<Label>("LABEL_2_R")->setText(format("%d", type->top_speed));
-	form->findControlTyped<Label>("LABEL_3_L")->setText(tr("Power"));
+	form->findControlTyped<Label>("LABEL_3_L")->setText(tr("Power").value);
 	form->findControlTyped<Label>("LABEL_3_R")->setText(format("%d", type->power));
 }
 
 void VehicleSheet::displayWeapon(sp<VEquipment> item, sp<VEquipmentType> type)
 {
-	form->findControlTyped<Label>("LABEL_2_L")->setText(tr("Damage"));
+	form->findControlTyped<Label>("LABEL_2_L")->setText(tr("Damage").value);
 	form->findControlTyped<Label>("LABEL_2_R")->setText(format("%d", type->damage));
-	form->findControlTyped<Label>("LABEL_3_L")->setText(tr("Range"));
+	form->findControlTyped<Label>("LABEL_3_L")->setText(tr("Range").value);
 	form->findControlTyped<Label>("LABEL_3_R")->setText(format("%d", type->getRangeInTiles()));
-	form->findControlTyped<Label>("LABEL_4_L")->setText(tr("Accuracy"));
+	form->findControlTyped<Label>("LABEL_4_L")->setText(tr("Accuracy").value);
 	form->findControlTyped<Label>("LABEL_4_R")->setText(format("%d%%", type->accuracy));
 
 	// Only show rounds if non-zero (IE not infinite ammo)
 	if (type->max_ammo != 0)
 	{
-		form->findControlTyped<Label>("LABEL_5_L")->setText(tr("Rounds"));
+		form->findControlTyped<Label>("LABEL_5_L")->setText(tr("Rounds").value);
 		form->findControlTyped<Label>("LABEL_5_R")
 		    ->setText(item ? format("%d / %d", item->ammo, type->max_ammo)
 		                   : format("%d", type->max_ammo));
@@ -187,42 +187,47 @@ void VehicleSheet::displayGeneral(sp<VEquipment> item [[maybe_unused]], sp<VEqui
 	int statsCount = 2;
 	if (type->accuracy_modifier)
 	{
-		form->findControlTyped<Label>(format("LABEL_%d_L", statsCount))->setText(tr("Accuracy"));
+		form->findControlTyped<Label>(format("LABEL_%d_L", statsCount))
+		    ->setText(tr("Accuracy").value);
 		form->findControlTyped<Label>(format("LABEL_%d_R", statsCount))
 		    ->setText(format("%d%%", 100 - type->accuracy_modifier));
 		statsCount++;
 	}
 	if (type->cargo_space)
 	{
-		form->findControlTyped<Label>(format("LABEL_%d_L", statsCount))->setText(tr("Cargo"));
+		form->findControlTyped<Label>(format("LABEL_%d_L", statsCount))->setText(tr("Cargo").value);
 		form->findControlTyped<Label>(format("LABEL_%d_R", statsCount))
 		    ->setText(format("%d", type->cargo_space));
 		statsCount++;
 	}
 	if (type->passengers)
 	{
-		form->findControlTyped<Label>(format("LABEL_%d_L", statsCount))->setText(tr("Passengers"));
+		form->findControlTyped<Label>(format("LABEL_%d_L", statsCount))
+		    ->setText(tr("Passengers").value);
 		form->findControlTyped<Label>(format("LABEL_%d_R", statsCount))
 		    ->setText(format("%d", type->passengers));
 		statsCount++;
 	}
 	if (type->alien_space)
 	{
-		form->findControlTyped<Label>(format("LABEL_%d_L", statsCount))->setText(tr("Aliens Held"));
+		form->findControlTyped<Label>(format("LABEL_%d_L", statsCount))
+		    ->setText(tr("Aliens Held").value);
 		form->findControlTyped<Label>(format("LABEL_%d_R", statsCount))
 		    ->setText(format("%d", type->alien_space));
 		statsCount++;
 	}
 	if (type->missile_jamming)
 	{
-		form->findControlTyped<Label>(format("LABEL_%d_L", statsCount))->setText(tr("Jamming"));
+		form->findControlTyped<Label>(format("LABEL_%d_L", statsCount))
+		    ->setText(tr("Jamming").value);
 		form->findControlTyped<Label>(format("LABEL_%d_R", statsCount))
 		    ->setText(format("%d", type->missile_jamming));
 		statsCount++;
 	}
 	if (type->shielding)
 	{
-		form->findControlTyped<Label>(format("LABEL_%d_L", statsCount))->setText(tr("Shielding"));
+		form->findControlTyped<Label>(format("LABEL_%d_L", statsCount))
+		    ->setText(tr("Shielding").value);
 		form->findControlTyped<Label>(format("LABEL_%d_R", statsCount))
 		    ->setText(format("%d", type->shielding));
 		statsCount++;
@@ -230,21 +235,22 @@ void VehicleSheet::displayGeneral(sp<VEquipment> item [[maybe_unused]], sp<VEqui
 	if (type->cloaking)
 	{
 		form->findControlTyped<Label>(format("LABEL_%d_L", statsCount))
-		    ->setText(tr("Cloaks Craft"));
+		    ->setText(tr("Cloaks Craft").value);
 		statsCount++;
 	}
 	if (type->teleporting)
 	{
-		form->findControlTyped<Label>(format("LABEL_%d_L", statsCount))->setText(tr("Teleports"));
+		form->findControlTyped<Label>(format("LABEL_%d_L", statsCount))
+		    ->setText(tr("Teleports").value);
 		statsCount++;
 	}
 }
 
 void VehicleSheet::displayAlien(sp<VEquipmentType> type)
 {
-	form->findControlTyped<Label>("ITEM_NAME")->setText(tr("Alien Artifact"));
+	form->findControlTyped<Label>("ITEM_NAME")->setText(tr("Alien Artifact").value);
 	form->findControlTyped<Graphic>("SELECTED_IMAGE")->setImage(type->equipscreen_sprite);
-	form->findControlTyped<Label>("LABEL_1_L")->setText(tr("Weight"));
+	form->findControlTyped<Label>("LABEL_1_L")->setText(tr("Weight").value);
 	form->findControlTyped<Label>("LABEL_1_R")->setText(format("%d", type->weight));
 }
 

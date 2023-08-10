@@ -41,7 +41,7 @@ void WeeklyFundingScreen::begin()
 	menuform->findControlTyped<Label>("TEXT_DATE")->setText(state->gameTime.getLongDateString());
 	menuform->findControlTyped<Label>("TEXT_WEEK")->setText(state->gameTime.getWeekString());
 
-	menuform->findControlTyped<Label>("TITLE")->setText(tr("WEEKLY FUNDING ASSESSMENT"));
+	menuform->findControlTyped<Label>("TITLE")->setText(tr("WEEKLY FUNDING ASSESSMENT").value);
 
 	UString ratingDescription;
 
@@ -54,14 +54,16 @@ void WeeklyFundingScreen::begin()
 		ratingDescription =
 		    tr("The Senate has declared total hostility to X-COM and there will be no further "
 		       "funding. Furthermore, the Senate will take any steps necessary to destroy the "
-		       "X-COM organization if it refuses to cease operation.");
+		       "X-COM organization if it refuses to cease operation.")
+		        .value;
 
 		currentIncome = 0;
 	}
 	else if (state->totalScore.getTotal() < -2400)
 	{
 		ratingDescription = tr("The Senate considers the performance of X-COM to be so abysmal "
-		                       "that it will cease funding from now on.");
+		                       "that it will cease funding from now on.")
+		                        .value;
 
 		currentIncome = 0;
 	}
@@ -85,17 +87,20 @@ void WeeklyFundingScreen::begin()
 			currentIncome = (availableGovFunds < 0) ? 0 : availableGovFunds;
 
 			ratingDescription = tr("Unfortunately the Senate has to limit X-COM funding due to the "
-			                       "poor state of government finances.");
+			                       "poor state of government finances.")
+			                        .value;
 		}
 		else if (rating < 0)
 		{
 			ratingDescription = tr("The Senate is not pleased with the performance of X-COM and "
-			                       "has reduced funding accordingly.");
+			                       "has reduced funding accordingly.")
+			                        .value;
 		}
 		else if (rating > neutralRatingThreshold)
 		{
 			ratingDescription = tr("The Senate has a favorable attitude to X-COM and has increased "
-			                       "funding accordingly.");
+			                       "funding accordingly.")
+			                        .value;
 		}
 		else
 		{
@@ -107,12 +112,12 @@ void WeeklyFundingScreen::begin()
 		// Income adjustment is still based on base player funding, not current one
 		const int adjustment = (modifier == 0) ? 0 : player->income / modifier;
 
-		labelAdjustment->setText(format("%s $%d", tr("Funding adjustment>"), adjustment));
+		labelAdjustment->setText(format(tr("Funding adjustment> $%d"), adjustment));
 		labelNextWeekIncome->setText(
-		    format("%s $%d", tr("Income for next week>"), currentIncome + adjustment));
+		    format(tr("Income for next week> $%d"), currentIncome + adjustment));
 	}
 
-	labelCurrentIncome->setText(format("%s $%d", tr("Current income>"), currentIncome));
+	labelCurrentIncome->setText(format(tr("Current income> $%d"), currentIncome));
 	labelRatingDescription->setText(ratingDescription);
 }
 

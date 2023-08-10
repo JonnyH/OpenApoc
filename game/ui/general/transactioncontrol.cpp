@@ -107,9 +107,10 @@ void TransactionControl::updateValues()
 
 				auto message_box = mksp<MessageBox>(
 				    manufacturerName,
-				    manufacturerHostile ? tr("Order canceled by the hostile manufacturer.")
+				    manufacturerHostile ? tr("Order canceled by the hostile manufacturer.").value
 				                        : tr("Manufacturer has no intact buildings in this city to "
-				                             "deliver goods from."),
+				                             "deliver goods from.")
+				                              .value,
 				    MessageBox::ButtonOptions::Ok);
 				fw().stageQueueCommand({StageCmd::Command::PUSH, message_box});
 				return;
@@ -612,7 +613,7 @@ TransactionControl::createControl(const UString &id, Type type, const UString &n
 	// Add controls
 
 	// Name
-	const UString &labelName = researched ? tr(name) : tr("Alien Artifact");
+	const UString &labelName = researched ? tr(name).value : tr("Alien Artifact").value;
 	if (labelName.length() > 0)
 	{
 		auto label = control->createChild<Label>(labelName, labelFont);
@@ -624,7 +625,7 @@ TransactionControl::createControl(const UString &id, Type type, const UString &n
 	// Manufacturer
 	if (control->manufacturerName.length() > 0)
 	{
-		auto label = control->createChild<Label>(tr(control->manufacturerName), labelFont);
+		auto label = control->createChild<Label>(tr(control->manufacturerName).value, labelFont);
 		if (manufacturerHostile || manufacturerUnavailable)
 		{
 			label->Tint = {255, 50, 25};

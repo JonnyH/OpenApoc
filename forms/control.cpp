@@ -758,7 +758,7 @@ void Control::configureSelfFromXml(pugi::xml_node *node)
 			{
 				ToolTipText = child.attribute("text").as_string();
 				if (!ToolTipText.empty())
-					ToolTipText = tr(ToolTipText);
+					ToolTipText = tr(ToolTipText).value;
 			}
 			else
 			{

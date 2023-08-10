@@ -39,7 +39,7 @@ sp<Palette> OpenApoc::loadPNGPalette(Data &d, const UString fileName)
 	if (width * height != 256)
 	{
 
-		LogWarning("PNG \"%s\" size {%u,%u} too large for palette (must be 256 pixels total)",
+		LogWarning("PNG \"%s\" size {{%u,%u}} too large for palette (must be 256 pixels total)",
 		           f.systemPath(), width, height);
 		return nullptr;
 	}
@@ -93,7 +93,7 @@ class LodepngImageLoader : public OpenApoc::ImageLoader
 			return nullptr;
 		}
 
-		LogInfo("Loading PNG \"%s\" size {%u,%d} - colour mode %d depth %u", file.systemPath(),
+		LogInfo("Loading PNG \"%s\" size {{%u,%d}} - colour mode %d depth %u", file.systemPath(),
 		        width, height, (int)png_state.info_png.color.colortype,
 		        png_state.info_png.color.bitdepth);
 

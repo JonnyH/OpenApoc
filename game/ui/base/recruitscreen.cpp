@@ -111,9 +111,10 @@ RecruitScreen::RecruitScreen(sp<GameState> state)
 				    {
 					    fw().stageQueueCommand(
 					        {StageCmd::Command::PUSH,
-					         mksp<MessageBox>(tr("Accomodation exceeded"),
-					                          tr("Transfer limited by available accommodation."),
-					                          MessageBox::ButtonOptions::Ok)});
+					         mksp<MessageBox>(
+					             tr("Accomodation exceeded").value,
+					             tr("Transfer limited by available accommodation.").value,
+					             MessageBox::ButtonOptions::Ok)});
 				    }
 				    else
 				    {
@@ -227,16 +228,16 @@ void RecruitScreen::setDisplayType(const AgentType::Role role)
 	switch (type)
 	{
 		case AgentType::Role::Soldier:
-			label->setText(tr("X-COM Agents"));
+			label->setText(tr("X-COM Agents").value);
 			break;
 		case AgentType::Role::BioChemist:
-			label->setText(tr("Biochemists"));
+			label->setText(tr("Biochemists").value);
 			break;
 		case AgentType::Role::Physicist:
-			label->setText(tr("Quantum Physicists"));
+			label->setText(tr("Quantum Physicists").value);
 			break;
 		case AgentType::Role::Engineer:
-			label->setText(tr("Engineers"));
+			label->setText(tr("Engineers").value);
 			break;
 	}
 
@@ -468,16 +469,20 @@ void RecruitScreen::attemptCloseScreen()
 
 	if (hired != 0 || fired != 0 || transferred != 0)
 	{
-		UString message =
-		    format("%d %s\n%d %s", hired, tr("unit(s) hired"), fired, tr("unit(s) fired."));
+		UString message;
 		if (transferred > 0)
 		{
-			message = format("%s\n(%d %s)", message, transferred, tr("units(s) transferred"));
+			message = format(tr("%d unit(s) hired\n%d unit(s) fired\n(%d unit(s) transferred)"),
+			                 hired, fired, transferred);
+		}
+		else
+		{
+			message = format(tr("%d unit(s) hired\n%d unit(s) fired"), hired, fired);
 		}
 		fw().stageQueueCommand(
 		    {StageCmd::Command::PUSH,
 		     mksp<MessageBox>(
-		         tr("Confirm Orders"), message, MessageBox::ButtonOptions::YesNoCancel,
+		         tr("Confirm Orders").value, message, MessageBox::ButtonOptions::YesNoCancel,
 		         [this] { this->closeScreen(true); }, [this] { this->closeScreen(); })});
 	}
 	else
@@ -621,10 +626,10 @@ void RecruitScreen::closeScreen(bool confirmed)
 	// Step 02: Insufficient funds?
 	if (player->balance + moneyDelta < 0)
 	{
-		fw().stageQueueCommand(
-		    {StageCmd::Command::PUSH,
-		     mksp<MessageBox>(tr("Funds exceeded"), tr("Order limited by your available funds."),
-		                      MessageBox::ButtonOptions::Ok)});
+		fw().stageQueueCommand({StageCmd::Command::PUSH,
+		                        mksp<MessageBox>(tr("Funds exceeded").value,
+		                                         tr("Order limited by your available funds.").value,
+		                                         MessageBox::ButtonOptions::Ok)});
 		return;
 	}
 
@@ -644,10 +649,11 @@ void RecruitScreen::closeScreen(bool confirmed)
 	// Found bad base
 	if (bad_base)
 	{
-		fw().stageQueueCommand({StageCmd::Command::PUSH,
-		                        mksp<MessageBox>(tr("Accomodation exceeded"),
-		                                         tr("Transfer limited by available accommodation."),
-		                                         MessageBox::ButtonOptions::Ok)});
+		fw().stageQueueCommand(
+		    {StageCmd::Command::PUSH,
+		     mksp<MessageBox>(tr("Accomodation exceeded").value,
+		                      tr("Transfer limited by available accommodation.").value,
+		                      MessageBox::ButtonOptions::Ok)});
 		if (bad_base != state->current_base)
 		{
 			for (auto &view : miniViews)

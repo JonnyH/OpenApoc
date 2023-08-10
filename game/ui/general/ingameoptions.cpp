@@ -94,7 +94,7 @@ void InGameOptions::saveList()
 void InGameOptions::loadList()
 {
 	saveList();
-	menuform->findControlTyped<Label>("LIST_NAME")->setText(tr("Message Toggles"));
+	menuform->findControlTyped<Label>("LIST_NAME")->setText(tr("Message Toggles").value);
 	std::list<std::pair<UString, UString>> *notificationList = nullptr;
 
 	notificationList = state->current_battle ? &battleNotificationList : &cityNotificationList;
@@ -110,10 +110,11 @@ void InGameOptions::loadList()
 		UString full_name = p.first + "." + p.second;
 		checkBox->setData(mksp<UString>(full_name));
 		checkBox->setChecked(config().getBool(full_name));
-		auto label = checkBox->createChild<Label>(tr(config().describe(p.first, p.second)), font);
+		auto label =
+		    checkBox->createChild<Label>(tr(config().describe(p.first, p.second)).value, font);
 		label->Size = {216, listControl->ItemSize};
 		label->Location = {24, 0};
-		label->ToolTipText = tr(config().describe(p.first, p.second));
+		label->ToolTipText = tr(config().describe(p.first, p.second)).value;
 		label->ToolTipFont = font;
 		listControl->addItem(checkBox);
 	}
@@ -249,8 +250,8 @@ void InGameOptions::eventOccurred(Event *e)
 			    *state, state->current_battle->currentPlayer, true);
 			fw().stageQueueCommand(
 			    {StageCmd::Command::PUSH,
-			     mksp<MessageBox>(tr("Abort Mission"),
-			                      format("%s %d", tr("Units Lost :"), unitsLost),
+			     mksp<MessageBox>(tr("Abort Mission").value,
+			                      format(tr("Units Lost : %d"), unitsLost),
 			                      MessageBox::ButtonOptions::YesNo,
 			                      [this]
 			                      {

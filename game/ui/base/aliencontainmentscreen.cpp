@@ -25,7 +25,7 @@ namespace OpenApoc
 AlienContainmentScreen::AlienContainmentScreen(sp<GameState> state, bool forceLimits)
     : TransactionScreen(state, forceLimits)
 {
-	form->findControlTyped<Label>("TITLE")->setText(tr("ALIEN CONTAINMENT"));
+	form->findControlTyped<Label>("TITLE")->setText(tr("ALIEN CONTAINMENT").value);
 	form->findControlTyped<Graphic>("BG")->setImage(
 	    fw().data->loadImage("xcom3/ufodata/aliencon.pcx"));
 	form->findControlTyped<Graphic>("DOLLAR_ICON")->setVisible(false);
@@ -43,7 +43,7 @@ AlienContainmentScreen::AlienContainmentScreen(sp<GameState> state, bool forceLi
 	form->findControlTyped<RadioButton>("BUTTON_FLYING")->setVisible(false);
 	form->findControlTyped<RadioButton>("BUTTON_GROUND")->setVisible(false);
 
-	confirmClosureText = tr("Confirm Alien Containment Orders");
+	confirmClosureText = tr("Confirm Alien Containment Orders").value;
 
 	type = Type::Aliens;
 	form->findControlTyped<RadioButton>("BUTTON_ALIENS")->setChecked(true);
@@ -103,8 +103,8 @@ void AlienContainmentScreen::closeScreen()
 		// Found bad base
 		if (bad_base)
 		{
-			UString title(tr("Alien Containment space exceeded"));
-			UString message(tr("Alien Containment space exceeded. Destroy more Aliens!"));
+			UString title(tr("Alien Containment space exceeded").value);
+			UString message(tr("Alien Containment space exceeded. Destroy more Aliens!").value);
 
 			fw().stageQueueCommand(
 			    {StageCmd::Command::PUSH,

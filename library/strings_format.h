@@ -6,11 +6,20 @@
 namespace OpenApoc
 {
 
-template <typename... Args> static UString format(Args &&...args)
+using fmt::format;
+
+class TrString
 {
-	return fmt::format(std::forward<Args>(args)...);
+  public:
+	UString key;
+	UString value;
+};
+
+template <typename... Args> static constexpr UString format(TrString str, Args &&...args)
+{
+	return fmt::format(fmt::runtime(str.value), std::forward<Args>(args)...);
 }
 
-UString tr(const UString &str, const UString domain = "ufo_string");
+TrString tr(const UString &str, const UString domain = "ufo_string");
 
 } // namespace OpenApoc

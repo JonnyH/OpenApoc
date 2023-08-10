@@ -152,7 +152,7 @@ void TextButton::configureSelfFromXml(pugi::xml_node *node)
 
 	if (node->attribute("text"))
 	{
-		label->setText(tr(node->attribute("text").as_string()));
+		label->setText(tr(node->attribute("text").as_string()).value);
 	}
 	auto fontNode = node->child("font");
 	if (fontNode)

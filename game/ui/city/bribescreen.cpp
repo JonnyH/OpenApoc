@@ -34,52 +34,56 @@ void BribeScreen::updateInfo()
 		case Organisation::Relation::Allied:
 			relationship = ": allied with:";
 			offer =
-			    tr("X-COM is ALLIED with this organization. The relationship cannot be improved.");
+			    tr("X-COM is ALLIED with this organization. The relationship cannot be improved.")
+			        .value;
 			bribe = 0;
 			break;
 
 		case Organisation::Relation::Friendly:
 			relationship = ": friendly with:";
-			offer = getOfferString(bribe, tr("ALLIED"));
+			offer = getOfferString(bribe, tr("ALLIED").value);
 			break;
 
 		case Organisation::Relation::Neutral:
 			relationship = ": neutral towards:";
-			offer = getOfferString(bribe, tr("FRIENDLY"));
+			offer = getOfferString(bribe, tr("FRIENDLY").value);
 			break;
 
 		case Organisation::Relation::Unfriendly:
 			relationship = ": unfriendly towards:";
-			offer = getOfferString(bribe, tr("NEUTRAL"));
+			offer = getOfferString(bribe, tr("NEUTRAL").value);
 			break;
 
 		case Organisation::Relation::Hostile:
 			relationship = ": hostile towards:";
-			offer = getOfferString(bribe, tr("UNFRIENDLY"));
+			offer = getOfferString(bribe, tr("UNFRIENDLY").value);
 			break;
 
 		default:
 			relationship = ": Attitude unknown towards:";
 			offer = "Unconventional relations";
 			bribe = 0;
-			LogError(offer);
+			LogError("Unexpected relations case");
 	}
 
 	if (organisation->takenOver)
 	{
 		offer = tr("This organization is under Alien control.The Alien race will not enter "
-		           "negotiations with X-COM.");
+		           "negotiations with X-COM.")
+		            .value;
 		bribe = 0;
 	}
 	else if (organisation->isRelatedTo(state->getAliens()) == Organisation::Relation::Allied)
 	{
 		offer = tr("Whilst X-COM continue to oppose our Alien friends we will remain "
-		           "hostile. Negotiations are impossible.");
+		           "hostile. Negotiations are impossible.")
+		            .value;
 		bribe = 0;
 	}
 
 	labelFunds->setText(state->getPlayerBalance());
-	labelRelation->setText(format("%s%s X-COM", tr(organisation->name), tr(relationship)));
+	labelRelation->setText(
+	    format("%s%s X-COM", tr(organisation->name).value, tr(relationship).value));
 	labelOffer->setText(offer);
 }
 
@@ -91,8 +95,7 @@ void BribeScreen::updateInfo()
  */
 UString BribeScreen::getOfferString(int itWillCost, const UString &newAttitude) const
 {
-	return format("%s %d  %s  %s", tr("It will cost: $"), itWillCost,
-	              tr("to improve relations to:"), newAttitude);
+	return format("It will cost $%d to improve relations to: %s", itWillCost, newAttitude);
 }
 
 void BribeScreen::begin()

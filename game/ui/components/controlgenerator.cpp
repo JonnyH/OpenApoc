@@ -672,7 +672,7 @@ sp<Control> ControlGenerator::createOrganisationControl(GameState &state,
 	orgIcon->AutoSize = true;
 	orgIcon->Location = {1, 1};
 	orgIcon->Name = "ORG_ICON_" + info.organisation->name;
-	orgIcon->ToolTipText = tr(info.organisation->name);
+	orgIcon->ToolTipText = tr(info.organisation->name).value;
 
 	return baseControl;
 }

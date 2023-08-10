@@ -1,5 +1,6 @@
 #include "framework/data.h"
 #include "dependencies/pugixml/src/pugixml.hpp"
+#include "fmt/std.h"
 #include "framework/apocresources/apocpalette.h"
 #include "framework/apocresources/loftemps.h"
 #include "framework/apocresources/pck.h"
@@ -17,7 +18,6 @@
 #include "library/sp.h"
 #include "library/strings.h"
 #include "library/voxel.h"
-#include "fmt/std.h"
 #include <fstream>
 #include <map>
 #include <mutex>

@@ -3668,7 +3668,7 @@ sp<VEquipment> Vehicle::addEquipment(GameState &state, Vec2<int> pos,
 			return equipment;
 		}
 		default:
-			LogError("Equipment \"%s\" for \"%s\" at pos (%d,%d} has invalid type",
+			LogError("Equipment \"%s\" for \"%s\" at pos {{%d,%d}} has invalid type",
 			         equipmentType->name, this->name, pos.x, pos.y);
 			return nullptr;
 	}

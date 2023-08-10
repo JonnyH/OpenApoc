@@ -50,10 +50,10 @@ BuildingScreen::BuildingScreen(sp<GameState> state, sp<Building> building)
     : Stage(), menuform(ui().getForm("city/building")), state(state), building(building)
 {
 	menuform->findControlTyped<Label>("TEXT_FUNDS")->setText(state->getPlayerBalance());
-	menuform->findControlTyped<Label>("TEXT_BUILDING_NAME")->setText(tr(building->name));
-	menuform->findControlTyped<Label>("TEXT_OWNER_NAME")->setText(tr(building->owner->name));
+	menuform->findControlTyped<Label>("TEXT_BUILDING_NAME")->setText(tr(building->name).value);
+	menuform->findControlTyped<Label>("TEXT_OWNER_NAME")->setText(tr(building->owner->name).value);
 	menuform->findControlTyped<Label>("TEXT_BUILDING_FUNCTION")
-	    ->setText(tr(building->function->name));
+	    ->setText(tr(building->function->name).value);
 }
 
 BuildingScreen::~BuildingScreen() = default;
@@ -105,7 +105,8 @@ void BuildingScreen::eventOccurred(Event *e)
 			{
 				fw().stageQueueCommand(
 				    {StageCmd::Command::PUSH,
-				     mksp<MessageBox>(tr("No Entrance"), tr("Cannot raid as building destroyed"),
+				     mksp<MessageBox>(tr("No Entrance").value,
+				                      tr("Cannot raid as building destroyed").value,
 				                      MessageBox::ButtonOptions::Ok)});
 				return;
 			}
@@ -114,10 +115,11 @@ void BuildingScreen::eventOccurred(Event *e)
 			{
 				fw().stageQueueCommand(
 				    {StageCmd::Command::PUSH,
-				     mksp<MessageBox>(tr("No Entrance"),
+				     mksp<MessageBox>(tr("No Entrance").value,
 				                      tr("Our Agents are unable to find an entrance to this "
 				                         "building. Our Scientists "
-				                         "back at HQ must complete their research."),
+				                         "back at HQ must complete their research.")
+				                          .value,
 				                      MessageBox::ButtonOptions::Ok)});
 				return;
 			}
@@ -133,9 +135,10 @@ void BuildingScreen::eventOccurred(Event *e)
 			{
 				fw().stageQueueCommand(
 				    {StageCmd::Command::PUSH,
-				     mksp<MessageBox>(tr("No Agents Selected"),
+				     mksp<MessageBox>(tr("No Agents Selected").value,
 				                      tr("You need to select the agents you want to become active "
-				                         "within the building."),
+				                         "within the building.")
+				                          .value,
 				                      MessageBox::ButtonOptions::Ok)});
 			}
 			else
@@ -191,8 +194,8 @@ void BuildingScreen::eventOccurred(Event *e)
 						}
 						fw().stageQueueCommand(
 						    {StageCmd::Command::PUSH,
-						     mksp<MessageBox>(tr("No Hostile Forces Discovered"), tr(message),
-						                      MessageBox::ButtonOptions::Ok)});
+						     mksp<MessageBox>(tr("No Hostile Forces Discovered").value,
+						                      tr(message).value, MessageBox::ButtonOptions::Ok)});
 					}
 					else
 					{
@@ -216,8 +219,9 @@ void BuildingScreen::eventOccurred(Event *e)
 						fw().stageQueueCommand(
 						    {StageCmd::Command::PUSH,
 						     mksp<MessageBox>(
-						         tr("No Hostile Forces Discovered"),
-						         tr("You have not found any hostile forces in this building."),
+						         tr("No Hostile Forces Discovered").value,
+						         tr("You have not found any hostile forces in this building.")
+						             .value,
 						         MessageBox::ButtonOptions::Ok)});
 						return;
 					}

@@ -296,9 +296,9 @@ void VEquipScreen::eventOccurred(Event *e)
 			if (this->highlightedVehicle->getPassengers() >
 			    (this->highlightedVehicle->getMaxPassengers() - equipment->type->passengers))
 			{
-				UString title(tr("EQUIPMENT IN USE"));
+				UString title(tr("EQUIPMENT IN USE").value);
 				UString message(
-				    tr("Passenger module cannot be removed as it is currently in use."));
+				    tr("Passenger module cannot be removed as it is currently in use.").value);
 
 				fw().stageQueueCommand(
 				    {StageCmd::Command::PUSH,

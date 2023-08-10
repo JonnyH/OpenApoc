@@ -345,17 +345,17 @@ void ResearchScreen::setCurrentLabInfo()
 
 	if (labType == FacilityType::Capacity::Chemistry)
 	{
-		labTypeName = tr("Biochemistry");
+		labTypeName = tr("Biochemistry").value;
 		listedAgentType = AgentType::Role::BioChemist;
 	}
 	else if (labType == FacilityType::Capacity::Physics)
 	{
-		labTypeName = tr("Quantum Physics");
+		labTypeName = tr("Quantum Physics").value;
 		listedAgentType = AgentType::Role::Physicist;
 	}
 	else if (labType == FacilityType::Capacity::Workshop)
 	{
-		labTypeName = tr("Engineering");
+		labTypeName = tr("Engineering").value;
 		listedAgentType = AgentType::Role::Engineer;
 	}
 	else
@@ -481,7 +481,7 @@ void ResearchScreen::updateProgressInfo()
 		}
 		progressBar->setImage(progressImage);
 		auto topicTitle = form->findControlTyped<Label>("TEXT_CURRENT_PROJECT");
-		topicTitle->setText(tr(topic->name));
+		topicTitle->setText(tr(topic->name).value);
 		auto completionPercent = form->findControlTyped<Label>("TEXT_PROJECT_COMPLETION");
 		auto completionText = format(tr("%d%%"), static_cast<int>(projectProgress * 100.0f));
 		completionPercent->setText(completionText);
@@ -491,7 +491,7 @@ void ResearchScreen::updateProgressInfo()
 		auto progressBar = form->findControlTyped<Graphic>("GRAPHIC_PROGRESS_BAR");
 		progressBar->setImage(nullptr);
 		auto topicTitle = form->findControlTyped<Label>("TEXT_CURRENT_PROJECT");
-		topicTitle->setText(tr("No Project"));
+		topicTitle->setText(tr("No Project").value);
 		auto completionPercent = form->findControlTyped<Label>("TEXT_PROJECT_COMPLETION");
 		completionPercent->setText("");
 	}
