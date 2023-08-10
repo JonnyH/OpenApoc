@@ -8,6 +8,7 @@
 #include "version.h"
 #include <algorithm>
 #include <sstream>
+#include "fmt/std.h"
 
 // boost uuid for generating temporary identifier for new save
 #include <boost/uuid/uuid_generators.hpp> // generators

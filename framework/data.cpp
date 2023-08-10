@@ -17,6 +17,7 @@
 #include "library/sp.h"
 #include "library/strings.h"
 #include "library/voxel.h"
+#include "fmt/std.h"
 #include <fstream>
 #include <map>
 #include <mutex>

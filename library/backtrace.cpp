@@ -12,6 +12,7 @@
 
 #include "library/backtrace.h"
 #include "library/strings_format.h"
+#include <ostream>
 
 #include <mutex>
 #ifdef BACKTRACE_LIBUNWIND

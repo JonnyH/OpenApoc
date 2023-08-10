@@ -8,6 +8,7 @@
 #include "framework/fs.h"
 #include "framework/logger.h"
 #include <physfs.h>
+#include "fmt/std.h"
 
 #ifdef _WIN32
 #define _CRT_SECURE_NO_WARNINGS

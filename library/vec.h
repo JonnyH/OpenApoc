@@ -7,6 +7,7 @@
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
 #include <ostream>
+#include "fmt/ostream.h"
 
 namespace OpenApoc
 {
@@ -75,3 +76,11 @@ template <typename T> std::ostream &operator<<(std::ostream &lhs, const OpenApoc
 	return lhs;
 }
 } // namespace glm
+
+template <typename T> struct fmt::formatter<OpenApoc::Vec2<T>> : fmt::ostream_formatter
+{
+};
+
+template <typename T> struct fmt::formatter<OpenApoc::Vec3<T>> : fmt::ostream_formatter
+{
+};
