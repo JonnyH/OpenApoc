@@ -168,7 +168,7 @@ up<SerializationArchive> SerializationArchive::readArchive(const UString &path)
 		LogWarning2("Failed to open archive at \"{}\"", path);
 		return nullptr;
 	}
-	LogInfo("Opened archive \"%s\"", path);
+	LogInfo2("Opened archive \"{}\"", path);
 
 	return mkup<XMLSerializationArchive>(std::move(dataProvider));
 }
@@ -205,12 +205,12 @@ SerializationNode *XMLSerializationArchive::getRoot(const UString &prefix, const
 			auto parse_result = doc.load_string(content.c_str());
 			if (!parse_result)
 			{
-				LogInfo("Failed to parse \"%s\" : \"%s\" at \"%llu\"", path,
+				LogInfo2("Failed to parse \"{}\" : \"{}\" at \"{}\"", path,
 				        parse_result.description(), (unsigned long long)parse_result.offset);
 				return nullptr;
 			}
 			it = this->docRoots.find(path);
-			LogInfo("Parsed \"%s\"", path);
+			LogInfo2("Parsed \"{}\"", path);
 		}
 	}
 	if (it == this->docRoots.end())

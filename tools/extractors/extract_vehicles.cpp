@@ -124,7 +124,7 @@ static void extract_equipment_layout(GameState &state, sp<VehicleType> vehicle, 
 void InitialGameStateExtractor::extractVehicles(GameState &state) const
 {
 	auto &data = this->ufo2p;
-	LogInfo("Number of vehicle strings: %zu", data.vehicle_names->readStrings.size());
+	LogInfo2("Number of vehicle strings: {}", data.vehicle_names->readStrings.size());
 
 	for (unsigned i = 0; i < data.vehicle_data->count(); i++)
 	{
@@ -370,8 +370,8 @@ void InitialGameStateExtractor::extractVehicles(GameState &state) const
 			auto img = fw().data->loadImage(equipment_screen_image);
 			if (!img)
 			{
-				LogInfo("Skipping missing equipment screen image \"%s\"",
-				        equipment_screen_image.c_str());
+				LogInfo2("Skipping missing equipment screen image \"{}\"",
+				        equipment_screen_image);
 			}
 			else
 			{
@@ -534,7 +534,7 @@ void InitialGameStateExtractor::extractVehicles(GameState &state) const
 		int end = v.size_z * 16 - freeSpace / 2;
 		if (end > 16)
 		{
-			LogInfo("Vehicle %s has height %d", vehicle->name, end);
+			LogInfo2("Vehicle {} has height {}", vehicle->name, end);
 			end = end % 16;
 		}
 		if (freeSpace > 32)

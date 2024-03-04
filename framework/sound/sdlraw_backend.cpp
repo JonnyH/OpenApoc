@@ -70,7 +70,7 @@ static bool ConvertAudio(AudioFormat input_format, SDL_AudioSpec &output_spec, i
 		size_t neededSize = std::max(1, cvt.len_mult) * cvt.len;
 		if (samples.size() < neededSize)
 		{
-			LogInfo("Expanding sample output buffer from %zu to %zu bytes", samples.size(),
+			LogInfo2("Expanding sample output buffer from {} to {} bytes", samples.size(),
 			        neededSize);
 			samples.resize(neededSize);
 		}
@@ -273,18 +273,18 @@ class SDLRawBackend : public SoundBackend
 		preferred_format.channels = 2;
 		preferred_format.format = AudioFormat::SampleFormat::PCM_SINT16;
 		preferred_format.frequency = 22050;
-		LogInfo("Current audio driver: %s", SDL_GetCurrentAudioDriver());
+		LogInfo2("Current audio driver: {}", SDL_GetCurrentAudioDriver());
 		LogWarning2("Changing audio drivers is not currently implemented!");
 		int numDevices = SDL_GetNumAudioDevices(0); // Request playback devices only
-		LogInfo("Number of audio devices: %d", numDevices);
+		LogInfo2("Number of audio devices: {}", numDevices);
 		for (int i = 0; i < numDevices; ++i)
 		{
-			LogInfo("Device %d: %s", i, SDL_GetAudioDeviceName(i, 0));
+			LogInfo2("Device {}: {}", i, SDL_GetAudioDeviceName(i, 0));
 		}
 		LogWarning2(
 		    "Selecting audio devices not currently implemented! Selecting first available device.");
 		const char *deviceName = SDL_GetAudioDeviceName(0, 0);
-		LogInfo("Using audio device: %s", deviceName);
+		LogInfo2("Using audio device: {}", deviceName);
 		SDL_AudioSpec wantFormat;
 		wantFormat.channels = 2;
 		wantFormat.format = AUDIO_S16LSB;
@@ -320,13 +320,13 @@ class SDLRawBackend : public SoundBackend
 			std::lock_guard<std::recursive_mutex> l(this->audio_lock);
 			if (this->live_samples.size() > this->concurrent_samples)
 			{
-				LogInfo("Skipping sound %s as we already have %d on queue", sample->path,
+				LogInfo2("Skipping sound {} as we already have {} on queue", sample->path,
 				        this->live_samples.size());
 				return;
 			}
 			this->live_samples.emplace_back(sample, gain);
 		}
-		LogInfo("Placed sound %s on queue", sample->path);
+		LogInfo2("Placed sound {} on queue", sample->path);
 	}
 
 	void playMusic(std::function<void(void *)> finishedCallback, void *callbackData) override
@@ -339,13 +339,13 @@ class SDLRawBackend : public SoundBackend
 		music_playing = true;
 		this->get_music_future =
 		    fw().threadPoolEnqueue(std::mem_fn(&SDLRawBackend::getMoreMusic), this);
-		LogInfo("Playing music on SDL backend");
+		LogInfo2("Playing music on SDL backend");
 	}
 
 	void setTrack(sp<MusicTrack> track) override
 	{
 		std::lock_guard<std::recursive_mutex> l(this->audio_lock);
-		LogInfo("Setting track to %s", track->path);
+		LogInfo2("Setting track to {}", track->path);
 		this->track = track;
 		while (!music_queue.empty())
 			music_queue.pop();

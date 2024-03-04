@@ -1975,7 +1975,7 @@ void BattleUnitMission::setPathTo(GameState &state, BattleUnit &u, Vec3<int> tar
 			// If unit cannot move at all - cancel
 			if (!u.canMove())
 			{
-				LogInfo("Cannot move to %d %d %d, unit has no movement ability", target.x, target.y,
+				LogInfo2("Cannot move to {} {} {}, unit has no movement ability", target.x, target.y,
 				        target.z);
 				cancelled = true;
 				return;
@@ -2006,8 +2006,7 @@ void BattleUnitMission::setPathTo(GameState &state, BattleUnit &u, Vec3<int> tar
 							    !targetTile->getUnitIfPresent(true, true, false, u.tileObject,
 							                                  false, u.isLarge()))
 							{
-								LogInfo("Cannot move to %d %d %d, found an adjacent free tile, "
-								        "moving to an adjacent tile",
+								LogInfo2("Cannot move to {} {} {}, found an adjacent free tile, moving to an adjacent tile",
 								        target.x, target.y, target.z);
 								approachOnly = true;
 								break;
@@ -2025,7 +2024,7 @@ void BattleUnitMission::setPathTo(GameState &state, BattleUnit &u, Vec3<int> tar
 				}
 				if (!approachOnly)
 				{
-					LogInfo("Cannot move to %d %d %d, impassable", target.x, target.y, target.z);
+					LogInfo2("Cannot move to {} {} {}, impassable", target.x, target.y, target.z);
 					cancelled = true;
 					return;
 				}
@@ -2059,7 +2058,7 @@ void BattleUnitMission::setPathTo(GameState &state, BattleUnit &u, Vec3<int> tar
 		// Cancel movement if the closest path ends at the current position
 		if (path.size() == 1 && path.back() == Vec3<int>{u.position})
 		{
-			LogInfo("Cannot move to %s, closest path ends at origin", Vec3<int>{u.goalPosition});
+			LogInfo2("Cannot move to {}, closest path ends at origin", Vec3<int>{u.goalPosition});
 			cancelled = true;
 			return;
 		}

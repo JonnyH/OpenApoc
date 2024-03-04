@@ -78,12 +78,12 @@ static void test_voxel(Vec3<int> voxel_size)
 	if (bit_position.x > voxel_size.x)
 	{
 		bit_position.x = voxel_size.x - 1;
-		LogInfo("Clamping bit position x to %d", bit_position.x);
+		LogInfo2("Clamping bit position x to {}", bit_position.x);
 	}
 	if (bit_position.y >= voxel_size.y)
 	{
 		bit_position.y = voxel_size.y - 1;
-		LogInfo("Clamping bit position y to %d", bit_position.y);
+		LogInfo2("Clamping bit position y to {}", bit_position.y);
 	}
 
 	slice->setBit(bit_position, true);
@@ -103,7 +103,7 @@ static void test_voxel(Vec3<int> voxel_size)
 	if (bit_voxel_position.z >= voxel_size.z)
 	{
 		bit_voxel_position.z = voxel_size.z - 1;
-		LogInfo("Clamping bit position z to %d", bit_voxel_position.z);
+		LogInfo2("Clamping bit position z to {}", bit_voxel_position.z);
 	}
 	v.setSlice(bit_voxel_position.z, slice);
 	for (int z = -16; z < voxel_size.z + 33; z++)
@@ -164,22 +164,22 @@ static void test_voxel(Vec3<int> voxel_size)
 	if (bit_2_voxel_position.x < 0)
 	{
 		bit_2_voxel_position.x = 0;
-		LogInfo("Clamping bit 2 position x to %d", bit_2_voxel_position.x);
+		LogInfo2("Clamping bit 2 position x to {}", bit_2_voxel_position.x);
 	}
 	if (bit_2_voxel_position.y < 0)
 	{
 		bit_2_voxel_position.y = 0;
-		LogInfo("Clamping bit 2 position y to %d", bit_2_voxel_position.y);
+		LogInfo2("Clamping bit 2 position y to {}", bit_2_voxel_position.y);
 	}
 	if (bit_2_voxel_position.z < 0)
 	{
 		bit_2_voxel_position.z = 0;
-		LogInfo("Clamping bit 2 position z to %d", bit_2_voxel_position.z);
+		LogInfo2("Clamping bit 2 position z to {}", bit_2_voxel_position.z);
 	}
 	auto slice2 = mksp<VoxelSlice>(Vec2<int>{voxel_size.x, voxel_size.y});
 	if (bit_2_voxel_position.z == bit_voxel_position.z)
 	{
-		LogInfo("Slice of bit 2 same as bit 1");
+		LogInfo2("Slice of bit 2 same as bit 1");
 		slice2 = slice;
 	}
 
@@ -229,7 +229,7 @@ int main(int argc, char **argv)
 	};
 	for (auto &size : voxel_sizes)
 	{
-		LogInfo("Testing voxel size %s", size);
+		LogInfo2("Testing voxel size {}", size);
 		test_voxel(size);
 	}
 }

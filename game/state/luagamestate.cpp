@@ -37,7 +37,7 @@ static int dofileReplace(lua_State *L)
 {
 	const char *filename = lua_tostring(L, -1);
 	UString scriptPath = filename;
-	LogInfo("Running script \"%s\"", scriptPath);
+	LogInfo2("Running script \"{}\"", scriptPath);
 	const auto scriptFile = fw().data->fs.open(scriptPath);
 	if (!scriptFile)
 	{
@@ -46,7 +46,7 @@ static int dofileReplace(lua_State *L)
 	}
 
 	const auto &fullPath = scriptFile.systemPath();
-	LogInfo("Loading script from \"%s\"", fullPath);
+	LogInfo2("Loading script from \"{}\"", fullPath);
 
 	bool ret = true;
 	pushLuaDebugTraceback(L);
@@ -58,7 +58,7 @@ static int dofileReplace(lua_State *L)
 		ret = false;
 	}
 	lua_pop(L, 1); // pop debug.traceback function
-	LogInfo("Script run %s", ret ? "success" : "fail");
+	LogInfo2("Script run {}", ret ? "success" : "fail");
 	return lua_gettop(L) - 1;
 }
 
@@ -137,7 +137,7 @@ int LuaGameState::callHook(const UString &hookName, int nresults, int nargs)
 
 bool LuaGameState::runScript(const UString &scriptPath)
 {
-	LogInfo("Running script \"%s\"", scriptPath);
+	LogInfo2("Running script \"{}\"", scriptPath);
 	auto scriptFile = fw().data->fs.open(scriptPath);
 	if (!scriptFile)
 	{
@@ -146,7 +146,7 @@ bool LuaGameState::runScript(const UString &scriptPath)
 	}
 
 	const auto &fullPath = scriptFile.systemPath();
-	LogInfo("Loading script from \"%s\"", fullPath);
+	LogInfo2("Loading script from \"{}\"", fullPath);
 
 	bool ret = true;
 	pushLuaDebugTraceback(L);
@@ -158,7 +158,7 @@ bool LuaGameState::runScript(const UString &scriptPath)
 		ret = false;
 	}
 	lua_pop(L, 1); // pop debug.traceback function
-	LogInfo("Script run %s", ret ? "success" : "fail");
+	LogInfo2("Script run {}", ret ? "success" : "fail");
 	return ret;
 }
 

@@ -2,9 +2,9 @@
 Checks:          '-*,modernize-use-std-print'
 HeaderFilterRegex: 'forms/.*|framework/.*|game/.*|library/.*|tests/.*|tools/.*'
 CheckOptions:    
-  modernize-use-std-print.PrintfLikeFunctions: "LogWarning"
-  modernize-use-std-print.ReplacementPrintFunction: "LogWarning2"
-  modernize-use-std-print.ReplacementPrintlnFunction: "LogWarning2"
+  modernize-use-std-print.PrintfLikeFunctions: "LogInfo"
+  modernize-use-std-print.ReplacementPrintFunction: "LogInfo2"
+  modernize-use-std-print.ReplacementPrintlnFunction: "LogInfo2"
   modernize-use-std-format.SprintfLikeFunctions: "OpenApoc::format"
   modernize-use-std-format.ReplacementFormatFunction: "OpenApoc::format2"
 ...

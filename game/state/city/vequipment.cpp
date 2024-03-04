@@ -172,11 +172,11 @@ void VEquipment::noAmmoToReload(const GameState &state [[maybe_unused]],
 	switch (equipment->type->type)
 	{
 		case EquipmentSlotType::VehicleEngine:
-			LogInfo("Failed to refuel engine: %s", owner->name);
+			LogInfo2("Failed to refuel engine: {}", owner->name);
 			fw().pushEvent(new GameVehicleEvent(GameEventType::NotEnoughFuel, owner));
 			break;
 		case EquipmentSlotType::VehicleWeapon:
-			LogInfo("Failed to rearm weapon: %s", owner->name);
+			LogInfo2("Failed to rearm weapon: {}", owner->name);
 			fw().pushEvent(new GameVehicleEvent(GameEventType::NotEnoughAmmo, owner));
 			break;
 		case EquipmentSlotType::VehicleGeneral:

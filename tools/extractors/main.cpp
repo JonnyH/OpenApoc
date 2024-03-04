@@ -130,7 +130,7 @@ std::map<UString, std::function<void(const InitialGameStateExtractor &e)>> thing
 	     for (auto &imagePackStrings : e.unitImagePackPaths)
 	     {
 		     GameState s;
-		     LogInfo("Extracting image pack \"%s\"", imagePackStrings.first);
+		     LogInfo2("Extracting image pack \"{}\"", imagePackStrings.first);
 
 		     auto imagePack = e.extractImagePack(s, imagePackStrings.second, false);
 		     if (!imagePack)
@@ -156,7 +156,7 @@ std::map<UString, std::function<void(const InitialGameStateExtractor &e)>> thing
 	     for (int i = 0; i < itemImagePacksCount; i++)
 	     {
 		     GameState s;
-		     LogInfo("Extracting item image pack \"%d\"", i);
+		     LogInfo2("Extracting item image pack \"{}\"", i);
 
 		     auto imagePack = e.extractItemImagePack(s, i);
 		     if (!imagePack)
@@ -182,7 +182,7 @@ std::map<UString, std::function<void(const InitialGameStateExtractor &e)>> thing
 	     for (auto &imagePackStrings : e.unitShadowPackPaths)
 	     {
 		     GameState s;
-		     LogInfo("Extracting image pack \"%s\"", imagePackStrings.first);
+		     LogInfo2("Extracting image pack \"{}\"", imagePackStrings.first);
 
 		     auto imagePack = e.extractImagePack(s, imagePackStrings.second, true);
 		     if (!imagePack)
@@ -207,7 +207,7 @@ std::map<UString, std::function<void(const InitialGameStateExtractor &e)>> thing
 	     for (auto &animationPackStrings : e.unitAnimationPackPaths)
 	     {
 		     GameState s;
-		     LogInfo("Extracting animation pack \"%s\"", animationPackStrings.first);
+		     LogInfo2("Extracting animation pack \"{}\"", animationPackStrings.first);
 
 		     auto animationPack =
 		         e.extractAnimationPack(s, animationPackStrings.second, animationPackStrings.first);
@@ -237,7 +237,7 @@ std::map<UString, std::function<void(const InitialGameStateExtractor &e)>> thing
 		     if (tileSetName.empty())
 			     continue;
 		     GameState s;
-		     LogInfo("Extracting tileset \"%s\"", tileSetName);
+		     LogInfo2("Extracting tileset \"{}\"", tileSetName);
 
 		     auto tileSet = e.extractTileSet(s, tileSetName);
 		     if (!tileSet)
@@ -263,10 +263,10 @@ std::map<UString, std::function<void(const InitialGameStateExtractor &e)>> thing
 		     if (mapName.empty())
 			     continue;
 		     GameState s;
-		     LogInfo("Extracting map sectors from \"%s\"", mapName);
+		     LogInfo2("Extracting map sectors from \"{}\"", mapName);
 
 		     auto sectors = e.extractMapSectors(s, mapName);
-		     LogInfo("Extracted %u sectors from \"%s\"", (unsigned)sectors.size(), mapName);
+		     LogInfo2("Extracted {} sectors from \"{}\"", (unsigned)sectors.size(), mapName);
 		     if (sectors.empty())
 		     {
 			     LogError2("Failed to sectors from map \"{}\"", mapName);

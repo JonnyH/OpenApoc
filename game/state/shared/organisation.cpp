@@ -187,8 +187,7 @@ void Organisation::purchase(GameState &state, const StateRef<Building> &buyer,
 			economy.currentStock -= count;
 			if (economy.currentStock < 0)
 			{
-				LogInfo("Economy went into negative stock for %s: Was it because we used economy "
-				        "to transfer?",
+				LogInfo2("Economy went into negative stock for {}: Was it because we used economy to transfer?",
 				        vehicleEquipment.id);
 			}
 		}
@@ -221,8 +220,7 @@ void Organisation::purchase(GameState &state, const StateRef<Building> &buyer,
 			economy.currentStock -= count;
 			if (economy.currentStock < 0)
 			{
-				LogInfo("Economy went into negative stock for %s: Was it because we used economy "
-				        "to transfer?",
+				LogInfo2("Economy went into negative stock for {}: Was it because we used economy to transfer?",
 				        vehicleAmmo.id);
 			}
 		}
@@ -255,8 +253,7 @@ void Organisation::purchase(GameState &state, const StateRef<Building> &buyer,
 			economy.currentStock -= count;
 			if (economy.currentStock < 0)
 			{
-				LogInfo("Economy went into negative stock for %s: Was it because we used economy "
-				        "to transfer?",
+				LogInfo2("Economy went into negative stock for {}: Was it because we used economy to transfer?",
 				        agentEquipment.id);
 			}
 		}

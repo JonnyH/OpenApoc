@@ -30,7 +30,7 @@ struct example_unicode
 
 	bool test() const
 	{
-		LogInfo("Testing string \"%s\"", u8string);
+		LogInfo2("Testing string \"{}\"", u8string);
 		const auto num_codepoints = expected_codepoints.size();
 		UString string(u8string);
 		U32String string2;
@@ -81,7 +81,7 @@ struct example_unicode
 			return false;
 		}
 
-		LogInfo("Looks good");
+		LogInfo2("Looks good");
 
 		return true;
 	}

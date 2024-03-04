@@ -842,7 +842,7 @@ void Control::configureSelfFromXml(pugi::xml_node *node)
 		}
 	}
 
-	LogInfo("Control \"%s\" has %zu subcontrols (%d, %d, %d, %d)", this->Name, Controls.size(),
+	LogInfo2("Control \"{}\" has {} subcontrols ({}, {}, {}, {})", this->Name, Controls.size(),
 	        Location.x, Location.y, Size.x, Size.y);
 }
 

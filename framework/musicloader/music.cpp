@@ -123,23 +123,23 @@ class RawMusicLoader : public MusicLoader
 		// Expected format: "rawmusic:file:start_byte_offset:byte_size"
 		if (strings.size() != 4)
 		{
-			LogInfo("Invalid raw music path string \"%s\"", path);
+			LogInfo2("Invalid raw music path string \"{}\"", path);
 			return nullptr;
 		}
 		if (strings[0] != "rawmusic")
 		{
-			LogInfo("Not rawmusic path: \"%s\"", path);
+			LogInfo2("Not rawmusic path: \"{}\"", path);
 			return nullptr;
 		}
 		if (!Strings::isInteger(strings[2]))
 		{
-			LogInfo("Raw music track \"%s\" start offset \"%s\" doesn't look like a number", path,
+			LogInfo2("Raw music track \"{}\" start offset \"{}\" doesn't look like a number", path,
 			        strings[2]);
 			return nullptr;
 		}
 		if (!Strings::isInteger(strings[3]))
 		{
-			LogInfo("Raw music track \"%s\" length \"%s\" doesn't look like a number", path,
+			LogInfo2("Raw music track \"{}\" length \"{}\" doesn't look like a number", path,
 			        strings[3]);
 			return nullptr;
 		}

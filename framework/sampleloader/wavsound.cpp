@@ -40,13 +40,13 @@ class WavSampleLoader : public SampleLoader
 		const auto splitString = split(path, ":");
 		if (splitString.size() != 2)
 		{
-			LogInfo("String \"%s\" doesn't look like a rawsample - need 2 elements (got %zu)", path,
+			LogInfo2("String \"{}\" doesn't look like a rawsample - need 2 elements (got {})", path,
 			        splitString.size());
 			return nullptr;
 		}
 		if (splitString[0] != "WAV")
 		{
-			LogInfo("String \"%s\" doesn't look like a wav - no WAV prefix", path);
+			LogInfo2("String \"{}\" doesn't look like a wav - no WAV prefix", path);
 			return nullptr;
 		}
 		const auto file = data.fs.open(splitString[1]);

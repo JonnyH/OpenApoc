@@ -2537,11 +2537,11 @@ void BattleView::orderMove(Vec3<int> target, bool strafe, bool demandGiveWay)
 
 			if (unit->setMission(*state, mission))
 			{
-				LogInfo("BattleUnit \"%s\" going to location %s", unit->agent->name, target);
+				LogInfo2("BattleUnit \"{}\" going to location {}", unit->agent->name, target);
 			}
 			else
 			{
-				LogInfo("BattleUnit \"%s\" could not receive order to move", unit->agent->name);
+				LogInfo2("BattleUnit \"{}\" could not receive order to move", unit->agent->name);
 			}
 		}
 	}

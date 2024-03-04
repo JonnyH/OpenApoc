@@ -77,7 +77,7 @@ class CueParser
 		UString cmd(command);
 		if (to_upper(cmd) != "FILE")
 		{
-			LogInfo("Encountered unexpected command: \"%s\", ignoring", cmd);
+			LogInfo2("Encountered unexpected command: \"{}\", ignoring", cmd);
 			return false;
 		}
 		// auto matchIter = std::sregex_iterator(arg.begin(), arg.end(), fileArgRegex);
@@ -113,7 +113,7 @@ class CueParser
 		if (last_char >= first_char)
 		{
 			dataFileName = arg.substr(first_char, last_char - first_char + 1);
-			LogInfo("Reading from \"%s\"", dataFileName);
+			LogInfo2("Reading from \"{}\"", dataFileName);
 		}
 		else
 		{
@@ -228,7 +228,7 @@ class CueParser
 		// valid
 		if (to_upper(cmd) != "INDEX")
 		{
-			LogInfo("Encountered unexpected/unknown command: \"%s\", ignoring", cmd);
+			LogInfo2("Encountered unexpected/unknown command: \"{}\", ignoring", cmd);
 			return false;
 		}
 		// FIXME: I seriously could not make heads or tails of these indices.
@@ -960,28 +960,28 @@ class CueArchiver
 		// FIXME: This fsize is completely and utterly wrong - unless you're reading an actual iso
 		// (mode1_2048)
 		uint64_t fsize = fs::file_size(filePath);
-		LogInfo("Opening file %s of size %" PRIu64, fileName, fsize);
+		LogInfo2("Opening file {} of size {}", fileName, fsize);
 		cio = new CueIO(fileName, 0, fsize, ftype, tmode);
 		if (!cio->fileStream)
 		{
 			LogError2("Could not open file: bad stream!");
 		}
 		cio->seek(cio->blockSize() * 16);
-		LogInfo("Reading ISO volume descriptor");
+		LogInfo2("Reading ISO volume descriptor");
 		IsoVolumeDescriptor descriptor;
 		cio->read(&descriptor, sizeof(descriptor));
-		LogInfo("CD magic: %c, %c, %c, %c, %c", descriptor.identifier[0], descriptor.identifier[1],
+		LogInfo2("CD magic: {:c}, {:c}, {:c}, {:c}, {:c}", descriptor.identifier[0], descriptor.identifier[1],
 		        descriptor.identifier[2], descriptor.identifier[3], descriptor.identifier[4]);
 		const char magic[] = {'C', 'D', '0', '0', '1'};
 		if (std::memcmp((void *)magic, (void *)descriptor.identifier, 5))
 		{
 			LogError2("Bad CD magic!");
 		}
-		LogInfo("Descriptor type: %d", (int)descriptor.type);
+		LogInfo2("Descriptor type: {}", (int)descriptor.type);
 		IsoDirRecord_hdr rootRecord;
 		std::memcpy(&rootRecord, descriptor.primary.rootDirEnt, 34);
-		LogInfo("Volume ID: %s", descriptor.primary.volIdentifier);
-		LogInfo("Root dirent length: %d", (int)rootRecord.length);
+		LogInfo2("Volume ID: {}", descriptor.primary.volIdentifier);
+		LogInfo2("Root dirent length: {}", (int)rootRecord.length);
 		readDir(rootRecord, root);
 	}
 	~CueArchiver() { delete cio; }
@@ -1122,7 +1122,7 @@ class CueArchiver
 			     dirent_it != fs::directory_iterator(); dirent_it++)
 			{
 				auto dirent = *dirent_it;
-				LogInfo("Trying %s", dirent.path().string());
+				LogInfo2("Trying {}", dirent.path().string());
 				UString ucDirent(dirent.path().filename().string());
 				ucDirent = to_lower(ucDirent);
 				if (ucDirent == ucBin)
@@ -1230,10 +1230,10 @@ namespace OpenApoc
 void parseCueFile(UString fileName)
 {
 	CueParser parser(fileName);
-	LogInfo("Parser status: %d", parser.isValid());
-	LogInfo("Data file: %s", parser.getDataFileName());
-	LogInfo("Track mode: %d", (int)parser.getTrackMode());
-	LogInfo("File mode: %d", (int)parser.getDataFileType());
+	LogInfo2("Parser status: {:d}", parser.isValid());
+	LogInfo2("Data file: {}", parser.getDataFileName());
+	LogInfo2("Track mode: {}", (int)parser.getTrackMode());
+	LogInfo2("File mode: {}", (int)parser.getDataFileType());
 }
 
 PHYSFS_Archiver *getCueArchiver() { return CueArchiver::createArchiver(); }

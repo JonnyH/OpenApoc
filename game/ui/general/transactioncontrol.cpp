@@ -527,7 +527,7 @@ sp<TransactionControl> TransactionControl::createControl(GameState &state,
 			// Nothing, we can still sell it for parts or transfer!
 		}
 	}
-	LogInfo("Vehicle type %s starting price %d", vehicle->type.id, price);
+	LogInfo2("Vehicle type {} starting price {}", vehicle->type.id, price);
 	// Add price of ammo and equipment
 	for (auto &e : vehicle->equipment)
 	{
@@ -538,7 +538,7 @@ sp<TransactionControl> TransactionControl::createControl(GameState &state,
 			{
 				price += e->ammo * state.economy[e->type->ammo_type.id].currentPrice;
 			}
-			LogInfo("Vehicle type %s price increased to %d after counting %s", vehicle->type.id,
+			LogInfo2("Vehicle type {} price increased to {} after counting {}", vehicle->type.id,
 			        price, e->type.id);
 		}
 	}
@@ -548,11 +548,11 @@ sp<TransactionControl> TransactionControl::createControl(GameState &state,
 		if (state.economy.find(e.second.id) != state.economy.end())
 		{
 			price -= state.economy[e.second.id].currentPrice;
-			LogInfo("Vehicle type %s price decreased to %d after counting %s", vehicle->type.id,
+			LogInfo2("Vehicle type {} price decreased to {} after counting {}", vehicle->type.id,
 			        price, e.second.id);
 		}
 	}
-	LogInfo("Vehicle type %s final price %d", vehicle->type.id, price);
+	LogInfo2("Vehicle type {} final price {}", vehicle->type.id, price);
 
 	auto manufacturer = vehicle->type->manufacturer;
 	bool isAmmo = false;

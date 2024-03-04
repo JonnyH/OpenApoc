@@ -50,7 +50,7 @@ class PCXImageLoader : public OpenApoc::ImageLoader
 		auto data = file.readAll();
 		if (size < sizeof(struct PcxHeader) + 256 * 3)
 		{
-			LogInfo("File \"%s\" size %u too small for PCX header + palette\n", path,
+			LogInfo2("File \"{}\" size {} too small for PCX header + palette", path,
 			        static_cast<unsigned>(size));
 			return nullptr;
 		}
@@ -58,7 +58,7 @@ class PCXImageLoader : public OpenApoc::ImageLoader
 
 		if (header->Identifier != PcxIdentifier)
 		{
-			LogInfo("File \"%s\" had invalid PCX identifier 0x%02x", path,
+			LogInfo2("File \"{}\" had invalid PCX identifier 0x{:02x}", path,
 			        static_cast<unsigned>(header->Identifier));
 			return nullptr;
 		}

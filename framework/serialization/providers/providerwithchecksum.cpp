@@ -154,7 +154,7 @@ bool ProviderWithChecksum::openArchive(const UString &path, bool write)
 		UString result;
 		if (!inner->readDocument("checksum.xml", result))
 		{
-			LogInfo("Missing manifest file in \"%s\"", path);
+			LogInfo2("Missing manifest file in \"{}\"", path);
 			return true;
 		}
 		parseManifest(result);

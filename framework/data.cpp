@@ -117,7 +117,7 @@ DataImpl::DataImpl(std::vector<UString> paths) : Data(paths)
 		if (l)
 		{
 			this->imageLoaders.emplace_back(l);
-			LogInfo("Initialised image loader %s", t);
+			LogInfo2("Initialised image loader {}", t);
 		}
 		else
 			LogWarning2("Failed to load image loader {}", t);
@@ -132,7 +132,7 @@ DataImpl::DataImpl(std::vector<UString> paths) : Data(paths)
 		if (l)
 		{
 			this->imageWriters.emplace_back(l);
-			LogInfo("Initialised image writer %s", t);
+			LogInfo2("Initialised image writer {}", t);
 		}
 		else
 			LogWarning2("Failed to load image writer {}", t);
@@ -147,7 +147,7 @@ DataImpl::DataImpl(std::vector<UString> paths) : Data(paths)
 		if (s)
 		{
 			this->sampleLoaders.emplace_back(s);
-			LogInfo("Initialised sample loader %s", t);
+			LogInfo2("Initialised sample loader {}", t);
 		}
 		else
 			LogWarning2("Failed to load sample loader {}", t);
@@ -162,7 +162,7 @@ DataImpl::DataImpl(std::vector<UString> paths) : Data(paths)
 		if (m)
 		{
 			this->musicLoaders.emplace_back(m);
-			LogInfo("Initialised music loader %s", t);
+			LogInfo2("Initialised music loader {}", t);
 		}
 		else
 			LogWarning2("Failed to load music loader {}", t);
@@ -190,7 +190,7 @@ sp<VoxelSlice> DataImpl::loadVoxelSlice(const UString &path)
 	auto alias = this->voxelAliases.find(path);
 	if (alias != this->voxelAliases.end())
 	{
-		LogInfo("Using alias \"%s\" for \"%s\"", path, alias->second);
+		LogInfo2("Using alias \"{}\" for \"{}\"", path, alias->second);
 		return this->loadVoxelSlice(alias->second);
 	}
 
@@ -275,7 +275,7 @@ sp<ImageSet> DataImpl::loadImageSet(const UString &path)
 	auto alias = this->imageSetAliases.find(path);
 	if (alias != this->imageSetAliases.end())
 	{
-		LogInfo("Using alias \"%s\" for \"%s\"", path, alias->second);
+		LogInfo2("Using alias \"{}\" for \"{}\"", path, alias->second);
 		return this->loadImageSet(alias->second);
 	}
 
@@ -332,7 +332,7 @@ sp<Sample> DataImpl::loadSample(UString path)
 	auto alias = this->sampleAliases.find(path);
 	if (alias != this->sampleAliases.end())
 	{
-		LogInfo("Using alias \"%s\" for \"%s\"", path, alias->second);
+		LogInfo2("Using alias \"{}\" for \"{}\"", path, alias->second);
 		return this->loadSample(alias->second);
 	}
 
@@ -349,7 +349,7 @@ sp<Sample> DataImpl::loadSample(UString path)
 	}
 	if (!sample)
 	{
-		LogInfo("Failed to load sample \"%s\"", path);
+		LogInfo2("Failed to load sample \"{}\"", path);
 		return nullptr;
 	}
 	this->sampleCache[cacheKey] = sample;
@@ -363,7 +363,7 @@ sp<MusicTrack> DataImpl::loadMusic(const UString &path)
 	auto alias = this->musicAliases.find(path);
 	if (alias != this->musicAliases.end())
 	{
-		LogInfo("Using alias \"%s\" for \"%s\"", path, alias->second);
+		LogInfo2("Using alias \"{}\" for \"{}\"", path, alias->second);
 		return this->loadMusic(alias->second);
 	}
 
@@ -377,7 +377,7 @@ sp<MusicTrack> DataImpl::loadMusic(const UString &path)
 			return track;
 		}
 	}
-	LogInfo("Failed to load music track \"%s\"", path);
+	LogInfo2("Failed to load music track \"{}\"", path);
 	return nullptr;
 }
 
@@ -392,7 +392,7 @@ sp<Image> DataImpl::loadImage(const UString &path, bool lazy)
 	auto alias = this->imageAliases.find(path);
 	if (alias != this->imageAliases.end())
 	{
-		LogInfo("Using alias \"%s\" for \"%s\"", path, alias->second);
+		LogInfo2("Using alias \"{}\" for \"{}\"", path, alias->second);
 		return this->loadImage(alias->second, lazy);
 	}
 
@@ -612,7 +612,7 @@ sp<Image> DataImpl::loadImage(const UString &path, bool lazy)
 	}
 	else if (path.substr(0, 9) == "LOFTEMPS:")
 	{
-		LogInfo("Loading LOFTEMPS \"%s\" as image", path);
+		LogInfo2("Loading LOFTEMPS \"{}\" as image", path);
 		auto voxelSlice = this->loadVoxelSlice(path);
 		if (!voxelSlice)
 		{
@@ -649,14 +649,14 @@ sp<Image> DataImpl::loadImage(const UString &path, bool lazy)
 		}
 		if (!img)
 		{
-			LogInfo("Failed to load image \"%s\"", path);
+			LogInfo2("Failed to load image \"{}\"", path);
 			return nullptr;
 		}
 	}
 
 	if (!img)
 	{
-		LogInfo("Failed to load image \"%s\"", path);
+		LogInfo2("Failed to load image \"{}\"", path);
 		return nullptr;
 	}
 
@@ -683,7 +683,7 @@ sp<Palette> DataImpl::loadPalette(const UString &path)
 	auto alias = this->paletteAliases.find(path);
 	if (alias != this->paletteAliases.end())
 	{
-		LogInfo("Using alias \"%s\" for \"%s\"", path, alias->second);
+		LogInfo2("Using alias \"{}\" for \"{}\"", path, alias->second);
 		return this->loadPalette(alias->second);
 	}
 
@@ -699,7 +699,7 @@ sp<Palette> DataImpl::loadPalette(const UString &path)
 	pal = loadPCXPalette(*this, path);
 	if (pal)
 	{
-		LogInfo("Read \"%s\" as PCX palette", path);
+		LogInfo2("Read \"{}\" as PCX palette", path);
 		this->paletteCache[cacheKey] = pal;
 		this->pinnedPalettes.push(pal);
 		this->pinnedPalettes.pop();
@@ -708,7 +708,7 @@ sp<Palette> DataImpl::loadPalette(const UString &path)
 	pal = loadPNGPalette(*this, path);
 	if (pal)
 	{
-		LogInfo("Read \"%s\" as PNG palette", path);
+		LogInfo2("Read \"{}\" as PNG palette", path);
 		this->paletteCache[cacheKey] = pal;
 		this->pinnedPalettes.push(pal);
 		this->pinnedPalettes.pop();
@@ -732,7 +732,7 @@ sp<Palette> DataImpl::loadPalette(const UString &path)
 				idx++;
 			}
 		}
-		LogInfo("Read \"%s\" as Image palette", path);
+		LogInfo2("Read \"{}\" as Image palette", path);
 		this->paletteCache[cacheKey] = pal;
 		this->pinnedPalettes.push(pal);
 		this->pinnedPalettes.pop();
@@ -742,7 +742,7 @@ sp<Palette> DataImpl::loadPalette(const UString &path)
 	pal = loadApocPalette(*this, path);
 	if (pal)
 	{
-		LogInfo("Read \"%s\" as RAW palette", path);
+		LogInfo2("Read \"{}\" as RAW palette", path);
 		this->paletteCache[cacheKey] = pal;
 		this->pinnedPalettes.push(pal);
 		this->pinnedPalettes.pop();
@@ -815,7 +815,7 @@ bool DataImpl::writeImage(UString systemPath, sp<Image> image, sp<Palette> palet
 			if (!palette)
 			{
 				UString defaultPalettePath = "xcom3/ufodata/pal_01.dat";
-				LogInfo("Loading default palette \"%s\"", defaultPalettePath);
+				LogInfo2("Loading default palette \"{}\"", defaultPalettePath);
 				palette = this->loadPalette(defaultPalettePath);
 				if (!palette)
 				{
@@ -826,7 +826,7 @@ bool DataImpl::writeImage(UString systemPath, sp<Image> image, sp<Palette> palet
 			}
 			if (writer->writeImage(palImg, outFile, palette))
 			{
-				LogInfo("Successfully wrote palette image \"%s\" using \"%s\"", systemPath,
+				LogInfo2("Successfully wrote palette image \"{}\" using \"{}\"", systemPath,
 				        writer->getName());
 				return true;
 			}
@@ -841,7 +841,7 @@ bool DataImpl::writeImage(UString systemPath, sp<Image> image, sp<Palette> palet
 		{
 			if (writer->writeImage(rgbImg, outFile))
 			{
-				LogInfo("Successfully wrote RGB image \"%s\" using \"%s\"", systemPath,
+				LogInfo2("Successfully wrote RGB image \"{}\" using \"{}\"", systemPath,
 				        writer->getName());
 				return true;
 			}
@@ -976,7 +976,7 @@ void DataImpl::readAliases()
 }
 void DataImpl::readAliasFile(const UString &path)
 {
-	LogInfo("Reading aliases from \"%s\"", path);
+	LogInfo2("Reading aliases from \"{}\"", path);
 
 	auto file = this->fs.open(path);
 	if (!file)

@@ -1216,7 +1216,7 @@ void GameState::updateEndOfFiveMinutes()
 								    new GameVehicleEvent(GameEventType::VehicleRearmed, v));
 								break;
 							default:
-								LogInfo("Implement the remaining messages for vehicle rearmed / "
+								LogInfo2("Implement the remaining messages for vehicle rearmed / "
 								        "reloaded / refueled / whatever");
 								break;
 						}
@@ -1705,7 +1705,7 @@ void GameState::loadMods()
 
 		if (!modLoadScript.empty())
 		{
-			LogInfo("Executing modLoad script \"%s\" for mod \"%s\"", modLoadScript,
+			LogInfo2("Executing modLoad script \"{}\" for mod \"{}\"", modLoadScript,
 			        modInfo->getID());
 			this->luaGameState.runScript(modLoadScript);
 		}
@@ -1714,7 +1714,7 @@ void GameState::loadMods()
 
 bool GameState::appendGameState(const UString &gamestatePath)
 {
-	LogInfo("Appending gamestate \"%s\"", gamestatePath);
+	LogInfo2("Appending gamestate \"{}\"", gamestatePath);
 	auto systemPath = fw().data->fs.resolvePath(gamestatePath);
 	return this->loadGame(systemPath);
 }

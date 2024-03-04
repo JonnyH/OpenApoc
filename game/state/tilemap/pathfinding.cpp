@@ -168,11 +168,11 @@ std::list<Vec3<int>> TileMap::findShortestPath(Vec3<int> origin, Vec3<int> desti
 
 	if (destinationIsSingleTile)
 	{
-		LogInfo("Trying to route from %s to %s", origin, destinationStart);
+		LogInfo2("Trying to route from {} to {}", origin, destinationStart);
 	}
 	else
 	{
-		LogInfo("Trying to route from %s to %s-%s", origin, destinationStart, destinationEnd);
+		LogInfo2("Trying to route from {} to {}-{}", origin, destinationStart, destinationEnd);
 	}
 
 	if (!tileIsValid(origin))
@@ -207,7 +207,7 @@ std::list<Vec3<int>> TileMap::findShortestPath(Vec3<int> origin, Vec3<int> desti
 	    origin.y >= destinationStart.y && origin.y < destinationEnd.y &&
 	    origin.z >= destinationStart.z && origin.z < destinationEnd.z)
 	{
-		LogInfo("Origin is within destination!");
+		LogInfo2("Origin is within destination!");
 		return {startTile->position};
 	}
 
@@ -224,7 +224,7 @@ std::list<Vec3<int>> TileMap::findShortestPath(Vec3<int> origin, Vec3<int> desti
 		auto first = fringe.begin();
 		if (first == fringe.end())
 		{
-			LogInfo("No more tiles to expand after %d iterations", iterationCount);
+			LogInfo2("No more tiles to expand after {} iterations", iterationCount);
 			break;
 		}
 		auto nodeToExpand = *first;
@@ -364,15 +364,13 @@ std::list<Vec3<int>> TileMap::findShortestPath(Vec3<int> origin, Vec3<int> desti
 		}
 		else if (maxCost > 0.0f)
 		{
-			LogInfo("No route from %s to %s-%s found after %d iterations, returning "
-			        "closest path %s",
+			LogInfo2("No route from {} to {}-{} found after {} iterations, returning closest path {}",
 			        origin, destinationStart, destinationEnd, iterationCount,
 			        closestNodeSoFar->thisTile->position);
 		}
 		else
 		{
-			LogInfo("No route from %s to %s-%s found after %d iterations, returning "
-			        "closest path %s",
+			LogInfo2("No route from {} to {}-{} found after {} iterations, returning closest path {}",
 			        origin, destinationStart, destinationEnd, iterationCount,
 			        closestNodeSoFar->thisTile->position);
 		}
@@ -381,12 +379,12 @@ std::list<Vec3<int>> TileMap::findShortestPath(Vec3<int> origin, Vec3<int> desti
 	{
 		if (maxCost > 0.0f)
 		{
-			LogInfo("Could not find path within maxPath, returning closest path ending at %d",
+			LogInfo2("Could not find path within maxPath, returning closest path ending at {}",
 			        closestNodeSoFar->thisTile->position.x);
 		}
 		else
 		{
-			LogInfo("Surprisingly, no nodes to expand! Closest path ends at %s",
+			LogInfo2("Surprisingly, no nodes to expand! Closest path ends at {}",
 			        closestNodeSoFar->thisTile->position);
 		}
 	}
@@ -426,7 +424,7 @@ std::list<Vec3<int>> Battle::findShortestPath(Vec3<int> origin, Vec3<int> destin
 	// a minimum number of iterations required to pathfind between two locations
 	static const int PATH_ITERATION_LIMIT_MULTIPLIER = 2;
 
-	LogInfo("Trying to route (battle) from %s to %s", origin, destination);
+	LogInfo2("Trying to route (battle) from {} to {}", origin, destination);
 
 	if (!map->tileIsValid(origin))
 	{
@@ -735,23 +733,23 @@ std::list<int> Battle::findLosBlockPath(int origin, int destination, BattleUnitT
 	std::list<LosNode *> fringe;
 	int iterationCount = 0;
 
-	LogInfo("Trying to route from lb %d to lb %d", origin, destination);
+	LogInfo2("Trying to route from lb {} to lb {}", origin, destination);
 
 	if (origin == destination)
 	{
-		LogInfo("Origin is destination!");
+		LogInfo2("Origin is destination!");
 		return {destination};
 	}
 
 	if (!blockAvailable[type][origin])
 	{
-		LogInfo("Origin unavailable!");
+		LogInfo2("Origin unavailable!");
 		return {};
 	}
 
 	if (!blockAvailable[type][destination])
 	{
-		LogInfo("Destination unavailable!");
+		LogInfo2("Destination unavailable!");
 		return {};
 	}
 
@@ -770,7 +768,7 @@ std::list<int> Battle::findLosBlockPath(int origin, int destination, BattleUnitT
 		auto first = fringe.begin();
 		if (first == fringe.end())
 		{
-			LogInfo("No more blocks to expand after %d iterations", iterationCount);
+			LogInfo2("No more blocks to expand after {} iterations", iterationCount);
 			break;
 		}
 		auto nodeToExpand = *first;
@@ -830,7 +828,7 @@ std::list<int> Battle::findLosBlockPath(int origin, int destination, BattleUnitT
 	}
 	else if (closestNodeSoFar->distanceToGoal > 0)
 	{
-		LogInfo("Surprisingly, no nodes to expand! Closest path ends in %d",
+		LogInfo2("Surprisingly, no nodes to expand! Closest path ends in {}",
 		        closestNodeSoFar->block);
 	}
 
@@ -1171,7 +1169,7 @@ std::list<Vec3<int>> City::findShortestPath(Vec3<int> origin, Vec3<int> destinat
 	std::list<RoadSegmentNode *> fringe;
 	int iterationCount = 0;
 
-	LogInfo("Trying to route from rs %d to rs %d", originID, destinationID);
+	LogInfo2("Trying to route from rs {} to rs {}", originID, destinationID);
 
 	auto startNode = new RoadSegmentNode(
 	    0.0f, GroundVehicleTileHelper::getDistanceStatic(origin, destination), nullptr, originID);
@@ -1234,7 +1232,7 @@ std::list<Vec3<int>> City::findShortestPath(Vec3<int> origin, Vec3<int> destinat
 		auto first = fringe.begin();
 		if (first == fringe.end())
 		{
-			LogInfo("No more road segments to expand after %d iterations", iterationCount);
+			LogInfo2("No more road segments to expand after {} iterations", iterationCount);
 			break;
 		}
 		auto nodeToExpand = *first;
@@ -1380,7 +1378,7 @@ std::list<Vec3<int>> City::findShortestPath(Vec3<int> origin, Vec3<int> destinat
 	}
 	else if (closestNodeSoFar->distanceToGoal > 0)
 	{
-		LogInfo("Surprisingly, no nodes to expand! Closest path ends at %d",
+		LogInfo2("Surprisingly, no nodes to expand! Closest path ends at {}",
 		        closestNodeSoFar->segment);
 	}
 
@@ -1796,7 +1794,7 @@ void City::fillRoadSegmentMap(GameState &state [[maybe_unused]])
 						}
 						auto initialConnections =
 						    roadSegments[nextSegmentToProcess].connections.size();
-						LogInfo("Segment %d Connections %d First %d", nextSegmentToProcess,
+						LogInfo2("Segment {} Connections {} First {}", nextSegmentToProcess,
 						        initialConnections,
 						        initialConnections == 0
 						            ? -1

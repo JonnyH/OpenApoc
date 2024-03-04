@@ -40,7 +40,7 @@ void InitialGameStateExtractor::readBattleMapParts(
 	}
 	size_t strategySpriteCount = strategySpriteTabFile.size() / 4;
 
-	LogInfo("Loading %zu entries from \"%s\"", objectCount, datFileName);
+	LogInfo2("Loading {} entries from \"{}\"", objectCount, datFileName);
 
 	for (size_t i = 0; i < objectCount; i++)
 	{

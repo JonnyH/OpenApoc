@@ -67,7 +67,7 @@ bool ZipDataProvider::readDocument(const UString &filename, UString &result)
 	auto it = fileLookup.find(filename);
 	if (it == fileLookup.end())
 	{
-		LogInfo("File \"%s\" not found in zip in zip \"%s\"", filename, zipPath);
+		LogInfo2("File \"{}\" not found in zip in zip \"{}\"", filename, zipPath);
 		return false;
 	}
 	unsigned int fileId = it->second;
@@ -80,11 +80,11 @@ bool ZipDataProvider::readDocument(const UString &filename, UString &result)
 	}
 	if (stat.m_uncomp_size == 0)
 	{
-		LogInfo("Skipping %s - possibly a directory?", filename);
+		LogInfo2("Skipping {} - possibly a directory?", filename);
 		return false;
 	}
 
-	LogInfo("Reading %lu bytes for file \"%s\" in zip \"%s\"", (unsigned long)stat.m_uncomp_size,
+	LogInfo2("Reading {} bytes for file \"{}\" in zip \"{}\"", (unsigned long)stat.m_uncomp_size,
 	        filename, zipPath);
 
 	up<char[]> data(new char[(unsigned int)stat.m_uncomp_size]);

@@ -21,7 +21,7 @@ sp<Palette> OpenApoc::loadPNGPalette(Data &d, const UString fileName)
 	auto f = d.fs.open(fileName);
 	if (!f)
 	{
-		LogInfo("Failed to open file \"%s\" - skipping", fileName);
+		LogInfo2("Failed to open file \"{}\" - skipping", fileName);
 		return nullptr;
 	}
 	auto data = f.readAll();
@@ -32,7 +32,7 @@ sp<Palette> OpenApoc::loadPNGPalette(Data &d, const UString fileName)
 	                           reinterpret_cast<unsigned char *>(data.get()), dataSize);
 	if (err)
 	{
-		LogInfo("Failed to read PNG headers from \"%s\" (%u) : %s - skipping", f.systemPath(), err,
+		LogInfo2("Failed to read PNG headers from \"{}\" ({}) : {} - skipping", f.systemPath(), err,
 		        lodepng_error_text(err));
 		return nullptr;
 	}
@@ -48,7 +48,7 @@ sp<Palette> OpenApoc::loadPNGPalette(Data &d, const UString fileName)
 	                             reinterpret_cast<unsigned char *>(data.get()), dataSize);
 	if (error)
 	{
-		LogInfo("Failed to read PNG \"%s\" (%u) : %s", f.systemPath(), err,
+		LogInfo2("Failed to read PNG \"{}\" ({}) : {}", f.systemPath(), err,
 		        lodepng_error_text(err));
 		return nullptr;
 	}
@@ -88,13 +88,13 @@ class LodepngImageLoader : public OpenApoc::ImageLoader
 		                                   reinterpret_cast<unsigned char *>(data.get()), dataSize);
 		if (err)
 		{
-			LogInfo("Failed to read PNG headers from \"%s\" (%u) : %s", file.systemPath(), err,
+			LogInfo2("Failed to read PNG headers from \"{}\" ({}) : {}", file.systemPath(), err,
 			        lodepng_error_text(err));
 			return nullptr;
 		}
 
-		LogInfo("Loading PNG \"%s\" size {%u,%d} - colour mode %d depth %u", file.systemPath(),
-		        width, height, png_state.info_png.color.colortype,
+		LogInfo2("Loading PNG \"{}\" size {{{},{}}} - colour mode {} depth {}", file.systemPath(),
+		        width, height, static_cast<int>(png_state.info_png.color.colortype),
 		        png_state.info_png.color.bitdepth);
 
 		// Just convert to RGBA, as PNG palettes are often reordered/trimmed at every turn by any
@@ -105,11 +105,11 @@ class LodepngImageLoader : public OpenApoc::ImageLoader
 		    image, width, height, reinterpret_cast<unsigned char *>(data.get()), file.size());
 		if (error)
 		{
-			LogInfo("LodePNG error code: %d: %s", error, lodepng_error_text(error));
+			LogInfo2("LodePNG error code: {}: {}", error, lodepng_error_text(error));
 		}
 		if (!image.size())
 		{
-			LogInfo("Failed to load image %s (not a PNG?)", file.systemPath());
+			LogInfo2("Failed to load image {} (not a PNG?)", file.systemPath());
 			return nullptr;
 		}
 		OpenApoc::Vec2<int> size(width, height);
@@ -189,7 +189,7 @@ class LodepngImageWriter : public OpenApoc::ImageWriter
 			return false;
 		}
 
-		LogInfo("Successfully wrote palette PNG image");
+		LogInfo2("Successfully wrote palette PNG image");
 
 		return true;
 	}
@@ -211,7 +211,7 @@ class LodepngImageWriter : public OpenApoc::ImageWriter
 			LogWarning2("Failed to write {} bytes to stream", outBuf.size());
 			return false;
 		}
-		LogInfo("Successfully wrote RGB PNG image");
+		LogInfo2("Successfully wrote RGB PNG image");
 		return true;
 	}
 

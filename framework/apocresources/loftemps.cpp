@@ -78,7 +78,7 @@ LOFTemps::LOFTemps(IFile &datFile, IFile &tabFile)
 				}
 			}
 		}
-		LogInfo("Read voxel slice of size {%u,%u}", width, height);
+		LogInfo2("Read voxel slice of size {{{},{}}}", width, height);
 		this->slices.push_back(slice);
 	}
 }

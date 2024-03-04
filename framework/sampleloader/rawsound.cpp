@@ -30,13 +30,13 @@ class RawSampleLoader : public SampleLoader
 		auto splitString = split(path, ":");
 		if (splitString.size() != 3)
 		{
-			LogInfo("String \"%s\" doesn't look like a rawsample - need 3 elements (got %zu)", path,
+			LogInfo2("String \"{}\" doesn't look like a rawsample - need 3 elements (got {})", path,
 			        splitString.size());
 			return nullptr;
 		}
 		if (splitString[0] != "RAWSOUND")
 		{
-			LogInfo("String \"%s\" doesn't look like a rawsample - no RAWSOUND prefix", path);
+			LogInfo2("String \"{}\" doesn't look like a rawsample - no RAWSOUND prefix", path);
 			return nullptr;
 		}
 		int frequency = Strings::toInteger(splitString[2]);

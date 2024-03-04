@@ -711,7 +711,7 @@ class OGL20Renderer : public Renderer
 		this->bound_thread = std::this_thread::get_id();
 		GLint viewport[4];
 		gl20::GetIntegerv(gl20::VIEWPORT, viewport);
-		LogInfo("Viewport {%d,%d,%d,%d}", viewport[0], viewport[1], viewport[2], viewport[3]);
+		LogInfo2("Viewport {{{},{},{},{}}}", viewport[0], viewport[1], viewport[2], viewport[3]);
 		LogAssert(viewport[0] == 0 && viewport[1] == 0);
 		this->defaultSurface = mksp<Surface>(Vec2<int>{viewport[2], viewport[3]});
 		this->defaultSurface->rendererPrivateData.reset(
@@ -720,7 +720,7 @@ class OGL20Renderer : public Renderer
 
 		GLint maxTexUnits;
 		gl20::GetIntegerv(gl20::MAX_COMBINED_TEXTURE_IMAGE_UNITS, &maxTexUnits);
-		LogInfo("MAX_COMBINED_TEXTURE_IMAGE_UNITS: %d", maxTexUnits);
+		LogInfo2("MAX_COMBINED_TEXTURE_IMAGE_UNITS: {}", maxTexUnits);
 		gl20::Enable(gl20::BLEND);
 		gl20::BlendFuncSeparate(gl20::SRC_ALPHA, gl20::ONE_MINUS_SRC_ALPHA, gl20::SRC_ALPHA,
 		                        gl20::DST_ALPHA);
@@ -1073,17 +1073,17 @@ class OGL20RendererFactory : public OpenApoc::RendererFactory
 			auto success = gl20::sys::LoadFunctions();
 			if (!success)
 			{
-				LogInfo("failed to load GL implementation functions");
+				LogInfo2("failed to load GL implementation functions");
 				return nullptr;
 			}
 			if (success.GetNumMissing())
 			{
-				LogInfo("GL implementation missing %d functions", success.GetNumMissing());
+				LogInfo2("GL implementation missing {} functions", success.GetNumMissing());
 				return nullptr;
 			}
 			if (!gl20::sys::IsVersionGEQ(2, 0))
 			{
-				LogInfo("GL version not at least 2.0, got %d.%d", gl20::sys::GetMajorVersion(),
+				LogInfo2("GL version not at least 2.0, got {}.{}", gl20::sys::GetMajorVersion(),
 				        gl20::sys::GetMinorVersion());
 				return nullptr;
 			}

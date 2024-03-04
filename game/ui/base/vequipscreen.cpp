@@ -539,7 +539,7 @@ void VEquipScreen::setSelectedVehicle(sp<Vehicle> vehicle)
 		LogError2("Trying to set invalid selected vehicle");
 		return;
 	}
-	LogInfo("Selecting vehicle \"%s\"", vehicle->name);
+	LogInfo2("Selecting vehicle \"{}\"", vehicle->name);
 	this->selected = vehicle;
 	auto backgroundImage = vehicle->type->equipment_screen;
 	if (!backgroundImage)

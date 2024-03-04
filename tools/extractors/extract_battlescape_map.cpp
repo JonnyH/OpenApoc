@@ -168,7 +168,7 @@ void InitialGameStateExtractor::extractBattlescapeMapFromPath(GameState &state,
 	for (const auto &sdtFile : sdtFiles)
 	{
 		fileCounter++;
-		LogInfo("Reading map %s", sdtFile);
+		LogInfo2("Reading map {}", sdtFile);
 		/*  Trim off '.sdt' to get the base map name */
 		LogAssert(sdtFile.length() >= 4);
 		auto secName = sdtFile.substr(0, sdtFile.length() - 4);
@@ -207,7 +207,7 @@ void InitialGameStateExtractor::extractBattlescapeMapFromPath(GameState &state,
 				auto inFile = fw().data->fs.open(fullPath);
 				if (!inFile)
 				{
-					LogInfo("Sector %s not present for map %d", sector, index);
+					LogInfo2("Sector {} not present for map {}", sector, index);
 					continue;
 				}
 
@@ -288,7 +288,7 @@ InitialGameStateExtractor::extractMapSectors(GameState &state, const UString &ma
 	for (const auto &sdtFile : sdtFiles)
 	{
 		fileCounter++;
-		LogInfo("Reading map %s", sdtFile);
+		LogInfo2("Reading map {}", sdtFile);
 		/*  Trim off '.sdt' to get the base map name */
 		LogAssert(sdtFile.length() >= 4);
 		auto secName = sdtFile.substr(0, sdtFile.length() - 4);
@@ -324,7 +324,7 @@ InitialGameStateExtractor::extractMapSectors(GameState &state, const UString &ma
 				auto inFile = fw().data->fs.open(fullPath);
 				if (!inFile)
 				{
-					LogInfo("Sector %s not present for map %s", sector, mapRootName);
+					LogInfo2("Sector {} not present for map {}", sector, mapRootName);
 					continue;
 				}
 

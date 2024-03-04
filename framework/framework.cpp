@@ -93,17 +93,17 @@ class FrameworkPrivate
 		int threadPoolSize = Options::threadPoolSizeOption.get();
 		if (threadPoolSize > 0)
 		{
-			LogInfo("Set thread pool size to %d", threadPoolSize);
+			LogInfo2("Set thread pool size to {}", threadPoolSize);
 		}
 		else if (std::thread::hardware_concurrency() != 0)
 		{
 			threadPoolSize = std::thread::hardware_concurrency();
-			LogInfo("Set thread pool size to reported HW concurrency of %d", threadPoolSize);
+			LogInfo2("Set thread pool size to reported HW concurrency of {}", threadPoolSize);
 		}
 		else
 		{
 			threadPoolSize = 2;
-			LogInfo("Failed to get HW concurrency, falling back to pool size %d", threadPoolSize);
+			LogInfo2("Failed to get HW concurrency, falling back to pool size {}", threadPoolSize);
 		}
 
 		this->threadPool.reset(new ThreadPool(threadPoolSize));
@@ -113,7 +113,7 @@ class FrameworkPrivate
 Framework::Framework(const UString programName, bool createWindow)
     : p(new FrameworkPrivate), programName(programName), createWindow(createWindow)
 {
-	LogInfo("Starting framework");
+	LogInfo2("Starting framework");
 
 	if (this->instance)
 	{
@@ -170,7 +170,7 @@ Framework::Framework(const UString programName, bool createWindow)
 			return;
 		}
 	}
-	LogInfo("Loading config\n");
+	LogInfo2("Loading config");
 	p->quitProgram = false;
 	UString settingsPath(PHYSFS_getPrefDir(PROGRAM_ORGANISATION, PROGRAM_NAME));
 	settingsPath += "/settings.cfg";
@@ -196,7 +196,7 @@ Framework::Framework(const UString programName, bool createWindow)
 		desiredLanguageName = Options::languageOption.get();
 	}
 
-	LogInfo("Setting up locale \"%s\"", desiredLanguageName);
+	LogInfo2("Setting up locale \"{}\"", desiredLanguageName);
 
 	boost::locale::generator gen;
 
@@ -207,14 +207,14 @@ Framework::Framework(const UString programName, bool createWindow)
 	for (auto &path : resourcePaths)
 	{
 		auto langPath = path + "/languages";
-		LogInfo("Adding \"%s\" to language path", langPath);
+		LogInfo2("Adding \"{}\" to language path", langPath);
 		gen.add_messages_path(langPath);
 	}
 
 	std::vector<UString> translationDomains = {"paedia_string", "ufo_string"};
 	for (auto &domain : translationDomains)
 	{
-		LogInfo("Adding \"%s\" to translation domains", domain);
+		LogInfo2("Adding \"{}\" to translation domains", domain);
 		gen.add_messages_domain(domain);
 	}
 
@@ -228,10 +228,9 @@ Framework::Framework(const UString programName, bool createWindow)
 	auto localeEncoding = std::use_facet<boost::locale::info>(loc).encoding();
 	auto isUTF8 = std::use_facet<boost::locale::info>(loc).utf8();
 
-	LogInfo("Locale info: Name \"%s\" language \"%s\" country \"%s\" variant \"%s\" encoding "
-	        "\"%s\" utf8:%s",
-	        localeName.c_str(), localeLang.c_str(), localeCountry.c_str(), localeVariant.c_str(),
-	        localeEncoding.c_str(), isUTF8 ? "true" : "false");
+	LogInfo2("Locale info: Name \"{}\" language \"{}\" country \"{}\" variant \"{}\" encoding \"{}\" utf8:{}",
+	        localeName, localeLang, localeCountry, localeVariant,
+	        localeEncoding, isUTF8 ? "true" : "false");
 
 	this->data.reset(Data::createData(resourcePaths));
 
@@ -260,20 +259,20 @@ Framework::Framework(const UString programName, bool createWindow)
 
 Framework::~Framework()
 {
-	LogInfo("Destroying framework");
+	LogInfo2("Destroying framework");
 	// Stop any audio first, as if you've got ongoing music/samples it could call back into the
 	// framework for the threadpool/data read/all kinda of stuff it shouldn't do on a
 	// half-destroyed framework
 	audioShutdown();
-	LogInfo("Stopping threadpool");
+	LogInfo2("Stopping threadpool");
 	p->threadPool.reset();
-	LogInfo("Clearing stages");
+	LogInfo2("Clearing stages");
 	p->ProgramStages.clear();
-	LogInfo("Saving config");
+	LogInfo2("Saving config");
 	if (config().getBool("Config.Save"))
 		config().save();
 
-	LogInfo("Shutdown");
+	LogInfo2("Shutdown");
 	// Make sure we destroy the data implementation before the renderer to ensure any possibly
 	// cached images are already destroyed
 	this->data.reset();
@@ -281,7 +280,7 @@ Framework::~Framework()
 	{
 		displayShutdown();
 	}
-	LogInfo("SDL shutdown");
+	LogInfo2("SDL shutdown");
 	PHYSFS_deinit();
 	SDL_Quit();
 	instance = nullptr;
@@ -306,7 +305,7 @@ void Framework::run(sp<Stage> initialStage)
 		return;
 	}
 	size_t frame = 0;
-	LogInfo("Program loop started");
+	LogInfo2("Program loop started");
 
 	auto target_frame_duration =
 	    std::chrono::duration<int64_t, std::micro>(1000000 / Options::targetFPS.get());
@@ -709,7 +708,7 @@ void Framework::translateSdlEvents()
 
 void Framework::shutdownFramework()
 {
-	LogInfo("Shutdown framework");
+	LogInfo2("Shutdown framework");
 	p->ProgramStages.clear();
 	p->quitProgram = true;
 }
@@ -745,7 +744,7 @@ void Framework::displayInitialise()
 	{
 		return;
 	}
-	LogInfo("Init display");
+	LogInfo2("Init display");
 	int display_flags = SDL_WINDOW_OPENGL;
 #ifdef OPENAPOC_GLES
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
@@ -825,7 +824,7 @@ void Framework::displayInitialise()
 		}
 	}
 	// Output the context parameters
-	LogInfo("Created OpenGL context, parameters:");
+	LogInfo2("Created OpenGL context, parameters:");
 	int value;
 	SDL_GL_GetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, &value);
 	UString profileType;
@@ -843,17 +842,17 @@ void Framework::displayInitialise()
 		default:
 			profileType = "Unknown";
 	}
-	LogInfo("  Context profile: %s", profileType);
+	LogInfo2("  Context profile: {}", profileType);
 	int ctxMajor, ctxMinor;
 	SDL_GL_GetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, &ctxMajor);
 	SDL_GL_GetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, &ctxMinor);
-	LogInfo("  Context version: %d.%d", ctxMajor, ctxMinor);
+	LogInfo2("  Context version: {}.{}", ctxMajor, ctxMinor);
 	int bitsRed, bitsGreen, bitsBlue, bitsAlpha;
 	SDL_GL_GetAttribute(SDL_GL_RED_SIZE, &bitsRed);
 	SDL_GL_GetAttribute(SDL_GL_GREEN_SIZE, &bitsGreen);
 	SDL_GL_GetAttribute(SDL_GL_BLUE_SIZE, &bitsBlue);
 	SDL_GL_GetAttribute(SDL_GL_ALPHA_SIZE, &bitsAlpha);
-	LogInfo("  RGBA bits: %d-%d-%d-%d", bitsRed, bitsGreen, bitsBlue, bitsAlpha);
+	LogInfo2("  RGBA bits: {}-{}-{}-{}", bitsRed, bitsGreen, bitsBlue, bitsAlpha);
 	SDL_GL_MakeCurrent(p->window, p->context); // for good measure?
 	SDL_ShowCursor(SDL_DISABLE);
 
@@ -867,17 +866,17 @@ void Framework::displayInitialise()
 		auto rendererFactory = p->registeredRenderers.find(rendererName);
 		if (rendererFactory == p->registeredRenderers.end())
 		{
-			LogInfo("Renderer \"%s\" not in supported list", rendererName);
+			LogInfo2("Renderer \"{}\" not in supported list", rendererName);
 			continue;
 		}
 		Renderer *r = rendererFactory->second->create();
 		if (!r)
 		{
-			LogInfo("Renderer \"%s\" failed to init", rendererName);
+			LogInfo2("Renderer \"{}\" failed to init", rendererName);
 			continue;
 		}
 		this->renderer.reset(r);
-		LogInfo("Using renderer: %s", this->renderer->getName());
+		LogInfo2("Using renderer: {}", this->renderer->getName());
 		break;
 	}
 	if (!this->renderer)
@@ -905,7 +904,7 @@ void Framework::displayInitialise()
 		{
 			constexpr int referenceWidth = 1280;
 			scaleYFloat = scaleXFloat = (float)referenceWidth / p->windowSize.x;
-			LogInfo("Autoscaling enabled, scaling by (%f,%f)", scaleXFloat, scaleYFloat);
+			LogInfo2("Autoscaling enabled, scaling by ({:f},{:f})", scaleXFloat, scaleYFloat);
 		}
 
 		p->displaySize.x = (int)((float)p->windowSize.x * scaleXFloat);
@@ -917,7 +916,7 @@ void Framework::displayInitialise()
 			p->displaySize.x = std::max(640, p->displaySize.x);
 			p->displaySize.y = std::max(480, p->displaySize.y);
 		}
-		LogInfo("Scaling from %s to %s", p->displaySize, p->windowSize);
+		LogInfo2("Scaling from {} to {}", p->displaySize, p->windowSize);
 		p->scaleSurface = mksp<Surface>(p->displaySize);
 	}
 	else
@@ -934,7 +933,7 @@ void Framework::displayShutdown()
 	{
 		return;
 	}
-	LogInfo("Shutdown Display");
+	LogInfo2("Shutdown Display");
 	p->defaultSurface.reset();
 	renderer.reset();
 
@@ -1006,7 +1005,7 @@ void Framework::displaySetIcon(sp<RGBImage> image)
 
 void Framework::audioInitialise()
 {
-	LogInfo("Initialise Audio");
+	LogInfo2("Initialise Audio");
 
 	p->registeredSoundBackends["SDLRaw"].reset(getSDLSoundBackend());
 	p->registeredSoundBackends["null"].reset(getNullSoundBackend());
@@ -1018,17 +1017,17 @@ void Framework::audioInitialise()
 		auto backendFactory = p->registeredSoundBackends.find(soundBackendName);
 		if (backendFactory == p->registeredSoundBackends.end())
 		{
-			LogInfo("Sound backend %s not in supported list", soundBackendName);
+			LogInfo2("Sound backend {} not in supported list", soundBackendName);
 			continue;
 		}
 		SoundBackend *backend = backendFactory->second->create(concurrent_sample_count);
 		if (!backend)
 		{
-			LogInfo("Sound backend %s failed to init", soundBackendName);
+			LogInfo2("Sound backend {} failed to init", soundBackendName);
 			continue;
 		}
 		this->soundBackend.reset(backend);
-		LogInfo("Using sound backend %s", soundBackendName);
+		LogInfo2("Using sound backend {}", soundBackendName);
 		break;
 	}
 	if (!this->soundBackend)
@@ -1048,7 +1047,7 @@ void Framework::audioInitialise()
 
 void Framework::audioShutdown()
 {
-	LogInfo("Shutdown Audio");
+	LogInfo2("Shutdown Audio");
 	this->jukebox.reset();
 	this->soundBackend.reset();
 }

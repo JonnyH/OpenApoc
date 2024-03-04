@@ -3498,7 +3498,7 @@ void Battle::loadImagePacks(GameState &state)
 {
 	if (state.battle_unit_image_packs.size() > 0)
 	{
-		LogInfo("Image packs are already loaded.");
+		LogInfo2("Image packs are already loaded.");
 		return;
 	}
 	// Find out all image packs used by map's units and items
@@ -3616,7 +3616,7 @@ void Battle::loadImagePacks(GameState &state)
 		if (imagePackName.length() == 0)
 			continue;
 		auto imagePackPath = BattleUnitImagePack::getImagePackPath() + "/" + imagePackName;
-		LogInfo("Loading image pack \"%s\" from \"%s\"", imagePackName, imagePackPath);
+		LogInfo2("Loading image pack \"{}\" from \"{}\"", imagePackName, imagePackPath);
 		auto imagePack = mksp<BattleUnitImagePack>();
 		if (!imagePack->loadImagePack(state, imagePackPath))
 		{
@@ -3625,21 +3625,21 @@ void Battle::loadImagePacks(GameState &state)
 		}
 		state.battle_unit_image_packs[format("%s%s", BattleUnitImagePack::getPrefix(),
 		                                     imagePackName)] = imagePack;
-		LogInfo("Loaded image pack \"%s\" from \"%s\"", imagePackName, imagePackPath);
+		LogInfo2("Loaded image pack \"{}\" from \"{}\"", imagePackName, imagePackPath);
 	}
 }
 
 void Battle::unloadImagePacks(GameState &state)
 {
 	state.battle_unit_image_packs.clear();
-	LogInfo("Unloaded all image packs.");
+	LogInfo2("Unloaded all image packs.");
 }
 
 void Battle::loadAnimationPacks(GameState &state)
 {
 	if (state.battle_unit_animation_packs.size() > 0)
 	{
-		LogInfo("Animation packs are already loaded.");
+		LogInfo2("Animation packs are already loaded.");
 		return;
 	}
 	// Find out all animation packs used by units
@@ -3719,7 +3719,7 @@ void Battle::loadAnimationPacks(GameState &state)
 	{
 		auto animationPackPath =
 		    BattleUnitAnimationPack::getAnimationPackPath() + "/" + animationPackName;
-		LogInfo("Loading animation pack \"%s\" from \"%s\"", animationPackName, animationPackPath);
+		LogInfo2("Loading animation pack \"{}\" from \"{}\"", animationPackName, animationPackPath);
 		auto animationPack = mksp<BattleUnitAnimationPack>();
 		if (!animationPack->loadAnimationPack(state, animationPackPath))
 		{
@@ -3729,14 +3729,14 @@ void Battle::loadAnimationPacks(GameState &state)
 		}
 		state.battle_unit_animation_packs[format("%s%s", BattleUnitAnimationPack::getPrefix(),
 		                                         animationPackName)] = animationPack;
-		LogInfo("Loaded animation pack \"%s\" from \"%s\"", animationPackName, animationPackPath);
+		LogInfo2("Loaded animation pack \"{}\" from \"{}\"", animationPackName, animationPackPath);
 	}
 }
 
 void Battle::unloadAnimationPacks(GameState &state)
 {
 	state.battle_unit_animation_packs.clear();
-	LogInfo("Unloaded all animation packs.");
+	LogInfo2("Unloaded all animation packs.");
 }
 
 void Battle::saveMessages(GameState &state)

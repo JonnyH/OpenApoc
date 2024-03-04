@@ -222,13 +222,13 @@ bool FileSystem::addPath(const UString &newPath)
 {
 	if (!PHYSFS_mount(newPath.c_str(), "/", 0))
 	{
-		LogInfo("Failed to add resource dir \"%s\", error: %s", newPath,
+		LogInfo2("Failed to add resource dir \"{}\", error: {}", newPath,
 		        PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
 		return false;
 	}
 	else
 	{
-		LogInfo("Resource dir \"%s\" mounted to \"%s\"", newPath,
+		LogInfo2("Resource dir \"{}\" mounted to \"{}\"", newPath,
 		        PHYSFS_getMountPoint(newPath.c_str()));
 		return true;
 	}
@@ -237,7 +237,7 @@ bool FileSystem::addPath(const UString &newPath)
 FileSystem::FileSystem(std::vector<UString> paths)
 {
 	// FIXME: Is this the right thing to do that?
-	LogInfo("Registering external archivers...");
+	LogInfo2("Registering external archivers...");
 	PHYSFS_registerArchiver(getCueArchiver());
 	// Paths are supplied in inverse-search order (IE the last in 'paths' should be the first
 	// searched)
@@ -245,28 +245,28 @@ FileSystem::FileSystem(std::vector<UString> paths)
 	{
 		if (!PHYSFS_mount(p.c_str(), "/", 0))
 		{
-			LogInfo("Failed to add resource dir \"%s\", error: %s", p,
+			LogInfo2("Failed to add resource dir \"{}\", error: {}", p,
 			        PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
 			continue;
 		}
 		else
-			LogInfo("Resource dir \"%s\" mounted to \"%s\"", p, PHYSFS_getMountPoint(p.c_str()));
+			LogInfo2("Resource dir \"{}\" mounted to \"{}\"", p, PHYSFS_getMountPoint(p.c_str()));
 	}
 	auto current_path = fs::current_path();
 	auto canonical_current_path = fs::canonical(current_path);
 
-	LogInfo("Current path: \"%s\"", canonical_current_path);
+	LogInfo2("Current path: \"{}\"", canonical_current_path);
 
-	LogInfo("Physfs search dirs:");
+	LogInfo2("Physfs search dirs:");
 	char **search_paths = PHYSFS_getSearchPath();
 	int index = 0;
 	for (char **i = search_paths; *i != NULL; i++)
-		LogInfo("%d: \"%s\"", index++, *i);
+		LogInfo2("{}: \"{}\"", index++, *i);
 
 	PHYSFS_freeList(search_paths);
 
 	this->writeDir = PHYSFS_getPrefDir(PROGRAM_ORGANISATION, PROGRAM_NAME);
-	LogInfo("Setting write directory to \"%s\"", this->writeDir);
+	LogInfo2("Setting write directory to \"{}\"", this->writeDir);
 	PHYSFS_setWriteDir(this->writeDir.c_str());
 	// Finally, the write directory trumps all
 	PHYSFS_mount(this->writeDir.c_str(), "/", 0);
@@ -286,13 +286,13 @@ IFile FileSystem::open(const UString &path) const
 
 	if (!PHYSFS_exists(path.c_str()))
 	{
-		LogInfo("Failed to find \"%s\"", path);
+		LogInfo2("Failed to find \"{}\"", path);
 		LogAssert(!f);
 		return f;
 	}
 	f.f.reset(new PhysfsIFileImpl(path));
 	f.rdbuf(dynamic_cast<PhysfsIFileImpl *>(f.f.get()));
-	LogInfo("Loading \"%s\" from \"%s\"", path, f.systemPath());
+	LogInfo2("Loading \"{}\" from \"{}\"", path, f.systemPath());
 	return f;
 }
 

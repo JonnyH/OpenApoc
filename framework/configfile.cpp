@@ -115,7 +115,7 @@ class ConfigFileImpl
 		std::ifstream portableFile("./portable.txt");
 		if (portableFile)
 		{
-			LogInfo("portable mode set");
+			LogInfo2("portable mode set");
 			settingsPath = programName + "_";
 		}
 		else

@@ -312,7 +312,7 @@ class Spritesheet
 		pages.clear();
 		while (!validEntries.empty())
 		{
-			LogInfo("Repack: creating sheet %d", (int)pages.size());
+			LogInfo2("Repack: creating sheet {}", (int)pages.size());
 			auto page = mksp<SpritesheetPage>((int)pages.size(), page_size, node_count);
 			pages.push_back(page);
 			page->addMultiple(validEntries);
@@ -343,7 +343,7 @@ class Spritesheet
 			}
 		}
 		// Required a new page
-		LogInfo("Creating spritesheet page %d", (int)pages.size());
+		LogInfo2("Creating spritesheet page {}", (int)pages.size());
 		auto page = mksp<SpritesheetPage>((int)pages.size(), page_size, node_count);
 		auto ret = page->addEntry(entry);
 		if (!ret)
@@ -1309,7 +1309,7 @@ class OGLES30Renderer final : public Renderer
 	unsigned int maxColouredBuffers = 0;
 	~OGLES30Renderer() override
 	{
-		LogInfo("Max %u sprite buffers %u textured buffers %u coloured buffers",
+		LogInfo2("Max {} sprite buffers {} textured buffers {} coloured buffers",
 		        this->maxSpriteBuffers, this->maxTexturedBuffers, this->maxColouredBuffers);
 		renderer_dead = true;
 	}
@@ -1318,17 +1318,17 @@ class OGLES30Renderer final : public Renderer
 	{
 		if (this->spriteMachine->used_buffers > this->maxSpriteBuffers)
 		{
-			LogInfo("New max sprite buffers: %u", this->spriteMachine->used_buffers);
+			LogInfo2("New max sprite buffers: {}", this->spriteMachine->used_buffers);
 			this->maxSpriteBuffers = this->spriteMachine->used_buffers;
 		}
 		if (this->texturedMachine->used_buffers > this->maxTexturedBuffers)
 		{
-			LogInfo("New max textured buffers: %u", this->texturedMachine->used_buffers);
+			LogInfo2("New max textured buffers: {}", this->texturedMachine->used_buffers);
 			this->maxTexturedBuffers = this->texturedMachine->used_buffers;
 		}
 		if (this->colouredDrawMachine->used_buffers > this->maxColouredBuffers)
 		{
-			LogInfo("New max coloured buffers: %u", this->colouredDrawMachine->used_buffers);
+			LogInfo2("New max coloured buffers: {}", this->colouredDrawMachine->used_buffers);
 			this->maxColouredBuffers = this->colouredDrawMachine->used_buffers;
 		}
 		this->spriteMachine->used_buffers = 0;
@@ -1687,7 +1687,7 @@ void GLESWRAP_APIENTRY debug_message_proc(GL::KhrDebug::GLenum, GL::KhrDebug::GL
 		}
 		default:
 		{
-			LogInfo("Debug message: \"%s\"", message);
+			LogInfo2("Debug message: \"{}\"", message);
 			break;
 		}
 	}
@@ -1702,7 +1702,7 @@ OGLES30Renderer::OGLES30Renderer() : state(State::Idle)
 	this->colouredDrawMachine.reset(new ColouredDrawMachine{quadBufferCount});
 	GL::GLint viewport[4];
 	gl->GetIntegerv(GL::VIEWPORT, viewport);
-	LogInfo("Viewport {%d,%d,%d,%d}", viewport[0], viewport[1], viewport[2], viewport[3]);
+	LogInfo2("Viewport {{{},{},{},{}}}", viewport[0], viewport[1], viewport[2], viewport[3]);
 	this->default_surface = mksp<Surface>(Vec2<int>{viewport[2], viewport[3]});
 	this->default_surface->rendererPrivateData =
 	    mksp<GLSurface>(0, Vec2<int>{viewport[2], viewport[3]}, this);
@@ -1722,7 +1722,7 @@ OGLES30Renderer::OGLES30Renderer() : state(State::Idle)
 		spritesheetPageSize.x = std::min(spritesheetPageSize.x, (unsigned int)max_texture_size);
 		spritesheetPageSize.y = std::min(spritesheetPageSize.y, (unsigned int)max_texture_size);
 	}
-	LogInfo("Set spritesheet size to %s", spritesheetPageSize);
+	LogInfo2("Set spritesheet size to {}", spritesheetPageSize);
 
 	bool use_debug = false;
 
@@ -1732,7 +1732,7 @@ OGLES30Renderer::OGLES30Renderer() : state(State::Idle)
 
 	if (use_debug)
 	{
-		LogInfo("Enabling KHR_debug output");
+		LogInfo2("Enabling KHR_debug output");
 		gl->Enable(static_cast<GL::GLenum>(GL::KhrDebug::DEBUG_OUTPUT_SYNCHRONOUS));
 		gl->Enable(static_cast<GL::GLenum>(GL::KhrDebug::DEBUG_OUTPUT));
 		gl->KHR_debug.DebugMessageCallback(debug_message_proc, NULL);
@@ -1755,18 +1755,18 @@ class OGLES30RendererFactory : public RendererFactory
 			// First see if we're a direct OpenGL|ES context
 			if (GL::supported(true))
 			{
-				LogInfo("Using OpenGL ES3 compatibility");
+				LogInfo2("Using OpenGL ES3 compatibility");
 				gl.reset(new GL(true));
 			}
 			// Then check for ES3 compatibility extension on desktop OpenGL
 			else if (GL::supported(false))
 			{
-				LogInfo("Using OpenGL|ES context");
+				LogInfo2("Using OpenGL|ES context");
 				gl.reset(new GL(false));
 			}
 			else
 			{
-				LogInfo("Failed to find ES3-compatible device");
+				LogInfo2("Failed to find ES3-compatible device");
 				return nullptr;
 			}
 			return new OGLES30Renderer();

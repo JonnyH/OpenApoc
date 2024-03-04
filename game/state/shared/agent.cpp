@@ -754,7 +754,7 @@ void Agent::addEquipment(GameState &state, Vec2<int> pos, sp<AEquipment> object)
 		         this->name);
 	}
 
-	LogInfo("Equipped \"%s\" with equipment \"%s\"", this->name, object->type->name);
+	LogInfo2("Equipped \"{}\" with equipment \"{}\"", this->name, object->type->name);
 	// Proper position
 	for (auto &slot : type->equipment_layout->slots)
 	{

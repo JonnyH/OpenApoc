@@ -548,13 +548,13 @@ void CityView::orderGoToBase()
 		{
 			if (v && v->owner == this->state->getPlayer())
 			{
-				LogInfo("Goto base for vehicle \"%s\"", v->name);
+				LogInfo2("Goto base for vehicle \"{}\"", v->name);
 				auto bld = v->homeBuilding;
 				if (!bld)
 				{
 					LogError2("Vehicle \"{}\" has no building", v->name);
 				}
-				LogInfo("Vehicle \"%s\" goto building \"%s\"", v->name, bld->name);
+				LogInfo2("Vehicle \"{}\" goto building \"{}\"", v->name, bld->name);
 				// FIXME: Don't clear missions if not replacing current mission
 				if (v->city.id == "CITYMAP_HUMAN")
 				{
@@ -573,13 +573,13 @@ void CityView::orderGoToBase()
 	{
 		for (auto &a : this->state->current_city->cityViewSelectedSoldiers)
 		{
-			LogInfo("Goto base for vehicle \"%s\"", a->name);
+			LogInfo2("Goto base for vehicle \"{}\"", a->name);
 			auto bld = a->homeBuilding;
 			if (!bld)
 			{
 				LogError2("Vehicle \"{}\" has no building", a->name);
 			}
-			LogInfo("Vehicle \"%s\" goto building \"%s\"", a->name, bld->name);
+			LogInfo2("Vehicle \"{}\" goto building \"{}\"", a->name, bld->name);
 			// FIXME: Don't clear missions if not replacing current mission
 			a->setMission(*this->state, AgentMission::gotoBuilding(*this->state, *a, bld));
 		}
@@ -623,7 +623,7 @@ void CityView::orderMove(StateRef<Building> building, bool alternative)
 		{
 			if (v && v->owner == this->state->getPlayer())
 			{
-				LogInfo("Vehicle \"%s\" goto building \"%s\"", v->name, building->name);
+				LogInfo2("Vehicle \"{}\" goto building \"{}\"", v->name, building->name);
 				// FIXME: Don't clear missions if not replacing current mission
 				v->setMission(*state,
 				              VehicleMission::gotoBuilding(*state, *v, building, useTeleporter));
@@ -640,7 +640,7 @@ void CityView::orderMove(StateRef<Building> building, bool alternative)
 			{
 				continue;
 			}
-			LogInfo("Agent \"%s\" goto building \"%s\"", a->name, building->name);
+			LogInfo2("Agent \"{}\" goto building \"{}\"", a->name, building->name);
 			// FIXME: Don't clear missions if not replacing current mission
 			a->setMission(*state,
 			              AgentMission::gotoBuilding(*state, *a, building, useTeleporter, useTaxi));
@@ -3459,13 +3459,13 @@ bool CityView::handleKeyDown(Event *e)
 				{
 					if (modifierLShift)
 					{
-						LogInfo("Single Level Debug Repair");
+						LogInfo2("Single Level Debug Repair");
 						state->current_city->repairScenery(*state, true);
 						return true;
 					}
 					else
 					{
-						LogInfo("Debug Repair");
+						LogInfo2("Debug Repair");
 						std::set<sp<Scenery>> stuffToRepair;
 						for (auto &s : state->current_city->scenery)
 						{
@@ -3474,7 +3474,7 @@ bool CityView::handleKeyDown(Event *e)
 								stuffToRepair.insert(s);
 							}
 						}
-						LogInfo("Repairing %u tiles out of %u",
+						LogInfo2("Repairing {} tiles out of {}",
 						        static_cast<unsigned>(stuffToRepair.size()),
 						        static_cast<unsigned>(state->current_city->scenery.size()));
 
@@ -3846,7 +3846,7 @@ bool CityView::handleMouseDown(Event *e)
 					}
 					for (auto &c : vehicle->cargo)
 					{
-						LogInfo("Cargo %sx%d", c.id, c.count);
+						LogInfo2("Cargo {}x{}", c.id, c.count);
 					}
 					if (modifierLAlt && modifierLCtrl && modifierLShift)
 					{
@@ -3895,7 +3895,7 @@ bool CityView::handleMouseDown(Event *e)
 					}
 					for (auto &c : vehicle->cargo)
 					{
-						LogInfo("Cargo %sx%d", c.id, c.count);
+						LogInfo2("Cargo {}x{}", c.id, c.count);
 					}
 				}
 			}
@@ -3907,7 +3907,7 @@ bool CityView::handleMouseDown(Event *e)
 		{
 			projectile =
 			    std::dynamic_pointer_cast<TileObjectProjectile>(projCollision.obj)->getProjectile();
-			LogInfo("CLICKED PROJECTILE %d at %s", projectile->damage, projectile->position);
+			LogInfo2("CLICKED PROJECTILE {} at {}", projectile->damage, projectile->position);
 
 			if (!vehicle && !scenery && !portal)
 			{

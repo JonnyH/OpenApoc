@@ -56,7 +56,7 @@ bool test_gamestate_serialization(OpenApoc::sp<OpenApoc::GameState> state)
 	ss << "openapoc_test_serialize-" << std::this_thread::get_id();
 	auto tempPath = fs::temp_directory_path() / ss.str();
 	OpenApoc::UString pathString(tempPath.string());
-	LogInfo("Writing temp state to \"%s\"", pathString);
+	LogInfo2("Writing temp state to \"{}\"", pathString);
 	if (!test_gamestate_serialization_roundtrip(state, pathString))
 	{
 		LogWarning2("Packed save test failed");
@@ -95,7 +95,7 @@ int main(int argc, char **argv)
 
 	OpenApoc::Framework fw("OpenApoc", false);
 
-	LogInfo("Loading \"%s\"", gamestate_name);
+	LogInfo2("Loading \"{}\"", gamestate_name);
 
 	auto state = OpenApoc::mksp<OpenApoc::GameState>();
 
@@ -118,14 +118,14 @@ int main(int argc, char **argv)
 		LogError2("Failed to load supplied gamestate");
 		return EXIT_FAILURE;
 	}
-	LogInfo("Testing non-started non-inited state");
+	LogInfo2("Testing non-started non-inited state");
 	if (!test_gamestate_serialization(state))
 	{
 		LogError2("Serialization test failed for non-started non-inited game");
 		return EXIT_FAILURE;
 	}
 
-	LogInfo("Testing started non-inited state");
+	LogInfo2("Testing started non-inited state");
 	state->startGame();
 
 	if (!test_gamestate_serialization(state))
@@ -134,7 +134,7 @@ int main(int argc, char **argv)
 		return EXIT_FAILURE;
 	}
 
-	LogInfo("Testing started inited state");
+	LogInfo2("Testing started inited state");
 	state->initState();
 	state->fillPlayerStartingProperty();
 	state->fillOrgStartingProperty();
@@ -145,8 +145,8 @@ int main(int argc, char **argv)
 		return EXIT_FAILURE;
 	}
 
-	LogInfo("Testing state with battle");
-	LogInfo("--Test disabled until we find a way to compare sets properly (fails in sets of "
+	LogInfo2("Testing state with battle");
+	LogInfo2("--Test disabled until we find a way to compare sets properly (fails in sets of "
 	        "pointers like hazards)--");
 	if (false)
 	{
@@ -171,7 +171,7 @@ int main(int argc, char **argv)
 			LogError2("No vehicle with BattleMap found");
 			return EXIT_FAILURE;
 		}
-		LogInfo("Using vehicle map for \"%s\"", vType->name);
+		LogInfo2("Using vehicle map for \"{}\"", vType->name);
 		v->type = {state.get(), vType};
 		v->name = OpenApoc::format("%s %d", v->type->name, ++v->type->numCreated);
 		state->vehicles[vID] = v;
@@ -203,7 +203,7 @@ int main(int argc, char **argv)
 		OpenApoc::Battle::exitBattle(*state);
 	}
 
-	LogInfo("test_serialize success");
+	LogInfo2("test_serialize success");
 
 	return EXIT_SUCCESS;
 }

@@ -63,7 +63,7 @@ void InitialGameStateExtractor::extractBuildings(GameState &state, UString bldFi
 	auto fileSize = inFile.size();
 	auto bldCount = fileSize / sizeof(struct BldFileEntry);
 
-	LogInfo("Loading %lu buildings from %s", (unsigned long)bldCount, fileName);
+	LogInfo2("Loading {} buildings from {}", (unsigned long)bldCount, fileName);
 
 	for (unsigned i = 0; i < bldCount; i++)
 	{
@@ -76,7 +76,7 @@ void InitialGameStateExtractor::extractBuildings(GameState &state, UString bldFi
 			b->name = data.alien_building_names->get(entry.function_idx);
 			b->function = {&state,
 			               format("%s%s", BuildingFunction::getPrefix(), canon_string(b->name))};
-			LogInfo("Alien bld %d %s func %d %s", entry.name_idx, b->name, entry.function_idx,
+			LogInfo2("Alien bld {} {} func {} {}", entry.name_idx, b->name, entry.function_idx,
 			        b->function.id);
 
 			b->accessTopic = {&state, format("RESEARCH_ALIEN_BUILDING_%d", i)};

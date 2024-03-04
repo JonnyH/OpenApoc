@@ -86,10 +86,10 @@ class JukeBoxImpl : public JukeBox
 		}
 		if (jukebox->position >= jukebox->trackList.size())
 		{
-			LogInfo("End of jukebox playlist");
+			LogInfo2("End of jukebox playlist");
 			return;
 		}
-		LogInfo("Playing track %u (%s)", jukebox->position,
+		LogInfo2("Playing track {} ({})", jukebox->position,
 		        jukebox->trackList[jukebox->position]->getName());
 		jukebox->fw.soundBackend->setTrack(jukebox->trackList[jukebox->position]);
 

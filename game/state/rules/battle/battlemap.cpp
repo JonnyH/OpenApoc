@@ -1017,7 +1017,7 @@ BattleMap::fillMap(std::vector<std::list<std::pair<Vec3<int>, sp<BattleMapPart>>
 					continue;
 				if (!sec->tiles)
 				{
-					LogInfo("Loading sector tiles \"%s\"", sec->sectorTilesName);
+					LogInfo2("Loading sector tiles \"{}\"", sec->sectorTilesName);
 					sec->tiles.reset(new BattleMapSectorTiles());
 					if (!sec->tiles->loadSector(state, BattleMapSectorTiles::getMapSectorPath() +
 					                                       "/" + sec->sectorTilesName))
@@ -1027,7 +1027,7 @@ BattleMap::fillMap(std::vector<std::list<std::pair<Vec3<int>, sp<BattleMapPart>>
 				}
 				else
 				{
-					LogInfo("Using already-loaded sector tiles \"%s\"", sec->sectorTilesName);
+					LogInfo2("Using already-loaded sector tiles \"{}\"", sec->sectorTilesName);
 				}
 				auto &tiles = *sec->tiles;
 				Vec3<int> shift = {x * chunk_size.x, y * chunk_size.y, z * chunk_size.z};
@@ -1456,7 +1456,7 @@ void BattleMap::unloadTiles()
 {
 	for (auto &s : sectors)
 		s.second->tiles = nullptr;
-	LogInfo("Unloaded sector tiles.");
+	LogInfo2("Unloaded sector tiles.");
 }
 
 sp<Battle> BattleMap::createBattle(GameState &state, StateRef<Organisation> propertyOwner,
@@ -1536,7 +1536,7 @@ void BattleMap::loadTilesets(GameState &state) const
 {
 	if (state.battleMapTiles.size() > 0)
 	{
-		LogInfo("Tilesets are already loaded.");
+		LogInfo2("Tilesets are already loaded.");
 		return;
 	}
 
@@ -1545,7 +1545,7 @@ void BattleMap::loadTilesets(GameState &state) const
 	{
 		unsigned count = 0;
 		auto tilesetPath = BattleMapTileset::getTilesetPath() + "/" + tilesetName;
-		LogInfo("Loading tileset \"%s\" from \"%s\"", tilesetName, tilesetPath);
+		LogInfo2("Loading tileset \"{}\" from \"{}\"", tilesetName, tilesetPath);
 		BattleMapTileset tileset;
 		if (!tileset.loadTileset(state, tilesetPath))
 		{
@@ -1591,13 +1591,13 @@ void BattleMap::loadTilesets(GameState &state) const
 			state.battleMapTiles.emplace(tileName, tile);
 			count++;
 		}
-		LogInfo("Loaded %u tiles from tileset \"%s\"", count, tilesetName);
+		LogInfo2("Loaded {} tiles from tileset \"{}\"", count, tilesetName);
 	}
 }
 
 void BattleMap::unloadTilesets(GameState &state)
 {
 	state.battleMapTiles.clear();
-	LogInfo("Unloaded all tilesets.");
+	LogInfo2("Unloaded all tilesets.");
 }
 } // namespace OpenApoc

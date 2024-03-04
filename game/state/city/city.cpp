@@ -124,20 +124,20 @@ void City::initCity(GameState &state)
 		{
 			LogError2("Building {} has no landing pads", b.first);
 		}
-		LogInfo("Building %s has %u landing pads:", b.first,
+		LogInfo2("Building {} has {} landing pads:", b.first,
 		        (unsigned)b.second->landingPadLocations.size());
 		for (auto &loc : b.second->landingPadLocations)
 		{
-			LogInfo("Pad: %s", loc);
+			LogInfo2("Pad: {}", loc);
 		}
-		LogInfo("Car: %s", b.second->carEntranceLocation);
+		LogInfo2("Car: {}", b.second->carEntranceLocation);
 		if (b.second->crewQuarters == Vec3<int>{-1, -1, -1})
 		{
 			LogWarning2("Building {} has no car exit?", b.first);
 			b.second->crewQuarters = {(b.second->bounds.p0.x + b.second->bounds.p1.x) / 2,
 			                          (b.second->bounds.p0.y + b.second->bounds.p1.y) / 2, 2};
 		}
-		LogInfo("Crew Quarters: %s", b.second->crewQuarters);
+		LogInfo2("Crew Quarters: {}", b.second->crewQuarters);
 		if (b.second->function.id == "BUILDINGFUNCTION_SPACE_PORT")
 		{
 			spaceports.emplace_back(&state, b.first);
@@ -438,7 +438,7 @@ void City::repairScenery(GameState &state, bool debugRepair)
 	while (!constructionVehicles.empty() || debugRepair)
 	{
 		// Step 02: Repair destroyed scenery
-		LogInfo("Repair Cycle starting");
+		LogInfo2("Repair Cycle starting");
 		std::set<sp<Scenery>> sceneryToRepair;
 		for (auto &s : scenery)
 		{
@@ -573,7 +573,7 @@ void City::repairScenery(GameState &state, bool debugRepair)
 		v->tilesRepaired = 0;
 	}
 
-	LogInfo("Repair Cycle Complete");
+	LogInfo2("Repair Cycle Complete");
 }
 
 std::set<sp<OpenApoc::Vehicle>> City::findConstructionVehicles(GameState &state)

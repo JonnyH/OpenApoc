@@ -703,7 +703,7 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 			}
 			break;
 			default:
-				LogInfo("Encountered empty item in ID %s, moving on", id);
+				LogInfo2("Encountered empty item in ID {}, moving on", id);
 				continue;
 		}
 

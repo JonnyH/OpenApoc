@@ -1278,7 +1278,7 @@ void Vehicle::leaveDimensionGate(GameState &state)
 	auto initialPosition = (*portal)->getPosition();
 	auto initialFacing = 0.0f;
 
-	LogInfo("Leaving dimension gate %s", this->name);
+	LogInfo2("Leaving dimension gate {}", this->name);
 	LogAssert(this->betweenDimensions == true);
 	if (this->tileObject)
 	{
@@ -1339,7 +1339,7 @@ void Vehicle::enterDimensionGate(GameState &state)
 
 void Vehicle::leaveBuilding(GameState &state, Vec3<float> initialPosition, float initialFacing)
 {
-	LogInfo("Launching %s", this->name);
+	LogInfo2("Launching {}", this->name);
 	if (this->tileObject)
 	{
 		LogError2("Trying to launch already-launched vehicle");
@@ -3273,18 +3273,18 @@ bool Vehicle::popFinishedMissions(GameState &state)
 		{
 			return false;
 		}
-		LogInfo("Vehicle %s mission \"%s\" finished", name, missions.front().getName());
+		LogInfo2("Vehicle {} mission \"{}\" finished", name, missions.front().getName());
 		missions.pop_front();
 		popped = true;
 		if (!missions.empty())
 		{
-			LogInfo("Vehicle %s mission \"%s\" starting", name, missions.front().getName());
+			LogInfo2("Vehicle {} mission \"{}\" starting", name, missions.front().getName());
 			missions.front().start(state, *this);
 			continue;
 		}
 		else
 		{
-			LogInfo("No next vehicle mission, going idle");
+			LogInfo2("No next vehicle mission, going idle");
 			break;
 		}
 	}
@@ -3668,7 +3668,7 @@ sp<VEquipment> Vehicle::addEquipment(GameState &state, Vec2<int> pos,
 			this->equipment.emplace_back(engine);
 			engine->owner = thisRef;
 			engine->equippedPosition = slotOrigin;
-			LogInfo("Equipped \"%s\" with engine \"%s\"", this->name, equipmentType->name);
+			LogInfo2("Equipped \"{}\" with engine \"{}\"", this->name, equipmentType->name);
 			return engine;
 		}
 		case EquipmentSlotType::VehicleWeapon:
@@ -3679,14 +3679,14 @@ sp<VEquipment> Vehicle::addEquipment(GameState &state, Vec2<int> pos,
 			weapon->owner = thisRef;
 			this->equipment.emplace_back(weapon);
 			weapon->equippedPosition = slotOrigin;
-			LogInfo("Equipped \"%s\" with weapon \"%s\"", this->name, equipmentType->name);
+			LogInfo2("Equipped \"{}\" with weapon \"{}\"", this->name, equipmentType->name);
 			return weapon;
 		}
 		case EquipmentSlotType::VehicleGeneral:
 		{
 			auto equipment = mksp<VEquipment>();
 			equipment->type = equipmentType;
-			LogInfo("Equipped \"%s\" with general equipment \"%s\"", this->name,
+			LogInfo2("Equipped \"{}\" with general equipment \"{}\"", this->name,
 			        equipmentType->name);
 			equipment->equippedPosition = slotOrigin;
 			this->equipment.emplace_back(equipment);
@@ -3749,7 +3749,7 @@ void Vehicle::equipDefaultEquipment(GameState &state)
 {
 	equipment.clear();
 	loot.clear();
-	LogInfo("Equipping \"%s\" with default equipment", this->type->name);
+	LogInfo2("Equipping \"{}\" with default equipment", this->type->name);
 	auto alien = owner == state.getAliens();
 	for (auto &pair : this->type->initial_equipment_list)
 	{

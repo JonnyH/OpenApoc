@@ -34,13 +34,13 @@ VideoScreen::VideoScreen(const UString &videoPath, sp<Stage> nextScreen)
 			Vec2<float> scale_factors = display_size / unscaled_frame_size;
 			float scale = std::min(scale_factors.x, scale_factors.y);
 			this->frame_size = unscaled_frame_size * scale;
-			LogInfo("Scaling video from %s to %s", this->video->getVideoSize(), this->frame_size);
+			LogInfo2("Scaling video from {} to {}", this->video->getVideoSize(), this->frame_size);
 			this->frame_position = (fw().displayGetSize() / 2) - (this->frame_size / 2);
 		}
 	}
 	else
 	{
-		LogInfo("No video");
+		LogInfo2("No video");
 	}
 }
 

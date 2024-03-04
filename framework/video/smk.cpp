@@ -129,7 +129,7 @@ class SMKVideo : public Video, public std::enable_shared_from_this<SMKVideo>
 
 		if (ret == SMK_LAST)
 		{
-			LogInfo("Last frame %u", this->current_frame_read);
+			LogInfo2("Last frame {}", this->current_frame_read);
 			this->stopped = true;
 		}
 
@@ -186,12 +186,12 @@ class SMKVideo : public Video, public std::enable_shared_from_this<SMKVideo>
 		}
 		memcpy(audio_frame->samples.get(), sample_pointer, audio_bytes);
 
-		LogInfo("Read %lu samples bytes, %u samples", audio_bytes, audio_frame->sample_count);
+		LogInfo2("Read {} samples bytes, {} samples", audio_bytes, audio_frame->sample_count);
 
 		this->image_queue.push(frame);
 		this->audio_queue.push(audio_frame);
 
-		LogInfo("read frame %u", this->current_frame_read);
+		LogInfo2("read frame {}", this->current_frame_read);
 		this->current_frame_read++;
 		return true;
 	}
@@ -207,7 +207,7 @@ class SMKVideo : public Video, public std::enable_shared_from_this<SMKVideo>
 		auto video_path = file.systemPath();
 		this->file_path = video_path;
 
-		LogInfo("Read %llu bytes from video",
+		LogInfo2("Read {} bytes from video",
 		        static_cast<unsigned long long>(this->video_data_size));
 
 		this->smk_ctx = smk_open_memory(reinterpret_cast<unsigned char *>(this->video_data.get()),
@@ -218,7 +218,7 @@ class SMKVideo : public Video, public std::enable_shared_from_this<SMKVideo>
 			this->video_data.reset();
 			return false;
 		}
-		LogInfo("Successfully created SMK context");
+		LogInfo2("Successfully created SMK context");
 
 		if (smk_info_all(this->smk_ctx, nullptr, &this->frame_count, &usf))
 		{
@@ -231,7 +231,7 @@ class SMKVideo : public Video, public std::enable_shared_from_this<SMKVideo>
 
 		this->frame_time = std::chrono::nanoseconds((unsigned int)(usf * 1000));
 
-		LogInfo("Video frame count %lu, ns per frame = %u (USF: %f)", this->frame_count,
+		LogInfo2("Video frame count {}, ns per frame = {} (USF: {:f})", this->frame_count,
 		        this->frame_time.count(), usf);
 
 		unsigned long height, width;
@@ -245,7 +245,7 @@ class SMKVideo : public Video, public std::enable_shared_from_this<SMKVideo>
 		}
 
 		this->frame_size = {width, height};
-		LogInfo("Video frame size {%u,%u}", this->frame_size.x, this->frame_size.y);
+		LogInfo2("Video frame size {{{},{}}}", this->frame_size.x, this->frame_size.y);
 
 		auto ret = smk_enable_video(this->smk_ctx, 1);
 		if (ret == SMK_ERROR)
@@ -269,7 +269,7 @@ class SMKVideo : public Video, public std::enable_shared_from_this<SMKVideo>
 		if (audio_track_mask & SMK_AUDIO_TRACK_0)
 		{
 			// WE only support a single track
-			LogInfo("Audio track: channels %u depth %u rate %lu", (unsigned)channels[0],
+			LogInfo2("Audio track: channels {} depth {} rate {}", (unsigned)channels[0],
 			        (unsigned)bitdepth[0], audio_rate[0]);
 		}
 		else

@@ -116,7 +116,7 @@ int main(int argc, char **argv)
 			         imagePair.second);
 			return EXIT_FAILURE;
 		}
-		LogInfo("Image \"%s\" matches reference \"%s\"", imagePair.first, imagePair.second);
+		LogInfo2("Image \"{}\" matches reference \"{}\"", imagePair.first, imagePair.second);
 	}
 
 	return EXIT_SUCCESS;

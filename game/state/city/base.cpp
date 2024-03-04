@@ -213,7 +213,7 @@ void Base::startingBase(GameState &state)
 {
 	while (!tryToPlaceInitialFacilities(state, *this))
 	{
-		LogInfo("Failed to place facilities, trying again");
+		LogInfo2("Failed to place facilities, trying again");
 		// Cleanup the partially-placed base
 		for (int y = 0; y < this->SIZE; y++)
 		{

@@ -129,13 +129,13 @@ class VorbisMusicLoader : public MusicLoader
 		// expected format: "ogg:file.ogg"
 		if (strings.size() != 2 || strings[0] != "ogg")
 		{
-			LogInfo("VorbisFile: Not valid vorbis string \"%s\"", path);
+			LogInfo2("VorbisFile: Not valid vorbis string \"{}\"", path);
 			return nullptr;
 		}
 		auto file = _data.fs.open(strings[1]);
 		if (!file)
 		{
-			LogInfo("VorbisMusic: Failed to open \"%s\"", strings[1]);
+			LogInfo2("VorbisMusic: Failed to open \"{}\"", strings[1]);
 			return nullptr;
 		}
 
@@ -190,7 +190,7 @@ class VorbisMusicLoader : public MusicLoader
 			return nullptr;
 		}
 
-		LogInfo("VorbisMusic: Successfully opened \"%s\" - channels: %d, samplerate: %d", path,
+		LogInfo2("VorbisMusic: Successfully opened \"{}\" - channels: {}, samplerate: {}", path,
 		        info->channels, info->rate);
 		music->format.channels = info->channels;
 		music->format.frequency = info->rate;

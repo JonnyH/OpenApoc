@@ -18,7 +18,7 @@ TileView::TileView(TileMap &map, Vec3<int> isoTileSize, Vec2<int> stratTileSize,
       selectedTilePosition(0, 0, 0), maxZDraw(map.size.z), centerPos(0, 0, 0),
       isoScrollSpeed(0.5, 0.5), stratScrollSpeed(2.0f, 2.0f)
 {
-	LogInfo("dpySize: %s", dpySize);
+	LogInfo2("dpySize: {}", dpySize);
 }
 
 TileView::~TileView() = default;

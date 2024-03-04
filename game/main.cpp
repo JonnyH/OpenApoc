@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
 	{
 		return EXIT_FAILURE;
 	}
-	LogInfo("Starting OpenApoc \"%s\"", OPENAPOC_VERSION);
+	LogInfo2("Starting OpenApoc \"{}\"", OPENAPOC_VERSION);
 
 	{
 		up<Framework> fw(new Framework(UString(argv[0]), true));

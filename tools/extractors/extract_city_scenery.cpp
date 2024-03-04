@@ -80,7 +80,7 @@ void InitialGameStateExtractor::extractCityScenery(GameState &state, UString til
 	auto fileSize = inFile.size();
 
 	auto tileCount = fileSize / sizeof(struct citymap_tile_entry);
-	LogInfo("Loading %zu tile entries", tileCount);
+	LogInfo2("Loading {} tile entries", tileCount);
 	if (fileSize % sizeof(citymap_tile_entry))
 	{
 		LogWarning2("filesize {} doesn't divide by tile record size", fileSize);

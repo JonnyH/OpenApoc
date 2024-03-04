@@ -112,7 +112,7 @@ static sp<PaletteImage> readPckCompression3(std::istream &input, Vec2<unsigned> 
 		}
 		blkSize = blkFile.size();
 		blkData = blkFile.readAll();
-		LogInfo("Loaded %zu bytes of xcom.blk", blkSize);
+		LogInfo2("Loaded {} bytes of xcom.blk", blkSize);
 	}
 
 	auto img = mksp<PaletteImage>(size);
@@ -223,7 +223,7 @@ sp<ImageSet> PCKLoader::load(Data &d, UString PckFilename, UString TabFilename)
 		return nullptr;
 	}
 
-	LogInfo("Reading \"%s\" with tab multiplier %u", TabFilename, tabMultiplier);
+	LogInfo2("Reading \"{}\" with tab multiplier {}", TabFilename, tabMultiplier);
 
 	unsigned int endIdx = (tab.size() / 4);
 
@@ -246,7 +246,7 @@ sp<ImageSet> PCKLoader::load(Data &d, UString PckFilename, UString TabFilename)
 		pck.read(reinterpret_cast<char *>(&header), sizeof(header));
 		if (!pck)
 		{
-			LogInfo("Reached EOF reading PCK header at tab index %u", i);
+			LogInfo2("Reached EOF reading PCK header at tab index {}", i);
 			break;
 		}
 		sp<PaletteImage> img;
@@ -269,7 +269,7 @@ sp<ImageSet> PCKLoader::load(Data &d, UString PckFilename, UString TabFilename)
 		}
 		if (!img)
 		{
-			LogInfo("No image at PCK index %u", i);
+			LogInfo2("No image at PCK index {}", i);
 			continue;
 		}
 		img->calculateBounds();
@@ -316,7 +316,7 @@ static sp<PaletteImage> loadStrategy(IFile &file)
 
 			if (x >= 8 || y >= 8)
 			{
-				LogInfo("Writing to {%d,%d} in 8x8 stratmap image", x, y);
+				LogInfo2("Writing to {{{},{}}} in 8x8 stratmap image", x, y);
 			}
 			else
 			{
@@ -375,7 +375,7 @@ sp<ImageSet> PCKLoader::loadStrat(Data &data, UString PckFilename, UString TabFi
 
 	imageSet->maxSize = {8, 8};
 
-	LogInfo("Loaded %u images", static_cast<unsigned>(imageSet->images.size()));
+	LogInfo2("Loaded {} images", static_cast<unsigned>(imageSet->images.size()));
 
 	return imageSet;
 }
@@ -501,7 +501,7 @@ sp<ImageSet> PCKLoader::loadShadow(Data &data, UString PckFilename, UString TabF
 			imageSet->maxSize.y = img->size.y;
 	}
 
-	LogInfo("Loaded %u images", static_cast<unsigned>(imageSet->images.size()));
+	LogInfo2("Loaded {} images", static_cast<unsigned>(imageSet->images.size()));
 
 	return imageSet;
 }
