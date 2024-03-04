@@ -176,7 +176,7 @@ bool ProviderWithChecksum::readDocument(const UString &path, UString &result)
 			}
 			else
 			{
-				LogDebug("File \"%s\" matches \"%s\" checksum \"%s\"", path, csum.first,
+				LogDebug2("File \"{}\" matches \"{}\" checksum \"{}\"", path, csum.first,
 				         calculatedCSum);
 			}
 		}

@@ -325,7 +325,7 @@ void Framework::run(sp<Stage> initialStage)
 			auto time_to_sleep = expected_frame_time - frame_time_now;
 			auto time_to_sleep_us =
 			    std::chrono::duration_cast<std::chrono::microseconds>(time_to_sleep);
-			LogDebug("sleeping for %d us", time_to_sleep_us.count());
+			LogDebug2("sleeping for {} us", time_to_sleep_us.count());
 			std::this_thread::sleep_for(time_to_sleep);
 			continue;
 		}
