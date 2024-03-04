@@ -133,12 +133,12 @@ void ResearchScreen::begin()
 		    auto agent = list->getSelectedData<Agent>();
 		    if (!agent)
 		    {
-			    LogError("No agent in selected data");
+			    LogError2("No agent in selected data");
 			    return;
 		    }
 		    if (agent->assigned_to_lab)
 		    {
-			    LogError("Agent \"%s\" already assigned to a lab?", agent->name);
+			    LogError2("Agent \"{}\" already assigned to a lab?", agent->name);
 			    return;
 		    }
 		    agent->assigned_to_lab = true;
@@ -152,12 +152,12 @@ void ResearchScreen::begin()
 		auto agent = list->getSelectedData<Agent>();
 		if (!agent)
 		{
-			LogError("No agent in selected data");
+			LogError2("No agent in selected data");
 			return;
 		}
 		if (!agent->assigned_to_lab)
 		{
-			LogError("Agent \"%s\" not assigned to a lab?", agent->name);
+			LogError2("Agent \"{}\" not assigned to a lab?", agent->name);
 			return;
 		}
 		agent->assigned_to_lab = false;
@@ -212,7 +212,7 @@ void ResearchScreen::eventOccurred(Event *e)
 							    this->viewFacility->lab->manufacture_goal;
 							break;
 						default:
-							LogError("Unknown lab type");
+							LogError2("Unknown lab type");
 							break;
 					}
 					updateProgressInfo();
@@ -360,7 +360,7 @@ void ResearchScreen::setCurrentLabInfo()
 	}
 	else
 	{
-		LogError("Unexpected CapacityType in lab");
+		LogError2("Unexpected CapacityType in lab");
 	}
 
 	form->findControlTyped<Label>("TEXT_LAB_TYPE")->setText(labTypeName);
@@ -392,7 +392,7 @@ void ResearchScreen::setCurrentLabInfo()
 					this->assigned_agent_count++;
 					if (this->assigned_agent_count > this->viewFacility->type->capacityAmount)
 					{
-						LogError("Selected lab has %d assigned agents, but has a capacity of %d",
+						LogError2("Selected lab has {} assigned agents, but has a capacity of {}",
 						         this->assigned_agent_count,
 						         this->viewFacility->type->capacityAmount);
 					}
@@ -465,7 +465,7 @@ void ResearchScreen::updateProgressInfo()
 				          0.0f, 1.0f);
 				break;
 			default:
-				LogError("Unknown lab type");
+				LogError2("Unknown lab type");
 				break;
 		}
 		// This creates an image with the size of the PROGRESS_BAR control, then fills

@@ -58,7 +58,7 @@ static void extract_equipment_layout(GameState &state, sp<VehicleType> vehicle, 
 {
 	if (layout.slot_count > 45)
 	{
-		LogError("Invalid equipment slot count %d", (int)layout.slot_count);
+		LogError2("Invalid equipment slot count {}", (int)layout.slot_count);
 	}
 	for (int i = 0; i < layout.slot_count; i++)
 	{
@@ -77,7 +77,7 @@ static void extract_equipment_layout(GameState &state, sp<VehicleType> vehicle, 
 				outSlot.type = EquipmentSlotType::VehicleGeneral;
 				break;
 			default:
-				LogError("Invalid equipment slot type %d", (int)slot.type);
+				LogError2("Invalid equipment slot type {}", (int)slot.type);
 		}
 		switch (slot.alignment_x)
 		{
@@ -91,7 +91,7 @@ static void extract_equipment_layout(GameState &state, sp<VehicleType> vehicle, 
 				outSlot.align_x = AlignmentX::Right;
 				break;
 			default:
-				LogError("Invalid equipment align_x type %d", (int)slot.alignment_x);
+				LogError2("Invalid equipment align_x type {}", (int)slot.alignment_x);
 		}
 		switch (slot.alignment_y)
 		{
@@ -105,7 +105,7 @@ static void extract_equipment_layout(GameState &state, sp<VehicleType> vehicle, 
 				outSlot.align_y = AlignmentY::Bottom;
 				break;
 			default:
-				LogError("Invalid equipment align_y type %d", (int)slot.alignment_x);
+				LogError2("Invalid equipment align_y type {}", (int)slot.alignment_x);
 		}
 
 		outSlot.bounds = {slot.position_x, slot.position_y, slot.position_x + slot.size_x,
@@ -223,7 +223,7 @@ void InitialGameStateExtractor::extractVehicles(GameState &state) const
 				}
 				else
 				{
-					LogError("Unknown vehicle size {%d,%d}", v.size_x, v.size_y);
+					LogError2("Unknown vehicle size {{{},{}}}", v.size_x, v.size_y);
 				}
 				int animFrames = UFOAnimationFrames[id];
 
@@ -326,7 +326,7 @@ void InitialGameStateExtractor::extractVehicles(GameState &state) const
 		}
 		else
 		{
-			LogError("Unknown type for vehicle %s", id);
+			LogError2("Unknown type for vehicle {}", id);
 		}
 
 		vehicle->acceleration = v.acceleration;
@@ -519,7 +519,7 @@ void InitialGameStateExtractor::extractVehicles(GameState &state) const
 				losVoxelMapIndex = 111;
 				break;
 			default:
-				LogError("Unsupported vehicle loftemps index %d!", (int)v.loftemps_index);
+				LogError2("Unsupported vehicle loftemps index {}!", (int)v.loftemps_index);
 		}
 
 		// read voxelmaps
@@ -539,7 +539,7 @@ void InitialGameStateExtractor::extractVehicles(GameState &state) const
 		}
 		if (freeSpace > 32)
 		{
-			LogError(
+			LogError2(
 			    "Modded game? too much free space in voxelmap, logic below won't work properly");
 		}
 		if (vehicle->type == VehicleType::Type::Road)
@@ -549,7 +549,7 @@ void InitialGameStateExtractor::extractVehicles(GameState &state) const
 			end = start + v.loftemps_height;
 			if (end > v.size_z * 16)
 			{
-				LogError("Modded game? Too high ground vehicle");
+				LogError2("Modded game? Too high ground vehicle");
 			}
 		}
 
@@ -874,8 +874,7 @@ void InitialGameStateExtractor::extractVehicles(GameState &state) const
 			{
 				if (v.size_x != 2 || v.size_y != 2)
 				{
-					LogError("Vehicle Type using loftemps 150 has invalid x and y size: expected "
-					         "2x2, got %dx%d",
+					LogError2("Vehicle Type using loftemps 150 has invalid x and y size: expected 2x2, got {}x{}",
 					         v.size_x, v.size_y);
 				}
 				// One facing, four maps

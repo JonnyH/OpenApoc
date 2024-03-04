@@ -98,7 +98,7 @@ class TileView : public Stage, public TileTransform
 				return Vec2<T>{c.x * stratTileSize.x, c.y * stratTileSize.y};
 			}
 		}
-		LogError("Invalid view mode");
+		LogError2("Invalid view mode");
 		return {0, 0};
 	}
 	template <typename T> Vec2<T> tileToScreenCoords(Vec3<T> c) const
@@ -138,7 +138,7 @@ class TileView : public Stage, public TileTransform
 				return Vec3<T>{screenPos.x / stratTileSize.x, screenPos.y / stratTileSize.y, z};
 			}
 		}
-		LogError("Invalid view mode");
+		LogError2("Invalid view mode");
 		return {0, 0, z};
 	}
 	template <typename T> Vec3<T> screenToTileCoords(Vec2<T> screenPos, T z) const

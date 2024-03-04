@@ -21,7 +21,7 @@ void TileObjectVehicle::draw(Renderer &r, TileTransform &transform, Vec2<float> 
 	auto vehicle = this->vehicle.lock();
 	if (!vehicle)
 	{
-		LogError("Called with no owning vehicle object");
+		LogError2("Called with no owning vehicle object");
 		return;
 	}
 	drawStatic(r, vehicle, transform, screenPosition, mode, visible, currentLevel, friendly,
@@ -77,7 +77,7 @@ void TileObjectVehicle::drawStatic(Renderer &r, sp<Vehicle> vehicle, TileTransfo
 
 			if (!closestImage)
 			{
-				LogError("No image found for vehicle");
+				LogError2("No image found for vehicle");
 				return;
 			}
 			if (vehicle->isCloaked())
@@ -149,7 +149,7 @@ void TileObjectVehicle::drawStatic(Renderer &r, sp<Vehicle> vehicle, TileTransfo
 			break;
 		}
 		default:
-			LogError("Unsupported view mode");
+			LogError2("Unsupported view mode");
 	}
 }
 
@@ -236,7 +236,7 @@ Vec3<float> TileObjectVehicle::getPosition() const
 	auto v = this->vehicle.lock();
 	if (!v)
 	{
-		LogError("Called with no owning vehicle object");
+		LogError2("Called with no owning vehicle object");
 		return {0, 0, 0};
 	}
 	return v->getPosition();

@@ -66,7 +66,7 @@ class JukeBoxImpl : public JukeBox
 		{
 			auto musicTrack = fw.data->loadMusic(track);
 			if (!musicTrack)
-				LogError("Failed to load music track \"%s\" - skipping", track);
+				LogError2("Failed to load music track \"{}\" - skipping", track);
 			else
 				this->trackList.push_back(musicTrack);
 		}

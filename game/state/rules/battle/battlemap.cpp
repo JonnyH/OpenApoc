@@ -43,7 +43,7 @@ int getCorridorSectorID(const Base &base, Vec2<int> pos)
 
 	if (pos.x < 0 || pos.y < 0 || pos.x >= Base::SIZE || pos.y >= Base::SIZE)
 	{
-		LogError("Going out of bounds for base");
+		LogError2("Going out of bounds for base");
 		return 0;
 	}
 	else if (!base.corridors[pos.x][pos.y])
@@ -63,7 +63,7 @@ int getCorridorSectorID(const Base &base, Vec2<int> pos)
 				{
 					if (facility->pos.x + x >= Base::SIZE || facility->pos.y + y >= Base::SIZE)
 					{
-						LogError("Facility at \"%s\" out of bounds", facility->pos);
+						LogError2("Facility at \"{}\" out of bounds", facility->pos);
 						continue;
 					}
 					facilities[facility->pos.x + x][facility->pos.y + y] = true;
@@ -94,7 +94,7 @@ template <> sp<BattleMap> StateObject<BattleMap>::get(const GameState &state, co
 	auto it = state.battle_maps.find(id);
 	if (it == state.battle_maps.end())
 	{
-		LogError("No battle_map matching ID \"%s\"", id);
+		LogError2("No battle_map matching ID \"{}\"", id);
 		return nullptr;
 	}
 	return it->second;
@@ -118,7 +118,7 @@ const UString &StateObject<BattleMap>::getId(const GameState &state, const sp<Ba
 		if (a.second == ptr)
 			return a.first;
 	}
-	LogError("No battle_map matching pointer %p", static_cast<void *>(ptr.get()));
+	LogError2("No battle_map matching pointer {}", static_cast<void *>(ptr.get()));
 	return emptyString;
 }
 
@@ -941,7 +941,7 @@ bool BattleMap::generateBase(std::vector<sp<BattleMapSector>> &sec_map, Vec3<int
 	}
 	if (!base)
 	{
-		LogError("Failed to find base in building %s", mission_location_id);
+		LogError2("Failed to find base in building {}", mission_location_id);
 		return false;
 	}
 
@@ -1025,7 +1025,7 @@ BattleMap::fillMap(std::vector<std::list<std::pair<Vec3<int>, sp<BattleMapPart>>
 					if (!sec->tiles->loadSector(state, BattleMapSectorTiles::getMapSectorPath() +
 					                                       "/" + sec->sectorTilesName))
 					{
-						LogError("Failed to load sector tiles \"%s\"", sec->sectorTilesName);
+						LogError2("Failed to load sector tiles \"{}\"", sec->sectorTilesName);
 					}
 				}
 				else
@@ -1552,7 +1552,7 @@ void BattleMap::loadTilesets(GameState &state) const
 		BattleMapTileset tileset;
 		if (!tileset.loadTileset(state, tilesetPath))
 		{
-			LogError("Failed to load tileset \"%s\" from \"%s\"", tilesetName, tilesetPath);
+			LogError2("Failed to load tileset \"{}\" from \"{}\"", tilesetName, tilesetPath);
 			continue;
 		}
 
@@ -1588,7 +1588,7 @@ void BattleMap::loadTilesets(GameState &state) const
 			// Sanity check
 			if (state.battleMapTiles.find(tileName) != state.battleMapTiles.end())
 			{
-				LogError("Duplicate tile with ID \"%s\"", tileName);
+				LogError2("Duplicate tile with ID \"{}\"", tileName);
 				continue;
 			}
 			state.battleMapTiles.emplace(tileName, tile);

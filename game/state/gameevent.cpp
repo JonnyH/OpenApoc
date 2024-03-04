@@ -130,7 +130,7 @@ UString GameVehicleEvent::message()
 		case GameEventType::NotEnoughFuel:
 			return format("%s %s", tr("Not enough fuel to refuel vehicle"), vehicle->name);
 		default:
-			LogError("Invalid vehicle event type");
+			LogError2("Invalid vehicle event type");
 			break;
 	}
 	return "";
@@ -197,7 +197,7 @@ UString GameAgentEvent::message()
 		case GameEventType::AgentOutOfAmmo:
 			return format("%s %s", agent->name, tr(": Out of ammo"));
 		default:
-			LogError("Invalid agent event type");
+			LogError2("Invalid agent event type");
 			break;
 	}
 	return "";
@@ -232,7 +232,7 @@ UString GameBuildingEvent::message()
 		case GameEventType::CommenceInvestigation:
 			return "";
 		default:
-			LogError("Invalid building event type");
+			LogError2("Invalid building event type");
 			break;
 	}
 	return "";
@@ -291,7 +291,7 @@ UString GameBaseEvent::message()
 			return tr("Base mission completed at:") + " " + base->name;
 
 		default:
-			LogError("Invalid event type");
+			LogError2("Invalid event type");
 			break;
 	}
 	return "";
@@ -305,7 +305,7 @@ UString GameBattleEvent::message()
 			return tr("Turn:") + " " + format("%d", battle->currentTurn) + "   " + tr("Side:") +
 			       "  " + tr(battle->currentActiveOrganisation->name);
 		default:
-			LogError("Invalid battle event type");
+			LogError2("Invalid battle event type");
 			break;
 	}
 	return "";

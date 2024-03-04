@@ -35,19 +35,19 @@ class RawMusicTrack : public MusicTrack
 	{
 		if (!file)
 		{
-			LogError("Failed to open file \"%s\"", fileName);
+			LogError2("Failed to open file \"{}\"", fileName);
 			return;
 		}
 		if (file.size() < fileOffset + (numSamples * MusicChannels * MusicBytesPerSample))
 		{
-			LogError("File \"%s\" insufficient size for offset %u + size %u - returned size %zu",
+			LogError2("File \"{}\" insufficient size for offset {} + size {} - returned size {}",
 			         fileName, fileOffset, numSamples * MusicChannels * MusicBytesPerSample,
 			         file.size());
 			return;
 		}
 		if (!file.seekg(fileOffset))
 		{
-			LogError("Failed to seek to offset %u", fileOffset);
+			LogError2("Failed to seek to offset {}", fileOffset);
 			return;
 		}
 
@@ -68,7 +68,7 @@ class RawMusicTrack : public MusicTrack
 	{
 		if (!valid)
 		{
-			LogError("Playing invalid file \"%s\"", file.fileName());
+			LogError2("Playing invalid file \"{}\"", file.fileName());
 			*returnedSamples = 0;
 			return MusicCallbackReturn::End;
 		}
@@ -80,7 +80,7 @@ class RawMusicTrack : public MusicTrack
 		if (!file.read(reinterpret_cast<char *>(sampleBuffer),
 		               samples * MusicBytesPerSample * MusicChannels))
 		{
-			LogError("Failed to read sample data in \"%s\"", file.fileName());
+			LogError2("Failed to read sample data in \"{}\"", file.fileName());
 			this->valid = false;
 			samples = 0;
 		}

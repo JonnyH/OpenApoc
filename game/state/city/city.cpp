@@ -75,7 +75,7 @@ void City::initCity(GameState &state)
 {
 	if (this->map)
 	{
-		LogError("Called on city with existing map");
+		LogError2("Called on city with existing map");
 		return;
 	}
 	this->map.reset(new TileMap(this->size, VELOCITY_SCALE_CITY,
@@ -122,7 +122,7 @@ void City::initCity(GameState &state)
 	{
 		if (b.second->landingPadLocations.empty())
 		{
-			LogError("Building %s has no landing pads", b.first);
+			LogError2("Building {} has no landing pads", b.first);
 		}
 		LogInfo("Building %s has %u landing pads:", b.first,
 		        (unsigned)b.second->landingPadLocations.size());
@@ -277,7 +277,7 @@ void City::update(GameState &state, unsigned int ticks)
 					break;
 				}
 				default:
-					LogError("Collision with non-collidable object");
+					LogError2("Collision with non-collidable object");
 			}
 			deadProjectiles.emplace(c.projectile->shared_from_this(), displayDoodad, playSound);
 		}
@@ -781,7 +781,7 @@ sp<Vehicle> City::createVehicle(GameState &state, StateRef<VehicleType> type,
 {
 	if (building->city.id != id)
 	{
-		LogError("Adding vehicle to a building in a different city?");
+		LogError2("Adding vehicle to a building in a different city?");
 		return nullptr;
 	}
 	auto v = createVehicle(state, type, owner);
@@ -804,7 +804,7 @@ sp<Vehicle> City::placeVehicle(GameState &state, StateRef<VehicleType> type,
 {
 	if (building->city.id != id)
 	{
-		LogError("Adding vehicle to a building in a different city?");
+		LogError2("Adding vehicle to a building in a different city?");
 		return nullptr;
 	}
 	auto v = placeVehicle(state, type, owner);
@@ -829,7 +829,7 @@ template <> sp<City> StateObject<City>::get(const GameState &state, const UStrin
 	auto it = state.cities.find(id);
 	if (it == state.cities.end())
 	{
-		LogError("No citymap matching ID \"%s\"", id);
+		LogError2("No citymap matching ID \"{}\"", id);
 		return nullptr;
 	}
 	return it->second;
@@ -856,7 +856,7 @@ template <> const UString &StateObject<City>::getId(const GameState &state, cons
 			return c.first;
 		}
 	}
-	LogError("No city matching pointer %p", static_cast<void *>(ptr.get()));
+	LogError2("No city matching pointer {}", static_cast<void *>(ptr.get()));
 	return emptyString;
 }
 
@@ -974,7 +974,7 @@ bool RoadSegment::getIntactByTile(const Vec3<int> &position) const
 			return tileIntact[i];
 		}
 	}
-	LogError("Invalid position supplied to getIntactByTile");
+	LogError2("Invalid position supplied to getIntactByTile");
 	return false;
 }
 

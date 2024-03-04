@@ -24,12 +24,12 @@ struct VorbisMusicTrack : public MusicTrack
 		*returnedSamples = 0;
 		if (!music)
 		{
-			LogError("Trying to play non-vorbis music");
+			LogError2("Trying to play non-vorbis music");
 			return MusicTrack::MusicCallbackReturn::End;
 		}
 		if (!music->_valid)
 		{
-			LogError("VorbisMusic: Trying to play non-valid track");
+			LogError2("VorbisMusic: Trying to play non-valid track");
 			return MusicTrack::MusicCallbackReturn::End;
 		}
 		constexpr int bytes_per_sample = 2; // Always use S16
@@ -51,7 +51,7 @@ struct VorbisMusicTrack : public MusicTrack
 			            bytes_per_sample, samples_are_signed, &music->_bitstream);
 			if (read_bytes < 0)
 			{
-				LogError("VorbisMusic: Error %d decoding music", read_bytes);
+				LogError2("VorbisMusic: Error {} decoding music", read_bytes);
 				return MusicTrack::MusicCallbackReturn::End;
 			}
 			if (read_bytes == 0)

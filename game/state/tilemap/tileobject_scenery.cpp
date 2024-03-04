@@ -21,7 +21,7 @@ void TileObjectScenery::draw(Renderer &r, TileTransform &transform, Vec2<float> 
 	auto scenery = this->scenery.lock();
 	if (!scenery)
 	{
-		LogError("Called with no owning scenery object");
+		LogError2("Called with no owning scenery object");
 		return;
 	}
 	// FIXME: If damaged use damaged tile sprites?
@@ -46,7 +46,7 @@ void TileObjectScenery::draw(Renderer &r, TileTransform &transform, Vec2<float> 
 			}
 			break;
 		default:
-			LogError("Unsupported view mode");
+			LogError2("Unsupported view mode");
 	}
 	if (sprite)
 	{
@@ -85,7 +85,7 @@ sp<Scenery> TileObjectScenery::getOwner() const
 	auto s = this->scenery.lock();
 	if (!s)
 	{
-		LogError("Owning scenery object disappeared");
+		LogError2("Owning scenery object disappeared");
 	}
 	return s;
 }
@@ -100,7 +100,7 @@ Vec3<float> TileObjectScenery::getPosition() const
 	auto s = this->scenery.lock();
 	if (!s)
 	{
-		LogError("Called with no owning scenery object");
+		LogError2("Called with no owning scenery object");
 		return {0, 0, 0};
 	}
 	return s->getPosition();

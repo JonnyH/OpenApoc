@@ -235,7 +235,7 @@ void CheatOptions::eventOccurred(Event *e)
 			auto bar = std::dynamic_pointer_cast<ScrollBar>(e->forms().RaisedBy);
 			if (!bar)
 			{
-				LogError("Failed to cast \"%s\" control to ScrollBar", e->forms().RaisedBy->Name);
+				LogError2("Failed to cast \"{}\" control to ScrollBar", e->forms().RaisedBy->Name);
 				return;
 			}
 			menuform->findControlTyped<Label>("TEXT_MODIFY_FUNDS")
@@ -250,7 +250,7 @@ void CheatOptions::eventOccurred(Event *e)
 					auto bar = std::dynamic_pointer_cast<ScrollBar>(e->forms().RaisedBy);
 					if (!bar)
 					{
-						LogError("Failed to cast \"%s\" control to ScrollBar",
+						LogError2("Failed to cast \"{}\" control to ScrollBar",
 						         e->forms().RaisedBy->Name);
 						return;
 					}

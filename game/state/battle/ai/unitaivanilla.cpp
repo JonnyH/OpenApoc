@@ -195,7 +195,7 @@ UnitAIVanilla::getPsiDecision(GameState &state, BattleUnit &u, sp<AEquipment> e,
 			priority *= 16.0f;
 			break;
 		default:
-			LogError("Invalid psi attack state for getPsiDecision %d", (int)status);
+			LogError2("Invalid psi attack state for getPsiDecision {}", (int)status);
 			return NULLTUPLE3;
 	}
 	action->psiEnergySnapshot = u.agent->modified_stats.psi_energy;
@@ -708,7 +708,7 @@ AIDecision UnitAIVanilla::thinkInternal(GameState &state, BattleUnit &u)
 		case AIType::PanicFreeze:
 		case AIType::PanicRun:
 		case AIType::Berserk:
-			LogError("Calling UnitAIVanilla on panic/berserk unit!?");
+			LogError2("Calling UnitAIVanilla on panic/berserk unit!?");
 			return {};
 		case AIType::Loner:
 		case AIType::Group:

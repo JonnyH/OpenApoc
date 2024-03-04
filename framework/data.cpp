@@ -203,7 +203,7 @@ sp<VoxelSlice> DataImpl::loadVoxelSlice(const UString &path)
 		// "LOFTEMPS:DATFILE:TABFILE:INDEX:X:Y"
 		if (splitString.size() != 4)
 		{
-			LogError("Invalid LOFTEMPS string \"%s\"", path);
+			LogError2("Invalid LOFTEMPS string \"{}\"", path);
 			return nullptr;
 		}
 		// Cut off the index to get the LOFTemps file
@@ -215,13 +215,13 @@ sp<VoxelSlice> DataImpl::loadVoxelSlice(const UString &path)
 			auto datFile = this->fs.open(splitString[1]);
 			if (!datFile)
 			{
-				LogError("Failed to open LOFTemps dat file \"%s\"", splitString[1]);
+				LogError2("Failed to open LOFTemps dat file \"{}\"", splitString[1]);
 				return nullptr;
 			}
 			auto tabFile = this->fs.open(splitString[2]);
 			if (!tabFile)
 			{
-				LogError("Failed to open LOFTemps tab file \"%s\"", splitString[2]);
+				LogError2("Failed to open LOFTemps tab file \"{}\"", splitString[2]);
 				return nullptr;
 			}
 			lofTemps = mksp<LOFTemps>(datFile, tabFile);
@@ -233,7 +233,7 @@ sp<VoxelSlice> DataImpl::loadVoxelSlice(const UString &path)
 		slice = lofTemps->getSlice(idx);
 		if (!slice)
 		{
-			LogError("Invalid idx %d", idx);
+			LogError2("Invalid idx {}", idx);
 		}
 	}
 	else
@@ -261,7 +261,7 @@ sp<VoxelSlice> DataImpl::loadVoxelSlice(const UString &path)
 
 	if (!slice)
 	{
-		LogError("Failed to load VoxelSlice \"%s\"", path);
+		LogError2("Failed to load VoxelSlice \"{}\"", path);
 		return nullptr;
 	}
 	slice->path = path;
@@ -313,7 +313,7 @@ sp<ImageSet> DataImpl::loadImageSet(const UString &path)
 	}
 	else
 	{
-		LogError("Unknown image set format \"%s\"", path);
+		LogError2("Unknown image set format \"{}\"", path);
 		return nullptr;
 	}
 
@@ -426,7 +426,7 @@ sp<Image> DataImpl::loadImage(const UString &path, bool lazy)
 		//"RAW:PATH:WIDTH:HEIGHT:INDEX[:PALETTE]" (for imagesets)
 		if (splitString.size() != 4 && splitString.size() != 5 && splitString.size() != 6)
 		{
-			LogError("Invalid RAW resource string: \"%s\"", path);
+			LogError2("Invalid RAW resource string: \"{}\"", path);
 			return nullptr;
 		}
 
@@ -453,7 +453,7 @@ sp<Image> DataImpl::loadImage(const UString &path, bool lazy)
 		}
 		if (!pImg)
 		{
-			LogError("Failed to load RAW image: \"%s\"", path);
+			LogError2("Failed to load RAW image: \"{}\"", path);
 			return nullptr;
 		}
 		if (splitString.size() > palettePos)
@@ -467,7 +467,7 @@ sp<Image> DataImpl::loadImage(const UString &path, bool lazy)
 			this->imageCacheLock.lock();
 			if (!pal)
 			{
-				LogError("Failed to load palette for RAW image: \"%s\"", path);
+				LogError2("Failed to load palette for RAW image: \"{}\"", path);
 				return nullptr;
 			}
 			img = pImg->toRGBImage(pal);
@@ -483,7 +483,7 @@ sp<Image> DataImpl::loadImage(const UString &path, bool lazy)
 
 		if (splitString.size() != 3 && splitString.size() != 4 && splitString.size() != 5)
 		{
-			LogError("Invalid PCK resource string: \"%s\"", path);
+			LogError2("Invalid PCK resource string: \"{}\"", path);
 			return nullptr;
 		}
 		auto imageSet =
@@ -521,7 +521,7 @@ sp<Image> DataImpl::loadImage(const UString &path, bool lazy)
 				break;
 			}
 			default:
-				LogError("Invalid PCK resource string \"%s\"", path);
+				LogError2("Invalid PCK resource string \"{}\"", path);
 				return nullptr;
 		}
 	}
@@ -530,7 +530,7 @@ sp<Image> DataImpl::loadImage(const UString &path, bool lazy)
 		auto splitString = split(path, ":");
 		if (splitString.size() != 3 && splitString.size() != 4 && splitString.size() != 5)
 		{
-			LogError("Invalid PCKSTRAT resource string: \"%s\"", path);
+			LogError2("Invalid PCKSTRAT resource string: \"{}\"", path);
 			return nullptr;
 		}
 		auto imageSet =
@@ -564,7 +564,7 @@ sp<Image> DataImpl::loadImage(const UString &path, bool lazy)
 				break;
 			}
 			default:
-				LogError("Invalid PCKSTRAT resource string \"%s\"", path);
+				LogError2("Invalid PCKSTRAT resource string \"{}\"", path);
 				return nullptr;
 		}
 	}
@@ -573,7 +573,7 @@ sp<Image> DataImpl::loadImage(const UString &path, bool lazy)
 		auto splitString = split(path, ":");
 		if (splitString.size() != 3 && splitString.size() != 4 && splitString.size() != 5)
 		{
-			LogError("Invalid PCKSHADOW resource string: \"%s\"", path);
+			LogError2("Invalid PCKSHADOW resource string: \"{}\"", path);
 			return nullptr;
 		}
 		auto imageSet =
@@ -606,7 +606,7 @@ sp<Image> DataImpl::loadImage(const UString &path, bool lazy)
 				break;
 			}
 			default:
-				LogError("Invalid PCKSHADOW resource string \"%s\"", path);
+				LogError2("Invalid PCKSHADOW resource string \"{}\"", path);
 				return nullptr;
 		}
 	}
@@ -748,7 +748,7 @@ sp<Palette> DataImpl::loadPalette(const UString &path)
 		this->pinnedPalettes.pop();
 		return pal;
 	}
-	LogError("Failed to open palette \"%s\"", path);
+	LogError2("Failed to open palette \"{}\"", path);
 	return nullptr;
 }
 
@@ -760,7 +760,7 @@ sp<Video> DataImpl::loadVideo(const UString &path)
 		auto splitString = split(path, ":");
 		if (splitString.size() != 2)
 		{
-			LogError("Invalid SMK string: \"%s\"", path);
+			LogError2("Invalid SMK string: \"{}\"", path);
 			return nullptr;
 		}
 		auto file = this->fs.open(splitString[1]);
@@ -771,7 +771,7 @@ sp<Video> DataImpl::loadVideo(const UString &path)
 		}
 		return loadSMKVideo(file);
 	}
-	LogError("Unknown video string \"%s\"", path);
+	LogError2("Unknown video string \"{}\"", path);
 	return nullptr;
 }
 
@@ -854,7 +854,7 @@ bool DataImpl::writeImage(UString systemPath, sp<Image> image, sp<Palette> palet
 		}
 		else
 		{
-			LogError("Unknown image type");
+			LogError2("Unknown image type");
 			return false;
 		}
 	}
@@ -868,7 +868,7 @@ sp<PaletteImage> DataImpl::getFontStringCacheEntry(const UString &font_name, con
 	std::lock_guard<std::recursive_mutex> l(this->fontStringCacheLock);
 	if (font_name == "")
 	{
-		LogError("invalid font_name");
+		LogError2("invalid font_name");
 		return nullptr;
 	}
 	if (string == "")
@@ -886,7 +886,7 @@ void DataImpl::putFontStringCacheEntry(const UString &font_name, const UString &
 	std::lock_guard<std::recursive_mutex> l(this->fontStringCacheLock);
 	if (font_name == "")
 	{
-		LogError("invalid font_name");
+		LogError2("invalid font_name");
 		return;
 	}
 	if (string == "")

@@ -103,25 +103,25 @@ int main(int argc, char **argv)
 		auto state2 = OpenApoc::mksp<OpenApoc::GameState>();
 		if (*state != *state2)
 		{
-			LogError("Empty gamestate failed comparison");
+			LogError2("Empty gamestate failed comparison");
 			return EXIT_FAILURE;
 		}
 	}
 	if (!state->loadGame(common_name))
 	{
-		LogError("Failed to load gamestate_common");
+		LogError2("Failed to load gamestate_common");
 		return EXIT_FAILURE;
 	}
 
 	if (!state->loadGame(gamestate_name))
 	{
-		LogError("Failed to load supplied gamestate");
+		LogError2("Failed to load supplied gamestate");
 		return EXIT_FAILURE;
 	}
 	LogInfo("Testing non-started non-inited state");
 	if (!test_gamestate_serialization(state))
 	{
-		LogError("Serialization test failed for non-started non-inited game");
+		LogError2("Serialization test failed for non-started non-inited game");
 		return EXIT_FAILURE;
 	}
 
@@ -130,7 +130,7 @@ int main(int argc, char **argv)
 
 	if (!test_gamestate_serialization(state))
 	{
-		LogError("Serialization test failed for started non-inited game");
+		LogError2("Serialization test failed for started non-inited game");
 		return EXIT_FAILURE;
 	}
 
@@ -141,7 +141,7 @@ int main(int argc, char **argv)
 
 	if (!test_gamestate_serialization(state))
 	{
-		LogError("Serialization test failed for started inited game");
+		LogError2("Serialization test failed for started inited game");
 		return EXIT_FAILURE;
 	}
 
@@ -168,7 +168,7 @@ int main(int argc, char **argv)
 		}
 		if (!vType)
 		{
-			LogError("No vehicle with BattleMap found");
+			LogError2("No vehicle with BattleMap found");
 			return EXIT_FAILURE;
 		}
 		LogInfo("Using vehicle map for \"%s\"", vType->name);
@@ -196,7 +196,7 @@ int main(int argc, char **argv)
 
 		if (!test_gamestate_serialization(state))
 		{
-			LogError("Serialization test failed for in-battle game");
+			LogError2("Serialization test failed for in-battle game");
 			return EXIT_FAILURE;
 		}
 		OpenApoc::Battle::finishBattle(*state);

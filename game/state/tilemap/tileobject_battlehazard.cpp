@@ -40,7 +40,7 @@ void TileObjectBattleHazard::draw(Renderer &r, TileTransform &, Vec2<float> scre
 			break;
 		}
 		default:
-			LogError("Unsupported view mode");
+			LogError2("Unsupported view mode");
 	}
 	if (sprite)
 		drawTinted(r, sprite, transformedScreenPos, visible);
@@ -58,7 +58,7 @@ sp<BattleHazard> TileObjectBattleHazard::getHazard()
 	auto i = hazard.lock();
 	if (!i)
 	{
-		LogError("Item disappeared");
+		LogError2("Item disappeared");
 		return nullptr;
 	}
 	return i;
@@ -69,7 +69,7 @@ Vec3<float> TileObjectBattleHazard::getPosition() const
 	auto p = this->hazard.lock();
 	if (!p)
 	{
-		LogError("Called with no owning hazard object");
+		LogError2("Called with no owning hazard object");
 		return {0, 0, 0};
 	}
 	return p->getPosition();

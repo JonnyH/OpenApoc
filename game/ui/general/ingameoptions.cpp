@@ -273,7 +273,7 @@ void InGameOptions::eventOccurred(Event *e)
 			auto slider = std::dynamic_pointer_cast<ScrollBar>(e->forms().RaisedBy);
 			if (!slider)
 			{
-				LogError("Failed to cast \"GLOBAL_GAIN_SLIDER\" control to ScrollBar");
+				LogError2("Failed to cast \"GLOBAL_GAIN_SLIDER\" control to ScrollBar");
 				return;
 			}
 			float gain =
@@ -285,7 +285,7 @@ void InGameOptions::eventOccurred(Event *e)
 			auto slider = std::dynamic_pointer_cast<ScrollBar>(e->forms().RaisedBy);
 			if (!slider)
 			{
-				LogError("Failed to cast \"MUSIC_GAIN_SLIDER\" control to ScrollBar");
+				LogError2("Failed to cast \"MUSIC_GAIN_SLIDER\" control to ScrollBar");
 				return;
 			}
 			float gain =
@@ -297,7 +297,7 @@ void InGameOptions::eventOccurred(Event *e)
 			auto slider = std::dynamic_pointer_cast<ScrollBar>(e->forms().RaisedBy);
 			if (!slider)
 			{
-				LogError("Failed to cast \"SAMPLE_GAIN_SLIDER\" control to ScrollBar");
+				LogError2("Failed to cast \"SAMPLE_GAIN_SLIDER\" control to ScrollBar");
 				return;
 			}
 			float gain =

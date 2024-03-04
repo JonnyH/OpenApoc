@@ -71,7 +71,7 @@ void InitialGameStateExtractor::extractEconomy(GameState &state) const
 			}
 			else
 			{
-				LogError("Unexpected data in economy data pack 1!");
+				LogError2("Unexpected data in economy data pack 1!");
 			}
 		}
 		state.economy[id] = economyInfo;
@@ -97,7 +97,7 @@ void InitialGameStateExtractor::extractEconomy(GameState &state) const
 		}
 		else
 		{
-			LogError("Unexpected data in economy data pack 2!");
+			LogError2("Unexpected data in economy data pack 2!");
 		}
 		state.economy[id] = economyInfo;
 	}
@@ -123,7 +123,7 @@ void InitialGameStateExtractor::extractEconomy(GameState &state) const
 		}
 		else
 		{
-			LogError("Unexpected data in economy data pack 3!");
+			LogError2("Unexpected data in economy data pack 3!");
 		}
 		state.economy[id] = economyInfo;
 	}

@@ -206,13 +206,13 @@ sp<ImageSet> PCKLoader::load(Data &d, UString PckFilename, UString TabFilename)
 	auto pck = d.fs.open(PckFilename);
 	if (!pck)
 	{
-		LogError("Failed to open PCK file \"%s\"", PckFilename);
+		LogError2("Failed to open PCK file \"{}\"", PckFilename);
 		return nullptr;
 	}
 	auto tab = d.fs.open(TabFilename);
 	if (!tab)
 	{
-		LogError("Failed to open TAB file \"%s\"", TabFilename);
+		LogError2("Failed to open TAB file \"{}\"", TabFilename);
 		return nullptr;
 	}
 
@@ -353,18 +353,18 @@ sp<ImageSet> PCKLoader::loadStrat(Data &data, UString PckFilename, UString TabFi
 		pckFile.seekg(offset, std::ios::beg);
 		if (!pckFile)
 		{
-			LogError("Failed to seek to offset %u", offset);
+			LogError2("Failed to seek to offset {}", offset);
 			return nullptr;
 		}
 		auto img = loadStrategy(pckFile);
 		if (!img)
 		{
-			LogError("Failed to load image");
+			LogError2("Failed to load image");
 			return nullptr;
 		}
 		if (img->size != Vec2<unsigned int>{8, 8})
 		{
-			LogError("Invalid size of {%d,%d} in stratmap image", img->size.x, img->size.y);
+			LogError2("Invalid size of {{{},{}}} in stratmap image", img->size.x, img->size.y);
 			return nullptr;
 		}
 		imageSet->images.push_back(img);
@@ -402,7 +402,7 @@ static sp<PaletteImage> loadShadowImage(IFile &file, uint8_t shadedIdx)
 	file.read(reinterpret_cast<char *>(&header), sizeof(header));
 	if (!file)
 	{
-		LogError("Unexpected EOF reading shadow PCK header\n");
+		LogError2("Unexpected EOF reading shadow PCK header");
 		return nullptr;
 	}
 	auto img = mksp<PaletteImage>(Vec2<int>{header.width, header.height});
@@ -417,7 +417,7 @@ static sp<PaletteImage> loadShadowImage(IFile &file, uint8_t shadedIdx)
 		file.read(reinterpret_cast<char *>(&b), 1);
 		if (!file)
 		{
-			LogError("Unexpected EOF reading shadow data\n");
+			LogError2("Unexpected EOF reading shadow data");
 			return nullptr;
 		}
 		uint8_t idx = b;
@@ -449,7 +449,7 @@ static sp<PaletteImage> loadShadowImage(IFile &file, uint8_t shadedIdx)
 		file.read(reinterpret_cast<char *>(&b), 1);
 		if (!file)
 		{
-			LogError("Unexpected EOF reading shadow data\n");
+			LogError2("Unexpected EOF reading shadow data");
 			return nullptr;
 		}
 	}
@@ -482,13 +482,13 @@ sp<ImageSet> PCKLoader::loadShadow(Data &data, UString PckFilename, UString TabF
 		pckFile.seekg(offset, std::ios::beg);
 		if (!pckFile)
 		{
-			LogError("Failed to seek to offset %u", offset);
+			LogError2("Failed to seek to offset {}", offset);
 			return nullptr;
 		}
 		auto img = loadShadowImage(pckFile, shadedIdx);
 		if (!img)
 		{
-			LogError("Failed to load image");
+			LogError2("Failed to load image");
 			return nullptr;
 		}
 		imageSet->images.push_back(img);

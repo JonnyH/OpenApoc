@@ -230,7 +230,7 @@ void TileView::applyScrolling()
 	}
 	else
 	{
-		LogError("Unknown view mode");
+		LogError2("Unknown view mode");
 	}
 
 	this->setScreenCenterTile(newPos);

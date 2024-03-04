@@ -413,7 +413,7 @@ void serializeOut(SerializationNode *node, const T &val, const T &,
 	auto it = valueMap.find(val);
 	if (it == valueMap.end())
 	{
-		LogError("Invalid enum value for %s: %d", typeid(T).name(), (int)val);
+		LogError2("Invalid enum value for {}: {}", typeid(T).name(), (int)val);
 	}
 	node->setValue(it->second);
 }

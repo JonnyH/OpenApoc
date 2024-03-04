@@ -1724,7 +1724,7 @@ void BattleView::update()
 					break;
 				}
 				default:
-					LogError("Using an item other than the motion scanner / medikit?");
+					LogError2("Using an item other than the motion scanner / medikit?");
 			}
 		}
 	}
@@ -2310,7 +2310,7 @@ void BattleView::updatePathPreview()
 	auto target = selectedTilePosition;
 	if (!lastSelectedUnit)
 	{
-		LogError("Trying to update path preview with no unit selected!?");
+		LogError2("Trying to update path preview with no unit selected!?");
 		return;
 	}
 
@@ -2344,7 +2344,7 @@ void BattleView::updatePathPreview()
 		target.z--;
 		if (target.z == -1)
 		{
-			LogError("Solid ground missing on level 0? Reached %d %d %d", target.x, target.y,
+			LogError2("Solid ground missing on level 0? Reached {} {} {}", target.x, target.y,
 			         target.z);
 			return;
 		}
@@ -2373,7 +2373,7 @@ void BattleView::updatePathPreview()
 	                                   true, false, &cost, maxCost);
 	if (pathPreview.empty())
 	{
-		LogError("Empty path returned for path preview!?");
+		LogError2("Empty path returned for path preview!?");
 		return;
 	}
 	// If we have not reached the target - then show "Too Far"
@@ -2405,7 +2405,7 @@ void BattleView::updateAttackCost()
 	auto target = selectedTilePosition;
 	if (!lastSelectedUnit)
 	{
-		LogError("Trying to update path attack cost with no unit selected!?");
+		LogError2("Trying to update path attack cost with no unit selected!?");
 		return;
 	}
 	WeaponStatus status;
@@ -3772,7 +3772,7 @@ bool BattleView::handleMouseDown(Event *e)
 						}
 						break;
 					default:
-						LogError("Unhandled mouse button!");
+						LogError2("Unhandled mouse button!");
 						break;
 				}
 				break;
@@ -3803,7 +3803,7 @@ bool BattleView::handleMouseDown(Event *e)
 						}
 						break;
 					default:
-						LogError("Unhandled mouse button!");
+						LogError2("Unhandled mouse button!");
 						break;
 				}
 				// Debug section below
@@ -3966,7 +3966,7 @@ bool BattleView::handleMouseDown(Event *e)
 						break;
 					}
 					default:
-						LogError("Unhandled mouse button!");
+						LogError2("Unhandled mouse button!");
 						break;
 				}
 				break;
@@ -3986,7 +3986,7 @@ bool BattleView::handleMouseDown(Event *e)
 						break;
 					}
 					default:
-						LogError("Unhandled mouse button!");
+						LogError2("Unhandled mouse button!");
 						break;
 				}
 				break;
@@ -4006,7 +4006,7 @@ bool BattleView::handleMouseDown(Event *e)
 						break;
 					}
 					default:
-						LogError("Unhandled mouse button!");
+						LogError2("Unhandled mouse button!");
 						break;
 				}
 				break;
@@ -4053,7 +4053,7 @@ bool BattleView::handleMouseDown(Event *e)
 						selectionState = BattleSelectionState::Normal;
 						if (activeTab != psiTab)
 						{
-							LogError("How come are we in psi mode but not in psi tab?");
+							LogError2("How come are we in psi mode but not in psi tab?");
 						}
 						else
 						{
@@ -4069,7 +4069,7 @@ bool BattleView::handleMouseDown(Event *e)
 						break;
 					}
 					default:
-						LogError("Unhandled mouse button!");
+						LogError2("Unhandled mouse button!");
 						break;
 				}
 				break;
@@ -4084,7 +4084,7 @@ bool BattleView::handleGameStateEvent(Event *e)
 	auto gameEvent = dynamic_cast<GameEvent *>(e);
 	if (!gameEvent)
 	{
-		LogError("Invalid game state event");
+		LogError2("Invalid game state event");
 		return true;
 	}
 	if (!gameEvent->message().empty())

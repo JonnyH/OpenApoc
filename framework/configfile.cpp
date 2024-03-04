@@ -93,7 +93,7 @@ class ConfigFileImpl
 	{
 		if (this->parsed)
 		{
-			LogError("Already parsed options");
+			LogError2("Already parsed options");
 			return true;
 		}
 		fs::path programPath(argv[0]);
@@ -216,7 +216,7 @@ class ConfigFileImpl
 			auto splitString = split(optionPair.first, ".");
 			if (splitString.size() < 1)
 			{
-				LogError("Invalid option string \"%s\"", optionPair.first);
+				LogError2("Invalid option string \"{}\"", optionPair.first);
 				continue;
 			}
 			UString sectionName;
@@ -269,7 +269,7 @@ class ConfigFileImpl
 	{
 		if (!this->parsed)
 		{
-			LogError("Not yet parsed options");
+			LogError2("Not yet parsed options");
 			return false;
 		}
 		auto it = this->modifiedOptions.find(name);
@@ -283,12 +283,12 @@ class ConfigFileImpl
 	{
 		if (!this->parsed)
 		{
-			LogError("Not yet parsed options");
+			LogError2("Not yet parsed options");
 			throw std::exception();
 		}
 		if (!this->get(key))
 		{
-			LogError("Option \"%s\" not set", key);
+			LogError2("Option \"{}\" not set", key);
 			throw std::exception();
 		}
 		auto it = this->modifiedOptions.find(key);
@@ -303,7 +303,7 @@ class ConfigFileImpl
 	{
 		if (!this->parsed)
 		{
-			LogError("Not yet parsed options");
+			LogError2("Not yet parsed options");
 			return "";
 		}
 		UString combinedOption;
@@ -319,7 +319,7 @@ class ConfigFileImpl
 	{
 		if (this->parsed)
 		{
-			LogError("Adding option when already parsed");
+			LogError2("Adding option when already parsed");
 		}
 		this->createSection(section);
 		UString combinedOption;
@@ -337,7 +337,7 @@ class ConfigFileImpl
 	{
 		if (this->parsed)
 		{
-			LogError("Adding option when already parsed");
+			LogError2("Adding option when already parsed");
 		}
 		this->createSection(section);
 		UString combinedOption;
@@ -355,7 +355,7 @@ class ConfigFileImpl
 	{
 		if (this->parsed)
 		{
-			LogError("Adding option when already parsed");
+			LogError2("Adding option when already parsed");
 		}
 		this->positionalArgNames.push_back(name);
 		this->posDesc.add(name.c_str(), 1);

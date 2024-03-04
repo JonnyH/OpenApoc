@@ -102,7 +102,7 @@ void LuaGameState::init(GameState &game)
 		}
 		if (!runScript(s))
 		{
-			LogError("Failed to load init script \"%s\"", s);
+			LogError2("Failed to load init script \"{}\"", s);
 		}
 	}
 	lua_pop(L, 1); // pop debug.traceback function

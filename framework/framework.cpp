@@ -117,7 +117,7 @@ Framework::Framework(const UString programName, bool createWindow)
 
 	if (this->instance)
 	{
-		LogError("Multiple Framework instances created");
+		LogError2("Multiple Framework instances created");
 	}
 
 	this->instance = this;
@@ -147,7 +147,7 @@ Framework::Framework(const UString programName, bool createWindow)
 		if (PHYSFS_init(programName.c_str()) == 0)
 		{
 			PHYSFS_ErrorCode error = PHYSFS_getLastErrorCode();
-			LogError("Failed to init code %i PHYSFS: %s", (int)error, PHYSFS_getErrorByCode(error));
+			LogError2("Failed to init code {} PHYSFS: {}", (int)error, PHYSFS_getErrorByCode(error));
 		}
 	}
 #ifdef ANDROID
@@ -156,8 +156,8 @@ Framework::Framework(const UString programName, bool createWindow)
 	// Initialize subsystems separately?
 	if (SDL_Init(SDL_INIT_EVENTS | SDL_INIT_TIMER) < 0)
 	{
-		LogError("Cannot init SDL2");
-		LogError("SDL error: %s", SDL_GetError());
+		LogError2("Cannot init SDL2");
+		LogError2("SDL error: {}", SDL_GetError());
 		p->quitProgram = true;
 		return;
 	}
@@ -165,7 +165,7 @@ Framework::Framework(const UString programName, bool createWindow)
 	{
 		if (SDL_InitSubSystem(SDL_INIT_VIDEO) < 0)
 		{
-			LogError("Cannot init SDL_VIDEO - \"%s\"", SDL_GetError());
+			LogError2("Cannot init SDL_VIDEO - \"{}\"", SDL_GetError());
 			p->quitProgram = true;
 			return;
 		}
@@ -238,14 +238,14 @@ Framework::Framework(const UString programName, bool createWindow)
 	auto testFile = this->data->fs.open("music");
 	if (!testFile)
 	{
-		LogError("Failed to open \"music\" from the CD - likely the cd couldn't be loaded or paths "
+		LogError2("Failed to open \"music\" from the CD - likely the cd couldn't be loaded or paths "
 		         "are incorrect if using an extracted CD image");
 	}
 
 	auto testFile2 = this->data->fs.open("filedoesntexist");
 	if (testFile2)
 	{
-		LogError("Succeeded in opening \"FileDoesntExist\" - either you have the weirdest filename "
+		LogError2("Succeeded in opening \"FileDoesntExist\" - either you have the weirdest filename "
 		         "preferences or something is wrong");
 	}
 	srand(static_cast<unsigned int>(SDL_GetTicks()));
@@ -291,7 +291,7 @@ Framework &Framework::getInstance()
 {
 	if (!instance)
 	{
-		LogError("Framework::getInstance() called with no live Framework");
+		LogError2("Framework::getInstance() called with no live Framework");
 	}
 	return *instance;
 }
@@ -302,7 +302,7 @@ void Framework::run(sp<Stage> initialStage)
 	size_t frameCount = Options::frameLimit.get();
 	if (!createWindow)
 	{
-		LogError("Trying to run framework without window");
+		LogError2("Trying to run framework without window");
 		return;
 	}
 	size_t frame = 0;
@@ -436,7 +436,7 @@ void Framework::processEvents()
 		}
 		if (!e)
 		{
-			LogError("Invalid event on queue");
+			LogError2("Invalid event on queue");
 			continue;
 		}
 		this->cursor->eventOccured(e.get());
@@ -773,7 +773,7 @@ void Framework::displayInitialise()
 	ScreenMode mode = optionsScreenMode();
 	if (mode == ScreenMode::Unknown)
 	{
-		LogError("Unknown screen mode specified: {%s}", Options::screenModeOption.get());
+		LogError2("Unknown screen mode specified: {{{}}}", Options::screenModeOption.get());
 		mode = ScreenMode::Windowed;
 	}
 
@@ -794,8 +794,8 @@ void Framework::displayInitialise()
 
 	if (scrW < 640 || scrH < 480)
 	{
-		LogError(
-		    "Requested display size of {%d,%d} is lower than {640,480} and probably won't work",
+		LogError2(
+		    "Requested display size of {{{},{}}} is lower than {{640,480}} and probably won't work",
 		    scrW, scrH);
 	}
 
@@ -805,7 +805,7 @@ void Framework::displayInitialise()
 
 	if (!p->window)
 	{
-		LogError("Failed to create window \"%s\"", SDL_GetError());
+		LogError2("Failed to create window \"{}\"", SDL_GetError());
 		exit(1);
 	}
 
@@ -819,7 +819,7 @@ void Framework::displayInitialise()
 		p->context = SDL_GL_CreateContext(p->window);
 		if (!p->context)
 		{
-			LogError("Failed to create GL context! [SDLerror: %s]", SDL_GetError());
+			LogError2("Failed to create GL context! [SDLerror: {}]", SDL_GetError());
 			SDL_DestroyWindow(p->window);
 			exit(1);
 		}
@@ -882,7 +882,7 @@ void Framework::displayInitialise()
 	}
 	if (!this->renderer)
 	{
-		LogError("No functional renderer found");
+		LogError2("No functional renderer found");
 		abort();
 	}
 	this->p->defaultSurface = this->renderer->getDefaultSurface();
@@ -1034,7 +1034,7 @@ void Framework::audioInitialise()
 	}
 	if (!this->soundBackend)
 	{
-		LogError("No functional sound backend found");
+		LogError2("No functional sound backend found");
 	}
 	this->jukebox = createJukebox(*this);
 
@@ -1140,7 +1140,7 @@ void Framework::setupModDataPaths()
 		auto modInfo = ModInfo::getInfo(modPath);
 		if (!modInfo)
 		{
-			LogError("Failed to load ModInfo for mod \"%s\"", modString);
+			LogError2("Failed to load ModInfo for mod \"{}\"", modString);
 			continue;
 		}
 		auto modDataPath = modPath + "/" + modInfo->getDataPath();

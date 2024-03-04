@@ -14,7 +14,7 @@ static void check_voxel(Vec3<int> position, VoxelMap &v, bool expected)
 {
 	if (v.getBit(position) != expected)
 	{
-		LogError("Unexpected voxel at %s - expected %d", position, expected ? 1 : 0);
+		LogError2("Unexpected voxel at {} - expected {}", position, expected ? 1 : 0);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -23,7 +23,7 @@ static void check_slice(Vec2<int> position, VoxelSlice &s, bool expected)
 {
 	if (s.getBit(position) != expected)
 	{
-		LogError("Unexpected voxel at %s - expected %d", position, expected ? 1 : 0);
+		LogError2("Unexpected voxel at {} - expected {}", position, expected ? 1 : 0);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -33,7 +33,7 @@ static void test_voxel(Vec3<int> voxel_size)
 	VoxelMap v{voxel_size};
 	if (v.size != voxel_size)
 	{
-		LogError("Unexpected size %s", v.size);
+		LogError2("Unexpected size {}", v.size);
 		exit(EXIT_FAILURE);
 	}
 	// Ensure everything is '0' at init, and anything outside the bounds should be '0' too
@@ -52,7 +52,7 @@ static void test_voxel(Vec3<int> voxel_size)
 	v.calculateCentre();
 	if (v.getCentre() != v.size / 2)
 	{
-		LogError("Unexpected centre %s for empty map", v.getCentre());
+		LogError2("Unexpected centre {} for empty map", v.getCentre());
 		exit(EXIT_FAILURE);
 	}
 
@@ -61,7 +61,7 @@ static void test_voxel(Vec3<int> voxel_size)
 
 	if (slice->size != Vec2<int>{voxel_size.x, voxel_size.y})
 	{
-		LogError("Unexpected slice size %s", slice->size);
+		LogError2("Unexpected slice size {}", slice->size);
 		exit(EXIT_FAILURE);
 	}
 	// Ensure everything is '0' at init, and anything outside the bounds should be '0' too

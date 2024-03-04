@@ -61,7 +61,7 @@ GL::GLuint CreateShader(GL::GLenum type, const UString &source)
 	std::unique_ptr<char[]> log(new char[logLength]);
 	gl->GetShaderInfoLog(shader, logLength, NULL, log.get());
 
-	LogError("Shader compile error: %s", log.get());
+	LogError2("Shader compile error: {}", log.get());
 
 	gl->DeleteShader(shader);
 	return 0;
@@ -73,13 +73,13 @@ GL::GLuint CompileProgram(const UString &vertexSource, const UString &fragmentSo
 	GL::GLuint vShader = CreateShader(GL::VERTEX_SHADER, vertexSource);
 	if (!vShader)
 	{
-		LogError("Failed to compile vertex shader");
+		LogError2("Failed to compile vertex shader");
 		return 0;
 	}
 	GL::GLuint fShader = CreateShader(GL::FRAGMENT_SHADER, fragmentSource);
 	if (!fShader)
 	{
-		LogError("Failed to compile fragment shader");
+		LogError2("Failed to compile fragment shader");
 		gl->DeleteShader(vShader);
 		return 0;
 	}
@@ -104,7 +104,7 @@ GL::GLuint CompileProgram(const UString &vertexSource, const UString &fragmentSo
 	std::unique_ptr<char[]> log(new char[logLength]);
 	gl->GetProgramInfoLog(prog, logLength, NULL, log.get());
 
-	LogError("Program link error: %s", log.get());
+	LogError2("Program link error: {}", log.get());
 
 	gl->DeleteProgram(prog);
 	return 0;
@@ -238,7 +238,7 @@ class Spritesheet
 		else if (format == GL::R8UI)
 			data_format = GL::RED_INTEGER;
 		else
-			LogError("Unknown GL internal format 0x%x", format);
+			LogError2("Unknown GL internal format 0x{:x}", format);
 
 		gl->TexImage3D(GL::TEXTURE_2D_ARRAY, 0, this->format, this->page_size.x, this->page_size.y,
 		               this->pages.size(), 0, data_format, GL::UNSIGNED_BYTE, nullptr);
@@ -265,7 +265,7 @@ class Spritesheet
 		auto image = entry->parent.lock();
 		if (!image)
 		{
-			LogError("Spritesheet entry has no parent");
+			LogError2("Spritesheet entry has no parent");
 		}
 		auto rgbImage = std::dynamic_pointer_cast<RGBImage>(image);
 		if (rgbImage)
@@ -291,7 +291,7 @@ class Spritesheet
 			                  GL::UNSIGNED_BYTE, l.getData());
 			return;
 		}
-		LogError("Unknown image type");
+		LogError2("Unknown image type");
 	}
 	void repack()
 	{
@@ -348,7 +348,7 @@ class Spritesheet
 		auto ret = page->addEntry(entry);
 		if (!ret)
 		{
-			LogError("Failed to pack a %s sized sprite in a new page of size %s?", entry->size,
+			LogError2("Failed to pack a {} sized sprite in a new page of size {}?", entry->size,
 			         page_size);
 		}
 		this->pages.push_back(page);
@@ -771,7 +771,7 @@ class GLSurface final : public RendererImageData
 		                         this->tex_id, 0);
 		if (gl->CheckFramebufferStatus(GL::DRAW_FRAMEBUFFER) != GL::FRAMEBUFFER_COMPLETE)
 		{
-			LogError("Surface framebuffer not complete");
+			LogError2("Surface framebuffer not complete");
 		}
 	}
 	~GLSurface() override;
@@ -1394,7 +1394,7 @@ class OGLES30Renderer final : public Renderer
 			                            flip_y, Renderer::Scaler::Linear);
 			return;
 		}
-		LogError("Unknown image type");
+		LogError2("Unknown image type");
 	}
 	void drawScaled(sp<Image> i, Vec2<float> position, Vec2<float> size, Scaler scaler) override
 	{
@@ -1450,7 +1450,7 @@ class OGLES30Renderer final : public Renderer
 			                            scaler);
 			return;
 		}
-		LogError("Unknown image type");
+		LogError2("Unknown image type");
 	}
 	void drawTinted(sp<Image> i, Vec2<float> position, Colour tint) override
 	{

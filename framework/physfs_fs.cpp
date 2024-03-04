@@ -53,7 +53,7 @@ class PhysfsIFileImpl : public std::streambuf, public IFileImpl
 		file = PHYSFS_openRead(path.c_str());
 		if (!file)
 		{
-			LogError("Failed to open file \"%s\" : \"%s\"", path,
+			LogError2("Failed to open file \"{}\" : \"{}\"", path,
 			         PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
 			return;
 		}
@@ -96,7 +96,7 @@ class PhysfsIFileImpl : public std::streambuf, public IFileImpl
 				PHYSFS_seek(file, PHYSFS_fileLength(file) + pos);
 				break;
 			default:
-				LogError("Unknown direction in seekoff (%d)", dir);
+				LogError2("Unknown direction in seekoff ({})", static_cast<int>(dir));
 				LogAssert(0);
 		}
 
@@ -107,7 +107,7 @@ class PhysfsIFileImpl : public std::streambuf, public IFileImpl
 
 		if (mode & std::ios_base::out)
 		{
-			LogError("ios::out set on read-only IFile \"%s\"", this->systemPath);
+			LogError2("ios::out set on read-only IFile \"{}\"", this->systemPath);
 			LogAssert(0);
 			setp(buffer.get(), buffer.get());
 		}
@@ -125,7 +125,7 @@ class PhysfsIFileImpl : public std::streambuf, public IFileImpl
 
 		if (mode & std::ios_base::out)
 		{
-			LogError("ios::out set on read-only IFile \"%s\"", this->systemPath);
+			LogError2("ios::out set on read-only IFile \"{}\"", this->systemPath);
 			LogAssert(0);
 			setp(buffer.get(), buffer.get());
 		}
@@ -135,7 +135,7 @@ class PhysfsIFileImpl : public std::streambuf, public IFileImpl
 
 	int_type overflow(int_type) override
 	{
-		LogError("overflow called on read-only IFile \"%s\"", this->systemPath);
+		LogError2("overflow called on read-only IFile \"{}\"", this->systemPath);
 		LogAssert(0);
 		return 0;
 	}
@@ -199,7 +199,7 @@ std::unique_ptr<char[]> IFile::readAll()
 	std::unique_ptr<char[]> mem(new char[memsize]);
 	if (!mem)
 	{
-		LogError("Failed to allocate memory for %llu bytes",
+		LogError2("Failed to allocate memory for {} bytes",
 		         static_cast<long long unsigned>(memsize));
 		return nullptr;
 	}
@@ -281,7 +281,7 @@ IFile FileSystem::open(const UString &path) const
 	auto lowerPath = to_lower(path);
 	if (path != lowerPath)
 	{
-		LogError("Path \"%s\" contains CAPITAL - cut it out!", path);
+		LogError2("Path \"{}\" contains CAPITAL - cut it out!", path);
 	}
 
 	if (!PHYSFS_exists(path.c_str()))

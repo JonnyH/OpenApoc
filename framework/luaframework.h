@@ -73,7 +73,7 @@ template <typename T> void getFromLua(lua_State *L, int argNum, const T &v [[may
 	if (argNum < 0)
 		argNum = lua_gettop(L) + argNum + 1;
 	luaL_error(L, "this member (#%d) cannot be set directly", argNum);
-	LogError("Invalid Lua function");
+	LogError2("Invalid Lua function");
 }
 
 // functions for pushing objects to the lua stack
@@ -443,7 +443,7 @@ template <typename C> int containerIndexMap(lua_State *L)
 template <typename T>
 lua_CFunction getLuaObjectConstMethods(const std::string &key [[maybe_unused]])
 {
-	LogError("Unimplemented Lua function");
+	LogError2("Unimplemented Lua function");
 	return nullptr;
 }
 

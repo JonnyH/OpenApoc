@@ -69,7 +69,7 @@ void LocationScreen::begin()
 	}
 	else
 	{
-		LogError("Nothing set as owner in LocationScreen?");
+		LogError2("Nothing set as owner in LocationScreen?");
 	}
 	menuform->findControlTyped<Label>("TEXT_FUNDS")->setText(state->getPlayerBalance());
 }

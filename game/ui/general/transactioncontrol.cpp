@@ -156,7 +156,7 @@ void TransactionControl::link(sp<TransactionControl> c1, sp<TransactionControl> 
 {
 	if (c1->linked && c2->linked)
 	{
-		LogError("Cannot link two already linked transaction controls!");
+		LogError2("Cannot link two already linked transaction controls!");
 		return;
 	}
 	if (!c2->linked)
@@ -228,7 +228,7 @@ sp<TransactionControl> TransactionControl::createControl(GameState &state, State
 			type = Type::Soldier;
 			break;
 		default:
-			LogError("Unknown type of agent %s.", agent.id);
+			LogError2("Unknown type of agent {}.", agent.id);
 			return nullptr;
 	}
 

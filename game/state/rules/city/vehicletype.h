@@ -200,7 +200,7 @@ class VehicleType : public StateObject<VehicleType>
 		}
 		if (weight == 0)
 		{
-			LogError("Vehicle with no weight");
+			LogError2("Vehicle with no weight");
 		}
 		return weight;
 	}

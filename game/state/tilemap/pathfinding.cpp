@@ -178,19 +178,19 @@ std::list<Vec3<int>> TileMap::findShortestPath(Vec3<int> origin, Vec3<int> desti
 
 	if (!tileIsValid(origin))
 	{
-		LogError("Bad origin %s", origin);
+		LogError2("Bad origin {}", origin);
 		return {};
 	}
 	if (!tileIsValid(destinationStart))
 	{
-		LogError("Bad destinationStart %s", destinationStart);
+		LogError2("Bad destinationStart {}", destinationStart);
 		return {};
 	}
 	if (destinationEnd.x <= destinationStart.x || destinationEnd.x > this->size.x ||
 	    destinationEnd.y <= destinationStart.y || destinationEnd.y > this->size.y ||
 	    destinationEnd.z <= destinationStart.z || destinationEnd.z > this->size.z)
 	{
-		LogError("Bad destinationEnd %s", destinationEnd);
+		LogError2("Bad destinationEnd {}", destinationEnd);
 		return {};
 	}
 
@@ -200,7 +200,7 @@ std::list<Vec3<int>> TileMap::findShortestPath(Vec3<int> origin, Vec3<int> desti
 	Tile *startTile = this->getTile(origin);
 	if (!startTile)
 	{
-		LogError("Failed to get origin tile at %s", origin);
+		LogError2("Failed to get origin tile at {}", origin);
 		return {};
 	}
 
@@ -431,12 +431,12 @@ std::list<Vec3<int>> Battle::findShortestPath(Vec3<int> origin, Vec3<int> destin
 
 	if (!map->tileIsValid(origin))
 	{
-		LogError("Bad origin %s", origin);
+		LogError2("Bad origin {}", origin);
 		return {};
 	}
 	if (!map->tileIsValid(destination))
 	{
-		LogError("Bad destination %s", destination);
+		LogError2("Bad destination {}", destination);
 		return {};
 	}
 
@@ -1894,7 +1894,7 @@ void City::fillRoadSegmentMap(GameState &state [[maybe_unused]])
 											// Some sanity
 											if (idx == -1)
 											{
-												LogError("Linking from %s to %s: Non road, wtf?",
+												LogError2("Linking from {} to {}: Non road, wtf?",
 												         currentPosition, nextPosition);
 												break;
 											}

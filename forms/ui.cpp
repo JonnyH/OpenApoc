@@ -40,7 +40,7 @@ sp<Form> UI::getForm(UString ID)
 		auto form = Form::loadForm(formPath);
 		if (!form)
 		{
-			LogError("Failed to find form \"%s\" at \"%s\"", ID, formPath);
+			LogError2("Failed to find form \"{}\" at \"{}\"", ID, formPath);
 			return nullptr;
 		}
 		forms[ID] = form;
@@ -57,7 +57,7 @@ sp<BitmapFont> UI::getFont(UString FontData)
 		auto font = ApocalypseFont::loadFont(fontPath);
 		if (!font)
 		{
-			LogError("Failed to find font \"%s\" at \"%s\"", FontData, fontPath);
+			LogError2("Failed to find font \"{}\" at \"{}\"", FontData, fontPath);
 			return nullptr;
 		}
 		fonts[FontData] = font;

@@ -924,7 +924,7 @@ void Battle::initialUnitSpawn(GameState &state)
 
 					if (unitsToSpawn.size() > 0)
 					{
-						LogError("Map has not big enough to spawn all units!?!?!?");
+						LogError2("Map has not big enough to spawn all units!?!?!?");
 						return;
 					}
 					continue;
@@ -1409,7 +1409,7 @@ void Battle::updateProjectiles(GameState &state, unsigned int ticks)
 						break;
 					}
 					default:
-						LogError("Collision with non-collidable object");
+						LogError2("Collision with non-collidable object");
 				}
 			}
 			deadProjectiles.emplace(c.projectile->shared_from_this(), displayDoodad, playSound);
@@ -2324,7 +2324,7 @@ void Battle::beginTurn(GameState &state)
 {
 	if (mode != Mode::TurnBased)
 	{
-		LogError("beginTurn called in real time?");
+		LogError2("beginTurn called in real time?");
 		return;
 	}
 
@@ -2435,7 +2435,7 @@ void Battle::beginBattle(GameState &state, bool hotseat, StateRef<Organisation> 
 {
 	if (state.current_battle)
 	{
-		LogError("Battle::beginBattle called while another battle is in progress!");
+		LogError2("Battle::beginBattle called while another battle is in progress!");
 		return;
 	}
 	auto b =
@@ -2459,7 +2459,7 @@ void Battle::beginBattle(GameState &state, bool hotseat, StateRef<Organisation> 
 {
 	if (state.current_battle)
 	{
-		LogError("Battle::beginBattle called while another battle is in progress!");
+		LogError2("Battle::beginBattle called while another battle is in progress!");
 		return;
 	}
 	auto b = BattleMap::createBattle(state, opponent, player_agents, aliens, guards, civilians,
@@ -2479,7 +2479,7 @@ void Battle::enterBattle(GameState &state)
 {
 	if (!state.current_battle)
 	{
-		LogError("Battle::enterBattle called with no battle!");
+		LogError2("Battle::enterBattle called with no battle!");
 		return;
 	}
 
@@ -2524,7 +2524,7 @@ void Battle::enterBattle(GameState &state)
 	}
 	if (!firstPlayerUnit)
 	{
-		LogError("WTF, no player units found?");
+		LogError2("WTF, no player units found?");
 		state.current_battle->battleViewScreenCenter = state.current_battle->map->size / 2;
 		state.current_battle->battleViewZLevel = state.current_battle->map->size.z / 2 + 1;
 	}
@@ -2547,7 +2547,7 @@ void Battle::finishBattle(GameState &state)
 {
 	if (!state.current_battle)
 	{
-		LogError("Battle::FinishBattle called with no battle!");
+		LogError2("Battle::FinishBattle called with no battle!");
 		return;
 	}
 
@@ -2838,7 +2838,7 @@ void Battle::finishBattle(GameState &state)
 		}
 		if (!closestBuilding)
 		{
-			LogError("WTF? No building in city closer than INT_MAX?");
+			LogError2("WTF? No building in city closer than INT_MAX?");
 			return;
 		}
 		for (auto &a : retreatedAliens)
@@ -2955,7 +2955,7 @@ void Battle::exitBattle(GameState &state)
 {
 	if (!state.current_battle)
 	{
-		LogError("Battle::ExitBattle called with no battle!");
+		LogError2("Battle::ExitBattle called with no battle!");
 		return;
 	}
 	// Load cityscape messages
@@ -3471,7 +3471,7 @@ void Battle::exitBattle(GameState &state)
 
 	if (victory)
 	{
-		LogError("You won, but we have no screen for that yet LOL!");
+		LogError2("You won, but we have no screen for that yet LOL!");
 	}
 
 	state.current_battle = nullptr;
@@ -3620,7 +3620,7 @@ void Battle::loadImagePacks(GameState &state)
 		auto imagePack = mksp<BattleUnitImagePack>();
 		if (!imagePack->loadImagePack(state, imagePackPath))
 		{
-			LogError("Failed to load image pack \"%s\" from \"%s\"", imagePackName, imagePackPath);
+			LogError2("Failed to load image pack \"{}\" from \"{}\"", imagePackName, imagePackPath);
 			continue;
 		}
 		state.battle_unit_image_packs[format("%s%s", BattleUnitImagePack::getPrefix(),
@@ -3723,7 +3723,7 @@ void Battle::loadAnimationPacks(GameState &state)
 		auto animationPack = mksp<BattleUnitAnimationPack>();
 		if (!animationPack->loadAnimationPack(state, animationPackPath))
 		{
-			LogError("Failed to load animation pack \"%s\" from \"%s\"", animationPackName,
+			LogError2("Failed to load animation pack \"{}\" from \"{}\"", animationPackName,
 			         animationPackPath);
 			continue;
 		}

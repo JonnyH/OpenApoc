@@ -112,7 +112,7 @@ int main(int argc, char **argv)
 	{
 		if (!testImage(imagePair.first, imagePair.second))
 		{
-			LogError("Image \"%s\" didn't match reference \"%s\"", imagePair.first,
+			LogError2("Image \"{}\" didn't match reference \"{}\"", imagePair.first,
 			         imagePair.second);
 			return EXIT_FAILURE;
 		}

@@ -41,24 +41,24 @@ bool AgentTileHelper::canEnterTile(Tile *from, Tile *to, bool, bool &, float &co
 {
 	if (!from)
 	{
-		LogError("No 'from' position supplied");
+		LogError2("No 'from' position supplied");
 		return false;
 	}
 	Vec3<int> fromPos = from->position;
 	if (!to)
 	{
-		LogError("No 'to' position supplied");
+		LogError2("No 'to' position supplied");
 		return false;
 	}
 	Vec3<int> toPos = to->position;
 	if (fromPos == toPos)
 	{
-		LogError("FromPos == ToPos %s", toPos);
+		LogError2("FromPos == ToPos {}", toPos);
 		return false;
 	}
 	if (!map.tileIsValid(toPos))
 	{
-		LogError("ToPos %s is not on the map", toPos);
+		LogError2("ToPos {} is not on the map", toPos);
 		return false;
 	}
 
@@ -182,7 +182,7 @@ int AgentTileHelper::convertDirection(Vec3<int> dir) const
 	{
 		return 5;
 	}
-	LogError("Impossible to reach here? convertDirection for 0,0,0?");
+	LogError2("Impossible to reach here? convertDirection for 0,0,0?");
 	return -1;
 }
 
@@ -204,7 +204,7 @@ bool AgentTileHelper::isMoveAllowed(Scenery &scenery, int dir) const
 		case SceneryTileType::TileType::CityWall:
 			return false;
 	}
-	LogError("Unhandled situiation in isMoveAllowed, can't reach here?");
+	LogError2("Unhandled situiation in isMoveAllowed, can't reach here?");
 	return false;
 }
 
@@ -470,7 +470,7 @@ void AgentMission::start(GameState &state, Agent &a)
 			// No setup
 			return;
 		default:
-			LogError("TODO: Implement start");
+			LogError2("TODO: Implement start");
 			return;
 	}
 }

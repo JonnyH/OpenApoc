@@ -138,7 +138,7 @@ bool BattleUnitTileHelper::canEnterTile(Tile *from, Tile *to, bool allowJumping,
 	// Error checks
 	if (!to)
 	{
-		LogError("No 'to' position supplied");
+		LogError2("No 'to' position supplied");
 		return false;
 	}
 	Vec3<int> toPos = to->position;
@@ -150,17 +150,17 @@ bool BattleUnitTileHelper::canEnterTile(Tile *from, Tile *to, bool allowJumping,
 	Vec3<int> fromPos = from->position;
 	if (fromPos == toPos)
 	{
-		LogError("FromPos == ToPos %s", toPos);
+		LogError2("FromPos == ToPos {}", toPos);
 		return false;
 	}
 	if (!map.tileIsValid(fromPos))
 	{
-		LogError("FromPos %s is not on the map", fromPos);
+		LogError2("FromPos {} is not on the map", fromPos);
 		return false;
 	}
 	if (!map.tileIsValid(toPos))
 	{
-		LogError("ToPos %s is not on the map", toPos);
+		LogError2("ToPos {} is not on the map", toPos);
 		return false;
 	}
 
@@ -1470,7 +1470,7 @@ bool BattleUnitMission::getNextBodyState(GameState &state, BattleUnit &u, BodySt
 				}
 				else
 				{
-					LogError("Unit %s (%s) (%s) lost capability to attain bodyState %d?", u.id,
+					LogError2("Unit {} ({}) ({}) lost capability to attain bodyState {}?", u.id,
 					         u.agent->name, u.agent->type->id, (int)targetBodyState);
 				}
 			}
@@ -1501,7 +1501,7 @@ MovementState BattleUnitMission::getNextMovementState(GameState &, BattleUnit &u
 				}
 				else
 				{
-					LogError("Agent with allowed Jumping body state does not have allowed Normal "
+					LogError2("Agent with allowed Jumping body state does not have allowed Normal "
 					         "movement");
 					return u.current_movement_state;
 				}
@@ -1537,7 +1537,7 @@ MovementState BattleUnitMission::getNextMovementState(GameState &, BattleUnit &u
 						break;
 					}
 				default:
-					LogError("Invalid facingDelta %d", facingDelta);
+					LogError2("Invalid facingDelta {}", facingDelta);
 					break;
 			}
 			break;
@@ -1789,7 +1789,7 @@ void BattleUnitMission::start(GameState &state, BattleUnit &u)
 				}
 				if (item->type->type != AEquipmentType::Type::Teleporter)
 				{
-					LogError("Unit is trying to teleport using non-teleporter item %s!?",
+					LogError2("Unit is trying to teleport using non-teleporter item {}!?",
 					         item->type->name);
 					cancelled = true;
 					return;
@@ -1819,7 +1819,7 @@ void BattleUnitMission::start(GameState &state, BattleUnit &u)
 				if (!u.agent->isBodyStateAllowed(teleBodyState))
 					teleBodyState = BodyState::Prone;
 				if (!u.agent->isBodyStateAllowed(teleBodyState))
-					LogError("Unit has no valid body state? WTF?");
+					LogError2("Unit has no valid body state? WTF?");
 				u.setBodyState(state, teleBodyState);
 				u.setMovementState(MovementState::None);
 				u.falling = false;
@@ -2040,7 +2040,7 @@ void BattleUnitMission::setPathTo(GameState &state, BattleUnit &u, Vec3<int> tar
 				target.z--;
 				if (target.z == -1)
 				{
-					LogError("Solid ground missing on level 0? Reached %d %d %d", target.x,
+					LogError2("Solid ground missing on level 0? Reached {} {} {}", target.x,
 					         target.y, target.z);
 					cancelled = true;
 					return;
@@ -2074,7 +2074,7 @@ void BattleUnitMission::setPathTo(GameState &state, BattleUnit &u, Vec3<int> tar
 	}
 	else
 	{
-		LogError("Mission %s: Unit without tileobject attempted pathfinding!", getName());
+		LogError2("Mission {}: Unit without tileobject attempted pathfinding!", getName());
 		cancelled = true;
 		return;
 	}
@@ -2456,7 +2456,7 @@ bool BattleUnitMission::advanceBodyState(GameState &state, BattleUnit &u, BodySt
 	}
 	if (u.current_body_state != u.target_body_state)
 	{
-		LogError("Requesting to change body state during another body state change?");
+		LogError2("Requesting to change body state during another body state change?");
 		u.setBodyState(state, u.target_body_state);
 	}
 

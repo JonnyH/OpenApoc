@@ -46,7 +46,7 @@ void TileObjectBattleUnit::draw(Renderer &r, TileTransform &transform, Vec2<floa
 	auto unit = getUnit();
 	if (!unit)
 	{
-		LogError("Called with no owning unit object");
+		LogError2("Called with no owning unit object");
 		return;
 	}
 	switch (mode)
@@ -202,7 +202,7 @@ void TileObjectBattleUnit::draw(Renderer &r, TileTransform &transform, Vec2<floa
 			break;
 		}
 		default:
-			LogError("Unsupported view mode");
+			LogError2("Unsupported view mode");
 	}
 }
 
@@ -421,7 +421,7 @@ Vec3<float> TileObjectBattleUnit::getPosition() const
 	auto u = getUnit();
 	if (!u)
 	{
-		LogError("Called with no owning unit object");
+		LogError2("Called with no owning unit object");
 		return {0, 0, 0};
 	}
 	return u->getPosition();

@@ -560,7 +560,7 @@ void Control::configureChildrenFromXml(pugi::xml_node *parent)
 			}
 			else
 			{
-				LogError("Radiobutton \"%s\" has no group", node.attribute("id").as_string());
+				LogError2("Radiobutton \"{}\" has no group", node.attribute("id").as_string());
 			}
 			auto rb = this->createChild<RadioButton>(group);
 			rb->configureFromXml(&node);
@@ -652,7 +652,7 @@ void Control::configureSelfFromXml(pugi::xml_node *node)
 			auto pal = fw().data->loadPalette(child.text().get());
 			if (!pal)
 			{
-				LogError("Control referenced palette \"%s\" that cannot be loaded",
+				LogError2("Control referenced palette \"{}\" that cannot be loaded",
 				         child.text().get());
 			}
 			this->palette = pal;
@@ -910,7 +910,7 @@ void Control::setParent(sp<Control> Parent)
 		auto previousParent = this->owningControl.lock();
 		if (previousParent)
 		{
-			LogError("Reparenting control");
+			LogError2("Reparenting control");
 		}
 		Parent->Controls.push_back(shared_from_this());
 		Parent->setDirty();
@@ -925,7 +925,7 @@ void Control::setParent(sp<Control> Parent, int position)
 		auto previousParent = this->owningControl.lock();
 		if (previousParent)
 		{
-			LogError("Reparenting control");
+			LogError2("Reparenting control");
 		}
 		Parent->Controls.insert(Parent->Controls.begin() + position, shared_from_this());
 		Parent->setDirty();
@@ -1191,7 +1191,7 @@ void Control::pushFormEvent(FormEventType type, Event *parentEvent)
 			break;
 		}
 		default:
-			LogError("Unexpected event type %d", (int)type);
+			LogError2("Unexpected event type {}", (int)type);
 	}
 	this->triggerEventCallbacks(event);
 }

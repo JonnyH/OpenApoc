@@ -26,7 +26,7 @@ std::tuple<AIDecision, bool> UnitAIBehavior::think(GameState &state, BattleUnit 
 		return NULLTUPLE2;
 	}
 
-	LogError("Implement Behavior AI");
+	LogError2("Implement Behavior AI");
 	return NULLTUPLE2;
 }
 } // namespace OpenApoc

@@ -874,7 +874,7 @@ void BattleTileView::render()
 										{
 											img = nullptr;         // don't draw using img
 											if (!lastSelectedUnit) // shouldn't happen
-												LogError("Displaying attack cost without selected "
+												LogError2("Displaying attack cost without selected "
 												         "unit?!");
 											auto imgCost = tuIndicators[calculatedAttackCost];
 											auto imgStock =
@@ -1565,7 +1565,7 @@ void BattleTileView::render()
 		}
 		break;
 		default:
-			LogError("Unexpected tile view mode \"%d\"", (int)this->viewMode);
+			LogError2("Unexpected tile view mode \"{}\"", (int)this->viewMode);
 			break;
 	}
 

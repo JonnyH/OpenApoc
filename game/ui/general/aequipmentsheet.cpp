@@ -31,7 +31,7 @@ void AEquipmentSheet::clear()
 			auto label = form->findControlTyped<Label>(labelName);
 			if (!label)
 			{
-				LogError("Failed to find UI control matching \"%s\"", labelName);
+				LogError2("Failed to find UI control matching \"{}\"", labelName);
 			}
 			else
 			{
@@ -138,7 +138,7 @@ void AEquipmentSheet::displayWeapon(sp<AEquipment> item [[maybe_unused]],
 {
 	if (itemType.ammo_types.empty())
 	{
-		LogError("Ammo weapon without any ammo types?");
+		LogError2("Ammo weapon without any ammo types?");
 		return;
 	}
 

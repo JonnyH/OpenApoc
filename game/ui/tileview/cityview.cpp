@@ -532,7 +532,7 @@ void CityView::tryOpenUfopaediaEntry(StateRef<UfopaediaEntry> ufopaediaEntry)
 		}
 		if (!ufopaedia_category)
 		{
-			LogError("No UFOPaedia category found for entry %s", ufopaediaEntry->title);
+			LogError2("No UFOPaedia category found for entry {}", ufopaediaEntry->title);
 		}
 		fw().stageQueueCommand(
 		    {StageCmd::Command::PUSH,
@@ -552,7 +552,7 @@ void CityView::orderGoToBase()
 				auto bld = v->homeBuilding;
 				if (!bld)
 				{
-					LogError("Vehicle \"%s\" has no building", v->name);
+					LogError2("Vehicle \"{}\" has no building", v->name);
 				}
 				LogInfo("Vehicle \"%s\" goto building \"%s\"", v->name, bld->name);
 				// FIXME: Don't clear missions if not replacing current mission
@@ -577,7 +577,7 @@ void CityView::orderGoToBase()
 			auto bld = a->homeBuilding;
 			if (!bld)
 			{
-				LogError("Vehicle \"%s\" has no building", a->name);
+				LogError2("Vehicle \"{}\" has no building", a->name);
 			}
 			LogInfo("Vehicle \"%s\" goto building \"%s\"", a->name, bld->name);
 			// FIXME: Don't clear missions if not replacing current mission
@@ -1180,7 +1180,7 @@ void CityView::setSelectedTab(int tabIndex)
 {
 	if (tabIndex < 0 || tabIndex > uiTabs.size())
 	{
-		LogError("Trying to select invalid tab: %d", tabIndex);
+		LogError2("Trying to select invalid tab: {}", tabIndex);
 		return;
 	}
 	for (auto tab : uiTabs)
@@ -1897,7 +1897,7 @@ void CityView::refreshBaseView()
 		auto view = this->uiTabs[0]->findControlTyped<GraphicButton>(viewName);
 		if (!view)
 		{
-			LogError("Failed to find UI control matching \"%s\"", viewName);
+			LogError2("Failed to find UI control matching \"{}\"", viewName);
 		}
 		view->setVisible(true);
 		view->setData(viewBase);
@@ -3874,7 +3874,7 @@ bool CityView::handleMouseDown(Event *e)
 				}
 				default:
 				{
-					LogError("Clicked on some object we didn't care to process?");
+					LogError2("Clicked on some object we didn't care to process?");
 					break;
 				}
 			}
@@ -3990,7 +3990,7 @@ bool CityView::handleGameStateEvent(Event *e)
 	auto gameEvent = dynamic_cast<GameEvent *>(e);
 	if (!gameEvent)
 	{
-		LogError("Invalid game state event");
+		LogError2("Invalid game state event");
 		return true;
 	}
 	if (!gameEvent->message().empty())
@@ -4088,7 +4088,7 @@ bool CityView::handleGameStateEvent(Event *e)
 			auto ev = dynamic_cast<GameBuildingEvent *>(e);
 			if (!ev)
 			{
-				LogError("Invalid spotted event");
+				LogError2("Invalid spotted event");
 			}
 			state->totalScore.alienIncidents += ALIEN_INCIDENT_SCORE;
 			state->weekScore.alienIncidents += ALIEN_INCIDENT_SCORE;
@@ -4105,7 +4105,7 @@ bool CityView::handleGameStateEvent(Event *e)
 			auto ev = dynamic_cast<GameBuildingEvent *>(e);
 			if (!ev)
 			{
-				LogError("Invalid investigation event");
+				LogError2("Invalid investigation event");
 			}
 			auto game_state = this->state;
 			auto building = ev->building;
@@ -4165,7 +4165,7 @@ bool CityView::handleGameStateEvent(Event *e)
 			auto ev = dynamic_cast<GameResearchEvent *>(e);
 			if (!ev)
 			{
-				LogError("Invalid research event");
+				LogError2("Invalid research event");
 			}
 			state->totalScore.researchCompleted += ev->topic->score;
 			state->weekScore.researchCompleted += ev->topic->score;
@@ -4186,7 +4186,7 @@ bool CityView::handleGameStateEvent(Event *e)
 			}
 			if (!lab_facility)
 			{
-				LogError("No facilities matching lab");
+				LogError2("No facilities matching lab");
 			}
 			auto game_state = this->state;
 			auto ufopaedia_entry = ev->topic->ufopaedia_entry;
@@ -4208,7 +4208,7 @@ bool CityView::handleGameStateEvent(Event *e)
 				}
 				if (!ufopaedia_category)
 				{
-					LogError("No UFOPaedia category found for entry %s", ufopaedia_entry->title);
+					LogError2("No UFOPaedia category found for entry {}", ufopaedia_entry->title);
 				}
 			}
 			setUpdateSpeed(CityUpdateSpeed::Pause);
@@ -4244,7 +4244,7 @@ bool CityView::handleGameStateEvent(Event *e)
 			auto ev = dynamic_cast<GameManufactureEvent *>(e);
 			if (!ev)
 			{
-				LogError("Invalid manufacture event");
+				LogError2("Invalid manufacture event");
 			}
 			sp<Facility> lab_facility;
 			sp<Base> lab_base;
@@ -4264,7 +4264,7 @@ bool CityView::handleGameStateEvent(Event *e)
 			}
 			if (!lab_facility)
 			{
-				LogError("No facilities matching lab");
+				LogError2("No facilities matching lab");
 			}
 			auto game_state = this->state;
 
@@ -4304,7 +4304,7 @@ bool CityView::handleGameStateEvent(Event *e)
 			auto ev = dynamic_cast<GameManufactureEvent *>(e);
 			if (!ev)
 			{
-				LogError("Invalid manufacture event");
+				LogError2("Invalid manufacture event");
 			}
 			sp<Facility> lab_facility;
 			sp<Base> lab_base;
@@ -4324,7 +4324,7 @@ bool CityView::handleGameStateEvent(Event *e)
 			}
 			if (!lab_facility)
 			{
-				LogError("No facilities matching lab");
+				LogError2("No facilities matching lab");
 			}
 			auto game_state = this->state;
 
@@ -4359,7 +4359,7 @@ bool CityView::handleGameStateEvent(Event *e)
 			auto ev = dynamic_cast<GameFacilityEvent *>(e);
 			if (!ev)
 			{
-				LogError("Invalid facility event");
+				LogError2("Invalid facility event");
 				return true;
 			}
 			setUpdateSpeed(CityUpdateSpeed::Pause);

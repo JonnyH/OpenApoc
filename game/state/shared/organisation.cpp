@@ -176,7 +176,7 @@ void Organisation::purchase(GameState &state, const StateRef<Building> &buyer,
 	int price = 0;
 	if (state.economy.find(vehicleEquipment.id) == state.economy.end())
 	{
-		LogError("Economy not found for %s: How are we buying it then!?", vehicleEquipment.id);
+		LogError2("Economy not found for {}: How are we buying it then!?", vehicleEquipment.id);
 	}
 	else
 	{
@@ -210,7 +210,7 @@ void Organisation::purchase(GameState &state, const StateRef<Building> &buyer,
 	int price = 0;
 	if (state.economy.find(vehicleAmmo.id) == state.economy.end())
 	{
-		LogError("Economy not found for %s: How are we buying it then!?", vehicleAmmo.id);
+		LogError2("Economy not found for {}: How are we buying it then!?", vehicleAmmo.id);
 	}
 	else
 	{
@@ -244,7 +244,7 @@ void Organisation::purchase(GameState &state, const StateRef<Building> &buyer,
 	int price = 0;
 	if (state.economy.find(agentEquipment.id) == state.economy.end())
 	{
-		LogError("Economy not found for %s: How are we buying it then!?", agentEquipment.id);
+		LogError2("Economy not found for {}: How are we buying it then!?", agentEquipment.id);
 	}
 	else
 	{
@@ -280,7 +280,7 @@ void Organisation::purchase(GameState &state, const StateRef<Building> &buyer,
 	int price = 0;
 	if (state.economy.find(vehicleType.id) == state.economy.end())
 	{
-		LogError("Economy not found for %s: How are we buying it then!?", vehicleType.id);
+		LogError2("Economy not found for {}: How are we buying it then!?", vehicleType.id);
 	}
 	else
 	{
@@ -291,7 +291,7 @@ void Organisation::purchase(GameState &state, const StateRef<Building> &buyer,
 			economy.currentStock -= count;
 			if (economy.currentStock < 0)
 			{
-				LogError("Economy went into negative stock for %s: How the hell?", vehicleType.id);
+				LogError2("Economy went into negative stock for {}: How the hell?", vehicleType.id);
 			}
 		}
 	}
@@ -529,7 +529,7 @@ void Organisation::updateHirableAgents(GameState &state)
 		}
 		if (buildingsWithoutBases.empty())
 		{
-			LogError("Cannot spawn new hirable agent - No building without base?");
+			LogError2("Cannot spawn new hirable agent - No building without base?");
 		}
 		hireeLocation = pickRandom(state.rng, buildingsWithoutBases);
 	}
@@ -982,7 +982,7 @@ sp<Organisation> StateObject<Organisation>::get(const GameState &state, const US
 	auto it = state.organisations.find(id);
 	if (it == state.organisations.end())
 	{
-		LogError("No organisation matching ID \"%s\"", id);
+		LogError2("No organisation matching ID \"{}\"", id);
 		return nullptr;
 	}
 	return it->second;
@@ -1185,7 +1185,7 @@ void Organisation::RecurringMission::execute(GameState &state, StateRef<City> ci
 	{
 		if (city->spaceports.empty())
 		{
-			LogError("No spaceports in city!?");
+			LogError2("No spaceports in city!?");
 			return;
 		}
 		// Make list of functional spaceports
@@ -1343,7 +1343,7 @@ void Organisation::RecurringMission::execute(GameState &state, StateRef<City> ci
 				continue;
 			case Organisation::MissionPattern::Target::ArriveFromSpace:
 			case Organisation::MissionPattern::Target::DepartToSpace:
-				LogError("Impossible to arrive/depart at this point?");
+				LogError2("Impossible to arrive/depart at this point?");
 				return;
 		}
 		buildingsRandomizer.push_back(b.second);

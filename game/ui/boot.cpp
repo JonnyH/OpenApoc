@@ -64,7 +64,7 @@ void BootUp::update()
 
 			    if (!loadedState->loadGame(path))
 			    {
-				    LogError("Failed to load supplied game \"%s\"", path);
+				    LogError2("Failed to load supplied game \"{}\"", path);
 			    }
 			    loadedState->initState();
 		    });

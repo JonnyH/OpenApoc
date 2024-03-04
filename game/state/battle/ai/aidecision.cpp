@@ -50,7 +50,7 @@ UString AIAction::getName()
 		case AIAction::Type::AttackSuicide:
 			return format("Attack (suicide) %s  ", targetUnit->id);
 	}
-	LogError("Unimplemented getName for AIAction %d", (int)type);
+	LogError2("Unimplemented getName for AIAction {}", (int)type);
 	return "";
 }
 
@@ -123,7 +123,7 @@ UString AIMovement::getName()
 		case AIMovement::Type::Turn:
 			return format("Turn to %s", targetLocation);
 	}
-	LogError("Unimplemented getName for AIMovement %d", (int)type);
+	LogError2("Unimplemented getName for AIMovement {}", (int)type);
 	return "";
 }
 

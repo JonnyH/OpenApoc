@@ -58,7 +58,7 @@ void InitialGameStateExtractor::extractBuildings(GameState &state, UString bldFi
 	auto inFile = fw().data->fs.open(fileName);
 	if (!inFile)
 	{
-		LogError("Failed to open \"%s\"", fileName);
+		LogError2("Failed to open \"{}\"", fileName);
 	}
 	auto fileSize = inFile.size();
 	auto bldCount = fileSize / sizeof(struct BldFileEntry);

@@ -233,7 +233,7 @@ bool BattleHazard::expand(GameState &state, const TileMap &map, const Vec3<int> 
 		{
 			if (fireSmoke)
 			{
-				LogError("Smoke from fire should never try to replace weaker hazards");
+				LogError2("Smoke from fire should never try to replace weaker hazards");
 				return true;
 			}
 			existingHazard->lifetime = lifetime;

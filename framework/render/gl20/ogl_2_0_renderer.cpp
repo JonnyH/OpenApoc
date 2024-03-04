@@ -50,7 +50,7 @@ class Program
 		std::unique_ptr<char[]> log(new char[logLength]);
 		gl20::GetShaderInfoLog(shader, logLength, NULL, log.get());
 
-		LogError("Shader compile error: %s", log.get());
+		LogError2("Shader compile error: {}", log.get());
 
 		gl20::DeleteShader(shader);
 		return 0;
@@ -60,13 +60,13 @@ class Program
 		GLuint vShader = createShader(gl20::VERTEX_SHADER, vertexSource);
 		if (!vShader)
 		{
-			LogError("Failed to compile vertex shader");
+			LogError2("Failed to compile vertex shader");
 			return;
 		}
 		GLuint fShader = createShader(gl20::FRAGMENT_SHADER, fragmentSource);
 		if (!fShader)
 		{
-			LogError("Failed to compile fragment shader");
+			LogError2("Failed to compile fragment shader");
 			gl20::DeleteShader(vShader);
 			return;
 		}
@@ -91,7 +91,7 @@ class Program
 		std::unique_ptr<char[]> log(new char[logLength]);
 		gl20::GetProgramInfoLog(prog, logLength, NULL, log.get());
 
-		LogError("Program link error: %s", log.get());
+		LogError2("Program link error: {}", log.get());
 
 		gl20::DeleteProgram(prog);
 		prog = 0;
@@ -174,22 +174,22 @@ class RGBProgram : public SpriteProgram
 	{
 		this->posLoc = gl20::GetAttribLocation(this->prog, "position");
 		if (this->posLoc < 0)
-			LogError("\"position\" attribute not found in shader");
+			LogError2("\"position\" attribute not found in shader");
 		this->texcoordLoc = gl20::GetAttribLocation(this->prog, "texcoord_in");
 		if (this->texcoordLoc < 0)
-			LogError("\"texcoord_in\" attribute not found in shader");
+			LogError2("\"texcoord_in\" attribute not found in shader");
 		this->screenSizeLoc = gl20::GetUniformLocation(this->prog, "screenSize");
 		if (this->screenSizeLoc < 0)
-			LogError("\"screenSize\" uniform not found in shader");
+			LogError2("\"screenSize\" uniform not found in shader");
 		this->texLoc = gl20::GetUniformLocation(this->prog, "tex");
 		if (this->texLoc < 0)
-			LogError("\"tex\" uniform not found in shader");
+			LogError2("\"tex\" uniform not found in shader");
 		this->flipYLoc = gl20::GetUniformLocation(this->prog, "flipY");
 		if (this->flipYLoc < 0)
-			LogError("\"flipY\" uniform not found in shader");
+			LogError2("\"flipY\" uniform not found in shader");
 		this->tintLoc = gl20::GetUniformLocation(this->prog, "tint");
 		if (this->tintLoc < 0)
-			LogError("\"tint\" uniform not found in shader");
+			LogError2("\"tint\" uniform not found in shader");
 	}
 	void setUniforms(Vec2<int> screenSize, bool flipY, Colour tint = {255, 255, 255, 255},
 	                 GLint texUnit = 0)
@@ -484,7 +484,7 @@ class BindTexture
 			case gl20::TEXTURE_3D:
 				return gl20::TEXTURE_BINDING_3D;
 			default:
-				LogError("Unknown texture enum %d", static_cast<int>(e));
+				LogError2("Unknown texture enum {}", static_cast<int>(e));
 				return gl20::TEXTURE_BINDING_2D;
 		}
 	}
@@ -765,7 +765,7 @@ class OGL20Renderer : public Renderer
 		}
 
 		sp<PaletteImage> paletteImage = std::dynamic_pointer_cast<PaletteImage>(image);
-		LogError("Unsupported image type");
+		LogError2("Unsupported image type");
 	}
 	void drawScaled(sp<Image> image, Vec2<float> position, Vec2<float> size,
 	                Scaler scaler = Scaler::Linear) override
@@ -803,7 +803,7 @@ class OGL20Renderer : public Renderer
 			{
 				// blending indices doesn't make sense. You'll have to render
 				// it to an RGB surface then scale that
-				LogError("Only nearest scaler is supported on paletted images");
+				LogError2("Only nearest scaler is supported on paletted images");
 			}
 			this->drawPalette(*img, position, size, tint);
 			return;
@@ -821,7 +821,7 @@ class OGL20Renderer : public Renderer
 			this->drawSurface(*fbo, position, size, scaler, tint);
 			return;
 		}
-		LogError("Unsupported image type");
+		LogError2("Unsupported image type");
 	}
 
 	void drawTinted(sp<Image> i, Vec2<float> position, Colour tint) override
@@ -955,7 +955,7 @@ class OGL20Renderer : public Renderer
 				filter = gl20::NEAREST;
 				break;
 			default:
-				LogError("Unknown scaler requested");
+				LogError2("Unknown scaler requested");
 				filter = gl20::NEAREST;
 				break;
 		}
@@ -1001,7 +1001,7 @@ class OGL20Renderer : public Renderer
 				filter = gl20::NEAREST;
 				break;
 			default:
-				LogError("Unknown scaler requested");
+				LogError2("Unknown scaler requested");
 				filter = gl20::NEAREST;
 				break;
 		}

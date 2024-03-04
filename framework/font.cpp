@@ -106,13 +106,13 @@ sp<BitmapFont> BitmapFont::loadFont(const std::map<char32_t, UString> &glyphMap,
 		auto fontImage = fw().data->loadImage(p.second);
 		if (!fontImage)
 		{
-			LogError("Failed to read glyph image \"%s\"", p.second);
+			LogError2("Failed to read glyph image \"{}\"", p.second);
 			continue;
 		}
 		auto paletteImage = std::dynamic_pointer_cast<PaletteImage>(fontImage);
 		if (!paletteImage)
 		{
-			LogError("Glyph image \"%s\" doesn't look like a PaletteImage", p.second);
+			LogError2("Glyph image \"{}\" doesn't look like a PaletteImage", p.second);
 			continue;
 		}
 		unsigned int maxWidth = 0;

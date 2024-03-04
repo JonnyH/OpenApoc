@@ -54,7 +54,7 @@ TransactionScreen::TransactionScreen(sp<GameState> state, bool forceLimits)
 		auto tctrl = std::dynamic_pointer_cast<TransactionControl>(e->forms().RaisedBy);
 		if (!tctrl)
 		{
-			LogError("Non-Transaction Control called a callback? WTF?");
+			LogError2("Non-Transaction Control called a callback? WTF?");
 			return;
 		}
 		this->displayItem(tctrl);

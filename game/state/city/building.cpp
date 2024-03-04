@@ -24,7 +24,7 @@ sp<BuildingFunction> StateObject<BuildingFunction>::get(const GameState &state, 
 	auto it = state.building_functions.find(id);
 	if (it == state.building_functions.end())
 	{
-		LogError("No building_function matching ID \"%s\"", id);
+		LogError2("No building_function matching ID \"{}\"", id);
 		return nullptr;
 	}
 	return it->second;
@@ -50,7 +50,7 @@ template <> sp<Building> StateObject<Building>::get(const GameState &state, cons
 			return it->second;
 	}
 
-	LogError("No building type matching ID \"%s\"", id);
+	LogError2("No building type matching ID \"{}\"", id);
 	return nullptr;
 }
 
@@ -77,7 +77,7 @@ const UString &StateObject<Building>::getId(const GameState &state, const sp<Bui
 				return b.first;
 		}
 	}
-	LogError("No building matching pointer %p", static_cast<void *>(ptr.get()));
+	LogError2("No building matching pointer {}", static_cast<void *>(ptr.get()));
 	return emptyString;
 }
 
@@ -277,7 +277,7 @@ void Building::updateCargo(GameState &state)
 				}
 				if (ferries.empty())
 				{
-					LogError("There is no ferry type for cargo with bio = %s in the game!?",
+					LogError2("There is no ferry type for cargo with bio = {} in the game!?",
 					         needBio);
 					return;
 				}
@@ -327,7 +327,7 @@ void Building::updateCargo(GameState &state)
 				}
 				if (ferries.empty())
 				{
-					LogError("There is no ferry type for agents in the game!?");
+					LogError2("There is no ferry type for agents in the game!?");
 					return;
 				}
 				// Spawn a random vehicle type and provide service
@@ -1060,7 +1060,7 @@ void Building::decreasePendingInvestigatorCount(GameState &state)
 	}
 	else if (this->pendingInvestigatorCount < 0) // shouldn't happen
 	{
-		LogError("Building investigate count < 0?");
+		LogError2("Building investigate count < 0?");
 		this->pendingInvestigatorCount = 0;
 	}
 }

@@ -94,18 +94,18 @@ bool FlyingVehicleTileHelper::canEnterTile(Tile *from, Tile *to, bool, bool &, f
 	}
 	if (!to)
 	{
-		LogError("No 'to' position supplied");
+		LogError2("No 'to' position supplied");
 		return false;
 	}
 	Vec3<int> toPos = to->position;
 	if (fromPos == toPos)
 	{
-		LogError("FromPos == ToPos %s", toPos);
+		LogError2("FromPos == ToPos {}", toPos);
 		return false;
 	}
 	if (!map.tileIsValid(toPos))
 	{
-		LogError("ToPos %s is not on the map", toPos);
+		LogError2("ToPos {} is not on the map", toPos);
 		return false;
 	}
 
@@ -230,7 +230,7 @@ bool FlyingVehicleTileHelper::canLandOnTile(Tile *to) const
 {
 	if (!to)
 	{
-		LogError("No 'to' position supplied");
+		LogError2("No 'to' position supplied");
 		return false;
 	}
 	Vec3<int> toPos = to->position;
@@ -597,7 +597,7 @@ VehicleMission VehicleMission::takeOff(Vehicle &v)
 {
 	if (!v.currentBuilding)
 	{
-		LogError("Trying to take off while not in a building");
+		LogError2("Trying to take off while not in a building");
 	}
 	VehicleMission mission;
 	mission.type = MissionType::TakeOff;
@@ -762,7 +762,7 @@ AdjustTargetResult VehicleTargetHelper::adjustTargetToClosestGround(Vehicle &v, 
 		target = closestPos;
 		return {reachability, true};
 	}
-	LogError("NO GROUND IN THE CITY!? WTF?");
+	LogError2("NO GROUND IN THE CITY!? WTF?");
 	return {reachability, false};
 }
 
@@ -787,7 +787,7 @@ VehicleTargetHelper::adjustTargetToClosestFlying(GameState &state, Vehicle &v, V
 		target.z++;
 		if (target.z >= map.size.z)
 		{
-			LogError("No space in the sky? Reached %d %d %d", target.x, target.y, target.z);
+			LogError2("No space in the sky? Reached {} {} {}", target.x, target.y, target.z);
 			return {reachability, false};
 		}
 		reachability = isReachableTargetFlying(v, target);
@@ -880,7 +880,7 @@ VehicleTargetHelper::adjustTargetToClosestFlying(GameState &state, Vehicle &v, V
 	}
 	else
 	{
-		LogError("Unknown value for vehicleAvoidance: %d", static_cast<int>(vehicleAvoidance));
+		LogError2("Unknown value for vehicleAvoidance: {}", static_cast<int>(vehicleAvoidance));
 	}
 	return {reachability, true};
 }
@@ -897,7 +897,7 @@ VehicleTargetHelper::adjustTargetToClosest(GameState &state, Vehicle &v, Vec3<in
 		case VehicleType::Type::ATV:
 			return adjustTargetToClosestGround(v, target);
 		default:
-			LogError("Vehicle [%s] has unknown type [%s]", v.name, v.type->name);
+			LogError2("Vehicle [{}] has unknown type [{}]", v.name, v.type->name);
 			[[fallthrough]];
 		case VehicleType::Type::Flying:
 		case VehicleType::Type::UFO:
@@ -919,7 +919,7 @@ Reachability VehicleTargetHelper::isReachableTarget(const Vehicle &v, Vec3<int> 
 		case VehicleType::Type::ATV:
 			return isReachableTargetGround(v, target);
 		default:
-			LogError("Vehicle [%s] has unknown type [%s]", v.name, v.type->name);
+			LogError2("Vehicle [{}] has unknown type [{}]", v.name, v.type->name);
 			[[fallthrough]];
 		case VehicleType::Type::Flying:
 		case VehicleType::Type::UFO:
@@ -1282,8 +1282,7 @@ bool VehicleMission::getNextDestination(GameState &state, Vehicle &v, Vec3<float
 			if (v.currentBuilding != this->targetBuilding)
 			{
 				auto name = this->getName();
-				LogError("Vehicle mission %s: getNextDestination() shouldn't be called unless "
-				         "you've reached the target?",
+				LogError2("Vehicle mission {}: getNextDestination() shouldn't be called unless you've reached the target?",
 				         name);
 			}
 			destPos = {0, 0, 9};
@@ -1679,7 +1678,7 @@ void VehicleMission::start(GameState &state, Vehicle &v)
 			auto b = v.currentBuilding;
 			if (!b)
 			{
-				LogError("Building disappeared");
+				LogError2("Building disappeared");
 				return;
 			}
 
@@ -1694,7 +1693,7 @@ void VehicleMission::start(GameState &state, Vehicle &v)
 					auto exitTile = map.getTile(exitLocation);
 					if (!exitTile)
 					{
-						LogError("Invalid entrance location %s - outside map?", exitLocation.x);
+						LogError2("Invalid entrance location {} - outside map?", exitLocation.x);
 						snoozeTicks = TICKS_PER_HOUR / 2;
 						continue;
 					}
@@ -1772,7 +1771,7 @@ void VehicleMission::start(GameState &state, Vehicle &v)
 					auto tileAbovePad = map.getTile(abovePadLocation);
 					if (!padTile || !tileAbovePad)
 					{
-						LogError("Invalid landing pad location %s - outside map?", padLocation.x);
+						LogError2("Invalid landing pad location {} - outside map?", padLocation.x);
 						continue;
 					}
 					FlyingVehicleTileHelper tileHelper(map, v);
@@ -1812,7 +1811,7 @@ void VehicleMission::start(GameState &state, Vehicle &v)
 			auto b = this->targetBuilding;
 			if (!b)
 			{
-				LogError("Building disappeared");
+				LogError2("Building disappeared");
 				cancelled = true;
 				return;
 			}
@@ -1823,7 +1822,7 @@ void VehicleMission::start(GameState &state, Vehicle &v)
 					auto vehicleTile = v.tileObject;
 					if (!vehicleTile)
 					{
-						LogError("Trying to land vehicle not in the city?");
+						LogError2("Trying to land vehicle not in the city?");
 						return;
 					}
 					if (v.type->isGround())
@@ -1831,7 +1830,7 @@ void VehicleMission::start(GameState &state, Vehicle &v)
 						auto vehiclePosition = vehicleTile->getOwningTile()->position;
 						if (vehiclePosition != targetBuilding->carEntranceLocation)
 						{
-							LogError("Vehicle at %s not inside vehicle entrance for building %s",
+							LogError2("Vehicle at {} not inside vehicle entrance for building {}",
 							         vehiclePosition, b.id);
 							return;
 						}
@@ -1846,7 +1845,7 @@ void VehicleMission::start(GameState &state, Vehicle &v)
 						auto vehiclePosition = vehicleTile->getOwningTile()->position;
 						if (vehiclePosition.z < 2)
 						{
-							LogError("Vehicle trying to land off bottom of map %s",
+							LogError2("Vehicle trying to land off bottom of map {}",
 							         vehiclePosition);
 							cancelled = true;
 							return;
@@ -1865,8 +1864,7 @@ void VehicleMission::start(GameState &state, Vehicle &v)
 						}
 						if (!padFound)
 						{
-							LogError("Vehicle at %s not directly above a landing pad for "
-							         "building %s",
+							LogError2("Vehicle at {} not directly above a landing pad for building {}",
 							         vehiclePosition, b.id);
 							cancelled = true;
 							return;
@@ -1886,12 +1884,12 @@ void VehicleMission::start(GameState &state, Vehicle &v)
 				}
 				case 2:
 				{
-					LogError("Starting a complete Land mission?");
+					LogError2("Starting a complete Land mission?");
 					return;
 				}
 				default:
 				{
-					LogError("Unhandled missionCounter in %s", getName());
+					LogError2("Unhandled missionCounter in {}", getName());
 					return;
 				}
 			}
@@ -1899,7 +1897,7 @@ void VehicleMission::start(GameState &state, Vehicle &v)
 		case MissionType::DepartToSpace:
 			if (v.type->isGround())
 			{
-				LogError("Ground vehcile on depart to space mission!? WTF!?");
+				LogError2("Ground vehcile on depart to space mission!? WTF!?");
 			}
 		// Intentional fall-through
 		case MissionType::GotoPortal:
@@ -2022,14 +2020,14 @@ void VehicleMission::start(GameState &state, Vehicle &v)
 		{
 			if (v.type->type != VehicleType::Type::UFO)
 			{
-				LogError("Only UFOs can crash, how did we end up starting this?");
+				LogError2("Only UFOs can crash, how did we end up starting this?");
 				cancelled = true;
 				return;
 			}
 			auto vehicleTile = v.tileObject;
 			if (!vehicleTile)
 			{
-				LogError("Trying to crash land vehicle that's not in the air?");
+				LogError2("Trying to crash land vehicle that's not in the air?");
 				return;
 			}
 			auto &map = vehicleTile->map;
@@ -2069,7 +2067,7 @@ void VehicleMission::start(GameState &state, Vehicle &v)
 			auto t = this->targetVehicle;
 			if (v.shared_from_this() == t.getSp())
 			{
-				LogError("Vehicle mission %s: Targeting itself", name);
+				LogError2("Vehicle mission {}: Targeting itself", name);
 				return;
 			}
 			auto vehicleTile = v.tileObject;
@@ -2092,7 +2090,7 @@ void VehicleMission::start(GameState &state, Vehicle &v)
 			auto b = this->targetBuilding;
 			if (!b)
 			{
-				LogError("Building disappeared");
+				LogError2("Building disappeared");
 				return;
 			}
 			if (b == v.currentBuilding)
@@ -2335,7 +2333,7 @@ void VehicleMission::start(GameState &state, Vehicle &v)
 				{
 					if (!targetBuilding)
 					{
-						LogError("Building disappeared");
+						LogError2("Building disappeared");
 						return;
 					}
 					// Already in target building - pick up cargo and restart mission to start
@@ -2397,7 +2395,7 @@ void VehicleMission::start(GameState &state, Vehicle &v)
 				}
 				default:
 				{
-					LogError("Unhandled missionCounter in %s", getName());
+					LogError2("Unhandled missionCounter in {}", getName());
 					return;
 				}
 			}
@@ -2427,7 +2425,7 @@ void VehicleMission::start(GameState &state, Vehicle &v)
 					auto b = this->targetBuilding;
 					if (!b)
 					{
-						LogError("Building disappeared");
+						LogError2("Building disappeared");
 						return;
 					}
 					auto vehicleTile = v.tileObject;
@@ -2570,7 +2568,7 @@ void VehicleMission::start(GameState &state, Vehicle &v)
 				}
 				default:
 				{
-					LogError("Unhandled missionCounter in %s", getName());
+					LogError2("Unhandled missionCounter in {}", getName());
 					return;
 				}
 			}
@@ -2605,7 +2603,7 @@ void VehicleMission::start(GameState &state, Vehicle &v)
 				}
 				default:
 				{
-					LogError("Unhandled missionCounter in %s", getName());
+					LogError2("Unhandled missionCounter in {}", getName());
 					return;
 				}
 			}
@@ -2614,7 +2612,7 @@ void VehicleMission::start(GameState &state, Vehicle &v)
 		{
 			if (v.smokeDoodad)
 			{
-				LogError("Restarting self destruct?");
+				LogError2("Restarting self destruct?");
 			}
 			else
 			{
@@ -2627,7 +2625,7 @@ void VehicleMission::start(GameState &state, Vehicle &v)
 			// No setup
 			return;
 		default:
-			LogError("TODO: Implement start %s", getName());
+			LogError2("TODO: Implement start {}", getName());
 			return;
 	}
 }
@@ -2639,7 +2637,7 @@ void VehicleMission::setPathTo(GameState &state, Vehicle &v, Vec3<int> target, i
 	auto vehicleTile = v.tileObject;
 	if (!vehicleTile)
 	{
-		LogError("Mission %s: Take off before pathfinding!", this->getName());
+		LogError2("Mission {}: Take off before pathfinding!", this->getName());
 		return;
 	}
 	const auto avoidance =
@@ -3213,24 +3211,24 @@ bool GroundVehicleTileHelper::canEnterTile(Tile *from, Tile *to, bool, bool &, f
 {
 	if (!from)
 	{
-		LogError("No 'from' position supplied");
+		LogError2("No 'from' position supplied");
 		return false;
 	}
 	Vec3<int> fromPos = from->position;
 	if (!to)
 	{
-		LogError("No 'to' position supplied");
+		LogError2("No 'to' position supplied");
 		return false;
 	}
 	Vec3<int> toPos = to->position;
 	if (fromPos == toPos)
 	{
-		LogError("FromPos == ToPos %s", toPos);
+		LogError2("FromPos == ToPos {}", toPos);
 		return false;
 	}
 	if (!map.tileIsValid(toPos))
 	{
-		LogError("ToPos %s is not on the map", toPos);
+		LogError2("ToPos {} is not on the map", toPos);
 		return false;
 	}
 
@@ -3507,7 +3505,7 @@ int GroundVehicleTileHelper::convertDirection(Vec3<int> dir) const
 	{
 		return 3;
 	}
-	LogError("Impossible to reach here? convertDirection for 0,0,0?");
+	LogError2("Impossible to reach here? convertDirection for 0,0,0?");
 	return -1;
 }
 
@@ -3524,7 +3522,7 @@ bool GroundVehicleTileHelper::isMoveAllowedRoad(Scenery &scenery, int dir) const
 		case SceneryTileType::TileType::CityWall:
 			return false;
 	}
-	LogError("Unhandled situiation in isMoveAllowedRoad, can't reach here?");
+	LogError2("Unhandled situiation in isMoveAllowedRoad, can't reach here?");
 	return false;
 }
 
@@ -3544,7 +3542,7 @@ bool GroundVehicleTileHelper::isMoveAllowedATV(Scenery &scenery, int dir) const
 		case SceneryTileType::WalkMode::None:
 			return false;
 	}
-	LogError("Unhandled situiation in isMoveAllowedATV, can't reach here?");
+	LogError2("Unhandled situiation in isMoveAllowedATV, can't reach here?");
 	return false;
 }
 

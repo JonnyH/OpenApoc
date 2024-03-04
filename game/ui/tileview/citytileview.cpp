@@ -438,7 +438,7 @@ void CityTileView::render()
 													          DEBUG_SHOW_MISC_TYPE - 1;
 													break;
 												default:
-													LogError("Unhandled DEBUG_SHOW_WALK_TYPE %d",
+													LogError2("Unhandled DEBUG_SHOW_WALK_TYPE {}",
 													         DEBUG_SHOW_MISC_TYPE);
 													DEBUG_SHOW_MISC_TYPE = 0;
 													break;
@@ -1082,7 +1082,7 @@ void CityTileView::update()
 		}
 		else
 		{
-			LogError("Unhandled hoursClamped %d", hour);
+			LogError2("Unhandled hoursClamped {}", hour);
 		}
 
 		for (int i = 0; i < 256; i++)

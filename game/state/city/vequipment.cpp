@@ -44,13 +44,13 @@ bool VEquipment::fire(GameState &state, Vec3<float> targetPosition, Vec3<float> 
 	}
 	if (this->type->type != EquipmentSlotType::VehicleWeapon)
 	{
-		LogError("fire() called on non-Weapon");
+		LogError2("fire() called on non-Weapon");
 		return false;
 	}
 	auto vehicleTile = owner->tileObject;
 	if (!vehicleTile)
 	{
-		LogError("Called on vehicle with no tile object?");
+		LogError2("Called on vehicle with no tile object?");
 		return false;
 	}
 	if (this->weaponState != WeaponState::Ready)
@@ -141,7 +141,7 @@ void VEquipment::update(int ticks)
 {
 	if (this->type->type != EquipmentSlotType::VehicleWeapon)
 	{
-		LogError("update() called on non-Weapon");
+		LogError2("update() called on non-Weapon");
 		return;
 	}
 	if (this->reloadTime != 0)
@@ -249,7 +249,7 @@ float VEquipment::getRange() const
 {
 	if (this->type->type != EquipmentSlotType::VehicleWeapon)
 	{
-		LogError("getRange() called on non-Weapon");
+		LogError2("getRange() called on non-Weapon");
 		return 0;
 	}
 	auto &type = this->type;
@@ -260,7 +260,7 @@ void VEquipment::setReloadTime(int ticks)
 {
 	if (this->type->type != EquipmentSlotType::VehicleWeapon)
 	{
-		LogError("setReloadTime() called on non-Weapon");
+		LogError2("setReloadTime() called on non-Weapon");
 		return;
 	}
 	if (ticks <= 0)
@@ -278,7 +278,7 @@ bool VEquipment::canFire() const
 {
 	if (this->type->type != EquipmentSlotType::VehicleWeapon)
 	{
-		LogError("canFire() called on non-Weapon");
+		LogError2("canFire() called on non-Weapon");
 		return false;
 	}
 	return !disabled && this->weaponState == WeaponState::Ready;
@@ -286,7 +286,7 @@ bool VEquipment::canFire() const
 
 sp<Image> VEquipment::getEquipmentArmorImage() const
 {
-	LogError("Vehicle equipment cannot have armor image");
+	LogError2("Vehicle equipment cannot have armor image");
 	return 0;
 }
 
