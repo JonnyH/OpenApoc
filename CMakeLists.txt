@@ -32,6 +32,15 @@ option(LTO "Build using link-time-optimisations" OFF)
 option(MSVC_PDB "Always generate PDB files" OFF)
 option(ENABLE_TESTS "Build some unit tests" ON)
 option(EXTRACT_DATA "Run the data extractor as part of the default target" ON)
+option(ENABLE_CLANG_TIDY "Run clang-tidy at build time" OFF)
+
+set(CLANG_TIDY_PATH "clang-tidy-18" CACHE PATH "The path to the clang-tidy executable" )
+set(CLANG_TIDY_OPTIONS "-fix" CACHE STRING "Options passed in to clang-tidy" )
+
+if (ENABLE_CLANG_TIDY)
+set(CMAKE_CXX_CLANG_TIDY ${CLANG_TIDY_PATH} ${CLANG_TIDY_OPTIONS})
+message("Set clang tidy command to ${CMAKE_CXX_CLANG_TIDY}")
+endif()
 
 set(CD_PATH ${CMAKE_SOURCE_DIR}/data/cd.iso CACHE STRING "Path to cd.iso (used
 by test and extractor")

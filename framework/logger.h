@@ -71,80 +71,38 @@ static inline bool logLevelEnabled(LogLevel level [[maybe_unused]])
 			OpenApoc::_logAssert(LOGGER_PREFIX, STR(X), __LINE__, __FILE__);                       \
 	} while (0)
 
-#if defined(__GNUC__)
-// GCC has an extension if __VA_ARGS__ are not supplied to 'remove' the preceding comma
-#define LogDebug(f, ...)                                                                           \
-	do                                                                                             \
-	{                                                                                              \
-		if (OpenApoc::logLevelEnabled(OpenApoc::LogLevel::Debug))                                  \
-		{                                                                                          \
-			OpenApoc::Log(OpenApoc::LogLevel::Debug, OpenApoc::UString(LOGGER_PREFIX),             \
-			              ::OpenApoc::format(f, ##__VA_ARGS__));                                   \
-		}                                                                                          \
-	} while (0)
-#define LogInfo(f, ...)                                                                            \
-	do                                                                                             \
-	{                                                                                              \
-		if (OpenApoc::logLevelEnabled(OpenApoc::LogLevel::Info))                                   \
-		{                                                                                          \
-			OpenApoc::Log(OpenApoc::LogLevel::Info, OpenApoc::UString(LOGGER_PREFIX),              \
-			              ::OpenApoc::format(f, ##__VA_ARGS__));                                   \
-		}                                                                                          \
-	} while (0)
-#define LogWarning(f, ...)                                                                         \
-	do                                                                                             \
-	{                                                                                              \
-		if (OpenApoc::logLevelEnabled(OpenApoc::LogLevel::Warning))                                \
-		{                                                                                          \
-			OpenApoc::Log(OpenApoc::LogLevel::Warning, OpenApoc::UString(LOGGER_PREFIX),           \
-			              ::OpenApoc::format(f, ##__VA_ARGS__));                                   \
-		}                                                                                          \
-	} while (0)
-#define LogError(f, ...)                                                                           \
-	do                                                                                             \
-	{                                                                                              \
-		if (OpenApoc::logLevelEnabled(OpenApoc::LogLevel::Error))                                  \
-		{                                                                                          \
-			OpenApoc::Log(OpenApoc::LogLevel::Error, OpenApoc::UString(LOGGER_PREFIX),             \
-			              ::OpenApoc::format(f, ##__VA_ARGS__));                                   \
-		}                                                                                          \
-	} while (0)
-#else
-// At least msvc automatically removes the comma
-#define LogDebug(f, ...)                                                                           \
-	do                                                                                             \
-	{                                                                                              \
-		if (OpenApoc::logLevelEnabled(OpenApoc::LogLevel::Debug))                                  \
-		{                                                                                          \
-			OpenApoc::Log(OpenApoc::LogLevel::Debug, LOGGER_PREFIX,                                \
-			              ::OpenApoc::format(f, __VA_ARGS__));                                     \
-		}                                                                                          \
-	} while (0)
-#define LogInfo(f, ...)                                                                            \
-	do                                                                                             \
-	{                                                                                              \
-		if (OpenApoc::logLevelEnabled(OpenApoc::LogLevel::Info))                                   \
-		{                                                                                          \
-			OpenApoc::Log(OpenApoc::LogLevel::Info, LOGGER_PREFIX,                                 \
-			              ::OpenApoc::format(f, __VA_ARGS__));                                     \
-		}                                                                                          \
-	} while (0)
-#define LogWarning(f, ...)                                                                         \
-	do                                                                                             \
-	{                                                                                              \
-		if (OpenApoc::logLevelEnabled(OpenApoc::LogLevel::Warning))                                \
-		{                                                                                          \
-			OpenApoc::Log(OpenApoc::LogLevel::Warning, LOGGER_PREFIX,                              \
-			              ::OpenApoc::format(f, __VA_ARGS__));                                     \
-		}                                                                                          \
-	} while (0)
-#define LogError(f, ...)                                                                           \
-	do                                                                                             \
-	{                                                                                              \
-		if (OpenApoc::logLevelEnabled(OpenApoc::LogLevel::Error))                                  \
-		{                                                                                          \
-			OpenApoc::Log(OpenApoc::LogLevel::Error, LOGGER_PREFIX,                                \
-			              ::OpenApoc::format(f, __VA_ARGS__));                                     \
-		}                                                                                          \
-	} while (0)
-#endif
+
+template <typename... Args> static void LogError(const OpenApoc::UStringView fmt, Args &&...args)
+{
+	OpenApoc::Log(OpenApoc::LogLevel::Error, "OLD", fmt::sprintf(fmt, std::forward<Args>(args)...));
+}
+template <typename... Args> static void LogWarning(const OpenApoc::UStringView fmt, Args &&...args)
+{
+	OpenApoc::Log(OpenApoc::LogLevel::Warning, "OLD", fmt::sprintf(fmt, std::forward<Args>(args)...));
+}
+template <typename... Args> static void LogInfo(const OpenApoc::UStringView fmt, Args &&...args)
+{
+	OpenApoc::Log(OpenApoc::LogLevel::Info, "OLD", fmt::sprintf(fmt, std::forward<Args>(args)...));
+}
+template <typename... Args> static void LogDebug(const OpenApoc::UStringView fmt, Args &&...args)
+{
+	OpenApoc::Log(OpenApoc::LogLevel::Debug, "OLD", fmt::sprintf(fmt, std::forward<Args>(args)...));
+}
+
+template <typename... Args> static void LogError2(const OpenApoc::UStringView fmt, Args &&...args)
+{
+	OpenApoc::Log(OpenApoc::LogLevel::Error, "NEW", fmt::format(fmt, std::forward<Args>(args)...));
+}
+template <typename... Args> static void LogWarning2(const OpenApoc::UStringView fmt, Args &&...args)
+{
+	OpenApoc::Log(OpenApoc::LogLevel::Warning, "NEW",
+	              fmt::format(fmt, std::forward<Args>(args)...));
+}
+template <typename... Args> static void LogInfo2(const OpenApoc::UStringView fmt, Args &&...args)
+{
+	OpenApoc::Log(OpenApoc::LogLevel::Info, "NEW", fmt::format(fmt, std::forward<Args>(args)...));
+}
+template <typename... Args> static void LogDebug2(const OpenApoc::UStringView fmt, Args &&...args)
+{
+	OpenApoc::Log(OpenApoc::LogLevel::Debug, "NEW", fmt::format(fmt, std::forward<Args>(args)...));
+}
