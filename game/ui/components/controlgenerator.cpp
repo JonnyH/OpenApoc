@@ -40,11 +40,10 @@ void ControlGenerator::init(GameState &state [[maybe_unused]])
 	for (int i = 0; i < 3; i++)
 	{
 		battleSelect.push_back(
-		    fw().data->loadImage(format("PCK:xcom3/tacdata/tacbut.pck:xcom3/tacdata/"
-		                                "tacbut.tab:%d:xcom3/tacdata/tactical.pal",
+		    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/tacbut.pck:xcom3/tacdata/tacbut.tab:{0}:xcom3/tacdata/tactical.pal",
 		                                25 + i)));
-		citySelect.push_back(fw().data->loadImage(format(
-		    "PCK:xcom3/ufodata/vs_icon.pck:xcom3/ufodata/vs_icon.tab:%d:xcom3/ufodata/pal_01.dat",
+		citySelect.push_back(fw().data->loadImage(OpenApoc::format2(
+		    "PCK:xcom3/ufodata/vs_icon.pck:xcom3/ufodata/vs_icon.tab:{0}:xcom3/ufodata/pal_01.dat",
 		    37 + i)));
 	}
 
@@ -55,8 +54,7 @@ void ControlGenerator::init(GameState &state [[maybe_unused]])
 	for (int i = 28; i <= 34; i++)
 	{
 		unitRanks.push_back(
-		    fw().data->loadImage(format("PCK:xcom3/tacdata/tacbut.pck:xcom3/tacdata/"
-		                                "tacbut.tab:%d:xcom3/tacdata/tactical.pal",
+		    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/tacbut.pck:xcom3/tacdata/tacbut.tab:{0}:xcom3/tacdata/tactical.pal",
 		                                i)));
 	}
 
@@ -85,16 +83,16 @@ void ControlGenerator::init(GameState &state [[maybe_unused]])
 
 	for (int i = 47; i <= 50; i++)
 	{
-		icons.push_back(fw().data->loadImage(format(
-		    "PCK:xcom3/ufodata/vs_icon.pck:xcom3/ufodata/vs_icon.tab:%d:xcom3/ufodata/pal_01.dat",
+		icons.push_back(fw().data->loadImage(OpenApoc::format2(
+		    "PCK:xcom3/ufodata/vs_icon.pck:xcom3/ufodata/vs_icon.tab:{0}:xcom3/ufodata/pal_01.dat",
 		    i)));
 	}
 
 	vehiclePassengerCountIcons.emplace_back();
 	for (int i = 51; i <= 63; i++)
 	{
-		vehiclePassengerCountIcons.push_back(fw().data->loadImage(format(
-		    "PCK:xcom3/ufodata/vs_icon.pck:xcom3/ufodata/vs_icon.tab:%d:xcom3/ufodata/pal_01.dat",
+		vehiclePassengerCountIcons.push_back(fw().data->loadImage(OpenApoc::format2(
+		    "PCK:xcom3/ufodata/vs_icon.pck:xcom3/ufodata/vs_icon.tab:{0}:xcom3/ufodata/pal_01.dat",
 		    i)));
 	}
 	labelFont = ui().getFont("smalfont");

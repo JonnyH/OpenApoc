@@ -79,7 +79,7 @@ void BribeScreen::updateInfo()
 	}
 
 	labelFunds->setText(state->getPlayerBalance());
-	labelRelation->setText(format("%s%s X-COM", tr(organisation->name), tr(relationship)));
+	labelRelation->setText(OpenApoc::format2("{0}{1} X-COM", tr(organisation->name), tr(relationship)));
 	labelOffer->setText(offer);
 }
 
@@ -91,7 +91,7 @@ void BribeScreen::updateInfo()
  */
 UString BribeScreen::getOfferString(int itWillCost, const UString &newAttitude) const
 {
-	return format("%s %d  %s  %s", tr("It will cost: $"), itWillCost,
+	return OpenApoc::format2("{0} {1}  {2}  {3}", tr("It will cost: $"), itWillCost,
 	              tr("to improve relations to:"), newAttitude);
 }
 

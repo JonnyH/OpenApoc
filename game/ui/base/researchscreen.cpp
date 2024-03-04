@@ -312,7 +312,7 @@ void ResearchScreen::populateUILabList(const UString &listName, std::list<sp<Fac
 		item->setData(facility);
 
 		auto label = std::static_pointer_cast<Label>(item->Controls[0]);
-		label->setText(format("%d", facility->lab->assigned_agents.size()));
+		label->setText(OpenApoc::format2("{0}", facility->lab->assigned_agents.size()));
 
 		uiListLabs->addItem(item);
 		if (facility == viewFacility)
@@ -433,7 +433,7 @@ void ResearchScreen::setCurrentLabInfo()
 	if (selectedItem)
 	{
 		auto label = std::static_pointer_cast<Label>(selectedItem->Controls[0]);
-		label->setText(format("%d", this->viewFacility->lab->assigned_agents.size()));
+		label->setText(OpenApoc::format2("{0}", this->viewFacility->lab->assigned_agents.size()));
 	}
 
 	updateProgressInfo();
@@ -517,7 +517,7 @@ void ResearchScreen::updateProgressInfo()
 		manufacturing_scroll_left->setVisible(true);
 		manufacturing_scroll_right->setVisible(true);
 		manufacturing_scrollbar->setValue(this->viewFacility->lab->getQuantity());
-		manufacturing_quantity->setText(format("%d", this->viewFacility->lab->getQuantity()));
+		manufacturing_quantity->setText(OpenApoc::format2("{0}", this->viewFacility->lab->getQuantity()));
 	}
 	else
 	{

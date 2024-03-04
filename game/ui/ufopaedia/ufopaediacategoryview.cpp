@@ -78,7 +78,7 @@ void UfopaediaCategoryView::begin()
 	baseH = infoLabel->Size.y;
 	for (int i = 0; i < 9; i++)
 	{
-		auto labelName = format("LABEL_%d", i + 1);
+		auto labelName = OpenApoc::format2("LABEL_{0}", i + 1);
 		auto label = menuform->findControlTyped<Label>(labelName);
 		if (!label)
 		{
@@ -87,7 +87,7 @@ void UfopaediaCategoryView::begin()
 		label->setText("");
 		statsLabels.push_back(label);
 
-		auto valueName = format("VALUE_%d", i + 1);
+		auto valueName = OpenApoc::format2("VALUE_{0}", i + 1);
 		auto value = menuform->findControlTyped<Label>(valueName);
 		if (!value)
 		{
@@ -98,7 +98,7 @@ void UfopaediaCategoryView::begin()
 	}
 	for (int i = 0; i < 4; i++)
 	{
-		auto labelName = format("ORG_LABEL_%d", i + 1);
+		auto labelName = OpenApoc::format2("ORG_LABEL_{0}", i + 1);
 		auto label = menuform->findControlTyped<Label>(labelName);
 		if (!label)
 		{
@@ -107,7 +107,7 @@ void UfopaediaCategoryView::begin()
 		label->setText("");
 		orgLabels.push_back(label);
 
-		auto valueName = format("ORG_VALUE_%d", i + 1);
+		auto valueName = OpenApoc::format2("ORG_VALUE_{0}", i + 1);
 		auto value = menuform->findControlTyped<Label>(valueName);
 		if (!value)
 		{
@@ -273,9 +273,9 @@ void UfopaediaCategoryView::setFormStats()
 					if (data_id != "ORG_ALIEN")
 					{
 						orgLabels[1]->setText(tr("Balance"));
-						orgValues[1]->setText(format("$%d", ref->balance));
+						orgValues[1]->setText(OpenApoc::format2("${0}", ref->balance));
 						orgLabels[2]->setText(tr("Income"));
-						orgValues[2]->setText(format("$%d", ref->income));
+						orgValues[2]->setText(OpenApoc::format2("${0}", ref->income));
 
 						if (ref != player)
 						{
@@ -301,7 +301,7 @@ void UfopaediaCategoryView::setFormStats()
 							relation += UString(" ") + tr(player->name);
 							orgLabels[0]->setText(relation);
 							orgLabels[3]->setText(tr("Alien Infiltration"));
-							orgValues[3]->setText(format("%d%%", ref->infiltrationValue / 2));
+							orgValues[3]->setText(OpenApoc::format2("{0}%", ref->infiltrationValue / 2));
 						}
 					}
 					break;
@@ -362,7 +362,7 @@ void UfopaediaCategoryView::setFormStats()
 					statsValues[row++]->setText(Strings::fromInteger(ref->weight));
 					statsLabels[row]->setText(tr("Size"));
 					statsValues[row++]->setText(
-					    format("%dx%d", ref->equipscreen_size.x, ref->equipscreen_size.y));
+					    OpenApoc::format2("{0}x{1}", ref->equipscreen_size.x, ref->equipscreen_size.y));
 					switch (ref->type)
 					{
 						case EquipmentSlotType::VehicleEngine:
@@ -375,12 +375,12 @@ void UfopaediaCategoryView::setFormStats()
 							statsLabels[row]->setText(tr("Damage"));
 							statsValues[row++]->setText(Strings::fromInteger(ref->damage));
 							statsLabels[row]->setText(tr("Accuracy"));
-							statsValues[row++]->setText(format("%d%%", ref->accuracy));
+							statsValues[row++]->setText(OpenApoc::format2("{0}%", ref->accuracy));
 							statsLabels[row]->setText(tr("Range"));
-							statsValues[row++]->setText(format("%dm", ref->getRangeInMetres()));
+							statsValues[row++]->setText(OpenApoc::format2("{0}m", ref->getRangeInMetres()));
 							statsLabels[row]->setText(tr("Fire Rate"));
-							statsValues[row++]->setText(format(
-							    "%.2f r/s", (float)TICKS_PER_SECOND / (float)ref->fire_delay));
+							statsValues[row++]->setText(OpenApoc::format2(
+							    "{0:.2f} r/s", (float)TICKS_PER_SECOND / (float)ref->fire_delay));
 							if (ref->max_ammo > 0 && ref->ammo_type)
 							{
 								statsLabels[row]->setText(tr("Ammo type"));
@@ -399,7 +399,7 @@ void UfopaediaCategoryView::setFormStats()
 							{
 								statsLabels[row]->setText(tr("Accuracy"));
 								statsValues[row++]->setText(
-								    format("+%d%%", ref->accuracy_modifier));
+								    OpenApoc::format2("+{0}%", ref->accuracy_modifier));
 							}
 							if (ref->cargo_space > 0)
 							{
@@ -419,12 +419,12 @@ void UfopaediaCategoryView::setFormStats()
 							if (ref->missile_jamming > 0)
 							{
 								statsLabels[row]->setText(tr("Jamming"));
-								statsValues[row++]->setText(format("%d%%", ref->missile_jamming));
+								statsValues[row++]->setText(OpenApoc::format2("{0}%", ref->missile_jamming));
 							}
 							if (ref->shielding > 0)
 							{
 								statsLabels[row]->setText(tr("Shielding"));
-								statsValues[row++]->setText(format("+%d", ref->shielding));
+								statsValues[row++]->setText(OpenApoc::format2("+{0}", ref->shielding));
 							}
 							if (ref->cloaking)
 							{
@@ -447,7 +447,7 @@ void UfopaediaCategoryView::setFormStats()
 					statsValues[row++]->setText(Strings::fromInteger(ref->weight));
 					statsLabels[row]->setText(tr("Size"));
 					statsValues[row++]->setText(
-					    format("%dx%d", ref->equipscreen_size.x, ref->equipscreen_size.y));
+					    OpenApoc::format2("{0}x{1}", ref->equipscreen_size.x, ref->equipscreen_size.y));
 					if (ref->type == AEquipmentType::Type::Ammo ||
 					    (ref->type == AEquipmentType::Type::Weapon && ref->ammo_types.empty()))
 					{
@@ -456,9 +456,9 @@ void UfopaediaCategoryView::setFormStats()
 						statsLabels[row]->setText(tr("Damage Type"));
 						statsValues[row++]->setText(ref->damage_type->name);
 						statsLabels[row]->setText("Range");
-						statsValues[row++]->setText(format("%dm", ref->getRangeInMetres()));
+						statsValues[row++]->setText(OpenApoc::format2("{0}m", ref->getRangeInMetres()));
 						statsLabels[row]->setText("Fire Rate");
-						statsValues[row++]->setText(format("%.2f r/s", ref->getRoundsPerSecond()));
+						statsValues[row++]->setText(OpenApoc::format2("{0:.2f} r/s", ref->getRoundsPerSecond()));
 					}
 					else if (ref->type == AEquipmentType::Type::Grenade)
 					{
@@ -476,10 +476,10 @@ void UfopaediaCategoryView::setFormStats()
 						statsLabels[row]->setText(tr("Damage Type"));
 						statsValues[row++]->setText(ammoType->damage_type->name);
 						statsLabels[row]->setText(tr("Range"));
-						statsValues[row++]->setText(format("%dm", ammoType->getRangeInMetres()));
+						statsValues[row++]->setText(OpenApoc::format2("{0}m", ammoType->getRangeInMetres()));
 						statsLabels[row]->setText(tr("Fire Rate"));
 						statsValues[row++]->setText(
-						    format("%.2f r/s", ammoType->getRoundsPerSecond()));
+						    OpenApoc::format2("{0:.2f} r/s", ammoType->getRoundsPerSecond()));
 					}
 					else if (ref->type == AEquipmentType::Type::Weapon &&
 					         ref->ammo_types.size() > 1)
@@ -503,11 +503,11 @@ void UfopaediaCategoryView::setFormStats()
 				{
 					StateRef<FacilityType> ref = {state.get(), data_id};
 					statsLabels[row]->setText(tr("Construction cost"));
-					statsValues[row++]->setText(format("$%d", ref->buildCost));
+					statsValues[row++]->setText(OpenApoc::format2("${0}", ref->buildCost));
 					statsLabels[row]->setText(tr("Days to build"));
 					statsValues[row++]->setText(Strings::fromInteger(ref->buildTime));
 					statsLabels[row]->setText(tr("Weekly cost"));
-					statsValues[row++]->setText(format("$%d", ref->weeklyCost));
+					statsValues[row++]->setText(OpenApoc::format2("${0}", ref->weeklyCost));
 					if (ref->capacityAmount > 0)
 					{
 						statsLabels[row]->setText(tr("Capacity"));

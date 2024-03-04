@@ -119,7 +119,7 @@ void InitialGameStateExtractor::extractEconomy(GameState &state) const
 		if (i < 87)
 		{
 			id = data.agent_equipment_names->get(i);
-			id = format("%s%s", AEquipmentType::getPrefix(), canon_string(id));
+			id = OpenApoc::format2("{0}{1}", AEquipmentType::getPrefix(), canon_string(id));
 		}
 		else
 		{

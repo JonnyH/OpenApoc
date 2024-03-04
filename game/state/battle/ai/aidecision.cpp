@@ -20,35 +20,35 @@ UString AIAction::getName()
 	switch (type)
 	{
 		case AIAction::Type::AttackGrenade:
-			return format("Attack %s with grenade %s ", targetUnit->id, item->type->id);
+			return OpenApoc::format2("Attack {0} with grenade {1} ", targetUnit->id, item->type->id);
 		case AIAction::Type::AttackWeaponTile:
 			if (item)
 			{
-				return format("Attack %s with weapon %s ", targetLocation, item->type->id);
+				return OpenApoc::format2("Attack {0} with weapon {1} ", targetLocation, item->type->id);
 			}
 			else
 			{
-				return format("Attack %s with weapon(s)", targetLocation);
+				return OpenApoc::format2("Attack {0} with weapon(s)", targetLocation);
 			}
 		case AIAction::Type::AttackWeaponUnit:
 			if (item)
 			{
-				return format("Attack %s with weapon %s ", targetUnit->id, item->type->id);
+				return OpenApoc::format2("Attack {0} with weapon {1} ", targetUnit->id, item->type->id);
 			}
 			else
 			{
-				return format("Attack %s with weapon(s)", targetUnit->id);
+				return OpenApoc::format2("Attack {0} with weapon(s)", targetUnit->id);
 			}
 		case AIAction::Type::AttackPsiMC:
-			return format("Attack %s with psi MC using %s ", targetUnit->id, item->type->id);
+			return OpenApoc::format2("Attack {0} with psi MC using {1} ", targetUnit->id, item->type->id);
 		case AIAction::Type::AttackPsiStun:
-			return format("Attack %s with psi stun using %s ", targetUnit->id, item->type->id);
+			return OpenApoc::format2("Attack {0} with psi stun using {1} ", targetUnit->id, item->type->id);
 		case AIAction::Type::AttackPsiPanic:
-			return format("Attack %s with psi panic using %s ", targetUnit->id, item->type->id);
+			return OpenApoc::format2("Attack {0} with psi panic using {1} ", targetUnit->id, item->type->id);
 		case AIAction::Type::AttackBrainsucker:
-			return format("Attack %s with brainsucker", targetUnit->id);
+			return OpenApoc::format2("Attack {0} with brainsucker", targetUnit->id);
 		case AIAction::Type::AttackSuicide:
-			return format("Attack (suicide) %s  ", targetUnit->id);
+			return OpenApoc::format2("Attack (suicide) {0}  ", targetUnit->id);
 	}
 	LogError2("Unimplemented getName for AIAction {}", (int)type);
 	return "";
@@ -105,23 +105,23 @@ UString AIMovement::getName()
 	switch (type)
 	{
 		case AIMovement::Type::Stop:
-			return format("Stop");
+			return OpenApoc::format2("Stop");
 		case AIMovement::Type::ChangeStance:
-			return format("Change Stance");
+			return OpenApoc::format2("Change Stance");
 		case AIMovement::Type::Patrol:
-			return format("Move to %s", targetLocation);
+			return OpenApoc::format2("Move to {0}", targetLocation);
 		case AIMovement::Type::Advance:
-			return format("Advance on target to %s", targetLocation);
+			return OpenApoc::format2("Advance on target to {0}", targetLocation);
 		case AIMovement::Type::Pursue:
-			return format("Pursue target to %s", targetLocation);
+			return OpenApoc::format2("Pursue target to {0}", targetLocation);
 		case AIMovement::Type::GetInRange:
-			return format("Get in range, moving to %s", targetLocation);
+			return OpenApoc::format2("Get in range, moving to {0}", targetLocation);
 		case AIMovement::Type::Retreat:
-			return format("Retreat to %s", targetLocation);
+			return OpenApoc::format2("Retreat to {0}", targetLocation);
 		case AIMovement::Type::TakeCover:
-			return format("Taking cover, moving to %s", targetLocation);
+			return OpenApoc::format2("Taking cover, moving to {0}", targetLocation);
 		case AIMovement::Type::Turn:
-			return format("Turn to %s", targetLocation);
+			return OpenApoc::format2("Turn to {0}", targetLocation);
 	}
 	LogError2("Unimplemented getName for AIMovement {}", (int)type);
 	return "";
@@ -198,7 +198,7 @@ bool AIMovement::isFinished(BattleUnit &u) { return !inProgress(u) && executed; 
 
 UString AIDecision::getName()
 {
-	return format("Action: [%s] Movement: [%s]", action ? action->getName() : "NULL",
+	return OpenApoc::format2("Action: [{0}] Movement: [{1}]", action ? action->getName() : "NULL",
 	              movement ? movement->getName() : "NULL");
 }
 

@@ -106,7 +106,7 @@ StateRef<Agent> AgentGenerator::createAgent(GameState &state, StateRef<Organisat
 
 		auto firstName = pickRandom(state.rng, firstNameList->second);
 		auto secondName = pickRandom(state.rng, this->second_names);
-		agent->name = format("%s %s", firstName, secondName);
+		agent->name = OpenApoc::format2("{0} {1}", firstName, secondName);
 	}
 	else
 	{

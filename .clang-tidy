@@ -1,5 +1,5 @@
 ---
-Checks:          '-*,modernize-use-std-print'
+Checks:          '-*,modernize-use-std-format'
 HeaderFilterRegex: 'forms/.*|framework/.*|game/.*|library/.*|tests/.*|tools/.*'
 CheckOptions:    
   modernize-use-std-print.PrintfLikeFunctions: "LogDebug"

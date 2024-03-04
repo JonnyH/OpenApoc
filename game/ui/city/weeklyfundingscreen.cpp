@@ -107,12 +107,12 @@ void WeeklyFundingScreen::begin()
 		// Income adjustment is still based on base player funding, not current one
 		const int adjustment = (modifier == 0) ? 0 : player->income / modifier;
 
-		labelAdjustment->setText(format("%s $%d", tr("Funding adjustment>"), adjustment));
+		labelAdjustment->setText(OpenApoc::format2("{0} ${1}", tr("Funding adjustment>"), adjustment));
 		labelNextWeekIncome->setText(
-		    format("%s $%d", tr("Income for next week>"), currentIncome + adjustment));
+		    OpenApoc::format2("{0} ${1}", tr("Income for next week>"), currentIncome + adjustment));
 	}
 
-	labelCurrentIncome->setText(format("%s $%d", tr("Current income>"), currentIncome));
+	labelCurrentIncome->setText(OpenApoc::format2("{0} ${1}", tr("Current income>"), currentIncome));
 	labelRatingDescription->setText(ratingDescription);
 }
 

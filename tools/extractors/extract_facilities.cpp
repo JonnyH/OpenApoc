@@ -38,7 +38,7 @@ void InitialGameStateExtractor::extractFacilities(GameState &state) const
 		facilityType->size = f.size;
 		facilityType->sector = i - 2 + 16 + 15;
 		facilityType->sprite = fw().data->loadImage(
-		    format("PCK:xcom3/ufodata/base.pck:xcom3/ufodata/base.tab:%d:xcom3/ufodata/base.pcx",
+		    OpenApoc::format2("PCK:xcom3/ufodata/base.pck:xcom3/ufodata/base.tab:{0}:xcom3/ufodata/base.pcx",
 		           (int)f.image_offset));
 
 		state.facility_types[id] = facilityType;

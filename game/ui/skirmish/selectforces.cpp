@@ -26,8 +26,8 @@ SelectForces::SelectForces(sp<GameState> state, Skirmish &skirmish,
 	        FormEventType::ScrollBarChange,
 	        [this](Event *)
 	        {
-		        menuform->findControlTyped<Label>("NUM_BSK")->setText(format(
-		            "%d", menuform->findControlTyped<ScrollBar>("NUM_BSK_SLIDER")->getValue()));
+		        menuform->findControlTyped<Label>("NUM_BSK")->setText(OpenApoc::format2(
+		            "{0}", menuform->findControlTyped<ScrollBar>("NUM_BSK_SLIDER")->getValue()));
 	        });
 	menuform->findControlTyped<ScrollBar>("NUM_CHRYS_SLIDER")
 	    ->addCallback(
@@ -35,8 +35,8 @@ SelectForces::SelectForces(sp<GameState> state, Skirmish &skirmish,
 	        [this](Event *)
 	        {
 		        menuform->findControlTyped<Label>("NUM_CHRYS")
-		            ->setText(format(
-		                "%d",
+		            ->setText(OpenApoc::format2(
+		                "{0}",
 		                menuform->findControlTyped<ScrollBar>("NUM_CHRYS_SLIDER")->getValue()));
 	        });
 	menuform->findControlTyped<ScrollBar>("NUM_EGG_SLIDER")
@@ -44,8 +44,8 @@ SelectForces::SelectForces(sp<GameState> state, Skirmish &skirmish,
 	        FormEventType::ScrollBarChange,
 	        [this](Event *)
 	        {
-		        menuform->findControlTyped<Label>("NUM_EGG")->setText(format(
-		            "%d", menuform->findControlTyped<ScrollBar>("NUM_EGG_SLIDER")->getValue()));
+		        menuform->findControlTyped<Label>("NUM_EGG")->setText(OpenApoc::format2(
+		            "{0}", menuform->findControlTyped<ScrollBar>("NUM_EGG_SLIDER")->getValue()));
 	        });
 
 	menuform->findControlTyped<ScrollBar>("NUM_SPITTER_SLIDER")
@@ -54,8 +54,8 @@ SelectForces::SelectForces(sp<GameState> state, Skirmish &skirmish,
 	        [this](Event *)
 	        {
 		        menuform->findControlTyped<Label>("NUM_SPITTER")
-		            ->setText(format(
-		                "%d",
+		            ->setText(OpenApoc::format2(
+		                "{0}",
 		                menuform->findControlTyped<ScrollBar>("NUM_SPITTER_SLIDER")->getValue()));
 	        });
 	menuform->findControlTyped<ScrollBar>("NUM_ANTHROPOD_SLIDER")
@@ -64,8 +64,8 @@ SelectForces::SelectForces(sp<GameState> state, Skirmish &skirmish,
 	        [this](Event *)
 	        {
 		        menuform->findControlTyped<Label>("NUM_ANTHROPOD")
-		            ->setText(format(
-		                "%d",
+		            ->setText(OpenApoc::format2(
+		                "{0}",
 		                menuform->findControlTyped<ScrollBar>("NUM_ANTHROPOD_SLIDER")->getValue()));
 	        });
 	menuform->findControlTyped<ScrollBar>("NUM_MULTIWORM_SLIDER")
@@ -74,8 +74,8 @@ SelectForces::SelectForces(sp<GameState> state, Skirmish &skirmish,
 	        [this](Event *)
 	        {
 		        menuform->findControlTyped<Label>("NUM_MULTIWORM")
-		            ->setText(format(
-		                "%d",
+		            ->setText(OpenApoc::format2(
+		                "{0}",
 		                menuform->findControlTyped<ScrollBar>("NUM_MULTIWORM_SLIDER")->getValue()));
 	        });
 
@@ -85,8 +85,8 @@ SelectForces::SelectForces(sp<GameState> state, Skirmish &skirmish,
 	        [this](Event *)
 	        {
 		        menuform->findControlTyped<Label>("NUM_POPPER")
-		            ->setText(format(
-		                "%d",
+		            ->setText(OpenApoc::format2(
+		                "{0}",
 		                menuform->findControlTyped<ScrollBar>("NUM_POPPER_SLIDER")->getValue()));
 	        });
 	menuform->findControlTyped<ScrollBar>("NUM_SKEL_SLIDER")
@@ -95,8 +95,8 @@ SelectForces::SelectForces(sp<GameState> state, Skirmish &skirmish,
 	        [this](Event *)
 	        {
 		        menuform->findControlTyped<Label>("NUM_SKEL")
-		            ->setText(format(
-		                "%d",
+		            ->setText(OpenApoc::format2(
+		                "{0}",
 		                menuform->findControlTyped<ScrollBar>("NUM_SKEL_SLIDER")->getValue()));
 	        });
 	menuform->findControlTyped<ScrollBar>("NUM_HYPERWORM_SLIDER")
@@ -105,8 +105,8 @@ SelectForces::SelectForces(sp<GameState> state, Skirmish &skirmish,
 	        [this](Event *)
 	        {
 		        menuform->findControlTyped<Label>("NUM_HYPERWORM")
-		            ->setText(format(
-		                "%d",
+		            ->setText(OpenApoc::format2(
+		                "{0}",
 		                menuform->findControlTyped<ScrollBar>("NUM_HYPERWORM_SLIDER")->getValue()));
 	        });
 
@@ -116,8 +116,8 @@ SelectForces::SelectForces(sp<GameState> state, Skirmish &skirmish,
 	        [this](Event *)
 	        {
 		        menuform->findControlTyped<Label>("NUM_MEGA")
-		            ->setText(format(
-		                "%d",
+		            ->setText(OpenApoc::format2(
+		                "{0}",
 		                menuform->findControlTyped<ScrollBar>("NUM_MEGA_SLIDER")->getValue()));
 	        });
 	menuform->findControlTyped<ScrollBar>("NUM_PSI_SLIDER")
@@ -125,8 +125,8 @@ SelectForces::SelectForces(sp<GameState> state, Skirmish &skirmish,
 	        FormEventType::ScrollBarChange,
 	        [this](Event *)
 	        {
-		        menuform->findControlTyped<Label>("NUM_PSI")->setText(format(
-		            "%d", menuform->findControlTyped<ScrollBar>("NUM_PSI_SLIDER")->getValue()));
+		        menuform->findControlTyped<Label>("NUM_PSI")->setText(OpenApoc::format2(
+		            "{0}", menuform->findControlTyped<ScrollBar>("NUM_PSI_SLIDER")->getValue()));
 	        });
 	menuform->findControlTyped<ScrollBar>("NUM_MICRO_SLIDER")
 	    ->addCallback(
@@ -134,8 +134,8 @@ SelectForces::SelectForces(sp<GameState> state, Skirmish &skirmish,
 	        [this](Event *)
 	        {
 		        menuform->findControlTyped<Label>("NUM_MICRO")
-		            ->setText(format(
-		                "%d",
+		            ->setText(OpenApoc::format2(
+		                "{0}",
 		                menuform->findControlTyped<ScrollBar>("NUM_MICRO_SLIDER")->getValue()));
 	        });
 
@@ -145,8 +145,8 @@ SelectForces::SelectForces(sp<GameState> state, Skirmish &skirmish,
 	        [this](Event *)
 	        {
 		        menuform->findControlTyped<Label>("NUM_GUARD")
-		            ->setText(format(
-		                "%d",
+		            ->setText(OpenApoc::format2(
+		                "{0}",
 		                menuform->findControlTyped<ScrollBar>("NUM_GUARD_SLIDER")->getValue()));
 	        });
 
@@ -156,8 +156,8 @@ SelectForces::SelectForces(sp<GameState> state, Skirmish &skirmish,
 	        [this](Event *)
 	        {
 		        menuform->findControlTyped<Label>("NUM_CIVILIAN")
-		            ->setText(format(
-		                "%d",
+		            ->setText(OpenApoc::format2(
+		                "{0}",
 		                menuform->findControlTyped<ScrollBar>("NUM_CIVILIAN_SLIDER")->getValue()));
 	        });
 

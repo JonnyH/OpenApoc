@@ -250,7 +250,7 @@ void InGameOptions::eventOccurred(Event *e)
 			fw().stageQueueCommand(
 			    {StageCmd::Command::PUSH,
 			     mksp<MessageBox>(tr("Abort Mission"),
-			                      format("%s %d", tr("Units Lost :"), unitsLost),
+			                      OpenApoc::format2("{0} {1}", tr("Units Lost :"), unitsLost),
 			                      MessageBox::ButtonOptions::YesNo,
 			                      [this]
 			                      {

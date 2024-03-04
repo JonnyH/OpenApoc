@@ -806,11 +806,11 @@ void GameState::invasion()
 	// Select a random mission type
 	int week = this->gameTime.getWeek();
 	auto preference =
-	    this->ufo_mission_preference.find(format("%s%d", UFOMissionPreference::getPrefix(), week));
+	    this->ufo_mission_preference.find(OpenApoc::format2("{0}{1}", UFOMissionPreference::getPrefix(), week));
 	if (preference == this->ufo_mission_preference.end())
 	{
 		preference = this->ufo_mission_preference.find(
-		    format("%s%s", UFOMissionPreference::getPrefix(), "DEFAULT"));
+		    OpenApoc::format2("{0}{1}", UFOMissionPreference::getPrefix(), "DEFAULT"));
 	}
 	auto missionType = pickRandom(rng, preference->second->missionList);
 	// Compile list of missions rated by priority

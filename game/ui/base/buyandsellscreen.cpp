@@ -94,7 +94,7 @@ void BuyAndSellScreen::updateFormValues(bool queueHighlightUpdate)
 	int balance = state->getPlayer()->balance + moneyDelta;
 	form->findControlTyped<Label>("TEXT_FUNDS")->setText(Strings::fromInteger(balance));
 	form->findControlTyped<Label>("TEXT_FUNDS_DELTA")
-	    ->setText(format("%s%s", moneyDelta > 0 ? "+" : "", Strings::fromInteger(moneyDelta)));
+	    ->setText(OpenApoc::format2("{0}{1}", moneyDelta > 0 ? "+" : "", Strings::fromInteger(moneyDelta)));
 }
 
 void BuyAndSellScreen::closeScreen()
@@ -250,17 +250,17 @@ void BuyAndSellScreen::closeScreen()
 		if (!badOrgs.empty())
 		{
 			UString title =
-			    format("%s%s", badOrgs.front()->name, badOrgs.size() > 1 ? " & others" : "");
+			    OpenApoc::format2("{0}{1}", badOrgs.front()->name, badOrgs.size() > 1 ? " & others" : "");
 
 			// If player can ferry themselves then give option
 			if (config().getBool("OpenApoc.NewFeature.AllowManualCargoFerry"))
 			{
 				UString message = transportationHostile
-				                      ? format("%s %s",
+				                      ? OpenApoc::format2("{0} {1}",
 				                               tr("Hostile organization refuses to carry out the "
 				                                  "requested transportation for this company."),
 				                               tr("Proceed?"))
-				                      : format("%s %s",
+				                      : OpenApoc::format2("{0} {1}",
 				                               tr("No free transport to carry out the requested "
 				                                  "transportation detected in the city."),
 				                               tr("Proceed?"));
@@ -274,7 +274,7 @@ void BuyAndSellScreen::closeScreen()
 			else if (!transportationHostile)
 			{
 				// FIXME: Different message maybe? Same for now
-				UString message = format("%s %s",
+				UString message = OpenApoc::format2("{0} {1}",
 				                         tr("No free transport to carry out the requested "
 				                            "transportation detected in the city."),
 				                         tr("Proceed?"));
@@ -358,18 +358,18 @@ void BuyAndSellScreen::closeScreen()
 		if (transportationBusy || transportationHostile)
 		{
 			UString title =
-			    format("%s%s", badOrgs.front()->name, badOrgs.size() > 1 ? " & others" : "");
+			    OpenApoc::format2("{0}{1}", badOrgs.front()->name, badOrgs.size() > 1 ? " & others" : "");
 
 			// If player can ferry themselves then give option
 			if (config().getBool("OpenApoc.NewFeature.AllowManualCargoFerry"))
 			{
 				UString message =
 				    transportationHostile
-				        ? format("%s %s",
+				        ? OpenApoc::format2("{0} {1}",
 				                 tr("This hostile organization refuses to carry out the "
 				                    "requested transfer."),
 				                 tr("Proceed?"))
-				        : format("%s %s",
+				        : OpenApoc::format2("{0} {1}",
 				                 tr("No free transport to carry out the requested "
 				                    "transportation detected in the city."),
 				                 tr("Proceed?"));
@@ -383,7 +383,7 @@ void BuyAndSellScreen::closeScreen()
 			else if (!transportationHostile)
 			{
 				// FIXME: Different message maybe? Same for now
-				UString message = format("%s %s",
+				UString message = OpenApoc::format2("{0} {1}",
 				                         tr("No free transport to carry out the requested "
 				                            "transportation detected in the city."),
 				                         tr("Proceed?"));

@@ -82,8 +82,7 @@ BattlePreStart::BattlePreStart(sp<GameState> state)
 	for (int i = 12; i <= 18; i++)
 	{
 		bigUnitRanks.push_back(
-		    fw().data->loadImage(format("PCK:xcom3/tacdata/tacbut.pck:xcom3/tacdata/"
-		                                "tacbut.tab:%d:xcom3/tacdata/tactical.pal",
+		    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/tacbut.pck:xcom3/tacdata/tacbut.tab:{0}:xcom3/tacdata/tactical.pal",
 		                                i)));
 	}
 }

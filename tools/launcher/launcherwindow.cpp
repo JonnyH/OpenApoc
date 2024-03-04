@@ -498,7 +498,7 @@ void LauncherWindow::showModInfo(const ModInfo &info)
 	ui->modVersion->setText(QString::fromStdString(info.getVersion()));
 	ui->modDescription->setText(QString::fromStdString(info.getDescription()));
 
-	auto linkText = format("<a href=\"%s\">%s</a>", info.getLink(), info.getLink());
+	auto linkText = OpenApoc::format2("<a href=\"{0}\">{1}</a>", info.getLink(), info.getLink());
 
 	ui->modLink->setText(QString::fromStdString(linkText));
 }

@@ -74,7 +74,7 @@ void CheatOptions::updateMultiplierText(UString controlName, float multMin, floa
 	auto bar = menuform->findControlTyped<ScrollBar>(controlName);
 	auto label = menuform->findControlTyped<Label>("TEXT_" + controlName);
 	label->setText(
-	    format("%.0f%%", scaleScrollbarToMultiplier(bar->getValue(), multMin, multMax,
+	    OpenApoc::format2("{0:.0f}%", scaleScrollbarToMultiplier(bar->getValue(), multMin, multMax,
 	                                                bar->getMinimum(), bar->getMaximum()) *
 	                         100));
 }
@@ -239,7 +239,7 @@ void CheatOptions::eventOccurred(Event *e)
 				return;
 			}
 			menuform->findControlTyped<Label>("TEXT_MODIFY_FUNDS")
-			    ->setText(format("%+dk", bar->getValue()));
+			    ->setText(OpenApoc::format2("{0:+}k", bar->getValue()));
 		}
 		else
 		{

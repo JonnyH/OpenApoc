@@ -61,8 +61,7 @@ AEquipScreen::AEquipScreen(sp<GameState> state, sp<Agent> firstAgent)
 	for (int i = 12; i <= 18; i++)
 	{
 		bigUnitRanks.push_back(
-		    fw().data->loadImage(format("PCK:xcom3/tacdata/tacbut.pck:xcom3/tacdata/"
-		                                "tacbut.tab:%d:xcom3/tacdata/tactical.pal",
+		    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/tacbut.pck:xcom3/tacdata/tacbut.tab:{0}:xcom3/tacdata/tactical.pal",
 		                                i)));
 	}
 
@@ -137,8 +136,7 @@ AEquipScreen::AEquipScreen(sp<GameState> state, sp<Agent> firstAgent)
 		        formAgentProfile->setVisible(true);
 	        });
 
-	woundImage = fw().data->loadImage(format("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/"
-	                                         "icons.tab:%d:xcom3/tacdata/tactical.pal",
+	woundImage = fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
 	                                         258));
 	FATAL_WOUND_LOCATIONS[BodyPart::Helmet] = {{310, 130}, {307, 117}, {327, 137},
 	                                           {312, 128}, {309, 118}, {317, 123}};
@@ -487,7 +485,7 @@ void AEquipScreen::render()
 		auto rect = std::get<0>(tuple);
 		auto pos = rect.p0;
 		pos.x -= inventoryPage * inventoryControl->Size.x;
-		auto countImage = count > 0 ? labelFont->getString(format("%d", count)) : nullptr;
+		auto countImage = count > 0 ? labelFont->getString(OpenApoc::format2("{0}", count)) : nullptr;
 		auto &equipmentImage = item->type->equipscreen_sprite;
 
 		if (pos.x < inventoryControl->Location.x + formMain->Location.x ||
@@ -638,7 +636,7 @@ void AEquipScreen::handleItemPlacement(Vec2<int> mousePos)
 	{
 		auto message_box = mksp<MessageBox>(
 		    tr("NOT ENOUGH TU'S"),
-		    format("%s %d", tr("TU cost per item picked up:"), currentAgent->unit->getPickupCost()),
+		    OpenApoc::format2("{0} {1}", tr("TU cost per item picked up:"), currentAgent->unit->getPickupCost()),
 		    MessageBox::ButtonOptions::Ok);
 		fw().stageQueueCommand({StageCmd::Command::PUSH, message_box});
 	}
@@ -708,7 +706,7 @@ void AEquipScreen::handleItemPlacement(bool toAgent)
 	{
 		auto message_box = mksp<MessageBox>(
 		    tr("NOT ENOUGH TU'S"),
-		    format("%s %d", tr("TU cost per item picked up:"), currentAgent->unit->getPickupCost()),
+		    OpenApoc::format2("{0} {1}", tr("TU cost per item picked up:"), currentAgent->unit->getPickupCost()),
 		    MessageBox::ButtonOptions::Ok);
 		fw().stageQueueCommand({StageCmd::Command::PUSH, message_box});
 	}

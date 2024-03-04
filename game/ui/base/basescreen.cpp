@@ -60,7 +60,7 @@ void BaseScreen::begin()
 	selGraphic = form->findControlTyped<Graphic>("GRAPHIC_SELECTED_FACILITY");
 	for (int i = 0; i < 3; i++)
 	{
-		auto labelName = format("LABEL_%d", i + 1);
+		auto labelName = OpenApoc::format2("LABEL_{0}", i + 1);
 		auto label = form->findControlTyped<Label>(labelName);
 		if (!label)
 		{
@@ -68,7 +68,7 @@ void BaseScreen::begin()
 		}
 		statsLabels.push_back(label);
 
-		auto valueName = format("VALUE_%d", i + 1);
+		auto valueName = OpenApoc::format2("VALUE_{0}", i + 1);
 		auto value = form->findControlTyped<Label>(valueName);
 		if (!value)
 		{
@@ -456,11 +456,11 @@ void BaseScreen::eventOccurred(Event *e)
 		selText->setText(tr(dragFacility->name));
 		selGraphic->setImage(dragFacility->sprite);
 		statsLabels[0]->setText(tr("Cost to build"));
-		statsValues[0]->setText(format("$%d", dragFacility->buildCost));
+		statsValues[0]->setText(OpenApoc::format2("${0}", dragFacility->buildCost));
 		statsLabels[1]->setText(tr("Days to build"));
-		statsValues[1]->setText(format("%d", dragFacility->buildTime));
+		statsValues[1]->setText(OpenApoc::format2("{0}", dragFacility->buildTime));
 		statsLabels[2]->setText(tr("Maintenance cost"));
-		statsValues[2]->setText(format("$%d", dragFacility->weeklyCost));
+		statsValues[2]->setText(OpenApoc::format2("${0}", dragFacility->weeklyCost));
 	}
 	else if (selFacility != nullptr)
 	{
@@ -469,17 +469,17 @@ void BaseScreen::eventOccurred(Event *e)
 		if (selFacility->type->capacityAmount > 0)
 		{
 			statsLabels[0]->setText(tr("Capacity"));
-			statsValues[0]->setText(format("%d", selFacility->type->capacityAmount));
+			statsValues[0]->setText(OpenApoc::format2("{0}", selFacility->type->capacityAmount));
 			statsLabels[1]->setText(tr("Usage"));
 			statsValues[1]->setText(
-			    format("%d%%", state->current_base->getUsage(*state, selFacility)));
+			    OpenApoc::format2("{0}%", state->current_base->getUsage(*state, selFacility)));
 		}
 	}
 	else if (selection != NO_SELECTION)
 	{
 		int sprite = BaseGraphics::getCorridorSprite(*state->current_base, selection);
-		auto image = format(
-		    "PCK:xcom3/ufodata/base.pck:xcom3/ufodata/base.tab:%d:xcom3/ufodata/base.pcx", sprite);
+		auto image = OpenApoc::format2(
+		    "PCK:xcom3/ufodata/base.pck:xcom3/ufodata/base.tab:{0}:xcom3/ufodata/base.pcx", sprite);
 		if (sprite != 0)
 		{
 			selText->setText(tr("Corridor"));

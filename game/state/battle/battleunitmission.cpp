@@ -2519,38 +2519,38 @@ UString BattleUnitMission::getName()
 			name = "AcquireTUs";
 			break;
 		case Type::GotoLocation:
-			name = "GotoLocation " + format(" %s", targetLocation);
+			name = "GotoLocation " + OpenApoc::format2(" {0}", targetLocation);
 			break;
 		case Type::Teleport:
-			name = "Teleport to " + format(" %s", targetLocation);
+			name = "Teleport to " + OpenApoc::format2(" {0}", targetLocation);
 			break;
 		case Type::RestartNextMission:
 			name = "Restart next mission";
 			break;
 		case Type::Snooze:
-			name = "Snooze " + format(" for %u ticks", timeToSnooze);
+			name = "Snooze " + OpenApoc::format2(" for {0} ticks", timeToSnooze);
 			break;
 		case Type::ChangeBodyState:
-			name = "ChangeBodyState " + format("%d", (int)this->targetBodyState);
+			name = "ChangeBodyState " + OpenApoc::format2("{0}", (int)this->targetBodyState);
 			break;
 		case Type::ThrowItem:
 			name = "ThrowItem " +
-			       format("%s at %s", item ? item->type->name : "(item is gone)", targetLocation);
+			       OpenApoc::format2("{0} at {1}", item ? item->type->name : "(item is gone)", targetLocation);
 			break;
 		case Type::DropItem:
-			name = "DropItem " + format("%s", item ? item->type->name : "(item is gone)");
+			name = "DropItem " + OpenApoc::format2("{0}", item ? item->type->name : "(item is gone)");
 			break;
 		case Type::ReachGoal:
 			name = "ReachGoal";
 			break;
 		case Type::Turn:
-			name = "Turn " + format(" %s", targetFacing);
+			name = "Turn " + OpenApoc::format2(" {0}", targetFacing);
 			break;
 		case Type::Brainsuck:
-			name = "Brainsuck " + format(" %s", targetUnit.id);
+			name = "Brainsuck " + OpenApoc::format2(" {0}", targetUnit.id);
 			break;
 		case Type::Jump:
-			name = "Jump to " + format(" %s", jumpTarget);
+			name = "Jump to " + OpenApoc::format2(" {0}", jumpTarget);
 			break;
 	}
 	return name;

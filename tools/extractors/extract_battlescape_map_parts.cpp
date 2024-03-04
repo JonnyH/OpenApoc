@@ -53,12 +53,12 @@ void InitialGameStateExtractor::readBattleMapParts(
 			return;
 		}
 
-		UString id = format("%s%u", idPrefix, i);
+		UString id = OpenApoc::format2("{0}{1}", idPrefix, i);
 		auto object = mksp<BattleMapPartType>();
 		if (entry.alternative_object_idx != 0)
 		{
 			object->alternative_map_part = {&state,
-			                                format("%s%u", idPrefix, entry.alternative_object_idx)};
+			                                OpenApoc::format2("{0}{1}", idPrefix, entry.alternative_object_idx)};
 		}
 		object->type = type;
 		object->constitution = entry.constitution;
@@ -79,7 +79,7 @@ void InitialGameStateExtractor::readBattleMapParts(
 		{
 			if ((unsigned int)entry.loftemps_lof[slice] == 0)
 				continue;
-			auto lofString = format("LOFTEMPS:%s:%s:%u", loftempsFile, loftempsTab,
+			auto lofString = OpenApoc::format2("LOFTEMPS:{0}:{1}:{2}", loftempsFile, loftempsTab,
 			                        (unsigned int)entry.loftemps_lof[slice]);
 			object->voxelMapLOF->slices[slice] = fw().data->loadVoxelSlice(lofString);
 		}
@@ -88,13 +88,13 @@ void InitialGameStateExtractor::readBattleMapParts(
 		{
 			if ((unsigned int)entry.loftemps_los[slice] == 0)
 				continue;
-			auto lofString = format("LOFTEMPS:%s:%s:%u", loftempsFile, loftempsTab,
+			auto lofString = OpenApoc::format2("LOFTEMPS:{0}:{1}:{2}", loftempsFile, loftempsTab,
 			                        (unsigned int)entry.loftemps_los[slice]);
 			object->voxelMapLOS->slices[slice] = fw().data->loadVoxelSlice(lofString);
 		}
 		if (entry.damaged_idx)
 		{
-			object->damaged_map_part = {&state, format("%s%u", idPrefix, entry.damaged_idx)};
+			object->damaged_map_part = {&state, OpenApoc::format2("{0}{1}", idPrefix, entry.damaged_idx)};
 		}
 
 		// So far haven't seen an animated object with only 1 frame, but seen objects with 1 in this
@@ -118,7 +118,7 @@ void InitialGameStateExtractor::readBattleMapParts(
 			{
 				for (int j = 0; j < entry.animation_length; j++)
 				{
-					auto animateString = format("PCK:%s%s.pck:%s%s.tab:%u", dirName, "animate",
+					auto animateString = OpenApoc::format2("PCK:{0}{1}.pck:{2}{3}.tab:{4}", dirName, "animate",
 					                            dirName, "animate", entry.animation_idx + j);
 					object->animation_frames.push_back(fw().data->loadImage(animateString));
 				}
@@ -126,11 +126,11 @@ void InitialGameStateExtractor::readBattleMapParts(
 		}
 
 		auto imageString =
-		    format("PCK:%s%s.pck:%s%s.tab:%u", dirName, pckName, dirName, pckName, i);
+		    OpenApoc::format2("PCK:{0}{1}.pck:{2}{3}.tab:{4}", dirName, pckName, dirName, pckName, i);
 		object->sprite = fw().data->loadImage(imageString);
 		if (i < strategySpriteCount)
 		{
-			auto stratImageString = format("PCKSTRAT:%s%s.pck:%s%s.tab:%u", dirName, stratPckName,
+			auto stratImageString = OpenApoc::format2("PCKSTRAT:{0}{1}.pck:{2}{3}.tab:{4}", dirName, stratPckName,
 			                               dirName, stratPckName, i);
 			object->strategySprite = fw().data->loadImage(stratImageString);
 		}
@@ -306,7 +306,7 @@ void InitialGameStateExtractor::readBattleMapParts(
 sp<BattleMapTileset> InitialGameStateExtractor::extractTileSet(GameState &state,
                                                                const UString &name) const
 {
-	UString tilePrefix = format("%s_", name);
+	UString tilePrefix = OpenApoc::format2("{0}_", name);
 	UString map_prefix = "xcom3/maps/";
 	UString mapunits_suffix = "/mapunits/";
 	UString spriteFile;

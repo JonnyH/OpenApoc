@@ -166,7 +166,7 @@ std::map<UString, std::function<void(const InitialGameStateExtractor &e)>> thing
 		     else
 		     {
 			     if (!imagePack->saveImagePack(
-			             format("%s%s%d",
+			             OpenApoc::format2("{0}{1}{2}",
 			                    fw().getDataDir() + BattleUnitImagePack::getImagePackPath(),
 			                    "/item", i),
 			             true))

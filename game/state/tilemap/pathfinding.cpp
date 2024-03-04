@@ -957,8 +957,7 @@ void Battle::groupMove(GameState &state, std::list<StateRef<BattleUnit>> &select
 	}
 
 	UString log = ";";
-	log += format("\nGroup move order issued to %d, %d, %d. Looking for the leader. Total number "
-	              "of units: %d",
+	log += OpenApoc::format2("\nGroup move order issued to {0}, {1}, {2}. Looking for the leader. Total number of units: {3}",
 	              targetLocation.x, targetLocation.y, targetLocation.z, (int)selectedUnits.size());
 
 	// Sort units based on proximity to target and speed
@@ -982,7 +981,7 @@ void Battle::groupMove(GameState &state, std::list<StateRef<BattleUnit>> &select
 	while (itUnit != localUnits.end())
 	{
 		auto curUnit = *itUnit;
-		log += format("\nTrying unit %s for leader", curUnit.id);
+		log += OpenApoc::format2("\nTrying unit {0} for leader", curUnit.id);
 
 		auto mission = BattleUnitMission::gotoLocation(*curUnit, targetLocation, facingDelta,
 		                                               demandGiveWay, true, 20, false);
@@ -1003,7 +1002,7 @@ void Battle::groupMove(GameState &state, std::list<StateRef<BattleUnit>> &select
 				int distance = std::max(std::max(absX, absY), absZ) + absX + absY + absZ;
 				if (distance < minDistance)
 				{
-					log += format("\nUnit was the closest to target yet, remembering him.");
+					log += OpenApoc::format2("\nUnit was the closest to target yet, remembering him.");
 					// Cancel last leader's mission
 					if (leadMission)
 					{
@@ -1014,7 +1013,7 @@ void Battle::groupMove(GameState &state, std::list<StateRef<BattleUnit>> &select
 					leadMission = mission;
 					if (distance == 0)
 					{
-						log += format("\nUnit could reach target, chosen to be the leader.");
+						log += OpenApoc::format2("\nUnit could reach target, chosen to be the leader.");
 						break;
 					}
 				}
@@ -1026,20 +1025,20 @@ void Battle::groupMove(GameState &state, std::list<StateRef<BattleUnit>> &select
 		}
 		if (missionAdded)
 		{
-			log += format("\nUnit could not path to target, trying next one.");
+			log += OpenApoc::format2("\nUnit could not path to target, trying next one.");
 			// Unit cannot path to target but maybe he can path to something near it, leave him in
 			itUnit++;
 		}
 		else
 		{
-			log += format("\nUnit could not set a goto mission, removing him.");
+			log += OpenApoc::format2("\nUnit could not set a goto mission, removing him.");
 			// Unit cannot add a movement mission - remove him
 			itUnit = localUnits.erase(itUnit);
 		}
 	}
 	if (itUnit == localUnits.end() && !leadUnit)
 	{
-		log += format("\nNoone could path to target, aborting");
+		log += OpenApoc::format2("\nNoone could path to target, aborting");
 		LogWarning2("{}", log);
 		return;
 	}
@@ -1077,7 +1076,7 @@ void Battle::groupMove(GameState &state, std::list<StateRef<BattleUnit>> &select
 	    });
 
 	// Path every other unit to areas around target
-	log += format("\nTarget location is now %d, %d, %d. Leader is %s", targetLocation.x,
+	log += OpenApoc::format2("\nTarget location is now {0}, {1}, {2}. Leader is {3}", targetLocation.x,
 	              targetLocation.y, targetLocation.z, leadUnit.id);
 
 	auto itOffset = targetOffsets.begin();
@@ -1085,11 +1084,11 @@ void Battle::groupMove(GameState &state, std::list<StateRef<BattleUnit>> &select
 	{
 		if (itOffset == targetOffsets.end())
 		{
-			log += format("\nRan out of location offsets, exiting");
+			log += OpenApoc::format2("\nRan out of location offsets, exiting");
 			LogWarning2("{}", log);
 			return;
 		}
-		log += format("\nPathing unit %s", unit.id);
+		log += OpenApoc::format2("\nPathing unit {0}", unit.id);
 		while (itOffset != targetOffsets.end())
 		{
 			auto offset = rotate(*itOffset, rotation);
@@ -1098,12 +1097,12 @@ void Battle::groupMove(GameState &state, std::list<StateRef<BattleUnit>> &select
 			    targetLocationOffsetted.y < 0 || targetLocationOffsetted.y >= map->size.y ||
 			    targetLocationOffsetted.z < 0 || targetLocationOffsetted.z >= map->size.z)
 			{
-				log += format("\nLocation was outside map bounds, trying next one");
+				log += OpenApoc::format2("\nLocation was outside map bounds, trying next one");
 				itOffset++;
 				continue;
 			}
 
-			log += format("\nTrying location %d, %d, %d at offset %d, %d, %d",
+			log += OpenApoc::format2("\nTrying location {0}, {1}, {2} at offset {3}, {4}, {5}",
 			              targetLocationOffsetted.x, targetLocationOffsetted.y,
 			              targetLocationOffsetted.z, offset.x, offset.y, offset.z);
 			float costLimit = 1.50f * 2.0f *
@@ -1115,16 +1114,16 @@ void Battle::groupMove(GameState &state, std::list<StateRef<BattleUnit>> &select
 			itOffset++;
 			if (!path.empty() && path.back() == targetLocationOffsetted)
 			{
-				log += format("\nLocation checks out, pathing to it");
+				log += OpenApoc::format2("\nLocation checks out, pathing to it");
 				unit->setMission(state, BattleUnitMission::gotoLocation(
 				                            *unit, targetLocationOffsetted, facingDelta,
 				                            demandGiveWay, true, 20, false));
 				break;
 			}
-			log += format("\nLocation was unreachable, trying next one");
+			log += OpenApoc::format2("\nLocation was unreachable, trying next one");
 		}
 	}
-	log += format("\nSuccessfully pathed everybody to target");
+	log += OpenApoc::format2("\nSuccessfully pathed everybody to target");
 	LogWarning2("{}", log);
 }
 

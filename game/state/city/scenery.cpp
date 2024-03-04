@@ -1142,7 +1142,7 @@ UString Scenery::getId() const { return type.id; }
 
 int Scenery::getType() const { return (int)0; }
 
-UString Scenery::getSupportString() const { return format("%d", supportHardness); }
+UString Scenery::getSupportString() const { return OpenApoc::format2("{0}", supportHardness); }
 
 void Scenery::setPosition(const Vec3<float> &pos)
 {

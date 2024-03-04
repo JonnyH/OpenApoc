@@ -37,24 +37,24 @@ bool TransactionControl::resourcesInitialised = false;
 
 void TransactionControl::initResources()
 {
-	bgLeft = fw().data->loadImage(format(
-	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:%d:xcom3/ufodata/research.pcx", 45));
-	bgRight = fw().data->loadImage(format(
-	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:%d:xcom3/ufodata/research.pcx", 46));
-	purchaseBoxIcon = fw().data->loadImage(format(
-	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:%d:xcom3/ufodata/research.pcx", 47));
-	purchaseXComIcon = fw().data->loadImage(format(
-	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:%d:xcom3/ufodata/research.pcx", 48));
-	purchaseArrow = fw().data->loadImage(format(
-	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:%d:xcom3/ufodata/research.pcx", 52));
-	alienContainedDetain = fw().data->loadImage(format(
-	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:%d:xcom3/ufodata/research.pcx", 75));
-	alienContainedKill = fw().data->loadImage(format(
-	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:%d:xcom3/ufodata/research.pcx", 76));
-	scrollLeft = fw().data->loadImage(format(
-	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:%d:xcom3/ufodata/research.pcx", 53));
-	scrollRight = fw().data->loadImage(format(
-	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:%d:xcom3/ufodata/research.pcx", 54));
+	bgLeft = fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:{0}:xcom3/ufodata/research.pcx", 45));
+	bgRight = fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:{0}:xcom3/ufodata/research.pcx", 46));
+	purchaseBoxIcon = fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:{0}:xcom3/ufodata/research.pcx", 47));
+	purchaseXComIcon = fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:{0}:xcom3/ufodata/research.pcx", 48));
+	purchaseArrow = fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:{0}:xcom3/ufodata/research.pcx", 52));
+	alienContainedDetain = fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:{0}:xcom3/ufodata/research.pcx", 75));
+	alienContainedKill = fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:{0}:xcom3/ufodata/research.pcx", 76));
+	scrollLeft = fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:{0}:xcom3/ufodata/research.pcx", 53));
+	scrollRight = fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:{0}:xcom3/ufodata/research.pcx", 54));
 	transactionShade = fw().data->loadImage("city/transaction-shade.png");
 	labelFont = ui().getFont("smalfont");
 
@@ -143,10 +143,10 @@ void TransactionControl::updateValues()
 	int curDeltaRight = tradeState.getLROrder();
 	int curDeltaLeft = -curDeltaRight;
 
-	stockLeft->setText(format("%d", tradeState.getLeftStock(true)));
-	stockRight->setText(format("%d", tradeState.getRightStock(true)));
-	deltaLeft->setText(format("%s%d", curDeltaLeft > 0 ? "+" : "", curDeltaLeft));
-	deltaRight->setText(format("%s%d", curDeltaRight > 0 ? "+" : "", curDeltaRight));
+	stockLeft->setText(OpenApoc::format2("{0}", tradeState.getLeftStock(true)));
+	stockRight->setText(OpenApoc::format2("{0}", tradeState.getRightStock(true)));
+	deltaLeft->setText(OpenApoc::format2("{0}{1}", curDeltaLeft > 0 ? "+" : "", curDeltaLeft));
+	deltaRight->setText(OpenApoc::format2("{0}{1}", curDeltaRight > 0 ? "+" : "", curDeltaRight));
 	deltaLeft->setVisible(tradeState.getLeftIndex() != ECONOMY_IDX && curDeltaLeft != 0);
 	deltaRight->setVisible(tradeState.getRightIndex() != ECONOMY_IDX && curDeltaRight != 0);
 	setDirty();
@@ -637,7 +637,7 @@ TransactionControl::createControl(const UString &id, Type type, const UString &n
 	// Price
 	if (price != 0 && (indexLeft == ECONOMY_IDX || indexRight == ECONOMY_IDX))
 	{
-		auto label = control->createChild<Label>(format("$%d", control->price), labelFont);
+		auto label = control->createChild<Label>(OpenApoc::format2("${0}", control->price), labelFont);
 		label->Location = {290, 3};
 		label->Size = {47, 16};
 		label->TextHAlign = HorizontalAlignment::Right;

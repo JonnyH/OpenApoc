@@ -80,25 +80,25 @@ CityTileView::CityTileView(TileMap &map, Vec3<int> isoTileSize, Vec2<int> stratT
 	selectionBrackets.resize(4);
 	for (int i = 72; i < 76; i++)
 	{
-		selectionBrackets[0].push_back(fw().data->loadImage(format(
-		    "PCK:xcom3/ufodata/vs_icon.pck:xcom3/ufodata/vs_icon.tab:%d:xcom3/ufodata/pal_01.dat",
+		selectionBrackets[0].push_back(fw().data->loadImage(OpenApoc::format2(
+		    "PCK:xcom3/ufodata/vs_icon.pck:xcom3/ufodata/vs_icon.tab:{0}:xcom3/ufodata/pal_01.dat",
 		    i)));
 	}
 	for (int i = 76; i < 80; i++)
 	{
-		selectionBrackets[2].push_back(fw().data->loadImage(format(
-		    "PCK:xcom3/ufodata/vs_icon.pck:xcom3/ufodata/vs_icon.tab:%d:xcom3/ufodata/pal_01.dat",
+		selectionBrackets[2].push_back(fw().data->loadImage(OpenApoc::format2(
+		    "PCK:xcom3/ufodata/vs_icon.pck:xcom3/ufodata/vs_icon.tab:{0}:xcom3/ufodata/pal_01.dat",
 		    i)));
 	}
 	for (int i = 80; i < 84; i++)
 	{
-		selectionBrackets[1].push_back(fw().data->loadImage(format(
-		    "PCK:xcom3/ufodata/vs_icon.pck:xcom3/ufodata/vs_icon.tab:%d:xcom3/ufodata/pal_01.dat",
+		selectionBrackets[1].push_back(fw().data->loadImage(OpenApoc::format2(
+		    "PCK:xcom3/ufodata/vs_icon.pck:xcom3/ufodata/vs_icon.tab:{0}:xcom3/ufodata/pal_01.dat",
 		    i)));
 	}
 	for (int i = 1; i <= 4; i++)
 	{
-		selectionBrackets[3].push_back(fw().data->loadImage(format("city/city-bracket-%d.png", i)));
+		selectionBrackets[3].push_back(fw().data->loadImage(OpenApoc::format2("city/city-bracket-{0}.png", i)));
 	}
 
 	selectionImageFriendlySmall = fw().data->loadImage("battle/map-selection-small.png");

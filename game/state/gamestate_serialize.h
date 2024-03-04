@@ -211,7 +211,7 @@ void serializeIn(const GameState *, SerializationNode *node, T &val,
 			return;
 		}
 	}
-	throw SerializationException(format("Invalid enum value for %s: \"%s\"", typeid(T).name(), str),
+	throw SerializationException(OpenApoc::format2("Invalid enum value for {{{{0}}}}: \"{{{{1}}}}\"", typeid(T).name(), str),
 	                             node);
 }
 

@@ -20,7 +20,7 @@ SerializationNode *SerializationNode::getNodeReq(const char *name)
 	auto node = this->getNodeOpt(name);
 	if (!node)
 	{
-		throw SerializationException(format("Missing node \"%s\"", name), this);
+		throw SerializationException(OpenApoc::format2("Missing node \"{0}\"", name), this);
 	}
 	return node;
 }
@@ -30,7 +30,7 @@ SerializationNode *SerializationNode::getSectionReq(const char *name)
 	auto node = this->getSectionOpt(name);
 	if (!node)
 	{
-		throw SerializationException(format("Missing section \"%s\"", name), this);
+		throw SerializationException(OpenApoc::format2("Missing section \"{0}\"", name), this);
 	}
 	return node;
 }
@@ -40,7 +40,7 @@ SerializationNode *SerializationNode::getNextSiblingReq(const char *name)
 	auto node = this->getNextSiblingOpt(name);
 	if (!node)
 	{
-		throw SerializationException(format("Missing sibling of \"%s\"", name), this);
+		throw SerializationException(OpenApoc::format2("Missing sibling of \"{0}\"", name), this);
 	}
 	return node;
 }
@@ -330,7 +330,7 @@ unsigned char XMLSerializationNode::getValueUChar()
 	auto uint = node.text().as_uint();
 	if (uint > std::numeric_limits<unsigned char>::max())
 	{
-		throw SerializationException(format("Value %u is out of range of unsigned char type", uint),
+		throw SerializationException(OpenApoc::format2("Value {0} is out of range of unsigned char type", uint),
 		                             this);
 	}
 	return static_cast<unsigned char>(uint);
@@ -372,7 +372,7 @@ std::vector<bool> XMLSerializationNode::getValueBoolVector()
 		else if (c == '0')
 			vec[i] = false;
 		else
-			throw SerializationException(format("Unknown char '%c' in bool vector", c), this);
+			throw SerializationException(OpenApoc::format2("Unknown char '{0}' in bool vector", c), this);
 	}
 	return vec;
 }

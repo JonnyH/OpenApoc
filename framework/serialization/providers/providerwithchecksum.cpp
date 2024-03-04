@@ -37,7 +37,7 @@ static UString calculateSHA1Checksum(const std::string &str)
 			// FIXME: Probably need to do the reverse for big endian?
 			unsigned int byteHex = v & 0xff000000;
 			byteHex >>= 24;
-			hashString += format("%02x", byteHex);
+			hashString += OpenApoc::format2("{0:02x}", byteHex);
 			v <<= 8;
 		}
 	}
@@ -51,7 +51,7 @@ static UString calculateCRCChecksum(const std::string &str)
 	boost::crc_32_type crc;
 	crc.process_bytes(str.c_str(), str.size());
 	auto hash = crc.checksum();
-	hashString = format("%08x", hash);
+	hashString = OpenApoc::format2("{0:08x}", hash);
 	return hashString;
 }
 

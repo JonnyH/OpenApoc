@@ -44,7 +44,7 @@ void FileLogFunction(LogLevel level, UString prefix, const UString &text)
 				levelPrefix = "U";
 				break;
 		}
-		const auto message = OpenApoc::format("%s %s: %s", levelPrefix, prefix, text);
+		const auto message = OpenApoc::format2("{0} {1}: {2}", levelPrefix, prefix, text);
 		logFile << message << std::endl;
 	}
 

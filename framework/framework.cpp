@@ -447,7 +447,7 @@ void Framework::processEvents()
 				UString screenshotName;
 				do
 				{
-					screenshotName = format("screenshot%03d.png", screenshotId);
+					screenshotName = OpenApoc::format2("screenshot{0:03}.png", screenshotId);
 					screenshotId++;
 				} while (fs::exists(fs::path(screenshotName)));
 				LogWarning2("Writing screenshot to \"{}\"", screenshotName);

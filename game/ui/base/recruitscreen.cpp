@@ -338,7 +338,7 @@ void RecruitScreen::updateFormValues()
 	int balance = state->getPlayer()->balance + moneyDelta;
 	form->findControlTyped<Label>("TEXT_FUNDS")->setText(Strings::fromInteger(balance));
 	form->findControlTyped<Label>("TEXT_FUNDS_DELTA")
-	    ->setText(format("%s%s", moneyDelta > 0 ? "+" : "", Strings::fromInteger(moneyDelta)));
+	    ->setText(OpenApoc::format2("{0}{1}", moneyDelta > 0 ? "+" : "", Strings::fromInteger(moneyDelta)));
 
 	updateBaseHighlight();
 }
@@ -348,7 +348,7 @@ void RecruitScreen::updateBaseHighlight()
 	int usage = state->current_base->getUsage(*state, FacilityType::Capacity::Quarters, lqDelta);
 	fillBaseBar(usage);
 	auto facilityLabel = form->findControlTyped<Label>("FACILITY_FIRST_TEXT");
-	facilityLabel->setText(format("%i%%", usage));
+	facilityLabel->setText(OpenApoc::format2("{0}%", usage));
 }
 
 void RecruitScreen::fillBaseBar(int percent)
@@ -410,7 +410,7 @@ void RecruitScreen::personnelSheet(const Agent &agent, sp<Form> formPersonnelSta
 	formPersonnelStats->findControlTyped<Graphic>("SELECTED_PORTRAIT")
 	    ->setImage(agent.getPortrait().photo);
 	formPersonnelStats->findControlTyped<Label>("VALUE_SKILL")
-	    ->setText(format("%d", agent.getSkill()));
+	    ->setText(OpenApoc::format2("{0}", agent.getSkill()));
 }
 
 /**
@@ -423,8 +423,7 @@ std::vector<sp<Image>> RecruitScreen::getBigUnitRanks()
 	for (int i = 12; i <= 18; i++)
 	{
 		bigUnitRanks.push_back(
-		    fw().data->loadImage(format("PCK:xcom3/tacdata/tacbut.pck:xcom3/tacdata/"
-		                                "tacbut.tab:%d:xcom3/tacdata/tactical.pal",
+		    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/tacbut.pck:xcom3/tacdata/tacbut.tab:{0}:xcom3/tacdata/tactical.pal",
 		                                i)));
 	}
 
@@ -476,10 +475,10 @@ void RecruitScreen::attemptCloseScreen()
 	if (hired != 0 || fired != 0 || transferred != 0)
 	{
 		UString message =
-		    format("%d %s\n%d %s", hired, tr("unit(s) hired"), fired, tr("unit(s) fired."));
+		    OpenApoc::format2("{0} {1}\n{2} {3}", hired, tr("unit(s) hired"), fired, tr("unit(s) fired."));
 		if (transferred > 0)
 		{
-			message = format("%s\n(%d %s)", message, transferred, tr("units(s) transferred"));
+			message = OpenApoc::format2("{0}\n({1} {2})", message, transferred, tr("units(s) transferred"));
 		}
 		fw().stageQueueCommand(
 		    {StageCmd::Command::PUSH,

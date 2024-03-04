@@ -476,7 +476,7 @@ void VEquipScreen::render()
 				// Not in stock
 				continue;
 			}
-			auto countImage = labelFont->getString(format("%d", count));
+			auto countImage = labelFont->getString(OpenApoc::format2("{0}", count));
 			auto &equipmentImage = equipmentType->equipscreen_sprite;
 			fw().renderer->draw(equipmentImage, inventoryPosition);
 

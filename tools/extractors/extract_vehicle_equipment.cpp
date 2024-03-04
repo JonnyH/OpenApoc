@@ -33,9 +33,9 @@ void InitialGameStateExtractor::extractVehicleEquipment(GameState &state) const
 		auto edata = data.vehicle_equipment->get(i);
 
 		e->name = data.vehicle_equipment_names->get(i);
-		UString id = format("%s%s", VEquipmentType::getPrefix(), canon_string(e->name));
+		UString id = OpenApoc::format2("{0}{1}", VEquipmentType::getPrefix(), canon_string(e->name));
 
-		UString research_id = format("%s%s", ResearchTopic::getPrefix(), canon_string(e->name));
+		UString research_id = OpenApoc::format2("{0}{1}", ResearchTopic::getPrefix(), canon_string(e->name));
 
 		auto research_it = state.research.topics.find(research_id);
 		if (research_it != state.research.topics.end())
@@ -74,8 +74,8 @@ void InitialGameStateExtractor::extractVehicleEquipment(GameState &state) const
 		// e->ammo_type = format("%d", (int)edata.ammo_type);
 		// Force all sprites into the correct palette by using A_RANDOM_VEHICLES_BACKGROUND pcx
 		//(I assume the parts of the palette used for this are the same on all?)
-		e->equipscreen_sprite = fw().data->loadImage(format(
-		    "PCK:xcom3/ufodata/vehequip.pck:xcom3/ufodata/vehequip.tab:%d:xcom3/ufodata/vhawk.pcx",
+		e->equipscreen_sprite = fw().data->loadImage(OpenApoc::format2(
+		    "PCK:xcom3/ufodata/vehequip.pck:xcom3/ufodata/vehequip.tab:{0}:xcom3/ufodata/vhawk.pcx",
 		    (int)edata.sprite_idx));
 		e->equipscreen_size = {edata.size_x, edata.size_y};
 		e->manufacturer = {&state, data.getOrgId(edata.manufacturer)};
@@ -256,8 +256,8 @@ void InitialGameStateExtractor::extractVehicleEquipment(GameState &state) const
 					e->explosion_graphic = {&state, doodad_id};
 				}
 
-				e->icon = fw().data->loadImage(format(
-				    "PCK:xcom3/ufodata/vs_obs.pck:xcom3/ufodata/vs_obs.tab:%d", weapon_count));
+				e->icon = fw().data->loadImage(OpenApoc::format2(
+				    "PCK:xcom3/ufodata/vs_obs.pck:xcom3/ufodata/vs_obs.tab:{0}", weapon_count));
 
 				auto projectile_sprites = data.projectile_sprites->get(wData.projectile_image);
 				for (int i = 0; i < e->tail_size; i++)
@@ -265,7 +265,7 @@ void InitialGameStateExtractor::extractVehicleEquipment(GameState &state) const
 					UString sprite_path = "";
 					if (projectile_sprites.sprites[i] != 255)
 					{
-						sprite_path = format("bulletsprites/city/%02u.png",
+						sprite_path = OpenApoc::format2("bulletsprites/city/{0:02}.png",
 						                     (unsigned)projectile_sprites.sprites[i]);
 					}
 					else

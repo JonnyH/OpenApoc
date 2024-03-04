@@ -3623,7 +3623,7 @@ void Battle::loadImagePacks(GameState &state)
 			LogError2("Failed to load image pack \"{}\" from \"{}\"", imagePackName, imagePackPath);
 			continue;
 		}
-		state.battle_unit_image_packs[format("%s%s", BattleUnitImagePack::getPrefix(),
+		state.battle_unit_image_packs[OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(),
 		                                     imagePackName)] = imagePack;
 		LogInfo2("Loaded image pack \"{}\" from \"{}\"", imagePackName, imagePackPath);
 	}
@@ -3727,7 +3727,7 @@ void Battle::loadAnimationPacks(GameState &state)
 			         animationPackPath);
 			continue;
 		}
-		state.battle_unit_animation_packs[format("%s%s", BattleUnitAnimationPack::getPrefix(),
+		state.battle_unit_animation_packs[OpenApoc::format2("{0}{1}", BattleUnitAnimationPack::getPrefix(),
 		                                         animationPackName)] = animationPack;
 		LogInfo2("Loaded animation pack \"{}\" from \"{}\"", animationPackName, animationPackPath);
 	}

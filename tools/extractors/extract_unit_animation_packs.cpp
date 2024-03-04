@@ -202,7 +202,7 @@ InitialGameStateExtractor::extractAnimationPack(GameState &state, const UString 
 
 	std::vector<AnimationDataAD> dataAD;
 	{
-		auto fileName = format("%s%s%s", dirName, path, ".ad");
+		auto fileName = OpenApoc::format2("{0}{1}{2}", dirName, path, ".ad");
 
 		auto inFile = fw().data->fs.open(fileName);
 		if (inFile)
@@ -226,7 +226,7 @@ InitialGameStateExtractor::extractAnimationPack(GameState &state, const UString 
 
 	std::vector<AnimationDataUA> dataUA;
 	{
-		auto fileName = format("%s%s%s", dirName, path, ".ua");
+		auto fileName = OpenApoc::format2("{0}{1}{2}", dirName, path, ".ua");
 
 		auto inFile = fw().data->fs.open(fileName);
 		if (inFile)
@@ -250,7 +250,7 @@ InitialGameStateExtractor::extractAnimationPack(GameState &state, const UString 
 
 	std::vector<AnimationDataUF> dataUF;
 	{
-		auto fileName = format("%s%s%s", dirName, path, ".uf");
+		auto fileName = OpenApoc::format2("{0}{1}{2}", dirName, path, ".uf");
 
 		auto inFile = fw().data->fs.open(fileName);
 		if (inFile)

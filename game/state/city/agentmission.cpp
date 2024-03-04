@@ -583,7 +583,7 @@ UString AgentMission::getName()
 			name += " " + this->targetBuilding.id;
 			break;
 		case MissionType::Snooze:
-			name += format(" for %u ticks", this->timeToSnooze);
+			name += OpenApoc::format2(" for {0} ticks", this->timeToSnooze);
 			break;
 		case MissionType::Teleport:
 			name += " " + this->targetBuilding.id;
