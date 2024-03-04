@@ -1128,7 +1128,7 @@ bool BattleUnit::startAttackPsiInternal(GameState &state, StateRef<BattleUnit> t
 	int roll = randBoundsExclusive(state.rng, 0, 100);
 	experiencePoints.psi_attack++;
 	experiencePoints.psi_energy++;
-	LogWarning("Psi Attack #%d Roll %d Chance %d %s Attacker %s Target %s", (int)status, roll,
+	LogWarning2("Psi Attack #{} Roll {} Chance {} {} Attacker {} Target {}", (int)status, roll,
 	           chance, roll < chance ? (UString) "SUCCESS" : (UString) "FAILURE", id, target->id);
 	if (roll >= chance)
 	{
@@ -1853,18 +1853,18 @@ bool BattleUnit::applyDamage(GameState &state, int power, StateRef<DamageType> d
 
 void BattleUnit::applyMoraleDamage(int moraleDamage, int psiAttackPower, GameState &state)
 {
-	LogWarning("Psionic damageType");
+	LogWarning2("Psionic damageType");
 	const int random = randBoundsExclusive(state.rng, 0, 100);
 	const int chance =
 	    getPsiAttackChance(psiAttackPower, agent->modified_stats.psi_defence, PsiStatus::Panic);
 
-	LogWarning("Chance: %i  Random: %i", chance, random);
+	LogWarning2("Chance: {}  Random: {}", chance, random);
 
 	if (random < chance)
 	{
-		LogWarning("Psionic damage passed the defence of %s", agent->name);
+		LogWarning2("Psionic damage passed the defence of {}", agent->name);
 		agent->modified_stats.loseMorale(moraleDamage);
-		LogWarning("morale: %d", agent->modified_stats.bravery);
+		LogWarning2("morale: {}", agent->modified_stats.bravery);
 	}
 }
 
@@ -3768,7 +3768,7 @@ void BattleUnit::updateAI(GameState &state, unsigned int)
 	auto decision = aiList.think(state, *this);
 	if (!decision.isEmpty())
 	{
-		LogWarning("AI %s for unit %s decided to %s", decision.ai, id, decision.getName());
+		LogWarning2("AI {} for unit {} decided to {}", decision.ai, id, decision.getName());
 		executeAIDecision(state, decision);
 	}
 }
@@ -5132,7 +5132,7 @@ bool BattleUnit::useItem(GameState &state, sp<AEquipment> item)
 					// 10% of max TUs
 					if (!spendTU(state, getMotionScannerCost()))
 					{
-						LogWarning("Notify unsufficient TU for motion scanner");
+						LogWarning2("Notify unsufficient TU for motion scanner");
 						return false;
 					}
 				}
@@ -5173,7 +5173,7 @@ bool BattleUnit::useMedikit(GameState &state, BodyPart part)
 		// 37.5% of max TUs
 		if (!spendTU(state, getMedikitCost()))
 		{
-			LogWarning("Notify unsufficient TU for medikit");
+			LogWarning2("Notify unsufficient TU for medikit");
 			return false;
 		}
 		fatalWounds[part]--;
@@ -5585,7 +5585,7 @@ bool BattleUnit::popFinishedMissions(GameState &state)
 	bool popped = false;
 	while (missions.size() > 0 && missions.front()->isFinished(state, *this))
 	{
-		LogWarning("Unit %s mission \"%s\" finished", id, missions.front()->getName());
+		LogWarning2("Unit {} mission \"{}\" finished", id, missions.front()->getName());
 		missions.pop_front();
 		popped = true;
 		// We may have retreated as a result of finished mission
@@ -5601,7 +5601,7 @@ bool BattleUnit::popFinishedMissions(GameState &state)
 		}
 		else
 		{
-			LogWarning("No next unit mission, going idle");
+			LogWarning2("No next unit mission, going idle");
 			break;
 		}
 	}

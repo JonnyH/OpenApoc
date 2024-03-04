@@ -350,7 +350,7 @@ bool Battle::initialMapCheck(GameState &state, std::list<StateRef<Agent>> agents
 			{
 				continue;
 			}
-			LogWarning("Los block center %s visible from %s", ePos, sPos);
+			LogWarning2("Los block center {} visible from {}", ePos, sPos);
 			enemySpawn->low_priority = true;
 		}
 	}
@@ -448,7 +448,7 @@ void Battle::initialMapPartRemoval(GameState &state)
 					}
 					for (auto &p : partsToKill)
 					{
-						LogWarning("Removing MP %s at %s as it's blocking unit %s",
+						LogWarning2("Removing MP {} at {} as it's blocking unit {}",
 						           p->getOwner()->type.id, p->getPosition(), u.first);
 						auto mp = p->getOwner();
 						mp->destroyed = true;
@@ -463,7 +463,7 @@ void Battle::initialMapPartRemoval(GameState &state)
 
 void Battle::initialMapPartLinkUp()
 {
-	LogWarning("Begun initial map parts link up!");
+	LogWarning2("Begun initial map parts link up!");
 	auto &mapref = *map;
 
 	for (auto &s : this->map_parts)
@@ -484,7 +484,7 @@ void Battle::initialMapPartLinkUp()
 			}
 		}
 	}
-	LogWarning("Begun map parts link up cycle!");
+	LogWarning2("Begun map parts link up cycle!");
 	bool foundSupport;
 	// Establish support based on existing supported map parts
 	do
@@ -510,12 +510,12 @@ void Battle::initialMapPartLinkUp()
 		if (mp->willCollapse())
 		{
 			auto pos = mp->tileObject->getOwningTile()->position;
-			LogWarning("MP %s SBT %d at %s is UNLINKED", mp->type.id,
+			LogWarning2("MP {} SBT {} at {} is UNLINKED", mp->type.id,
 			           (int)mp->type->getVanillaSupportedById(), pos);
 		}
 	}
 
-	LogWarning("Attempting link up of unlinked parts");
+	LogWarning2("Attempting link up of unlinked parts");
 	// Try to link to objects of same type first, then to anything
 	for (int iteration = 0; iteration <= 2; iteration++)
 	{
@@ -545,13 +545,13 @@ void Battle::initialMapPartLinkUp()
 		if (mp->willCollapse())
 		{
 			auto pos = mp->tileObject->getOwningTile()->position;
-			LogWarning("MP %s SBT %d at %s is going to fall", mp->type.id,
+			LogWarning2("MP {} SBT {} at {} is going to fall", mp->type.id,
 			           (int)mp->type->getVanillaSupportedById(), pos);
 		}
 	}
 
 	mapref.updateAllBattlescapeInfo();
-	LogWarning("Link up finished!");
+	LogWarning2("Link up finished!");
 }
 
 enum class UnitSize
@@ -894,7 +894,7 @@ void Battle::initialUnitSpawn(GameState &state)
 				// If there is no block then just spawn anywhere
 				if (!block)
 				{
-					LogWarning("Map has not enough blocks with spawn points!?!?!?");
+					LogWarning2("Map has not enough blocks with spawn points!?!?!?");
 
 					for (int x = 0; x < size.x; x++)
 					{
@@ -1324,7 +1324,7 @@ sp<BattleHazard> Battle::placeHazard(GameState &state, StateRef<Organisation> ow
 				// Nothing can spread into a fire that's eating up a feature
 				if (existingHazard->hazardType->fire)
 				{
-					LogWarning(
+					LogWarning2(
 					    "Ensure we are not putting out a fire that is attached to a feature!");
 				}
 				existingHazard->dieAndRemove(state, false);
@@ -2413,7 +2413,7 @@ void Battle::giveInterruptChanceToUnit(GameState &state, StateRef<BattleUnit> gi
 		}
 		else
 		{
-			LogWarning("Interrupting AI %s for unit %s decided to %s", decision.ai, receiver->id,
+			LogWarning2("Interrupting AI {} for unit {} decided to {}", decision.ai, receiver->id,
 			           decision.getName());
 			receiver->aiList.reset(state, *receiver);
 			if (interruptQueue.empty())
@@ -2740,7 +2740,7 @@ void Battle::finishBattle(GameState &state)
 		{
 			loot.push_back(e->item);
 		}
-		LogWarning("Implement UFO parts loot");
+		LogWarning2("Implement UFO parts loot");
 	}
 	// Player didn't secure the area
 	// - doesn't get loot
@@ -2809,7 +2809,7 @@ void Battle::finishBattle(GameState &state)
 	{
 		// FIXME: Should find 15 closest buildings that are intact and within 15 tiles
 		// (center to center) and pick one of them
-		LogWarning("Properly find building to house retreated aliens");
+		LogWarning2("Properly find building to house retreated aliens");
 		Vec2<int> battleLocation;
 		StateRef<City> city;
 		if (state.current_battle->mission_type == Battle::MissionType::UfoRecovery)
@@ -3097,7 +3097,7 @@ void Battle::exitBattle(GameState &state)
 	// Check cargo limits (this can move loot into leftover loot)
 	if (config().getBool("OpenApoc.NewFeature.EnforceCargoLimits"))
 	{
-		LogWarning("Implement feature: Enforce containment limits");
+		LogWarning2("Implement feature: Enforce containment limits");
 
 		// FIXME: Implement enforce cargo limits
 		// Basically here we should open a window where we offer to leave behind

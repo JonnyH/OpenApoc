@@ -157,8 +157,7 @@ std::list<Vec3<int>> TileMap::findShortestPath(Vec3<int> origin, Vec3<int> desti
 	// Approach Only makes no sense with pathing into a block, but we'll fix it anyway
 	if (approachOnly && !destinationIsSingleTile)
 	{
-		LogWarning("Trying to route from %s to %s-%s in approachOnly mode? Extending destination's "
-		           "xy boundaries by 1.",
+		LogWarning2("Trying to route from {} to {}-{} in approachOnly mode? Extending destination's xy boundaries by 1.",
 		           origin, destinationStart, destinationEnd);
 		approachOnly = false;
 		destinationStart -=
@@ -826,8 +825,7 @@ std::list<int> Battle::findLosBlockPath(int origin, int destination, BattleUnitT
 
 	if (iterationCount > iterationLimit)
 	{
-		LogWarning("No route from lb %d to %d found after %d iterations, returning "
-		           "closest path ending in %d",
+		LogWarning2("No route from lb {} to {} found after {} iterations, returning closest path ending in {}",
 		           origin, destination, iterationCount, closestNodeSoFar->block);
 	}
 	else if (closestNodeSoFar->distanceToGoal > 0)
@@ -1044,7 +1042,7 @@ void Battle::groupMove(GameState &state, std::list<StateRef<BattleUnit>> &select
 	if (itUnit == localUnits.end() && !leadUnit)
 	{
 		log += format("\nNoone could path to target, aborting");
-		LogWarning("%s", log);
+		LogWarning2("{}", log);
 		return;
 	}
 
@@ -1090,7 +1088,7 @@ void Battle::groupMove(GameState &state, std::list<StateRef<BattleUnit>> &select
 		if (itOffset == targetOffsets.end())
 		{
 			log += format("\nRan out of location offsets, exiting");
-			LogWarning("%s", log);
+			LogWarning2("{}", log);
 			return;
 		}
 		log += format("\nPathing unit %s", unit.id);
@@ -1129,7 +1127,7 @@ void Battle::groupMove(GameState &state, std::list<StateRef<BattleUnit>> &select
 		}
 	}
 	log += format("\nSuccessfully pathed everybody to target");
-	LogWarning("%s", log);
+	LogWarning2("{}", log);
 }
 
 std::list<Vec3<int>> City::findShortestPath(Vec3<int> origin, Vec3<int> destination,
@@ -1377,8 +1375,7 @@ std::list<Vec3<int>> City::findShortestPath(Vec3<int> origin, Vec3<int> destinat
 
 	if (iterationCount > iterationLimit)
 	{
-		LogWarning("No route from lb %d to %d found after %d iterations, returning "
-		           "closest path ending at %d",
+		LogWarning2("No route from lb {:d} to {:d} found after {} iterations, returning closest path ending at {}",
 		           origin, destination, iterationCount, closestNodeSoFar->segment);
 	}
 	else if (closestNodeSoFar->distanceToGoal > 0)
@@ -1686,7 +1683,7 @@ void City::groupMove(GameState &state, std::list<StateRef<Vehicle>> &selectedVeh
 		if (itOffset == targetOffsets.end())
 		{
 			// FIXME: Generate more offsets in an enlarging diamond shape
-			LogWarning("\nRan out of location offsets while pathing vehicles, exiting");
+			LogWarning2("\nRan out of location offsets while pathing vehicles, exiting");
 			return;
 		}
 		while (itOffset != targetOffsets.end())
@@ -1714,7 +1711,7 @@ void City::groupMove(GameState &state, std::list<StateRef<Vehicle>> &selectedVeh
 
 void City::fillRoadSegmentMap(GameState &state [[maybe_unused]])
 {
-	LogWarning("Begun filling road segment map");
+	LogWarning2("Begun filling road segment map");
 	// Expecting this to be done on clean intact map
 	tileToRoadSegmentMap.clear();
 	roadSegments.clear();
@@ -1772,12 +1769,12 @@ void City::fillRoadSegmentMap(GameState &state [[maybe_unused]])
 							{
 								continue;
 							}
-							LogWarning("Pass 2: Tile %s disconnected from some exits network",
+							LogWarning2("Pass 2: Tile {} disconnected from some exits network",
 							           tileToTryNext);
 							break;
 						// Anything goes, coming up OOOs!
 						case 3:
-							LogWarning("Pass 3: Tile %s disconnected from main network!",
+							LogWarning2("Pass 3: Tile {} disconnected from main network!",
 							           tileToTryNext);
 							break;
 					}
@@ -1793,7 +1790,7 @@ void City::fillRoadSegmentMap(GameState &state [[maybe_unused]])
 					{
 						if (roadSegments[nextSegmentToProcess].empty())
 						{
-							LogWarning("Skipping empty segment %d", nextSegmentToProcess);
+							LogWarning2("Skipping empty segment {}", nextSegmentToProcess);
 							nextSegmentToProcess++;
 							continue;
 						}
@@ -1900,8 +1897,7 @@ void City::fillRoadSegmentMap(GameState &state [[maybe_unused]])
 											}
 											if (roadSegments[idx].tilePosition.size() > 1)
 											{
-												LogWarning("Linking from %s to %s: Existing road "
-												           "segment, wtf?",
+												LogWarning2("Linking from {} to {}: Existing road segment, wtf?",
 												           currentPosition, nextPosition);
 												// break;
 											}
@@ -2036,6 +2032,6 @@ void City::fillRoadSegmentMap(GameState &state [[maybe_unused]])
 	{
 		roadSegments[i].finalizeStats();
 	}
-	LogWarning("Finished filling road segment map");
+	LogWarning2("Finished filling road segment map");
 }
 } // namespace OpenApoc

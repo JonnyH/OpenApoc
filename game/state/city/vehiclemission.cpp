@@ -690,7 +690,7 @@ AdjustTargetResult VehicleTargetHelper::adjustTargetToClosestRoad(Vehicle &v, Ve
 		target = closestPos;
 		return {reachability, true};
 	}
-	LogWarning("No road exists anywhere in the city? Really?");
+	LogWarning2("No road exists anywhere in the city? Really?");
 	return {reachability, false};
 }
 
@@ -844,7 +844,7 @@ VehicleTargetHelper::adjustTargetToClosestFlying(GameState &state, Vehicle &v, V
 		}
 		if (foundNewTarget)
 		{
-			LogWarning("Target %d,%d,%d was unreachable, found new closest target %d,%d,%d",
+			LogWarning2("Target {},{},{} was unreachable, found new closest target {},{},{}",
 			           target.x, target.y, target.z, newTarget.x, newTarget.y, newTarget.z);
 			target = newTarget;
 		}
@@ -874,7 +874,7 @@ VehicleTargetHelper::adjustTargetToClosestFlying(GameState &state, Vehicle &v, V
 		if (!sideStepLocations.empty())
 		{
 			auto newTarget = pickRandom(state.rng, sideStepLocations);
-			LogWarning("Target %s was unreachable, side-stepping to  %s.", target, newTarget);
+			LogWarning2("Target {} was unreachable, side-stepping to  {}.", target, newTarget);
 			target = newTarget;
 		}
 	}
@@ -1152,7 +1152,7 @@ bool VehicleMission::getNextDestination(GameState &state, Vehicle &v, Vec3<float
 							angleToTarget = (float)angleToTargetInt * (float)M_PI / 4.0f;
 							if (destFacing != angleToTarget && v.ticksToTurn > 0)
 							{
-								LogWarning("Vehicle %s facing target", v.name);
+								LogWarning2("Vehicle {} facing target", v.name);
 								destFacing = angleToTarget;
 								return true;
 							}
@@ -1242,7 +1242,7 @@ bool VehicleMission::getNextDestination(GameState &state, Vehicle &v, Vec3<float
 								angleToTarget = (float)angleToTargetInt * (float)M_PI / 4.0f;
 								if (destFacing != angleToTarget && v.ticksToTurn > 0)
 								{
-									LogWarning("Vehicle %s facing target", v.name);
+									LogWarning2("Vehicle {} facing target", v.name);
 									destFacing = angleToTarget;
 									return true;
 								}
@@ -1300,7 +1300,7 @@ bool VehicleMission::getNextDestination(GameState &state, Vehicle &v, Vec3<float
 			return false;
 		}
 		default:
-			LogWarning("TODO: Implement getNextDestination");
+			LogWarning2("TODO: Implement getNextDestination");
 			return false;
 	}
 	return false;
@@ -1435,7 +1435,7 @@ void VehicleMission::update(GameState &state, Vehicle &v, unsigned int ticks, bo
 			auto vTile = v.tileObject;
 			if (vTile && !finished && this->currentPlannedPath.empty())
 			{
-				LogWarning("Crash landing failed, restartng...");
+				LogWarning2("Crash landing failed, restartng...");
 				v.addMission(state, restartNextMission(state, v));
 			}
 			return;
@@ -1488,7 +1488,7 @@ void VehicleMission::update(GameState &state, Vehicle &v, unsigned int ticks, bo
 			updateTimer(ticks);
 			return;
 		default:
-			LogWarning("TODO: Implement update");
+			LogWarning2("TODO: Implement update");
 			return;
 	}
 } // namespace OpenApoc
@@ -1593,7 +1593,7 @@ bool VehicleMission::isFinishedInternal(GameState &state, Vehicle &v)
 			return targetBuilding &&
 			       (!targetBuilding->isAlive() || !v.canDamageBuilding(targetBuilding));
 		default:
-			LogWarning("TODO: Implement isFinishedInternal");
+			LogWarning2("TODO: Implement isFinishedInternal");
 			return false;
 	}
 }

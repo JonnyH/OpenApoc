@@ -120,7 +120,7 @@ DataImpl::DataImpl(std::vector<UString> paths) : Data(paths)
 			LogInfo("Initialised image loader %s", t);
 		}
 		else
-			LogWarning("Failed to load image loader %s", t);
+			LogWarning2("Failed to load image loader {}", t);
 	}
 
 	registeredImageWriters["lodepng"].reset(getLodePNGImageWriterFactory());
@@ -135,7 +135,7 @@ DataImpl::DataImpl(std::vector<UString> paths) : Data(paths)
 			LogInfo("Initialised image writer %s", t);
 		}
 		else
-			LogWarning("Failed to load image writer %s", t);
+			LogWarning2("Failed to load image writer {}", t);
 	}
 
 	registeredSampleLoaders["raw"].reset(getRAWSampleLoaderFactory());
@@ -150,7 +150,7 @@ DataImpl::DataImpl(std::vector<UString> paths) : Data(paths)
 			LogInfo("Initialised sample loader %s", t);
 		}
 		else
-			LogWarning("Failed to load sample loader %s", t);
+			LogWarning2("Failed to load sample loader {}", t);
 	}
 
 	registeredMusicLoaders["raw"].reset(getRAWMusicLoaderFactory());
@@ -165,7 +165,7 @@ DataImpl::DataImpl(std::vector<UString> paths) : Data(paths)
 			LogInfo("Initialised music loader %s", t);
 		}
 		else
-			LogWarning("Failed to load music loader %s", t);
+			LogWarning2("Failed to load music loader {}", t);
 	}
 	for (int i = 0; i < Options::imageCacheSize.get(); i++)
 		pinnedImages.push(nullptr);
@@ -676,7 +676,7 @@ sp<Palette> DataImpl::loadPalette(const UString &path)
 	std::lock_guard<std::recursive_mutex> l(this->paletteCacheLock);
 	if (path == "")
 	{
-		LogWarning("Invalid palette path");
+		LogWarning2("Invalid palette path");
 		return nullptr;
 	}
 
@@ -766,7 +766,7 @@ sp<Video> DataImpl::loadVideo(const UString &path)
 		auto file = this->fs.open(splitString[1]);
 		if (!file)
 		{
-			LogWarning("Failed to open SMK file \"%s\"", splitString[1]);
+			LogWarning2("Failed to open SMK file \"{}\"", splitString[1]);
 			return nullptr;
 		}
 		return loadSMKVideo(file);
@@ -790,19 +790,19 @@ bool DataImpl::writeImage(UString systemPath, sp<Image> image, sp<Palette> palet
 			// Just catch any problem and continue anyway?
 			catch (fs::filesystem_error &e)
 			{
-				LogWarning("create_directories failed with \"%s\"", e.what());
+				LogWarning2("create_directories failed with \"{}\"", e.what());
 			}
 		}
 		else if (!fs::is_directory(outDir))
 		{
-			LogWarning("Cannot open %s: %s is not a directory", outPath, outDir);
+			LogWarning2("Cannot open {}: {} is not a directory", outPath, outDir);
 			return false;
 		}
 	}
 	std::ofstream outFile(systemPath, std::ios::binary);
 	if (!outFile)
 	{
-		LogWarning("Failed to open \"%s\" for writing", systemPath);
+		LogWarning2("Failed to open \"{}\" for writing", systemPath);
 		return false;
 	}
 
@@ -819,7 +819,7 @@ bool DataImpl::writeImage(UString systemPath, sp<Image> image, sp<Palette> palet
 				palette = this->loadPalette(defaultPalettePath);
 				if (!palette)
 				{
-					LogWarning("Failed to write palette image - no palette supplied and failed to "
+					LogWarning2("Failed to write palette image - no palette supplied and failed to "
 					           "load default");
 					return false;
 				}
@@ -832,7 +832,7 @@ bool DataImpl::writeImage(UString systemPath, sp<Image> image, sp<Palette> palet
 			}
 			else
 			{
-				LogWarning("Failed to write palette image \"%s\" using \"%s\"", systemPath,
+				LogWarning2("Failed to write palette image \"{}\" using \"{}\"", systemPath,
 				           writer->getName());
 				continue;
 			}
@@ -847,7 +847,7 @@ bool DataImpl::writeImage(UString systemPath, sp<Image> image, sp<Palette> palet
 			}
 			else
 			{
-				LogWarning("Failed to write RGB image \"%s\" using \"%s\"", systemPath,
+				LogWarning2("Failed to write RGB image \"{}\" using \"{}\"", systemPath,
 				           writer->getName());
 				continue;
 			}
@@ -859,7 +859,7 @@ bool DataImpl::writeImage(UString systemPath, sp<Image> image, sp<Palette> palet
 		}
 	}
 
-	LogWarning("No writes succeeded for image \"%s\"", systemPath);
+	LogWarning2("No writes succeeded for image \"{}\"", systemPath);
 	return false;
 }
 
@@ -906,7 +906,7 @@ void DataImpl::addSampleAlias(const UString &name, const UString &value)
 	auto current = this->sampleAliases.find(name);
 	if (current != this->sampleAliases.end() && current->second != value)
 	{
-		LogWarning("Replacing alias \"%s\" - was \"%s\" now \"%s\"", name, current->second, value);
+		LogWarning2("Replacing alias \"{}\" - was \"{}\" now \"{}\"", name, current->second, value);
 	}
 	this->sampleAliases[name] = value;
 }
@@ -917,7 +917,7 @@ void DataImpl::addMusicAlias(const UString &name, const UString &value)
 	auto current = this->musicAliases.find(name);
 	if (current != this->musicAliases.end() && current->second != value)
 	{
-		LogWarning("Replacing alias \"%s\" - was \"%s\" now \"%s\"", name, current->second, value);
+		LogWarning2("Replacing alias \"{}\" - was \"{}\" now \"{}\"", name, current->second, value);
 	}
 	this->musicAliases[name] = value;
 }
@@ -928,7 +928,7 @@ void DataImpl::addImageAlias(const UString &name, const UString &value)
 	auto current = this->imageAliases.find(name);
 	if (current != this->imageAliases.end() && current->second != value)
 	{
-		LogWarning("Replacing alias \"%s\" - was \"%s\" now \"%s\"", name, current->second, value);
+		LogWarning2("Replacing alias \"{}\" - was \"{}\" now \"{}\"", name, current->second, value);
 	}
 	this->imageAliases[name] = value;
 }
@@ -939,7 +939,7 @@ void DataImpl::addImageSetAlias(const UString &name, const UString &value)
 	auto current = this->imageSetAliases.find(name);
 	if (current != this->imageSetAliases.end() && current->second != value)
 	{
-		LogWarning("Replacing alias \"%s\" - was \"%s\" now \"%s\"", name, current->second, value);
+		LogWarning2("Replacing alias \"{}\" - was \"{}\" now \"{}\"", name, current->second, value);
 	}
 	this->imageSetAliases[name] = value;
 }
@@ -950,7 +950,7 @@ void DataImpl::addPaletteAlias(const UString &name, const UString &value)
 	auto current = this->paletteAliases.find(name);
 	if (current != this->paletteAliases.end() && current->second != value)
 	{
-		LogWarning("Replacing alias \"%s\" - was \"%s\" now \"%s\"", name, current->second, value);
+		LogWarning2("Replacing alias \"{}\" - was \"{}\" now \"{}\"", name, current->second, value);
 	}
 	this->paletteAliases[name] = value;
 }
@@ -961,7 +961,7 @@ void DataImpl::addVoxelSliceAlias(const UString &name, const UString &value)
 	auto current = this->voxelAliases.find(name);
 	if (current != this->voxelAliases.end() && current->second != value)
 	{
-		LogWarning("Replacing alias \"%s\" - was \"%s\" now \"%s\"", name, current->second, value);
+		LogWarning2("Replacing alias \"{}\" - was \"{}\" now \"{}\"", name, current->second, value);
 	}
 	this->voxelAliases[name] = value;
 }
@@ -981,14 +981,14 @@ void DataImpl::readAliasFile(const UString &path)
 	auto file = this->fs.open(path);
 	if (!file)
 	{
-		LogWarning("Failed to open alias file \"%s\"", path);
+		LogWarning2("Failed to open alias file \"{}\"", path);
 		return;
 	}
 
 	auto data = file.readAll();
 	if (!data)
 	{
-		LogWarning("Failed to read data from alias file \"%s\"", path);
+		LogWarning2("Failed to read data from alias file \"{}\"", path);
 		return;
 	}
 
@@ -996,14 +996,14 @@ void DataImpl::readAliasFile(const UString &path)
 	auto parseResult = doc.load_buffer(data.get(), file.size());
 	if (!parseResult)
 	{
-		LogWarning("Failed to parse alias file at \"%s\" - \"%s\" at \"%llu\"", path,
+		LogWarning2("Failed to parse alias file at \"{}\" - \"{}\" at \"{}\"", path,
 		           parseResult.description(), (unsigned long long)parseResult.offset);
 		return;
 	}
 	auto openapocNode = doc.child("openapoc");
 	if (!openapocNode)
 	{
-		LogWarning("Failed to find \"openapoc\" root node in alias file at \"%s\"", path);
+		LogWarning2("Failed to find \"openapoc\" root node in alias file at \"{}\"", path);
 		return;
 	}
 	for (auto aliasNode = openapocNode.child("alias"); aliasNode;
@@ -1012,19 +1012,19 @@ void DataImpl::readAliasFile(const UString &path)
 		UString name = aliasNode.attribute("id").value();
 		if (name.empty())
 		{
-			LogWarning("Alias with missing 'id' attribute in \"%s\"", path);
+			LogWarning2("Alias with missing 'id' attribute in \"{}\"", path);
 			continue;
 		}
 		UString type = aliasNode.attribute("type").value();
 		if (type.empty())
 		{
-			LogWarning("Alias \"%s\" with missing 'type' attribute in \"%s\"", name, path);
+			LogWarning2("Alias \"{}\" with missing 'type' attribute in \"{}\"", name, path);
 			continue;
 		}
 		UString value = aliasNode.text().get();
 		if (value.empty())
 		{
-			LogWarning("Alias \"%s\" with missing value in \"%s\"", name, path);
+			LogWarning2("Alias \"{}\" with missing value in \"{}\"", name, path);
 			continue;
 		}
 		if (type == "sample")
@@ -1053,7 +1053,7 @@ void DataImpl::readAliasFile(const UString &path)
 		}
 		else
 		{
-			LogWarning("Alias \"%s\" with unknown type \"%s\"  in \"%s\"", name, type, path);
+			LogWarning2("Alias \"{}\" with unknown type \"{}\"  in \"{}\"", name, type, path);
 			continue;
 		}
 	}

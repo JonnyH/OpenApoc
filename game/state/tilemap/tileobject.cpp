@@ -99,11 +99,11 @@ void TileObject::setPosition(Vec3<float> newPosition)
 	    newPosition.x > map.size.x + 1 || newPosition.y > map.size.y + 1 ||
 	    newPosition.z > map.size.z + 1)
 	{
-		LogWarning("Trying to place object at %s in map of size %s", newPosition, map.size);
+		LogWarning2("Trying to place object at {} in map of size {}", newPosition, map.size);
 		newPosition.x = clamp(newPosition.x, 0.0f, (float)map.size.x + 1);
 		newPosition.y = clamp(newPosition.y, 0.0f, (float)map.size.y + 1);
 		newPosition.z = clamp(newPosition.z, 0.0f, (float)map.size.z + 1);
-		LogWarning("Clamped object to %s", newPosition);
+		LogWarning2("Clamped object to {}", newPosition);
 	}
 	this->removeFromMap();
 

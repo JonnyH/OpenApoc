@@ -198,7 +198,7 @@ void Organisation::purchase(GameState &state, const StateRef<Building> &buyer,
 	auto building = buyer->owner->id == id ? buyer : getPurchaseBuilding(state, buyer);
 	building->cargo.emplace_back(state, vehicleEquipment, count, price,
 	                             StateRef<Organisation>{&state, id}, buyer);
-	LogWarning("PURCHASE: %s bought %dx%s at %s to %s ", buyer->owner.id, count,
+	LogWarning2("PURCHASE: {} bought {}x{} at {} to {} ", buyer->owner.id, count,
 	           vehicleEquipment.id, building.id, buyer.id);
 	auto owner = buyer->owner;
 	owner->balance -= count * price;
@@ -232,7 +232,7 @@ void Organisation::purchase(GameState &state, const StateRef<Building> &buyer,
 	auto building = buyer->owner->id == id ? buyer : getPurchaseBuilding(state, buyer);
 	building->cargo.emplace_back(state, vehicleAmmo, count, price,
 	                             StateRef<Organisation>{&state, id}, buyer);
-	LogWarning("PURCHASE: %s bought %dx%s at %s to %s ", buyer->owner.id, count, vehicleAmmo.id,
+	LogWarning2("PURCHASE: {} bought {}x{} at {} to {} ", buyer->owner.id, count, vehicleAmmo.id,
 	           building.id, buyer.id);
 	auto owner = buyer->owner;
 	owner->balance -= count * price;
@@ -268,7 +268,7 @@ void Organisation::purchase(GameState &state, const StateRef<Building> &buyer,
 	    state, agentEquipment,
 	    count * (agentEquipment->type == AEquipmentType::Type::Ammo ? agentEquipment->max_ammo : 1),
 	    price, StateRef<Organisation>{&state, id}, buyer);
-	LogWarning("PURCHASE: %s bought %dx%s at %s to %s ", buyer->owner.id, count, agentEquipment.id,
+	LogWarning2("PURCHASE: {} bought {}x{} at {} to {} ", buyer->owner.id, count, agentEquipment.id,
 	           building.id, buyer.id);
 	auto owner = buyer->owner;
 	owner->balance -= count * price;
@@ -303,7 +303,7 @@ void Organisation::purchase(GameState &state, const StateRef<Building> &buyer,
 		v->homeBuilding = buyer;
 		v->setMission(state, VehicleMission::gotoBuilding(state, *v));
 	}
-	LogWarning("PURCHASE: %s bought %dx%s at %s to %s ", buyer->owner.id, count, vehicleType.id,
+	LogWarning2("PURCHASE: {} bought {}x{} at {} to {} ", buyer->owner.id, count, vehicleType.id,
 	           building.id, buyer.id);
 	auto owner = buyer->owner;
 	owner->balance -= count * price;

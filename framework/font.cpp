@@ -13,8 +13,8 @@ sp<PaletteImage> BitmapFont::getString(const UString &Text)
 {
 	if (Text.find('\n') != std::string::npos)
 	{
-		LogWarning(
-		    "Multiline text not supported. Newline characters will be ignored. Text : \"%s\"",
+		LogWarning2(
+		    "Multiline text not supported. Newline characters will be ignored. Text : \"{}\"",
 		    Text);
 	}
 	int height = this->getFontHeight();
@@ -76,7 +76,7 @@ sp<PaletteImage> BitmapFont::getGlyph(char32_t codepoint)
 	{
 		// FIXME: Hack - assume all missing glyphs are spaces
 		// TODO: Fallback fonts?
-		LogWarning("Font %s missing glyph for character \"%s\" (codepoint %u)", this->getName(),
+		LogWarning2("Font {} missing glyph for character \"{}\" (codepoint {})", this->getName(),
 		           to_ustring(std::u32string(1, codepoint)), static_cast<uint32_t>(codepoint));
 		auto missingGlyph = this->getGlyph(to_char32(' '));
 		fontbitmaps.emplace(codepoint, missingGlyph);
@@ -188,8 +188,7 @@ std::list<UString> BitmapFont::wordWrapText(const UString &Text, int MaxWidth)
 				{
 					if (currentLine == "")
 					{
-						LogWarning("No break in line \"%s\" found - this will probably overflow "
-						           "the control",
+						LogWarning2("No break in line \"{}\" found - this will probably overflow the control",
 						           currentTestLine);
 						currentLine = currentTestLine;
 						remainingChunks.pop_front();

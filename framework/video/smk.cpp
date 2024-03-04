@@ -123,7 +123,7 @@ class SMKVideo : public Video, public std::enable_shared_from_this<SMKVideo>
 
 		if (ret == SMK_ERROR)
 		{
-			LogWarning("Error decoding frame %u", this->current_frame_read);
+			LogWarning2("Error decoding frame {}", this->current_frame_read);
 			return false;
 		}
 
@@ -136,13 +136,13 @@ class SMKVideo : public Video, public std::enable_shared_from_this<SMKVideo>
 		const unsigned char *palette_data = smk_get_palette(this->smk_ctx);
 		if (!palette_data)
 		{
-			LogWarning("Failed to get palette data for frame %u", this->current_frame_read);
+			LogWarning2("Failed to get palette data for frame {}", this->current_frame_read);
 			return false;
 		}
 		const unsigned char *image_data = smk_get_video(this->smk_ctx);
 		if (!image_data)
 		{
-			LogWarning("Failed to get image data for frame %u", this->current_frame_read);
+			LogWarning2("Failed to get image data for frame {}", this->current_frame_read);
 			return false;
 		}
 
@@ -170,7 +170,7 @@ class SMKVideo : public Video, public std::enable_shared_from_this<SMKVideo>
 		unsigned long audio_bytes = smk_get_audio_size(this->smk_ctx, 0);
 		if (audio_bytes == 0)
 		{
-			LogWarning("Error reading audio size for frame %u", this->current_frame_read);
+			LogWarning2("Error reading audio size for frame {}", this->current_frame_read);
 			return false;
 		}
 
@@ -181,7 +181,7 @@ class SMKVideo : public Video, public std::enable_shared_from_this<SMKVideo>
 		auto sample_pointer = smk_get_audio(this->smk_ctx, 0);
 		if (!sample_pointer)
 		{
-			LogWarning("Error reading audio data for frame %u", this->current_frame_read);
+			LogWarning2("Error reading audio data for frame {}", this->current_frame_read);
 			return false;
 		}
 		memcpy(audio_frame->samples.get(), sample_pointer, audio_bytes);
@@ -214,7 +214,7 @@ class SMKVideo : public Video, public std::enable_shared_from_this<SMKVideo>
 		                                static_cast<unsigned long>(this->video_data_size));
 		if (!this->smk_ctx)
 		{
-			LogWarning("Failed to read SMK file \"%s\"", video_path);
+			LogWarning2("Failed to read SMK file \"{}\"", video_path);
 			this->video_data.reset();
 			return false;
 		}
@@ -222,7 +222,7 @@ class SMKVideo : public Video, public std::enable_shared_from_this<SMKVideo>
 
 		if (smk_info_all(this->smk_ctx, nullptr, &this->frame_count, &usf))
 		{
-			LogWarning("Failed to read SMK file info from \"%s\"", video_path);
+			LogWarning2("Failed to read SMK file info from \"{}\"", video_path);
 			this->video_data.reset();
 			smk_close(this->smk_ctx);
 			this->smk_ctx = nullptr;
@@ -237,7 +237,7 @@ class SMKVideo : public Video, public std::enable_shared_from_this<SMKVideo>
 		unsigned long height, width;
 		if (smk_info_video(this->smk_ctx, &width, &height, nullptr))
 		{
-			LogWarning("Failed to read SMK video info from \"%s\"", video_path);
+			LogWarning2("Failed to read SMK video info from \"{}\"", video_path);
 			this->video_data.reset();
 			smk_close(this->smk_ctx);
 			this->smk_ctx = nullptr;
@@ -250,7 +250,7 @@ class SMKVideo : public Video, public std::enable_shared_from_this<SMKVideo>
 		auto ret = smk_enable_video(this->smk_ctx, 1);
 		if (ret == SMK_ERROR)
 		{
-			LogWarning("Error enabling video for \"%s\"", video_path);
+			LogWarning2("Error enabling video for \"{}\"", video_path);
 			return false;
 		}
 
@@ -262,7 +262,7 @@ class SMKVideo : public Video, public std::enable_shared_from_this<SMKVideo>
 		ret = smk_info_audio(this->smk_ctx, &audio_track_mask, channels, bitdepth, audio_rate);
 		if (ret == SMK_ERROR)
 		{
-			LogWarning("Error reading audio info for \"%s\"", video_path);
+			LogWarning2("Error reading audio info for \"{}\"", video_path);
 			return false;
 		}
 
@@ -274,7 +274,7 @@ class SMKVideo : public Video, public std::enable_shared_from_this<SMKVideo>
 		}
 		else
 		{
-			LogWarning("Unsupported audio track mask 0x%02x for \"%s\"", (unsigned)audio_track_mask,
+			LogWarning2("Unsupported audio track mask 0x{:02x} for \"{}\"", (unsigned)audio_track_mask,
 			           video_path);
 			return false;
 		}
@@ -290,7 +290,7 @@ class SMKVideo : public Video, public std::enable_shared_from_this<SMKVideo>
 				this->audio_format.channels = 2;
 				break;
 			default:
-				LogWarning("Unsupported audio channel count %u for \"%s\"", (unsigned)channels[0],
+				LogWarning2("Unsupported audio channel count {} for \"{}\"", (unsigned)channels[0],
 				           video_path);
 				return false;
 		}
@@ -305,7 +305,7 @@ class SMKVideo : public Video, public std::enable_shared_from_this<SMKVideo>
 				this->audio_bytes_per_sample = 2;
 				break;
 			default:
-				LogWarning("Unsupported audio bit depth %u for \"%s\"", (unsigned)bitdepth[0],
+				LogWarning2("Unsupported audio bit depth {} for \"{}\"", (unsigned)bitdepth[0],
 				           video_path);
 				return false;
 		}
@@ -315,7 +315,7 @@ class SMKVideo : public Video, public std::enable_shared_from_this<SMKVideo>
 
 		if (ret == SMK_ERROR)
 		{
-			LogWarning("Error enabling audio track 0 for \"%s\"", video_path);
+			LogWarning2("Error enabling audio track 0 for \"{}\"", video_path);
 		}
 
 		// Everything looks  good
@@ -364,7 +364,7 @@ MusicTrack::MusicCallbackReturn SMKMusicTrack::fillData(unsigned int maxSamples,
 
 	if (!this->current_frame)
 	{
-		LogWarning("Playing beyond end of video");
+		LogWarning2("Playing beyond end of video");
 		return MusicCallbackReturn::End;
 	}
 

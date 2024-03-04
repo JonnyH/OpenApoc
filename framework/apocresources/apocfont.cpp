@@ -16,14 +16,14 @@ sp<BitmapFont> ApocalypseFont::loadFont(const UString &fontDescPath)
 	auto file = fw().data->fs.open(fontDescPath);
 	if (!file)
 	{
-		LogWarning("Failed to open font file at path \"%s\"", fontDescPath);
+		LogWarning2("Failed to open font file at path \"{}\"", fontDescPath);
 		return nullptr;
 	}
 
 	auto data = file.readAll();
 	if (!data)
 	{
-		LogWarning("Failed to read font file at path \"%s\"", fontDescPath);
+		LogWarning2("Failed to read font file at path \"{}\"", fontDescPath);
 		return nullptr;
 	}
 
@@ -33,7 +33,7 @@ sp<BitmapFont> ApocalypseFont::loadFont(const UString &fontDescPath)
 
 	if (!parseResult)
 	{
-		LogWarning("Failed to parse font file at \"%s\" - \"%s\" at \"%llu\"", fontDescPath,
+		LogWarning2("Failed to parse font file at \"{}\" - \"{}\" at \"{}\"", fontDescPath,
 		           parseResult.description(), (unsigned long long)parseResult.offset);
 		return nullptr;
 	}
@@ -41,14 +41,14 @@ sp<BitmapFont> ApocalypseFont::loadFont(const UString &fontDescPath)
 	auto openapocNode = doc.child("openapoc");
 	if (!openapocNode)
 	{
-		LogWarning("Failed to find \"openapoc\" root node in font file at \"%s\"", fontDescPath);
+		LogWarning2("Failed to find \"openapoc\" root node in font file at \"{}\"", fontDescPath);
 		return nullptr;
 	}
 
 	auto fontNode = openapocNode.child("apocfont");
 	if (!fontNode)
 	{
-		LogWarning("Failed to find \"openapoc::apocfont\" node in font file at \"%s\"",
+		LogWarning2("Failed to find \"openapoc::apocfont\" node in font file at \"{}\"",
 		           fontDescPath);
 		return nullptr;
 	}

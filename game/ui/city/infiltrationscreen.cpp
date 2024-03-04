@@ -60,7 +60,7 @@ static void drawOrgLine(sp<RGBImage> image, const Organisation &org, const Colou
 		{
 			if (point.x < 0 || point.y < 0 || point.x >= image->size.x || point.y >= image->size.y)
 			{
-				LogWarning("Point %s out of bounds for image of size %s", point, image->size);
+				LogWarning2("Point {} out of bounds for image of size {}", point, image->size);
 				point.x = clamp(point.x, 0, static_cast<int>(image->size.x - 1));
 				point.y = clamp(point.y, 0, static_cast<int>(image->size.y - 1));
 			}

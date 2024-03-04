@@ -1428,11 +1428,11 @@ void Scenery::collapse(GameState &state)
 	if (this->initialPosition.z <= 1)
 	{
 		this->damaged = true;
-		LogWarning("Scenery at %s  type %s can't fall as below 2", currentPosition, type.id);
+		LogWarning2("Scenery at {}  type {} can't fall as below 2", currentPosition, type.id);
 	}
 	else
 	{
-		LogWarning("Scenery at %s type %s now falling", currentPosition, type.id);
+		LogWarning2("Scenery at {} type {} now falling", currentPosition, type.id);
 		falling = true;
 		// state.current_battle->queueVisionRefresh(position);
 		// state.current_battle->queuePathfindingRefresh(position);

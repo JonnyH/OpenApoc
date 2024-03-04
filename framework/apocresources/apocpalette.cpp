@@ -122,7 +122,7 @@ sp<Palette> loadPCXPalette(Data &data, const UString fileName)
 		file.read(reinterpret_cast<char *>(&colour), 3);
 		if (!file)
 		{
-			LogWarning("Unexpected EOF at index %u", i);
+			LogWarning2("Unexpected EOF at index {}", i);
 			return nullptr;
 		}
 		if (i == 0)

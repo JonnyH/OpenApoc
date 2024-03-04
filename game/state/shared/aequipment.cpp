@@ -722,7 +722,7 @@ void AEquipment::explode(GameState &state)
 			break;
 		}
 		default:
-			LogWarning("Implement blown up payload firing in all directions etc.");
+			LogWarning2("Implement blown up payload firing in all directions etc.");
 			break;
 	}
 }

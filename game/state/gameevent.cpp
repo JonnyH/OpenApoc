@@ -410,7 +410,7 @@ GameSomethingDiedEvent::GameSomethingDiedEvent(GameEventType type, UString name,
 			messageInner = format("%s %s", tr("Module lost during recovery:"), name);
 			break;
 		default:
-			LogWarning("GameSomethingDiedEvent %s called on non-death event %d", name,
+			LogWarning2("GameSomethingDiedEvent {} called on non-death event {}", name,
 			           static_cast<int>(type));
 			break;
 	}

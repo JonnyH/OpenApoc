@@ -65,21 +65,21 @@ class PCXImageLoader : public OpenApoc::ImageLoader
 
 		if (header->Encoding != 1)
 		{
-			LogWarning("File \"%s\" had invalid PCX Encoding 0x%02x", path,
+			LogWarning2("File \"{}\" had invalid PCX Encoding 0x{:02x}", path,
 			           static_cast<unsigned>(header->Encoding));
 			return nullptr;
 		}
 
 		if (header->BitsPerPixel != 8)
 		{
-			LogWarning("File \"%s\" had invalid PCX BitsPerPixel 0x%02x", path,
+			LogWarning2("File \"{}\" had invalid PCX BitsPerPixel 0x{:02x}", path,
 			           static_cast<unsigned>(header->BitsPerPixel));
 			return nullptr;
 		}
 
 		if (header->NumBitPlanes != 1)
 		{
-			LogWarning("File \"%s\" had invalid PCX NumBitPlanes 0x%02x", path,
+			LogWarning2("File \"{}\" had invalid PCX NumBitPlanes 0x{:02x}", path,
 			           static_cast<unsigned>(header->NumBitPlanes));
 			return nullptr;
 		}
@@ -87,7 +87,7 @@ class PCXImageLoader : public OpenApoc::ImageLoader
 		uint8_t pal = data[size - (256 * 3) - 1];
 		if (pal != 0x0C)
 		{
-			LogWarning("File \"%s\" had invalid PCX palette identifier byte 0x%02x", path,
+			LogWarning2("File \"{}\" had invalid PCX palette identifier byte 0x{:02x}", path,
 			           static_cast<unsigned>(pal));
 			return nullptr;
 		}
@@ -124,7 +124,7 @@ class PCXImageLoader : public OpenApoc::ImageLoader
 					uint8_t idx;
 					if (img_data >= reinterpret_cast<uint8_t *>(&data[size]))
 					{
-						LogWarning("Unexpected EOF reading PCX file \"%s\" ", path);
+						LogWarning2("Unexpected EOF reading PCX file \"{}\" ", path);
 						return nullptr;
 					}
 					b = *img_data++;
@@ -134,7 +134,7 @@ class PCXImageLoader : public OpenApoc::ImageLoader
 						run_length = b & 0x3F;
 						if (img_data >= reinterpret_cast<uint8_t *>(&data[size]))
 						{
-							LogWarning("Unexpected EOF reading PCX file \"%s\" ", path);
+							LogWarning2("Unexpected EOF reading PCX file \"{}\" ", path);
 							return nullptr;
 						}
 						idx = *img_data++;

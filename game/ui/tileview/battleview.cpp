@@ -978,7 +978,7 @@ BattleView::BattleView(sp<GameState> gameState)
 	                  {
 		                  if (baseForm->findControlTyped<Ticker>("NEWS_TICKER")->hasMessages())
 		                  {
-			                  LogWarning("Has Messages!");
+			                  LogWarning2("Has Messages!");
 			                  this->zoomLastEvent();
 		                  }
 	                  });
@@ -2246,7 +2246,7 @@ void BattleView::updateHiddenForm()
 void BattleView::refreshDelayText()
 {
 	int delay = primingTab->findControlTyped<ScrollBar>("DELAY_SLIDER")->getValue();
-	LogWarning("Delay %d", delay);
+	LogWarning2("Delay {}", delay);
 	UString text;
 	if (delay == 0)
 	{
@@ -2553,11 +2553,11 @@ void BattleView::orderTurn(Vec3<int> target)
 	{
 		if (unit->setMission(*state, BattleUnitMission::turn(*unit, target)))
 		{
-			LogWarning("BattleUnit \"%s\" turning to face location %s", unit->agent->name, target);
+			LogWarning2("BattleUnit \"{}\" turning to face location {}", unit->agent->name, target);
 		}
 		else
 		{
-			LogWarning("BattleUnit \"%s\" could not receive order to turn", unit->agent->name);
+			LogWarning2("BattleUnit \"{}\" could not receive order to turn", unit->agent->name);
 		}
 	}
 }
@@ -2578,7 +2578,7 @@ void BattleView::orderThrow(Vec3<int> target, bool right)
 
 	if (unit->setMission(*state, BattleUnitMission::throwItem(*unit, item, target)))
 	{
-		LogWarning("BattleUnit \"%s\" throwing item in the %s hand", unit->agent->name,
+		LogWarning2("BattleUnit \"{}\" throwing item in the {} hand", unit->agent->name,
 		           right ? "right" : "left");
 		selectionState = BattleSelectionState::Normal;
 	}
@@ -2739,7 +2739,7 @@ void BattleView::orderDrop(bool right)
 	{
 		// Special case, just add mission in front of anything and start it, no need to clear orders
 		unit->addMission(*state, BattleUnitMission::dropItem(*unit, item));
-		LogWarning("BattleUnit \"%s\" dropping item in %s hand", unit->agent->name,
+		LogWarning2("BattleUnit \"{}\" dropping item in {} hand", unit->agent->name,
 		           right ? "right" : "left");
 	}
 	else // Try to pick something up
@@ -2833,7 +2833,7 @@ void BattleView::orderTeleport(Vec3<int> target, bool right)
 	// FIXME: REMOVE TEMPORARY CHEAT
 	if (!item || item->type->type != AEquipmentType::Type::Teleporter)
 	{
-		LogWarning("Using teleporter cheat!");
+		LogWarning2("Using teleporter cheat!");
 		item = mksp<AEquipment>();
 		UString tp = "AEQUIPMENTTYPE_PERSONAL_TELEPORTER";
 		item->type = {&*state, tp};
@@ -2848,14 +2848,14 @@ void BattleView::orderTeleport(Vec3<int> target, bool right)
 	auto m = BattleUnitMission::teleport(*unit, item, target);
 	if (unit->setMission(*state, m) && !m->cancelled)
 	{
-		LogWarning("BattleUnit \"%s\" teleported using item in %s hand ", unit->agent->name,
+		LogWarning2("BattleUnit \"{}\" teleported using item in {} hand ", unit->agent->name,
 		           right ? "right" : "left");
 		selectionState = BattleSelectionState::Normal;
 	}
 	else
 	{
 		actionImpossibleDelay = 40;
-		LogWarning("BattleUnit \"%s\" could not teleport using item in %s hand ", unit->agent->name,
+		LogWarning2("BattleUnit \"{}\" could not teleport using item in {} hand ", unit->agent->name,
 		           right ? "right" : "left");
 	}
 }
@@ -3215,7 +3215,7 @@ bool BattleView::handleKeyDown(Event *e)
 			{
 				if (modifierLShift || modifierRShift)
 				{
-					LogWarning("Psi amplified!");
+					LogWarning2("Psi amplified!");
 					for (auto &u : battle.units)
 					{
 						if (u.second->isDead())
@@ -3230,7 +3230,7 @@ bool BattleView::handleKeyDown(Event *e)
 				}
 				else
 				{
-					LogWarning("Panic mode engaged!");
+					LogWarning2("Panic mode engaged!");
 					for (auto &u : battle.units)
 					{
 						if (u.second->isConscious())
@@ -3244,7 +3244,7 @@ bool BattleView::handleKeyDown(Event *e)
 			// Heal everybody
 			case SDLK_h:
 			{
-				LogWarning("Heals for everybody!");
+				LogWarning2("Heals for everybody!");
 				for (auto &u : battle.units)
 				{
 					if (u.second->isDead())
@@ -3264,7 +3264,7 @@ bool BattleView::handleKeyDown(Event *e)
 			// Restore TUs
 			case SDLK_t:
 			{
-				LogWarning("Restoring TU");
+				LogWarning2("Restoring TU");
 				for (auto &u : battle.units)
 				{
 					if (!u.second->isConscious() ||
@@ -3694,7 +3694,7 @@ bool BattleView::handleMouseDown(Event *e)
 			}
 		}
 		// Determine course of action
-		LogWarning("Click at tile %d, %d, %d", t.x, t.y, t.z);
+		LogWarning2("Click at tile {}, {}, {}", t.x, t.y, t.z);
 		switch (selectionState)
 		{
 			case BattleSelectionState::Normal:
@@ -3917,7 +3917,7 @@ bool BattleView::handleMouseDown(Event *e)
 						u->aiState.attackerPosition,
 						u->aiList.lastSeenEnemyPosition);*/
 					}
-					LogWarning("%s", debug);
+					LogWarning2("{}", debug);
 				}
 				break;
 			case BattleSelectionState::FireAny:

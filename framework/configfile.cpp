@@ -144,7 +144,7 @@ class ConfigFileImpl
 			auto unknown_options = po::collect_unrecognized(parsed.options, po::include_positional);
 			for (const auto &unknown : unknown_options)
 			{
-				LogWarning("Ignoring option \"%s\"", unknown);
+				LogWarning2("Ignoring option \"{}\"", unknown);
 			}
 		}
 		catch (po::error &err)

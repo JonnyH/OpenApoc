@@ -488,7 +488,7 @@ class SpriteBuffer
 	{
 		if (this->buffer_contents == 0)
 		{
-			LogWarning("Calling draw with no sprites stored?");
+			LogWarning2("Calling draw with no sprites stored?");
 			return;
 		}
 		gl->BindBuffer(GL::ARRAY_BUFFER, this->sprite_buffer_id);
@@ -1034,7 +1034,7 @@ class TexturedDrawMachine
 		auto tex = std::dynamic_pointer_cast<GLSurface>(i->rendererPrivateData);
 		if (!tex)
 		{
-			LogWarning("Drawing using undefined surface contents");
+			LogWarning2("Drawing using undefined surface contents");
 			tex = mksp<GLSurface>(i->size, owner);
 			i->rendererPrivateData = tex;
 		}
@@ -1682,7 +1682,7 @@ void GLESWRAP_APIENTRY debug_message_proc(GL::KhrDebug::GLenum, GL::KhrDebug::GL
 		case GL::KhrDebug::DEBUG_SEVERITY_HIGH:
 		case GL::KhrDebug::DEBUG_SEVERITY_MEDIUM:
 		{
-			LogWarning("Debug message: \"%s\"", message);
+			LogWarning2("Debug message: \"{}\"", message);
 			break;
 		}
 		default:
@@ -1717,7 +1717,7 @@ OGLES30Renderer::OGLES30Renderer() : state(State::Idle)
 	if (spritesheetPageSize.x > (unsigned int)max_texture_size ||
 	    spritesheetPageSize.y > (unsigned int)max_texture_size)
 	{
-		LogWarning("Default spritesheet size %s larger than HW limit %d - clamping...",
+		LogWarning2("Default spritesheet size {} larger than HW limit {} - clamping...",
 		           spritesheetPageSize, max_texture_size);
 		spritesheetPageSize.x = std::min(spritesheetPageSize.x, (unsigned int)max_texture_size);
 		spritesheetPageSize.y = std::min(spritesheetPageSize.y, (unsigned int)max_texture_size);
@@ -1773,7 +1773,7 @@ class OGLES30RendererFactory : public RendererFactory
 		}
 		else
 		{
-			LogWarning("Initialisation already attempted");
+			LogWarning2("Initialisation already attempted");
 			return nullptr;
 		}
 	}
@@ -1783,7 +1783,7 @@ GLRGBTexture::~GLRGBTexture()
 {
 	if (renderer_dead)
 	{
-		LogWarning("GLRGBTexture being destroyed after renderer");
+		LogWarning2("GLRGBTexture being destroyed after renderer");
 		return;
 	}
 
@@ -1793,7 +1793,7 @@ GLPaletteTexture::~GLPaletteTexture()
 {
 	if (renderer_dead)
 	{
-		LogWarning("GLPaletteTexture being destroyed after renderer");
+		LogWarning2("GLPaletteTexture being destroyed after renderer");
 		return;
 	}
 	owner->delete_texture_object(this->tex_id);
@@ -1802,7 +1802,7 @@ GLSurface::~GLSurface()
 {
 	if (renderer_dead)
 	{
-		LogWarning("GLSurface being destroyed after renderer");
+		LogWarning2("GLSurface being destroyed after renderer");
 		return;
 	}
 	if (this->fbo_id)

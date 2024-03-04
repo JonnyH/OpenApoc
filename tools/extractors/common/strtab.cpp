@@ -32,7 +32,7 @@ StrTab::StrTab(std::istream &file, off_t start_offset, off_t end_offset, bool ma
 				std::stringstream ss;
 				ss << s << " " << ++unique_id[s];
 				s = ss.str();
-				LogWarning("Munged string to make unique: \"%s\"", s.c_str());
+				LogWarning2("Munged string to make unique: \"{}\"", s);
 			}
 			else
 				unique_id.emplace(s, 0);

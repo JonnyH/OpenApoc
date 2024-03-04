@@ -884,7 +884,7 @@ void VehicleMover::updateFalling(GameState &state, unsigned int ticks)
 		if (vehicleHealth != 0 && vehicle.getMaxHealth() / vehicle.getHealth() >= 3 &&
 		    randBoundsExclusive(state.rng, 0, 100) < 2)
 		{
-			LogWarning("Doodads");
+			LogWarning2("Doodads");
 			UString doodadId = randBool(state.rng) ? "DOODAD_1_AUTOCANNON" : "DOODAD_2_AIRGUARD";
 			auto doodadPos = vehicle.position;
 			doodadPos.x += (float)randBoundsInclusive(state.rng, -3, 3) / 10.0f;
@@ -1818,7 +1818,7 @@ void Vehicle::die(GameState &state, bool silent, StateRef<Vehicle> attacker)
 		}
 		else
 		{
-			LogWarning("Tileobject is nullpointer");
+			LogWarning2("Tileobject is nullpointer");
 		}
 	}
 	auto id = getId(state, shared_from_this());
@@ -3312,10 +3312,10 @@ bool Vehicle::getNewGoal(GameState &state, int &turboTiles)
 	} while (popped && !acquired && debug_deadlock_preventor > 0);
 	if (debug_deadlock_preventor <= 0)
 	{
-		LogWarning("Vehicle %s at %s", name, position);
+		LogWarning2("Vehicle {} at {}", name, position);
 		for (auto &m : missions)
 		{
-			LogWarning("Mission %s", m.getName());
+			LogWarning2("Mission {}", m.getName());
 		}
 		LogError2("Vehicle {} deadlocked, please send log to developers. Vehicle will self-destruct now...",
 		         name);
@@ -4026,7 +4026,7 @@ void Cargo::seize(GameState &state, StateRef<Organisation> org [[maybe_unused]])
 	}
 	int worth = cost * count / divisor;
 	// FIXME: Adjust relationship accordingly to seized cargo's worth
-	LogWarning("Adjust relationship accordingly to worth: %d", worth);
+	LogWarning2("Adjust relationship accordingly to worth: {}", worth);
 	if (destination->owner == state.getPlayer())
 	{
 		fw().pushEvent(

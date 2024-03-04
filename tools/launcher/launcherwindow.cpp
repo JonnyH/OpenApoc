@@ -358,7 +358,7 @@ void LauncherWindow::play()
 	QString path = QCoreApplication::applicationDirPath() + "/OpenApoc";
 #endif
 
-	LogWarning("Running \"%s\"", path.toStdString());
+	LogWarning2("Running \"{}\"", path.toStdString());
 	const auto ret = QProcess::startDetached(path, {});
 	if (!ret)
 	{

@@ -1101,7 +1101,7 @@ FBOData::~FBOData()
 {
 	if (renderer_dead)
 	{
-		LogWarning("FBOData being destroyed after renderer");
+		LogWarning2("FBOData being destroyed after renderer");
 		return;
 	}
 	if (tex)
@@ -1113,7 +1113,7 @@ GLRGBImage::~GLRGBImage()
 {
 	if (renderer_dead)
 	{
-		LogWarning("GLRGBImage being destroyed after renderer");
+		LogWarning2("GLRGBImage being destroyed after renderer");
 		return;
 	}
 	owner->delete_texture_object(this->texID);
@@ -1122,7 +1122,7 @@ GLPalette::~GLPalette()
 {
 	if (renderer_dead)
 	{
-		LogWarning("GLPalette being destroyed after renderer");
+		LogWarning2("GLPalette being destroyed after renderer");
 		return;
 	}
 	owner->delete_texture_object(this->texID);
@@ -1131,7 +1131,7 @@ GLPaletteImage::~GLPaletteImage()
 {
 	if (renderer_dead)
 	{
-		LogWarning("GLPaletteImage being destroyed after renderer");
+		LogWarning2("GLPaletteImage being destroyed after renderer");
 		return;
 	}
 	owner->delete_texture_object(this->texID);

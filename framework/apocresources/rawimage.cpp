@@ -12,18 +12,18 @@ sp<PaletteImage> RawImage::load(Data &data, const UString &filename, const Vec2<
 	auto infile = data.fs.open(filename);
 	if (!infile)
 	{
-		LogWarning("Failed to open file \"%s\"", filename);
+		LogWarning2("Failed to open file \"{}\"", filename);
 		return nullptr;
 	}
 	if (size.x <= 0 || size.y <= 0)
 	{
-		LogWarning("Trying to read image of invalid size {%d,%d}", size.x, size.y);
+		LogWarning2("Trying to read image of invalid size {{{},{}}}", size.x, size.y);
 		return nullptr;
 	}
 
 	if (infile.size() != static_cast<size_t>(size.x * size.y))
 	{
-		LogWarning("File \"%s\" has incorrect size for raw image of size %s", filename, size);
+		LogWarning2("File \"{}\" has incorrect size for raw image of size {}", filename, size);
 	}
 
 	auto image = mksp<PaletteImage>(size);
@@ -53,18 +53,18 @@ sp<ImageSet> RawImage::loadSet(Data &data, const UString &filename, const Vec2<i
 	auto infile = data.fs.open(filename);
 	if (!infile)
 	{
-		LogWarning("Failed to open file \"%s\"", filename);
+		LogWarning2("Failed to open file \"{}\"", filename);
 		return nullptr;
 	}
 	if (size.x <= 0 || size.y <= 0)
 	{
-		LogWarning("Trying to read images of invalid size %s", size);
+		LogWarning2("Trying to read images of invalid size {}", size);
 		return nullptr;
 	}
 
 	if (infile.size() % static_cast<size_t>(size.x * size.y) != 0)
 	{
-		LogWarning("File \"%s\" has incorrect size for raw images of size %s", filename, size);
+		LogWarning2("File \"{}\" has incorrect size for raw images of size {}", filename, size);
 	}
 
 	size_t numImages = infile.size() / (size.x * size.y);

@@ -165,7 +165,7 @@ up<SerializationArchive> SerializationArchive::readArchive(const UString &path)
 	up<SerializationDataProvider> dataProvider = getProvider(!fs::is_directory(path));
 	if (!dataProvider->openArchive(path, false))
 	{
-		LogWarning("Failed to open archive at \"%s\"", path);
+		LogWarning2("Failed to open archive at \"{}\"", path);
 		return nullptr;
 	}
 	LogInfo("Opened archive \"%s\"", path);
@@ -190,7 +190,7 @@ SerializationNode *XMLSerializationArchive::getRoot(const UString &prefix, const
 	auto path = prefix + name + ".xml";
 	if (dataProvider == nullptr)
 	{
-		LogWarning("Reading from not opened archive: %s!", path);
+		LogWarning2("Reading from not opened archive: {}!", path);
 		return nullptr;
 	}
 
@@ -221,7 +221,7 @@ SerializationNode *XMLSerializationArchive::getRoot(const UString &prefix, const
 	auto root = it->second.child(name);
 	if (!root)
 	{
-		LogWarning("Failed to find root with name \"%s\" in \"%s\"", name, path);
+		LogWarning2("Failed to find root with name \"{}\" in \"{}\"", name, path);
 		return nullptr;
 	}
 	const UString *newPrefix = &this->prefixes.emplace_back(prefix + name + "/");
@@ -235,7 +235,7 @@ bool XMLSerializationArchive::write(const UString &path, bool pack, bool pretty)
 	auto dataProvider = getProvider(pack);
 	if (!dataProvider->openArchive(path, true))
 	{
-		LogWarning("Failed to open archive at \"%s\"", path);
+		LogWarning2("Failed to open archive at \"{}\"", path);
 		return false;
 	}
 

@@ -63,7 +63,7 @@ void InitialGameStateExtractor::extractVehicleEquipment(GameState &state) const
 				e->users.insert(VEquipmentType::User::Ammo);
 				break;
 			default:
-				LogWarning("Unexpected 'usable_by' %d for ID %s", (int)edata.usable_by, id);
+				LogWarning2("Unexpected 'usable_by' {} for ID {}", (int)edata.usable_by, id);
 				continue;
 		}
 		e->weight = edata.weight;

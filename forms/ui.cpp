@@ -75,12 +75,12 @@ std::vector<UString> UI::getFormIDs()
 	{
 		if (name.substr(0, 6) != "forms/")
 		{
-			LogWarning("Unexpected form file prefix for \"%s\"", name);
+			LogWarning2("Unexpected form file prefix for \"{}\"", name);
 			continue;
 		}
 		if (!ends_with(name, ".form"))
 		{
-			LogWarning("Unexpected extension on form file \"%s\"", name);
+			LogWarning2("Unexpected extension on form file \"{}\"", name);
 			continue;
 		}
 		else

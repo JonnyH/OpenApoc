@@ -60,7 +60,7 @@ void BootUp::update()
 		    {
 			    auto &ui_instance = ui();
 			    std::ignore = ui_instance;
-			    LogWarning("Loading save \"%s\"", path);
+			    LogWarning2("Loading save \"{}\"", path);
 
 			    if (!loadedState->loadGame(path))
 			    {

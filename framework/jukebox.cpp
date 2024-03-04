@@ -41,7 +41,7 @@ class JukeBoxImpl : public JukeBox
 	{
 		if (!playlistsLoaded)
 		{
-			LogWarning("JukeBox::play() called without any playlists loaded");
+			LogWarning2("JukeBox::play() called without any playlists loaded");
 			return;
 		}
 		if (this->list == list)
@@ -81,7 +81,7 @@ class JukeBoxImpl : public JukeBox
 		JukeBoxImpl *jukebox = static_cast<JukeBoxImpl *>(data);
 		if (jukebox->trackList.empty())
 		{
-			LogWarning("Trying to play empty jukebox");
+			LogWarning2("Trying to play empty jukebox");
 			return;
 		}
 		if (jukebox->position >= jukebox->trackList.size())
@@ -129,13 +129,13 @@ class JukeBoxImpl : public JukeBox
 			auto file = fw.data->fs.open(path);
 			if (!file)
 			{
-				LogWarning("Failed to open playlist file \"%s\"", path);
+				LogWarning2("Failed to open playlist file \"{}\"", path);
 				continue;
 			}
 			auto data = file.readAll();
 			if (!data)
 			{
-				LogWarning("Failed to read playlist file \"%s\"", path);
+				LogWarning2("Failed to read playlist file \"{}\"", path);
 				continue;
 			}
 
@@ -143,14 +143,14 @@ class JukeBoxImpl : public JukeBox
 			auto result = doc.load_buffer(data.get(), file.size());
 			if (!result)
 			{
-				LogWarning("Failed to parse playlist \"%s\" - \"%s\" at \"%llu\"", path,
+				LogWarning2("Failed to parse playlist \"{}\" - \"{}\" at \"{}\"", path,
 				           result.description(), result.offset);
 				continue;
 			}
 			auto node = doc.child("openapoc_playlist");
 			if (!node)
 			{
-				LogWarning("No root \"openapoc_playlist\" element in playlist file \"%s\"", path);
+				LogWarning2("No root \"openapoc_playlist\" element in playlist file \"{}\"", path);
 				continue;
 			}
 

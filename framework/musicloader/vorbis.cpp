@@ -146,7 +146,7 @@ class VorbisMusicLoader : public MusicLoader
 
 		if (ret < 0)
 		{
-			LogWarning("VorbisMusic: Error %d opening file \"%s\"", ret, path);
+			LogWarning2("VorbisMusic: Error {} opening file \"{}\"", ret, path);
 			return nullptr;
 		}
 
@@ -155,7 +155,7 @@ class VorbisMusicLoader : public MusicLoader
 		auto *info = ov_info(&music->_vorbis_file, -1);
 		if (!info)
 		{
-			LogWarning("VorbisMusic: Failed to read info for \"%s\"", path);
+			LogWarning2("VorbisMusic: Failed to read info for \"{}\"", path);
 			return nullptr;
 		}
 
@@ -170,7 +170,7 @@ class VorbisMusicLoader : public MusicLoader
 		}
 		if (!valid_sample_rate)
 		{
-			LogWarning("VorbisMusic: \"%s\" has unsupported sample rate \"%d\"", path, info->rate);
+			LogWarning2("VorbisMusic: \"{}\" has unsupported sample rate \"{}\"", path, info->rate);
 			return nullptr;
 		}
 
@@ -185,7 +185,7 @@ class VorbisMusicLoader : public MusicLoader
 		}
 		if (!valid_channel_count)
 		{
-			LogWarning("VorbisMusic: \"%s\" has unsupported channel count \"%d\"", path,
+			LogWarning2("VorbisMusic: \"{}\" has unsupported channel count \"{}\"", path,
 			           info->channels);
 			return nullptr;
 		}

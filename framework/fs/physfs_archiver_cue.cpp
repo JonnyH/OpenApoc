@@ -182,7 +182,7 @@ class CueParser
 
 		if (trackNumber > 1)
 		{
-			LogWarning("First track is not numbered 1 (actual number is %d)", trackNumber);
+			LogWarning2("First track is not numbered 1 (actual number is {})", trackNumber);
 		}
 
 		// Read track mode
@@ -610,7 +610,7 @@ class CueIO
 			totalRead += fileStream.gcount();
 			if (fileStream.gcount() != readSize)
 			{
-				LogWarning("Read buffer underrun! Wanted %" PRId64 " bytes, got %" PRId64, readSize,
+				LogWarning2("Read buffer underrun! Wanted {} bytes, got {}", readSize,
 				           fileStream.gcount());
 				return totalRead;
 			}
@@ -1078,7 +1078,7 @@ class CueArchiver
   public:
 	static void *cueOpenArchive(PHYSFS_Io *, const char *filename, int forWriting, int *claimed)
 	{
-		LogWarning("Opening \"%s\"", filename);
+		LogWarning2("Opening \"{}\"", filename);
 		// FIXME: Here we assume the filename actually points to the actual .cue file,
 		// ignoring the PHYSFS_Io (though how would we even read the accompanying file?)
 		// TODO: Actually read from PHYSFS_Io to allow mounting non-CUE images?
@@ -1111,9 +1111,9 @@ class CueArchiver
 
 		if (!fs::exists(dataFilePath))
 		{
-			LogWarning("Could not find binary file \"%s\" referenced in the cuesheet",
+			LogWarning2("Could not find binary file \"{}\" referenced in the cuesheet",
 			           parser.getDataFileName());
-			LogWarning("Trying case-insensitive search...");
+			LogWarning2("Trying case-insensitive search...");
 			UString ucBin(parser.getDataFileName());
 			ucBin = to_lower(ucBin);
 			// for (fs::directory_entry &dirent :
@@ -1136,7 +1136,7 @@ class CueArchiver
 				LogError2("Binary file does not exist: \"{}\"", dataFilePath.string());
 				return nullptr;
 			}
-			LogWarning("Using \"%s\" as a binary file source", dataFilePath.string());
+			LogWarning2("Using \"{}\" as a binary file source", dataFilePath.string());
 		}
 
 		return new CueArchiver(dataFilePath.string(), parser.getDataFileType(),

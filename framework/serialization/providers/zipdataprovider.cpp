@@ -36,7 +36,7 @@ bool ZipDataProvider::openArchive(const UString &path, bool write)
 		}
 		if (!mz_zip_writer_init_file(&archive, path.c_str(), 0))
 		{
-			LogWarning("Failed to init zip file \"%s\" for writing", path);
+			LogWarning2("Failed to init zip file \"{}\" for writing", path);
 			return false;
 		}
 	}
@@ -44,7 +44,7 @@ bool ZipDataProvider::openArchive(const UString &path, bool write)
 	{
 		if (!mz_zip_reader_init_file(&archive, path.c_str(), 0))
 		{
-			LogWarning("Failed to init zip file \"%s\" for reading", path);
+			LogWarning2("Failed to init zip file \"{}\" for reading", path);
 			return false;
 		}
 
@@ -75,7 +75,7 @@ bool ZipDataProvider::readDocument(const UString &filename, UString &result)
 	memset(&stat, 0, sizeof(stat));
 	if (!mz_zip_reader_file_stat(&archive, fileId, &stat))
 	{
-		LogWarning("Failed to stat file \"%s\" in zip \"%s\"", filename, zipPath);
+		LogWarning2("Failed to stat file \"{}\" in zip \"{}\"", filename, zipPath);
 		return false;
 	}
 	if (stat.m_uncomp_size == 0)
@@ -90,7 +90,7 @@ bool ZipDataProvider::readDocument(const UString &filename, UString &result)
 	up<char[]> data(new char[(unsigned int)stat.m_uncomp_size]);
 	if (!mz_zip_reader_extract_to_mem(&archive, fileId, data.get(), (size_t)stat.m_uncomp_size, 0))
 	{
-		LogWarning("Failed to extract file \"%s\" in zip \"%s\"", filename, zipPath);
+		LogWarning2("Failed to extract file \"{}\" in zip \"{}\"", filename, zipPath);
 		return false;
 	}
 
@@ -102,7 +102,7 @@ bool ZipDataProvider::saveDocument(const UString &path, const UString &contents)
 	if (!mz_zip_writer_add_mem(&archive, path.c_str(), contents.c_str(), contents.length(),
 	                           MZ_DEFAULT_COMPRESSION))
 	{
-		LogWarning("Failed to insert \"%s\" into zip file \"%s\"", path, this->zipPath);
+		LogWarning2("Failed to insert \"{}\" into zip file \"{}\"", path, this->zipPath);
 		return false;
 	}
 	return true;
@@ -113,7 +113,7 @@ bool ZipDataProvider::finalizeSave()
 	{
 		if (!mz_zip_writer_finalize_archive(&archive))
 		{
-			LogWarning("Failed to finalize archive \"%s\"", zipPath);
+			LogWarning2("Failed to finalize archive \"{}\"", zipPath);
 			return false;
 		}
 	}

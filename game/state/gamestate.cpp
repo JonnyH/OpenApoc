@@ -272,10 +272,10 @@ void GameState::setCurrentCity(StateRef<City> city)
 
 void GameState::validate()
 {
-	LogWarning("Validating GameState");
+	LogWarning2("Validating GameState");
 	validateResearch();
 	validateScenery();
-	LogWarning("Validated GameState");
+	LogWarning2("Validated GameState");
 }
 
 void GameState::validateResearch()
@@ -888,7 +888,7 @@ void GameState::invasion()
 					    true);
 					break;
 				case UFOIncursion::PrimaryMission::Overspawn:
-					LogWarning("Implement Overspawn, just attacking for now");
+					LogWarning2("Implement Overspawn, just attacking for now");
 					// FIXME: Implement Overspawn, just attacking for now
 					invader->addMission(*this, VehicleMission::attackBuilding(*this, *invader),
 					                    true);
@@ -1681,7 +1681,7 @@ void GameState::loadMods()
 	auto mods = split(Options::modList.get(), ":");
 	for (const auto &modString : mods)
 	{
-		LogWarning("loading mod \"%s\"", modString);
+		LogWarning2("loading mod \"{}\"", modString);
 		auto modPath = Options::modPath.get() + "/" + modString;
 		auto modInfo = ModInfo::getInfo(modPath);
 		if (!modInfo)
@@ -1689,11 +1689,11 @@ void GameState::loadMods()
 			LogError2("Failed to load ModInfo for mod \"{}\"", modString);
 			continue;
 		}
-		LogWarning("Loaded modinfo for mod ID \"%s\"", modInfo->getID());
+		LogWarning2("Loaded modinfo for mod ID \"{}\"", modInfo->getID());
 		if (modInfo->getStatePath() != "")
 		{
 			auto modStatePath = modPath + "/" + modInfo->getStatePath();
-			LogWarning("Loading mod gamestate \"%s\"", modStatePath);
+			LogWarning2("Loading mod gamestate \"{}\"", modStatePath);
 
 			if (!this->loadGame(modStatePath))
 			{

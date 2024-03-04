@@ -3487,7 +3487,7 @@ bool CityView::handleKeyDown(Event *e)
 				}
 				case SDLK_x:
 				{
-					LogWarning("Crashing!");
+					LogWarning2("Crashing!");
 					for (auto &v : state->vehicles)
 					{
 						if (v.second->currentBuilding || v.second->city != state->current_city ||
@@ -3511,7 +3511,7 @@ bool CityView::handleKeyDown(Event *e)
 				}
 				case SDLK_u:
 				{
-					LogWarning("Spawning crashed UFOs...");
+					LogWarning2("Spawning crashed UFOs...");
 
 					std::vector<StateRef<VehicleType>> validTypes;
 
@@ -3522,14 +3522,14 @@ bool CityView::handleKeyDown(Event *e)
 						if (type.second->crashed_sprite)
 						{
 							validTypes.emplace_back(state.get(), type.second);
-							LogWarning("Valid UFO type: %s", type.second->name);
+							LogWarning2("Valid UFO type: {}", type.second->name);
 						}
 					}
 
 					for (int i = 0; i < 3; i++)
 					{
 						auto type = pickRandom(state->rng, validTypes);
-						LogWarning("Crashing %s", type->name);
+						LogWarning2("Crashing {}", type->name);
 						pos.z = 9 + i;
 						auto ufo = state->current_city->placeVehicle(*state, {state.get(), type},
 						                                             state->getAliens(), pos);
@@ -3541,7 +3541,7 @@ bool CityView::handleKeyDown(Event *e)
 				}
 				case SDLK_a:
 				{
-					LogWarning("All you ever want...");
+					LogWarning2("All you ever want...");
 
 					for (auto &e : state->vehicle_equipment)
 					{
@@ -3559,7 +3559,7 @@ bool CityView::handleKeyDown(Event *e)
 				}
 				case SDLK_b:
 				{
-					LogWarning("Spawning base defense mission");
+					LogWarning2("Spawning base defense mission");
 					Vec3<float> pos = {state->current_base->building->bounds.p0.x - 1,
 					                   state->current_base->building->bounds.p0.y - 1, 10};
 					auto v = state->cities["CITYMAP_HUMAN"]->placeVehicle(
@@ -3571,7 +3571,7 @@ bool CityView::handleKeyDown(Event *e)
 				}
 				case SDLK_MINUS:
 				{
-					LogWarning("Destroying selected vehicles...");
+					LogWarning2("Clearing Space Liners...");
 					for (auto &v : state->current_city->cityViewSelectedOwnedVehicles)
 					{
 						v->die(*state);
@@ -3817,7 +3817,7 @@ bool CityView::handleMouseDown(Event *e)
 									}
 								}
 							}
-							LogWarning("%s", debug);
+							LogWarning2("{}", debug);
 						}
 					}
 
@@ -3839,10 +3839,10 @@ bool CityView::handleMouseDown(Event *e)
 				{
 					vehicle =
 					    std::dynamic_pointer_cast<TileObjectVehicle>(collision.obj)->getVehicle();
-					LogWarning("CLICKED VEHICLE %s at %s", vehicle->name, vehicle->position);
+					LogWarning2("CLICKED VEHICLE {} at {}", vehicle->name, vehicle->position);
 					for (auto &m : vehicle->missions)
 					{
-						LogWarning("Mission %s", m.getName());
+						LogWarning2("Mission {}", m.getName());
 					}
 					for (auto &c : vehicle->cargo)
 					{
@@ -3887,11 +3887,11 @@ bool CityView::handleMouseDown(Event *e)
 				{
 					vehicle = std::dynamic_pointer_cast<TileObjectVehicle>(collisionVehicle.obj)
 					              ->getVehicle();
-					LogWarning("SECONDARY CLICK ON VEHICLE %s at %s", vehicle->name,
+					LogWarning2("SECONDARY CLICK ON VEHICLE {} at {}", vehicle->name,
 					           vehicle->position);
 					for (auto &m : vehicle->missions)
 					{
-						LogWarning("Mission %s", m.getName());
+						LogWarning2("Mission {}", m.getName());
 					}
 					for (auto &c : vehicle->cargo)
 					{
@@ -4075,7 +4075,7 @@ bool CityView::handleGameStateEvent(Event *e)
 		case GameEventType::UfoRecoveryUnmanned:
 		{
 			auto gameRecoveryEvent = dynamic_cast<GameVehicleEvent *>(e);
-			LogWarning("Load unmanned ufo loot on craft!");
+			LogWarning2("Load unmanned ufo loot on craft!");
 			// Remove ufo
 			gameRecoveryEvent->vehicle->die(*state, true);
 			// Return to base

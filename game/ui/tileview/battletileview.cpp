@@ -357,7 +357,7 @@ void BattleTileView::eventOccurred(Event *e)
 			{
 				case SDLK_F6:
 				{
-					LogWarning("Writing voxel view to tileviewvoxels.png");
+					LogWarning2("Writing voxel view to tileviewvoxels.png");
 					auto imageOffset = -this->getScreenOffset();
 					auto img = std::dynamic_pointer_cast<RGBImage>(this->map.dumpVoxelView(
 					    {imageOffset, imageOffset + dpySize}, *this, battle.battleViewZLevel));
@@ -366,7 +366,7 @@ void BattleTileView::eventOccurred(Event *e)
 				}
 				case SDLK_F7:
 				{
-					LogWarning("Writing voxel view (fast) to tileviewvoxels.png");
+					LogWarning2("Writing voxel view (fast) to tileviewvoxels.png");
 					auto imageOffset = -this->getScreenOffset();
 					auto img = std::dynamic_pointer_cast<RGBImage>(
 					    this->map.dumpVoxelView({imageOffset, imageOffset + dpySize}, *this,
@@ -376,7 +376,7 @@ void BattleTileView::eventOccurred(Event *e)
 				}
 				case SDLK_F8:
 				{
-					LogWarning("Writing voxel view to tileviewvoxels.png");
+					LogWarning2("Writing voxel view to tileviewvoxels.png");
 					auto imageOffset = -this->getScreenOffset();
 					auto img = std::dynamic_pointer_cast<RGBImage>(
 					    this->map.dumpVoxelView({imageOffset, imageOffset + dpySize}, *this,
@@ -386,7 +386,7 @@ void BattleTileView::eventOccurred(Event *e)
 				}
 				case SDLK_F9:
 				{
-					LogWarning("Writing voxel view (fast) to tileviewvoxels.png");
+					LogWarning2("Writing voxel view (fast) to tileviewvoxels.png");
 					auto imageOffset = -this->getScreenOffset();
 					auto img = std::dynamic_pointer_cast<RGBImage>(
 					    this->map.dumpVoxelView({imageOffset, imageOffset + dpySize}, *this,

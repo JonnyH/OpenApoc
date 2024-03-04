@@ -39,7 +39,7 @@ void TileView::eventOccurred(Event *e)
 		{
 			case SDLK_F1:
 				debugHotkeyMode = !debugHotkeyMode;
-				LogWarning("DEBUG MODE %s", debugHotkeyMode);
+				LogWarning2("DEBUG MODE {}", debugHotkeyMode);
 				break;
 			case SDLK_UP:
 				scrollUpKB = true;

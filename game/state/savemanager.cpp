@@ -212,7 +212,7 @@ bool SaveManager::overrideGame(const SaveMetadata &metadata, const UString &newN
 			}
 			catch (fs::filesystem_error &error)
 			{
-				LogWarning("Error while removing renamed save: \"%s\"", error.what());
+				LogWarning2("Error while removing renamed save: \"{}\"", error.what());
 			}
 		}
 	}
@@ -265,7 +265,7 @@ std::vector<SaveMetadata> SaveManager::getSaveList() const
 	{
 		if (!fs::exists(saveDirectory) && !fs::create_directories(saveDirectory))
 		{
-			LogWarning("Save directory \"%s\" not found, and could not be created!", saveDirectory);
+			LogWarning2("Save directory \"{}\" not found, and could not be created!", saveDirectory);
 			return saveList;
 		}
 
@@ -312,7 +312,7 @@ bool SaveManager::deleteGame(const sp<SaveMetadata> &slot) const
 	{
 		if (!fs::exists(slot->getFile()))
 		{
-			LogWarning("Attempt to delete not existing file");
+			LogWarning2("Attempt to delete not existing file");
 			return false;
 		}
 

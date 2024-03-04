@@ -42,13 +42,13 @@ class RawSampleLoader : public SampleLoader
 		int frequency = Strings::toInteger(splitString[2]);
 		if (allowedSampleRates.find(frequency) == allowedSampleRates.end())
 		{
-			LogWarning("Rawsound \"%s\" has invalid sample rate of %d", path, frequency);
+			LogWarning2("Rawsound \"{}\" has invalid sample rate of {}", path, frequency);
 			return nullptr;
 		}
 		auto file = data.fs.open(splitString[1]);
 		if (!file)
 		{
-			LogWarning("Rawsound \"%s\" failed to open file \"%s\"", path, splitString[1]);
+			LogWarning2("Rawsound \"{}\" failed to open file \"{}\"", path, splitString[1]);
 			return nullptr;
 		}
 

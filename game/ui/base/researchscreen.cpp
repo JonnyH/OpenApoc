@@ -123,10 +123,10 @@ void ResearchScreen::begin()
 	    FormEventType::ListBoxChangeSelected,
 	    [this](FormsEvent *e)
 	    {
-		    LogWarning("unassigned agent selected");
+		    LogWarning2("unassigned agent selected");
 		    if (this->assigned_agent_count >= this->viewFacility->type->capacityAmount)
 		    {
-			    LogWarning("no free space in lab");
+			    LogWarning2("no free space in lab");
 			    return;
 		    }
 		    auto list = std::static_pointer_cast<ListBox>(e->forms().RaisedBy);
@@ -147,7 +147,7 @@ void ResearchScreen::begin()
 	    });
 	auto removeFn = [this](FormsEvent *e)
 	{
-		LogWarning("assigned agent selected");
+		LogWarning2("assigned agent selected");
 		auto list = std::static_pointer_cast<ListBox>(e->forms().RaisedBy);
 		auto agent = list->getSelectedData<Agent>();
 		if (!agent)

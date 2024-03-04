@@ -41,7 +41,7 @@ static int dofileReplace(lua_State *L)
 	const auto scriptFile = fw().data->fs.open(scriptPath);
 	if (!scriptFile)
 	{
-		LogWarning("Failed to open script \"%s\"", scriptPath);
+		LogWarning2("Failed to open script \"{}\"", scriptPath);
 		return false;
 	}
 
@@ -54,7 +54,7 @@ static int dofileReplace(lua_State *L)
 	if (luaL_loadfile(L, fullPath.c_str()) || lua_pcall(L, 0, 0, -2))
 	{
 		handleLuaError(L);
-		LogWarning("Script \"%s\" failed", scriptPath);
+		LogWarning2("Script \"{}\" failed", scriptPath);
 		ret = false;
 	}
 	lua_pop(L, 1); // pop debug.traceback function
@@ -141,7 +141,7 @@ bool LuaGameState::runScript(const UString &scriptPath)
 	auto scriptFile = fw().data->fs.open(scriptPath);
 	if (!scriptFile)
 	{
-		LogWarning("Failed to open script \"%s\"", scriptPath);
+		LogWarning2("Failed to open script \"{}\"", scriptPath);
 		return false;
 	}
 
@@ -154,7 +154,7 @@ bool LuaGameState::runScript(const UString &scriptPath)
 	if (luaL_loadfile(L, fullPath.c_str()) || lua_pcall(L, 0, 0, -2))
 	{
 		handleLuaError(L);
-		LogWarning("Script \"%s\" failed", scriptPath);
+		LogWarning2("Script \"{}\" failed", scriptPath);
 		ret = false;
 	}
 	lua_pop(L, 1); // pop debug.traceback function

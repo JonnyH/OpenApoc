@@ -25,14 +25,14 @@ bool test_gamestate_serialization_roundtrip(OpenApoc::sp<OpenApoc::GameState> st
 	if (!state->saveGame(save_name))
 	{
 
-		LogWarning("Failed to save packed gamestate");
+		LogWarning2("Failed to save packed gamestate");
 		return false;
 	}
 
 	auto read_gamestate = OpenApoc::mksp<OpenApoc::GameState>();
 	if (!read_gamestate->loadGame(save_name))
 	{
-		LogWarning("Failed to load packed gamestate");
+		LogWarning2("Failed to load packed gamestate");
 		return false;
 	}
 
@@ -42,7 +42,7 @@ bool test_gamestate_serialization_roundtrip(OpenApoc::sp<OpenApoc::GameState> st
 #endif
 	if (0)
 	{
-		LogWarning("Gamestate changed over serialization");
+		LogWarning2("Gamestate changed over serialization");
 
 		return false;
 	}
@@ -59,7 +59,7 @@ bool test_gamestate_serialization(OpenApoc::sp<OpenApoc::GameState> state)
 	LogInfo("Writing temp state to \"%s\"", pathString);
 	if (!test_gamestate_serialization_roundtrip(state, pathString))
 	{
-		LogWarning("Packed save test failed");
+		LogWarning2("Packed save test failed");
 		return false;
 	}
 

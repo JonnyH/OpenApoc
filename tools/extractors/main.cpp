@@ -306,7 +306,7 @@ int main(int argc, char *argv[])
 
 	if (extractListString == "all")
 	{
-		LogWarning("Running all extractors");
+		LogWarning2("Running all extractors");
 		for (auto &ePair : thingsToExtract)
 		{
 			extractorsToRun.push_back(ePair);
@@ -333,7 +333,7 @@ int main(int argc, char *argv[])
 	InitialGameStateExtractor initialGameStateExtractor;
 	for (auto &ePair : extractorsToRun)
 	{
-		LogWarning("Running %s", ePair.first);
+		LogWarning2("Running {}", ePair.first);
 		ePair.second(initialGameStateExtractor);
 	}
 

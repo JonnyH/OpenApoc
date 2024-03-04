@@ -67,7 +67,7 @@ static UString calculateChecksum(const UString &type, const std::string &str)
 	}
 	else
 	{
-		LogWarning("Unknown checksum type \"%s\"", type);
+		LogWarning2("Unknown checksum type \"{}\"", type);
 		return "";
 	}
 }
@@ -104,14 +104,14 @@ bool ProviderWithChecksum::parseManifest(const std::string &manifestData)
 	auto parse_result = manifestDoc.load(ss);
 	if (!parse_result)
 	{
-		LogWarning("Failed to parse checksum.xml : \"%s\" at \"%llu\"", parse_result.description(),
+		LogWarning2("Failed to parse checksum.xml : \"{}\" at \"{}\"", parse_result.description(),
 		           (unsigned long long)parse_result.offset);
 		return false;
 	}
 	auto rootNode = manifestDoc.child("checksums");
 	if (!rootNode)
 	{
-		LogWarning("checksum.xml has invalid root node");
+		LogWarning2("checksum.xml has invalid root node");
 		return false;
 	}
 	auto fileNode = rootNode.child("file");
@@ -121,7 +121,7 @@ bool ProviderWithChecksum::parseManifest(const std::string &manifestData)
 
 		if (this->checksums.find(fileName) != this->checksums.end())
 		{
-			LogWarning("Multiple manifest entries for path \"%s\"", fileName);
+			LogWarning2("Multiple manifest entries for path \"{}\"", fileName);
 		}
 
 		this->checksums[fileName] = {};
@@ -171,7 +171,7 @@ bool ProviderWithChecksum::readDocument(const UString &path, UString &result)
 			auto calculatedCSum = calculateChecksum(csum.first, result);
 			if (expectedCSum != calculatedCSum)
 			{
-				LogWarning("File \"%s\" has incorrect \"%s\" checksum \"%s\", expected \"%s\"",
+				LogWarning2("File \"{}\" has incorrect \"{}\" checksum \"{}\", expected \"{}\"",
 				           path, csum.first, calculatedCSum, expectedCSum);
 			}
 			else
@@ -192,7 +192,7 @@ bool ProviderWithChecksum::saveDocument(const UString &path, const UString &cont
 	{
 		if (this->checksums.find(path) != this->checksums.end())
 		{
-			LogWarning("Multiple document entries for path \"%s\"", path);
+			LogWarning2("Multiple document entries for path \"{}\"", path);
 		}
 		this->checksums[path] = {};
 		if (Options::useCRCChecksum.get())

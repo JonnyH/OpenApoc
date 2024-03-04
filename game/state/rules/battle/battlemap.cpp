@@ -629,8 +629,7 @@ bool BattleMap::generateMap(std::vector<sp<BattleMapSector>> &sec_map, Vec3<int>
 		}
 		else
 		{
-			LogWarning("Cannot generate a map %s with gen size %d since generating large maps is "
-			           "disabled",
+			LogWarning2("Cannot generate a map {} with gen size {} since generating large maps is disabled",
 			           id, (int)genSize);
 			return false;
 		}
@@ -787,8 +786,7 @@ bool BattleMap::generateMap(std::vector<sp<BattleMapSector>> &sec_map, Vec3<int>
 		// then we cannot create a map of such size
 		if (mandatorySectorLost && !mandatorySectorRemaining)
 		{
-			LogWarning("Failed to place mandatory sectors for map %s with size %d, %d, %d at "
-			           "attempt %d",
+			LogWarning2("Failed to place mandatory sectors for map {} with size {}, {}, {} at attempt {}",
 			           id, size.x, size.y, size.z, attempt_make_map);
 			continue;
 		}
@@ -813,8 +811,7 @@ bool BattleMap::generateMap(std::vector<sp<BattleMapSector>> &sec_map, Vec3<int>
 		// then we cannot create a map of such size
 		if (failed)
 		{
-			LogWarning("Failed to place mandatory sectors for map %s with size %d, %d, %d at "
-			           "attempt %d",
+			LogWarning2("Failed to place mandatory sectors for map {} with size {}, {}, {} at attempt {}",
 			           id, size.x, size.y, size.z, attempt_make_map);
 			continue;
 		}
@@ -912,17 +909,17 @@ bool BattleMap::generateMap(std::vector<sp<BattleMapSector>> &sec_map, Vec3<int>
 		// If we failed at filling a map at this point, then there's nothing else we can do
 		if (!isMapComplete(sec_map, size))
 		{
-			LogWarning("Failed to complete map %s with size %d, %d, %d at attempt %d", id, size.x,
+			LogWarning2("Failed to complete map {} with size {}, {}, {} at attempt {}", id, size.x,
 			           size.y, size.z, attempt_make_map);
 			continue;
 		}
 
-		LogWarning("Successfully completed map %s with size %d, %d, %d at attempt %d", id, size.x,
+		LogWarning2("Successfully completed map {} with size {}, {}, {} at attempt {}", id, size.x,
 		           size.y, size.z, attempt_make_map);
 		return true;
 	}
 
-	LogWarning("Failed (totally) to generate a map %s with gen size %d", id, (int)genSize);
+	LogWarning2("Failed (totally) to generate a map {} with gen size {}", id, (int)genSize);
 	return false;
 }
 

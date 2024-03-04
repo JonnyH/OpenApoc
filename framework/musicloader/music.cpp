@@ -90,7 +90,7 @@ class RawMusicTrack : public MusicTrack
 			// Prepare this track to be reused
 			if (!file.seekg(startingPosition))
 			{
-				LogWarning("Could not rewind track %s", name);
+				LogWarning2("Could not rewind track {}", name);
 			}
 			samplePosition = 0;
 			return MusicCallbackReturn::End;

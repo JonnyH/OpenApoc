@@ -101,7 +101,7 @@ void City::initCity(GameState &state)
 		{
 			if (s->building->carEntranceLocation.x != -1)
 			{
-				LogWarning("Building has multiple car entrances? %s", s->building->name);
+				LogWarning2("Building has multiple car entrances? {}", s->building->name);
 			}
 			s->building->carEntranceLocation = s->initialPosition;
 			// crew quarters is the closest to camera spot with vehicle access
@@ -133,7 +133,7 @@ void City::initCity(GameState &state)
 		LogInfo("Car: %s", b.second->carEntranceLocation);
 		if (b.second->crewQuarters == Vec3<int>{-1, -1, -1})
 		{
-			LogWarning("Building %s has no car exit?", b.first);
+			LogWarning2("Building {} has no car exit?", b.first);
 			b.second->crewQuarters = {(b.second->bounds.p0.x + b.second->bounds.p1.x) / 2,
 			                          (b.second->bounds.p0.y + b.second->bounds.p1.y) / 2, 2};
 		}
@@ -648,7 +648,7 @@ void City::repairVehicles(GameState &state [[maybe_unused]])
 
 void City::initialSceneryLinkUp()
 {
-	LogWarning("Begun scenery link up!");
+	LogWarning2("Begun scenery link up!");
 	auto &mapref = *map;
 
 	for (auto &s : this->scenery)
@@ -669,7 +669,7 @@ void City::initialSceneryLinkUp()
 			}
 		}
 	}
-	LogWarning("Begun scenery link up cycle!");
+	LogWarning2("Begun scenery link up cycle!");
 	bool foundSupport;
 	// First support without clinging to establish proper links
 	do
@@ -712,11 +712,11 @@ void City::initialSceneryLinkUp()
 		if (mp->willCollapse())
 		{
 			auto pos = mp->tileObject->getOwningTile()->position;
-			LogWarning("SC %s at %s is UNLINKED", mp->type.id, pos);
+			LogWarning2("SC {} at {} is UNLINKED", mp->type.id, pos);
 		}
 	}
 
-	LogWarning("Attempting link up of unlinked parts");
+	LogWarning2("Attempting link up of unlinked parts");
 	do
 	{
 		foundSupport = false;
@@ -740,12 +740,12 @@ void City::initialSceneryLinkUp()
 		if (mp->willCollapse())
 		{
 			auto pos = mp->tileObject->getOwningTile()->position;
-			LogWarning("SC %s at %s is going to fall", mp->type.id, pos);
+			LogWarning2("SC {} at {} is going to fall", mp->type.id, pos);
 		}
 	}
 
 	mapref.updateAllCityInfo();
-	LogWarning("Link up finished!");
+	LogWarning2("Link up finished!");
 }
 
 sp<Doodad> City::placeDoodad(StateRef<DoodadType> type, Vec3<float> position)

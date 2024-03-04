@@ -112,7 +112,7 @@ void InitialGameStateExtractor::readBattleMapParts(
 
 			if (animateSpriteCount < entry.animation_idx + entry.animation_length)
 			{
-				LogWarning("Bogus animation value, animation frames not present for ID %s", id);
+				LogWarning2("Bogus animation value, animation frames not present for ID {}", id);
 			}
 			else
 			{

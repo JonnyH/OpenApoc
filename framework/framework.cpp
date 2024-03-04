@@ -337,7 +337,7 @@ void Framework::run(sp<Stage> initialStage)
 		    frame_time_now > expected_frame_time + 5 * target_frame_duration)
 		{
 			frame_time_limited_warning_shown = true;
-			LogWarning("Over 5 frames behind - likely vsync limited?");
+			LogWarning2("Over 5 frames behind - likely vsync limited?");
 		}
 
 		processEvents();
@@ -409,7 +409,7 @@ void Framework::run(sp<Stage> initialStage)
 		}
 		if (frameCount && frame == frameCount)
 		{
-			LogWarning("Quitting hitting frame count limit of %llu", (unsigned long long)frame);
+			LogWarning2("Quitting hitting frame count limit of {}", (unsigned long long)frame);
 			p->quitProgram = true;
 		}
 	}
@@ -451,17 +451,17 @@ void Framework::processEvents()
 					screenshotName = format("screenshot%03d.png", screenshotId);
 					screenshotId++;
 				} while (fs::exists(fs::path(screenshotName)));
-				LogWarning("Writing screenshot to \"%s\"", screenshotName);
+				LogWarning2("Writing screenshot to \"{}\"", screenshotName);
 				if (!p->defaultSurface->rendererPrivateData)
 				{
-					LogWarning("No renderer data on surface - nothing drawn yet?");
+					LogWarning2("No renderer data on surface - nothing drawn yet?");
 				}
 				else
 				{
 					auto img = p->defaultSurface->rendererPrivateData->readBack();
 					if (!img)
 					{
-						LogWarning("No image returned");
+						LogWarning2("No image returned");
 					}
 					else
 					{
@@ -471,11 +471,11 @@ void Framework::processEvents()
 							    auto ret = fw().data->writeImage(screenshotName, img);
 							    if (!ret)
 							    {
-								    LogWarning("Failed to write screenshot");
+								    LogWarning2("Failed to write screenshot");
 							    }
 							    else
 							    {
-								    LogWarning("Wrote screenshot to \"%s\"", screenshotName);
+								    LogWarning2("Wrote screenshot to \"{}\"", screenshotName);
 							    }
 						    });
 					}
@@ -785,7 +785,7 @@ void Framework::displayInitialise()
 	int displayNumber = Options::screenDisplayNumberOption.get();
 	if (displayNumber >= SDL_GetNumVideoDisplays())
 	{
-		LogWarning("Requested display number (%d) does not exist. Using display 0", displayNumber);
+		LogWarning2("Requested display number ({}) does not exist. Using display 0", displayNumber);
 		displayNumber = 0;
 	}
 
@@ -812,8 +812,8 @@ void Framework::displayInitialise()
 	p->context = SDL_GL_CreateContext(p->window);
 	if (!p->context)
 	{
-		LogWarning("Could not create GL context! [SDLError: %s]", SDL_GetError());
-		LogWarning("Attempting to create context by lowering the requested version");
+		LogWarning2("Could not create GL context! [SDLError: {}]", SDL_GetError());
+		LogWarning2("Attempting to create context by lowering the requested version");
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 		p->context = SDL_GL_CreateContext(p->window);
@@ -912,8 +912,7 @@ void Framework::displayInitialise()
 		p->displaySize.y = (int)((float)p->windowSize.y * scaleYFloat);
 		if (p->displaySize.x < 640 || p->displaySize.y < 480)
 		{
-			LogWarning("Requested scaled size of %d is lower than {640,480} and probably "
-			           "won't work, so forcing 640x480",
+			LogWarning2("Requested scaled size of {} is lower than {{640,480}} and probably won't work, so forcing 640x480",
 			           p->displaySize.x);
 			p->displaySize.x = std::max(640, p->displaySize.x);
 			p->displaySize.y = std::max(480, p->displaySize.y);
@@ -1135,7 +1134,7 @@ void Framework::setupModDataPaths()
 	auto mods = split(Options::modList.get(), ":");
 	for (const auto &modString : mods)
 	{
-		LogWarning("loading mod \"%s\"", modString);
+		LogWarning2("loading mod \"{}\"", modString);
 		auto modPath = Options::modPath.get() + "/" + modString;
 		auto modInfo = ModInfo::getInfo(modPath);
 		if (!modInfo)
@@ -1144,10 +1143,10 @@ void Framework::setupModDataPaths()
 			continue;
 		}
 		auto modDataPath = modPath + "/" + modInfo->getDataPath();
-		LogWarning("Loaded modinfo for mod ID \"%s\"", modInfo->getID());
+		LogWarning2("Loaded modinfo for mod ID \"{}\"", modInfo->getID());
 		if (modInfo->getDataPath() != "")
 		{
-			LogWarning("Appending data path \"%s\"", modDataPath);
+			LogWarning2("Appending data path \"{}\"", modDataPath);
 			this->data->fs.addPath(modDataPath);
 		}
 	}

@@ -295,7 +295,7 @@ bool AgentMission::getNextDestination(GameState &state, Agent &a, Vec3<float> &d
 			return false;
 		}
 		default:
-			LogWarning("TODO: Implement getNextDestination");
+			LogWarning2("TODO: Implement getNextDestination");
 			return false;
 	}
 	return false;
@@ -328,7 +328,7 @@ void AgentMission::update(GameState &state, Agent &a, unsigned int ticks, bool f
 			return;
 		}
 		default:
-			LogWarning("TODO: Implement update");
+			LogWarning2("TODO: Implement update");
 			return;
 	}
 }
@@ -364,7 +364,7 @@ bool AgentMission::isFinishedInternal(GameState &, Agent &a)
 		case MissionType::Teleport:
 			return true;
 		default:
-			LogWarning("TODO: Implement isFinishedInternal");
+			LogWarning2("TODO: Implement isFinishedInternal");
 			return false;
 	}
 }
@@ -427,7 +427,7 @@ void AgentMission::start(GameState &state, Agent &a)
 					{
 						// FIXME: Implement agent pathing to closest building when in the field and
 						// unable to path
-						LogWarning("Implement agent pathing to closest building when in the field "
+						LogWarning2("Implement agent pathing to closest building when in the field "
 						           "and unable to path to "
 						           "building");
 						// For now just get into closest building
@@ -484,7 +484,7 @@ void AgentMission::setPathTo(GameState &state [[maybe_unused]], Agent &a, StateR
 	auto key = Vec3<int>{(Vec3<int>)a.position * map.size + b->crewQuarters};
 	if (map.agentPathCache.find(key) != map.agentPathCache.end())
 	{
-		LogWarning("Found cached path from %s to %s, using it", a.position, b->crewQuarters);
+		LogWarning2("Found cached path from {} to {}, using it", a.position, b->crewQuarters);
 		path = map.agentPathCache[key];
 	}
 	else
