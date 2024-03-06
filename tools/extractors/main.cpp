@@ -167,8 +167,9 @@ std::map<UString, std::function<void(const InitialGameStateExtractor &e)>> thing
 		     {
 			     if (!imagePack->saveImagePack(
 			             OpenApoc::format2("{0}{1}{2}",
-			                    fw().getDataDir() + BattleUnitImagePack::getImagePackPath(),
-			                    "/item", i),
+			                               fw().getDataDir() +
+			                                   BattleUnitImagePack::getImagePackPath(),
+			                               "/item", i),
 			             true))
 			     {
 				     LogError2("Failed to save  item image pack \"{}\"", i);

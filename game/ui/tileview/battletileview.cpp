@@ -132,35 +132,26 @@ BattleTileView::BattleTileView(TileMap &map, Vec3<int> isoTileSize, Vec2<int> st
 	layerDrawingMode = LayerDrawingMode::UpToCurrentLevel;
 	targetTacticalThisLevel =
 
-	    fw().data->loadImage(OpenApoc::format2("PCKSTRAT:xcom3/tacdata/stratico.pck:xcom3/tacdata/stratico.tab:{0}",
-	                                482));
-	targetTacticalOtherLevel =
-	    fw().data->loadImage(OpenApoc::format2("PCKSTRAT:xcom3/tacdata/stratico.pck:xcom3/tacdata/stratico.tab:{0}",
-	                                483));
-	selectedTileEmptyImageBack =
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                182));
-	selectedTileEmptyImageFront =
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                183));
-	selectedTileFilledImageBack =
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                184));
-	selectedTileFilledImageFront =
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                185));
-	selectedTileFireImageBack =
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                186));
-	selectedTileFireImageFront =
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                187));
-	selectedTileBackgroundImageBack =
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                188));
-	selectedTileBackgroundImageFront =
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                189));
+	    fw().data->loadImage(OpenApoc::format2(
+	        "PCKSTRAT:xcom3/tacdata/stratico.pck:xcom3/tacdata/stratico.tab:{0}", 482));
+	targetTacticalOtherLevel = fw().data->loadImage(OpenApoc::format2(
+	    "PCKSTRAT:xcom3/tacdata/stratico.pck:xcom3/tacdata/stratico.tab:{0}", 483));
+	selectedTileEmptyImageBack = fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal", 182));
+	selectedTileEmptyImageFront = fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal", 183));
+	selectedTileFilledImageBack = fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal", 184));
+	selectedTileFilledImageFront = fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal", 185));
+	selectedTileFireImageBack = fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal", 186));
+	selectedTileFireImageFront = fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal", 187));
+	selectedTileBackgroundImageBack = fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal", 188));
+	selectedTileBackgroundImageFront = fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal", 189));
 	selectedTileImageOffset = {23, 42};
 	pal = fw().data->loadPalette("xcom3/tacdata/tactical.pal");
 
@@ -172,12 +163,12 @@ BattleTileView::BattleTileView(TileMap &map, Vec3<int> isoTileSize, Vec2<int> st
 	    fw().data->loadImage("battle/battle-inactive-squadless.png"));
 	for (int i = 0; i < 6; i++)
 	{
-		activeUnitSelectionArrow.push_back(
-		    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-		                                167 + i)));
-		inactiveUnitSelectionArrow.push_back(
-		    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-		                                173 + i)));
+		activeUnitSelectionArrow.push_back(fw().data->loadImage(OpenApoc::format2(
+		    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
+		    167 + i)));
+		inactiveUnitSelectionArrow.push_back(fw().data->loadImage(OpenApoc::format2(
+		    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
+		    173 + i)));
 	}
 	// Alexey Andronov (Istrebitel)
 	// FIXME: For some reason, when drawing unit selection images, a wild pixel appears
@@ -187,79 +178,79 @@ BattleTileView::BattleTileView(TileMap &map, Vec3<int> isoTileSize, Vec2<int> st
 	//	activeUnitSelectionArrow.front() = fw().data->loadImage("battle/167.png");
 
 	behaviorUnitSelectionUnderlay[BattleUnit::BehaviorMode::Evasive] =
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                190));
+	    fw().data->loadImage(OpenApoc::format2(
+	        "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
+	        190));
 	behaviorUnitSelectionUnderlay[BattleUnit::BehaviorMode::Normal] =
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                191));
+	    fw().data->loadImage(OpenApoc::format2(
+	        "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
+	        191));
 	behaviorUnitSelectionUnderlay[BattleUnit::BehaviorMode::Aggressive] =
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                192));
+	    fw().data->loadImage(OpenApoc::format2(
+	        "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
+	        192));
 
-	runningIcon = fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                          193));
+	runningIcon = fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal", 193));
 
-	bleedingIcon = fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                           194));
+	bleedingIcon = fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal", 194));
 
-	healingIcons.push_back(fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                                   195)));
-	healingIcons.push_back(fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                                   196)));
+	healingIcons.push_back(fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
+	    195)));
+	healingIcons.push_back(fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
+	    196)));
 
-	lowMoraleIcons.push_back(
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                197)));
-	lowMoraleIcons.push_back(
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                198)));
+	lowMoraleIcons.push_back(fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
+	    197)));
+	lowMoraleIcons.push_back(fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
+	    198)));
 
-	psiIcons[PsiStatus::Probe].push_back(
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                199)));
-	psiIcons[PsiStatus::Probe].push_back(
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                200)));
-	psiIcons[PsiStatus::Panic].push_back(
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                201)));
-	psiIcons[PsiStatus::Panic].push_back(
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                202)));
-	psiIcons[PsiStatus::Stun].push_back(
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                203)));
-	psiIcons[PsiStatus::Stun].push_back(
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                204)));
-	psiIcons[PsiStatus::Control].push_back(
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                205)));
-	psiIcons[PsiStatus::Control].push_back(
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                206)));
-	psiIcons[PsiStatus::NotEngaged].push_back(
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                207)));
-	psiIcons[PsiStatus::NotEngaged].push_back(
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                208)));
+	psiIcons[PsiStatus::Probe].push_back(fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
+	    199)));
+	psiIcons[PsiStatus::Probe].push_back(fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
+	    200)));
+	psiIcons[PsiStatus::Panic].push_back(fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
+	    201)));
+	psiIcons[PsiStatus::Panic].push_back(fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
+	    202)));
+	psiIcons[PsiStatus::Stun].push_back(fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
+	    203)));
+	psiIcons[PsiStatus::Stun].push_back(fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
+	    204)));
+	psiIcons[PsiStatus::Control].push_back(fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
+	    205)));
+	psiIcons[PsiStatus::Control].push_back(fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
+	    206)));
+	psiIcons[PsiStatus::NotEngaged].push_back(fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
+	    207)));
+	psiIcons[PsiStatus::NotEngaged].push_back(fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
+	    208)));
 
-	targetLocationIcons.push_back(
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                68)));
-	targetLocationIcons.push_back(
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                69)));
-	targetLocationIcons.push_back(
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                70)));
-	targetLocationIcons.push_back(
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                69)));
-	targetLocationIcons.push_back(
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                68)));
+	targetLocationIcons.push_back(fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal", 68)));
+	targetLocationIcons.push_back(fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal", 69)));
+	targetLocationIcons.push_back(fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal", 70)));
+	targetLocationIcons.push_back(fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal", 69)));
+	targetLocationIcons.push_back(fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal", 68)));
 	targetLocationOffset = {23, 42};
 
 	waypointIcons.push_back(fw().data->loadImage("battle/battle-waypoint-1.png"));
@@ -839,7 +830,7 @@ void BattleTileView::render()
 											img = nullptr;         // don't draw using img
 											if (!lastSelectedUnit) // shouldn't happen
 												LogError2("Displaying attack cost without selected "
-												         "unit?!");
+												          "unit?!");
 											auto imgCost = tuIndicators[calculatedAttackCost];
 											auto imgStock =
 											    tuIndicators[lastSelectedUnit->agent->modified_stats
@@ -1544,7 +1535,8 @@ void BattleTileView::render()
 	if (this->debugHotkeyMode)
 	{
 		auto font = ui().getFont("smallset");
-		auto cursorPositionString = font->getString(OpenApoc::format2("Cursor at {0}", selectedTilePosition));
+		auto cursorPositionString =
+		    font->getString(OpenApoc::format2("Cursor at {0}", selectedTilePosition));
 		int ypos = (config().getBool("OpenApoc.NewFeature.DebugCommandsVisible")) ? 224 : 0;
 		r.draw(cursorPositionString, {0, ypos});
 	}

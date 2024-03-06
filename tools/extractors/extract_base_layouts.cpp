@@ -36,8 +36,8 @@ void InitialGameStateExtractor::extractBaseLayouts(GameState &state) const
 					{
 						if (foundLift)
 						{
-							LogError2("Unexpected repeated lift at position {{{},{}}} in base {}", row,
-							         col, id);
+							LogError2("Unexpected repeated lift at position {{{},{}}} in base {}",
+							          row, col, id);
 						}
 						foundLift = true;
 						layout->baseLift = {col, row};
@@ -49,7 +49,7 @@ void InitialGameStateExtractor::extractBaseLayouts(GameState &state) const
 					}
 					default:
 						LogError2("Unexpected module id {} at {{{},{}}} in base {}",
-						         (int)b.module[row][col], col, row, id);
+						          (int)b.module[row][col], col, row, id);
 				}
 			}
 		}

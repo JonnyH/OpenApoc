@@ -77,7 +77,7 @@ sp<PaletteImage> BitmapFont::getGlyph(char32_t codepoint)
 		// FIXME: Hack - assume all missing glyphs are spaces
 		// TODO: Fallback fonts?
 		LogWarning2("Font {} missing glyph for character \"{}\" (codepoint {})", this->getName(),
-		           to_ustring(std::u32string(1, codepoint)), static_cast<uint32_t>(codepoint));
+		            to_ustring(std::u32string(1, codepoint)), static_cast<uint32_t>(codepoint));
 		auto missingGlyph = this->getGlyph(to_char32(' '));
 		fontbitmaps.emplace(codepoint, missingGlyph);
 	}
@@ -188,8 +188,9 @@ std::list<UString> BitmapFont::wordWrapText(const UString &Text, int MaxWidth)
 				{
 					if (currentLine == "")
 					{
-						LogWarning2("No break in line \"{}\" found - this will probably overflow the control",
-						           currentTestLine);
+						LogWarning2("No break in line \"{}\" found - this will probably overflow "
+						            "the control",
+						            currentTestLine);
 						currentLine = currentTestLine;
 						remainingChunks.pop_front();
 					}

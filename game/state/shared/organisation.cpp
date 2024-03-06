@@ -187,8 +187,9 @@ void Organisation::purchase(GameState &state, const StateRef<Building> &buyer,
 			economy.currentStock -= count;
 			if (economy.currentStock < 0)
 			{
-				LogInfo2("Economy went into negative stock for {}: Was it because we used economy to transfer?",
-				        vehicleEquipment.id);
+				LogInfo2("Economy went into negative stock for {}: Was it because we used economy "
+				         "to transfer?",
+				         vehicleEquipment.id);
 			}
 		}
 	}
@@ -198,7 +199,7 @@ void Organisation::purchase(GameState &state, const StateRef<Building> &buyer,
 	building->cargo.emplace_back(state, vehicleEquipment, count, price,
 	                             StateRef<Organisation>{&state, id}, buyer);
 	LogWarning2("PURCHASE: {} bought {}x{} at {} to {} ", buyer->owner.id, count,
-	           vehicleEquipment.id, building.id, buyer.id);
+	            vehicleEquipment.id, building.id, buyer.id);
 	auto owner = buyer->owner;
 	owner->balance -= count * price;
 }
@@ -220,8 +221,9 @@ void Organisation::purchase(GameState &state, const StateRef<Building> &buyer,
 			economy.currentStock -= count;
 			if (economy.currentStock < 0)
 			{
-				LogInfo2("Economy went into negative stock for {}: Was it because we used economy to transfer?",
-				        vehicleAmmo.id);
+				LogInfo2("Economy went into negative stock for {}: Was it because we used economy "
+				         "to transfer?",
+				         vehicleAmmo.id);
 			}
 		}
 	}
@@ -231,7 +233,7 @@ void Organisation::purchase(GameState &state, const StateRef<Building> &buyer,
 	building->cargo.emplace_back(state, vehicleAmmo, count, price,
 	                             StateRef<Organisation>{&state, id}, buyer);
 	LogWarning2("PURCHASE: {} bought {}x{} at {} to {} ", buyer->owner.id, count, vehicleAmmo.id,
-	           building.id, buyer.id);
+	            building.id, buyer.id);
 	auto owner = buyer->owner;
 	owner->balance -= count * price;
 }
@@ -253,8 +255,9 @@ void Organisation::purchase(GameState &state, const StateRef<Building> &buyer,
 			economy.currentStock -= count;
 			if (economy.currentStock < 0)
 			{
-				LogInfo2("Economy went into negative stock for {}: Was it because we used economy to transfer?",
-				        agentEquipment.id);
+				LogInfo2("Economy went into negative stock for {}: Was it because we used economy "
+				         "to transfer?",
+				         agentEquipment.id);
 			}
 		}
 	}
@@ -266,7 +269,7 @@ void Organisation::purchase(GameState &state, const StateRef<Building> &buyer,
 	    count * (agentEquipment->type == AEquipmentType::Type::Ammo ? agentEquipment->max_ammo : 1),
 	    price, StateRef<Organisation>{&state, id}, buyer);
 	LogWarning2("PURCHASE: {} bought {}x{} at {} to {} ", buyer->owner.id, count, agentEquipment.id,
-	           building.id, buyer.id);
+	            building.id, buyer.id);
 	auto owner = buyer->owner;
 	owner->balance -= count * price;
 }
@@ -301,7 +304,7 @@ void Organisation::purchase(GameState &state, const StateRef<Building> &buyer,
 		v->setMission(state, VehicleMission::gotoBuilding(state, *v));
 	}
 	LogWarning2("PURCHASE: {} bought {}x{} at {} to {} ", buyer->owner.id, count, vehicleType.id,
-	           building.id, buyer.id);
+	            building.id, buyer.id);
 	auto owner = buyer->owner;
 	owner->balance -= count * price;
 }
@@ -534,7 +537,7 @@ void Organisation::updateHirableAgents(GameState &state)
 	{
 		if (buildings.empty())
 		{
-			LogDebug("Organization %s has no buildings. No agents generated.", this->name);
+			LogDebug2("Organization {} has no buildings. No agents generated.", this->name);
 			return;
 		}
 		hireeLocation = pickRandom(state.rng, buildings);

@@ -222,7 +222,7 @@ void ListBox::update()
 			}
 			default:
 				LogWarning2("Unknown ListBox::ListOrientation value: {}",
-				           static_cast<int>(ListOrientation));
+				            static_cast<int>(ListOrientation));
 				break;
 		}
 		scroller->setMaximum(scroller->getMinimum() + scrollerLength);

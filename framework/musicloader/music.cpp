@@ -41,8 +41,8 @@ class RawMusicTrack : public MusicTrack
 		if (file.size() < fileOffset + (numSamples * MusicChannels * MusicBytesPerSample))
 		{
 			LogError2("File \"{}\" insufficient size for offset {} + size {} - returned size {}",
-			         fileName, fileOffset, numSamples * MusicChannels * MusicBytesPerSample,
-			         file.size());
+			          fileName, fileOffset, numSamples * MusicChannels * MusicBytesPerSample,
+			          file.size());
 			return;
 		}
 		if (!file.seekg(fileOffset))
@@ -134,13 +134,13 @@ class RawMusicLoader : public MusicLoader
 		if (!Strings::isInteger(strings[2]))
 		{
 			LogInfo2("Raw music track \"{}\" start offset \"{}\" doesn't look like a number", path,
-			        strings[2]);
+			         strings[2]);
 			return nullptr;
 		}
 		if (!Strings::isInteger(strings[3]))
 		{
 			LogInfo2("Raw music track \"{}\" length \"{}\" doesn't look like a number", path,
-			        strings[3]);
+			         strings[3]);
 			return nullptr;
 		}
 

@@ -265,7 +265,8 @@ std::vector<SaveMetadata> SaveManager::getSaveList() const
 	{
 		if (!fs::exists(saveDirectory) && !fs::create_directories(saveDirectory))
 		{
-			LogWarning2("Save directory \"{}\" not found, and could not be created!", saveDirectory);
+			LogWarning2("Save directory \"{}\" not found, and could not be created!",
+			            saveDirectory);
 			return saveList;
 		}
 

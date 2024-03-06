@@ -81,7 +81,8 @@ InfiltrationScreen::InfiltrationScreen(sp<GameState> state)
 {
 	for (int i = 0; i < 10; i++)
 	{
-		shown_org_names[i] = menuform->findControlTyped<Label>(OpenApoc::format2("ORG_NAME_{0}", i)).get();
+		shown_org_names[i] =
+		    menuform->findControlTyped<Label>(OpenApoc::format2("ORG_NAME_{0}", i)).get();
 		shown_orgs[i] = nullptr;
 	}
 	graph = menuform->findControlTyped<Graphic>("GRAPH");

@@ -94,7 +94,8 @@ void BuyAndSellScreen::updateFormValues(bool queueHighlightUpdate)
 	int balance = state->getPlayer()->balance + moneyDelta;
 	form->findControlTyped<Label>("TEXT_FUNDS")->setText(Strings::fromInteger(balance));
 	form->findControlTyped<Label>("TEXT_FUNDS_DELTA")
-	    ->setText(OpenApoc::format2("{0}{1}", moneyDelta > 0 ? "+" : "", Strings::fromInteger(moneyDelta)));
+	    ->setText(OpenApoc::format2("{0}{1}", moneyDelta > 0 ? "+" : "",
+	                                Strings::fromInteger(moneyDelta)));
 }
 
 void BuyAndSellScreen::closeScreen()
@@ -249,21 +250,22 @@ void BuyAndSellScreen::closeScreen()
 		// There are bad orgs
 		if (!badOrgs.empty())
 		{
-			UString title =
-			    OpenApoc::format2("{0}{1}", badOrgs.front()->name, badOrgs.size() > 1 ? " & others" : "");
+			UString title = OpenApoc::format2("{0}{1}", badOrgs.front()->name,
+			                                  badOrgs.size() > 1 ? " & others" : "");
 
 			// If player can ferry themselves then give option
 			if (config().getBool("OpenApoc.NewFeature.AllowManualCargoFerry"))
 			{
-				UString message = transportationHostile
-				                      ? OpenApoc::format2("{0} {1}",
-				                               tr("Hostile organization refuses to carry out the "
-				                                  "requested transportation for this company."),
-				                               tr("Proceed?"))
-				                      : OpenApoc::format2("{0} {1}",
-				                               tr("No free transport to carry out the requested "
-				                                  "transportation detected in the city."),
-				                               tr("Proceed?"));
+				UString message =
+				    transportationHostile
+				        ? OpenApoc::format2("{0} {1}",
+				                            tr("Hostile organization refuses to carry out the "
+				                               "requested transportation for this company."),
+				                            tr("Proceed?"))
+				        : OpenApoc::format2("{0} {1}",
+				                            tr("No free transport to carry out the requested "
+				                               "transportation detected in the city."),
+				                            tr("Proceed?"));
 				fw().stageQueueCommand(
 				    {StageCmd::Command::PUSH,
 				     mksp<MessageBox>(title, message, MessageBox::ButtonOptions::YesNo,
@@ -274,10 +276,11 @@ void BuyAndSellScreen::closeScreen()
 			else if (!transportationHostile)
 			{
 				// FIXME: Different message maybe? Same for now
-				UString message = OpenApoc::format2("{0} {1}",
-				                         tr("No free transport to carry out the requested "
-				                            "transportation detected in the city."),
-				                         tr("Proceed?"));
+				UString message =
+				    OpenApoc::format2("{0} {1}",
+				                      tr("No free transport to carry out the requested "
+				                         "transportation detected in the city."),
+				                      tr("Proceed?"));
 				fw().stageQueueCommand(
 				    {StageCmd::Command::PUSH,
 				     mksp<MessageBox>(title, message, MessageBox::ButtonOptions::YesNo,
@@ -357,8 +360,8 @@ void BuyAndSellScreen::closeScreen()
 
 		if (transportationBusy || transportationHostile)
 		{
-			UString title =
-			    OpenApoc::format2("{0}{1}", badOrgs.front()->name, badOrgs.size() > 1 ? " & others" : "");
+			UString title = OpenApoc::format2("{0}{1}", badOrgs.front()->name,
+			                                  badOrgs.size() > 1 ? " & others" : "");
 
 			// If player can ferry themselves then give option
 			if (config().getBool("OpenApoc.NewFeature.AllowManualCargoFerry"))
@@ -366,13 +369,13 @@ void BuyAndSellScreen::closeScreen()
 				UString message =
 				    transportationHostile
 				        ? OpenApoc::format2("{0} {1}",
-				                 tr("This hostile organization refuses to carry out the "
-				                    "requested transfer."),
-				                 tr("Proceed?"))
+				                            tr("This hostile organization refuses to carry out the "
+				                               "requested transfer."),
+				                            tr("Proceed?"))
 				        : OpenApoc::format2("{0} {1}",
-				                 tr("No free transport to carry out the requested "
-				                    "transportation detected in the city."),
-				                 tr("Proceed?"));
+				                            tr("No free transport to carry out the requested "
+				                               "transportation detected in the city."),
+				                            tr("Proceed?"));
 				fw().stageQueueCommand(
 				    {StageCmd::Command::PUSH,
 				     mksp<MessageBox>(title, message, MessageBox::ButtonOptions::YesNo,
@@ -383,10 +386,11 @@ void BuyAndSellScreen::closeScreen()
 			else if (!transportationHostile)
 			{
 				// FIXME: Different message maybe? Same for now
-				UString message = OpenApoc::format2("{0} {1}",
-				                         tr("No free transport to carry out the requested "
-				                            "transportation detected in the city."),
-				                         tr("Proceed?"));
+				UString message =
+				    OpenApoc::format2("{0} {1}",
+				                      tr("No free transport to carry out the requested "
+				                         "transportation detected in the city."),
+				                      tr("Proceed?"));
 				fw().stageQueueCommand(
 				    {StageCmd::Command::PUSH,
 				     mksp<MessageBox>(title, message, MessageBox::ButtonOptions::YesNo,
@@ -502,7 +506,7 @@ void BuyAndSellScreen::executeOrders()
 							case TransactionControl::Type::VehicleType:
 							{
 								LogError2("How did we manage to sell a vehicle type {}!?",
-								         c->itemId);
+								          c->itemId);
 								break;
 							}
 							case TransactionControl::Type::Soldier:
@@ -523,7 +527,7 @@ void BuyAndSellScreen::executeOrders()
 						if (org->isRelatedTo(player) == Organisation::Relation::Hostile)
 						{
 							LogError2("How the hell is being bought from a hostile org {}?",
-							         c->manufacturerName);
+							          c->manufacturerName);
 							continue;
 						}
 
@@ -532,7 +536,7 @@ void BuyAndSellScreen::executeOrders()
 							case TransactionControl::Type::Vehicle:
 							{
 								LogError2("It should be impossible to buy a particular vehicle {}.",
-								         c->itemId);
+								          c->itemId);
 								break;
 							}
 							case TransactionControl::Type::AgentEquipmentBio:

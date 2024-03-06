@@ -147,7 +147,7 @@ int main(int argc, char **argv)
 
 	LogInfo2("Testing state with battle");
 	LogInfo2("--Test disabled until we find a way to compare sets properly (fails in sets of "
-	        "pointers like hazards)--");
+	         "pointers like hazards)--");
 	if (false)
 	{
 

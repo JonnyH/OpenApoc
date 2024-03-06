@@ -108,14 +108,16 @@ void AEquipmentSheet::displayGrenade(sp<AEquipment> item [[maybe_unused]],
 void AEquipmentSheet::displayAmmo(sp<AEquipment> item, const AEquipmentType &itemType)
 {
 	form->findControlTyped<Label>("LABEL_2_L")->setText(tr("Accuracy"));
-	form->findControlTyped<Label>("LABEL_2_R")->setText(OpenApoc::format2("{0}", itemType.accuracy));
+	form->findControlTyped<Label>("LABEL_2_R")
+	    ->setText(OpenApoc::format2("{0}", itemType.accuracy));
 
 	form->findControlTyped<Label>("LABEL_3_L")->setText(tr("Fire rate"));
 	form->findControlTyped<Label>("LABEL_3_R")
 	    ->setText(OpenApoc::format2("{0:.2f}", itemType.getRoundsPerSecond()));
 
 	form->findControlTyped<Label>("LABEL_4_L")->setText(tr("Range"));
-	form->findControlTyped<Label>("LABEL_4_R")->setText(OpenApoc::format2("{0}", itemType.getRangeInTiles()));
+	form->findControlTyped<Label>("LABEL_4_R")
+	    ->setText(OpenApoc::format2("{0}", itemType.getRangeInTiles()));
 
 	form->findControlTyped<Label>("LABEL_6_C")->setText(tr("Ammo Type:"));
 	form->findControlTyped<Label>("LABEL_7_C")->setText(itemType.damage_type->name);
@@ -144,20 +146,23 @@ void AEquipmentSheet::displayWeapon(sp<AEquipment> item [[maybe_unused]],
 
 	auto &ammoType = *itemType.ammo_types.begin();
 	form->findControlTyped<Label>("LABEL_2_L")->setText(tr("Accuracy"));
-	form->findControlTyped<Label>("LABEL_2_R")->setText(OpenApoc::format2("{0}", ammoType->accuracy));
+	form->findControlTyped<Label>("LABEL_2_R")
+	    ->setText(OpenApoc::format2("{0}", ammoType->accuracy));
 
 	form->findControlTyped<Label>("LABEL_3_L")->setText(tr("Fire rate"));
 	form->findControlTyped<Label>("LABEL_3_R")
 	    ->setText(OpenApoc::format2("{0:.2f}", ammoType->getRoundsPerSecond()));
 
 	form->findControlTyped<Label>("LABEL_4_L")->setText(tr("Range"));
-	form->findControlTyped<Label>("LABEL_4_R")->setText(OpenApoc::format2("{0}", ammoType->getRangeInTiles()));
+	form->findControlTyped<Label>("LABEL_4_R")
+	    ->setText(OpenApoc::format2("{0}", ammoType->getRangeInTiles()));
 
 	form->findControlTyped<Label>("LABEL_5_C")->setText(tr("Ammo types:"));
 	int ammoNum = 1;
 	for (auto &ammo : itemType.ammo_types)
 	{
-		form->findControlTyped<Label>(OpenApoc::format2("LABEL_{0}_C", 5 + ammoNum))->setText(ammo->name);
+		form->findControlTyped<Label>(OpenApoc::format2("LABEL_{0}_C", 5 + ammoNum))
+		    ->setText(ammo->name);
 		if (++ammoNum >= 4)
 		{
 			break;

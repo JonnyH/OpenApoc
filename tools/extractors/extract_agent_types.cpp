@@ -78,15 +78,20 @@ namespace OpenApoc
 void fillAgentImagePacksByDefault(GameState &state, sp<AgentType> a, UString imagePackName)
 {
 	a->image_packs[a->image_packs.size() - 1][BodyPart::Body] = {
-	    &state, OpenApoc::format2("{0}{1}{2}", BattleUnitImagePack::getPrefix(), imagePackName, "a")};
+	    &state,
+	    OpenApoc::format2("{0}{1}{2}", BattleUnitImagePack::getPrefix(), imagePackName, "a")};
 	a->image_packs[a->image_packs.size() - 1][BodyPart::Legs] = {
-	    &state, OpenApoc::format2("{0}{1}{2}", BattleUnitImagePack::getPrefix(), imagePackName, "b")};
+	    &state,
+	    OpenApoc::format2("{0}{1}{2}", BattleUnitImagePack::getPrefix(), imagePackName, "b")};
 	a->image_packs[a->image_packs.size() - 1][BodyPart::Helmet] = {
-	    &state, OpenApoc::format2("{0}{1}{2}", BattleUnitImagePack::getPrefix(), imagePackName, "c")};
+	    &state,
+	    OpenApoc::format2("{0}{1}{2}", BattleUnitImagePack::getPrefix(), imagePackName, "c")};
 	a->image_packs[a->image_packs.size() - 1][BodyPart::LeftArm] = {
-	    &state, OpenApoc::format2("{0}{1}{2}", BattleUnitImagePack::getPrefix(), imagePackName, "d")};
+	    &state,
+	    OpenApoc::format2("{0}{1}{2}", BattleUnitImagePack::getPrefix(), imagePackName, "d")};
 	a->image_packs[a->image_packs.size() - 1][BodyPart::RightArm] = {
-	    &state, OpenApoc::format2("{0}{1}{2}", BattleUnitImagePack::getPrefix(), imagePackName, "e")};
+	    &state,
+	    OpenApoc::format2("{0}{1}{2}", BattleUnitImagePack::getPrefix(), imagePackName, "e")};
 }
 
 void pushEquipmentSlot(sp<AgentEquipmentLayout> a, int x, int y, int w = 1, int h = 1,
@@ -379,14 +384,18 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 					// They all use same animation and differ in head image sets
 					a->appearance_count = 4;
 					a->animation_packs.emplace_back(
-					    &state, OpenApoc::format2("{0}{1}", BattleUnitAnimationPack::getPrefix(), "civ"));
+					    &state,
+					    OpenApoc::format2("{0}{1}", BattleUnitAnimationPack::getPrefix(), "civ"));
 					a->animation_packs.emplace_back(
-					    &state, OpenApoc::format2("{0}{1}", BattleUnitAnimationPack::getPrefix(), "civ"));
+					    &state,
+					    OpenApoc::format2("{0}{1}", BattleUnitAnimationPack::getPrefix(), "civ"));
 					a->animation_packs.emplace_back(
-					    &state, OpenApoc::format2("{0}{1}", BattleUnitAnimationPack::getPrefix(), "civ"));
+					    &state,
+					    OpenApoc::format2("{0}{1}", BattleUnitAnimationPack::getPrefix(), "civ"));
 				}
 				a->animation_packs.emplace_back(
-				    &state, OpenApoc::format2("{0}{1}", BattleUnitAnimationPack::getPrefix(), "civ"));
+				    &state,
+				    OpenApoc::format2("{0}{1}", BattleUnitAnimationPack::getPrefix(), "civ"));
 				if (i == UNIT_TYPE_GREY)
 				{
 					bodyTypeName = "GREY";
@@ -401,9 +410,11 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 			case UNIT_TYPE_MULTIWORM_EGG:
 				a->appearance_count = 2;
 				a->animation_packs.emplace_back(
-				    &state, OpenApoc::format2("{0}{1}", BattleUnitAnimationPack::getPrefix(), "mwegg1"));
+				    &state,
+				    OpenApoc::format2("{0}{1}", BattleUnitAnimationPack::getPrefix(), "mwegg1"));
 				a->animation_packs.emplace_back(
-				    &state, OpenApoc::format2("{0}{1}", BattleUnitAnimationPack::getPrefix(), "mwegg2"));
+				    &state,
+				    OpenApoc::format2("{0}{1}", BattleUnitAnimationPack::getPrefix(), "mwegg2"));
 				bodyTypeName = "MULTIWORM_EGG";
 				infiltrationID = 0;
 				a->growthChance = 20;
@@ -415,9 +426,11 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 			case UNIT_TYPE_CHRYSALIS:
 				a->appearance_count = 2;
 				a->animation_packs.emplace_back(
-				    &state, OpenApoc::format2("{0}{1}", BattleUnitAnimationPack::getPrefix(), "chrys1"));
+				    &state,
+				    OpenApoc::format2("{0}{1}", BattleUnitAnimationPack::getPrefix(), "chrys1"));
 				a->animation_packs.emplace_back(
-				    &state, OpenApoc::format2("{0}{1}", BattleUnitAnimationPack::getPrefix(), "chrys2"));
+				    &state,
+				    OpenApoc::format2("{0}{1}", BattleUnitAnimationPack::getPrefix(), "chrys2"));
 				bodyTypeName = "CHRYSALIS";
 				infiltrationID = 4;
 				a->growthChance = 12;
@@ -434,7 +447,8 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 				break;
 			case UNIT_TYPE_QUEENSPAWN:
 				a->animation_packs.emplace_back(
-				    &state, OpenApoc::format2("{0}{1}", BattleUnitAnimationPack::getPrefix(), "queen"));
+				    &state,
+				    OpenApoc::format2("{0}{1}", BattleUnitAnimationPack::getPrefix(), "queen"));
 				bodyTypeName = "QUEENSPAWN";
 				infiltrationID = 11;
 				a->growthChance = 0;
@@ -494,7 +508,8 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 			// Special case: Multiworm, can only crawl
 			case UNIT_TYPE_MULTIWORM:
 				a->animation_packs.emplace_back(
-				    &state, OpenApoc::format2("{0}{1}", BattleUnitAnimationPack::getPrefix(), "multi"));
+				    &state,
+				    OpenApoc::format2("{0}{1}", BattleUnitAnimationPack::getPrefix(), "multi"));
 				bodyTypeName = "MULTIWORM";
 				infiltrationID = 2;
 				a->growthChance = 12;
@@ -506,7 +521,8 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 			// Special case: Megaspawn, can strafe
 			case UNIT_TYPE_MEGASPAWN:
 				a->animation_packs.emplace_back(
-				    &state, OpenApoc::format2("{0}{1}", BattleUnitAnimationPack::getPrefix(), "mega"));
+				    &state,
+				    OpenApoc::format2("{0}{1}", BattleUnitAnimationPack::getPrefix(), "mega"));
 				bodyTypeName = "MEGASPAWN";
 				infiltrationID = 9;
 				a->growthChance = 2;
@@ -517,7 +533,8 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 			// Special case: Psimorph, non-humanoid that can only fly
 			case UNIT_TYPE_PSIMORPH:
 				a->animation_packs.emplace_back(
-				    &state, OpenApoc::format2("{0}{1}", BattleUnitAnimationPack::getPrefix(), "psi"));
+				    &state,
+				    OpenApoc::format2("{0}{1}", BattleUnitAnimationPack::getPrefix(), "psi"));
 				bodyTypeName = "PSIMORPH";
 				infiltrationID = 10;
 				a->growthChance = 2;
@@ -548,15 +565,17 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 				{
 					a->appearance_count = 2;
 					a->animation_packs.emplace_back(
-					    &state, OpenApoc::format2("{0}{1}", BattleUnitAnimationPack::getPrefix(), "unit"));
+					    &state,
+					    OpenApoc::format2("{0}{1}", BattleUnitAnimationPack::getPrefix(), "unit"));
 				}
 				a->animation_packs.emplace_back(
-				    &state, OpenApoc::format2("{0}{1}", BattleUnitAnimationPack::getPrefix(), "unit"));
+				    &state,
+				    OpenApoc::format2("{0}{1}", BattleUnitAnimationPack::getPrefix(), "unit"));
 				break;
 		}
 
-		a->bodyType = {&state,
-		               OpenApoc::format2("{0}{1}", AgentBodyType::getPrefix(), canon_string(bodyTypeName))};
+		a->bodyType = {&state, OpenApoc::format2("{0}{1}", AgentBodyType::getPrefix(),
+		                                         canon_string(bodyTypeName))};
 
 		if (infiltrationID != -1)
 		{
@@ -570,26 +589,30 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 		{
 			// Aliens with unique shadows
 			case UNIT_TYPE_BRAINSUCKER:
-				a->shadow_pack = {&state, OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(), "bsks")};
+				a->shadow_pack = {
+				    &state, OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(), "bsks")};
 				break;
 			case UNIT_TYPE_HYPERWORM:
-				a->shadow_pack = {&state,
-				                  OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(), "hyprs")};
+				a->shadow_pack = {
+				    &state, OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(), "hyprs")};
 				break;
 			case UNIT_TYPE_SPITTER:
-				a->shadow_pack = {&state,
-				                  OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(), "spitrs")};
+				a->shadow_pack = {
+				    &state,
+				    OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(), "spitrs")};
 				break;
 			case UNIT_TYPE_POPPER:
-				a->shadow_pack = {&state,
-				                  OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(), "poppers")};
+				a->shadow_pack = {
+				    &state,
+				    OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(), "poppers")};
 				break;
 			case UNIT_TYPE_MEGASPAWN:
-				a->shadow_pack = {&state,
-				                  OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(), "megas")};
+				a->shadow_pack = {
+				    &state, OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(), "megas")};
 				break;
 			case UNIT_TYPE_PSIMORPH:
-				a->shadow_pack = {&state, OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(), "psis")};
+				a->shadow_pack = {
+				    &state, OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(), "psis")};
 				break;
 
 			// Aliens with no shadows
@@ -602,8 +625,9 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 
 			// Humanoid aliens and humans
 			default:
-				a->shadow_pack = {&state,
-				                  OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(), "shadow")};
+				a->shadow_pack = {
+				    &state,
+				    OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(), "shadow")};
 				break;
 		}
 
@@ -617,7 +641,8 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 			case UNIT_TYPE_QUANTUM_PHYSIST:
 				a->inventoryBackground = fw().data->loadImage("xcom3/tacdata/equippic/scien.pcx");
 				a->image_packs[0][BodyPart::Body] = {
-				    &state, OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(), "scntst")};
+				    &state,
+				    OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(), "scntst")};
 				break;
 			case UNIT_TYPE_GANG_LEADER:
 				fillAgentImagePacksByDefault(state, a, "gangl");
@@ -763,14 +788,18 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 				a->inventoryBackground =
 				    fw().data->loadImage("xcom3/tacdata/equippic/mwormegg.pcx");
 				a->image_packs[0][BodyPart::Body] = {
-				    &state, OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(), "mwegga")};
+				    &state,
+				    OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(), "mwegga")};
 				a->image_packs[0][BodyPart::Helmet] = {
-				    &state, OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(), "mweggb")};
+				    &state,
+				    OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(), "mweggb")};
 				a->image_packs.push_back(std::map<BodyPart, StateRef<BattleUnitImagePack>>());
 				a->image_packs[1][BodyPart::Body] = {
-				    &state, OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(), "mwegga")};
+				    &state,
+				    OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(), "mwegga")};
 				a->image_packs[1][BodyPart::Helmet] = {
-				    &state, OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(), "mweggb")};
+				    &state,
+				    OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(), "mweggb")};
 				break;
 			case UNIT_TYPE_BRAINSUCKER:
 				a->inventoryBackground = fw().data->loadImage("xcom3/tacdata/equippic/sucker.pcx");
@@ -791,14 +820,18 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 				a->inventoryBackground =
 				    fw().data->loadImage("xcom3/tacdata/equippic/chrysali.pcx");
 				a->image_packs[0][BodyPart::Body] = {
-				    &state, OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(), "chrysa")};
+				    &state,
+				    OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(), "chrysa")};
 				a->image_packs[0][BodyPart::Helmet] = {
-				    &state, OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(), "chrysb")};
+				    &state,
+				    OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(), "chrysb")};
 				a->image_packs.push_back(std::map<BodyPart, StateRef<BattleUnitImagePack>>());
 				a->image_packs[1][BodyPart::Body] = {
-				    &state, OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(), "chrysa")};
+				    &state,
+				    OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(), "chrysa")};
 				a->image_packs[1][BodyPart::Helmet] = {
-				    &state, OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(), "chrysb")};
+				    &state,
+				    OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(), "chrysb")};
 				break;
 			case UNIT_TYPE_ANTHROPOD:
 				a->inventoryBackground =
@@ -817,7 +850,8 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 			case UNIT_TYPE_POPPER:
 				a->inventoryBackground = fw().data->loadImage("xcom3/tacdata/equippic/popper.pcx");
 				a->image_packs[0][BodyPart::Body] = {
-				    &state, OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(), "popper")};
+				    &state,
+				    OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(), "popper")};
 				break;
 			case UNIT_TYPE_MEGASPAWN:
 				a->inventoryBackground =
@@ -834,9 +868,11 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 			case UNIT_TYPE_QUEENSPAWN:
 				a->inventoryBackground = fw().data->loadImage("xcom3/tacdata/equippic/queen.pcx");
 				a->image_packs[0][BodyPart::Body] = {
-				    &state, OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(), "queena")};
+				    &state,
+				    OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(), "queena")};
 				a->image_packs[0][BodyPart::Legs] = {
-				    &state, OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(), "queenb")};
+				    &state,
+				    OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(), "queenb")};
 				break;
 			case UNIT_TYPE_MICRONOID:
 				a->inventoryBackground =
@@ -973,21 +1009,23 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 						    "RAWSOUND:xcom3/rawsound/tactical/aliens/movemnts/{0}{1}.raw:22050",
 						    walkSfxName, i)));
 				else
-					a->walkSfx.push_back(fw().data->loadSample(
-					    OpenApoc::format2("RAWSOUND:xcom3/rawsound/tactical/aliens/movemnts/{0}.raw:22050",
-					           walkSfxName)));
+					a->walkSfx.push_back(fw().data->loadSample(OpenApoc::format2(
+					    "RAWSOUND:xcom3/rawsound/tactical/aliens/movemnts/{0}.raw:22050",
+					    walkSfxName)));
 				if (crySfxNumbered)
 					for (int i = 1; i <= crySfxCount; i++)
-						a->crySfx.push_back(fw().data->loadSample(
-						    OpenApoc::format2("RAWSOUND:xcom3/rawsound/tactical/aliens/cries/{0}{1}.raw:22050",
-						           crySfxName, i)));
+						a->crySfx.push_back(fw().data->loadSample(OpenApoc::format2(
+						    "RAWSOUND:xcom3/rawsound/tactical/aliens/cries/{0}{1}.raw:22050",
+						    crySfxName, i)));
 				else
 					a->crySfx.push_back(fw().data->loadSample(OpenApoc::format2(
-					    "RAWSOUND:xcom3/rawsound/tactical/aliens/cries/{0}.raw:22050", crySfxName)));
+					    "RAWSOUND:xcom3/rawsound/tactical/aliens/cries/{0}.raw:22050",
+					    crySfxName)));
 				if (dieSfxName.length() > 0)
-					a->dieSfx[AgentType::Gender::Male].push_back(fw().data->loadSample(
-					    OpenApoc::format2("RAWSOUND:xcom3/rawsound/tactical/aliens/deaths/{0}.raw:22050",
-					           dieSfxName)));
+					a->dieSfx[AgentType::Gender::Male].push_back(
+					    fw().data->loadSample(OpenApoc::format2(
+					        "RAWSOUND:xcom3/rawsound/tactical/aliens/deaths/{0}.raw:22050",
+					        dieSfxName)));
 				break;
 			default:
 				// Humans have no walk sounds and no cries
@@ -1046,8 +1084,9 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 		a->armor[BodyPart::Legs] = data.armor_leg;
 		a->armor[BodyPart::RightArm] = data.armor_right;
 		a->damage_modifier = {
-		    &state, OpenApoc::format2("{0}{1}", DamageModifier::getPrefix(),
-		                   canon_string(data_t.damage_modifier_names->get(data.damage_modifier)))};
+		    &state, OpenApoc::format2(
+		                "{0}{1}", DamageModifier::getPrefix(),
+		                canon_string(data_t.damage_modifier_names->get(data.damage_modifier)))};
 		a->inventory = data.inventory == 1;
 
 		UString name = "";
@@ -1082,8 +1121,8 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 				if (es_data.weapons[0].weapon_idx != 0xffffffff)
 					a->built_in_weapon_right = {
 					    &state, OpenApoc::format2("{0}{1}", AEquipmentType::getPrefix(),
-					                   canon_string(data_u.agent_equipment_names->get(
-					                       es_data.weapons[0].weapon_idx)))};
+					                              canon_string(data_u.agent_equipment_names->get(
+					                                  es_data.weapons[0].weapon_idx)))};
 				if (id == "AGENTTYPE_MULTIWORM")
 				{
 					a->built_in_weapon_left = {&state, "AEQUIPMENTTYPE_MULTIWORM_BURST"};
@@ -1091,8 +1130,8 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 				else if (es_data.weapons[1].weapon_idx != 0xffffffff)
 					a->built_in_weapon_left = {
 					    &state, OpenApoc::format2("{0}{1}", AEquipmentType::getPrefix(),
-					                   canon_string(data_u.agent_equipment_names->get(
-					                       es_data.weapons[1].weapon_idx)))};
+					                              canon_string(data_u.agent_equipment_names->get(
+					                                  es_data.weapons[1].weapon_idx)))};
 				name = "BUILTIN";
 			}
 		}
@@ -1101,7 +1140,8 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 			name = "FULL";
 		}
 		a->equipment_layout = {
-		    &state, OpenApoc::format2("{0}{1}", AgentEquipmentLayout::getPrefix(), canon_string(name))};
+		    &state,
+		    OpenApoc::format2("{0}{1}", AgentEquipmentLayout::getPrefix(), canon_string(name))};
 
 		a->score = data.score;
 
@@ -1208,17 +1248,18 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 			case UNIT_TYPE_QUEENSPAWN:
 			case UNIT_TYPE_MICRONOID:
 			{
-				auto liveName =
-				    OpenApoc::format2("{0}{1}_ALIVE", AEquipmentType::getPrefix(), canon_string(a->name));
-				auto deadName =
-				    OpenApoc::format2("{0}{1}_DEAD", AEquipmentType::getPrefix(), canon_string(a->name));
+				auto liveName = OpenApoc::format2("{0}{1}_ALIVE", AEquipmentType::getPrefix(),
+				                                  canon_string(a->name));
+				auto deadName = OpenApoc::format2("{0}{1}_DEAD", AEquipmentType::getPrefix(),
+				                                  canon_string(a->name));
 
 				auto liveItem = mksp<AEquipmentType>();
 				liveItem->bioStorage = true;
 				liveItem->equipscreen_size = {6, 5};
-				liveItem->equipscreen_sprite =
-				    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/ufodata/contico.pck:xcom3/ufodata/contico.tab:{0}:xcom3/ufodata/research.pcx",
-				                                liveIdx));
+				liveItem->equipscreen_sprite = fw().data->loadImage(
+				    OpenApoc::format2("PCK:xcom3/ufodata/contico.pck:xcom3/ufodata/"
+				                      "contico.tab:{0}:xcom3/ufodata/research.pcx",
+				                      liveIdx));
 				liveItem->store_space = liveSpace;
 				liveItem->type = AEquipmentType::Type::Loot;
 				liveItem->bioRemains = {&state, deadName};
@@ -1230,9 +1271,10 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 				auto deadItem = mksp<AEquipmentType>();
 				deadItem->bioStorage = true;
 				deadItem->equipscreen_size = {6, 5};
-				deadItem->equipscreen_sprite =
-				    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/ufodata/contico.pck:xcom3/ufodata/contico.tab:{0}:xcom3/ufodata/research.pcx",
-				                                deadIdx));
+				deadItem->equipscreen_sprite = fw().data->loadImage(
+				    OpenApoc::format2("PCK:xcom3/ufodata/contico.pck:xcom3/ufodata/"
+				                      "contico.tab:{0}:xcom3/ufodata/research.pcx",
+				                      deadIdx));
 				deadItem->store_space = deadSpace;
 				deadItem->type = AEquipmentType::Type::Loot;
 				deadItem->name = OpenApoc::format2("Dead {0}", a->name);
@@ -1252,7 +1294,8 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 	// None layout slot
 	{
 		UString name = "NONE";
-		UString id = OpenApoc::format2("{0}{1}", AgentEquipmentLayout::getPrefix(), canon_string(name));
+		UString id =
+		    OpenApoc::format2("{0}{1}", AgentEquipmentLayout::getPrefix(), canon_string(name));
 
 		auto a = mksp<AgentEquipmentLayout>();
 
@@ -1262,7 +1305,8 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 	// Builtin layout slot
 	{
 		UString name = "BUILTIN";
-		UString id = OpenApoc::format2("{0}{1}", AgentEquipmentLayout::getPrefix(), canon_string(name));
+		UString id =
+		    OpenApoc::format2("{0}{1}", AgentEquipmentLayout::getPrefix(), canon_string(name));
 
 		auto a = mksp<AgentEquipmentLayout>();
 		// Located off-screen, invisible in inventory
@@ -1277,7 +1321,8 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 	// FULL layout slot
 	{
 		UString name = "FULL";
-		UString id = OpenApoc::format2("{0}{1}", AgentEquipmentLayout::getPrefix(), canon_string(name));
+		UString id =
+		    OpenApoc::format2("{0}{1}", AgentEquipmentLayout::getPrefix(), canon_string(name));
 
 		auto a = mksp<AgentEquipmentLayout>();
 		pushEquipmentSlot(a, 1, 6, 3, 5, EquipmentSlotType::RightHand, AlignmentX::Centre,
@@ -1699,14 +1744,18 @@ void InitialGameStateExtractor::extractAgentBodyTypes(GameState &state) const
 										    std::max(20, (a->height[entry.first] - 40 * z) / 2);
 										for (int i = 0; i < limit; i++)
 										{
-											a->voxelMaps[entry.first][pair.first]
-											            [z * a->size[entry.first][pair.first].y *
-											                 a->size[entry.first][pair.first].x +
-											             y * a->size[entry.first][pair.first].x + x]
-											                ->setSlice(
-											                    i, fw().data->loadVoxelSlice(OpenApoc::format2(
-											                           "LOFTEMPS:xcom3/tacdata/loftemps.dat:xcom3/tacdata/loftemps.tab:{0}",
-											                           pair.second)));
+											a
+											    ->voxelMaps[entry.first][pair.first]
+											               [z * a->size[entry.first][pair.first].y *
+											                    a->size[entry.first][pair.first].x +
+											                y * a->size[entry.first][pair.first].x +
+											                x]
+											    ->setSlice(
+											        i,
+											        fw().data->loadVoxelSlice(OpenApoc::format2(
+											            "LOFTEMPS:xcom3/tacdata/loftemps.dat:xcom3/"
+											            "tacdata/loftemps.tab:{0}",
+											            pair.second)));
 										}
 									}
 								}
@@ -1753,7 +1802,8 @@ void InitialGameStateExtractor::extractAgentBodyTypes(GameState &state) const
 								{
 									a->voxelMaps[entry.first][facing][0]->setSlice(
 									    i, fw().data->loadVoxelSlice(OpenApoc::format2(
-									           "LOFTEMPS:xcom3/tacdata/loftemps.dat:xcom3/tacdata/loftemps.tab:{0}",
+									           "LOFTEMPS:xcom3/tacdata/loftemps.dat:xcom3/tacdata/"
+									           "loftemps.tab:{0}",
 									           entry.second.y)));
 								}
 							}
@@ -1793,7 +1843,8 @@ void InitialGameStateExtractor::extractAgentBodyTypes(GameState &state) const
 								{
 									a->voxelMaps[entry.first][pair.first][j]->setSlice(
 									    i, fw().data->loadVoxelSlice(OpenApoc::format2(
-									           "LOFTEMPS:xcom3/tacdata/loftemps.dat:xcom3/tacdata/loftemps.tab:{0}",
+									           "LOFTEMPS:xcom3/tacdata/loftemps.dat:xcom3/tacdata/"
+									           "loftemps.tab:{0}",
 									           pair.second[j])));
 								}
 							}

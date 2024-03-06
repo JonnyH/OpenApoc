@@ -845,7 +845,7 @@ VehicleTargetHelper::adjustTargetToClosestFlying(GameState &state, Vehicle &v, V
 		if (foundNewTarget)
 		{
 			LogWarning2("Target {},{},{} was unreachable, found new closest target {},{},{}",
-			           target.x, target.y, target.z, newTarget.x, newTarget.y, newTarget.z);
+			            target.x, target.y, target.z, newTarget.x, newTarget.y, newTarget.z);
 			target = newTarget;
 		}
 	}
@@ -1282,8 +1282,9 @@ bool VehicleMission::getNextDestination(GameState &state, Vehicle &v, Vec3<float
 			if (v.currentBuilding != this->targetBuilding)
 			{
 				auto name = this->getName();
-				LogError2("Vehicle mission {}: getNextDestination() shouldn't be called unless you've reached the target?",
-				         name);
+				LogError2("Vehicle mission {}: getNextDestination() shouldn't be called unless "
+				          "you've reached the target?",
+				          name);
 			}
 			destPos = {0, 0, 9};
 			return false;
@@ -1725,7 +1726,7 @@ void VehicleMission::start(GameState &state, Vehicle &v)
 						continue;
 					}
 					LogInfo2("Launching vehicle from building \"{}\" at exit {}", b.id,
-					        exitLocation);
+					         exitLocation);
 					Vec3<float> leaveLocation = exitTile->getRestingPosition();
 					float facing = 0.0f;
 					if (scenery->type->connection[0])
@@ -1750,7 +1751,7 @@ void VehicleMission::start(GameState &state, Vehicle &v)
 					}
 					v.leaveBuilding(state, leaveLocation, facing);
 					LogInfo2("Launching vehicle from building \"{}\" at pad {}", b.id,
-					        leaveLocation);
+					         leaveLocation);
 					this->currentPlannedPath = {exitLocation, exitLocation};
 					return;
 				} while (false);
@@ -1831,7 +1832,7 @@ void VehicleMission::start(GameState &state, Vehicle &v)
 						if (vehiclePosition != targetBuilding->carEntranceLocation)
 						{
 							LogError2("Vehicle at {} not inside vehicle entrance for building {}",
-							         vehiclePosition, b.id);
+							          vehiclePosition, b.id);
 							return;
 						}
 						// No action required for ground vehicles, they just disappear into the
@@ -1846,7 +1847,7 @@ void VehicleMission::start(GameState &state, Vehicle &v)
 						if (vehiclePosition.z < 2)
 						{
 							LogError2("Vehicle trying to land off bottom of map {}",
-							         vehiclePosition);
+							          vehiclePosition);
 							cancelled = true;
 							return;
 						}
@@ -1864,8 +1865,9 @@ void VehicleMission::start(GameState &state, Vehicle &v)
 						}
 						if (!padFound)
 						{
-							LogError2("Vehicle at {} not directly above a landing pad for building {}",
-							         vehiclePosition, b.id);
+							LogError2(
+							    "Vehicle at {} not directly above a landing pad for building {}",
+							    vehiclePosition, b.id);
 							cancelled = true;
 							return;
 						}
@@ -2043,8 +2045,9 @@ void VehicleMission::start(GameState &state, Vehicle &v)
 				randomNearbyPos.x = clamp(randomNearbyPos.x, 0, map.size.x - 1);
 				randomNearbyPos.y = clamp(randomNearbyPos.y, 0, map.size.y - 1);
 				randomNearbyPos.z = clamp(randomNearbyPos.z, 0, map.size.z - 1);
-				LogInfo2("Vehicle mission {}: Can't find place to land, moving to random location at {}",
-				        getName(), randomNearbyPos);
+				LogInfo2(
+				    "Vehicle mission {}: Can't find place to land, moving to random location at {}",
+				    getName(), randomNearbyPos);
 				v.addMission(
 				    state, VehicleMission::gotoLocation(state, v, randomNearbyPos, false, true, 1));
 				return;
@@ -2126,7 +2129,7 @@ void VehicleMission::start(GameState &state, Vehicle &v)
 				}
 
 				LogInfo2("Vehicle mission {}: Pathing to entrance at {}", name,
-				        b->carEntranceLocation);
+				         b->carEntranceLocation);
 				v.addMission(state, VehicleMission::gotoLocation(state, v, b->carEntranceLocation,
 				                                                 allowTeleporter, false, 1));
 				// If we can't path to building then cancel
@@ -2236,8 +2239,9 @@ void VehicleMission::start(GameState &state, Vehicle &v)
 				}
 				else
 				{
-					LogInfo2("Vehicle mission {}: No pads, pathing to random location near building",
-					        name);
+					LogInfo2(
+					    "Vehicle mission {}: No pads, pathing to random location near building",
+					    name);
 					std::uniform_int_distribution<int> xPos(targetBuilding->bounds.p0.x - 2,
 					                                        targetBuilding->bounds.p1.x + 2);
 					std::uniform_int_distribution<int> yPos(targetBuilding->bounds.p0.y - 2,
@@ -2486,7 +2490,7 @@ void VehicleMission::start(GameState &state, Vehicle &v)
 							goodPos.z = glm::min(goodPos.z + 1, map.size.z - 1);
 
 							LogInfo2("Vehicle mission {}: Pathing to infiltration spot {}", name,
-							        goodPos);
+							         goodPos);
 							v.addMission(state, VehicleMission::gotoLocation(state, v, goodPos,
 							                                                 false, true));
 							return;
@@ -2498,8 +2502,8 @@ void VehicleMission::start(GameState &state, Vehicle &v)
 						}
 					}
 
-					LogInfo2("Vehicle mission {}: Infiltrating from {{{:f},{:f},{:f}}}", name, pos.x, pos.y,
-					        pos.z);
+					LogInfo2("Vehicle mission {}: Infiltrating from {{{:f},{:f},{:f}}}", name,
+					         pos.x, pos.y, pos.z);
 
 					// If arrived to a location above building, deposit aliens or subvert
 					// FIXME: Handle subversion
@@ -3178,7 +3182,7 @@ UString VehicleMission::getName()
 			break;
 		case MissionType::OfferService:
 			name += OpenApoc::format2(" counter: {0}, target {1}", missionCounter,
-			               targetBuilding ? targetBuilding->name : "null");
+			                          targetBuilding ? targetBuilding->name : "null");
 			break;
 	}
 	return name;

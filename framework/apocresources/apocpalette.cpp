@@ -85,7 +85,7 @@ sp<Palette> loadPCXPalette(Data &data, const UString fileName)
 	if (file.size() < sizeof(PcxHeader) + 256 * 3)
 	{
 		LogInfo2("File \"{}\" has size {} - too small for header and palette", fileName,
-		        file.size());
+		         file.size());
 		return nullptr;
 	}
 

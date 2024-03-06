@@ -389,7 +389,7 @@ void VEquipScreen::eventOccurred(Event *e)
 				if (base->inventoryVehicleEquipment[draggedEquipment->id] <= 0)
 				{
 					LogError2("Trying to equip item \"{}\" with zero inventory",
-					         this->draggedEquipment->id);
+					          this->draggedEquipment->id);
 				}
 				auto e =
 				    this->selected->addEquipment(*state, equipmentGridPos, this->draggedEquipment);
@@ -544,8 +544,9 @@ void VEquipScreen::setSelectedVehicle(sp<Vehicle> vehicle)
 	auto backgroundImage = vehicle->type->equipment_screen;
 	if (!backgroundImage)
 	{
-		LogError2("Trying to view equipment screen of vehicle \"{}\" which has no equipment screen background",
-		         vehicle->type->name);
+		LogError2("Trying to view equipment screen of vehicle \"{}\" which has no equipment screen "
+		          "background",
+		          vehicle->type->name);
 	}
 
 	auto backgroundControl = form->findControlTyped<Graphic>("BACKGROUND");

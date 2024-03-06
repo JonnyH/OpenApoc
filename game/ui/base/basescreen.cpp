@@ -343,7 +343,7 @@ void BaseScreen::eventOccurred(Event *e)
 					if (!ufopaedia_category)
 					{
 						LogError2("No UFOPaedia category found for entry {}",
-						         ufopaedia_entry->title);
+						          ufopaedia_entry->title);
 					}
 					fw().stageQueueCommand(
 					    {StageCmd::Command::PUSH,

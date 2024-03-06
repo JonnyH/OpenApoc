@@ -462,8 +462,9 @@ void MultilistBox::setSelected(sp<Control> Item, bool select)
 	}
 	if (!found)
 	{
-		LogError2("Trying set MultilistBox selected control to something that isn't a member of the "
-		         "list");
+		LogError2(
+		    "Trying set MultilistBox selected control to something that isn't a member of the "
+		    "list");
 	}
 
 	if (funcHandleSelection(nullptr, Item, select))

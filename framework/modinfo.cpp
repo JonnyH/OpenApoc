@@ -27,7 +27,7 @@ std::optional<ModInfo> ModInfo::getInfo(const UString &path)
 	if (!parseResult)
 	{
 		LogWarning2("Failed to parse ModInfo at \"{}\": {} at offset {}", filePath,
-		           parseResult.description(), parseResult.offset);
+		            parseResult.description(), parseResult.offset);
 		return {};
 	}
 	auto infoNode = doc.child("openapoc_modinfo");

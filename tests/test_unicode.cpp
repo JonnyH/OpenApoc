@@ -38,7 +38,7 @@ struct example_unicode
 		if (u32str.length() != num_codepoints)
 		{
 			LogError2("String \"{}\" has unexpected length {} , expected {}", u8string,
-			         string.length(), num_codepoints);
+			          string.length(), num_codepoints);
 			return false;
 		}
 
@@ -50,7 +50,7 @@ struct example_unicode
 		if (decoded_codepoints.size() != num_codepoints)
 		{
 			LogError2("String \"{}\" has unexpected iterated length {} , expected {}", u8string,
-			         decoded_codepoints.size(), num_codepoints);
+			          decoded_codepoints.size(), num_codepoints);
 			return false;
 		}
 
@@ -58,10 +58,10 @@ struct example_unicode
 		{
 			if (expected_codepoints[i] != decoded_codepoints[i])
 			{
-				LogError2(
-				    "String \"{}\" has unexpected codepoint at index {} - got 0x{:x} expected 0x{:x}",
-				    u8string, i, static_cast<uint32_t>(decoded_codepoints[i]),
-				    static_cast<uint32_t>(expected_codepoints[i]));
+				LogError2("String \"{}\" has unexpected codepoint at index {} - got 0x{:x} "
+				          "expected 0x{:x}",
+				          u8string, i, static_cast<uint32_t>(decoded_codepoints[i]),
+				          static_cast<uint32_t>(expected_codepoints[i]));
 				return false;
 			}
 			string2 += decoded_codepoints[i];
@@ -94,7 +94,7 @@ static bool test_remove(const UString &initial, const UString &expected, size_t 
 	if (removed != expected)
 	{
 		LogError2("\"{}\".remove({}, {}) = \"{}\", expected \"{}\"", initial, offset, count,
-		         removed, expected);
+		          removed, expected);
 		return false;
 	}
 	return true;
@@ -107,7 +107,7 @@ static bool test_insert(const UString &initial, const UString &expected, size_t 
 	if (inserted != expected)
 	{
 		LogError2("\"{}\".inserted({}, \"{}\") = \"{}\", expected \"{}\"", initial, offset, str,
-		         inserted, expected);
+		          inserted, expected);
 		return false;
 	}
 	return true;
@@ -142,12 +142,14 @@ int main(int argc, char **argv)
 	auto upper = to_upper(example);
 	if (lower != lower_example)
 	{
-		LogError2("toLower(\"{}\") returned \"{}\", expected \"{}\"", example, lower, lower_example);
+		LogError2("toLower(\"{}\") returned \"{}\", expected \"{}\"", example, lower,
+		          lower_example);
 		return EXIT_FAILURE;
 	}
 	if (upper != upper_example)
 	{
-		LogError2("toUpper(\"{}\") returned \"{}\", expected \"{}\"", example, upper, upper_example);
+		LogError2("toUpper(\"{}\") returned \"{}\", expected \"{}\"", example, upper,
+		          upper_example);
 		return EXIT_FAILURE;
 	}
 

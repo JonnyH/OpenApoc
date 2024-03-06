@@ -54,7 +54,7 @@ class PhysfsIFileImpl : public std::streambuf, public IFileImpl
 		if (!file)
 		{
 			LogError2("Failed to open file \"{}\" : \"{}\"", path,
-			         PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
+			          PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
 			return;
 		}
 		systemPath = PHYSFS_getRealDir(path.c_str());
@@ -200,7 +200,7 @@ std::unique_ptr<char[]> IFile::readAll()
 	if (!mem)
 	{
 		LogError2("Failed to allocate memory for {} bytes",
-		         static_cast<long long unsigned>(memsize));
+		          static_cast<long long unsigned>(memsize));
 		return nullptr;
 	}
 
@@ -223,13 +223,13 @@ bool FileSystem::addPath(const UString &newPath)
 	if (!PHYSFS_mount(newPath.c_str(), "/", 0))
 	{
 		LogInfo2("Failed to add resource dir \"{}\", error: {}", newPath,
-		        PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
+		         PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
 		return false;
 	}
 	else
 	{
 		LogInfo2("Resource dir \"{}\" mounted to \"{}\"", newPath,
-		        PHYSFS_getMountPoint(newPath.c_str()));
+		         PHYSFS_getMountPoint(newPath.c_str()));
 		return true;
 	}
 }
@@ -246,7 +246,7 @@ FileSystem::FileSystem(std::vector<UString> paths)
 		if (!PHYSFS_mount(p.c_str(), "/", 0))
 		{
 			LogInfo2("Failed to add resource dir \"{}\", error: {}", p,
-			        PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
+			         PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
 			continue;
 		}
 		else

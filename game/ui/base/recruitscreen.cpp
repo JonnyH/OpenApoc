@@ -338,7 +338,8 @@ void RecruitScreen::updateFormValues()
 	int balance = state->getPlayer()->balance + moneyDelta;
 	form->findControlTyped<Label>("TEXT_FUNDS")->setText(Strings::fromInteger(balance));
 	form->findControlTyped<Label>("TEXT_FUNDS_DELTA")
-	    ->setText(OpenApoc::format2("{0}{1}", moneyDelta > 0 ? "+" : "", Strings::fromInteger(moneyDelta)));
+	    ->setText(OpenApoc::format2("{0}{1}", moneyDelta > 0 ? "+" : "",
+	                                Strings::fromInteger(moneyDelta)));
 
 	updateBaseHighlight();
 }
@@ -422,9 +423,9 @@ std::vector<sp<Image>> RecruitScreen::getBigUnitRanks()
 
 	for (int i = 12; i <= 18; i++)
 	{
-		bigUnitRanks.push_back(
-		    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/tacbut.pck:xcom3/tacdata/tacbut.tab:{0}:xcom3/tacdata/tactical.pal",
-		                                i)));
+		bigUnitRanks.push_back(fw().data->loadImage(OpenApoc::format2(
+		    "PCK:xcom3/tacdata/tacbut.pck:xcom3/tacdata/tacbut.tab:{0}:xcom3/tacdata/tactical.pal",
+		    i)));
 	}
 
 	return bigUnitRanks;
@@ -474,11 +475,12 @@ void RecruitScreen::attemptCloseScreen()
 
 	if (hired != 0 || fired != 0 || transferred != 0)
 	{
-		UString message =
-		    OpenApoc::format2("{0} {1}\n{2} {3}", hired, tr("unit(s) hired"), fired, tr("unit(s) fired."));
+		UString message = OpenApoc::format2("{0} {1}\n{2} {3}", hired, tr("unit(s) hired"), fired,
+		                                    tr("unit(s) fired."));
 		if (transferred > 0)
 		{
-			message = OpenApoc::format2("{0}\n({1} {2})", message, transferred, tr("units(s) transferred"));
+			message = OpenApoc::format2("{0}\n({1} {2})", message, transferred,
+			                            tr("units(s) transferred"));
 		}
 		fw().stageQueueCommand(
 		    {StageCmd::Command::PUSH,

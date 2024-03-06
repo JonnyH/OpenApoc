@@ -130,10 +130,14 @@ void ScoreScreen::setFinanceMode()
 				}
 			}
 		}
-		formFinance->findControlTyped<Label>("AGENTS_Q")->setText(OpenApoc::format2("{0}", soldiers));
-		formFinance->findControlTyped<Label>("BIOCHEMISTS_Q")->setText(OpenApoc::format2("{0}", biochemists));
-		formFinance->findControlTyped<Label>("ENGINEERS_Q")->setText(OpenApoc::format2("{0}", engineers));
-		formFinance->findControlTyped<Label>("PHYSICISTS_Q")->setText(OpenApoc::format2("{0}", physicists));
+		formFinance->findControlTyped<Label>("AGENTS_Q")
+		    ->setText(OpenApoc::format2("{0}", soldiers));
+		formFinance->findControlTyped<Label>("BIOCHEMISTS_Q")
+		    ->setText(OpenApoc::format2("{0}", biochemists));
+		formFinance->findControlTyped<Label>("ENGINEERS_Q")
+		    ->setText(OpenApoc::format2("{0}", engineers));
+		formFinance->findControlTyped<Label>("PHYSICISTS_Q")
+		    ->setText(OpenApoc::format2("{0}", physicists));
 		formFinance->findControlTyped<Label>("TOTAL_Q")->setText(
 		    OpenApoc::format2("{0}", soldiers + biochemists + engineers + physicists));
 		formFinance->findControlTyped<Label>("BASES_TOTAL_Q")
@@ -155,11 +159,16 @@ void ScoreScreen::setFinanceMode()
 		physicists *= getSalary(AgentType::Role::Physicist);
 		int agentsSalary = soldiers + biochemists + engineers + physicists;
 
-		formFinance->findControlTyped<Label>("AGENTS_W")->setText(OpenApoc::format2("${0}", soldiers));
-		formFinance->findControlTyped<Label>("BIOCHEMISTS_W")->setText(OpenApoc::format2("${0}", biochemists));
-		formFinance->findControlTyped<Label>("ENGINEERS_W")->setText(OpenApoc::format2("${0}", engineers));
-		formFinance->findControlTyped<Label>("PHYSICISTS_W")->setText(OpenApoc::format2("${0}", physicists));
-		formFinance->findControlTyped<Label>("TOTAL_W")->setText(OpenApoc::format2("${0}", agentsSalary));
+		formFinance->findControlTyped<Label>("AGENTS_W")
+		    ->setText(OpenApoc::format2("${0}", soldiers));
+		formFinance->findControlTyped<Label>("BIOCHEMISTS_W")
+		    ->setText(OpenApoc::format2("${0}", biochemists));
+		formFinance->findControlTyped<Label>("ENGINEERS_W")
+		    ->setText(OpenApoc::format2("${0}", engineers));
+		formFinance->findControlTyped<Label>("PHYSICISTS_W")
+		    ->setText(OpenApoc::format2("${0}", physicists));
+		formFinance->findControlTyped<Label>("TOTAL_W")->setText(
+		    OpenApoc::format2("${0}", agentsSalary));
 
 		int basesCosts = 0;
 		for (auto &b : state->player_bases)
@@ -169,7 +178,8 @@ void ScoreScreen::setFinanceMode()
 				basesCosts += f->type->weeklyCost;
 			}
 		}
-		formFinance->findControlTyped<Label>("BASES_TOTAL_W")->setText(OpenApoc::format2("${0}", basesCosts));
+		formFinance->findControlTyped<Label>("BASES_TOTAL_W")
+		    ->setText(OpenApoc::format2("${0}", basesCosts));
 		formFinance->findControlTyped<Label>("OVERHEADS_W")
 		    ->setText(OpenApoc::format2("${0}", agentsSalary + basesCosts));
 
@@ -185,8 +195,8 @@ void ScoreScreen::setFinanceMode()
 		formFinance->findControlTyped<Label>("INITIAL")->setText(
 		    OpenApoc::format2("{0} ${1}", tr("Initial funds>"), balance));
 		formFinance->findControlTyped<Label>("REMAINING")
-		    ->setText(
-		        OpenApoc::format2("{0} ${1}", tr("Remaining funds>"), balance - agentsSalary - basesCosts));
+		    ->setText(OpenApoc::format2("{0} ${1}", tr("Remaining funds>"),
+		                                balance - agentsSalary - basesCosts));
 	}
 
 	title->setText(tr("FINANCE"));

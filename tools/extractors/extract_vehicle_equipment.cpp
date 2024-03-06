@@ -33,9 +33,11 @@ void InitialGameStateExtractor::extractVehicleEquipment(GameState &state) const
 		auto edata = data.vehicle_equipment->get(i);
 
 		e->name = data.vehicle_equipment_names->get(i);
-		UString id = OpenApoc::format2("{0}{1}", VEquipmentType::getPrefix(), canon_string(e->name));
+		UString id =
+		    OpenApoc::format2("{0}{1}", VEquipmentType::getPrefix(), canon_string(e->name));
 
-		UString research_id = OpenApoc::format2("{0}{1}", ResearchTopic::getPrefix(), canon_string(e->name));
+		UString research_id =
+		    OpenApoc::format2("{0}{1}", ResearchTopic::getPrefix(), canon_string(e->name));
 
 		auto research_it = state.research.topics.find(research_id);
 		if (research_it != state.research.topics.end())
@@ -266,7 +268,7 @@ void InitialGameStateExtractor::extractVehicleEquipment(GameState &state) const
 					if (projectile_sprites.sprites[i] != 255)
 					{
 						sprite_path = OpenApoc::format2("bulletsprites/city/{0:02}.png",
-						                     (unsigned)projectile_sprites.sprites[i]);
+						                                (unsigned)projectile_sprites.sprites[i]);
 					}
 					else
 					{

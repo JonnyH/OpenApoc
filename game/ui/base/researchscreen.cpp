@@ -393,8 +393,8 @@ void ResearchScreen::setCurrentLabInfo()
 					if (this->assigned_agent_count > this->viewFacility->type->capacityAmount)
 					{
 						LogError2("Selected lab has {} assigned agents, but has a capacity of {}",
-						         this->assigned_agent_count,
-						         this->viewFacility->type->capacityAmount);
+						          this->assigned_agent_count,
+						          this->viewFacility->type->capacityAmount);
 					}
 					agent.second->lab_assigned = this->viewFacility->lab;
 					assigned_to_current_lab = true;
@@ -517,7 +517,8 @@ void ResearchScreen::updateProgressInfo()
 		manufacturing_scroll_left->setVisible(true);
 		manufacturing_scroll_right->setVisible(true);
 		manufacturing_scrollbar->setValue(this->viewFacility->lab->getQuantity());
-		manufacturing_quantity->setText(OpenApoc::format2("{0}", this->viewFacility->lab->getQuantity()));
+		manufacturing_quantity->setText(
+		    OpenApoc::format2("{0}", this->viewFacility->lab->getQuantity()));
 	}
 	else
 	{

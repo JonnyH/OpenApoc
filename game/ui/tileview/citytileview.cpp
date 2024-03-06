@@ -98,7 +98,8 @@ CityTileView::CityTileView(TileMap &map, Vec3<int> isoTileSize, Vec2<int> stratT
 	}
 	for (int i = 1; i <= 4; i++)
 	{
-		selectionBrackets[3].push_back(fw().data->loadImage(OpenApoc::format2("city/city-bracket-{0}.png", i)));
+		selectionBrackets[3].push_back(
+		    fw().data->loadImage(OpenApoc::format2("city/city-bracket-{0}.png", i)));
 	}
 
 	selectionImageFriendlySmall = fw().data->loadImage("battle/map-selection-small.png");
@@ -439,7 +440,7 @@ void CityTileView::render()
 													break;
 												default:
 													LogError2("Unhandled DEBUG_SHOW_WALK_TYPE {}",
-													         DEBUG_SHOW_MISC_TYPE);
+													          DEBUG_SHOW_MISC_TYPE);
 													DEBUG_SHOW_MISC_TYPE = 0;
 													break;
 											}

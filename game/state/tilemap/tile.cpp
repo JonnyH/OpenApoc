@@ -82,7 +82,7 @@ bool Tile::getSolidGround(bool large)
 		if (position.x < 1 || position.y < 1)
 		{
 			LogError2("Trying to get solid ground for a large unit when it can't fit! {}, {}, {}",
-			         position.x, position.y, position.z);
+			          position.x, position.y, position.z);
 			return false;
 		}
 		if (solidGround || map.getTile(position.x - 1, position.y, position.z)->solidGround ||
@@ -137,7 +137,7 @@ bool Tile::getHasExit(bool large)
 		if (position.x < 1 || position.y < 1)
 		{
 			LogError2("Trying to get exit for a large unit when it can't fit! {}, {}, {}",
-			         position.x, position.y, position.z);
+			          position.x, position.y, position.z);
 			return false;
 		}
 		if (hasExit || map.getTile(position.x - 1, position.y, position.z)->hasExit ||

@@ -119,8 +119,8 @@ void AgentSheet::displayStats(const Agent &item, std::vector<sp<Image>> &ranks, 
 		statsForm->findControlTyped<Graphic>("VALUE_4")->setImage(
 		    createStatsBar(item.initial_stats.time_units, item.current_stats.time_units,
 		                   item.modified_stats.time_units, 100, speedColour, {88, 7}));
-		statsForm->findControlTyped<Graphic>("VALUE_4")->ToolTipText +=
-		    OpenApoc::format2(": {0}/{1}", item.modified_stats.time_units, item.current_stats.time_units);
+		statsForm->findControlTyped<Graphic>("VALUE_4")->ToolTipText += OpenApoc::format2(
+		    ": {0}/{1}", item.modified_stats.time_units, item.current_stats.time_units);
 	}
 	else
 	{
@@ -129,7 +129,7 @@ void AgentSheet::displayStats(const Agent &item, std::vector<sp<Image>> &ranks, 
 		    item.modified_stats.getDisplaySpeedValue(), 100, speedColour, {88, 7}));
 		statsForm->findControlTyped<Graphic>("VALUE_4")->ToolTipText +=
 		    OpenApoc::format2("^ {0}/{1}", item.modified_stats.getDisplaySpeedValue(),
-		           item.current_stats.getDisplaySpeedValue());
+		                      item.current_stats.getDisplaySpeedValue());
 	}
 
 	statsForm->findControlTyped<Label>("LABEL_5")->setText(tr("Stamina"));
@@ -139,7 +139,7 @@ void AgentSheet::displayStats(const Agent &item, std::vector<sp<Image>> &ranks, 
 	statsForm->findControlTyped<Graphic>("VALUE_5")->ToolTipText =
 	    statsForm->findControlTyped<Label>("LABEL_5")->getText() +
 	    OpenApoc::format2(": {0}/{1}", item.modified_stats.getDisplayStaminaValue(),
-	           item.current_stats.getDisplayStaminaValue());
+	                      item.current_stats.getDisplayStaminaValue());
 
 	statsForm->findControlTyped<Label>("LABEL_6")->setText(tr("Bravery"));
 	statsForm->findControlTyped<Graphic>("VALUE_6")->setImage(
@@ -163,7 +163,8 @@ void AgentSheet::displayStats(const Agent &item, std::vector<sp<Image>> &ranks, 
 	                   item.modified_stats.psi_energy, 100, psiEnergyColour, {88, 7}));
 	statsForm->findControlTyped<Graphic>("VALUE_8")->ToolTipText =
 	    statsForm->findControlTyped<Label>("LABEL_8")->getText() +
-	    OpenApoc::format2(": {0}/{1}", item.modified_stats.psi_energy, item.current_stats.psi_energy);
+	    OpenApoc::format2(": {0}/{1}", item.modified_stats.psi_energy,
+	                      item.current_stats.psi_energy);
 
 	statsForm->findControlTyped<Label>("LABEL_9")->setText(tr("Psi-attack"));
 	statsForm->findControlTyped<Graphic>("VALUE_9")->setImage(
@@ -171,7 +172,8 @@ void AgentSheet::displayStats(const Agent &item, std::vector<sp<Image>> &ranks, 
 	                   item.modified_stats.psi_attack, 100, psiAttackColour, {88, 7}));
 	statsForm->findControlTyped<Graphic>("VALUE_9")->ToolTipText =
 	    statsForm->findControlTyped<Label>("LABEL_9")->getText() +
-	    OpenApoc::format2(": {0}/{1}", item.modified_stats.psi_attack, item.current_stats.psi_attack);
+	    OpenApoc::format2(": {0}/{1}", item.modified_stats.psi_attack,
+	                      item.current_stats.psi_attack);
 
 	statsForm->findControlTyped<Label>("LABEL_10")->setText(tr("Psi-defence"));
 	statsForm->findControlTyped<Graphic>("VALUE_10")
@@ -179,7 +181,8 @@ void AgentSheet::displayStats(const Agent &item, std::vector<sp<Image>> &ranks, 
 	                              item.modified_stats.psi_defence, 100, psiDefenceColour, {88, 7}));
 	statsForm->findControlTyped<Graphic>("VALUE_10")->ToolTipText =
 	    statsForm->findControlTyped<Label>("LABEL_10")->getText() +
-	    OpenApoc::format2(": {0}/{1}", item.modified_stats.psi_defence, item.current_stats.psi_defence);
+	    OpenApoc::format2(": {0}/{1}", item.modified_stats.psi_defence,
+	                      item.current_stats.psi_defence);
 }
 
 void AgentSheet::clear()

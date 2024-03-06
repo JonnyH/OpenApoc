@@ -15,7 +15,7 @@ static bool test_one_rect_compaction(std::set<Rect<T>> rect_set, unsigned expect
 	if (rect_set.size() != expected_start_count)
 	{
 		LogError2("Rect set has size {} at start, expected {}", (unsigned)rect_set.size(),
-		         expected_start_count);
+		          expected_start_count);
 		return false;
 	}
 	unsigned num_collapsed = Rect<T>::compactRectSet(rect_set);
@@ -27,8 +27,8 @@ static bool test_one_rect_compaction(std::set<Rect<T>> rect_set, unsigned expect
 	}
 	if (num_collapsed && num_collapsed >= expected_start_count)
 	{
-		LogError2("Somehow managed to collapse {} rects in a set containing {} rects", num_collapsed,
-		         expected_start_count);
+		LogError2("Somehow managed to collapse {} rects in a set containing {} rects",
+		          num_collapsed, expected_start_count);
 		return false;
 	}
 	if (Rect<T>::compactRectSet(rect_set) != 0)
@@ -46,7 +46,7 @@ static bool test_one_rect_compaction(std::set<Rect<T>> rect_set, unsigned expect
 	if (expected_end_size && rect_set.size() != expected_end_size)
 	{
 		LogError2("Expected to collapse to {} rects but got {}", (unsigned)rect_set.size(),
-		         expected_end_size);
+		          expected_end_size);
 		return false;
 	}
 
@@ -156,7 +156,7 @@ void test_rect_intersects(Rect<int> r1, Rect<int> r2, bool expected)
 	if (r1.intersects(r2) != expected)
 	{
 		LogError2("Rect {} incorrectly {} rect {}", r2,
-		         expected ? "does not intersect" : "intersects", r1);
+		          expected ? "does not intersect" : "intersects", r1);
 		exit(EXIT_FAILURE);
 	}
 }

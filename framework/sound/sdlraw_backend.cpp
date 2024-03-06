@@ -71,7 +71,7 @@ static bool ConvertAudio(AudioFormat input_format, SDL_AudioSpec &output_spec, i
 		if (samples.size() < neededSize)
 		{
 			LogInfo2("Expanding sample output buffer from {} to {} bytes", samples.size(),
-			        neededSize);
+			         neededSize);
 			samples.resize(neededSize);
 		}
 		cvt.buf = (Uint8 *)samples.data();
@@ -301,12 +301,12 @@ class SDLRawBackend : public SoundBackend
 		SDL_PauseAudioDevice(devID, 0);  // Run at once?
 
 		LogWarning2("Audio output format: Channels {}, format: {} {} {} {}bit, freq {}, samples {}",
-		           (int)output_spec.channels,
-		           SDL_AUDIO_ISSIGNED(output_spec.format) ? "signed" : "unsigned",
-		           SDL_AUDIO_ISFLOAT(output_spec.format) ? "float" : "int",
-		           SDL_AUDIO_ISBIGENDIAN(output_spec.format) ? "BE" : "LE",
-		           SDL_AUDIO_BITSIZE(output_spec.format), (int)output_spec.freq,
-		           (int)output_spec.samples);
+		            (int)output_spec.channels,
+		            SDL_AUDIO_ISSIGNED(output_spec.format) ? "signed" : "unsigned",
+		            SDL_AUDIO_ISFLOAT(output_spec.format) ? "float" : "int",
+		            SDL_AUDIO_ISBIGENDIAN(output_spec.format) ? "BE" : "LE",
+		            SDL_AUDIO_BITSIZE(output_spec.format), (int)output_spec.freq,
+		            (int)output_spec.samples);
 	}
 	void playSample(sp<Sample> sample, float gain) override
 	{
@@ -321,7 +321,7 @@ class SDLRawBackend : public SoundBackend
 			if (this->live_samples.size() > this->concurrent_samples)
 			{
 				LogInfo2("Skipping sound {} as we already have {} on queue", sample->path,
-				        this->live_samples.size());
+				         this->live_samples.size());
 				return;
 			}
 			this->live_samples.emplace_back(sample, gain);

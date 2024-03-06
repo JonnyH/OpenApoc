@@ -27,7 +27,8 @@ ResearchSelect::ResearchSelect(sp<GameState> state, sp<Lab> lab)
     : Stage(), form(ui().getForm("researchselect")), lab(lab), state(state)
 {
 	progressImage = fw().data->loadImage(OpenApoc::format2(
-	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:{0}:xcom3/ufodata/research.pcx", 63));
+	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:{0}:xcom3/ufodata/research.pcx",
+	    63));
 }
 
 ResearchSelect::~ResearchSelect() = default;
@@ -305,8 +306,8 @@ void ResearchSelect::populateResearchList()
 				break;
 		}
 
-		auto skill_total_label =
-		    control->createChild<Label>(OpenApoc::format2("{0}", skill_total), ui().getFont("smalfont"));
+		auto skill_total_label = control->createChild<Label>(OpenApoc::format2("{0}", skill_total),
+		                                                     ui().getFont("smalfont"));
 		skill_total_label->Size = {50, 18};
 		skill_total_label->Location = {328, 2};
 		skill_total_label->TextHAlign = HorizontalAlignment::Right;

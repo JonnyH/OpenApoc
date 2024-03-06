@@ -156,8 +156,8 @@ sp<RGBImage> BaseGraphics::drawMiniBase(const Base &base, FacilityHighlight high
 				sprite -= 3;
 			}
 			Vec2<int> pos = i * MINI_SIZE;
-			auto image =
-			    OpenApoc::format2("RAW:xcom3/ufodata/minibase.dat:4:4:{0}:xcom3/ufodata/base.pcx", sprite);
+			auto image = OpenApoc::format2(
+			    "RAW:xcom3/ufodata/minibase.dat:4:4:{0}:xcom3/ufodata/base.pcx", sprite);
 			RGBImage::blit(std::dynamic_pointer_cast<RGBImage>(fw().data->loadImage(image)),
 			               minibase, {0, 0}, pos);
 		}

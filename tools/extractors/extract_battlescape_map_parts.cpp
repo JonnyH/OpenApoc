@@ -57,8 +57,8 @@ void InitialGameStateExtractor::readBattleMapParts(
 		auto object = mksp<BattleMapPartType>();
 		if (entry.alternative_object_idx != 0)
 		{
-			object->alternative_map_part = {&state,
-			                                OpenApoc::format2("{0}{1}", idPrefix, entry.alternative_object_idx)};
+			object->alternative_map_part = {
+			    &state, OpenApoc::format2("{0}{1}", idPrefix, entry.alternative_object_idx)};
 		}
 		object->type = type;
 		object->constitution = entry.constitution;
@@ -80,7 +80,7 @@ void InitialGameStateExtractor::readBattleMapParts(
 			if ((unsigned int)entry.loftemps_lof[slice] == 0)
 				continue;
 			auto lofString = OpenApoc::format2("LOFTEMPS:{0}:{1}:{2}", loftempsFile, loftempsTab,
-			                        (unsigned int)entry.loftemps_lof[slice]);
+			                                   (unsigned int)entry.loftemps_lof[slice]);
 			object->voxelMapLOF->slices[slice] = fw().data->loadVoxelSlice(lofString);
 		}
 		object->voxelMapLOS = mksp<VoxelMap>(Vec3<int>{24, 24, 20});
@@ -89,12 +89,13 @@ void InitialGameStateExtractor::readBattleMapParts(
 			if ((unsigned int)entry.loftemps_los[slice] == 0)
 				continue;
 			auto lofString = OpenApoc::format2("LOFTEMPS:{0}:{1}:{2}", loftempsFile, loftempsTab,
-			                        (unsigned int)entry.loftemps_los[slice]);
+			                                   (unsigned int)entry.loftemps_los[slice]);
 			object->voxelMapLOS->slices[slice] = fw().data->loadVoxelSlice(lofString);
 		}
 		if (entry.damaged_idx)
 		{
-			object->damaged_map_part = {&state, OpenApoc::format2("{0}{1}", idPrefix, entry.damaged_idx)};
+			object->damaged_map_part = {&state,
+			                            OpenApoc::format2("{0}{1}", idPrefix, entry.damaged_idx)};
 		}
 
 		// So far haven't seen an animated object with only 1 frame, but seen objects with 1 in this
@@ -118,20 +119,21 @@ void InitialGameStateExtractor::readBattleMapParts(
 			{
 				for (int j = 0; j < entry.animation_length; j++)
 				{
-					auto animateString = OpenApoc::format2("PCK:{0}{1}.pck:{2}{3}.tab:{4}", dirName, "animate",
-					                            dirName, "animate", entry.animation_idx + j);
+					auto animateString =
+					    OpenApoc::format2("PCK:{0}{1}.pck:{2}{3}.tab:{4}", dirName, "animate",
+					                      dirName, "animate", entry.animation_idx + j);
 					object->animation_frames.push_back(fw().data->loadImage(animateString));
 				}
 			}
 		}
 
-		auto imageString =
-		    OpenApoc::format2("PCK:{0}{1}.pck:{2}{3}.tab:{4}", dirName, pckName, dirName, pckName, i);
+		auto imageString = OpenApoc::format2("PCK:{0}{1}.pck:{2}{3}.tab:{4}", dirName, pckName,
+		                                     dirName, pckName, i);
 		object->sprite = fw().data->loadImage(imageString);
 		if (i < strategySpriteCount)
 		{
-			auto stratImageString = OpenApoc::format2("PCKSTRAT:{0}{1}.pck:{2}{3}.tab:{4}", dirName, stratPckName,
-			                               dirName, stratPckName, i);
+			auto stratImageString = OpenApoc::format2("PCKSTRAT:{0}{1}.pck:{2}{3}.tab:{4}", dirName,
+			                                          stratPckName, dirName, stratPckName, i);
 			object->strategySprite = fw().data->loadImage(stratImageString);
 		}
 		// It should be {24,34} I guess, since 48/2=24, but 23 gives a little better visual

@@ -60,8 +60,9 @@ sp<Control> MapSelector::createMapRowBuilding(StateRef<Building> building, sp<Ga
 	const int HEIGHT = 21;
 
 	auto text = control->createChild<Label>(
-	    OpenApoc::format2("[{0} Building] {1} [{2}]", building->owner == state->getAliens() ? "Alien" : "Human",
-	           building->name, building->battle_map.id),
+	    OpenApoc::format2("[{0} Building] {1} [{2}]",
+	                      building->owner == state->getAliens() ? "Alien" : "Human", building->name,
+	                      building->battle_map.id),
 	    ui().getFont("smalfont"));
 	text->Location = {0, 0};
 	text->Size = {488, HEIGHT};
@@ -92,7 +93,8 @@ sp<Control> MapSelector::createMapRowVehicle(StateRef<VehicleType> vehicle, sp<G
 	const int HEIGHT = 21;
 
 	auto text = control->createChild<Label>(
-	    OpenApoc::format2("[UFO] {0} [{1}]", vehicle->name, vehicle->battle_map.id), ui().getFont("smalfont"));
+	    OpenApoc::format2("[UFO] {0} [{1}]", vehicle->name, vehicle->battle_map.id),
+	    ui().getFont("smalfont"));
 	text->Location = {0, 0};
 	text->Size = {488, HEIGHT};
 	text->TextVAlign = VerticalAlignment::Centre;
@@ -121,8 +123,8 @@ sp<Control> MapSelector::createMapRowBase(StateRef<Base> base, sp<GameState> sta
 
 	const int HEIGHT = 21;
 
-	auto text =
-	    control->createChild<Label>(OpenApoc::format2("[Base] {0}", base->name), ui().getFont("smalfont"));
+	auto text = control->createChild<Label>(OpenApoc::format2("[Base] {0}", base->name),
+	                                        ui().getFont("smalfont"));
 	text->Location = {0, 0};
 	text->Size = {488, HEIGHT};
 	text->TextVAlign = VerticalAlignment::Centre;

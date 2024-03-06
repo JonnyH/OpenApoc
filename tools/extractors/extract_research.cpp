@@ -32,7 +32,7 @@ void InitialGameStateExtractor::extractResearch(GameState &state) const
 				break;
 			default:
 				LogError2("Unexpected researchGroup 0x{:02x} for research item {}",
-				         (unsigned)rdata.researchGroup, id);
+				          (unsigned)rdata.researchGroup, id);
 		}
 		switch (rdata.labSize)
 		{
@@ -43,8 +43,8 @@ void InitialGameStateExtractor::extractResearch(GameState &state) const
 				r->required_lab_size = ResearchTopic::LabSize::Large;
 				break;
 			default:
-				LogError2("Unexpected labSize 0x{:02x} for research item {}", (unsigned)rdata.labSize,
-				         id);
+				LogError2("Unexpected labSize 0x{:02x} for research item {}",
+				          (unsigned)rdata.labSize, id);
 		}
 		// FIXME: this assumed all listed techs are required, which is not true for some topics
 		// (It's possible that an unknown member in ResearchData marks this, or it's done

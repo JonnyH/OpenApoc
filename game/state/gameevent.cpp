@@ -91,7 +91,8 @@ UString GameVehicleEvent::message()
 		case GameEventType::UfoRecoveryUnmanned:
 			return OpenApoc::format2("{0} {1}", tr("Unmanned UFO recovered:"), vehicle->name);
 		case GameEventType::VehicleRecovered:
-			return OpenApoc::format2("{0} {1}", tr("Vehicle successfully recovered:"), vehicle->name);
+			return OpenApoc::format2("{0} {1}", tr("Vehicle successfully recovered:"),
+			                         vehicle->name);
 		case GameEventType::VehicleNoFuel:
 			return OpenApoc::format2("{0} {1}", tr("Vehicle out of fuel:"), vehicle->name);
 		case GameEventType::UfoRecoveryBegin:
@@ -103,7 +104,8 @@ UString GameVehicleEvent::message()
 		case GameEventType::VehicleHeavyDamage:
 			return OpenApoc::format2("{0} {1}", tr("Vehicle heavily damaged:"), vehicle->name);
 		case GameEventType::VehicleEscaping:
-			return OpenApoc::format2("{0} {1}", tr("Vehicle returning to base as damaged:"), vehicle->name);
+			return OpenApoc::format2("{0} {1}", tr("Vehicle returning to base as damaged:"),
+			                         vehicle->name);
 		case GameEventType::VehicleNoAmmo:
 			return OpenApoc::format2("{0} {1}", vehicle->name, tr(": Weapon out of ammo:"));
 		case GameEventType::VehicleLowFuel:
@@ -126,9 +128,11 @@ UString GameVehicleEvent::message()
 				return tr("An illegal flyer has been detected.");
 			}
 		case GameEventType::NotEnoughAmmo:
-			return OpenApoc::format2("{0} {1}", tr("Not enough ammo to rearm vehicle:"), vehicle->name);
+			return OpenApoc::format2("{0} {1}", tr("Not enough ammo to rearm vehicle:"),
+			                         vehicle->name);
 		case GameEventType::NotEnoughFuel:
-			return OpenApoc::format2("{0} {1}", tr("Not enough fuel to refuel vehicle"), vehicle->name);
+			return OpenApoc::format2("{0} {1}", tr("Not enough fuel to refuel vehicle"),
+			                         vehicle->name);
 		default:
 			LogError2("Invalid vehicle event type");
 			break;
@@ -189,7 +193,8 @@ UString GameAgentEvent::message()
 		case GameEventType::AgentPsiControlled:
 			return OpenApoc::format2("{0} {1}", tr("Unit under Psionic control:"), agent->name);
 		case GameEventType::AgentPsiOver:
-			return OpenApoc::format2("{0} {1}", tr("Unit freed from Psionic control:"), agent->name);
+			return OpenApoc::format2("{0} {1}", tr("Unit freed from Psionic control:"),
+			                         agent->name);
 		case GameEventType::NoLOF:
 			return OpenApoc::format2("{0}", tr("No line of fire"));
 		case GameEventType::AgentPsiProbed:
@@ -208,23 +213,26 @@ UString GameBuildingEvent::message()
 	switch (type)
 	{
 		case GameEventType::MissionCompletedBuildingNormal:
-			return OpenApoc::format2("{0} {1}", tr("X-COM returning from mission at:"), building->name);
+			return OpenApoc::format2("{0} {1}", tr("X-COM returning from mission at:"),
+			                         building->name);
 		case GameEventType::MissionCompletedBuildingRaid:
-			return OpenApoc::format2("{0} {1}", tr("X-COM returning from raid at:"), building->name);
+			return OpenApoc::format2("{0} {1}", tr("X-COM returning from raid at:"),
+			                         building->name);
 		case GameEventType::BuildingAttacked:
-			return OpenApoc::format2("{0} {1} {2} {3}", tr("Building under attack :"), building->name,
-			              tr("Attacked by:"), actor->name);
+			return OpenApoc::format2("{0} {1} {2} {3}", tr("Building under attack :"),
+			                         building->name, tr("Attacked by:"), actor->name);
 		case GameEventType::OrganisationAttackBuilding:
-			return OpenApoc::format2("{0} {1} {2} {3}", tr("Organization attacked:"), building->owner->name,
-			              tr("Attacked by:"), actor->name);
+			return OpenApoc::format2("{0} {1} {2} {3}", tr("Organization attacked:"),
+			                         building->owner->name, tr("Attacked by:"), actor->name);
 		case GameEventType::OrganisationRaidBuilding:
-			return OpenApoc::format2("{0} {1} {2} {3}", tr("Organization raided:"), building->owner->name,
-			              tr("Raided by:"), actor->name);
+			return OpenApoc::format2("{0} {1} {2} {3}", tr("Organization raided:"),
+			                         building->owner->name, tr("Raided by:"), actor->name);
 		case GameEventType::OrganisationStormBuilding:
-			return OpenApoc::format2("{0} {1} {2} {3}", tr("Organization stormed:"), building->owner->name,
-			              tr("Stormed by:"), actor->name);
+			return OpenApoc::format2("{0} {1} {2} {3}", tr("Organization stormed:"),
+			                         building->owner->name, tr("Stormed by:"), actor->name);
 		case GameEventType::OrganisationTreatySigned:
-			return OpenApoc::format2("{0} {1}, {2}", tr("Treaty signed:"), building->owner->name, actor->name);
+			return OpenApoc::format2("{0} {1}, {2}", tr("Treaty signed:"), building->owner->name,
+			                         actor->name);
 		case GameEventType::AlienSpotted:
 			return tr("Live Alien spotted.");
 		case GameEventType::CargoExpiresSoon:
@@ -302,8 +310,8 @@ UString GameBattleEvent::message()
 	switch (type)
 	{
 		case GameEventType::NewTurn:
-			return tr("Turn:") + " " + OpenApoc::format2("{0}", battle->currentTurn) + "   " + tr("Side:") +
-			       "  " + tr(battle->currentActiveOrganisation->name);
+			return tr("Turn:") + " " + OpenApoc::format2("{0}", battle->currentTurn) + "   " +
+			       tr("Side:") + "  " + tr(battle->currentActiveOrganisation->name);
 		default:
 			LogError2("Invalid battle event type");
 			break;
@@ -400,8 +408,8 @@ GameSomethingDiedEvent::GameSomethingDiedEvent(GameEventType type, UString name,
 			}
 			break;
 		case GameEventType::VehicleRecovered:
-			messageInner =
-			    OpenApoc::format2("{0} {1}", tr("Scrapped vehicle recovered in irreparable condition:"), name);
+			messageInner = OpenApoc::format2(
+			    "{0} {1}", tr("Scrapped vehicle recovered in irreparable condition:"), name);
 			break;
 		case GameEventType::VehicleNoFuel:
 			messageInner = OpenApoc::format2("{0} {1}", tr("Vehicle out of fuel:"), name);
@@ -411,7 +419,7 @@ GameSomethingDiedEvent::GameSomethingDiedEvent(GameEventType type, UString name,
 			break;
 		default:
 			LogWarning2("GameSomethingDiedEvent {} called on non-death event {}", name,
-			           static_cast<int>(type));
+			            static_cast<int>(type));
 			break;
 	}
 }

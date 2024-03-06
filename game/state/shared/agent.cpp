@@ -665,7 +665,7 @@ sp<AEquipment> Agent::addEquipmentByType(GameState &state, StateRef<AEquipmentTy
 		if (!allowFailure)
 		{
 			LogError2("Trying to add \"{}\" on agent \"{}\" failed: no valid slot found",
-			         equipmentType.id, this->name);
+			          equipmentType.id, this->name);
 		}
 		return nullptr;
 	}
@@ -690,7 +690,7 @@ sp<AEquipment> Agent::addEquipmentByType(GameState &state, StateRef<AEquipmentTy
 		if (!allowFailure)
 		{
 			LogError2("Trying to add \"{}\" on agent \"{}\" failed: no valid slot found",
-			         equipmentType.id, this->name);
+			          equipmentType.id, this->name);
 		}
 		return nullptr;
 	}
@@ -738,7 +738,7 @@ void Agent::addEquipment(GameState &state, sp<AEquipment> object, EquipmentSlotT
 	if (pos.x == -1)
 	{
 		LogError2("Trying to add \"{}\" on agent \"{}\" failed: no valid slot found", type.id,
-		         this->name);
+		          this->name);
 		return;
 	}
 
@@ -751,7 +751,7 @@ void Agent::addEquipment(GameState &state, Vec2<int> pos, sp<AEquipment> object)
 	if (!canAddEquipment(pos, object->type, slotType))
 	{
 		LogError2("Trying to add \"{}\" at {} on agent  \"{}\" failed", object->type.id, pos,
-		         this->name);
+		          this->name);
 	}
 
 	LogInfo2("Equipped \"{}\" with equipment \"{}\"", this->name, object->type->name);

@@ -1129,7 +1129,7 @@ bool BattleUnit::startAttackPsiInternal(GameState &state, StateRef<BattleUnit> t
 	experiencePoints.psi_attack++;
 	experiencePoints.psi_energy++;
 	LogWarning2("Psi Attack #{} Roll {} Chance {} {} Attacker {} Target {}", (int)status, roll,
-	           chance, roll < chance ? (UString) "SUCCESS" : (UString) "FAILURE", id, target->id);
+	            chance, roll < chance ? (UString) "SUCCESS" : (UString) "FAILURE", id, target->id);
 	if (roll >= chance)
 	{
 		return false;
@@ -2506,7 +2506,7 @@ void BattleUnit::updateIdling(GameState &state)
 		if (target_body_state != current_body_state)
 		{
 			LogError2("Unit {} ({}) changing body state without a mission, wtf?", id,
-			         agent->type->id);
+			          agent->type->id);
 		}
 
 		// Reach goal before everything else
@@ -2566,7 +2566,7 @@ void BattleUnit::updateIdling(GameState &state)
 				else
 				{
 					LogError2("Hmm? Agent ordered to move walking without a standing/flying valid "
-					         "body state?");
+					          "body state?");
 				}
 			}
 			// Stop flying if we can stand
@@ -2803,7 +2803,7 @@ void BattleUnit::updateMovementFalling(GameState &state, unsigned int &moveTicks
 				break;
 			default:
 				LogError2("What the hell is this unit colliding with? Type is {}",
-				         (int)c.obj->getType());
+				          (int)c.obj->getType());
 				break;
 		}
 	}
@@ -2842,7 +2842,8 @@ void BattleUnit::updateMovementFalling(GameState &state, unsigned int &moveTicks
 		// Fell below 0???
 		if (newPosition.z < 0)
 		{
-			LogError2("Unit at {:f} {:f} fell off the end of the world!?", newPosition.x, newPosition.y);
+			LogError2("Unit at {:f} {:f} fell off the end of the world!?", newPosition.x,
+			          newPosition.y);
 			die(state, nullptr, false);
 			destroyed = true;
 			return;
@@ -5096,7 +5097,7 @@ bool BattleUnit::useItem(GameState &state, sp<AEquipment> item)
 	                                  item->equippedSlotType != EquipmentSlotType::LeftHand))
 	{
 		LogError2("Unit {} attempting to use item that is not in hand or does not belong to us?",
-		         id);
+		          id);
 		return false;
 	}
 	switch (item->type->type)
@@ -5199,7 +5200,7 @@ void BattleUnit::setBodyState(GameState &state, BodyState bodyState)
 	if (!agent->isBodyStateAllowed(bodyState))
 	{
 		LogError2("SetBodyState called on {} ({}) ({}) with bodyState {}", id, agent->name,
-		         agent->type->id, (int)bodyState);
+		          agent->type->id, (int)bodyState);
 		return;
 	}
 	bool roseUp = current_body_state == BodyState::Downed;
@@ -5376,7 +5377,7 @@ void BattleUnit::setMovementState(MovementState state)
 		else
 		{
 			LogError2("setMovementState {} incompatible with current body states {} to {}",
-			         (int)state, (int)current_body_state, (int)target_body_state);
+			          (int)state, (int)current_body_state, (int)target_body_state);
 			return;
 		}
 	}

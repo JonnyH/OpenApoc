@@ -105,7 +105,7 @@ bool ProviderWithChecksum::parseManifest(const std::string &manifestData)
 	if (!parse_result)
 	{
 		LogWarning2("Failed to parse checksum.xml : \"{}\" at \"{}\"", parse_result.description(),
-		           (unsigned long long)parse_result.offset);
+		            (unsigned long long)parse_result.offset);
 		return false;
 	}
 	auto rootNode = manifestDoc.child("checksums");
@@ -172,12 +172,12 @@ bool ProviderWithChecksum::readDocument(const UString &path, UString &result)
 			if (expectedCSum != calculatedCSum)
 			{
 				LogWarning2("File \"{}\" has incorrect \"{}\" checksum \"{}\", expected \"{}\"",
-				           path, csum.first, calculatedCSum, expectedCSum);
+				            path, csum.first, calculatedCSum, expectedCSum);
 			}
 			else
 			{
 				LogDebug2("File \"{}\" matches \"{}\" checksum \"{}\"", path, csum.first,
-				         calculatedCSum);
+				          calculatedCSum);
 			}
 		}
 		return true;

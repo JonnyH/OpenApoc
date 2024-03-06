@@ -84,55 +84,47 @@ BattleView::BattleView(sp<GameState> gameState)
       battle(*state->current_battle), followAgent(false),
       selectionState(BattleSelectionState::Normal)
 {
-	motionScannerDirectionIcons.push_back(
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                88)));
-	motionScannerDirectionIcons.push_back(
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                89)));
-	motionScannerDirectionIcons.push_back(
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                90)));
-	motionScannerDirectionIcons.push_back(
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                91)));
-	motionScannerDirectionIcons.push_back(
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                92)));
-	motionScannerDirectionIcons.push_back(
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                93)));
-	motionScannerDirectionIcons.push_back(
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                94)));
-	motionScannerDirectionIcons.push_back(
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                95)));
+	motionScannerDirectionIcons.push_back(fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal", 88)));
+	motionScannerDirectionIcons.push_back(fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal", 89)));
+	motionScannerDirectionIcons.push_back(fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal", 90)));
+	motionScannerDirectionIcons.push_back(fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal", 91)));
+	motionScannerDirectionIcons.push_back(fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal", 92)));
+	motionScannerDirectionIcons.push_back(fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal", 93)));
+	motionScannerDirectionIcons.push_back(fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal", 94)));
+	motionScannerDirectionIcons.push_back(fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal", 95)));
 
 	selectedItemOverlay = fw().data->loadImage("battle/battle-item-select-icon.png");
 	selectedPsiOverlay = fw().data->loadImage("battle/battle-psi-select-icon.png");
-	pauseIcon = fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                        260));
+	pauseIcon = fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal", 260));
 
 	squadOverlay.emplace_back();
-	squadOverlay.push_back(fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                                   1)));
-	squadOverlay.push_back(fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                                   0)));
+	squadOverlay.push_back(fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal", 1)));
+	squadOverlay.push_back(fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal", 0)));
 
 	unitHostiles.emplace_back();
-	unitHostiles.push_back(fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                                   7)));
-	unitHostiles.push_back(fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                                   8)));
-	unitHostiles.push_back(fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                                   9)));
-	unitHostiles.push_back(fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                                   10)));
-	unitHostiles.push_back(fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                                   11)));
-	unitHostiles.push_back(fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                                   12)));
+	unitHostiles.push_back(fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal", 7)));
+	unitHostiles.push_back(fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal", 8)));
+	unitHostiles.push_back(fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal", 9)));
+	unitHostiles.push_back(fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal", 10)));
+	unitHostiles.push_back(fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal", 11)));
+	unitHostiles.push_back(fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal", 12)));
 
 	lastClickedHostile.resize(6);
 
@@ -1440,7 +1432,7 @@ void BattleView::update()
 				     mksp<MessageBox>(
 				         "Next Turn",
 				         OpenApoc::format2("{0}, it is your turn!",
-				                state->current_battle->currentActiveOrganisation->name),
+				                           state->current_battle->currentActiveOrganisation->name),
 				         MessageBox::ButtonOptions::Ok,
 				         [this] {
 					         state->current_battle->currentPlayer =
@@ -2145,13 +2137,16 @@ void BattleView::updateSoldierButtons()
 		{
 			const int aimedCost =
 			    weapon->getFireCost(WeaponAimingMode::Aimed, selectedUnit->initialTU);
-			aimedTooltip = OpenApoc::format2("{0}\n{1} {2}", aimedTooltip, tr("TU cost per shot:"), aimedCost);
+			aimedTooltip =
+			    OpenApoc::format2("{0}\n{1} {2}", aimedTooltip, tr("TU cost per shot:"), aimedCost);
 			const int snapCost =
 			    weapon->getFireCost(WeaponAimingMode::Snap, selectedUnit->initialTU);
-			snapTooltip = OpenApoc::format2("{0}\n{1} {2}", snapTooltip, tr("TU cost per shot:"), snapCost);
+			snapTooltip =
+			    OpenApoc::format2("{0}\n{1} {2}", snapTooltip, tr("TU cost per shot:"), snapCost);
 			const int autoCost =
 			    weapon->getFireCost(WeaponAimingMode::Auto, selectedUnit->initialTU);
-			autoTooltip = OpenApoc::format2("{0}\n{1} {2}", autoTooltip, tr("TU cost per shot:"), autoCost);
+			autoTooltip =
+			    OpenApoc::format2("{0}\n{1} {2}", autoTooltip, tr("TU cost per shot:"), autoCost);
 		}
 	}
 	baseForm->findControlTyped<CheckBox>("BUTTON_AIMED")->ToolTipText = aimedTooltip;
@@ -2215,7 +2210,8 @@ void BattleView::updateTBButtons()
 void BattleView::updateHiddenForm()
 {
 	hideDisplay = true;
-	hiddenForm->findControlTyped<Label>("TEXT_TURN")->setText(OpenApoc::format2("{0}", battle.currentTurn));
+	hiddenForm->findControlTyped<Label>("TEXT_TURN")
+	    ->setText(OpenApoc::format2("{0}", battle.currentTurn));
 	hiddenForm->findControlTyped<Label>("TEXT_SIDE")
 	    ->setText(battle.currentActiveOrganisation->name);
 	bool player = state->current_battle->hotseat &&
@@ -2328,7 +2324,7 @@ void BattleView::updatePathPreview()
 		if (target.z == -1)
 		{
 			LogError2("Solid ground missing on level 0? Reached {} {} {}", target.x, target.y,
-			         target.z);
+			          target.z);
 			return;
 		}
 		to = map.getTile(target);
@@ -2562,7 +2558,7 @@ void BattleView::orderThrow(Vec3<int> target, bool right)
 	if (unit->setMission(*state, BattleUnitMission::throwItem(*unit, item, target)))
 	{
 		LogWarning2("BattleUnit \"{}\" throwing item in the {} hand", unit->agent->name,
-		           right ? "right" : "left");
+		            right ? "right" : "left");
 		selectionState = BattleSelectionState::Normal;
 	}
 	else
@@ -2723,7 +2719,7 @@ void BattleView::orderDrop(bool right)
 		// Special case, just add mission in front of anything and start it, no need to clear orders
 		unit->addMission(*state, BattleUnitMission::dropItem(*unit, item));
 		LogWarning2("BattleUnit \"{}\" dropping item in {} hand", unit->agent->name,
-		           right ? "right" : "left");
+		            right ? "right" : "left");
 	}
 	else // Try to pick something up
 	{
@@ -2832,14 +2828,14 @@ void BattleView::orderTeleport(Vec3<int> target, bool right)
 	if (unit->setMission(*state, m) && !m->cancelled)
 	{
 		LogWarning2("BattleUnit \"{}\" teleported using item in {} hand ", unit->agent->name,
-		           right ? "right" : "left");
+		            right ? "right" : "left");
 		selectionState = BattleSelectionState::Normal;
 	}
 	else
 	{
 		actionImpossibleDelay = 40;
-		LogWarning2("BattleUnit \"{}\" could not teleport using item in {} hand ", unit->agent->name,
-		           right ? "right" : "left");
+		LogWarning2("BattleUnit \"{}\" could not teleport using item in {} hand ",
+		            unit->agent->name, right ? "right" : "left");
 	}
 }
 
@@ -3793,12 +3789,14 @@ bool BattleView::handleMouseDown(Event *e)
 				if (true)
 				{
 					UString debug = "";
-					debug += OpenApoc::format2("\nDEBUG INFORMATION ABOUT TILE {0}, {1}, {2}", t.x, t.y, t.z);
-					debug += OpenApoc::format2("\n LOS BLOCK {0}", battle.getLosBlockID(t.x, t.y, t.z));
+					debug += OpenApoc::format2("\nDEBUG INFORMATION ABOUT TILE {0}, {1}, {2}", t.x,
+					                           t.y, t.z);
+					debug +=
+					    OpenApoc::format2("\n LOS BLOCK {0}", battle.getLosBlockID(t.x, t.y, t.z));
 					auto &map = *battle.map;
 					auto tile = map.getTile(t);
 					debug += OpenApoc::format2("\n STAND {0} PASS {1}", (int)tile->canStand,
-					                (int)tile->getPassable());
+					                           (int)tile->getPassable());
 					for (auto &o : tile->ownedObjects)
 					{
 						if (o->getType() == TileObject::Type::Ground ||
@@ -3843,10 +3841,10 @@ bool BattleView::handleMouseDown(Event *e)
 												{
 													if (p.first == t && p.second == mp->type->type)
 													{
-														debug +=
-														    OpenApoc::format2("\nSupported by {0} at {1} {2} {3}",
-														           mp2->type.id, x - t.x, y - t.y,
-														           z - t.z);
+														debug += OpenApoc::format2(
+														    "\nSupported by {0} at {1} {2} {3}",
+														    mp2->type.id, x - t.x, y - t.y,
+														    z - t.z);
 													}
 												}
 											}
@@ -3859,9 +3857,9 @@ bool BattleView::handleMouseDown(Event *e)
 						{
 							auto h =
 							    std::static_pointer_cast<TileObjectBattleHazard>(o)->getHazard();
-							debug +=
-							    OpenApoc::format2("\nHazard {0} {1} Pow={2} Age={3} LT={4}  ", h->damageType.id,
-							           h->damageType->hazardType.id, h->power, h->age, h->lifetime);
+							debug += OpenApoc::format2(
+							    "\nHazard {0} {1} Pow={2} Age={3} LT={4}  ", h->damageType.id,
+							    h->damageType->hazardType.id, h->power, h->age, h->lifetime);
 						}
 					}
 
@@ -3871,13 +3869,14 @@ bool BattleView::handleMouseDown(Event *e)
 						auto u = uto->getUnit();
 						debug += OpenApoc::format2("\nContains unit {0}.", u->id);
 						debug += OpenApoc::format2("\nMorale state: {0}", (int)u->moraleState);
-						debug += OpenApoc::format2("\nPosition: {0:f}, {1:f}, {2:f}", u->position.x, u->position.y,
-						                u->position.z);
-						debug += OpenApoc::format2("\nGoal: {0:f}, {1:f}, {2:f}", u->goalPosition.x, u->goalPosition.y,
-						                u->goalPosition.z);
+						debug += OpenApoc::format2("\nPosition: {0:f}, {1:f}, {2:f}", u->position.x,
+						                           u->position.y, u->position.z);
+						debug += OpenApoc::format2("\nGoal: {0:f}, {1:f}, {2:f}", u->goalPosition.x,
+						                           u->goalPosition.y, u->goalPosition.z);
 						debug += OpenApoc::format2("\nCurrent movement: {0}, falling: {1}",
-						                (int)u->current_movement_state, (int)u->falling);
-						debug += OpenApoc::format2("\nItems [{0}]:", (int)u->agent->equipment.size());
+						                           (int)u->current_movement_state, (int)u->falling);
+						debug +=
+						    OpenApoc::format2("\nItems [{0}]:", (int)u->agent->equipment.size());
 						for (auto &e : u->agent->equipment)
 						{
 							debug += OpenApoc::format2("\n{0}", e->type.id);
@@ -3887,7 +3886,8 @@ bool BattleView::handleMouseDown(Event *e)
 						{
 							debug += OpenApoc::format2("\n{0}", m->getName());
 						}
-						debug += OpenApoc::format2("\nSeen units [{0}]:", (int)u->visibleUnits.size());
+						debug +=
+						    OpenApoc::format2("\nSeen units [{0}]:", (int)u->visibleUnits.size());
 						for (auto &unit : u->visibleUnits)
 						{
 							debug += OpenApoc::format2("\n{0}", unit.id);
@@ -4501,7 +4501,8 @@ AgentInfo BattleView::createUnitInfo(int index)
 void BattleView::updateUnitInfo(int index)
 {
 	AgentInfo info = unitInfo[index];
-	auto baseControl = baseForm->findControlTyped<Graphic>(OpenApoc::format2("UNIT_{0}", index + 1));
+	auto baseControl =
+	    baseForm->findControlTyped<Graphic>(OpenApoc::format2("UNIT_{0}", index + 1));
 	baseControl->Controls.clear();
 	if (!info.agent)
 	{

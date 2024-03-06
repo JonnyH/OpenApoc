@@ -629,8 +629,9 @@ bool BattleMap::generateMap(std::vector<sp<BattleMapSector>> &sec_map, Vec3<int>
 		}
 		else
 		{
-			LogWarning2("Cannot generate a map {} with gen size {} since generating large maps is disabled",
-			           id, (int)genSize);
+			LogWarning2(
+			    "Cannot generate a map {} with gen size {} since generating large maps is disabled",
+			    id, (int)genSize);
 			return false;
 		}
 	}
@@ -786,8 +787,9 @@ bool BattleMap::generateMap(std::vector<sp<BattleMapSector>> &sec_map, Vec3<int>
 		// then we cannot create a map of such size
 		if (mandatorySectorLost && !mandatorySectorRemaining)
 		{
-			LogWarning2("Failed to place mandatory sectors for map {} with size {}, {}, {} at attempt {}",
-			           id, size.x, size.y, size.z, attempt_make_map);
+			LogWarning2(
+			    "Failed to place mandatory sectors for map {} with size {}, {}, {} at attempt {}",
+			    id, size.x, size.y, size.z, attempt_make_map);
 			continue;
 		}
 
@@ -811,8 +813,9 @@ bool BattleMap::generateMap(std::vector<sp<BattleMapSector>> &sec_map, Vec3<int>
 		// then we cannot create a map of such size
 		if (failed)
 		{
-			LogWarning2("Failed to place mandatory sectors for map {} with size {}, {}, {} at attempt {}",
-			           id, size.x, size.y, size.z, attempt_make_map);
+			LogWarning2(
+			    "Failed to place mandatory sectors for map {} with size {}, {}, {} at attempt {}",
+			    id, size.x, size.y, size.z, attempt_make_map);
 			continue;
 		}
 
@@ -910,12 +913,12 @@ bool BattleMap::generateMap(std::vector<sp<BattleMapSector>> &sec_map, Vec3<int>
 		if (!isMapComplete(sec_map, size))
 		{
 			LogWarning2("Failed to complete map {} with size {}, {}, {} at attempt {}", id, size.x,
-			           size.y, size.z, attempt_make_map);
+			            size.y, size.z, attempt_make_map);
 			continue;
 		}
 
 		LogWarning2("Successfully completed map {} with size {}, {}, {} at attempt {}", id, size.x,
-		           size.y, size.z, attempt_make_map);
+		            size.y, size.z, attempt_make_map);
 		return true;
 	}
 

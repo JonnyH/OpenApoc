@@ -247,8 +247,9 @@ void InitialGameStateExtractor::extractCityScenery(GameState &state, UString til
 		}
 		if (entry.damagedtile_idx)
 		{
-			tile->damagedTile = {&state, OpenApoc::format2("{0}{1}{2}", SceneryTileType::getPrefix(), tilePrefix,
-			                                    entry.damagedtile_idx)};
+			tile->damagedTile = {&state,
+			                     OpenApoc::format2("{0}{1}{2}", SceneryTileType::getPrefix(),
+			                                       tilePrefix, entry.damagedtile_idx)};
 		}
 
 		auto imageString = format(

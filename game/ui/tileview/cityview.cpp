@@ -1322,10 +1322,12 @@ CityView::CityView(sp<GameState> state)
 	auto vehicleForm = this->uiTabs[1];
 	for (int i = 0; i < weaponDisabled.size(); i++)
 	{
-		vehicleForm->findControlTyped<CheckBox>(OpenApoc::format2("VEHICLE_WEAPON_{0}_DISABLED", i + 1))
+		vehicleForm
+		    ->findControlTyped<CheckBox>(OpenApoc::format2("VEHICLE_WEAPON_{0}_DISABLED", i + 1))
 		    ->addCallback(FormEventType::CheckBoxSelected, [this, i](FormsEvent *e [[maybe_unused]])
 		                  { orderDisableWeapon(i, true); });
-		vehicleForm->findControlTyped<CheckBox>(OpenApoc::format2("VEHICLE_WEAPON_{0}_DISABLED", i + 1))
+		vehicleForm
+		    ->findControlTyped<CheckBox>(OpenApoc::format2("VEHICLE_WEAPON_{0}_DISABLED", i + 1))
 		    ->addCallback(FormEventType::CheckBoxDeSelected,
 		                  [this, i](FormsEvent *e [[maybe_unused]])
 		                  { orderDisableWeapon(i, false); });
@@ -2412,7 +2414,8 @@ void CityView::update()
 					    ->findControlTyped<Graphic>(OpenApoc::format2("VEHICLE_WEAPON_{0}", i + 1))
 					    ->ToolTipText = tr(weaponType[i]->name);
 					uiTabs[1]
-					    ->findControlTyped<CheckBox>(OpenApoc::format2("VEHICLE_WEAPON_{0}_DISABLED", i + 1))
+					    ->findControlTyped<CheckBox>(
+					        OpenApoc::format2("VEHICLE_WEAPON_{0}_DISABLED", i + 1))
 					    ->setVisible(true);
 				}
 				else
@@ -2424,7 +2427,8 @@ void CityView::update()
 					    ->findControlTyped<Graphic>(OpenApoc::format2("VEHICLE_WEAPON_{0}", i + 1))
 					    ->ToolTipText = "";
 					uiTabs[1]
-					    ->findControlTyped<CheckBox>(OpenApoc::format2("VEHICLE_WEAPON_{0}_DISABLED", i + 1))
+					    ->findControlTyped<CheckBox>(
+					        OpenApoc::format2("VEHICLE_WEAPON_{0}_DISABLED", i + 1))
 					    ->setVisible(false);
 				}
 			}
@@ -2463,7 +2467,8 @@ void CityView::update()
 			{
 				weaponDisabled[i] = currentDisabled;
 				uiTabs[1]
-				    ->findControlTyped<CheckBox>(OpenApoc::format2("VEHICLE_WEAPON_{0}_DISABLED", i + 1))
+				    ->findControlTyped<CheckBox>(
+				        OpenApoc::format2("VEHICLE_WEAPON_{0}_DISABLED", i + 1))
 				    ->setChecked(currentDisabled);
 			}
 		}
@@ -2697,7 +2702,8 @@ void CityView::update()
 								                    fac->lab->current_project->man_hours_progress) /
 								                fac->lab->current_project->man_hours) *
 								               100;
-								agentAssignment->setText(pr + OpenApoc::format2(" ({0}%)", progress));
+								agentAssignment->setText(pr +
+								                         OpenApoc::format2(" ({0}%)", progress));
 							}
 							else
 								agentAssignment->setText(tr("No project assigned"));
@@ -2828,7 +2834,8 @@ void CityView::update()
 								     (fac->lab->current_project->man_hours *
 								      fac->lab->manufacture_goal)) *
 								    100;
-								agentAssignment->setText(pr + OpenApoc::format2(" ({0}%)", progress));
+								agentAssignment->setText(pr +
+								                         OpenApoc::format2(" ({0}%)", progress));
 							}
 							else
 								agentAssignment->setText(tr("No project assigned"));
@@ -2956,7 +2963,8 @@ void CityView::update()
 								                    fac->lab->current_project->man_hours_progress) /
 								                fac->lab->current_project->man_hours) *
 								               100;
-								agentAssignment->setText(pr + OpenApoc::format2(" ({0}%)", progress));
+								agentAssignment->setText(pr +
+								                         OpenApoc::format2(" ({0}%)", progress));
 							}
 							else
 								agentAssignment->setText(tr("No project assigned"));
@@ -3475,8 +3483,8 @@ bool CityView::handleKeyDown(Event *e)
 							}
 						}
 						LogInfo2("Repairing {} tiles out of {}",
-						        static_cast<unsigned>(stuffToRepair.size()),
-						        static_cast<unsigned>(state->current_city->scenery.size()));
+						         static_cast<unsigned>(stuffToRepair.size()),
+						         static_cast<unsigned>(state->current_city->scenery.size()));
 
 						for (auto &s : stuffToRepair)
 						{
@@ -3756,14 +3764,15 @@ bool CityView::handleMouseDown(Event *e)
 					{
 						Vec3<int> t = scenery->currentPosition;
 						UString debug = "";
-						debug +=
-						    OpenApoc::format2("\nCLICKED {0} SCENERY {1} at {2} BUILDING {3}",
-						           scenery->falling || scenery->willCollapse() ? "FALLING" : "OK",
-						           scenery->type.id, t, building.id);
+						debug += OpenApoc::format2(
+						    "\nCLICKED {0} SCENERY {1} at {2} BUILDING {3}",
+						    scenery->falling || scenery->willCollapse() ? "FALLING" : "OK",
+						    scenery->type.id, t, building.id);
 						// debug += format("\n LOS BLOCK %d", battle.getLosBlockID(t.x, t.y, t.z));
 
 						debug += OpenApoc::format2(
-						    "\nHt [{0}] Con [{1}] Type [{2}|{3}|{4}] Road [{5}{6}{7}{8}] Hill [{9}{10}{11}{12}] Tube [{13}{14}{15}{16}{17}{18}]",
+						    "\nHt [{0}] Con [{1}] Type [{2}|{3}|{4}] Road [{5}{6}{7}{8}] Hill "
+						    "[{9}{10}{11}{12}] Tube [{13}{14}{15}{16}{17}{18}]",
 						    scenery->type->height, scenery->type->constitution,
 						    (int)scenery->type->tile_type, (int)scenery->type->road_type,
 						    (int)scenery->type->walk_mode, (int)scenery->type->connection[0],
@@ -3807,7 +3816,8 @@ bool CityView::handleMouseDown(Event *e)
 												if (p == t)
 												{
 													debug += OpenApoc::format2(
-													    "\nActually supported by {0} at {1} {2} {3}",
+													    "\nActually supported by {0} at {1} {2} "
+													    "{3}",
 													    mp2->type.id, x - t.x, y - t.y, z - t.z);
 												}
 											}
@@ -3886,7 +3896,7 @@ bool CityView::handleMouseDown(Event *e)
 					vehicle = std::dynamic_pointer_cast<TileObjectVehicle>(collisionVehicle.obj)
 					              ->getVehicle();
 					LogWarning2("SECONDARY CLICK ON VEHICLE {} at {}", vehicle->name,
-					           vehicle->position);
+					            vehicle->position);
 					for (auto &m : vehicle->missions)
 					{
 						LogWarning2("Mission {}", m.getName());
@@ -4036,10 +4046,10 @@ bool CityView::handleGameStateEvent(Event *e)
 			auto gameOrgEvent = dynamic_cast<GameOrganisationEvent *>(e);
 			fw().stageQueueCommand(
 			    {StageCmd::Command::PUSH,
-			     mksp<NotificationScreen>(
-			         state, *this,
-			         OpenApoc::format2("Aliens have taken over {0}", gameOrgEvent->organisation->name),
-			         gameEvent->type)});
+			     mksp<NotificationScreen>(state, *this,
+			                              OpenApoc::format2("Aliens have taken over {0}",
+			                                                gameOrgEvent->organisation->name),
+			                              gameEvent->type)});
 		}
 		break;
 		case GameEventType::DefendTheBase:
@@ -4212,8 +4222,8 @@ bool CityView::handleGameStateEvent(Event *e)
 			setUpdateSpeed(CityUpdateSpeed::Pause);
 			auto message_box = mksp<MessageBox>(
 			    tr("RESEARCH COMPLETE"),
-			    OpenApoc::format2("{0}\n{1}\n{2}", tr("Research project completed:"), ev->topic->name,
-			           tr("Do you wish to view the UFOpaedia report?")),
+			    OpenApoc::format2("{0}\n{1}\n{2}", tr("Research project completed:"),
+			                      ev->topic->name, tr("Do you wish to view the UFOpaedia report?")),
 			    MessageBox::ButtonOptions::YesNo,
 			    // "Yes" callback
 			    [game_state, lab_facility, ufopaedia_category, ufopaedia_entry]()
@@ -4285,8 +4295,9 @@ bool CityView::handleGameStateEvent(Event *e)
 			setUpdateSpeed(CityUpdateSpeed::Pause);
 			auto message_box = mksp<MessageBox>(
 			    tr("MANUFACTURE COMPLETED"),
-			    OpenApoc::format2("{0}\n{1}\n{2} {3}\n{4}", lab_base->name, tr(item_name), tr("Quantity:"),
-			           ev->goal, tr("Do you wish to reasign the Workshop?")),
+			    OpenApoc::format2("{0}\n{1}\n{2} {3}\n{4}", lab_base->name, tr(item_name),
+			                      tr("Quantity:"), ev->goal,
+			                      tr("Do you wish to reasign the Workshop?")),
 			    MessageBox::ButtonOptions::YesNo,
 			    // Yes callback
 			    [game_state, lab_facility]()
@@ -4343,12 +4354,12 @@ bool CityView::handleGameStateEvent(Event *e)
 					break;
 			}
 			setUpdateSpeed(CityUpdateSpeed::Pause);
-			auto message_box =
-			    mksp<MessageBox>(tr("MANUFACTURING HALTED"),
-			                     OpenApoc::format2("{0}\n{1}\n{2} {3}/{4}\n{5}", lab_base->name, tr(item_name),
-			                            tr("Completion status:"), ev->done, ev->goal,
-			                            tr("Production costs exceed your available funds.")),
-			                     MessageBox::ButtonOptions::Ok);
+			auto message_box = mksp<MessageBox>(
+			    tr("MANUFACTURING HALTED"),
+			    OpenApoc::format2("{0}\n{1}\n{2} {3}/{4}\n{5}", lab_base->name, tr(item_name),
+			                      tr("Completion status:"), ev->done, ev->goal,
+			                      tr("Production costs exceed your available funds.")),
+			    MessageBox::ButtonOptions::Ok);
 			fw().stageQueueCommand({StageCmd::Command::PUSH, message_box});
 		}
 		break;
@@ -4361,10 +4372,10 @@ bool CityView::handleGameStateEvent(Event *e)
 				return true;
 			}
 			setUpdateSpeed(CityUpdateSpeed::Pause);
-			auto message_box =
-			    mksp<MessageBox>(tr("FACILITY COMPLETED"),
-			                     OpenApoc::format2("{0}\n{1}", ev->base->name, tr(ev->facility->type->name)),
-			                     MessageBox::ButtonOptions::Ok);
+			auto message_box = mksp<MessageBox>(
+			    tr("FACILITY COMPLETED"),
+			    OpenApoc::format2("{0}\n{1}", ev->base->name, tr(ev->facility->type->name)),
+			    MessageBox::ButtonOptions::Ok);
 			fw().stageQueueCommand({StageCmd::Command::PUSH, message_box});
 		}
 		break;

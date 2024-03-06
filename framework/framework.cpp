@@ -147,7 +147,8 @@ Framework::Framework(const UString programName, bool createWindow)
 		if (PHYSFS_init(programName.c_str()) == 0)
 		{
 			PHYSFS_ErrorCode error = PHYSFS_getLastErrorCode();
-			LogError2("Failed to init code {} PHYSFS: {}", (int)error, PHYSFS_getErrorByCode(error));
+			LogError2("Failed to init code {} PHYSFS: {}", (int)error,
+			          PHYSFS_getErrorByCode(error));
 		}
 	}
 #ifdef ANDROID
@@ -228,24 +229,27 @@ Framework::Framework(const UString programName, bool createWindow)
 	auto localeEncoding = std::use_facet<boost::locale::info>(loc).encoding();
 	auto isUTF8 = std::use_facet<boost::locale::info>(loc).utf8();
 
-	LogInfo2("Locale info: Name \"{}\" language \"{}\" country \"{}\" variant \"{}\" encoding \"{}\" utf8:{}",
-	        localeName, localeLang, localeCountry, localeVariant,
-	        localeEncoding, isUTF8 ? "true" : "false");
+	LogInfo2("Locale info: Name \"{}\" language \"{}\" country \"{}\" variant \"{}\" encoding "
+	         "\"{}\" utf8:{}",
+	         localeName, localeLang, localeCountry, localeVariant, localeEncoding,
+	         isUTF8 ? "true" : "false");
 
 	this->data.reset(Data::createData(resourcePaths));
 
 	auto testFile = this->data->fs.open("music");
 	if (!testFile)
 	{
-		LogError2("Failed to open \"music\" from the CD - likely the cd couldn't be loaded or paths "
-		         "are incorrect if using an extracted CD image");
+		LogError2(
+		    "Failed to open \"music\" from the CD - likely the cd couldn't be loaded or paths "
+		    "are incorrect if using an extracted CD image");
 	}
 
 	auto testFile2 = this->data->fs.open("filedoesntexist");
 	if (testFile2)
 	{
-		LogError2("Succeeded in opening \"FileDoesntExist\" - either you have the weirdest filename "
-		         "preferences or something is wrong");
+		LogError2(
+		    "Succeeded in opening \"FileDoesntExist\" - either you have the weirdest filename "
+		    "preferences or something is wrong");
 	}
 	srand(static_cast<unsigned int>(SDL_GetTicks()));
 
@@ -911,8 +915,9 @@ void Framework::displayInitialise()
 		p->displaySize.y = (int)((float)p->windowSize.y * scaleYFloat);
 		if (p->displaySize.x < 640 || p->displaySize.y < 480)
 		{
-			LogWarning2("Requested scaled size of {} is lower than {{640,480}} and probably won't work, so forcing 640x480",
-			           p->displaySize.x);
+			LogWarning2("Requested scaled size of {} is lower than {{640,480}} and probably won't "
+			            "work, so forcing 640x480",
+			            p->displaySize.x);
 			p->displaySize.x = std::max(640, p->displaySize.x);
 			p->displaySize.y = std::max(480, p->displaySize.y);
 		}

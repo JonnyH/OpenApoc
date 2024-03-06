@@ -428,8 +428,8 @@ void AgentMission::start(GameState &state, Agent &a)
 						// FIXME: Implement agent pathing to closest building when in the field and
 						// unable to path
 						LogWarning2("Implement agent pathing to closest building when in the field "
-						           "and unable to path to "
-						           "building");
+						            "and unable to path to "
+						            "building");
 						// For now just get into closest building
 						fw().pushEvent(new GameAgentEvent(GameEventType::AgentUnableToReach,
 						                                  {&state, a.shared_from_this()}, true));

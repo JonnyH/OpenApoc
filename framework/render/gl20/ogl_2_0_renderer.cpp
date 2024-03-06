@@ -1084,7 +1084,7 @@ class OGL20RendererFactory : public OpenApoc::RendererFactory
 			if (!gl20::sys::IsVersionGEQ(2, 0))
 			{
 				LogInfo2("GL version not at least 2.0, got {}.{}", gl20::sys::GetMajorVersion(),
-				        gl20::sys::GetMinorVersion());
+				         gl20::sys::GetMinorVersion());
 				return nullptr;
 			}
 			functionLoadSuccess = true;

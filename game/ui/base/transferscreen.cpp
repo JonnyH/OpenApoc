@@ -417,8 +417,8 @@ void TransferScreen::closeScreen()
 
 		if (transportationBusy || transportationHostile)
 		{
-			UString title =
-			    OpenApoc::format2("{0}{1}", badOrgs.front()->name, badOrgs.size() > 1 ? " & others" : "");
+			UString title = OpenApoc::format2("{0}{1}", badOrgs.front()->name,
+			                                  badOrgs.size() > 1 ? " & others" : "");
 
 			// If player can ferry themselves then give option
 			if (config().getBool("OpenApoc.NewFeature.AllowManualCargoFerry"))
@@ -426,13 +426,13 @@ void TransferScreen::closeScreen()
 				UString message =
 				    transportationHostile
 				        ? OpenApoc::format2("{0} {1}",
-				                 tr("This hostile organization refuses to carry out the "
-				                    "requested transfer."),
-				                 tr("Proceed?"))
+				                            tr("This hostile organization refuses to carry out the "
+				                               "requested transfer."),
+				                            tr("Proceed?"))
 				        : OpenApoc::format2("{0} {1}",
-				                 tr("No free transport to carry out the requested "
-				                    "transportation detected in the city."),
-				                 tr("Proceed?"));
+				                            tr("No free transport to carry out the requested "
+				                               "transportation detected in the city."),
+				                            tr("Proceed?"));
 				fw().stageQueueCommand(
 				    {StageCmd::Command::PUSH,
 				     mksp<MessageBox>(title, message, MessageBox::ButtonOptions::YesNo,
@@ -443,10 +443,11 @@ void TransferScreen::closeScreen()
 			else if (!transportationHostile)
 			{
 				// FIXME: Different message maybe? Same for now
-				UString message = OpenApoc::format2("{0} {1}",
-				                         tr("No free transport to carry out the requested "
-				                            "transportation detected in the city."),
-				                         tr("Proceed?"));
+				UString message =
+				    OpenApoc::format2("{0} {1}",
+				                      tr("No free transport to carry out the requested "
+				                         "transportation detected in the city."),
+				                      tr("Proceed?"));
 				fw().stageQueueCommand(
 				    {StageCmd::Command::PUSH,
 				     mksp<MessageBox>(title, message, MessageBox::ButtonOptions::YesNo,
@@ -626,7 +627,7 @@ void TransferScreen::executeOrders()
 						default:
 						{
 							LogError2("Unhandled TransactionControl::Type {}",
-							         static_cast<int>(c->itemType));
+							          static_cast<int>(c->itemType));
 							break;
 						}
 					}

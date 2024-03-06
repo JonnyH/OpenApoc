@@ -31,7 +31,7 @@ class RawSampleLoader : public SampleLoader
 		if (splitString.size() != 3)
 		{
 			LogInfo2("String \"{}\" doesn't look like a rawsample - need 3 elements (got {})", path,
-			        splitString.size());
+			         splitString.size());
 			return nullptr;
 		}
 		if (splitString[0] != "RAWSOUND")

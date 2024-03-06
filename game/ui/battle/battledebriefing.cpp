@@ -48,8 +48,8 @@ BattleDebriefing::BattleDebriefing(sp<GameState> state)
 	for (auto &u : state->current_battle->unitsPromoted)
 	{
 		menuform->findControlTyped<Label>(OpenApoc::format2("PROMOTION_{0}", idx++))
-		    ->setText(
-		        OpenApoc::format2("{0} {1} {2}", u->agent->name, tr("promoted to"), u->agent->getRankName()));
+		    ->setText(OpenApoc::format2("{0} {1} {2}", u->agent->name, tr("promoted to"),
+		                                u->agent->getRankName()));
 	}
 }
 

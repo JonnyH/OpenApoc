@@ -77,7 +77,7 @@ sp<Form> Form::loadForm(const UString &path)
 	if (!result)
 	{
 		LogWarning2("Failed to parse form file at \"{}\" - \"{}\" at \"{}\"", path,
-		           result.description(), (unsigned long long)result.offset);
+		            result.description(), (unsigned long long)result.offset);
 		return nullptr;
 	}
 

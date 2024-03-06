@@ -48,7 +48,7 @@ std::string StrTab::get(int offset) const
 	if (offset >= (int)readStrings.size())
 	{
 		LogError2("Trying to read string table entry {} - table size {}", offset,
-		         readStrings.size());
+		          readStrings.size());
 	}
 	return readStrings[offset];
 }

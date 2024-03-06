@@ -105,7 +105,7 @@ sp<BattleUnitAnimationPack::AnimationEntry> InitialGameStateExtractor::getAnimat
 					break;
 				default:
 					LogError2("Impossible part index {} found in UF located at entry {} offset {}",
-					         part_idx, offset_uf, j);
+					          part_idx, offset_uf, j);
 					break;
 			}
 			for (int f = 0; f < (doubleFrames ? 2 : 1); f++)

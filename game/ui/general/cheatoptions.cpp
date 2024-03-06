@@ -73,10 +73,10 @@ void CheatOptions::updateMultiplierText(UString controlName, float multMin, floa
 {
 	auto bar = menuform->findControlTyped<ScrollBar>(controlName);
 	auto label = menuform->findControlTyped<Label>("TEXT_" + controlName);
-	label->setText(
-	    OpenApoc::format2("{0:.0f}%", scaleScrollbarToMultiplier(bar->getValue(), multMin, multMax,
-	                                                bar->getMinimum(), bar->getMaximum()) *
-	                         100));
+	label->setText(OpenApoc::format2(
+	    "{0:.0f}%", scaleScrollbarToMultiplier(bar->getValue(), multMin, multMax, bar->getMinimum(),
+	                                           bar->getMaximum()) *
+	                    100));
 }
 
 void CheatOptions::pause() {}
@@ -251,7 +251,7 @@ void CheatOptions::eventOccurred(Event *e)
 					if (!bar)
 					{
 						LogError2("Failed to cast \"{}\" control to ScrollBar",
-						         e->forms().RaisedBy->Name);
+						          e->forms().RaisedBy->Name);
 						return;
 					}
 					updateMultiplierText(desc.controlName, desc.multMin, desc.multMax);

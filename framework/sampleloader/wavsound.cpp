@@ -41,7 +41,7 @@ class WavSampleLoader : public SampleLoader
 		if (splitString.size() != 2)
 		{
 			LogInfo2("String \"{}\" doesn't look like a rawsample - need 2 elements (got {})", path,
-			        splitString.size());
+			         splitString.size());
 			return nullptr;
 		}
 		if (splitString[0] != "WAV")
@@ -73,7 +73,7 @@ class WavSampleLoader : public SampleLoader
 		if (spec.channels != 1)
 		{
 			LogWarning2("Failed to open WAV file at \"{}\" - only single channel samples supported",
-			           fullPath);
+			            fullPath);
 			SDL_FreeWAV(buf);
 			return nullptr;
 		}
@@ -82,7 +82,7 @@ class WavSampleLoader : public SampleLoader
 		if (!format)
 		{
 			LogWarning2("Failed to open WAV file at \"{}\" - unsupported SDL format 0x{:08x}",
-			           fullPath, spec.format);
+			            fullPath, spec.format);
 			SDL_FreeWAV(buf);
 			return nullptr;
 		}

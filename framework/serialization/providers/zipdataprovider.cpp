@@ -85,7 +85,7 @@ bool ZipDataProvider::readDocument(const UString &filename, UString &result)
 	}
 
 	LogInfo2("Reading {} bytes for file \"{}\" in zip \"{}\"", (unsigned long)stat.m_uncomp_size,
-	        filename, zipPath);
+	         filename, zipPath);
 
 	up<char[]> data(new char[(unsigned int)stat.m_uncomp_size]);
 	if (!mz_zip_reader_extract_to_mem(&archive, fileId, data.get(), (size_t)stat.m_uncomp_size, 0))

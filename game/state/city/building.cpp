@@ -278,7 +278,7 @@ void Building::updateCargo(GameState &state)
 				if (ferries.empty())
 				{
 					LogError2("There is no ferry type for cargo with bio = {} in the game!?",
-					         needBio);
+					          needBio);
 					return;
 				}
 				// Spawn a random vehicle type and provide service
@@ -288,7 +288,7 @@ void Building::updateCargo(GameState &state)
 				spawnedFerry = true;
 #ifdef DEBUG_VERBOSE_CARGO_SYSTEM
 				LogWarning2("Spawned cargo ferry {} owned by {} at {}", v->type.id, ferryCompany.id,
-				           thisRef.id);
+				            thisRef.id);
 #endif
 				break;
 			}
@@ -337,7 +337,7 @@ void Building::updateCargo(GameState &state)
 				spawnedFerry = true;
 #ifdef DEBUG_VERBOSE_CARGO_SYSTEM
 				LogWarning2("Spawned passenger ferry {} owned by {} at {}", v->type.id,
-				           ferryCompany.id, thisRef.id);
+				            ferryCompany.id, thisRef.id);
 #endif
 				break;
 			}
@@ -376,7 +376,7 @@ void Building::updateCargo(GameState &state)
 		{
 #ifdef DEBUG_VERBOSE_CARGO_SYSTEM
 			LogWarning2("BIOCARGO: {} needs to deliver {} to {}", thisRef.id,
-			           c.count * c.space / c.divisor, c.destination.id);
+			            c.count * c.space / c.divisor, c.destination.id);
 #endif
 			spaceNeeded[c.destination][sourceOrg][0] += std::max(1, c.count * c.space / c.divisor);
 		}
@@ -384,7 +384,7 @@ void Building::updateCargo(GameState &state)
 		{
 #ifdef DEBUG_VERBOSE_CARGO_SYSTEM
 			LogWarning2("CARGO: {} needs to deliver {} to {}", thisRef.id,
-			           c.count * c.space / c.divisor, c.destination.id);
+			            c.count * c.space / c.divisor, c.destination.id);
 #endif
 			spaceNeeded[c.destination][sourceOrg][1] += std::max(1, c.count * c.space / c.divisor);
 		}
@@ -402,7 +402,7 @@ void Building::updateCargo(GameState &state)
 		}
 #ifdef DEBUG_VERBOSE_CARGO_SYSTEM
 		LogWarning2("AGENT: {} needs to deliver to {}", thisRef.id,
-		           a->missions.front().targetBuilding.id);
+		            a->missions.front().targetBuilding.id);
 #endif
 		spaceNeeded[a->missions.front().targetBuilding][a->owner].resize(3);
 		spaceNeeded[a->missions.front().targetBuilding][a->owner][2]++;

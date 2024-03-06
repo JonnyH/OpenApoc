@@ -186,12 +186,12 @@ class VorbisMusicLoader : public MusicLoader
 		if (!valid_channel_count)
 		{
 			LogWarning2("VorbisMusic: \"{}\" has unsupported channel count \"{}\"", path,
-			           info->channels);
+			            info->channels);
 			return nullptr;
 		}
 
 		LogInfo2("VorbisMusic: Successfully opened \"{}\" - channels: {}, samplerate: {}", path,
-		        info->channels, info->rate);
+		         info->channels, info->rate);
 		music->format.channels = info->channels;
 		music->format.frequency = info->rate;
 		// Always assume sint16 - it'll convert it otherwise

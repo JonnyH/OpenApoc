@@ -206,7 +206,7 @@ SerializationNode *XMLSerializationArchive::getRoot(const UString &prefix, const
 			if (!parse_result)
 			{
 				LogInfo2("Failed to parse \"{}\" : \"{}\" at \"{}\"", path,
-				        parse_result.description(), (unsigned long long)parse_result.offset);
+				         parse_result.description(), (unsigned long long)parse_result.offset);
 				return nullptr;
 			}
 			it = this->docRoots.find(path);
@@ -330,8 +330,8 @@ unsigned char XMLSerializationNode::getValueUChar()
 	auto uint = node.text().as_uint();
 	if (uint > std::numeric_limits<unsigned char>::max())
 	{
-		throw SerializationException(OpenApoc::format2("Value {0} is out of range of unsigned char type", uint),
-		                             this);
+		throw SerializationException(
+		    OpenApoc::format2("Value {0} is out of range of unsigned char type", uint), this);
 	}
 	return static_cast<unsigned char>(uint);
 }
@@ -372,7 +372,8 @@ std::vector<bool> XMLSerializationNode::getValueBoolVector()
 		else if (c == '0')
 			vec[i] = false;
 		else
-			throw SerializationException(OpenApoc::format2("Unknown char '{0}' in bool vector", c), this);
+			throw SerializationException(OpenApoc::format2("Unknown char '{0}' in bool vector", c),
+			                             this);
 	}
 	return vec;
 }

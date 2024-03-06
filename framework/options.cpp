@@ -10,7 +10,8 @@ void dumpOption(const ConfigOptionInt &opt)
 }
 void dumpOption(const ConfigOptionBool &opt)
 {
-	LogInfo2("OPTION \"{}.{}\" = {}", opt.getSection(), opt.getName(), opt.get() ? "true" : "false");
+	LogInfo2("OPTION \"{}.{}\" = {}", opt.getSection(), opt.getName(),
+	         opt.get() ? "true" : "false");
 }
 void dumpOption(const ConfigOptionFloat &opt)
 {

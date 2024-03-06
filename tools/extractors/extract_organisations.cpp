@@ -39,7 +39,7 @@ void InitialGameStateExtractor::extractOrganisations(GameState &state) const
 		o->id = id;
 
 		auto ped = OpenApoc::format2("{0}{1}", UfopaediaEntry::getPrefix(),
-		                  canon_string(data.organisation_names->get(i)));
+		                             canon_string(data.organisation_names->get(i)));
 		o->ufopaedia_entry = {&state, ped};
 
 		o->balance = odata.starting_funds;
@@ -74,8 +74,10 @@ void InitialGameStateExtractor::extractOrganisations(GameState &state) const
 		}
 		else
 		{
-			o->icon = fw().data->loadImage(OpenApoc::format2("PCK:xcom3/ufodata/vs_icon.pck:xcom3/ufodata/vs_icon.tab:{0}:xcom3/ufodata/pal_01.dat",
-			                                      91 + i));
+			o->icon = fw().data->loadImage(
+			    OpenApoc::format2("PCK:xcom3/ufodata/vs_icon.pck:xcom3/ufodata/"
+			                      "vs_icon.tab:{0}:xcom3/ufodata/pal_01.dat",
+			                      91 + i));
 
 			auto ldata = data.organisation_raid_loot_data->get(i);
 
@@ -104,8 +106,8 @@ void InitialGameStateExtractor::extractOrganisations(GameState &state) const
 					{
 						o->loot[priority].emplace_back(
 						    &state, OpenApoc::format2("{0}{1}", AEquipmentType::getPrefix(),
-						                   canon_string(data.agent_equipment_names->get(
-						                       ldata.loot_idx[k][j]))));
+						                              canon_string(data.agent_equipment_names->get(
+						                                  ldata.loot_idx[k][j]))));
 					}
 				}
 			}
@@ -251,7 +253,7 @@ void InitialGameStateExtractor::extractOrganisations(GameState &state) const
 					break;
 				default:
 					LogError2("Modded game? Found unexpected vehiclePark value of {}",
-					         (int)vdata.vehiclePark);
+					          (int)vdata.vehiclePark);
 			}
 
 			// Missions

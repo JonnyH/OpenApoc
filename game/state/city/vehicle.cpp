@@ -3317,8 +3317,9 @@ bool Vehicle::getNewGoal(GameState &state, int &turboTiles)
 		{
 			LogWarning2("Mission {}", m.getName());
 		}
-		LogError2("Vehicle {} deadlocked, please send log to developers. Vehicle will self-destruct now...",
-		         name);
+		LogError2("Vehicle {} deadlocked, please send log to developers. Vehicle will "
+		          "self-destruct now...",
+		          name);
 		die(state);
 		return false;
 	}
@@ -3654,7 +3655,7 @@ sp<VEquipment> Vehicle::addEquipment(GameState &state, Vec2<int> pos,
 	if (!slotFound)
 	{
 		LogError2("Equipping \"{}\" on \"{}\" at {} failed: No valid slot", equipmentType->name,
-		         this->name, pos);
+		          this->name, pos);
 		return nullptr;
 	}
 
@@ -3687,14 +3688,14 @@ sp<VEquipment> Vehicle::addEquipment(GameState &state, Vec2<int> pos,
 			auto equipment = mksp<VEquipment>();
 			equipment->type = equipmentType;
 			LogInfo2("Equipped \"{}\" with general equipment \"{}\"", this->name,
-			        equipmentType->name);
+			         equipmentType->name);
 			equipment->equippedPosition = slotOrigin;
 			this->equipment.emplace_back(equipment);
 			return equipment;
 		}
 		default:
 			LogError2("Equipment \"{}\" for \"{}\" at pos ({},{}}} has invalid type",
-			         equipmentType->name, this->name, pos.x, pos.y);
+			          equipmentType->name, this->name, pos.x, pos.y);
 			return nullptr;
 	}
 }

@@ -53,7 +53,7 @@ static sp<PaletteImage> readPckCompression1(std::istream &input, Vec2<unsigned> 
 		if (col != header.column)
 		{
 			LogWarning2("Header column {} doesn't match skip column {} ({} % {})",
-			           (unsigned)header.column, col, (unsigned)header.pixelSkip, IMAGE_STRIDE);
+			            (unsigned)header.column, col, (unsigned)header.pixelSkip, IMAGE_STRIDE);
 			return nullptr;
 		}
 

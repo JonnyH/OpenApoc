@@ -90,7 +90,7 @@ class JukeBoxImpl : public JukeBox
 			return;
 		}
 		LogInfo2("Playing track {} ({})", jukebox->position,
-		        jukebox->trackList[jukebox->position]->getName());
+		         jukebox->trackList[jukebox->position]->getName());
 		jukebox->fw.soundBackend->setTrack(jukebox->trackList[jukebox->position]);
 
 		jukebox->position++;
@@ -144,7 +144,7 @@ class JukeBoxImpl : public JukeBox
 			if (!result)
 			{
 				LogWarning2("Failed to parse playlist \"{}\" - \"{}\" at \"{}\"", path,
-				           result.description(), result.offset);
+				            result.description(), result.offset);
 				continue;
 			}
 			auto node = doc.child("openapoc_playlist");

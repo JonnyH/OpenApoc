@@ -1471,7 +1471,7 @@ bool BattleUnitMission::getNextBodyState(GameState &state, BattleUnit &u, BodySt
 				else
 				{
 					LogError2("Unit {} ({}) ({}) lost capability to attain bodyState {}?", u.id,
-					         u.agent->name, u.agent->type->id, (int)targetBodyState);
+					          u.agent->name, u.agent->type->id, (int)targetBodyState);
 				}
 			}
 			return advanceBodyState(state, u, targetBodyState, dest);
@@ -1502,7 +1502,7 @@ MovementState BattleUnitMission::getNextMovementState(GameState &, BattleUnit &u
 				else
 				{
 					LogError2("Agent with allowed Jumping body state does not have allowed Normal "
-					         "movement");
+					          "movement");
 					return u.current_movement_state;
 				}
 			}
@@ -1790,7 +1790,7 @@ void BattleUnitMission::start(GameState &state, BattleUnit &u)
 				if (item->type->type != AEquipmentType::Type::Teleporter)
 				{
 					LogError2("Unit is trying to teleport using non-teleporter item {}!?",
-					         item->type->name);
+					          item->type->name);
 					cancelled = true;
 					return;
 				}
@@ -1975,8 +1975,8 @@ void BattleUnitMission::setPathTo(GameState &state, BattleUnit &u, Vec3<int> tar
 			// If unit cannot move at all - cancel
 			if (!u.canMove())
 			{
-				LogInfo2("Cannot move to {} {} {}, unit has no movement ability", target.x, target.y,
-				        target.z);
+				LogInfo2("Cannot move to {} {} {}, unit has no movement ability", target.x,
+				         target.y, target.z);
 				cancelled = true;
 				return;
 			}
@@ -2006,8 +2006,9 @@ void BattleUnitMission::setPathTo(GameState &state, BattleUnit &u, Vec3<int> tar
 							    !targetTile->getUnitIfPresent(true, true, false, u.tileObject,
 							                                  false, u.isLarge()))
 							{
-								LogInfo2("Cannot move to {} {} {}, found an adjacent free tile, moving to an adjacent tile",
-								        target.x, target.y, target.z);
+								LogInfo2("Cannot move to {} {} {}, found an adjacent free tile, "
+								         "moving to an adjacent tile",
+								         target.x, target.y, target.z);
 								approachOnly = true;
 								break;
 							}
@@ -2040,7 +2041,7 @@ void BattleUnitMission::setPathTo(GameState &state, BattleUnit &u, Vec3<int> tar
 				if (target.z == -1)
 				{
 					LogError2("Solid ground missing on level 0? Reached {} {} {}", target.x,
-					         target.y, target.z);
+					          target.y, target.z);
 					cancelled = true;
 					return;
 				}
@@ -2534,11 +2535,13 @@ UString BattleUnitMission::getName()
 			name = "ChangeBodyState " + OpenApoc::format2("{0}", (int)this->targetBodyState);
 			break;
 		case Type::ThrowItem:
-			name = "ThrowItem " +
-			       OpenApoc::format2("{0} at {1}", item ? item->type->name : "(item is gone)", targetLocation);
+			name = "ThrowItem " + OpenApoc::format2("{0} at {1}",
+			                                        item ? item->type->name : "(item is gone)",
+			                                        targetLocation);
 			break;
 		case Type::DropItem:
-			name = "DropItem " + OpenApoc::format2("{0}", item ? item->type->name : "(item is gone)");
+			name =
+			    "DropItem " + OpenApoc::format2("{0}", item ? item->type->name : "(item is gone)");
 			break;
 		case Type::ReachGoal:
 			name = "ReachGoal";

@@ -130,7 +130,7 @@ class Control : public std::enable_shared_from_this<Control>
 		if (!typedControl)
 		{
 			LogError2("Failed to cast control \"{}\" within form \"{}\" to type \"{}\"", name,
-			         this->Name, typeid(T).name());
+			          this->Name, typeid(T).name());
 			return nullptr;
 		}
 		return typedControl;

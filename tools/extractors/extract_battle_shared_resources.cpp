@@ -23,28 +23,27 @@ void InitialGameStateExtractor::extractSharedCityResources(GameState &state) con
 	state.city_common_image_list->strategyImages = mksp<std::vector<sp<Image>>>();
 	for (size_t i = 544; i <= 589; i++)
 	{
-		state.city_common_image_list->strategyImages->push_back(
-		    fw().data->loadImage(OpenApoc::format2("PCKSTRAT:xcom3/ufodata/stratmap.pck:xcom3/ufodata/stratmap.tab:{0}",
-		                                (unsigned)i)));
+		state.city_common_image_list->strategyImages->push_back(fw().data->loadImage(
+		    OpenApoc::format2("PCKSTRAT:xcom3/ufodata/stratmap.pck:xcom3/ufodata/stratmap.tab:{0}",
+		                      (unsigned)i)));
 	}
 	state.city_common_image_list->agentIsometric = fw().data->loadImage(OpenApoc::format2(
 	    "PCK:xcom3/ufodata/icon_m.pck:xcom3/ufodata/icon_m.tab:{0}:xcom3/ufodata/pal_01.dat", 26));
-	state.city_common_image_list->agentStrategic =
-	    fw().data->loadImage(OpenApoc::format2("PCKSTRAT:xcom3/ufodata/stratmap.pck:xcom3/ufodata/stratmap.tab:{0}",
-	                                571));
+	state.city_common_image_list->agentStrategic = fw().data->loadImage(OpenApoc::format2(
+	    "PCKSTRAT:xcom3/ufodata/stratmap.pck:xcom3/ufodata/stratmap.tab:{0}", 571));
 	for (int i = 586; i <= 589; i++)
 	{
 		state.city_common_image_list->portalStrategic.push_back(
-		    fw().data->loadImage(OpenApoc::format2("PCKSTRAT:xcom3/ufodata/stratmap.pck:xcom3/ufodata/stratmap.tab:{0}",
-		                                i)));
+		    fw().data->loadImage(OpenApoc::format2(
+		        "PCKSTRAT:xcom3/ufodata/stratmap.pck:xcom3/ufodata/stratmap.tab:{0}", i)));
 	}
 	state.city_common_image_list->projectileVoxelMap =
 	    std::make_shared<VoxelMap>(Vec3<int>{32, 32, 16});
 	for (int i = 6; i < 10; i++)
 	{
 		state.city_common_image_list->projectileVoxelMap->setSlice(
-		    i, fw().data->loadVoxelSlice(OpenApoc::format2("LOFTEMPS:xcom3/ufodata/loftemps.dat:xcom3/ufodata/loftemps.tab:{0}",
-		                                        112)));
+		    i, fw().data->loadVoxelSlice(OpenApoc::format2(
+		           "LOFTEMPS:xcom3/ufodata/loftemps.dat:xcom3/ufodata/loftemps.tab:{0}", 112)));
 	}
 	state.city_common_image_list->portalVoxelMap =
 	    std::make_shared<VoxelMap>(Vec3<int>{32, 32, 16});
@@ -56,8 +55,8 @@ void InitialGameStateExtractor::extractSharedCityResources(GameState &state) con
 			index = 110;
 		}
 		state.city_common_image_list->portalVoxelMap->setSlice(
-		    i, fw().data->loadVoxelSlice(OpenApoc::format2("LOFTEMPS:xcom3/ufodata/loftemps.dat:xcom3/ufodata/loftemps.tab:{0}",
-		                                        index)));
+		    i, fw().data->loadVoxelSlice(OpenApoc::format2(
+		           "LOFTEMPS:xcom3/ufodata/loftemps.dat:xcom3/ufodata/loftemps.tab:{0}", index)));
 	}
 }
 
@@ -70,7 +69,7 @@ void InitialGameStateExtractor::extractSharedBattleResources(GameState &state) c
 	if (!gameObjectStrategySpriteTabFile)
 	{
 		LogError2("Failed to open dropped item StrategySprite TAB file \"{}\"",
-		         gameObjectStrategySpriteTabFileName);
+		          gameObjectStrategySpriteTabFileName);
 		return;
 	}
 	size_t gameObjectStrategySpriteCount = gameObjectStrategySpriteTabFile.size() / 4;
@@ -82,26 +81,22 @@ void InitialGameStateExtractor::extractSharedBattleResources(GameState &state) c
 	state.battle_common_image_list->strategyImages = mksp<std::vector<sp<Image>>>();
 	for (size_t i = 0; i < gameObjectStrategySpriteCount; i++)
 	{
-		state.battle_common_image_list->strategyImages->push_back(
-		    fw().data->loadImage(OpenApoc::format2("PCKSTRAT:xcom3/tacdata/stratico.pck:xcom3/tacdata/stratico.tab:{0}",
-		                                (unsigned)i)));
+		state.battle_common_image_list->strategyImages->push_back(fw().data->loadImage(
+		    OpenApoc::format2("PCKSTRAT:xcom3/tacdata/stratico.pck:xcom3/tacdata/stratico.tab:{0}",
+		                      (unsigned)i)));
 	}
 
 	state.battle_common_image_list->loadingImage =
 	    fw().data->loadImage("xcom3/ufodata/enttact.pcx");
 
-	state.battle_common_image_list->focusArrows.push_back(
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                64)));
-	state.battle_common_image_list->focusArrows.push_back(
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                65)));
-	state.battle_common_image_list->focusArrows.push_back(
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                66)));
-	state.battle_common_image_list->focusArrows.push_back(
-	    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-	                                67)));
+	state.battle_common_image_list->focusArrows.push_back(fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal", 64)));
+	state.battle_common_image_list->focusArrows.push_back(fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal", 65)));
+	state.battle_common_image_list->focusArrows.push_back(fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal", 66)));
+	state.battle_common_image_list->focusArrows.push_back(fw().data->loadImage(OpenApoc::format2(
+	    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal", 67)));
 
 	state.city_common_sample_list = mksp<CityCommonSampleList>();
 

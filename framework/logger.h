@@ -71,24 +71,6 @@ static inline bool logLevelEnabled(LogLevel level [[maybe_unused]])
 			OpenApoc::_logAssert(LOGGER_PREFIX, STR(X), __LINE__, __FILE__);                       \
 	} while (0)
 
-
-template <typename... Args> static void LogError(const OpenApoc::UStringView fmt, Args &&...args)
-{
-	OpenApoc::Log(OpenApoc::LogLevel::Error, "OLD", fmt::sprintf(fmt, std::forward<Args>(args)...));
-}
-template <typename... Args> static void LogWarning(const OpenApoc::UStringView fmt, Args &&...args)
-{
-	OpenApoc::Log(OpenApoc::LogLevel::Warning, "OLD", fmt::sprintf(fmt, std::forward<Args>(args)...));
-}
-template <typename... Args> static void LogInfo(const OpenApoc::UStringView fmt, Args &&...args)
-{
-	OpenApoc::Log(OpenApoc::LogLevel::Info, "OLD", fmt::sprintf(fmt, std::forward<Args>(args)...));
-}
-template <typename... Args> static void LogDebug(const OpenApoc::UStringView fmt, Args &&...args)
-{
-	OpenApoc::Log(OpenApoc::LogLevel::Debug, "OLD", fmt::sprintf(fmt, std::forward<Args>(args)...));
-}
-
 template <typename... Args> static void LogError2(const OpenApoc::UStringView fmt, Args &&...args)
 {
 	OpenApoc::Log(OpenApoc::LogLevel::Error, "NEW", fmt::format(fmt, std::forward<Args>(args)...));

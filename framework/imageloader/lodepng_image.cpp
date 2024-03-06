@@ -33,14 +33,14 @@ sp<Palette> OpenApoc::loadPNGPalette(Data &d, const UString fileName)
 	if (err)
 	{
 		LogInfo2("Failed to read PNG headers from \"{}\" ({}) : {} - skipping", f.systemPath(), err,
-		        lodepng_error_text(err));
+		         lodepng_error_text(err));
 		return nullptr;
 	}
 	if (width * height != 256)
 	{
 
 		LogWarning2("PNG \"{}\" size {{{},{}}} too large for palette (must be 256 pixels total)",
-		           f.systemPath(), width, height);
+		            f.systemPath(), width, height);
 		return nullptr;
 	}
 	std::vector<unsigned char> pixels;
@@ -49,7 +49,7 @@ sp<Palette> OpenApoc::loadPNGPalette(Data &d, const UString fileName)
 	if (error)
 	{
 		LogInfo2("Failed to read PNG \"{}\" ({}) : {}", f.systemPath(), err,
-		        lodepng_error_text(err));
+		         lodepng_error_text(err));
 		return nullptr;
 	}
 	auto pal = mksp<Palette>();
@@ -89,13 +89,13 @@ class LodepngImageLoader : public OpenApoc::ImageLoader
 		if (err)
 		{
 			LogInfo2("Failed to read PNG headers from \"{}\" ({}) : {}", file.systemPath(), err,
-			        lodepng_error_text(err));
+			         lodepng_error_text(err));
 			return nullptr;
 		}
 
 		LogInfo2("Loading PNG \"{}\" size {{{},{}}} - colour mode {} depth {}", file.systemPath(),
-		        width, height, static_cast<int>(png_state.info_png.color.colortype),
-		        png_state.info_png.color.bitdepth);
+		         width, height, static_cast<int>(png_state.info_png.color.colortype),
+		         png_state.info_png.color.bitdepth);
 
 		// Just convert to RGBA, as PNG palettes are often reordered/trimmed at every turn by any
 		// app modifying them
@@ -150,7 +150,7 @@ class LodepngImageWriter : public OpenApoc::ImageWriter
 		if (pal->colours.size() != 256)
 		{
 			LogWarning2("Only 256 colour palettes supported (got {})",
-			           (unsigned)pal->colours.size());
+			            (unsigned)pal->colours.size());
 			return false;
 		}
 		lodepng::State state;
@@ -168,7 +168,7 @@ class LodepngImageWriter : public OpenApoc::ImageWriter
 			if (err)
 			{
 				LogWarning2("Failed to add palette index {} to PNG: {}: {}", i, err,
-				           lodepng_error_text(err));
+				            lodepng_error_text(err));
 				return false;
 			}
 		}

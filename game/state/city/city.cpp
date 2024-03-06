@@ -125,7 +125,7 @@ void City::initCity(GameState &state)
 			LogError2("Building {} has no landing pads", b.first);
 		}
 		LogInfo2("Building {} has {} landing pads:", b.first,
-		        (unsigned)b.second->landingPadLocations.size());
+		         (unsigned)b.second->landingPadLocations.size());
 		for (auto &loc : b.second->landingPadLocations)
 		{
 			LogInfo2("Pad: {}", loc);
@@ -462,12 +462,11 @@ void City::repairScenery(GameState &state, bool debugRepair)
 			std::string pos = std::to_string(nextScenery->initialPosition.x) + ", " +
 			                  std::to_string(nextScenery->initialPosition.y) + ", " +
 			                  std::to_string(nextScenery->initialPosition.z);
-			LogInfo("Currently Processing Tile: " + pos);
+			LogInfo2("Currently Processing Tile: {}");
 
 			if (nextScenery->supportedBy.empty())
 			{
-				LogInfo("Tile at " + pos +
-				        " is has no support requirement, adding to repair queue");
+				LogInfo2("Tile at {} is has no support requirement, adding to repair queue", pos);
 				repairQueue.push(nextScenery);
 			}
 			else
@@ -478,11 +477,11 @@ void City::repairScenery(GameState &state, bool debugRepair)
 
 					if (!support || !support->isAlive())
 					{
-						LogInfo("Tile at " + pos + " has no support due to destroyed tile below");
+						LogInfo2("Tile at {}} has no support due to destroyed tile below", pos);
 					}
 					else
 					{
-						LogInfo("Tile at " + pos + " has support below, adding to repair queue");
+						LogInfo2("Tile at {}  has support below, adding to repair queue", pos);
 						repairQueue.push(nextScenery);
 					}
 				}

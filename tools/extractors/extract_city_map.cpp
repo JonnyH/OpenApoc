@@ -63,8 +63,8 @@ void InitialGameStateExtractor::extractCityMap(GameState &state, UString fileNam
 				idx = 169 + off;
 			}
 
-			auto tileName =
-			    OpenApoc::format2("{0}{1}{2}", SceneryTileType::getPrefix(), tilePrefix, (unsigned)idx);
+			auto tileName = OpenApoc::format2("{0}{1}{2}", SceneryTileType::getPrefix(), tilePrefix,
+			                                  (unsigned)idx);
 
 			city->initial_tiles[Vec3<int>{x, y, 1}] = {&state, tileName};
 		}
@@ -81,8 +81,8 @@ void InitialGameStateExtractor::extractCityMap(GameState &state, UString fileNam
 
 				if (idx != 0)
 				{
-					auto tileName =
-					    OpenApoc::format2("{0}{1}{2}", SceneryTileType::getPrefix(), tilePrefix, (unsigned)idx);
+					auto tileName = OpenApoc::format2("{0}{1}{2}", SceneryTileType::getPrefix(),
+					                                  tilePrefix, (unsigned)idx);
 
 					city->initial_tiles[Vec3<int>{x + 20, y + 20, z + 1}] = {&state, tileName};
 				}

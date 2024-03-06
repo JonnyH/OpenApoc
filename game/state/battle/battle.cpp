@@ -449,7 +449,7 @@ void Battle::initialMapPartRemoval(GameState &state)
 					for (auto &p : partsToKill)
 					{
 						LogWarning2("Removing MP {} at {} as it's blocking unit {}",
-						           p->getOwner()->type.id, p->getPosition(), u.first);
+						            p->getOwner()->type.id, p->getPosition(), u.first);
 						auto mp = p->getOwner();
 						mp->destroyed = true;
 						mp->tileObject->removeFromMap();
@@ -511,7 +511,7 @@ void Battle::initialMapPartLinkUp()
 		{
 			auto pos = mp->tileObject->getOwningTile()->position;
 			LogWarning2("MP {} SBT {} at {} is UNLINKED", mp->type.id,
-			           (int)mp->type->getVanillaSupportedById(), pos);
+			            (int)mp->type->getVanillaSupportedById(), pos);
 		}
 	}
 
@@ -546,7 +546,7 @@ void Battle::initialMapPartLinkUp()
 		{
 			auto pos = mp->tileObject->getOwningTile()->position;
 			LogWarning2("MP {} SBT {} at {} is going to fall", mp->type.id,
-			           (int)mp->type->getVanillaSupportedById(), pos);
+			            (int)mp->type->getVanillaSupportedById(), pos);
 		}
 	}
 
@@ -2414,7 +2414,7 @@ void Battle::giveInterruptChanceToUnit(GameState &state, StateRef<BattleUnit> gi
 		else
 		{
 			LogWarning2("Interrupting AI {} for unit {} decided to {}", decision.ai, receiver->id,
-			           decision.getName());
+			            decision.getName());
 			receiver->aiList.reset(state, *receiver);
 			if (interruptQueue.empty())
 			{
@@ -3624,7 +3624,7 @@ void Battle::loadImagePacks(GameState &state)
 			continue;
 		}
 		state.battle_unit_image_packs[OpenApoc::format2("{0}{1}", BattleUnitImagePack::getPrefix(),
-		                                     imagePackName)] = imagePack;
+		                                                imagePackName)] = imagePack;
 		LogInfo2("Loaded image pack \"{}\" from \"{}\"", imagePackName, imagePackPath);
 	}
 }
@@ -3724,11 +3724,11 @@ void Battle::loadAnimationPacks(GameState &state)
 		if (!animationPack->loadAnimationPack(state, animationPackPath))
 		{
 			LogError2("Failed to load animation pack \"{}\" from \"{}\"", animationPackName,
-			         animationPackPath);
+			          animationPackPath);
 			continue;
 		}
-		state.battle_unit_animation_packs[OpenApoc::format2("{0}{1}", BattleUnitAnimationPack::getPrefix(),
-		                                         animationPackName)] = animationPack;
+		state.battle_unit_animation_packs[OpenApoc::format2(
+		    "{0}{1}", BattleUnitAnimationPack::getPrefix(), animationPackName)] = animationPack;
 		LogInfo2("Loaded animation pack \"{}\" from \"{}\"", animationPackName, animationPackPath);
 	}
 }

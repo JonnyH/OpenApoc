@@ -208,7 +208,7 @@ class SMKVideo : public Video, public std::enable_shared_from_this<SMKVideo>
 		this->file_path = video_path;
 
 		LogInfo2("Read {} bytes from video",
-		        static_cast<unsigned long long>(this->video_data_size));
+		         static_cast<unsigned long long>(this->video_data_size));
 
 		this->smk_ctx = smk_open_memory(reinterpret_cast<unsigned char *>(this->video_data.get()),
 		                                static_cast<unsigned long>(this->video_data_size));
@@ -232,7 +232,7 @@ class SMKVideo : public Video, public std::enable_shared_from_this<SMKVideo>
 		this->frame_time = std::chrono::nanoseconds((unsigned int)(usf * 1000));
 
 		LogInfo2("Video frame count {}, ns per frame = {} (USF: {:f})", this->frame_count,
-		        this->frame_time.count(), usf);
+		         this->frame_time.count(), usf);
 
 		unsigned long height, width;
 		if (smk_info_video(this->smk_ctx, &width, &height, nullptr))
@@ -270,12 +270,12 @@ class SMKVideo : public Video, public std::enable_shared_from_this<SMKVideo>
 		{
 			// WE only support a single track
 			LogInfo2("Audio track: channels {} depth {} rate {}", (unsigned)channels[0],
-			        (unsigned)bitdepth[0], audio_rate[0]);
+			         (unsigned)bitdepth[0], audio_rate[0]);
 		}
 		else
 		{
-			LogWarning2("Unsupported audio track mask 0x{:02x} for \"{}\"", (unsigned)audio_track_mask,
-			           video_path);
+			LogWarning2("Unsupported audio track mask 0x{:02x} for \"{}\"",
+			            (unsigned)audio_track_mask, video_path);
 			return false;
 		}
 		switch (channels[0])
@@ -291,7 +291,7 @@ class SMKVideo : public Video, public std::enable_shared_from_this<SMKVideo>
 				break;
 			default:
 				LogWarning2("Unsupported audio channel count {} for \"{}\"", (unsigned)channels[0],
-				           video_path);
+				            video_path);
 				return false;
 		}
 		switch (bitdepth[0])
@@ -306,7 +306,7 @@ class SMKVideo : public Video, public std::enable_shared_from_this<SMKVideo>
 				break;
 			default:
 				LogWarning2("Unsupported audio bit depth {} for \"{}\"", (unsigned)bitdepth[0],
-				           video_path);
+				            video_path);
 				return false;
 		}
 		this->audio_format.frequency = audio_rate[0];

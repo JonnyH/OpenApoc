@@ -31,9 +31,9 @@ sp<BattleUnitImagePack> InitialGameStateExtractor::extractImagePack(GameState &s
 
 	for (size_t i = 0; i < imageTabFileEntryCount; i++)
 	{
-		p->images.push_back(
-		    fw().data->loadImage(OpenApoc::format2("{0}:{1}{2}.pck:{3}{4}.tab:{5}", shadow ? "PCKSHADOW" : "PCK",
-		                                dirName, path, dirName, path, (unsigned)i)));
+		p->images.push_back(fw().data->loadImage(
+		    OpenApoc::format2("{0}:{1}{2}.pck:{3}{4}.tab:{5}", shadow ? "PCKSHADOW" : "PCK",
+		                      dirName, path, dirName, path, (unsigned)i)));
 	}
 
 	return p;
@@ -50,9 +50,8 @@ sp<BattleUnitImagePack> InitialGameStateExtractor::extractItemImagePack(GameStat
 	p->image_offset = BATTLE_IMAGE_OFFSET;
 
 	for (int j = 0; j < 8; j++)
-		p->images.push_back(
-		    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/unit/equip.pck:xcom3/tacdata/unit/equip.tab:{0}",
-		                                item * 8 + j)));
+		p->images.push_back(fw().data->loadImage(OpenApoc::format2(
+		    "PCK:xcom3/tacdata/unit/equip.pck:xcom3/tacdata/unit/equip.tab:{0}", item * 8 + j)));
 
 	return p;
 }

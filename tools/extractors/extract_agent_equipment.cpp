@@ -92,13 +92,15 @@ void InitialGameStateExtractor::extractAlienEquipmentSets(GameState &state,
 	// Equipment sets - score - alien
 	{
 		if (data_t.agent_equipment_set_score_requirement->count() != 1)
-			LogError2("Incorrect amount of alien score requirement structures: encountered {}, expected 1",
-			         (unsigned)data_t.agent_equipment_set_score_requirement->count());
+			LogError2("Incorrect amount of alien score requirement structures: encountered {}, "
+			          "expected 1",
+			          (unsigned)data_t.agent_equipment_set_score_requirement->count());
 		auto sdata = data_t.agent_equipment_set_score_requirement->get(0);
 
 		if (data_t.agent_equipment_set_score_alien->count() != 1)
-			LogError2("Incorrect amount of alien score equipment set structures: encountered {}, expected 1",
-			         (unsigned)data_t.agent_equipment_set_score_alien->count());
+			LogError2("Incorrect amount of alien score equipment set structures: encountered {}, "
+			          "expected 1",
+			          (unsigned)data_t.agent_equipment_set_score_alien->count());
 		auto data = data_t.agent_equipment_set_score_alien->get(0);
 		for (unsigned i = 0; i < 8; i++)
 		{
@@ -114,28 +116,31 @@ void InitialGameStateExtractor::extractAlienEquipmentSets(GameState &state,
 					if (data.weapons[j][i].clip_idx > 0)
 					{
 						es->weapons.push_back(
-						    {{&state, OpenApoc::format2("{0}{1}", AEquipmentType::getPrefix(),
-						                     canon_string(data_u.agent_equipment_names->get(
-						                         data.weapons[j][i].weapon_idx)))},
-						     {&state, OpenApoc::format2("{0}{1}", AEquipmentType::getPrefix(),
-						                     canon_string(data_u.agent_equipment_names->get(
-						                         data.weapons[j][i].clip_idx)))},
+						    {{&state,
+						      OpenApoc::format2("{0}{1}", AEquipmentType::getPrefix(),
+						                        canon_string(data_u.agent_equipment_names->get(
+						                            data.weapons[j][i].weapon_idx)))},
+						     {&state,
+						      OpenApoc::format2("{0}{1}", AEquipmentType::getPrefix(),
+						                        canon_string(data_u.agent_equipment_names->get(
+						                            data.weapons[j][i].clip_idx)))},
 						     std::max((int)data.weapons[j][i].clip_amount, 1)});
 					}
 					else
 					{
 						es->weapons.push_back(
-						    {{&state, OpenApoc::format2("{0}{1}", AEquipmentType::getPrefix(),
-						                     canon_string(data_u.agent_equipment_names->get(
-						                         data.weapons[j][i].weapon_idx)))}});
+						    {{&state,
+						      OpenApoc::format2("{0}{1}", AEquipmentType::getPrefix(),
+						                        canon_string(data_u.agent_equipment_names->get(
+						                            data.weapons[j][i].weapon_idx)))}});
 					}
 				}
 				if (data.grenades[j][i].grenade_idx > 0 && data.grenades[j][i].grenade_amount > 0)
 				{
 					es->grenades.push_back(
 					    {{&state, OpenApoc::format2("{0}{1}", AEquipmentType::getPrefix(),
-					                     canon_string(data_u.agent_equipment_names->get(
-					                         data.grenades[j][i].grenade_idx)))},
+					                                canon_string(data_u.agent_equipment_names->get(
+					                                    data.grenades[j][i].grenade_idx)))},
 					     data.grenades[j][i].grenade_amount});
 				}
 				if (data.equipment[j][i][0] > 0 || data.equipment[j][i][1] > 0)
@@ -143,26 +148,30 @@ void InitialGameStateExtractor::extractAlienEquipmentSets(GameState &state,
 					if (data.equipment[j][i][0] > 0 && data.equipment[j][i][1] > 0)
 					{
 						es->equipment.push_back(
-						    {{&state, OpenApoc::format2("{0}{1}", AEquipmentType::getPrefix(),
-						                     canon_string(data_u.agent_equipment_names->get(
-						                         data.equipment[j][i][0])))},
-						     {&state, OpenApoc::format2("{0}{1}", AEquipmentType::getPrefix(),
-						                     canon_string(data_u.agent_equipment_names->get(
-						                         data.equipment[j][i][1])))}});
+						    {{&state,
+						      OpenApoc::format2("{0}{1}", AEquipmentType::getPrefix(),
+						                        canon_string(data_u.agent_equipment_names->get(
+						                            data.equipment[j][i][0])))},
+						     {&state,
+						      OpenApoc::format2("{0}{1}", AEquipmentType::getPrefix(),
+						                        canon_string(data_u.agent_equipment_names->get(
+						                            data.equipment[j][i][1])))}});
 					}
 					else if (data.equipment[j][i][0] > 0)
 					{
 						es->equipment.push_back(
-						    {{&state, OpenApoc::format2("{0}{1}", AEquipmentType::getPrefix(),
-						                     canon_string(data_u.agent_equipment_names->get(
-						                         data.equipment[j][i][0])))}});
+						    {{&state,
+						      OpenApoc::format2("{0}{1}", AEquipmentType::getPrefix(),
+						                        canon_string(data_u.agent_equipment_names->get(
+						                            data.equipment[j][i][0])))}});
 					}
 					else
 					{
 						es->equipment.push_back(
-						    {{&state, OpenApoc::format2("{0}{1}", AEquipmentType::getPrefix(),
-						                     canon_string(data_u.agent_equipment_names->get(
-						                         data.equipment[j][i][1])))}});
+						    {{&state,
+						      OpenApoc::format2("{0}{1}", AEquipmentType::getPrefix(),
+						                        canon_string(data_u.agent_equipment_names->get(
+						                            data.equipment[j][i][1])))}});
 					}
 				}
 			}
@@ -207,7 +216,8 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 	auto gameObjectSpriteTabFile = fw().data->fs.open(gameObjectSpriteTabFileName);
 	if (!gameObjectSpriteTabFile)
 	{
-		LogError2("Failed to open dropped item sprite TAB file \"{}\"", gameObjectSpriteTabFileName);
+		LogError2("Failed to open dropped item sprite TAB file \"{}\"",
+		          gameObjectSpriteTabFileName);
 		return;
 	}
 	size_t gameObjectSpriteCount = gameObjectSpriteTabFile.size() / 4;
@@ -217,7 +227,7 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 	if (!gameObjectShadowSpriteTabFile)
 	{
 		LogError2("Failed to open shadow dropped item sprite TAB file \"{}\"",
-		         gameObjectShadowSpriteTabFileName);
+		          gameObjectShadowSpriteTabFileName);
 		return;
 	}
 	size_t gameObjectShadowSpriteCount = gameObjectShadowSpriteTabFile.size() / 4;
@@ -291,8 +301,9 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 		    (i < data_t.damage_types->count()) && (data_t.damage_types->get(i).ignore_shield == 1);
 
 		// Damage icons are located in tacdata icons, starting with id 14 and on
-		d->icon_sprite = fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
-		                                             (int)i + 14));
+		d->icon_sprite = fw().data->loadImage(OpenApoc::format2(
+		    "PCK:xcom3/tacdata/icons.pck:xcom3/tacdata/icons.tab:{0}:xcom3/tacdata/tactical.pal",
+		    (int)i + 14));
 		switch (i)
 		{
 			case DT_SMOKE:
@@ -402,7 +413,8 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 		auto edata = data_t.agent_equipment->get(i);
 
 		e->name = data_u.agent_equipment_names->get(i);
-		UString id = OpenApoc::format2("{0}{1}", AEquipmentType::getPrefix(), canon_string(e->name));
+		UString id =
+		    OpenApoc::format2("{0}{1}", AEquipmentType::getPrefix(), canon_string(e->name));
 
 		e->id = id;
 
@@ -537,7 +549,7 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 						break;
 					default:
 						LogError2("Unexpected body part type {} for ID {}", (int)adata.body_part,
-						         id);
+						          id);
 				}
 				switch (adata.damage_modifier)
 				{
@@ -552,17 +564,19 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 						break;
 					default:
 						LogError2("Unexpected damage modifier {} for ID {}",
-						         (int)adata.damage_modifier, id);
+						          (int)adata.damage_modifier, id);
 						break;
 				}
-				e->body_image_pack = {&state, OpenApoc::format2("{0}{1}{2}{3}", BattleUnitImagePack::getPrefix(),
-				                                     "xcom", armoredUnitPicIndex, bodyPartLetter)};
+				e->body_image_pack = {
+				    &state, OpenApoc::format2("{0}{1}{2}{3}", BattleUnitImagePack::getPrefix(),
+				                              "xcom", armoredUnitPicIndex, bodyPartLetter)};
 				// Body sprites are stored in armour.pck file, in head-left-body-right-legs order
 				// Since armor damage modifier values start with 17, we can subtract that to get
 				// armor index
 				e->body_sprite = fw().data->loadImage(
-				    OpenApoc::format2("PCK:xcom3/ufodata/armour.pck:xcom3/ufodata/armour.tab:{0}:xcom3/tacdata/equip.pal",
-				           (int)((adata.damage_modifier - 17) * 5 + armorBodyPicIndex)));
+				    OpenApoc::format2("PCK:xcom3/ufodata/armour.pck:xcom3/ufodata/"
+				                      "armour.tab:{0}:xcom3/tacdata/equip.pal",
+				                      (int)((adata.damage_modifier - 17) * 5 + armorBodyPicIndex)));
 			}
 			break;
 			case AGENT_EQUIPMENT_TYPE_WEAPON:
@@ -711,22 +725,23 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 		e->dropped_offset = BATTLE_IMAGE_OFFSET;
 
 		if (edata.sprite_idx < gameObjectSpriteCount)
-			e->dropped_sprite =
-			    fw().data->loadImage(OpenApoc::format2("PCK:xcom3/tacdata/gameobj.pck:xcom3/tacdata/gameobj.tab:{0}",
-			                                (int)edata.sprite_idx));
+			e->dropped_sprite = fw().data->loadImage(
+			    OpenApoc::format2("PCK:xcom3/tacdata/gameobj.pck:xcom3/tacdata/gameobj.tab:{0}",
+			                      (int)edata.sprite_idx));
 
 		if (edata.sprite_idx < gameObjectShadowSpriteCount)
-			e->dropped_shadow_sprite =
-			    fw().data->loadImage(OpenApoc::format2("PCKSHADOW:xcom3/tacdata/oshadow.pck:xcom3/tacdata/oshadow.tab:{0}",
-			                                (int)edata.sprite_idx));
+			e->dropped_shadow_sprite = fw().data->loadImage(OpenApoc::format2(
+			    "PCKSHADOW:xcom3/tacdata/oshadow.pck:xcom3/tacdata/oshadow.tab:{0}",
+			    (int)edata.sprite_idx));
 
 		// Held sprites begin from 0, which corresponds to item 1, Megapol AP Grenade
 		// Armor pieces go last, and held sprites for every single item after the first armor piece
 		// are identical
 		// There is a total 60 of them
 		int held_sprite_index = std::min((int)edata.sprite_idx, (int)heldSpriteCount - 1);
-		e->held_image_pack = {
-		    &state, OpenApoc::format2("{0}{1}{2}", BattleUnitImagePack::getPrefix(), "item", held_sprite_index)};
+		e->held_image_pack = {&state,
+		                      OpenApoc::format2("{0}{1}{2}", BattleUnitImagePack::getPrefix(),
+		                                        "item", held_sprite_index)};
 
 		e->equipscreen_sprite = fw().data->loadImage(OpenApoc::format2(
 		    "PCK:xcom3/ufodata/pequip.pck:xcom3/ufodata/pequip.tab:{0}:xcom3/tacdata/tactical.pal",
@@ -981,7 +996,7 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 						break;
 					default:
 						LogError2("Unexpected grenade trigger type {} for ID {}",
-						         (int)pdata.trigger_type, id);
+						          (int)pdata.trigger_type, id);
 				}
 			}
 			e->explosion_depletion_rate = pdata.explosion_depletion_rate;
@@ -1003,7 +1018,7 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 				if (projectile_sprites.sprites[i] != 255)
 				{
 					sprite_path = OpenApoc::format2("bulletsprites/battle/{0:02}.png",
-					                     (unsigned)projectile_sprites.sprites[i]);
+					                                (unsigned)projectile_sprites.sprites[i]);
 				}
 				else
 				{
@@ -1022,8 +1037,9 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 	// Equipment sets - score (level) - human
 	{
 		if (data_t.agent_equipment_set_score_human->count() != 1)
-			LogError2("Incorrect amount of human score equipment set structures: encountered {}, expected 1",
-			         (unsigned)data_t.agent_equipment_set_score_human->count());
+			LogError2("Incorrect amount of human score equipment set structures: encountered {}, "
+			          "expected 1",
+			          (unsigned)data_t.agent_equipment_set_score_human->count());
 		auto data = data_t.agent_equipment_set_score_human->get(0);
 		for (unsigned i = 0; i < 12; i++)
 		{
@@ -1031,7 +1047,8 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 			{
 				auto es = mksp<EquipmentSet>();
 
-				UString id = OpenApoc::format2("{0}HUMAN_{1}", EquipmentSet::getPrefix(), (int)i + 1);
+				UString id =
+				    OpenApoc::format2("{0}HUMAN_{1}", EquipmentSet::getPrefix(), (int)i + 1);
 				es->id = id;
 
 				for (unsigned j = 0; j < 10; j++)
@@ -1041,29 +1058,33 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 						if (data.weapons[j][i].clip_idx > 0)
 						{
 							es->weapons.push_back(
-							    {{&state, OpenApoc::format2("{0}{1}", AEquipmentType::getPrefix(),
-							                     canon_string(data_u.agent_equipment_names->get(
-							                         data.weapons[j][i].weapon_idx)))},
-							     {&state, OpenApoc::format2("{0}{1}", AEquipmentType::getPrefix(),
-							                     canon_string(data_u.agent_equipment_names->get(
-							                         data.weapons[j][i].clip_idx)))},
+							    {{&state,
+							      OpenApoc::format2("{0}{1}", AEquipmentType::getPrefix(),
+							                        canon_string(data_u.agent_equipment_names->get(
+							                            data.weapons[j][i].weapon_idx)))},
+							     {&state,
+							      OpenApoc::format2("{0}{1}", AEquipmentType::getPrefix(),
+							                        canon_string(data_u.agent_equipment_names->get(
+							                            data.weapons[j][i].clip_idx)))},
 							     std::max((int)data.weapons[j][i].clip_amount, 1)});
 						}
 						else
 						{
 							es->weapons.push_back(
-							    {{&state, OpenApoc::format2("{0}{1}", AEquipmentType::getPrefix(),
-							                     canon_string(data_u.agent_equipment_names->get(
-							                         data.weapons[j][i].weapon_idx)))}});
+							    {{&state,
+							      OpenApoc::format2("{0}{1}", AEquipmentType::getPrefix(),
+							                        canon_string(data_u.agent_equipment_names->get(
+							                            data.weapons[j][i].weapon_idx)))}});
 						}
 					}
 					if (data.grenades[j][i].grenade_idx > 0 &&
 					    data.grenades[j][i].grenade_amount > 0)
 					{
 						es->grenades.push_back(
-						    {{&state, OpenApoc::format2("{0}{1}", AEquipmentType::getPrefix(),
-						                     canon_string(data_u.agent_equipment_names->get(
-						                         data.grenades[j][i].grenade_idx)))},
+						    {{&state,
+						      OpenApoc::format2("{0}{1}", AEquipmentType::getPrefix(),
+						                        canon_string(data_u.agent_equipment_names->get(
+						                            data.grenades[j][i].grenade_idx)))},
 						     data.grenades[j][i].grenade_amount});
 					}
 					if (data.equipment[j][i][0] > 0 || data.equipment[j][i][1] > 0)
@@ -1071,26 +1092,30 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 						if (data.equipment[j][i][0] > 0 && data.equipment[j][i][1] > 0)
 						{
 							es->equipment.push_back(
-							    {{&state, OpenApoc::format2("{0}{1}", AEquipmentType::getPrefix(),
-							                     canon_string(data_u.agent_equipment_names->get(
-							                         data.equipment[j][i][0])))},
-							     {&state, OpenApoc::format2("{0}{1}", AEquipmentType::getPrefix(),
-							                     canon_string(data_u.agent_equipment_names->get(
-							                         data.equipment[j][i][1])))}});
+							    {{&state,
+							      OpenApoc::format2("{0}{1}", AEquipmentType::getPrefix(),
+							                        canon_string(data_u.agent_equipment_names->get(
+							                            data.equipment[j][i][0])))},
+							     {&state,
+							      OpenApoc::format2("{0}{1}", AEquipmentType::getPrefix(),
+							                        canon_string(data_u.agent_equipment_names->get(
+							                            data.equipment[j][i][1])))}});
 						}
 						else if (data.equipment[j][i][0] > 0)
 						{
 							es->equipment.push_back(
-							    {{&state, OpenApoc::format2("{0}{1}", AEquipmentType::getPrefix(),
-							                     canon_string(data_u.agent_equipment_names->get(
-							                         data.equipment[j][i][0])))}});
+							    {{&state,
+							      OpenApoc::format2("{0}{1}", AEquipmentType::getPrefix(),
+							                        canon_string(data_u.agent_equipment_names->get(
+							                            data.equipment[j][i][0])))}});
 						}
 						else
 						{
 							es->equipment.push_back(
-							    {{&state, OpenApoc::format2("{0}{1}", AEquipmentType::getPrefix(),
-							                     canon_string(data_u.agent_equipment_names->get(
-							                         data.equipment[j][i][1])))}});
+							    {{&state,
+							      OpenApoc::format2("{0}{1}", AEquipmentType::getPrefix(),
+							                        canon_string(data_u.agent_equipment_names->get(
+							                            data.equipment[j][i][1])))}});
 						}
 					}
 				}

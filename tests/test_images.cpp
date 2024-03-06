@@ -53,10 +53,10 @@ static bool testImage(const UString &imageName, const UString &referenceName)
 			auto r = refLock.get({x, y});
 			if (i != r)
 			{
-				LogWarning2(
-				    "Image mismatch at {{{},{}}} (RGBA img {{{},{},{},{}}} != RGBA ref {{{},{},{},{}}}",
-				    x, y, (int)i.r, (int)i.g, (int)i.b, (int)i.a, (int)r.r, (int)r.g, (int)r.b,
-				    (int)r.a);
+				LogWarning2("Image mismatch at {{{},{}}} (RGBA img {{{},{},{},{}}} != RGBA ref "
+				            "{{{},{},{},{}}}",
+				            x, y, (int)i.r, (int)i.g, (int)i.b, (int)i.a, (int)r.r, (int)r.g,
+				            (int)r.b, (int)r.a);
 
 				return false;
 			}
@@ -113,7 +113,7 @@ int main(int argc, char **argv)
 		if (!testImage(imagePair.first, imagePair.second))
 		{
 			LogError2("Image \"{}\" didn't match reference \"{}\"", imagePair.first,
-			         imagePair.second);
+			          imagePair.second);
 			return EXIT_FAILURE;
 		}
 		LogInfo2("Image \"{}\" matches reference \"{}\"", imagePair.first, imagePair.second);

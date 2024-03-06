@@ -17,7 +17,7 @@ template <typename T> class DataChunk
 	{
 		int count = (end_offset - start_offset) / sizeof(T);
 		LogInfo2("Reading {} units of {} bytes from offset 0x{:08x}", count, sizeof(T),
-		        start_offset);
+		         start_offset);
 		file.seekg(start_offset, file.beg);
 		for (int i = 0; i < count; i++)
 		{

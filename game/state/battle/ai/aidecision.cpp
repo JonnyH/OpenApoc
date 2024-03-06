@@ -20,11 +20,13 @@ UString AIAction::getName()
 	switch (type)
 	{
 		case AIAction::Type::AttackGrenade:
-			return OpenApoc::format2("Attack {0} with grenade {1} ", targetUnit->id, item->type->id);
+			return OpenApoc::format2("Attack {0} with grenade {1} ", targetUnit->id,
+			                         item->type->id);
 		case AIAction::Type::AttackWeaponTile:
 			if (item)
 			{
-				return OpenApoc::format2("Attack {0} with weapon {1} ", targetLocation, item->type->id);
+				return OpenApoc::format2("Attack {0} with weapon {1} ", targetLocation,
+				                         item->type->id);
 			}
 			else
 			{
@@ -33,18 +35,22 @@ UString AIAction::getName()
 		case AIAction::Type::AttackWeaponUnit:
 			if (item)
 			{
-				return OpenApoc::format2("Attack {0} with weapon {1} ", targetUnit->id, item->type->id);
+				return OpenApoc::format2("Attack {0} with weapon {1} ", targetUnit->id,
+				                         item->type->id);
 			}
 			else
 			{
 				return OpenApoc::format2("Attack {0} with weapon(s)", targetUnit->id);
 			}
 		case AIAction::Type::AttackPsiMC:
-			return OpenApoc::format2("Attack {0} with psi MC using {1} ", targetUnit->id, item->type->id);
+			return OpenApoc::format2("Attack {0} with psi MC using {1} ", targetUnit->id,
+			                         item->type->id);
 		case AIAction::Type::AttackPsiStun:
-			return OpenApoc::format2("Attack {0} with psi stun using {1} ", targetUnit->id, item->type->id);
+			return OpenApoc::format2("Attack {0} with psi stun using {1} ", targetUnit->id,
+			                         item->type->id);
 		case AIAction::Type::AttackPsiPanic:
-			return OpenApoc::format2("Attack {0} with psi panic using {1} ", targetUnit->id, item->type->id);
+			return OpenApoc::format2("Attack {0} with psi panic using {1} ", targetUnit->id,
+			                         item->type->id);
 		case AIAction::Type::AttackBrainsucker:
 			return OpenApoc::format2("Attack {0} with brainsucker", targetUnit->id);
 		case AIAction::Type::AttackSuicide:
@@ -199,7 +205,7 @@ bool AIMovement::isFinished(BattleUnit &u) { return !inProgress(u) && executed; 
 UString AIDecision::getName()
 {
 	return OpenApoc::format2("Action: [{0}] Movement: [{1}]", action ? action->getName() : "NULL",
-	              movement ? movement->getName() : "NULL");
+	                         movement ? movement->getName() : "NULL");
 }
 
 bool AIDecision::isEmpty() { return !action && !movement; }

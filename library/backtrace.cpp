@@ -77,17 +77,18 @@ UString libunwind_backtrace::symbolicate(unw_cursor_t frame)
 	dladdr(reinterpret_cast<void *>(ip), &info);
 	if (info.dli_sname)
 	{
-		return OpenApoc::format2("  0x{0:x} {1}+0x{2:x} ({3})", static_cast<uintptr_t>(ip), info.dli_sname,
-		              static_cast<uintptr_t>(ip) - reinterpret_cast<uintptr_t>(info.dli_saddr),
-		              info.dli_fname);
+		return OpenApoc::format2(
+		    "  0x{0:x} {1}+0x{2:x} ({3})", static_cast<uintptr_t>(ip), info.dli_sname,
+		    static_cast<uintptr_t>(ip) - reinterpret_cast<uintptr_t>(info.dli_saddr),
+		    info.dli_fname);
 	}
 	// If dladdr() failed, try libunwind
 	unw_word_t offsetInFn;
 	char fnName[MAX_SYMBOL_LENGTH];
 	if (!unw_get_proc_name(&frame, fnName, MAX_SYMBOL_LENGTH, &offsetInFn))
 	{
-		return OpenApoc::format2("  0x{0:x} {1}+0x{2:x} ({3})", static_cast<uintptr_t>(ip), fnName, offsetInFn,
-		              info.dli_fname);
+		return OpenApoc::format2("  0x{0:x} {1}+0x{2:x} ({3})", static_cast<uintptr_t>(ip), fnName,
+		                         offsetInFn, info.dli_fname);
 	}
 	else
 		return OpenApoc::format2("  0x{0:x}", static_cast<uintptr_t>(ip));

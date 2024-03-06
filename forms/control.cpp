@@ -23,8 +23,8 @@ Control::Control(bool takesFocus)
       Size(0, 0), SelectionSize(0, 0), BackgroundColour(0, 0, 0, 0), takesFocus(takesFocus),
       showBounds(false), Enabled(true), canCopy(true),
       // Tooltip defaults
-      ToolTipBackground{128, 128, 128}, ToolTipBorders{
-                                            {1, {0, 0, 0}}, {1, {255, 255, 255}}, {1, {0, 0, 0, 0}}}
+      ToolTipBackground{128, 128, 128},
+      ToolTipBorders{{1, {0, 0, 0}}, {1, {255, 255, 255}}, {1, {0, 0, 0, 0}}}
 {
 	this->ToolTipFont = ui().getFont(Options::defaultTooltipFont.get());
 }
@@ -653,7 +653,7 @@ void Control::configureSelfFromXml(pugi::xml_node *node)
 			if (!pal)
 			{
 				LogError2("Control referenced palette \"{}\" that cannot be loaded",
-				         child.text().get());
+				          child.text().get());
 			}
 			this->palette = pal;
 		}
@@ -724,7 +724,7 @@ void Control::configureSelfFromXml(pugi::xml_node *node)
 				else
 				{
 					LogWarning2("Control \"{}\" has not supported size x value \"{}\"", this->Name,
-					           specialsizex);
+					            specialsizex);
 				}
 			}
 
@@ -759,7 +759,7 @@ void Control::configureSelfFromXml(pugi::xml_node *node)
 				else
 				{
 					LogWarning2("Control \"{}\" has not supported size y value \"{}\"", this->Name,
-					           specialsizey);
+					            specialsizey);
 				}
 			}
 		}
@@ -843,7 +843,7 @@ void Control::configureSelfFromXml(pugi::xml_node *node)
 	}
 
 	LogInfo2("Control \"{}\" has {} subcontrols ({}, {}, {}, {})", this->Name, Controls.size(),
-	        Location.x, Location.y, Size.x, Size.y);
+	         Location.x, Location.y, Size.x, Size.y);
 }
 
 void Control::unloadResources() {}

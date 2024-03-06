@@ -74,16 +74,16 @@ void InitialGameStateExtractor::extractBuildings(GameState &state, UString bldFi
 		if (alienBuilding)
 		{
 			b->name = data.alien_building_names->get(entry.function_idx);
-			b->function = {&state,
-			               OpenApoc::format2("{0}{1}", BuildingFunction::getPrefix(), canon_string(b->name))};
+			b->function = {&state, OpenApoc::format2("{0}{1}", BuildingFunction::getPrefix(),
+			                                         canon_string(b->name))};
 			LogInfo2("Alien bld {} {} func {} {}", entry.name_idx, b->name, entry.function_idx,
-			        b->function.id);
+			         b->function.id);
 
 			b->accessTopic = {&state, OpenApoc::format2("RESEARCH_ALIEN_BUILDING_{0}", i)};
 			if (i < 9)
 			{
-				b->researchUnlock.emplace_back(&state,
-				                               OpenApoc::format2("RESEARCH_UNLOCK_ALIEN_BUILDING_{0}", i + 1));
+				b->researchUnlock.emplace_back(
+				    &state, OpenApoc::format2("RESEARCH_UNLOCK_ALIEN_BUILDING_{0}", i + 1));
 			}
 			else
 			{
@@ -97,8 +97,9 @@ void InitialGameStateExtractor::extractBuildings(GameState &state, UString bldFi
 		else
 		{
 			b->name = data.building_names->get(entry.name_idx);
-			b->function = {&state,
-			               OpenApoc::format2("{0}{1}", BuildingFunction::getPrefix(),
+			b->function = {
+			    &state,
+			    OpenApoc::format2("{0}{1}", BuildingFunction::getPrefix(),
 			                      canon_string(data.building_functions->get(entry.function_idx)))};
 
 			b->isPurchesable = entry.is_purchaseable;
@@ -152,8 +153,8 @@ void InitialGameStateExtractor::extractBuildings(GameState &state, UString bldFi
 			default:
 				break;
 		}
-		b->battle_map = {
-		    &state, OpenApoc::format2("{0}{1}", BattleMap::getPrefix(), this->battleMapPaths[battle_map_index])};
+		b->battle_map = {&state, OpenApoc::format2("{0}{1}", BattleMap::getPrefix(),
+		                                           this->battleMapPaths[battle_map_index])};
 		b->owner = {&state, data.getOrgId(entry.owner_idx)};
 		// Our rects are exclusive of p2
 		// Shift position by 20 tiles

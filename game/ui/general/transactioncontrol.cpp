@@ -38,23 +38,32 @@ bool TransactionControl::resourcesInitialised = false;
 void TransactionControl::initResources()
 {
 	bgLeft = fw().data->loadImage(OpenApoc::format2(
-	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:{0}:xcom3/ufodata/research.pcx", 45));
+	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:{0}:xcom3/ufodata/research.pcx",
+	    45));
 	bgRight = fw().data->loadImage(OpenApoc::format2(
-	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:{0}:xcom3/ufodata/research.pcx", 46));
+	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:{0}:xcom3/ufodata/research.pcx",
+	    46));
 	purchaseBoxIcon = fw().data->loadImage(OpenApoc::format2(
-	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:{0}:xcom3/ufodata/research.pcx", 47));
+	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:{0}:xcom3/ufodata/research.pcx",
+	    47));
 	purchaseXComIcon = fw().data->loadImage(OpenApoc::format2(
-	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:{0}:xcom3/ufodata/research.pcx", 48));
+	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:{0}:xcom3/ufodata/research.pcx",
+	    48));
 	purchaseArrow = fw().data->loadImage(OpenApoc::format2(
-	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:{0}:xcom3/ufodata/research.pcx", 52));
+	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:{0}:xcom3/ufodata/research.pcx",
+	    52));
 	alienContainedDetain = fw().data->loadImage(OpenApoc::format2(
-	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:{0}:xcom3/ufodata/research.pcx", 75));
+	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:{0}:xcom3/ufodata/research.pcx",
+	    75));
 	alienContainedKill = fw().data->loadImage(OpenApoc::format2(
-	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:{0}:xcom3/ufodata/research.pcx", 76));
+	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:{0}:xcom3/ufodata/research.pcx",
+	    76));
 	scrollLeft = fw().data->loadImage(OpenApoc::format2(
-	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:{0}:xcom3/ufodata/research.pcx", 53));
+	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:{0}:xcom3/ufodata/research.pcx",
+	    53));
 	scrollRight = fw().data->loadImage(OpenApoc::format2(
-	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:{0}:xcom3/ufodata/research.pcx", 54));
+	    "PCK:xcom3/ufodata/newbut.pck:xcom3/ufodata/newbut.tab:{0}:xcom3/ufodata/research.pcx",
+	    54));
 	transactionShade = fw().data->loadImage("city/transaction-shade.png");
 	labelFont = ui().getFont("smalfont");
 
@@ -539,7 +548,7 @@ sp<TransactionControl> TransactionControl::createControl(GameState &state,
 				price += e->ammo * state.economy[e->type->ammo_type.id].currentPrice;
 			}
 			LogInfo2("Vehicle type {} price increased to {} after counting {}", vehicle->type.id,
-			        price, e->type.id);
+			         price, e->type.id);
 		}
 	}
 	// Subtract price of default equipment
@@ -549,7 +558,7 @@ sp<TransactionControl> TransactionControl::createControl(GameState &state,
 		{
 			price -= state.economy[e.second.id].currentPrice;
 			LogInfo2("Vehicle type {} price decreased to {} after counting {}", vehicle->type.id,
-			        price, e.second.id);
+			         price, e.second.id);
 		}
 	}
 	LogInfo2("Vehicle type {} final price {}", vehicle->type.id, price);
@@ -637,7 +646,8 @@ TransactionControl::createControl(const UString &id, Type type, const UString &n
 	// Price
 	if (price != 0 && (indexLeft == ECONOMY_IDX || indexRight == ECONOMY_IDX))
 	{
-		auto label = control->createChild<Label>(OpenApoc::format2("${0}", control->price), labelFont);
+		auto label =
+		    control->createChild<Label>(OpenApoc::format2("${0}", control->price), labelFont);
 		label->Location = {290, 3};
 		label->Size = {47, 16};
 		label->TextHAlign = HorizontalAlignment::Right;

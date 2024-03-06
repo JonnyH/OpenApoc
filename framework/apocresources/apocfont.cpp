@@ -34,7 +34,7 @@ sp<BitmapFont> ApocalypseFont::loadFont(const UString &fontDescPath)
 	if (!parseResult)
 	{
 		LogWarning2("Failed to parse font file at \"{}\" - \"{}\" at \"{}\"", fontDescPath,
-		           parseResult.description(), (unsigned long long)parseResult.offset);
+		            parseResult.description(), (unsigned long long)parseResult.offset);
 		return nullptr;
 	}
 
@@ -49,7 +49,7 @@ sp<BitmapFont> ApocalypseFont::loadFont(const UString &fontDescPath)
 	if (!fontNode)
 	{
 		LogWarning2("Failed to find \"openapoc::apocfont\" node in font file at \"{}\"",
-		           fontDescPath);
+		            fontDescPath);
 		return nullptr;
 	}
 
@@ -93,14 +93,14 @@ sp<BitmapFont> ApocalypseFont::loadFont(const UString &fontDescPath)
 		if (glyphPath.empty())
 		{
 			LogError2("Font \"{}\" has glyph with missing string attribute - skipping glyph",
-			         fontName);
+			          fontName);
 			continue;
 		}
 		UString glyphString = glyphNode.attribute("string").value();
 		if (glyphString.empty())
 		{
 			LogError2("apocfont \"{}\" has glyph with missing string attribute - skipping glyph",
-			         fontName);
+			          fontName);
 			continue;
 		}
 
@@ -108,16 +108,17 @@ sp<BitmapFont> ApocalypseFont::loadFont(const UString &fontDescPath)
 
 		if (pointString.length() != 1)
 		{
-			LogError2("apocfont \"{}\" glyph \"{}\" has {} codepoints, expected one - skipping glyph",
-			         fontName, glyphString, pointString.length());
+			LogError2(
+			    "apocfont \"{}\" glyph \"{}\" has {} codepoints, expected one - skipping glyph",
+			    fontName, glyphString, pointString.length());
 			continue;
 		}
 		char32_t c = pointString[0];
 
 		if (charMap.find(c) != charMap.end())
 		{
-			LogError2("Font \"{}\" has multiple glyphs for string \"{}\" - skipping glyph", fontName,
-			         glyphString);
+			LogError2("Font \"{}\" has multiple glyphs for string \"{}\" - skipping glyph",
+			          fontName, glyphString);
 			continue;
 		}
 

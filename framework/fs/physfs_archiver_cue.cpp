@@ -104,8 +104,7 @@ class CueParser
 			}
 			if (last_char == arg.size())
 			{
-				LogError2("Malformed argument for FILE command (arguments are: \"{}\")",
-				         arg);
+				LogError2("Malformed argument for FILE command (arguments are: \"{}\")", arg);
 				return false;
 			}
 			last_char -= 1;
@@ -130,7 +129,7 @@ class CueParser
 		if (first_char == arg.size())
 		{
 			LogError2("File type not specified for \"{}\" (arguments are: \"{}\")", dataFileName,
-			         arg);
+			          arg);
 			return false;
 		}
 		last_char = arg.size() - 1;
@@ -611,7 +610,7 @@ class CueIO
 			if (fileStream.gcount() != readSize)
 			{
 				LogWarning2("Read buffer underrun! Wanted {} bytes, got {}", readSize,
-				           fileStream.gcount());
+				            fileStream.gcount());
 				return totalRead;
 			}
 			posInLba += readSize;
@@ -970,8 +969,9 @@ class CueArchiver
 		LogInfo2("Reading ISO volume descriptor");
 		IsoVolumeDescriptor descriptor;
 		cio->read(&descriptor, sizeof(descriptor));
-		LogInfo2("CD magic: {:c}, {:c}, {:c}, {:c}, {:c}", descriptor.identifier[0], descriptor.identifier[1],
-		        descriptor.identifier[2], descriptor.identifier[3], descriptor.identifier[4]);
+		LogInfo2("CD magic: {:c}, {:c}, {:c}, {:c}, {:c}", descriptor.identifier[0],
+		         descriptor.identifier[1], descriptor.identifier[2], descriptor.identifier[3],
+		         descriptor.identifier[4]);
 		const char magic[] = {'C', 'D', '0', '0', '1'};
 		if (std::memcmp((void *)magic, (void *)descriptor.identifier, 5))
 		{
@@ -1112,7 +1112,7 @@ class CueArchiver
 		if (!fs::exists(dataFilePath))
 		{
 			LogWarning2("Could not find binary file \"{}\" referenced in the cuesheet",
-			           parser.getDataFileName());
+			            parser.getDataFileName());
 			LogWarning2("Trying case-insensitive search...");
 			UString ucBin(parser.getDataFileName());
 			ucBin = to_lower(ucBin);

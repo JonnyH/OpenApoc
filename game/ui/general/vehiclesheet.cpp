@@ -90,29 +90,33 @@ void VehicleSheet::displayImplementation(sp<Vehicle> vehicle, sp<VehicleType> ve
 	auto it2 = defaultEquipment.end();
 
 	form->findControlTyped<Label>("LABEL_1_R")
-	    ->setText(vehicle
-	                  ? OpenApoc::format2("{0} / {1}", vehicle->getConstitution(), vehicle->getMaxConstitution())
-	                  : OpenApoc::format2("{0}", vehicleType->getMaxConstitution(it1, it2)));
+	    ->setText(vehicle ? OpenApoc::format2("{0} / {1}", vehicle->getConstitution(),
+	                                          vehicle->getMaxConstitution())
+	                      : OpenApoc::format2("{0}", vehicleType->getMaxConstitution(it1, it2)));
 
 	form->findControlTyped<Label>("LABEL_2_R")
-	    ->setText(OpenApoc::format2("{0}", vehicle ? vehicle->getArmor() : vehicleType->getArmor(it1, it2)));
+	    ->setText(OpenApoc::format2("{0}", vehicle ? vehicle->getArmor()
+	                                               : vehicleType->getArmor(it1, it2)));
 
 	form->findControlTyped<Label>("LABEL_3_R")
-	    ->setText(
-	        OpenApoc::format2("{0}%", vehicle ? vehicle->getAccuracy() : vehicleType->getAccuracy(it1, it2)));
+	    ->setText(OpenApoc::format2("{0}%", vehicle ? vehicle->getAccuracy()
+	                                                : vehicleType->getAccuracy(it1, it2)));
 	form->findControlTyped<Label>("LABEL_4_R")
-	    ->setText(
-	        OpenApoc::format2("{0}", vehicle ? vehicle->getTopSpeed() : vehicleType->getTopSpeed(it1, it2)));
+	    ->setText(OpenApoc::format2("{0}", vehicle ? vehicle->getTopSpeed()
+	                                               : vehicleType->getTopSpeed(it1, it2)));
 	form->findControlTyped<Label>("LABEL_5_R")
 	    ->setText(OpenApoc::format2("{0}", vehicle ? vehicle->getAcceleration()
-	                                   : vehicleType->getAcceleration(it1, it2)));
+	                                               : vehicleType->getAcceleration(it1, it2)));
 	form->findControlTyped<Label>("LABEL_6_R")
-	    ->setText(OpenApoc::format2("{0}", vehicle ? vehicle->getWeight() : vehicleType->getWeight(it1, it2)));
+	    ->setText(OpenApoc::format2("{0}", vehicle ? vehicle->getWeight()
+	                                               : vehicleType->getWeight(it1, it2)));
 	form->findControlTyped<Label>("LABEL_7_R")
-	    ->setText(vehicle ? OpenApoc::format2("{0}k / {1}k", vehicle->getFuel(), vehicle->getMaxFuel())
-	                      : OpenApoc::format2("{0}k", vehicleType->getMaxFuel(it1, it2)));
+	    ->setText(vehicle
+	                  ? OpenApoc::format2("{0}k / {1}k", vehicle->getFuel(), vehicle->getMaxFuel())
+	                  : OpenApoc::format2("{0}k", vehicleType->getMaxFuel(it1, it2)));
 	form->findControlTyped<Label>("LABEL_8_R")
-	    ->setText(vehicle ? OpenApoc::format2("{0} / {1}", vehicle->getPassengers(), vehicle->getMaxPassengers())
+	    ->setText(vehicle ? OpenApoc::format2("{0} / {1}", vehicle->getPassengers(),
+	                                          vehicle->getMaxPassengers())
 	                      : OpenApoc::format2("{0}", vehicleType->getMaxPassengers(it1, it2)));
 	if (!config().getBool("OpenApoc.NewFeature.EnforceCargoLimits"))
 	{
@@ -123,7 +127,8 @@ void VehicleSheet::displayImplementation(sp<Vehicle> vehicle, sp<VehicleType> ve
 	else
 	{
 		form->findControlTyped<Label>("LABEL_9_R")
-		    ->setText(vehicle ? OpenApoc::format2("{0} / {1}", vehicle->getCargo(), vehicle->getMaxCargo())
+		    ->setText(vehicle ? OpenApoc::format2("{0} / {1}", vehicle->getCargo(),
+		                                          vehicle->getMaxCargo())
 		                      : OpenApoc::format2("{0}", vehicleType->getMaxCargo(it1, it2)));
 	}
 }
@@ -168,7 +173,8 @@ void VehicleSheet::displayWeapon(sp<VEquipment> item, sp<VEquipmentType> type)
 	form->findControlTyped<Label>("LABEL_2_L")->setText(tr("Damage"));
 	form->findControlTyped<Label>("LABEL_2_R")->setText(OpenApoc::format2("{0}", type->damage));
 	form->findControlTyped<Label>("LABEL_3_L")->setText(tr("Range"));
-	form->findControlTyped<Label>("LABEL_3_R")->setText(OpenApoc::format2("{0}", type->getRangeInTiles()));
+	form->findControlTyped<Label>("LABEL_3_R")
+	    ->setText(OpenApoc::format2("{0}", type->getRangeInTiles()));
 	form->findControlTyped<Label>("LABEL_4_L")->setText(tr("Accuracy"));
 	form->findControlTyped<Label>("LABEL_4_R")->setText(OpenApoc::format2("{0}%", type->accuracy));
 
@@ -187,42 +193,48 @@ void VehicleSheet::displayGeneral(sp<VEquipment> item [[maybe_unused]], sp<VEqui
 	int statsCount = 2;
 	if (type->accuracy_modifier)
 	{
-		form->findControlTyped<Label>(OpenApoc::format2("LABEL_{0}_L", statsCount))->setText(tr("Accuracy"));
+		form->findControlTyped<Label>(OpenApoc::format2("LABEL_{0}_L", statsCount))
+		    ->setText(tr("Accuracy"));
 		form->findControlTyped<Label>(OpenApoc::format2("LABEL_{0}_R", statsCount))
 		    ->setText(OpenApoc::format2("{0}%", 100 - type->accuracy_modifier));
 		statsCount++;
 	}
 	if (type->cargo_space)
 	{
-		form->findControlTyped<Label>(OpenApoc::format2("LABEL_{0}_L", statsCount))->setText(tr("Cargo"));
+		form->findControlTyped<Label>(OpenApoc::format2("LABEL_{0}_L", statsCount))
+		    ->setText(tr("Cargo"));
 		form->findControlTyped<Label>(OpenApoc::format2("LABEL_{0}_R", statsCount))
 		    ->setText(OpenApoc::format2("{0}", type->cargo_space));
 		statsCount++;
 	}
 	if (type->passengers)
 	{
-		form->findControlTyped<Label>(OpenApoc::format2("LABEL_{0}_L", statsCount))->setText(tr("Passengers"));
+		form->findControlTyped<Label>(OpenApoc::format2("LABEL_{0}_L", statsCount))
+		    ->setText(tr("Passengers"));
 		form->findControlTyped<Label>(OpenApoc::format2("LABEL_{0}_R", statsCount))
 		    ->setText(OpenApoc::format2("{0}", type->passengers));
 		statsCount++;
 	}
 	if (type->alien_space)
 	{
-		form->findControlTyped<Label>(OpenApoc::format2("LABEL_{0}_L", statsCount))->setText(tr("Aliens Held"));
+		form->findControlTyped<Label>(OpenApoc::format2("LABEL_{0}_L", statsCount))
+		    ->setText(tr("Aliens Held"));
 		form->findControlTyped<Label>(OpenApoc::format2("LABEL_{0}_R", statsCount))
 		    ->setText(OpenApoc::format2("{0}", type->alien_space));
 		statsCount++;
 	}
 	if (type->missile_jamming)
 	{
-		form->findControlTyped<Label>(OpenApoc::format2("LABEL_{0}_L", statsCount))->setText(tr("Jamming"));
+		form->findControlTyped<Label>(OpenApoc::format2("LABEL_{0}_L", statsCount))
+		    ->setText(tr("Jamming"));
 		form->findControlTyped<Label>(OpenApoc::format2("LABEL_{0}_R", statsCount))
 		    ->setText(OpenApoc::format2("{0}", type->missile_jamming));
 		statsCount++;
 	}
 	if (type->shielding)
 	{
-		form->findControlTyped<Label>(OpenApoc::format2("LABEL_{0}_L", statsCount))->setText(tr("Shielding"));
+		form->findControlTyped<Label>(OpenApoc::format2("LABEL_{0}_L", statsCount))
+		    ->setText(tr("Shielding"));
 		form->findControlTyped<Label>(OpenApoc::format2("LABEL_{0}_R", statsCount))
 		    ->setText(OpenApoc::format2("{0}", type->shielding));
 		statsCount++;
@@ -235,7 +247,8 @@ void VehicleSheet::displayGeneral(sp<VEquipment> item [[maybe_unused]], sp<VEqui
 	}
 	if (type->teleporting)
 	{
-		form->findControlTyped<Label>(OpenApoc::format2("LABEL_{0}_L", statsCount))->setText(tr("Teleports"));
+		form->findControlTyped<Label>(OpenApoc::format2("LABEL_{0}_L", statsCount))
+		    ->setText(tr("Teleports"));
 		statsCount++;
 	}
 }

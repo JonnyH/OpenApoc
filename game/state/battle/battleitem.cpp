@@ -248,7 +248,7 @@ void BattleItem::update(GameState &state, unsigned int ticks)
 				break;
 			default:
 				LogError2("What the hell is this item colliding with? Type is {}",
-				         (int)c.obj->getType());
+				          (int)c.obj->getType());
 				break;
 		}
 	}
@@ -278,7 +278,8 @@ void BattleItem::update(GameState &state, unsigned int ticks)
 		// Fell below 0???
 		if (newPosition.z < 0)
 		{
-			LogError2("Item at {:f} {:f} fell off the end of the world!?", newPosition.x, newPosition.y);
+			LogError2("Item at {:f} {:f} fell off the end of the world!?", newPosition.x,
+			          newPosition.y);
 			die(state, false);
 			return;
 		}

@@ -204,9 +204,9 @@ Skirmish::Skirmish(sp<GameState> state) : Stage(), menuform(ui().getForm("skirmi
 		            ->setText(
 		                menuform->findControlTyped<ScrollBar>("PLAYER_TECH_SLIDER")->getValue() == 0
 		                    ? "NO"
-		                    : OpenApoc::format2("{0}",
-		                             menuform->findControlTyped<ScrollBar>("PLAYER_TECH_SLIDER")
-		                                 ->getValue()));
+		                    : OpenApoc::format2(
+		                          "{0}", menuform->findControlTyped<ScrollBar>("PLAYER_TECH_SLIDER")
+		                                     ->getValue()));
 	        });
 	menuform->findControlTyped<ScrollBar>("ALIEN_SCORE_SLIDER")
 	    ->addCallback(
@@ -636,8 +636,8 @@ void Skirmish::updateLocationLabel()
 	if (locBuilding)
 	{
 		text = OpenApoc::format2("[{0} Building] {1} [{2}]",
-		              locBuilding->owner == state.getAliens() ? "Alien" : "Human",
-		              locBuilding->name, locBuilding->battle_map.id);
+		                         locBuilding->owner == state.getAliens() ? "Alien" : "Human",
+		                         locBuilding->name, locBuilding->battle_map.id);
 	}
 	else if (locVehicle)
 	{
@@ -647,7 +647,8 @@ void Skirmish::updateLocationLabel()
 	{
 		text = OpenApoc::format2("[Base] {0}", locBase->name);
 	}
-	menuform->findControlTyped<Label>("LOCATION")->setText(OpenApoc::format2("LOCATION: {0}", text));
+	menuform->findControlTyped<Label>("LOCATION")
+	    ->setText(OpenApoc::format2("LOCATION: {0}", text));
 }
 
 void Skirmish::battleInBuilding(bool hotseat, StateRef<Base> playerBase,

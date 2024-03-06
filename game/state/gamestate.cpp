@@ -321,7 +321,7 @@ void GameState::validateResearch()
 				if (fail)
 				{
 					LogError2("{} DOES NOT EXIST: referenced as manufactured by {}",
-					         t.second->itemId, t.first);
+					          t.second->itemId, t.first);
 				}
 			}
 		}
@@ -336,7 +336,7 @@ void GameState::validateResearch()
 				else if (research.topics.find(topic.id) == research.topics.end())
 				{
 					LogError2("{} DOES NOT EXIST: referenced as required topic for {}", topic.id,
-					         t.first);
+					          t.first);
 				}
 			}
 		}
@@ -349,7 +349,7 @@ void GameState::validateResearch()
 			else if (agent_equipment.find(entry.first.id) == agent_equipment.end())
 			{
 				LogError2("{} DOES NOT EXIST: referenced as required item for {}", entry.first.id,
-				         t.first);
+				          t.first);
 			}
 		}
 		for (auto &entry : t.second->dependencies.items.agentItemsConsumed)
@@ -361,7 +361,7 @@ void GameState::validateResearch()
 			else if (agent_equipment.find(entry.first.id) == agent_equipment.end())
 			{
 				LogError2("{} DOES NOT EXIST: referenced as consumed item for {}", entry.first.id,
-				         t.first);
+				          t.first);
 			}
 		}
 		for (auto &entry : t.second->dependencies.items.vehicleItemsRequired)
@@ -373,7 +373,7 @@ void GameState::validateResearch()
 			else if (vehicle_equipment.find(entry.first.id) == vehicle_equipment.end())
 			{
 				LogError2("{} DOES NOT EXIST: referenced as required item for {}", entry.first.id,
-				         t.first);
+				          t.first);
 			}
 		}
 		for (auto &entry : t.second->dependencies.items.vehicleItemsConsumed)
@@ -385,7 +385,7 @@ void GameState::validateResearch()
 			else if (vehicle_equipment.find(entry.first.id) == vehicle_equipment.end())
 			{
 				LogError2("{} DOES NOT EXIST: referenced as consumed item for {}", entry.first.id,
-				         t.first);
+				          t.first);
 			}
 		}
 		for (auto &entry : t.second->dependencies.items.agentItemsConsumed)
@@ -393,13 +393,13 @@ void GameState::validateResearch()
 			if (t.second->dependencies.items.agentItemsRequired.find(entry.first) ==
 			    t.second->dependencies.items.agentItemsRequired.end())
 			{
-				LogError2("Consumed agent item {} not in required list for topic {}", entry.first.id,
-				         t.first);
+				LogError2("Consumed agent item {} not in required list for topic {}",
+				          entry.first.id, t.first);
 			}
 			else if (t.second->dependencies.items.agentItemsRequired.at(entry.first) < entry.second)
 			{
 				LogError2("Consumed agent items {} has bigger count than required for topic {}",
-				         entry.first.id, t.first);
+				          entry.first.id, t.first);
 			}
 		}
 		for (auto &entry : t.second->dependencies.items.vehicleItemsConsumed)
@@ -408,13 +408,13 @@ void GameState::validateResearch()
 			    t.second->dependencies.items.vehicleItemsRequired.end())
 			{
 				LogError2("Consumed vehicle item {} not in required list for topic {}",
-				         entry.first.id, t.first);
+				          entry.first.id, t.first);
 			}
 			else if (t.second->dependencies.items.vehicleItemsRequired.at(entry.first) <
 			         entry.second)
 			{
 				LogError2("Consumed vehicle item {} has bigger count than required for topic {}",
-				         entry.first.id, t.first);
+				          entry.first.id, t.first);
 			}
 		}
 	}
@@ -462,14 +462,15 @@ void GameState::validateScenery()
 				}
 				if (newRoad || (roadAlive && roadDead))
 				{
-					LogError2("ROAD MUTATION: In {} when damaged from {} to {} roads go [{}{}{}{}] to [{}{}{}{}]",
-					         sc.first, thisSc.id, thisSc->damagedTile.id,
-					         (int)thisSc->connection[0], (int)thisSc->connection[1],
-					         (int)thisSc->connection[2], (int)thisSc->connection[3],
-					         (int)thisSc->damagedTile->connection[0],
-					         (int)thisSc->damagedTile->connection[1],
-					         (int)thisSc->damagedTile->connection[2],
-					         (int)thisSc->damagedTile->connection[3]);
+					LogError2("ROAD MUTATION: In {} when damaged from {} to {} roads go [{}{}{}{}] "
+					          "to [{}{}{}{}]",
+					          sc.first, thisSc.id, thisSc->damagedTile.id,
+					          (int)thisSc->connection[0], (int)thisSc->connection[1],
+					          (int)thisSc->connection[2], (int)thisSc->connection[3],
+					          (int)thisSc->damagedTile->connection[0],
+					          (int)thisSc->damagedTile->connection[1],
+					          (int)thisSc->damagedTile->connection[2],
+					          (int)thisSc->damagedTile->connection[3]);
 				}
 				if (seenTypes.find(thisSc->damagedTile) != seenTypes.end())
 				{
@@ -495,8 +496,9 @@ void GameState::validateAgentEquipment()
 			}
 			if (ae.second->max_ammo != 1 && ae.second->bioStorage)
 			{
-				LogError2("{} BIO AMMO CLIP: equipment stored in alien containment must never have max ammo other than 1",
-				         ae.first);
+				LogError2("{} BIO AMMO CLIP: equipment stored in alien containment must never have "
+				          "max ammo other than 1",
+				          ae.first);
 			}
 		}
 	}
@@ -805,8 +807,8 @@ void GameState::invasion()
 	}
 	// Select a random mission type
 	int week = this->gameTime.getWeek();
-	auto preference =
-	    this->ufo_mission_preference.find(OpenApoc::format2("{0}{1}", UFOMissionPreference::getPrefix(), week));
+	auto preference = this->ufo_mission_preference.find(
+	    OpenApoc::format2("{0}{1}", UFOMissionPreference::getPrefix(), week));
 	if (preference == this->ufo_mission_preference.end())
 	{
 		preference = this->ufo_mission_preference.find(
@@ -1217,7 +1219,7 @@ void GameState::updateEndOfFiveMinutes()
 								break;
 							default:
 								LogInfo2("Implement the remaining messages for vehicle rearmed / "
-								        "reloaded / refueled / whatever");
+								         "reloaded / refueled / whatever");
 								break;
 						}
 					}
@@ -1706,7 +1708,7 @@ void GameState::loadMods()
 		if (!modLoadScript.empty())
 		{
 			LogInfo2("Executing modLoad script \"{}\" for mod \"{}\"", modLoadScript,
-			        modInfo->getID());
+			         modInfo->getID());
 			this->luaGameState.runScript(modLoadScript);
 		}
 	}

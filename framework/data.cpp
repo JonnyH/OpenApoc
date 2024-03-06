@@ -820,20 +820,20 @@ bool DataImpl::writeImage(UString systemPath, sp<Image> image, sp<Palette> palet
 				if (!palette)
 				{
 					LogWarning2("Failed to write palette image - no palette supplied and failed to "
-					           "load default");
+					            "load default");
 					return false;
 				}
 			}
 			if (writer->writeImage(palImg, outFile, palette))
 			{
 				LogInfo2("Successfully wrote palette image \"{}\" using \"{}\"", systemPath,
-				        writer->getName());
+				         writer->getName());
 				return true;
 			}
 			else
 			{
 				LogWarning2("Failed to write palette image \"{}\" using \"{}\"", systemPath,
-				           writer->getName());
+				            writer->getName());
 				continue;
 			}
 		}
@@ -842,13 +842,13 @@ bool DataImpl::writeImage(UString systemPath, sp<Image> image, sp<Palette> palet
 			if (writer->writeImage(rgbImg, outFile))
 			{
 				LogInfo2("Successfully wrote RGB image \"{}\" using \"{}\"", systemPath,
-				        writer->getName());
+				         writer->getName());
 				return true;
 			}
 			else
 			{
 				LogWarning2("Failed to write RGB image \"{}\" using \"{}\"", systemPath,
-				           writer->getName());
+				            writer->getName());
 				continue;
 			}
 		}
@@ -997,7 +997,7 @@ void DataImpl::readAliasFile(const UString &path)
 	if (!parseResult)
 	{
 		LogWarning2("Failed to parse alias file at \"{}\" - \"{}\" at \"{}\"", path,
-		           parseResult.description(), (unsigned long long)parseResult.offset);
+		            parseResult.description(), (unsigned long long)parseResult.offset);
 		return;
 	}
 	auto openapocNode = doc.child("openapoc");
