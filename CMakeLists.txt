@@ -92,6 +92,8 @@ if (MSVC)
 	endif()
 endif()
 
+add_definitions(-D_GLIBCXX_CONCEPT_CHECKS -D_GLIBCXX_ASSERTIONS)
+
 # Clang whines about unused arguments, which is annoying (for example) when
 # using ccache and the clang exe never sees a non-preprocessed file, yet still
 # gets passed the -I include arguments
