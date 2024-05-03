@@ -36,13 +36,11 @@ bool VoxelMap::getBit(Vec3<int> pos) const
 
 	if (slices.size() <= static_cast<unsigned>(pos.z))
 		return false;
-	if (!slices[pos.z])
-		return false;
 
-	return slices[pos.z]->getBit({pos.x, pos.y});
+	return slices[pos.z].getBit({pos.x, pos.y});
 }
 
-void VoxelMap::setSlice(int z, sp<VoxelSlice> slice)
+void VoxelMap::setSlice(int z, const VoxelSlice &slice)
 {
 	this->centreChanged = true;
 	if (z < 0 || static_cast<unsigned>(z) >= this->slices.size())
@@ -50,7 +48,7 @@ void VoxelMap::setSlice(int z, sp<VoxelSlice> slice)
 		return;
 	}
 	// Slices greater than map size are fine, we will just ignore extra pixels
-	if (slice->getSize().x < this->size.x || slice->getSize().y < this->size.y)
+	if (slice.getSize().x < this->size.x || slice.getSize().y < this->size.y)
 	{
 		return;
 	}
@@ -90,7 +88,7 @@ void VoxelMap::calculateCentre()
 		}
 		*/
 		// Instead, we consider layer filled if one bit is
-		if (this->slices[z] && !this->slices[z]->isEmpty())
+		if (!this->slices[z].isEmpty())
 		{
 			sum += Vec3<int>{this->size.x / 2, this->size.y / 2, z};
 			numFilled++;
@@ -115,15 +113,7 @@ bool VoxelMap::operator==(const VoxelMap &other) const
 	}
 	for (unsigned i = 0; i < this->slices.size(); i++)
 	{
-		if (this->slices[i] == other.slices[i])
-		{
-			continue;
-		}
-		if (!this->slices[i] || !other.slices[i])
-		{
-			return false;
-		}
-		if (*this->slices[i] != *other.slices[i])
+		if (this->slices[i] != other.slices[i])
 		{
 			return false;
 		}

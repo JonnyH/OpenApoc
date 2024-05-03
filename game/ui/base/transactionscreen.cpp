@@ -647,11 +647,11 @@ void TransactionScreen::attemptCloseScreen()
 	}
 	else
 	{
-		fw().stageQueueCommand({StageCmd::Command::PUSH,
-		                        mksp<MessageBox>(
-		                            confirmClosureText, "", MessageBox::ButtonOptions::YesNoCancel,
-		                            [this] { closeScreen(); },
-		                            [] { fw().stageQueueCommand({StageCmd::Command::POP}); })});
+		fw().stageQueueCommand(
+		    {StageCmd::Command::PUSH,
+		     mksp<MessageBox>(
+		         confirmClosureText, "", MessageBox::ButtonOptions::YesNoCancel, [this]
+		         { closeScreen(); }, [] { fw().stageQueueCommand({StageCmd::Command::POP}); })});
 	}
 }
 

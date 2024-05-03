@@ -72,7 +72,7 @@ int main(int argc, char **argv)
 	auto filled_tilemap_32_32_16 = mksp<VoxelMap>(Vec3<int>{32, 32, 16});
 	for (int z = 0; z < 16; z++)
 	{
-		filled_tilemap_32_32_16->setSlice(z, filled_slice_32_32);
+		filled_tilemap_32_32_16->setSlice(z, *filled_slice_32_32);
 	}
 
 	// LayerMap is only used for drawing

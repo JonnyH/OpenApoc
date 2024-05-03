@@ -132,7 +132,7 @@ void serializeIn(const GameState *, SerializationNode *node, bool &val);
 void serializeIn(const GameState *, SerializationNode *node, sp<LazyImage> &ptr);
 void serializeIn(const GameState *, SerializationNode *node, sp<Image> &ptr);
 void serializeIn(const GameState *, SerializationNode *node, std::vector<bool> &vector);
-void serializeIn(const GameState *, SerializationNode *node, sp<VoxelSlice> &ptr);
+void serializeIn(const GameState *, SerializationNode *node, VoxelSlice &ptr);
 void serializeIn(const GameState *, SerializationNode *node, sp<Sample> &ptr);
 void serializeIn(const GameState *state, SerializationNode *node, VoxelMap &map);
 void serializeIn(const GameState *state, SerializationNode *node, Colour &c);
@@ -429,7 +429,7 @@ void serializeOut(SerializationNode *node, const sp<LazyImage> &ptr, const sp<La
 void serializeOut(SerializationNode *node, const sp<Image> &ptr, const sp<Image> &ref);
 void serializeOut(SerializationNode *node, const std::vector<bool> &vector,
                   const std::vector<bool> &ref);
-void serializeOut(SerializationNode *node, const sp<VoxelSlice> &ptr, const sp<VoxelSlice> &ref);
+void serializeOut(SerializationNode *node, const VoxelSlice &ptr, const VoxelSlice &ref);
 void serializeOut(SerializationNode *node, const sp<Sample> &ptr, const sp<Sample> &ref);
 void serializeOut(SerializationNode *node, const VoxelMap &map, const VoxelMap &ref);
 void serializeOut(SerializationNode *node, const Colour &c, const Colour &ref);

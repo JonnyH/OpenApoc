@@ -105,7 +105,7 @@ static void test_voxel(Vec3<int> voxel_size)
 		bit_voxel_position.z = voxel_size.z - 1;
 		LogInfo("Clamping bit position z to %d", bit_voxel_position.z);
 	}
-	v.setSlice(bit_voxel_position.z, slice);
+	v.setSlice(bit_voxel_position.z, *slice);
 	for (int z = -16; z < voxel_size.z + 33; z++)
 	{
 		for (int y = -64; y < voxel_size.y + 66; y++)
@@ -134,6 +134,7 @@ static void test_voxel(Vec3<int> voxel_size)
 
 	// Unset the bit and make sure it's empty again
 	slice->setBit(bit_position, false);
+	v.setSlice(bit_voxel_position.z, *slice);
 	for (int z = -16; z < voxel_size.z + 32; z++)
 	{
 		for (int y = -64; y < voxel_size.y + 64; y++)
@@ -155,6 +156,7 @@ static void test_voxel(Vec3<int> voxel_size)
 #endif
 	// and set the bit again to get back to single-bit-set state
 	slice->setBit(bit_position, true);
+	v.setSlice(bit_voxel_position.z, *slice);
 
 	// Add a second bit at (first_bit_pos - 2), the centre should then be at (first_bit_pos +
 	// second_bit_pos) / 2
@@ -184,8 +186,8 @@ static void test_voxel(Vec3<int> voxel_size)
 	}
 
 	slice2->setBit({bit_2_voxel_position.x, bit_2_voxel_position.y}, true);
+	v.setSlice(bit_2_voxel_position.z, *slice2);
 
-	v.setSlice(bit_2_voxel_position.z, slice2);
 	for (int z = -16; z < voxel_size.z + 33; z++)
 	{
 		for (int y = -64; y < voxel_size.y + 66; y++)

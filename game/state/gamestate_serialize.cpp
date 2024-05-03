@@ -97,11 +97,22 @@ void serializeIn(const GameState *, SerializationNode *node, std::vector<bool> &
 	vector = node->getValueBoolVector();
 }
 
-void serializeIn(const GameState *, SerializationNode *node, sp<VoxelSlice> &ptr)
+void serializeIn(const GameState *, SerializationNode *node, VoxelSlice &ptr)
 {
 	if (!node)
 		return;
-	ptr = fw().data->loadVoxelSlice(node->getValue());
+	if (node->getValue().empty())
+	{
+		ptr = {}; // Empty voxel slice
+		return;
+	}
+	auto slice = fw().data->loadVoxelSlice(node->getValue());
+	if (!slice)
+	{
+		LogError("Failed to load voxel slice \"%s\"", node->getValue());
+		return;
+	}
+	ptr = *slice;
 }
 
 void serializeIn(const GameState *, SerializationNode *node, sp<Sample> &ptr)
@@ -188,12 +199,9 @@ void serializeOut(SerializationNode *node, const sp<Image> &ptr, const sp<Image>
 	}
 }
 
-void serializeOut(SerializationNode *node, const sp<VoxelSlice> &ptr, const sp<VoxelSlice> &)
+void serializeOut(SerializationNode *node, const VoxelSlice &ptr, const VoxelSlice &)
 {
-	if (ptr)
-	{
-		node->setValue(ptr->path);
-	}
+	node->setValue(ptr.path);
 }
 
 void serializeOut(SerializationNode *node, const sp<Sample> &ptr, const sp<Sample> &)
