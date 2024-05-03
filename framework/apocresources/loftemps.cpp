@@ -50,7 +50,7 @@ LOFTemps::LOFTemps(IFile &datFile, IFile &tabFile)
 			return;
 		}
 
-		auto slice = mksp<VoxelSlice>(Vec2<int>{width, height});
+		auto slice = VoxelSlice(Vec2<int>{width, height});
 
 		for (unsigned int y = 0; y < height; y++)
 		{
@@ -74,7 +74,7 @@ LOFTemps::LOFTemps(IFile &datFile, IFile &tabFile)
 					else
 						b = false;
 					bitmask <<= 1;
-					slice->setBit(Vec2<int>{x + bit, y}, b);
+					slice.setBit(Vec2<int>{x + bit, y}, b);
 				}
 			}
 		}
@@ -83,12 +83,12 @@ LOFTemps::LOFTemps(IFile &datFile, IFile &tabFile)
 	}
 }
 
-sp<VoxelSlice> LOFTemps::getSlice(unsigned int idx)
+VoxelSlice LOFTemps::getSlice(unsigned int idx)
 {
 	if (idx >= this->slices.size())
 	{
 		LogError("Requested slice %d - only %zu in file", idx, this->slices.size());
-		return nullptr;
+		return {};
 	}
 	return this->slices[idx];
 }

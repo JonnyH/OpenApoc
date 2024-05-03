@@ -81,7 +81,7 @@ void InitialGameStateExtractor::readBattleMapParts(
 				continue;
 			auto lofString = format("LOFTEMPS:%s:%s:%u", loftempsFile, loftempsTab,
 			                        (unsigned int)entry.loftemps_lof[slice]);
-			object->voxelMapLOF->slices[slice] = *fw().data->loadVoxelSlice(lofString);
+			object->voxelMapLOF->slices[slice] = fw().data->loadVoxelSlice(lofString);
 		}
 		object->voxelMapLOS = mksp<VoxelMap>(Vec3<int>{24, 24, 20});
 		for (int slice = 0; slice < 20; slice++)
@@ -90,7 +90,7 @@ void InitialGameStateExtractor::readBattleMapParts(
 				continue;
 			auto lofString = format("LOFTEMPS:%s:%s:%u", loftempsFile, loftempsTab,
 			                        (unsigned int)entry.loftemps_los[slice]);
-			object->voxelMapLOS->slices[slice] = *fw().data->loadVoxelSlice(lofString);
+			object->voxelMapLOS->slices[slice] = fw().data->loadVoxelSlice(lofString);
 		}
 		if (entry.damaged_idx)
 		{

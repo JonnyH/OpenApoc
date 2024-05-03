@@ -12,10 +12,11 @@ class VoxelSlice;
 class LOFTemps
 {
   private:
-	std::vector<sp<VoxelSlice>> slices;
+	std::vector<VoxelSlice> slices;
 
   public:
 	LOFTemps(IFile &datFile, IFile &tabFile);
-	sp<VoxelSlice> getSlice(unsigned int idx);
+    LOFTemps() = default;
+	VoxelSlice getSlice(unsigned int idx);
 };
 }; // namespace OpenApoc

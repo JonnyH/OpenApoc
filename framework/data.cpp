@@ -45,7 +45,7 @@ class DataImpl final : public Data
 	std::map<UString, std::weak_ptr<MusicTrack>> musicCache;
 	std::map<UString, UString> musicAliases;
 	std::recursive_mutex musicCacheLock;
-	std::map<UString, std::weak_ptr<LOFTemps>> LOFVoxelCache;
+	std::map<UString, LOFTemps> LOFVoxelCache;
 	std::map<UString, UString> voxelAliases;
 	std::recursive_mutex voxelCacheLock;
 
@@ -61,7 +61,6 @@ class DataImpl final : public Data
 	std::queue<sp<Image>> pinnedImages;
 	// Pin open 'imageSetCacheSize' image sets
 	std::queue<sp<ImageSet>> pinnedImageSets;
-	std::queue<sp<LOFTemps>> pinnedLOFVoxels;
 	std::queue<sp<PaletteImage>> pinnedFontStrings;
 	std::queue<sp<Palette>> pinnedPalettes;
 	std::list<std::unique_ptr<ImageLoader>> imageLoaders;
@@ -86,7 +85,7 @@ class DataImpl final : public Data
 	sp<Image> loadImage(const UString &path, bool lazy = false) override;
 	sp<ImageSet> loadImageSet(const UString &path) override;
 	sp<Palette> loadPalette(const UString &path) override;
-	sp<VoxelSlice> loadVoxelSlice(const UString &path) override;
+	VoxelSlice loadVoxelSlice(const UString &path) override;
 	sp<Video> loadVideo(const UString &path) override;
 
 	void addSampleAlias(const UString &name, const UString &value) override;
@@ -171,8 +170,6 @@ DataImpl::DataImpl(std::vector<UString> paths) : Data(paths)
 		pinnedImages.push(nullptr);
 	for (int i = 0; i < Options::imageSetCacheSize.get(); i++)
 		pinnedImageSets.push(nullptr);
-	for (int i = 0; i < Options::voxelCacheSize.get(); i++)
-		pinnedLOFVoxels.push(nullptr);
 	for (int i = 0; i < Options::fontStringCacheSize.get(); i++)
 		pinnedFontStrings.push(nullptr);
 	for (int i = 0; i < Options::paletteCacheSize.get(); i++)
@@ -181,11 +178,11 @@ DataImpl::DataImpl(std::vector<UString> paths) : Data(paths)
 	this->readAliases();
 }
 
-sp<VoxelSlice> DataImpl::loadVoxelSlice(const UString &path)
+VoxelSlice DataImpl::loadVoxelSlice(const UString &path)
 {
 	std::lock_guard<std::recursive_mutex> l(this->voxelCacheLock);
-	if (path == "")
-		return nullptr;
+	if (path.empty())
+		return {};
 
 	auto alias = this->voxelAliases.find(path);
 	if (alias != this->voxelAliases.end())
@@ -194,7 +191,6 @@ sp<VoxelSlice> DataImpl::loadVoxelSlice(const UString &path)
 		return this->loadVoxelSlice(alias->second);
 	}
 
-	sp<VoxelSlice> slice;
 	if (path.substr(0, 9) == "LOFTEMPS:")
 	{
 		auto splitString = split(path, ":");
@@ -204,43 +200,39 @@ sp<VoxelSlice> DataImpl::loadVoxelSlice(const UString &path)
 		if (splitString.size() != 4)
 		{
 			LogError("Invalid LOFTEMPS string \"%s\"", path);
-			return nullptr;
+			return {};
 		}
 		// Cut off the index to get the LOFTemps file
 		UString cacheKey = splitString[0] + splitString[1] + splitString[2];
 		cacheKey = to_upper(cacheKey);
-		sp<LOFTemps> lofTemps = this->LOFVoxelCache[cacheKey].lock();
-		if (!lofTemps)
+		if (this->LOFVoxelCache.find(cacheKey) == this->LOFVoxelCache.end())
 		{
 			auto datFile = this->fs.open(splitString[1]);
 			if (!datFile)
 			{
 				LogError("Failed to open LOFTemps dat file \"%s\"", splitString[1]);
-				return nullptr;
+				return {};
 			}
 			auto tabFile = this->fs.open(splitString[2]);
 			if (!tabFile)
 			{
 				LogError("Failed to open LOFTemps tab file \"%s\"", splitString[2]);
-				return nullptr;
+				return {};
 			}
-			lofTemps = mksp<LOFTemps>(datFile, tabFile);
+			auto lofTemps = LOFTemps(datFile, tabFile);
 			this->LOFVoxelCache[cacheKey] = lofTemps;
-			this->pinnedLOFVoxels.push(lofTemps);
-			this->pinnedLOFVoxels.pop();
 		}
+        auto &lofTemps = this->LOFVoxelCache[cacheKey];
 		int idx = Strings::toInteger(splitString[3]);
-		slice = lofTemps->getSlice(idx);
-		if (!slice)
-		{
-			LogError("Invalid idx %d", idx);
-		}
+		auto slice = lofTemps.getSlice(idx);
+        slice.path = path;
+        return slice;
 	}
 	else
 	{
 		auto img = loadImage(path);
 		Vec2<int> size = img->size;
-		slice = mksp<VoxelSlice>(size);
+		auto slice = VoxelSlice(size);
 		if (img)
 		{
 			Colour filledColour{255, 255, 255, 255};
@@ -252,20 +244,18 @@ sp<VoxelSlice> DataImpl::loadVoxelSlice(const UString &path)
 				{
 					if (l.get(pos) == filledColour)
 					{
-						slice->setBit(pos, true);
+						slice.setBit(pos, true);
 					}
 				}
 			}
 		}
+        else
+        {
+            LogError("Failed to load VoxelSlice iamge \"%s\"", path);
+        }
+        slice.path = path;
+        return slice;
 	}
-
-	if (!slice)
-	{
-		LogError("Failed to load VoxelSlice \"%s\"", path);
-		return nullptr;
-	}
-	slice->path = path;
-	return slice;
 }
 
 sp<ImageSet> DataImpl::loadImageSet(const UString &path)
@@ -614,19 +604,15 @@ sp<Image> DataImpl::loadImage(const UString &path, bool lazy)
 	{
 		LogInfo("Loading LOFTEMPS \"%s\" as image", path);
 		auto voxelSlice = this->loadVoxelSlice(path);
-		if (!voxelSlice)
-		{
-			return nullptr;
-		}
 		Colour emptyColour{0, 0, 0, 0};
 		Colour filledColour{255, 255, 255, 255};
-		auto rgbImg = mksp<RGBImage>(voxelSlice->size);
+		auto rgbImg = mksp<RGBImage>(voxelSlice.size);
 		RGBImageLock l(rgbImg, ImageLockUse::Write);
-		for (int y = 0; y < voxelSlice->size.y; y++)
+		for (int y = 0; y < voxelSlice.size.y; y++)
 		{
-			for (int x = 0; x < voxelSlice->size.x; x++)
+			for (int x = 0; x < voxelSlice.size.x; x++)
 			{
-				if (voxelSlice->getBit({x, y}))
+				if (voxelSlice.getBit({x, y}))
 					l.set({x, y}, filledColour);
 				else
 					l.set({x, y}, emptyColour);

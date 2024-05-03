@@ -107,12 +107,7 @@ void serializeIn(const GameState *, SerializationNode *node, VoxelSlice &ptr)
 		return;
 	}
 	auto slice = fw().data->loadVoxelSlice(node->getValue());
-	if (!slice)
-	{
-		LogError("Failed to load voxel slice \"%s\"", node->getValue());
-		return;
-	}
-	ptr = *slice;
+	ptr = slice;
 }
 
 void serializeIn(const GameState *, SerializationNode *node, sp<Sample> &ptr)

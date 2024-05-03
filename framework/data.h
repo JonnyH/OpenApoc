@@ -32,7 +32,7 @@ class Data
 	virtual sp<Image> loadImage(const UString &path, bool lazy = false) = 0;
 	virtual sp<ImageSet> loadImageSet(const UString &path) = 0;
 	virtual sp<Palette> loadPalette(const UString &path) = 0;
-	virtual sp<VoxelSlice> loadVoxelSlice(const UString &path) = 0;
+	virtual VoxelSlice loadVoxelSlice(const UString &path) = 0;
 	virtual sp<Video> loadVideo(const UString &path) = 0;
 
 	virtual void addSampleAlias(const UString &name, const UString &value) = 0;

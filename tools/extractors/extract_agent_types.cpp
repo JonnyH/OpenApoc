@@ -1707,7 +1707,7 @@ void InitialGameStateExtractor::extractAgentBodyTypes(GameState &state) const
 											             y * a->size[entry.first][pair.first].x + x]
 											                ->setSlice(
 											                    i,
-											                    *fw().data->loadVoxelSlice(format(
+											                    fw().data->loadVoxelSlice(format(
 											                        "LOFTEMPS:xcom3/tacdata/"
 											                        "loftemps.dat:xcom3/"
 											                        "tacdata/loftemps.tab:%d",
@@ -1757,7 +1757,7 @@ void InitialGameStateExtractor::extractAgentBodyTypes(GameState &state) const
 								for (int i = 0; i < (a->height[entry.first]) / 2; i++)
 								{
 									a->voxelMaps[entry.first][facing][0]->setSlice(
-									    i, *fw().data->loadVoxelSlice(format(
+									    i, fw().data->loadVoxelSlice(format(
 									           "LOFTEMPS:xcom3/tacdata/loftemps.dat:xcom3/tacdata/"
 									           "loftemps.tab:%d",
 									           entry.second.y)));
@@ -1798,7 +1798,7 @@ void InitialGameStateExtractor::extractAgentBodyTypes(GameState &state) const
 								for (int i = 0; i < a->height[entry.first] / 2; i++)
 								{
 									a->voxelMaps[entry.first][pair.first][j]->setSlice(
-									    i, *fw().data->loadVoxelSlice(format(
+									    i, fw().data->loadVoxelSlice(format(
 									           "LOFTEMPS:xcom3/tacdata/loftemps.dat:xcom3/tacdata/"
 									           "loftemps.tab:%d",
 									           pair.second[j])));

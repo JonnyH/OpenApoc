@@ -265,7 +265,7 @@ void InitialGameStateExtractor::extractCityScenery(GameState &state, UString til
 			auto lofString = format("LOFTEMPS:xcom3/ufodata/" + lofFile + ".dat:xcom3/ufodata/" +
 			                            lofFile + ".tab:%d",
 			                        (int)entry.voxelIdx[z]);
-			tile->voxelMap->slices[z] = *fw().data->loadVoxelSlice(lofString);
+			tile->voxelMap->slices[z] = fw().data->loadVoxelSlice(lofString);
 		}
 
 		if (entry.stratmap_idx != 0)
