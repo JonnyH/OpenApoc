@@ -222,11 +222,11 @@ VoxelSlice DataImpl::loadVoxelSlice(const UString &path)
 			auto lofTemps = LOFTemps(datFile, tabFile);
 			this->LOFVoxelCache[cacheKey] = lofTemps;
 		}
-        auto &lofTemps = this->LOFVoxelCache[cacheKey];
+		auto &lofTemps = this->LOFVoxelCache[cacheKey];
 		int idx = Strings::toInteger(splitString[3]);
 		auto slice = lofTemps.getSlice(idx);
-        slice.path = path;
-        return slice;
+		slice.path = path;
+		return slice;
 	}
 	else
 	{
@@ -249,12 +249,12 @@ VoxelSlice DataImpl::loadVoxelSlice(const UString &path)
 				}
 			}
 		}
-        else
-        {
-            LogError("Failed to load VoxelSlice iamge \"%s\"", path);
-        }
-        slice.path = path;
-        return slice;
+		else
+		{
+			LogError("Failed to load VoxelSlice iamge \"%s\"", path);
+		}
+		slice.path = path;
+		return slice;
 	}
 }
 

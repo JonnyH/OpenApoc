@@ -16,7 +16,7 @@ class LOFTemps
 
   public:
 	LOFTemps(IFile &datFile, IFile &tabFile);
-    LOFTemps() = default;
+	LOFTemps() = default;
 	VoxelSlice getSlice(unsigned int idx);
 };
 }; // namespace OpenApoc
