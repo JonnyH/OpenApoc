@@ -1706,12 +1706,11 @@ void InitialGameStateExtractor::extractAgentBodyTypes(GameState &state) const
 											                 a->size[entry.first][pair.first].x +
 											             y * a->size[entry.first][pair.first].x + x]
 											                ->setSlice(
-											                    i,
-											                    fw().data->loadVoxelSlice(format(
-											                        "LOFTEMPS:xcom3/tacdata/"
-											                        "loftemps.dat:xcom3/"
-											                        "tacdata/loftemps.tab:%d",
-											                        pair.second)));
+											                    i, fw().data->loadVoxelSlice(format(
+											                           "LOFTEMPS:xcom3/tacdata/"
+											                           "loftemps.dat:xcom3/"
+											                           "tacdata/loftemps.tab:%d",
+											                           pair.second)));
 										}
 									}
 								}
