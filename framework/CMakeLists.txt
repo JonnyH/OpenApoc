@@ -276,6 +276,7 @@ target_link_libraries(OpenApoc_Framework PUBLIC OpenApoc_LibPugixml)
 target_link_libraries(OpenApoc_Framework PUBLIC OpenApoc_LibLodepng)
 target_link_libraries(OpenApoc_Framework PUBLIC OpenApoc_Miniz)
 target_link_libraries(OpenApoc_Framework PUBLIC ${CMAKE_DL_LIBS})
+target_link_libraries(OpenApoc_Framework INTERFACE EnTT::EnTT)
 
 if(USE_SYSTEM_PHYSFS)
 	target_link_libraries(OpenApoc_Framework PUBLIC ${PHYSFS_LIBRARY})

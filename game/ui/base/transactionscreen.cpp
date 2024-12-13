@@ -502,7 +502,7 @@ void TransactionScreen::updateBaseHighlight()
 			fillBaseBar(true, usage);
 			auto facilityLabel = form->findControlTyped<Label>("FACILITY_FIRST_TEXT");
 			facilityLabel->setVisible(true);
-			facilityLabel->setText(format("%.f%%", usage));
+			facilityLabel->setText(OpenApoc::format("%.f%%", usage));
 			break;
 		}
 		case BaseGraphics::FacilityHighlight::Stores:
