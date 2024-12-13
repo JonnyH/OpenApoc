@@ -27,7 +27,7 @@ void AEquipmentSheet::clear()
 	{
 		for (char alignment : {'L', 'C', 'R'})
 		{
-			auto labelName = format("LABEL_%d_%c", i + 1, alignment);
+			auto labelName = OpenApoc::format("LABEL_%d_%c", i + 1, alignment);
 			auto label = form->findControlTyped<Label>(labelName);
 			if (!label)
 			{
