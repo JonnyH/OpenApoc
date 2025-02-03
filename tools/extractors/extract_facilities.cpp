@@ -37,9 +37,9 @@ void InitialGameStateExtractor::extractFacilities(GameState &state) const
 		facilityType->capacityAmount = f.capacity == 1 ? 12 : f.capacity;
 		facilityType->size = f.size;
 		facilityType->sector = i - 2 + 16 + 15;
-		facilityType->sprite = fw().data->loadImage(
-		    format("PCK:xcom3/ufodata/base.pck:xcom3/ufodata/base.tab:%d:xcom3/ufodata/base.pcx",
-		           (int)f.image_offset));
+		facilityType->sprite = fw().data->loadImage(fmt::format(
+		    "PCK:xcom3/ufodata/base.pck:xcom3/ufodata/base.tab:{}:xcom3/ufodata/base.pcx",
+		    (int)f.image_offset));
 
 		state.facility_types[id] = facilityType;
 	}

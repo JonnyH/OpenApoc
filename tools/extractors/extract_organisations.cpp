@@ -38,8 +38,8 @@ void InitialGameStateExtractor::extractOrganisations(GameState &state) const
 		o->name = data.organisation_names->get(i);
 		o->id = id;
 
-		auto ped = format("%s%s", UfopaediaEntry::getPrefix(),
-		                  canon_string(data.organisation_names->get(i)));
+		auto ped = fmt::format("{}{}", UfopaediaEntry::getPrefix(),
+		                       canon_string(data.organisation_names->get(i)));
 		o->ufopaedia_entry = {&state, ped};
 
 		o->balance = odata.starting_funds;
@@ -74,9 +74,10 @@ void InitialGameStateExtractor::extractOrganisations(GameState &state) const
 		}
 		else
 		{
-			o->icon = fw().data->loadImage(format("PCK:xcom3/ufodata/vs_icon.pck:xcom3/ufodata/"
-			                                      "vs_icon.tab:%d:xcom3/ufodata/pal_01.dat",
-			                                      91 + i));
+			o->icon =
+			    fw().data->loadImage(fmt::format("PCK:xcom3/ufodata/vs_icon.pck:xcom3/ufodata/"
+			                                     "vs_icon.tab:{}:xcom3/ufodata/pal_01.dat",
+			                                     91 + i));
 
 			auto ldata = data.organisation_raid_loot_data->get(i);
 
@@ -104,9 +105,9 @@ void InitialGameStateExtractor::extractOrganisations(GameState &state) const
 					else
 					{
 						o->loot[priority].emplace_back(
-						    &state, format("%s%s", AEquipmentType::getPrefix(),
-						                   canon_string(data.agent_equipment_names->get(
-						                       ldata.loot_idx[k][j]))));
+						    &state, fmt::format("{}{}", AEquipmentType::getPrefix(),
+						                        canon_string(data.agent_equipment_names->get(
+						                            ldata.loot_idx[k][j]))));
 					}
 				}
 			}

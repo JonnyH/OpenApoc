@@ -583,7 +583,7 @@ UString AgentMission::getName()
 			name += " " + this->targetBuilding.id;
 			break;
 		case MissionType::Snooze:
-			name += format(" for %u ticks", this->timeToSnooze);
+			name += fmt::format(" for {} ticks", this->timeToSnooze);
 			break;
 		case MissionType::Teleport:
 			name += " " + this->targetBuilding.id;

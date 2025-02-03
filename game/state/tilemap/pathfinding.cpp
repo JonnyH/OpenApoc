@@ -11,6 +11,7 @@
 #include "game/state/tilemap/tilemap.h"
 #include "game/state/tilemap/tileobject_battleunit.h"
 #include "game/state/tilemap/tileobject_vehicle.h"
+#include "library/strings_format.h"
 #include "limits.h"
 #include <algorithm>
 #include <glm/glm.hpp>
@@ -961,9 +962,10 @@ void Battle::groupMove(GameState &state, std::list<StateRef<BattleUnit>> &select
 	}
 
 	UString log = ";";
-	log += format("\nGroup move order issued to %d, %d, %d. Looking for the leader. Total number "
-	              "of units: %d",
-	              targetLocation.x, targetLocation.y, targetLocation.z, (int)selectedUnits.size());
+	log += fmt::format("\nGroup move order issued to {}, {}, {}. Looking for the leader. Total "
+	                   "number of units: {}",
+	                   targetLocation.x, targetLocation.y, targetLocation.z,
+	                   (int)selectedUnits.size());
 
 	// Sort units based on proximity to target and speed
 
@@ -986,7 +988,7 @@ void Battle::groupMove(GameState &state, std::list<StateRef<BattleUnit>> &select
 	while (itUnit != localUnits.end())
 	{
 		auto curUnit = *itUnit;
-		log += format("\nTrying unit %s for leader", curUnit.id);
+		log += fmt::format("\nTrying unit {} for leader", curUnit.id);
 
 		auto mission = BattleUnitMission::gotoLocation(*curUnit, targetLocation, facingDelta,
 		                                               demandGiveWay, true, 20, false);
@@ -1007,7 +1009,7 @@ void Battle::groupMove(GameState &state, std::list<StateRef<BattleUnit>> &select
 				int distance = std::max(std::max(absX, absY), absZ) + absX + absY + absZ;
 				if (distance < minDistance)
 				{
-					log += format("\nUnit was the closest to target yet, remembering him.");
+					log += fmt::format("\nUnit was the closest to target yet, remembering him.");
 					// Cancel last leader's mission
 					if (leadMission)
 					{
@@ -1018,7 +1020,7 @@ void Battle::groupMove(GameState &state, std::list<StateRef<BattleUnit>> &select
 					leadMission = mission;
 					if (distance == 0)
 					{
-						log += format("\nUnit could reach target, chosen to be the leader.");
+						log += fmt::format("\nUnit could reach target, chosen to be the leader.");
 						break;
 					}
 				}
@@ -1030,20 +1032,20 @@ void Battle::groupMove(GameState &state, std::list<StateRef<BattleUnit>> &select
 		}
 		if (missionAdded)
 		{
-			log += format("\nUnit could not path to target, trying next one.");
+			log += fmt::format("\nUnit could not path to target, trying next one.");
 			// Unit cannot path to target but maybe he can path to something near it, leave him in
 			itUnit++;
 		}
 		else
 		{
-			log += format("\nUnit could not set a goto mission, removing him.");
+			log += fmt::format("\nUnit could not set a goto mission, removing him.");
 			// Unit cannot add a movement mission - remove him
 			itUnit = localUnits.erase(itUnit);
 		}
 	}
 	if (itUnit == localUnits.end() && !leadUnit)
 	{
-		log += format("\nNoone could path to target, aborting");
+		log += fmt::format("\nNoone could path to target, aborting");
 		LogWarning("%s", log);
 		return;
 	}
@@ -1081,19 +1083,19 @@ void Battle::groupMove(GameState &state, std::list<StateRef<BattleUnit>> &select
 	    });
 
 	// Path every other unit to areas around target
-	log += format("\nTarget location is now %d, %d, %d. Leader is %s", targetLocation.x,
-	              targetLocation.y, targetLocation.z, leadUnit.id);
+	log += fmt::format("\nTarget location is now {}, {}, {}. Leader is {}", targetLocation.x,
+	                   targetLocation.y, targetLocation.z, leadUnit.id);
 
 	auto itOffset = targetOffsets.begin();
 	for (auto &unit : localUnits)
 	{
 		if (itOffset == targetOffsets.end())
 		{
-			log += format("\nRan out of location offsets, exiting");
+			log += fmt::format("\nRan out of location offsets, exiting");
 			LogWarning("%s", log);
 			return;
 		}
-		log += format("\nPathing unit %s", unit.id);
+		log += fmt::format("\nPathing unit {}", unit.id);
 		while (itOffset != targetOffsets.end())
 		{
 			auto offset = rotate(*itOffset, rotation);
@@ -1102,14 +1104,14 @@ void Battle::groupMove(GameState &state, std::list<StateRef<BattleUnit>> &select
 			    targetLocationOffsetted.y < 0 || targetLocationOffsetted.y >= map->size.y ||
 			    targetLocationOffsetted.z < 0 || targetLocationOffsetted.z >= map->size.z)
 			{
-				log += format("\nLocation was outside map bounds, trying next one");
+				log += fmt::format("\nLocation was outside map bounds, trying next one");
 				itOffset++;
 				continue;
 			}
 
-			log += format("\nTrying location %d, %d, %d at offset %d, %d, %d",
-			              targetLocationOffsetted.x, targetLocationOffsetted.y,
-			              targetLocationOffsetted.z, offset.x, offset.y, offset.z);
+			log += fmt::format("\nTrying location {}, {}, {} at offset {}, {}, {}",
+			                   targetLocationOffsetted.x, targetLocationOffsetted.y,
+			                   targetLocationOffsetted.z, offset.x, offset.y, offset.z);
 			float costLimit = 1.50f * 2.0f *
 			                  (float)(std::max(std::abs(offset.x), std::abs(offset.y)) +
 			                          std::abs(offset.x) + std::abs(offset.y));
@@ -1119,16 +1121,16 @@ void Battle::groupMove(GameState &state, std::list<StateRef<BattleUnit>> &select
 			itOffset++;
 			if (!path.empty() && path.back() == targetLocationOffsetted)
 			{
-				log += format("\nLocation checks out, pathing to it");
+				log += fmt::format("\nLocation checks out, pathing to it");
 				unit->setMission(state, BattleUnitMission::gotoLocation(
 				                            *unit, targetLocationOffsetted, facingDelta,
 				                            demandGiveWay, true, 20, false));
 				break;
 			}
-			log += format("\nLocation was unreachable, trying next one");
+			log += fmt::format("\nLocation was unreachable, trying next one");
 		}
 	}
-	log += format("\nSuccessfully pathed everybody to target");
+	log += fmt::format("\nSuccessfully pathed everybody to target");
 	LogWarning("%s", log);
 }
 

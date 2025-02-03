@@ -16,6 +16,7 @@
 #include "framework/sound_interface.h"
 #include "framework/stagestack.h"
 #include "library/sp.h"
+#include "library/strings_format.h"
 #include "library/xorshift.h"
 #include <SDL.h>
 #include <algorithm>
@@ -448,7 +449,7 @@ void Framework::processEvents()
 				UString screenshotName;
 				do
 				{
-					screenshotName = format("screenshot%03d.png", screenshotId);
+					screenshotName = fmt::format("screenshot{:03}.png", screenshotId);
 					screenshotId++;
 				} while (fs::exists(fs::path(screenshotName)));
 				LogWarning("Writing screenshot to \"%s\"", screenshotName);

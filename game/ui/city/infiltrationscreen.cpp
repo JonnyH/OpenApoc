@@ -9,6 +9,7 @@
 #include "game/state/gamestate.h"
 #include "game/state/shared/organisation.h"
 #include "library/line.h"
+#include "library/strings_format.h"
 #include <array>
 
 namespace OpenApoc
@@ -81,7 +82,7 @@ InfiltrationScreen::InfiltrationScreen(sp<GameState> state)
 {
 	for (int i = 0; i < 10; i++)
 	{
-		shown_org_names[i] = menuform->findControlTyped<Label>(format("ORG_NAME_%d", i)).get();
+		shown_org_names[i] = menuform->findControlTyped<Label>(fmt::format("ORG_NAME_{}", i)).get();
 		shown_orgs[i] = nullptr;
 	}
 	graph = menuform->findControlTyped<Graphic>("GRAPH");

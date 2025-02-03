@@ -21,6 +21,7 @@
 #include "game/ui/general/savemenu.h"
 #include "game/ui/skirmish/skirmish.h"
 #include "game/ui/tileview/cityview.h"
+#include "library/strings_format.h"
 #include "moreoptions.h"
 #include <list>
 
@@ -250,7 +251,7 @@ void InGameOptions::eventOccurred(Event *e)
 			fw().stageQueueCommand(
 			    {StageCmd::Command::PUSH,
 			     mksp<MessageBox>(tr("Abort Mission"),
-			                      format("%s %d", tr("Units Lost :"), unitsLost),
+			                      fmt::format("{} {}", tr("Units Lost :"), unitsLost),
 			                      MessageBox::ButtonOptions::YesNo,
 			                      [this]
 			                      {

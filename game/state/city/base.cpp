@@ -289,7 +289,7 @@ void Base::buildFacility(GameState &state, StateRef<FacilityType> type, Vec2<int
 	{
 		const auto canBuildFacilityEnum = magic_enum::enum_name(canBuildFacilityResult);
 		const auto logMessage =
-		    format("Error when trying to build facility: %s", canBuildFacilityEnum);
+		    fmt::format("Error when trying to build facility: {}", canBuildFacilityEnum);
 		LogWarning(logMessage);
 		return;
 	}
@@ -417,7 +417,7 @@ void Base::destroyFacility(GameState &state, Vec2<int> pos)
 	{
 		const auto canDestroyFacilityEnum = magic_enum::enum_name(canDestroyFacilityResult);
 		const auto logMessage =
-		    format("Error when trying to destroy facility: %s", canDestroyFacilityEnum);
+		    fmt::format("Error when trying to destroy facility: {}", canDestroyFacilityEnum);
 		LogWarning(logMessage);
 		return;
 	}

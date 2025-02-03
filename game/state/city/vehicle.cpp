@@ -33,6 +33,7 @@
 #include "game/state/tilemap/tileobject_vehicle.h"
 #include "game/ui/general/messagebox.h"
 #include "library/sp.h"
+#include "library/strings_format.h"
 #include <fstream>
 #include <glm/glm.hpp>
 #include <glm/gtx/vector_angle.hpp>
@@ -1491,7 +1492,8 @@ void Vehicle::processRecoveredVehicle(GameState &state)
 		{
 			fw().pushEvent(new GameSomethingDiedEvent(
 			    GameEventType::VehicleModuleScrapped,
-			    format("%s - %s", getFormattedVehicleNameForEventMessage(state), e->type->name),
+			    fmt::format("{} - {}", getFormattedVehicleNameForEventMessage(state),
+			                e->type->name),
 			    position));
 		}
 	}
@@ -3885,7 +3887,7 @@ const UString Vehicle::getFormattedVehicleNameForEventMessage(GameState &state) 
 {
 	if (config().getBool("OpenApoc.NewFeature.ShowNonXCOMVehiclesPrefix") &&
 	    owner != state.getPlayer())
-		return format("%s %s", tr("*"), name);
+		return fmt::format("{} {}", tr("*"), name);
 
 	return name;
 }

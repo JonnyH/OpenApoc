@@ -53,12 +53,12 @@ void InitialGameStateExtractor::readBattleMapParts(
 			return;
 		}
 
-		UString id = format("%s%u", idPrefix, i);
+		UString id = fmt::format("{}{}", idPrefix, i);
 		auto object = mksp<BattleMapPartType>();
 		if (entry.alternative_object_idx != 0)
 		{
-			object->alternative_map_part = {&state,
-			                                format("%s%u", idPrefix, entry.alternative_object_idx)};
+			object->alternative_map_part = {
+			    &state, fmt::format("{}{}", idPrefix, entry.alternative_object_idx)};
 		}
 		object->type = type;
 		object->constitution = entry.constitution;
@@ -79,8 +79,8 @@ void InitialGameStateExtractor::readBattleMapParts(
 		{
 			if ((unsigned int)entry.loftemps_lof[slice] == 0)
 				continue;
-			auto lofString = format("LOFTEMPS:%s:%s:%u", loftempsFile, loftempsTab,
-			                        (unsigned int)entry.loftemps_lof[slice]);
+			auto lofString = fmt::format("LOFTEMPS:{}:{}:{}", loftempsFile, loftempsTab,
+			                             (unsigned int)entry.loftemps_lof[slice]);
 			object->voxelMapLOF->slices[slice] = fw().data->loadVoxelSlice(lofString);
 		}
 		object->voxelMapLOS = mksp<VoxelMap>(Vec3<int>{24, 24, 20});
@@ -88,13 +88,13 @@ void InitialGameStateExtractor::readBattleMapParts(
 		{
 			if ((unsigned int)entry.loftemps_los[slice] == 0)
 				continue;
-			auto lofString = format("LOFTEMPS:%s:%s:%u", loftempsFile, loftempsTab,
-			                        (unsigned int)entry.loftemps_los[slice]);
+			auto lofString = fmt::format("LOFTEMPS:{}:{}:{}", loftempsFile, loftempsTab,
+			                             (unsigned int)entry.loftemps_los[slice]);
 			object->voxelMapLOS->slices[slice] = fw().data->loadVoxelSlice(lofString);
 		}
 		if (entry.damaged_idx)
 		{
-			object->damaged_map_part = {&state, format("%s%u", idPrefix, entry.damaged_idx)};
+			object->damaged_map_part = {&state, fmt::format("{}{}", idPrefix, entry.damaged_idx)};
 		}
 
 		// So far haven't seen an animated object with only 1 frame, but seen objects with 1 in this
@@ -118,20 +118,20 @@ void InitialGameStateExtractor::readBattleMapParts(
 			{
 				for (int j = 0; j < entry.animation_length; j++)
 				{
-					auto animateString = format("PCK:%s%s.pck:%s%s.tab:%u", dirName, "animate",
-					                            dirName, "animate", entry.animation_idx + j);
+					auto animateString = fmt::format("PCK:{}{}.pck:{}{}.tab:{}", dirName, "animate",
+					                                 dirName, "animate", entry.animation_idx + j);
 					object->animation_frames.push_back(fw().data->loadImage(animateString));
 				}
 			}
 		}
 
 		auto imageString =
-		    format("PCK:%s%s.pck:%s%s.tab:%u", dirName, pckName, dirName, pckName, i);
+		    fmt::format("PCK:{}{}.pck:{}{}.tab:{}", dirName, pckName, dirName, pckName, i);
 		object->sprite = fw().data->loadImage(imageString);
 		if (i < strategySpriteCount)
 		{
-			auto stratImageString = format("PCKSTRAT:%s%s.pck:%s%s.tab:%u", dirName, stratPckName,
-			                               dirName, stratPckName, i);
+			auto stratImageString = fmt::format("PCKSTRAT:{}{}.pck:{}{}.tab:{}", dirName,
+			                                    stratPckName, dirName, stratPckName, i);
 			object->strategySprite = fw().data->loadImage(stratImageString);
 		}
 		// It should be {24,34} I guess, since 48/2=24, but 23 gives a little better visual
@@ -306,7 +306,7 @@ void InitialGameStateExtractor::readBattleMapParts(
 sp<BattleMapTileset> InitialGameStateExtractor::extractTileSet(GameState &state,
                                                                const UString &name) const
 {
-	UString tilePrefix = format("%s_", name);
+	UString tilePrefix = fmt::format("{}_", name);
 	UString map_prefix = "xcom3/maps/";
 	UString mapunits_suffix = "/mapunits/";
 	UString spriteFile;

@@ -166,9 +166,9 @@ std::map<UString, std::function<void(const InitialGameStateExtractor &e)>> thing
 		     else
 		     {
 			     if (!imagePack->saveImagePack(
-			             format("%s%s%d",
-			                    fw().getDataDir() + BattleUnitImagePack::getImagePackPath(),
-			                    "/item", i),
+			             fmt::format("{}{}{}",
+			                         fw().getDataDir() + BattleUnitImagePack::getImagePackPath(),
+			                         "/item", i),
 			             true))
 			     {
 				     LogError("Failed to save  item image pack \"%d\"", i);

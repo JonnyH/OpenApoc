@@ -2,6 +2,7 @@
 #include "framework/logger.h"
 #include "framework/options.h"
 #include "library/backtrace.h"
+#include "library/strings_format.h"
 
 #include <fstream>
 
@@ -44,7 +45,7 @@ void FileLogFunction(LogLevel level, UString prefix, const UString &text)
 				levelPrefix = "U";
 				break;
 		}
-		const auto message = OpenApoc::format("%s %s: %s", levelPrefix, prefix, text);
+		const auto message = fmt::format("{} {}: {}", levelPrefix, prefix, text);
 		logFile << message << std::endl;
 	}
 

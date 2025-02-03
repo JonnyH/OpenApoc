@@ -25,6 +25,7 @@
 #include "game/ui/general/messagebox.h"
 #include "game/ui/general/transactioncontrol.h"
 #include "game/ui/general/vehiclesheet.h"
+#include "library/strings_format.h"
 #include <array>
 
 namespace OpenApoc
@@ -484,7 +485,7 @@ void TransactionScreen::updateBaseHighlight()
 		int i = 0;
 		for (auto &b : state->player_bases)
 		{
-			auto viewName = format("BUTTON_BASE_%d", ++i);
+			auto viewName = fmt::format("BUTTON_BASE_{}", ++i);
 			auto view = form->findControlTyped<GraphicButton>(viewName);
 			auto viewImage = drawMiniBase(*b.second, viewHighlight, viewFacility);
 			view->setImage(viewImage);
@@ -506,7 +507,7 @@ void TransactionScreen::updateBaseHighlight()
 			fillBaseBar(true, usage);
 			auto facilityLabel = form->findControlTyped<Label>("FACILITY_FIRST_TEXT");
 			facilityLabel->setVisible(true);
-			facilityLabel->setText(format("%.f%%", usage));
+			facilityLabel->setText(fmt::format("{:f}%", usage));
 			break;
 		}
 		case BaseGraphics::FacilityHighlight::Stores:
@@ -520,7 +521,7 @@ void TransactionScreen::updateBaseHighlight()
 			fillBaseBar(true, usage);
 			auto facilityLabel = form->findControlTyped<Label>("FACILITY_FIRST_TEXT");
 			facilityLabel->setVisible(true);
-			facilityLabel->setText(format("%.f%%", usage));
+			facilityLabel->setText(fmt::format("{:f}%", usage));
 			break;
 		}
 		case BaseGraphics::FacilityHighlight::Aliens:
@@ -534,7 +535,7 @@ void TransactionScreen::updateBaseHighlight()
 			fillBaseBar(true, usage);
 			auto facilityLabel = form->findControlTyped<Label>("FACILITY_FIRST_TEXT");
 			facilityLabel->setVisible(true);
-			facilityLabel->setText(format("%.f%%", usage));
+			facilityLabel->setText(fmt::format("{:f}%", usage));
 			break;
 		}
 		default:
@@ -685,7 +686,7 @@ void TransactionScreen::initViewSecondBase()
 {
 	for (int i = 1; i <= MAX_BASES; i++)
 	{
-		auto viewName = format("BUTTON_SECOND_BASE_%d", i);
+		auto viewName = fmt::format("BUTTON_SECOND_BASE_{}", i);
 		form->findControlTyped<GraphicButton>(viewName)->setVisible(false);
 	}
 	form->findControlTyped<Graphic>("FACILITY_SECOND_PIC")->setVisible(false);

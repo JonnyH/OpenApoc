@@ -3144,12 +3144,12 @@ UString VehicleMission::getName()
 		case MissionType::DepartToSpace:
 		case MissionType::Crash:
 		case MissionType::Teleport:
-			name += format(" %s", this->targetLocation);
+			name += fmt::format(" {}", this->targetLocation);
 			break;
 		case MissionType::FollowVehicle:
 		case MissionType::RecoverVehicle:
 		case MissionType::AttackVehicle:
-			name += format(" %s", this->targetVehicle.id);
+			name += fmt::format(" {}", this->targetVehicle.id);
 			break;
 		case MissionType::GotoBuilding:
 		case MissionType::AttackBuilding:
@@ -3161,7 +3161,7 @@ UString VehicleMission::getName()
 		case MissionType::ArriveFromDimensionGate:
 		case MissionType::SelfDestruct:
 		case MissionType::Snooze:
-			name += format(" %u ticks", this->timeToSnooze);
+			name += fmt::format(" {} ticks", this->timeToSnooze);
 			break;
 		case MissionType::InfiltrateSubvert:
 			name += " " + this->targetBuilding.id + " " + (subvert ? "[Subvert]" : "[Infiltrate]");
@@ -3169,8 +3169,8 @@ UString VehicleMission::getName()
 		case MissionType::RestartNextMission:
 			break;
 		case MissionType::OfferService:
-			name += format(" counter: %u, target %s", missionCounter,
-			               targetBuilding ? targetBuilding->name : "null");
+			name += fmt::format(" counter: {}, target {}", missionCounter,
+			                    targetBuilding ? targetBuilding->name : "null");
 			break;
 	}
 	return name;

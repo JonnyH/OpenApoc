@@ -12,6 +12,7 @@
 #include "framework/keycodes.h"
 #include "game/state/gamestate.h"
 #include "game/state/shared/organisation.h"
+#include "library/strings_format.h"
 #include <limits>
 
 namespace OpenApoc
@@ -74,9 +75,9 @@ void CheatOptions::updateMultiplierText(UString controlName, float multMin, floa
 	auto bar = menuform->findControlTyped<ScrollBar>(controlName);
 	auto label = menuform->findControlTyped<Label>("TEXT_" + controlName);
 	label->setText(
-	    format("%.0f%%", scaleScrollbarToMultiplier(bar->getValue(), multMin, multMax,
-	                                                bar->getMinimum(), bar->getMaximum()) *
-	                         100));
+	    fmt::format("{:.0f}%", scaleScrollbarToMultiplier(bar->getValue(), multMin, multMax,
+	                                                      bar->getMinimum(), bar->getMaximum()) *
+	                               100));
 }
 
 void CheatOptions::pause() {}
@@ -239,7 +240,7 @@ void CheatOptions::eventOccurred(Event *e)
 				return;
 			}
 			menuform->findControlTyped<Label>("TEXT_MODIFY_FUNDS")
-			    ->setText(format("%+dk", bar->getValue()));
+			    ->setText(fmt::format("{:+}k", bar->getValue()));
 		}
 		else
 		{

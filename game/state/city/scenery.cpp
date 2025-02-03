@@ -18,6 +18,7 @@
 #include "game/state/tilemap/tileobject_doodad.h"
 #include "game/state/tilemap/tileobject_scenery.h"
 #include "game/state/tilemap/tileobject_vehicle.h"
+#include "library/strings_format.h"
 #include <limits.h>
 
 namespace OpenApoc
@@ -1142,7 +1143,7 @@ UString Scenery::getId() const { return type.id; }
 
 int Scenery::getType() const { return (int)0; }
 
-UString Scenery::getSupportString() const { return format("%d", supportHardness); }
+UString Scenery::getSupportString() const { return fmt::format("{}", supportHardness); }
 
 void Scenery::setPosition(const Vec3<float> &pos)
 {

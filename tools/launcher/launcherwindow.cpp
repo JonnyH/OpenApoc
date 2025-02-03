@@ -7,6 +7,7 @@
 #include <utility>
 
 #include "launcherwindow.h"
+#include "library/strings_format.h"
 #include "ui_launcherwindow.h"
 
 #include "framework/configfile.h"
@@ -502,7 +503,7 @@ void LauncherWindow::showModInfo(const ModInfo &info)
 	ui->modVersion->setText(QString::fromStdString(info.getVersion()));
 	ui->modDescription->setText(QString::fromStdString(info.getDescription()));
 
-	auto linkText = format("<a href=\"%s\">%s</a>", info.getLink(), info.getLink());
+	auto linkText = fmt::format("<a href=\"{}\">{}</a>", info.getLink(), info.getLink());
 
 	ui->modLink->setText(QString::fromStdString(linkText));
 }

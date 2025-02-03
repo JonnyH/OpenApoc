@@ -6,6 +6,7 @@
 #include "framework/filesystem.h"
 #include "framework/logger.h"
 #include "framework/options.h"
+#include "library/strings_format.h"
 #include <fstream>
 #include <iostream>
 #include <list>
@@ -229,7 +230,7 @@ class ConfigFileImpl
 
 			auto optionName = splitString[splitString.size() - 1];
 			UString configFileLine =
-			    format("%s=%s", optionName, std::visit(ToStringVisitor(), optionPair.second));
+			    fmt::format("{}={}", optionName, std::visit(ToStringVisitor(), optionPair.second));
 			configFileContents[sectionName].push_back(configFileLine);
 		}
 

@@ -312,7 +312,7 @@ void ResearchScreen::populateUILabList(const UString &listName, std::list<sp<Fac
 		item->setData(facility);
 
 		auto label = std::static_pointer_cast<Label>(item->Controls[0]);
-		label->setText(format("%d", facility->lab->assigned_agents.size()));
+		label->setText(fmt::format("{}", facility->lab->assigned_agents.size()));
 
 		uiListLabs->addItem(item);
 		if (facility == viewFacility)
@@ -333,7 +333,7 @@ void ResearchScreen::setCurrentLabInfo()
 		assignedAgentList->clear();
 		form->findControlTyped<Label>("TEXT_LAB_TYPE")->setText("");
 		auto totalSkillLabel = form->findControlTyped<Label>("TEXT_TOTAL_SKILL");
-		totalSkillLabel->setText(format(tr("Total Skill: %d"), 0));
+		totalSkillLabel->setText(fmt::format("Total Skill: {}", 0));
 		updateProgressInfo();
 		return;
 	}
@@ -420,7 +420,7 @@ void ResearchScreen::setCurrentLabInfo()
 
 	auto totalSkillLabel = form->findControlTyped<Label>("TEXT_TOTAL_SKILL");
 	totalSkillLabel->setText(
-	    format(tr("Total Skill: %d"), this->viewFacility->lab->getTotalSkill()));
+	    fmt::format("Total Skill: {}", this->viewFacility->lab->getTotalSkill()));
 
 	// update scientists quantity for selected lab
 	auto uiListLabs = form->findControlTyped<ListBox>("LIST_SMALL_LABS");
@@ -433,7 +433,7 @@ void ResearchScreen::setCurrentLabInfo()
 	if (selectedItem)
 	{
 		auto label = std::static_pointer_cast<Label>(selectedItem->Controls[0]);
-		label->setText(format("%d", this->viewFacility->lab->assigned_agents.size()));
+		label->setText(fmt::format("{}", this->viewFacility->lab->assigned_agents.size()));
 	}
 
 	updateProgressInfo();
@@ -486,7 +486,7 @@ void ResearchScreen::updateProgressInfo()
 		auto topicTitle = form->findControlTyped<Label>("TEXT_CURRENT_PROJECT");
 		topicTitle->setText(tr(topic->name));
 		auto completionPercent = form->findControlTyped<Label>("TEXT_PROJECT_COMPLETION");
-		auto completionText = format(tr("%d%%"), static_cast<int>(projectProgress * 100.0f));
+		auto completionText = fmt::format("{}%", static_cast<int>(projectProgress * 100.0f));
 		completionPercent->setText(completionText);
 	}
 	else
@@ -517,7 +517,7 @@ void ResearchScreen::updateProgressInfo()
 		manufacturing_scroll_left->setVisible(true);
 		manufacturing_scroll_right->setVisible(true);
 		manufacturing_scrollbar->setValue(this->viewFacility->lab->getQuantity());
-		manufacturing_quantity->setText(format("%d", this->viewFacility->lab->getQuantity()));
+		manufacturing_quantity->setText(fmt::format("{}", this->viewFacility->lab->getQuantity()));
 	}
 	else
 	{

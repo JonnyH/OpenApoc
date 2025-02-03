@@ -16,7 +16,7 @@ sp<BattleUnitImagePack> InitialGameStateExtractor::extractImagePack(GameState &s
 	std::ignore = state;
 	UString dirName = "xcom3/tacdata/";
 
-	auto imageTabFileName = format("%s%s.tab", dirName, path);
+	auto imageTabFileName = fmt::format("{}{}.tab", dirName, path);
 	auto imageTabFile = fw().data->fs.open(imageTabFileName);
 	if (!imageTabFile)
 	{
@@ -31,9 +31,9 @@ sp<BattleUnitImagePack> InitialGameStateExtractor::extractImagePack(GameState &s
 
 	for (size_t i = 0; i < imageTabFileEntryCount; i++)
 	{
-		p->images.push_back(
-		    fw().data->loadImage(format("%s:%s%s.pck:%s%s.tab:%u", shadow ? "PCKSHADOW" : "PCK",
-		                                dirName, path, dirName, path, (unsigned)i)));
+		p->images.push_back(fw().data->loadImage(fmt::format("{}:{}{}.pck:{}{}.tab:{}",
+		                                                     shadow ? "PCKSHADOW" : "PCK", dirName,
+		                                                     path, dirName, path, (unsigned)i)));
 	}
 
 	return p;
@@ -50,10 +50,8 @@ sp<BattleUnitImagePack> InitialGameStateExtractor::extractItemImagePack(GameStat
 	p->image_offset = BATTLE_IMAGE_OFFSET;
 
 	for (int j = 0; j < 8; j++)
-		p->images.push_back(
-		    fw().data->loadImage(format("PCK:xcom3/tacdata/unit/equip.pck:xcom3/tacdata/"
-		                                "unit/equip.tab:%d",
-		                                item * 8 + j)));
+		p->images.push_back(fw().data->loadImage(fmt::format(
+		    "PCK:xcom3/tacdata/unit/equip.pck:xcom3/tacdata/unit/equip.tab:{}", item * 8 + j)));
 
 	return p;
 }

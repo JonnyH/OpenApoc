@@ -89,9 +89,8 @@ void InitialGameStateExtractor::extractDoodads(GameState &state) const
 			{
 
 				d->frames.push_back(
-				    {fw().data->loadImage(format("PCK:xcom3/ufodata/ptang.pck:xcom3/ufodata/"
-				                                 "ptang.tab:%d",
-				                                 j)),
+				    {fw().data->loadImage(
+				         fmt::format("PCK:xcom3/ufodata/ptang.pck:xcom3/ufodata/ptang.tab:{}", j)),
 				     frameTTL * (slow ? 2 : 1)});
 			}
 
@@ -172,9 +171,8 @@ void InitialGameStateExtractor::extractDoodads(GameState &state) const
 			for (int j = tabOffsets.x; j < tabOffsets.y; j++)
 			{
 				d->frames.push_back(
-				    {fw().data->loadImage(format("PCK:xcom3/tacdata/ptang.pck:xcom3/tacdata/"
-				                                 "ptang.tab:%d",
-				                                 j)),
+				    {fw().data->loadImage(
+				         fmt::format("PCK:xcom3/tacdata/ptang.pck:xcom3/tacdata/ptang.tab:{}", j)),
 				     frameTTL * ttlmult});
 			}
 
@@ -190,16 +188,12 @@ void InitialGameStateExtractor::extractDoodads(GameState &state) const
 			d->imageOffset = BATTLE_IMAGE_OFFSET;
 			d->lifetime = (2) * frameTTL;
 			d->repeatable = false;
-			d->frames.push_back(
-			    {fw().data->loadImage(format("PCK:xcom3/tacdata/ptang.pck:xcom3/tacdata/"
-			                                 "ptang.tab:%d",
-			                                 78)),
-			     frameTTL});
-			d->frames.push_back(
-			    {fw().data->loadImage(format("PCK:xcom3/tacdata/ptang.pck:xcom3/tacdata/"
-			                                 "ptang.tab:%d",
-			                                 77)),
-			     frameTTL});
+			d->frames.push_back({fw().data->loadImage(fmt::format(
+			                         "PCK:xcom3/tacdata/ptang.pck:xcom3/tacdata/ptang.tab:{}", 78)),
+			                     frameTTL});
+			d->frames.push_back({fw().data->loadImage(fmt::format(
+			                         "PCK:xcom3/tacdata/ptang.pck:xcom3/tacdata/ptang.tab:{}", 77)),
+			                     frameTTL});
 			state.doodad_types[id] = d;
 		}
 
@@ -225,7 +219,7 @@ void InitialGameStateExtractor::extractDoodads(GameState &state) const
 
 			for (int facing = 0; facing < 9; facing++)
 			{
-				UString id = format("DOODAD_BATTLE_EXPLOSION_%s", facingMap.at(facing));
+				UString id = fmt::format("DOODAD_BATTLE_EXPLOSION_{}", facingMap.at(facing));
 				auto d = mksp<DoodadType>();
 
 				// FIXME: ENSURE CORRECT
@@ -238,9 +232,8 @@ void InitialGameStateExtractor::extractDoodads(GameState &state) const
 					int idx = indexes[frame] + facing;
 
 					d->frames.push_back(
-					    {fw().data->loadImage(format("PCK:xcom3/tacdata/ptang.pck:xcom3/tacdata/"
-					                                 "ptang.tab:%d",
-					                                 idx)),
+					    {fw().data->loadImage(fmt::format(
+					         "PCK:xcom3/tacdata/ptang.pck:xcom3/tacdata/ptang.tab:{}", idx)),
 					     frameTTL * ttlmult});
 				}
 
