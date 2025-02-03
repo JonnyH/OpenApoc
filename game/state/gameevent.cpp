@@ -247,52 +247,51 @@ UString GameBaseEvent::message()
 	switch (type)
 	{
 		case GameEventType::AgentRearmed:
-			return tr("Agent(s) rearmed:") + " " + base->name;
+			return format(tr("Agent(s) rearmed: %s"), base->name);
 		case GameEventType::CargoExpired:
 			if (actor)
 			{
 				if (actor == base->building->owner)
 				{
-					return tr("Cargo expired:") + " " + base->name + " " + tr("Returned to base");
+					return format(tr("Cargo expired: %s Returned to base"), base->name);
 				}
 				else
 				{
-					return tr("Cargo expired:") + " " + base->name + " " +
-					       tr("Refunded by supplier: ") + actor->name;
+					return format(tr("Cargo expired:%s Refunded by supplier: %s"), base->name,
+					              actor->name);
 				}
 			}
 			else
 			{
-				return tr("Cargo expired:") + " " + base->name;
+				return format(tr("Cargo expired: %s"), base->name);
 			}
 		case GameEventType::CargoSeized:
 		{
-			return tr("Cargo seized:") + " " + base->name + " " + tr("By hostile organisation: ") +
-			       actor->name;
+			return format(tr("Cargo seized: %s By hostile organisation: %s"), base->name,
+			              actor->name);
 		}
 		case GameEventType::CargoArrived:
 			if (actor)
 			{
-				return tr("Cargo arrived:") + " " + base->name + " " + tr("Supplier: ") +
-				       actor->name;
+				return format(tr("Cargo arrived: %s Supplier: %s"), base->name, actor->name);
 			}
 			else
 			{
-				return tr("Cargo arrived:") + " " + base->name;
+				return format(tr("Cargo arrived: %s"), base->name);
 			}
 		case GameEventType::TransferArrived:
 			if (flag)
 			{
-				return tr("Transferred Alien specimens have arrived:") + " " + base->name;
+				return format(tr("Transferred Alien specimens have arrived: %s"), base->name);
 			}
 			else
 			{
-				return tr("Transferred goods have arrived:") + " " + base->name;
+				return format(tr("Transferred goods have arrived: %s"), base->name);
 			}
 		case GameEventType::RecoveryArrived:
-			return tr("Items from tactical combat zone have arrived:") + " " + base->name;
+			return format(tr("Items from tactical combat zone have arrived: %s"), base->name);
 		case GameEventType::MissionCompletedBase:
-			return tr("Base mission completed at:") + " " + base->name;
+			return format(tr("Base mission completed at: %s"), base->name);
 
 		default:
 			LogError("Invalid event type");
@@ -306,8 +305,8 @@ UString GameBattleEvent::message()
 	switch (type)
 	{
 		case GameEventType::NewTurn:
-			return tr("Turn:") + " " + format("%d", battle->currentTurn) + "   " + tr("Side:") +
-			       "  " + tr(battle->currentActiveOrganisation->name);
+			return format(tr("Turn: %d   Side: %s"), battle->currentTurn,
+			              battle->currentActiveOrganisation->name);
 		default:
 			LogError("Invalid battle event type");
 			break;
