@@ -14,11 +14,11 @@
 namespace OpenApoc
 {
 
-SelectForces::SelectForces(sp<GameState> state, Skirmish &skirmish,
+SelectForces::SelectForces(GameState &state, Skirmish &skirmish,
                            std::map<StateRef<AgentType>, int> *aliens, int *guards, int *civilians)
-    : Stage(), menuform(ui().getForm("selectforces")), skirmish(skirmish), state(*state)
+    : Stage(), menuform(ui().getForm("selectforces")), skirmish(skirmish), state(state)
 {
-	menuform->findControlTyped<Label>("TEXT_FUNDS")->setText(state->getPlayerBalance());
+	menuform->findControlTyped<Label>("TEXT_FUNDS")->setText(state.getPlayerBalance());
 	menuform->findControlTyped<Label>("LOCATION")->setText(skirmish.getLocationText());
 
 	menuform->findControlTyped<ScrollBar>("NUM_BSK_SLIDER")

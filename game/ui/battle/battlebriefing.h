@@ -18,10 +18,10 @@ class BattleBriefing : public Stage
 	sp<Form> menuform;
 	std::shared_future<void> loading_task;
 
-	sp<GameState> state;
+	GameState &state;
 
   public:
-	BattleBriefing(sp<GameState> state, StateRef<Organisation> targetOrg, UString location,
+	BattleBriefing(GameState &state, StateRef<Organisation> targetOrg, UString location,
 	               bool isBuilding, bool isRaid, std::shared_future<void> loadingTask);
 	// Stage control
 	void begin() override;

@@ -36,7 +36,7 @@ static const Colour EQUIP_GRID_COLOUR_ENGINE{255, 255, 40, 255};
 static const Colour EQUIP_GRID_COLOUR_WEAPON{255, 40, 40, 255};
 static const Colour EQUIP_GRID_COLOUR_GENERAL{255, 40, 255, 255};
 
-VEquipScreen::VEquipScreen(sp<GameState> state)
+VEquipScreen::VEquipScreen(GameState &state)
     : Stage(), form(ui().getForm("vequipscreen")),
       pal(fw().data->loadPalette("xcom3/ufodata/vroadwar.pcx")),
       labelFont(ui().getFont("smalfont")), drawHighlightBox(false), state(state)
@@ -58,10 +58,10 @@ VEquipScreen::VEquipScreen(sp<GameState> state)
 		                       VehicleSheet(formVehicleItem).display(selected);
 	                       });
 
-	for (auto &v : state->vehicles)
+	for (auto &v : state.vehicles)
 	{
 		auto vehicle = v.second;
-		if (vehicle->owner != state->getPlayer())
+		if (vehicle->owner != state.getPlayer())
 			continue;
 		this->setSelectedVehicle(vehicle);
 		highlightedVehicle = vehicle;
@@ -100,14 +100,14 @@ VEquipScreen::~VEquipScreen() = default;
 
 void VEquipScreen::begin()
 {
-	form->findControlTyped<Label>("TEXT_FUNDS")->setText(state->getPlayerBalance());
+	form->findControlTyped<Label>("TEXT_FUNDS")->setText(state.getPlayerBalance());
 
 	vehicleSelectBox = form->findControlTyped<ListBox>("VEHICLE_SELECT_BOX");
 
-	for (auto &v : state->vehicles)
+	for (auto &v : state.vehicles)
 	{
 		auto vehicle = v.second;
-		if (vehicle->owner != state->getPlayer())
+		if (vehicle->owner != state.getPlayer())
 			continue;
 		auto graphic = mksp<Graphic>(vehicle->type->equip_icon_big);
 
@@ -315,7 +315,7 @@ void VEquipScreen::eventOccurred(Event *e)
 
 			// Return the equipment to the inventory
 			this->selected->removeEquipment(equipment);
-			equipment->unequipToBase(*state, base);
+			equipment->unequipToBase(state, base);
 			this->paperDoll->updateEquipment();
 
 			// Immediate action: put to the base
@@ -350,10 +350,10 @@ void VEquipScreen::eventOccurred(Event *e)
 						this->draggedEquipment = nullptr;
 						return;
 					}
-					auto e = this->selected->addEquipment(*state, this->draggedEquipment);
+					auto e = this->selected->addEquipment(state, this->draggedEquipment);
 					if (e)
 					{
-						e->equipFromBase(*state, base);
+						e->equipFromBase(state, base);
 						this->paperDoll->updateEquipment();
 					}
 					this->draggedEquipment = nullptr;
@@ -392,8 +392,8 @@ void VEquipScreen::eventOccurred(Event *e)
 					         this->draggedEquipment->id);
 				}
 				auto e =
-				    this->selected->addEquipment(*state, equipmentGridPos, this->draggedEquipment);
-				e->equipFromBase(*state, base);
+				    this->selected->addEquipment(state, equipmentGridPos, this->draggedEquipment);
+				e->equipFromBase(state, base);
 				this->paperDoll->updateEquipment();
 				// FIXME: Add ammo to equipment
 			}
@@ -438,10 +438,10 @@ void VEquipScreen::render()
 	}
 	// Draw the inventory if the selected is in a building, and that is a base
 	StateRef<Base> base;
-	for (auto &b : state->player_bases)
+	for (auto &b : state.player_bases)
 	{
 		if (b.second->building == selected->currentBuilding)
-			base = {state.get(), b.first};
+			base = {&state, b.first};
 	}
 	if (base)
 	{
@@ -453,13 +453,13 @@ void VEquipScreen::render()
 			static const int INVENTORY_COUNT_Y_GAP = 4;
 			// The gap between the end of one inventory image and the start of the next
 			static const int INVENTORY_IMAGE_X_GAP = 4;
-			auto equipIt = state->vehicle_equipment.find(invPair.first);
-			if (equipIt == state->vehicle_equipment.end())
+			auto equipIt = state.vehicle_equipment.find(invPair.first);
+			if (equipIt == state.vehicle_equipment.end())
 			{
 				// It's not vehicle equipment, skip
 				continue;
 			}
-			auto equipmentType = StateRef<VEquipmentType>{state.get(), equipIt->first};
+			auto equipmentType = StateRef<VEquipmentType>{&state, equipIt->first};
 			if (equipmentType->type != this->selectionType)
 			{
 				// Skip equipment of different types

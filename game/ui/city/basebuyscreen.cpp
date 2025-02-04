@@ -23,12 +23,12 @@
 namespace OpenApoc
 {
 
-BaseBuyScreen::BaseBuyScreen(sp<GameState> state, sp<Building> building)
+BaseBuyScreen::BaseBuyScreen(GameState &state, sp<Building> building)
     : Stage(), form(ui().getForm("city/basebuy")), state(state)
 {
 	Vec2<int> size = building->bounds.size();
 	price = std::min(size.x, 8) * std::min(size.y, 8) * COST_PER_TILE;
-	base = mksp<Base>(*state, StateRef<Building>{state.get(), building});
+	base = mksp<Base>(state, StateRef<Building>{&state, building});
 }
 
 BaseBuyScreen::~BaseBuyScreen() = default;
@@ -37,7 +37,7 @@ void BaseBuyScreen::begin()
 {
 	baseView = form->findControlTyped<Graphic>("GRAPHIC_BASE_VIEW");
 
-	form->findControlTyped<Label>("TEXT_FUNDS")->setText(state->getPlayerBalance());
+	form->findControlTyped<Label>("TEXT_FUNDS")->setText(state.getPlayerBalance());
 
 	auto text = form->findControlTyped<Label>("TEXT_PRICE");
 	text->setText(format(tr("This Building will cost $%s"), Strings::fromInteger(price, true)));
@@ -74,15 +74,15 @@ void BaseBuyScreen::eventOccurred(Event *e)
 		}
 		else if (e->forms().RaisedBy->Name == "BUTTON_BUY_BASE")
 		{
-			if (state->getPlayer()->balance >= price)
+			if (state.getPlayer()->balance >= price)
 			{
-				state->getPlayer()->balance -= price;
+				state.getPlayer()->balance -= price;
 				StateRef<Building> newBuilding;
 				for (auto &b : base->building->city->buildings)
 				{
 					if (base->building != b.second && b.second->owner == base->building->owner)
 					{
-						newBuilding = {state.get(), b.first};
+						newBuilding = {&state, b.first};
 						break;
 					}
 				}
@@ -91,9 +91,9 @@ void BaseBuyScreen::eventOccurred(Event *e)
 					LogError("We just bought %s's last building? WTF?",
 					         base->building->owner->name);
 				}
-				base->building->owner = state->getPlayer();
+				base->building->owner = state.getPlayer();
 				// Boot organisation's vehicles and agents
-				for (auto &v : state->vehicles)
+				for (auto &v : state.vehicles)
 				{
 					if (v.second->homeBuilding == base->building)
 					{
@@ -103,22 +103,21 @@ void BaseBuyScreen::eventOccurred(Event *e)
 							if (v.second->currentBuilding == base->building)
 							{
 								v.second->setMission(
-								    *state, VehicleMission::gotoBuilding(*state, *v.second));
+								    state, VehicleMission::gotoBuilding(state, *v.second));
 							}
 						}
 						else
 						{
-							v.second->die(*state, true);
+							v.second->die(state, true);
 						}
 					}
 					else if (v.second->currentBuilding == base->building &&
-					         v.second->owner != state->getPlayer())
+					         v.second->owner != state.getPlayer())
 					{
-						v.second->setMission(*state,
-						                     VehicleMission::gotoBuilding(*state, *v.second));
+						v.second->setMission(state, VehicleMission::gotoBuilding(state, *v.second));
 					}
 				}
-				for (auto &a : state->agents)
+				for (auto &a : state.agents)
 				{
 					if (a.second->homeBuilding == base->building)
 					{
@@ -127,27 +126,27 @@ void BaseBuyScreen::eventOccurred(Event *e)
 							a.second->homeBuilding = newBuilding;
 							if (a.second->currentBuilding == base->building)
 							{
-								a.second->setMission(*state,
-								                     AgentMission::gotoBuilding(*state, *a.second));
+								a.second->setMission(state,
+								                     AgentMission::gotoBuilding(state, *a.second));
 							}
 						}
 						else
 						{
-							a.second->die(*state, true);
+							a.second->die(state, true);
 						}
 					}
 					else if (a.second->currentBuilding == base->building &&
-					         a.second->owner != state->getPlayer())
+					         a.second->owner != state.getPlayer())
 					{
-						a.second->setMission(*state, AgentMission::gotoBuilding(*state, *a.second));
+						a.second->setMission(state, AgentMission::gotoBuilding(state, *a.second));
 					}
 				}
 
-				state->baseIndex += 1;
-				base->name = "Base " + Strings::fromInteger(state->baseIndex);
-				state->player_bases[Base::getPrefix() + Strings::fromInteger(state->baseIndex)] =
+				state.baseIndex += 1;
+				base->name = "Base " + Strings::fromInteger(state.baseIndex);
+				state.player_bases[Base::getPrefix() + Strings::fromInteger(state.baseIndex)] =
 				    base;
-				base->building->base = {state.get(), base};
+				base->building->base = {&state, base};
 
 				fw().stageQueueCommand({StageCmd::Command::REPLACE, mksp<CityView>(state)});
 			}

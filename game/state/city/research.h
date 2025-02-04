@@ -120,10 +120,10 @@ class Lab : public StateObject<Lab>
 	StateRef<ResearchTopic> current_project;
 	std::list<StateRef<Agent>> assigned_agents;
 
-	static void setResearch(StateRef<Lab> lab, StateRef<ResearchTopic> topic, sp<GameState> state);
+	static void setResearch(StateRef<Lab> lab, StateRef<ResearchTopic> topic, GameState &state);
 	static void setQuantity(StateRef<Lab> lab, unsigned quantity);
 
-	static void update(unsigned int ticks, StateRef<Lab> lab, sp<GameState> state);
+	static void update(unsigned int ticks, StateRef<Lab> lab, GameState &state);
 
 	int getTotalSkill() const;
 	unsigned getQuantity() const;

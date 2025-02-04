@@ -634,11 +634,11 @@ sp<Control> ControlGenerator::createLargeAgentControl(GameState &state, sp<Agent
  * @facility - lab facility
  * @return - lab icon control
  */
-sp<Control> ControlGenerator::createLabControl(sp<GameState> state, sp<Facility> facility)
+sp<Control> ControlGenerator::createLabControl(GameState &state, sp<Facility> facility)
 {
 	if (!singleton.initialised)
 	{
-		singleton.init(*state);
+		singleton.init(state);
 	}
 
 	auto graphic = mksp<Graphic>(facility->type->sprite);

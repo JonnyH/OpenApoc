@@ -106,7 +106,7 @@ static const float NUMERIC_OPTION_MAX_LIMIT = 100.0;
 static const float NUMERIC_OPTION_MIN_LIMIT = 0;
 
 } // namespace
-MoreOptions::MoreOptions(sp<GameState> state)
+MoreOptions::MoreOptions(GameState &state)
     : Stage(), menuform(ui().getForm("moreoptions")), state(state)
 {
 }
@@ -565,7 +565,7 @@ bool MoreOptions::isTransition() { return false; }
 
 void MoreOptions::begin()
 {
-	menuform->findControlTyped<Label>("TEXT_FUNDS")->setText(state->getPlayerBalance());
+	menuform->findControlTyped<Label>("TEXT_FUNDS")->setText(state.getPlayerBalance());
 	loadLists();
 
 	// TODO: Implement vanilla mode

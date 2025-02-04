@@ -48,7 +48,7 @@ class RecruitScreen : public BaseStage
 	void populateAgentList();
 
   public:
-	RecruitScreen(sp<GameState> state);
+	RecruitScreen(GameState &state);
 	~RecruitScreen() override;
 
 	// Fills the form of personnel's statistics. Such as skill.

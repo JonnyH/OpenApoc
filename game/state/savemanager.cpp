@@ -36,32 +36,30 @@ static std::map<SaveType, UString> saveTypeNames{{SaveType::Manual, "New saved g
                                                  {SaveType::Quick, "Quicksave"},
                                                  {SaveType::Auto, "Autosave"}};
 
-std::shared_future<void> SaveManager::loadGame(const SaveMetadata &metadata,
-                                               sp<GameState> state) const
+std::shared_future<void> SaveManager::loadGame(const SaveMetadata &metadata, GameState &state) const
 {
 	return loadGame(metadata.getFile(), state);
 }
 
-std::shared_future<void> SaveManager::loadGame(const UString &savePath, sp<GameState> state) const
+std::shared_future<void> SaveManager::loadGame(const UString &savePath, GameState &state) const
 {
 	UString saveArchiveLocation = savePath;
 	auto loadTask = fw().threadPoolEnqueue(
-	    [saveArchiveLocation, state]() -> void
+	    [saveArchiveLocation, &state]() -> void
 	    {
-		    if (!state->loadGame(saveArchiveLocation))
+		    if (!state.loadGame(saveArchiveLocation))
 		    {
 			    LogError("Failed to load '%s'", saveArchiveLocation);
 			    return;
 		    }
-		    state->initState();
+		    state.initState();
 		    return;
 	    });
 
 	return loadTask;
 }
 
-std::shared_future<void> SaveManager::loadSpecialSave(const SaveType type,
-                                                      sp<GameState> state) const
+std::shared_future<void> SaveManager::loadSpecialSave(const SaveType type, GameState &state) const
 {
 	if (type == SaveType::Manual)
 	{
@@ -184,7 +182,7 @@ std::optional<SaveMetadata> SaveManager::getSaveGameIfExists(const UString &name
 	return {};
 }
 
-bool SaveManager::newSaveGame(const UString &name, const sp<GameState> gameState) const
+bool SaveManager::newSaveGame(const UString &name, const GameState &gameState) const
 {
 	UString path;
 	if (!findFreePath(path, name))
@@ -197,7 +195,7 @@ bool SaveManager::newSaveGame(const UString &name, const sp<GameState> gameState
 }
 
 bool SaveManager::overrideGame(const SaveMetadata &metadata, const UString &newName,
-                               const sp<GameState> gameState) const
+                               const GameState &gameState) const
 {
 	SaveMetadata updatedMetadata(newName, metadata.getFile(), time(nullptr), metadata.getType(),
 	                             gameState);
@@ -222,12 +220,12 @@ bool SaveManager::overrideGame(const SaveMetadata &metadata, const UString &newN
 	return result;
 }
 
-bool SaveManager::saveGame(const SaveMetadata &metadata, const sp<GameState> gameState) const
+bool SaveManager::saveGame(const SaveMetadata &metadata, const GameState &gameState) const
 {
 	bool pack = Options::packSaveOption.get();
 	const UString path = metadata.getFile();
 	auto archive = SerializationArchive::createArchive();
-	if (gameState->serialize(archive.get()) && metadata.serializeManifest(archive.get()))
+	if (gameState.serialize(archive.get()) && metadata.serializeManifest(archive.get()))
 	{
 		return writeArchiveWithBackup(archive.get(), path, pack);
 	}
@@ -235,7 +233,7 @@ bool SaveManager::saveGame(const SaveMetadata &metadata, const sp<GameState> gam
 	return false;
 }
 
-bool SaveManager::specialSaveGame(SaveType type, const sp<GameState> gameState) const
+bool SaveManager::specialSaveGame(SaveType type, const GameState &gameState) const
 {
 	if (type == SaveType::Manual)
 	{
@@ -287,11 +285,6 @@ std::vector<SaveMetadata> SaveManager::getSaveList() const
 				if (metadata.deserializeManifest(archive.get(), savePath))
 				{
 					saveList.push_back(metadata);
-				}
-				else // accept saves with missing manifest if extension is correct
-				{
-					saveList.push_back(SaveMetadata("Unknown(Missing manifest)", savePath, 0,
-					                                SaveType::Manual, nullptr));
 				}
 			}
 		}
@@ -415,24 +408,19 @@ SaveMetadata::SaveMetadata() : creationDate(0), type(), gameTicks(0){};
 SaveMetadata::~SaveMetadata() = default;
 ;
 SaveMetadata::SaveMetadata(UString name, UString file, time_t creationDate, SaveType type,
-                           const sp<GameState> gameState)
+                           const GameState &gameState)
     : name(name), file(file), creationDate(creationDate), type(type)
 {
-	if (gameState)
-	{
-		gameTicks = gameState->gameTime.getTicks();
-		// this->difficulty = gameState->difficulty; ?
-	}
+	gameTicks = gameState.gameTime.getTicks();
+	// this->difficulty = gameState->difficulty;
 }
 SaveMetadata::SaveMetadata(const SaveMetadata &metdata, time_t creationDate,
-                           const sp<GameState> gameState)
+                           const GameState &gameState)
     : name(metdata.name), file(metdata.file), creationDate(creationDate), type(metdata.type)
 {
-	if (gameState)
-	{
-		gameTicks = gameState->gameTime.getTicks();
-		// this->difficulty = gameState->difficulty; ?
-	}
+
+	gameTicks = gameState.gameTime.getTicks();
+	// this->difficulty = gameState->difficulty; ?
 }
 const UString &SaveMetadata::getName() const { return name; }
 const UString &SaveMetadata::getFile() const { return file; }

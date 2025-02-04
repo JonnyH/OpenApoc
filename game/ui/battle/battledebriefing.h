@@ -16,10 +16,10 @@ class BattleDebriefing : public Stage
   private:
 	sp<Form> menuform;
 
-	sp<GameState> state;
+	GameState &state;
 
   public:
-	BattleDebriefing(sp<GameState> state);
+	BattleDebriefing(GameState &state);
 	// Stage control
 	void begin() override;
 	void pause() override;

@@ -24,7 +24,7 @@
 namespace OpenApoc
 {
 
-UfopaediaCategoryView::UfopaediaCategoryView(sp<GameState> state, sp<UfopaediaCategory> cat,
+UfopaediaCategoryView::UfopaediaCategoryView(GameState &state, sp<UfopaediaCategory> cat,
                                              sp<UfopaediaEntry> entry)
     : Stage(), menuform(ui().getForm("ufopaedia")), state(state), category(cat), baseY(0), baseH(0)
 {
@@ -267,8 +267,8 @@ void UfopaediaCategoryView::setFormStats()
 			{
 				case UfopaediaEntry::Data::Organisation:
 				{
-					StateRef<Organisation> ref = {state.get(), data_id};
-					StateRef<Organisation> player = state->getPlayer();
+					StateRef<Organisation> ref = {&state, data_id};
+					StateRef<Organisation> player = state.getPlayer();
 					// FIXME: Should this be hardcoded?
 					if (data_id != "ORG_ALIEN")
 					{
@@ -310,7 +310,7 @@ void UfopaediaCategoryView::setFormStats()
 				}
 				case UfopaediaEntry::Data::Vehicle:
 				{
-					StateRef<VehicleType> ref = {state.get(), data_id};
+					StateRef<VehicleType> ref = {&state, data_id};
 					statsLabels[row]->setText(tr("Constitution"));
 					statsValues[row++]->setText(Strings::fromInteger(ref->health));
 					int armour = 0;
@@ -359,7 +359,7 @@ void UfopaediaCategoryView::setFormStats()
 				}
 				case UfopaediaEntry::Data::VehicleEquipment:
 				{
-					StateRef<VEquipmentType> ref = {state.get(), data_id};
+					StateRef<VEquipmentType> ref = {&state, data_id};
 					statsLabels[row]->setText(tr("Weight"));
 					statsValues[row++]->setText(Strings::fromInteger(ref->weight));
 					statsLabels[row]->setText(tr("Size"));
@@ -447,7 +447,7 @@ void UfopaediaCategoryView::setFormStats()
 				}
 				case UfopaediaEntry::Data::Equipment:
 				{
-					StateRef<AEquipmentType> ref = {state.get(), data_id};
+					StateRef<AEquipmentType> ref = {&state, data_id};
 					statsLabels[row]->setText(tr("Weight"));
 					statsValues[row++]->setText(Strings::fromInteger(ref->weight));
 					statsLabels[row]->setText(tr("Size"));
@@ -508,7 +508,7 @@ void UfopaediaCategoryView::setFormStats()
 				}
 				case UfopaediaEntry::Data::Facility:
 				{
-					StateRef<FacilityType> ref = {state.get(), data_id};
+					StateRef<FacilityType> ref = {&state, data_id};
 					statsLabels[row]->setText(tr("Construction cost"));
 					statsValues[row++]->setText(
 					    format("$%s", Strings::fromInteger(ref->buildCost, true)));
@@ -596,12 +596,12 @@ void UfopaediaCategoryView::setPreviousTopic()
 
 void UfopaediaCategoryView::setNextSection()
 {
-	auto it = state->ufopaedia.begin();
+	auto it = state.ufopaedia.begin();
 	// First find myself
 	while (it->second != this->category)
 	{
 		it++;
-		if (it == state->ufopaedia.end())
+		if (it == state.ufopaedia.end())
 		{
 			LogError("Failed to find current category \"%s\"", this->category->title);
 		}
@@ -609,9 +609,9 @@ void UfopaediaCategoryView::setNextSection()
 	// Increment it once to get the next
 	it++;
 	// Loop around to the beginning
-	if (it == state->ufopaedia.end())
+	if (it == state.ufopaedia.end())
 	{
-		it = state->ufopaedia.begin();
+		it = state.ufopaedia.begin();
 	}
 	fw().stageQueueCommand(
 	    {StageCmd::Command::REPLACE, mksp<UfopaediaCategoryView>(state, it->second)});
@@ -620,20 +620,20 @@ void UfopaediaCategoryView::setNextSection()
 
 void UfopaediaCategoryView::setPreviousSection()
 {
-	auto it = state->ufopaedia.begin();
+	auto it = state.ufopaedia.begin();
 	// First find myself
 	while (it->second != this->category)
 	{
 		it++;
-		if (it == state->ufopaedia.end())
+		if (it == state.ufopaedia.end())
 		{
 			LogError("Failed to find current category \"%s\"", this->category->title);
 		}
 	}
 	// Loop around to the beginning
-	if (it == state->ufopaedia.begin())
+	if (it == state.ufopaedia.begin())
 	{
-		it = state->ufopaedia.end();
+		it = state.ufopaedia.end();
 	}
 	// Decrement it once to get the previous
 	it--;

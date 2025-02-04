@@ -12,9 +12,9 @@
 namespace OpenApoc
 {
 
-BribeScreen::BribeScreen(sp<GameState> state)
+BribeScreen::BribeScreen(GameState &state)
     : Stage(), menuform(ui().getForm("city/bribe")), state(state),
-      organisation(state->current_city->cityViewSelectedOrganisation)
+      organisation(state.current_city->cityViewSelectedOrganisation)
 {
 }
 
@@ -27,9 +27,9 @@ void BribeScreen::updateInfo()
 {
 	UString relationship;
 	UString offer;
-	bribe = organisation->costOfBribeBy(*state, state->getPlayer());
+	bribe = organisation->costOfBribeBy(state, state.getPlayer());
 
-	switch (organisation->isRelatedTo(state->getPlayer()))
+	switch (organisation->isRelatedTo(state.getPlayer()))
 	{
 		case Organisation::Relation::Allied:
 			relationship = ": allied with:";
@@ -71,14 +71,14 @@ void BribeScreen::updateInfo()
 		           "negotiations with X-COM.");
 		bribe = 0;
 	}
-	else if (organisation->isRelatedTo(state->getAliens()) == Organisation::Relation::Allied)
+	else if (organisation->isRelatedTo(state.getAliens()) == Organisation::Relation::Allied)
 	{
 		offer = tr("Whilst X-COM continue to oppose our Alien friends we will remain "
 		           "hostile. Negotiations are impossible.");
 		bribe = 0;
 	}
 
-	labelFunds->setText(state->getPlayerBalance());
+	labelFunds->setText(state.getPlayerBalance());
 	labelRelation->setText(format("%s%s X-COM", tr(organisation->name), tr(relationship)));
 	labelOffer->setText(offer);
 }
@@ -97,7 +97,7 @@ UString BribeScreen::getOfferString(int itWillCost, const UString &newAttitude) 
 
 void BribeScreen::begin()
 {
-	menuform->findControlTyped<Label>("TEXT_DATE")->setText(state->gameTime.getLongDateString());
+	menuform->findControlTyped<Label>("TEXT_DATE")->setText(state.gameTime.getLongDateString());
 	labelFunds = menuform->findControlTyped<Label>("TEXT_FUNDS");
 	labelRelation = menuform->findControlTyped<Label>("TEXT_RELATION");
 	labelOffer = menuform->findControlTyped<Label>("TEXT_OFFER");
@@ -133,7 +133,7 @@ void BribeScreen::eventOccurred(Event *e)
 		{
 			if (bribe > 0)
 			{
-				organisation->bribedBy(*state, state->getPlayer(), bribe);
+				organisation->bribedBy(state, state.getPlayer(), bribe);
 				updateInfo();
 			}
 			return;

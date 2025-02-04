@@ -34,7 +34,6 @@ void BootUp::update()
 {
 	bool skipIntro = Options::skipIntroOption.get();
 	// The first forms instance causes it to get loaded
-	sp<GameState> loadedState;
 	std::shared_future<void> loadTask;
 	bool loadGame = false;
 
@@ -54,29 +53,32 @@ void BootUp::update()
 	{
 		loadGame = true;
 		auto path = Options::loadGameOption.get();
-		loadedState = mksp<GameState>();
+		current_state = mkup<GameState>();
+		auto &loadedState = *current_state;
+
 		loadTask = fw().threadPoolEnqueue(
-		    [loadedState, path]()
+		    [&loadedState, path]()
 		    {
 			    auto &ui_instance = ui();
 			    std::ignore = ui_instance;
 			    LogWarning("Loading save \"%s\"", path);
 
-			    if (!loadedState->loadGame(path))
+			    if (!loadedState.loadGame(path))
 			    {
 				    LogError("Failed to load supplied game \"%s\"", path);
 			    }
-			    loadedState->initState();
+			    loadedState.initState();
 		    });
 	}
 
 	sp<Stage> nextScreen;
 	if (loadGame == true)
 	{
-		nextScreen = mksp<LoadingScreen>(nullptr, std::move(loadTask),
-		                                 [loadedState]() -> sp<Stage>
+		auto &loadedState = *current_state;
+		nextScreen = mksp<LoadingScreen>(&loadedState, std::move(loadTask),
+		                                 [&loadedState]() -> sp<Stage>
 		                                 {
-			                                 if (loadedState->current_battle)
+			                                 if (loadedState.current_battle)
 			                                 {
 				                                 return mksp<BattleView>(loadedState);
 			                                 }

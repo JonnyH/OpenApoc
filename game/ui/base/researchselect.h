@@ -24,7 +24,7 @@ class ResearchSelect : public Stage
 	sp<Form> form;
 	sp<Lab> lab;
 
-	sp<GameState> state;
+	GameState &state;
 	sp<ResearchTopic> current_topic;
 
 	sp<Image> progressImage;
@@ -35,7 +35,7 @@ class ResearchSelect : public Stage
 	void populateResearchList();
 
   public:
-	ResearchSelect(sp<GameState> state, sp<Lab> lab);
+	ResearchSelect(GameState &state, sp<Lab> lab);
 	~ResearchSelect() override;
 	// Stage control
 	void begin() override;

@@ -31,7 +31,7 @@ class TransferScreen : public TransactionScreen
 	void initViewSecondBase() override;
 
   public:
-	TransferScreen(sp<GameState> state, bool forceLimits = false);
+	TransferScreen(GameState &state, bool forceLimits = false);
 	~TransferScreen() override = default;
 
 	// Stage control

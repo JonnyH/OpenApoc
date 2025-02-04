@@ -23,12 +23,12 @@ class MapSelector : public Stage
 
 	Skirmish &skirmish;
 
-	sp<Control> createMapRowBuilding(StateRef<Building> building, sp<GameState> state);
-	sp<Control> createMapRowVehicle(StateRef<VehicleType> vehicle, sp<GameState> state);
-	sp<Control> createMapRowBase(StateRef<Base> base, sp<GameState> state);
+	sp<Control> createMapRowBuilding(StateRef<Building> building, GameState &state);
+	sp<Control> createMapRowVehicle(StateRef<VehicleType> vehicle, GameState &state);
+	sp<Control> createMapRowBase(StateRef<Base> base, GameState &state);
 
   public:
-	MapSelector(sp<GameState> state, Skirmish &skirmish);
+	MapSelector(GameState &state, Skirmish &skirmish);
 	~MapSelector() override;
 
 	// Stage control

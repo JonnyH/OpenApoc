@@ -18,12 +18,12 @@ class NotificationScreen : public Stage
   private:
 	sp<Form> menuform;
 	GameEventType eventType;
-	sp<GameState> state;
+	GameState &state;
 
   public:
-	NotificationScreen(sp<GameState> state, CityView &cityView, const UString &message,
+	NotificationScreen(GameState &state, CityView &cityView, const UString &message,
 	                   GameEventType eventType);
-	NotificationScreen(sp<GameState> state, BattleView &battleView, const UString &message,
+	NotificationScreen(GameState &state, BattleView &battleView, const UString &message,
 	                   GameEventType eventType);
 	~NotificationScreen() override;
 	// Stage control

@@ -33,7 +33,7 @@ std::list<multiplierDescriptor> multiplierDescriptors{
     {"STAT_GROWTH_MULT", 0.0f, 99.5f, "OpenApoc.Cheat.StatGrowthMultiplier"}};
 } // namespace
 
-CheatOptions::CheatOptions(sp<GameState> state)
+CheatOptions::CheatOptions(GameState &state)
     : Stage(), menuform(ui().getForm("cheatoptions")), state(state)
 {
 }
@@ -55,7 +55,7 @@ float CheatOptions::scaleScrollbarToMultiplier(int scrollbarValue, float multMin
 }
 void CheatOptions::begin()
 {
-	menuform->findControlTyped<Label>("TEXT_FUNDS")->setText(state->getPlayerBalance());
+	menuform->findControlTyped<Label>("TEXT_FUNDS")->setText(state.getPlayerBalance());
 	menuform->findControlTyped<CheckBox>("CHECKBOX_INFINITE_AMMO")
 	    ->setChecked(config().getBool("OpenApoc.Cheat.InfiniteAmmo"));
 
@@ -121,7 +121,7 @@ void CheatOptions::eventOccurred(Event *e)
 		}
 		else if (e->forms().RaisedBy->Name == "BUTTON_GIVE_ALL_RESEARCH")
 		{
-			for (auto &r : this->state->research.topics)
+			for (auto &r : this->state.research.topics)
 			{
 				LogWarning("Topic \"%s\"", r.first);
 				auto &topic = r.second;
@@ -135,95 +135,95 @@ void CheatOptions::eventOccurred(Event *e)
 					LogWarning("Topic \"%s\" marked as complete", r.first);
 				}
 			}
-			this->state->research.resortTopicList();
+			this->state.research.resortTopicList();
 		}
 		else if (e->forms().RaisedBy->Name == "BUTTON_ORGS_FRIENDLY")
 		{
-			for (auto &r : state->organisations)
+			for (auto &r : state.organisations)
 			{
-				r.second->adjustRelationTo(*state, state->player,
+				r.second->adjustRelationTo(state, state.player,
 				                           std::numeric_limits<float>::infinity());
 			}
 		}
 		else if (e->forms().RaisedBy->Name == "BUTTON_ORGS_HOSTILE")
 		{
-			for (auto &r : state->organisations)
+			for (auto &r : state.organisations)
 			{
-				r.second->adjustRelationTo(*state, state->player,
+				r.second->adjustRelationTo(state, state.player,
 				                           -std::numeric_limits<float>::infinity());
 			}
 		}
 		else if (e->forms().RaisedBy->Name == "BUTTON_ORGS_UTOPIA")
 		{
-			for (auto &r : state->organisations)
+			for (auto &r : state.organisations)
 			{
-				for (auto &s : state->organisations)
+				for (auto &s : state.organisations)
 				{
-					r.second->adjustRelationTo(*state, state->getOrganisation(s.first),
+					r.second->adjustRelationTo(state, state.getOrganisation(s.first),
 					                           std::numeric_limits<float>::infinity());
 				}
 			}
 		}
 		else if (e->forms().RaisedBy->Name == "BUTTON_ORGS_CHAOS")
 		{
-			for (auto &r : state->organisations)
+			for (auto &r : state.organisations)
 			{
-				for (auto &s : state->organisations)
+				for (auto &s : state.organisations)
 				{
-					r.second->adjustRelationTo(*state, state->getOrganisation(s.first),
+					r.second->adjustRelationTo(state, state.getOrganisation(s.first),
 					                           -std::numeric_limits<float>::infinity());
 				}
 			}
 		}
 		else if (e->forms().RaisedBy->Name == "BUTTON_MODIFY_FUNDS")
 		{
-			state->getPlayer()->balance +=
+			state.getPlayer()->balance +=
 			    menuform->findControlTyped<ScrollBar>("MODIFY_FUNDS")->getValue() * 1000;
-			menuform->findControlTyped<Label>("TEXT_FUNDS")->setText(state->getPlayerBalance());
+			menuform->findControlTyped<Label>("TEXT_FUNDS")->setText(state.getPlayerBalance());
 		}
 		else if (e->forms().RaisedBy->Name == "BUTTON_SET_TIME_BEFORE_MIDNIGHT")
 		{
-			GameTime gt = state->gameTime;
-			state->gameTime.addTicks(gt.getTicksBetween(gt.getMonthDay(), gt.getHours(),
-			                                            gt.getMinutes(), gt.getSeconds(),
-			                                            gt.getMonthDay(), 23, 59, 59));
+			GameTime gt = state.gameTime;
+			state.gameTime.addTicks(gt.getTicksBetween(gt.getMonthDay(), gt.getHours(),
+			                                           gt.getMinutes(), gt.getSeconds(),
+			                                           gt.getMonthDay(), 23, 59, 59));
 
 			// Clear the time flags in order to avoid side effects due to
 			// "out of game scope" ticks amount added (e.g: flag that a day/week has passed)
-			state->gameTime.clearFlags();
+			state.gameTime.clearFlags();
 		}
 		else if (e->forms().RaisedBy->Name == "BUTTON_FAST_FORWARD_END_WEEK")
 		{
-			GameTime gt = state->gameTime;
-			state->gameTime.addTicks(gt.getTicksBetween(gt.getMonthDay(), gt.getHours(),
-			                                            gt.getMinutes(), gt.getSeconds(),
-			                                            gt.getLastDayOfCurrentWeek(), 23, 59, 59));
+			GameTime gt = state.gameTime;
+			state.gameTime.addTicks(gt.getTicksBetween(gt.getMonthDay(), gt.getHours(),
+			                                           gt.getMinutes(), gt.getSeconds(),
+			                                           gt.getLastDayOfCurrentWeek(), 23, 59, 59));
 
 			// Clear the time flags in order to avoid side effects due to
 			// "out of game scope" ticks amount added (e.g: flag that a day/week has passed)
-			state->gameTime.clearFlags();
+			state.gameTime.clearFlags();
 		}
 		else if (e->forms().RaisedBy->Name == "BUTTON_FAST_FORWARD_END_MONTH")
 		{
-			GameTime gt = state->gameTime;
-			state->gameTime.addTicks(gt.getTicksBetween(gt.getMonthDay(), gt.getHours(),
-			                                            gt.getMinutes(), gt.getSeconds(),
-			                                            gt.getLastDayOfCurrentMonth(), 23, 59, 59));
+			GameTime gt = state.gameTime;
+			state.gameTime.addTicks(gt.getTicksBetween(gt.getMonthDay(), gt.getHours(),
+			                                           gt.getMinutes(), gt.getSeconds(),
+			                                           gt.getLastDayOfCurrentMonth(), 23, 59, 59));
 
 			// Clear the time flags in order to avoid side effects due to
 			// "out of game scope" ticks amount added (e.g: flag that a day/week has passed)
-			state->gameTime.clearFlags();
+			state.gameTime.clearFlags();
 		}
 		else if (e->forms().RaisedBy->Name == "BUTTON_FAST_FORWARD_DAY")
 		{
-			state->gameTime.addTicks(TICKS_PER_DAY);
-			// state->gameTime.setDayPassed( true);
+			state.gameTime.addTicks(TICKS_PER_DAY);
+			// state.gameTime.setDayPassed( true);
 			LogWarning("Scheduling end of day");
 		}
 		else if (e->forms().RaisedBy->Name == "BUTTON_FAST_FORWARD_WEEK")
 		{
-			state->gameTime.addTicks(TICKS_PER_DAY * 7);
-			//	state->gameTime.setWeekPassed( true);
+			state.gameTime.addTicks(TICKS_PER_DAY * 7);
+			//	state.gameTime.setWeekPassed( true);
 			LogWarning("Scheduling end of week");
 		}
 	}

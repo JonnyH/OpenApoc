@@ -76,7 +76,7 @@ constexpr std::array<Colour, 10> line_colors = {
     Colour{235, 213, 25}, Colour{24, 231, 24}, Colour{55, 145, 72},  Colour{5, 101, 255},
     Colour{54, 74, 200},  Colour{143, 15, 178}};
 
-InfiltrationScreen::InfiltrationScreen(sp<GameState> state)
+InfiltrationScreen::InfiltrationScreen(GameState &state)
     : Stage(), menuform(ui().getForm("city/infiltration")), state(state)
 {
 	for (int i = 0; i < 10; i++)
@@ -91,7 +91,7 @@ InfiltrationScreen::~InfiltrationScreen() = default;
 
 void InfiltrationScreen::begin()
 {
-	menuform->findControlTyped<Label>("TEXT_FUNDS")->setText(state->getPlayerBalance());
+	menuform->findControlTyped<Label>("TEXT_FUNDS")->setText(state.getPlayerBalance());
 	this->update_view();
 }
 
@@ -134,7 +134,7 @@ void InfiltrationScreen::reset_shown_orgs()
 {
 	std::vector<const Organisation *> orgs;
 
-	for (const auto &org : state->organisations)
+	for (const auto &org : state.organisations)
 	{
 		if (org.second->id == "ORG_ALIEN" || org.second->id == "ORG_X-COM")
 			continue;

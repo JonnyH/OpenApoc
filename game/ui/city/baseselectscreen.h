@@ -14,10 +14,10 @@ class BaseSelectScreen : public CityTileView
 {
   private:
 	sp<Form> menuform;
-	sp<GameState> state;
+	GameState &state;
 
   public:
-	BaseSelectScreen(sp<GameState> state, Vec3<float> centerPos);
+	BaseSelectScreen(GameState &state, Vec3<float> centerPos);
 	~BaseSelectScreen() override;
 	// Stage control
 	void begin() override;

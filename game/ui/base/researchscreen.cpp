@@ -22,18 +22,18 @@
 namespace OpenApoc
 {
 
-ResearchScreen::ResearchScreen(sp<GameState> state, sp<Facility> selected_lab) : BaseStage(state)
+ResearchScreen::ResearchScreen(GameState &state, sp<Facility> selected_lab) : BaseStage(state)
 {
 	form = ui().getForm("researchscreen");
 	arrow = form->findControlTyped<Graphic>("MAGIC_ARROW");
 	viewHighlight = BaseGraphics::FacilityHighlight::Labs;
 	if (selected_lab)
 	{
-		state->current_base->selectedLab = viewFacility = selected_lab;
+		state.current_base->selectedLab = viewFacility = selected_lab;
 	}
 	else
 	{
-		viewFacility = state->current_base->selectedLab.lock();
+		viewFacility = state.current_base->selectedLab.lock();
 	}
 
 	auto uiListSmallLabs = form->findControlTyped<ListBox>("LIST_SMALL_LABS");
@@ -70,7 +70,7 @@ void ResearchScreen::changeBase(sp<Base> newBase)
 	// update lab's lists
 	smallLabs.clear();
 	largeLabs.clear();
-	for (auto &facility : this->state->current_base->facilities)
+	for (auto &facility : this->state.current_base->facilities)
 	{
 		if (facility->buildTime == 0 &&
 		    (facility->type->capacityType == FacilityType::Capacity::Chemistry ||
@@ -89,7 +89,7 @@ void ResearchScreen::changeBase(sp<Base> newBase)
 	}
 
 	// find selected lab
-	viewFacility = state->current_base->selectedLab.lock();
+	viewFacility = state.current_base->selectedLab.lock();
 	if (!viewFacility)
 	{
 		if (!smallLabs.empty())
@@ -115,7 +115,7 @@ void ResearchScreen::begin()
 
 	if (viewFacility)
 	{
-		state->current_base->selectedLab = viewFacility;
+		state.current_base->selectedLab = viewFacility;
 	}
 
 	auto unassignedAgentList = form->findControlTyped<ListBox>("LIST_UNASSIGNED");
@@ -142,7 +142,7 @@ void ResearchScreen::begin()
 			    return;
 		    }
 		    agent->assigned_to_lab = true;
-		    this->viewFacility->lab->assigned_agents.push_back({state.get(), agent});
+		    this->viewFacility->lab->assigned_agents.push_back({&state, agent});
 		    this->setCurrentLabInfo();
 	    });
 	auto removeFn = [this](FormsEvent *e)
@@ -161,7 +161,7 @@ void ResearchScreen::begin()
 			return;
 		}
 		agent->assigned_to_lab = false;
-		this->viewFacility->lab->assigned_agents.remove({state.get(), agent});
+		this->viewFacility->lab->assigned_agents.remove({&state, agent});
 		this->setCurrentLabInfo();
 	};
 	auto assignedAgentList = form->findControlTyped<ListBox>("LIST_ASSIGNED");
@@ -172,7 +172,7 @@ void ResearchScreen::pause() {}
 
 void ResearchScreen::resume()
 {
-	form->findControlTyped<Label>("TEXT_FUNDS")->setText(state->getPlayerBalance());
+	form->findControlTyped<Label>("TEXT_FUNDS")->setText(state.getPlayerBalance());
 	updateProgressInfo();
 }
 
@@ -254,8 +254,8 @@ void ResearchScreen::eventOccurred(Event *e)
 				{
 					return;
 				}
-				Lab::setResearch(this->viewFacility->lab, {state.get(), ""}, state);
-				form->findControlTyped<Label>("TEXT_FUNDS")->setText(state->getPlayerBalance());
+				Lab::setResearch(this->viewFacility->lab, {&state, ""}, state);
+				form->findControlTyped<Label>("TEXT_FUNDS")->setText(state.getPlayerBalance());
 				this->updateProgressInfo();
 				return;
 			}
@@ -337,7 +337,7 @@ void ResearchScreen::setCurrentLabInfo()
 		updateProgressInfo();
 		return;
 	}
-	this->state->current_base->selectedLab = viewFacility;
+	this->state.current_base->selectedLab = viewFacility;
 	this->assigned_agent_count = 0;
 	auto labType = this->viewFacility->type->capacityType;
 	UString labTypeName = "UNKNOWN";
@@ -365,16 +365,16 @@ void ResearchScreen::setCurrentLabInfo()
 
 	form->findControlTyped<Label>("TEXT_LAB_TYPE")->setText(labTypeName);
 
-	auto agentEntryHeight = ControlGenerator::getFontHeight(*state) * 3;
+	auto agentEntryHeight = ControlGenerator::getFontHeight(state) * 3;
 
 	auto unassignedAgentList = form->findControlTyped<ListBox>("LIST_UNASSIGNED");
 	unassignedAgentList->clear();
 	auto assignedAgentList = form->findControlTyped<ListBox>("LIST_ASSIGNED");
 	assignedAgentList->clear();
-	for (auto &agent : state->agents)
+	for (auto &agent : state.agents)
 	{
 		bool assigned_to_current_lab = false;
-		if (agent.second->homeBuilding->base != this->state->current_base)
+		if (agent.second->homeBuilding->base != this->state.current_base)
 			continue;
 
 		if (agent.second->currentBuilding != agent.second->homeBuilding)
@@ -407,12 +407,12 @@ void ResearchScreen::setCurrentLabInfo()
 		if (assigned_to_current_lab)
 		{
 			assignedAgentList->addItem(ControlGenerator::createLargeAgentControl(
-			    *state, agent.second, 160, UnitSkillState::Horizontal));
+			    state, agent.second, 160, UnitSkillState::Horizontal));
 		}
 		else
 		{
 			unassignedAgentList->addItem(ControlGenerator::createLargeAgentControl(
-			    *state, agent.second, unassignedAgentList->Size.x, UnitSkillState::Vertical));
+			    state, agent.second, unassignedAgentList->Size.x, UnitSkillState::Vertical));
 		}
 	}
 	assignedAgentList->ItemSize = agentEntryHeight;

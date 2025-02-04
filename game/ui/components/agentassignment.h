@@ -22,7 +22,7 @@ class AgentAssignment : public Form
 	sp<Agent> agent;
 	sp<Vehicle> vehicle;
 	sp<Building> building;
-	sp<GameState> state;
+	GameState &state;
 
 	Colour HoverColour, SelectedColour;
 	Vec2<int> renderOffset{32, 0};
@@ -66,7 +66,7 @@ class AgentAssignment : public Form
 	sp<Agent> currentAgent;
 	sp<Vehicle> currentVehicle;
 
-	AgentAssignment(sp<GameState> state);
+	AgentAssignment(GameState &state);
 
 	void init(sp<Form> form, Vec2<int> location, Vec2<int> size);
 

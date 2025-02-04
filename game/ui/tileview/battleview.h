@@ -127,7 +127,7 @@ class BattleView : public BattleTileView
 	std::map<bool, sp<Graphic>> motionScannerData;
 	std::map<bool, sp<Graphic>> motionScannerUnit;
 
-	sp<GameState> state;
+	GameState &state;
 
 	Battle &battle;
 
@@ -230,7 +230,7 @@ class BattleView : public BattleTileView
 	void orderHeal(BodyPart part);
 
   public:
-	BattleView(sp<GameState> gameState);
+	BattleView(GameState &gameState);
 	~BattleView() override;
 	void begin() override;
 	void refresh();

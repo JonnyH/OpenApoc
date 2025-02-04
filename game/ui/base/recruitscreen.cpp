@@ -31,8 +31,7 @@
 namespace OpenApoc
 {
 
-RecruitScreen::RecruitScreen(sp<GameState> state)
-    : BaseStage(state), bigUnitRanks(getBigUnitRanks())
+RecruitScreen::RecruitScreen(GameState &state) : BaseStage(state), bigUnitRanks(getBigUnitRanks())
 {
 	// Load resources
 	form = ui().getForm("recruitscreen");
@@ -107,9 +106,9 @@ RecruitScreen::RecruitScreen(sp<GameState> state)
 					                                          agentControl));
 					    agentLists[rightIndex].push_back(agentControl);
 				    }
-				    else if (this->state->current_base->getUsage(*(this->state),
-				                                                 FacilityType::Capacity::Quarters,
-				                                                 lqDelta + 1) > 100.f)
+				    else if (this->state.current_base->getUsage(this->state,
+				                                                FacilityType::Capacity::Quarters,
+				                                                lqDelta + 1) > 100.f)
 				    {
 					    fw().stageQueueCommand(
 					        {StageCmd::Command::PUSH,
@@ -145,17 +144,17 @@ void RecruitScreen::populateAgentList()
 
 	std::map<UString, int> bases;
 	int index = 0;
-	for (auto &b : state->player_bases)
+	for (auto &b : state.player_bases)
 	{
 		bases[b.first] = index;
 		index++;
 	}
 
-	auto player = state->getPlayer();
+	auto player = state.getPlayer();
 	auto list = form->findControlTyped<ListBox>("LIST2");
 
 	// Populate list of agents
-	for (auto &a : state->agents)
+	for (auto &a : state.agents)
 	{
 		UnitSkillState skill = UnitSkillState::Vertical;
 		if (a.second->type->role == AgentType::Role::Soldier)
@@ -166,7 +165,7 @@ void RecruitScreen::populateAgentList()
 			if (a.second->currentBuilding == a.second->homeBuilding)
 			{
 				agentLists[bases[a.second->homeBuilding->base.id]].push_back(
-				    ControlGenerator::createLargeAgentControl(*state, a.second, list->Size.x,
+				    ControlGenerator::createLargeAgentControl(state, a.second, list->Size.x,
 				                                              skill));
 			}
 		}
@@ -174,7 +173,7 @@ void RecruitScreen::populateAgentList()
 		         a.second->owner->hirableAgentTypes.end())
 		{
 			agentLists[8].push_back(
-			    ControlGenerator::createLargeAgentControl(*state, a.second, list->Size.x, skill));
+			    ControlGenerator::createLargeAgentControl(state, a.second, list->Size.x, skill));
 		}
 	}
 }
@@ -182,7 +181,7 @@ void RecruitScreen::populateAgentList()
 void RecruitScreen::changeBase(sp<Base> newBase)
 {
 	BaseStage::changeBase(newBase);
-	textViewBaseStatic->setText(state->current_base->name);
+	textViewBaseStatic->setText(state.current_base->name);
 
 	formAgentStats->setVisible(false);
 	formAgentProfile->setVisible(false);
@@ -252,9 +251,9 @@ void RecruitScreen::setDisplayType(const AgentType::Role role)
 int RecruitScreen::getLeftIndex()
 {
 	int index = 0;
-	for (auto &b : state->player_bases)
+	for (auto &b : state.player_bases)
 	{
-		if (b.first == state->current_base.id)
+		if (b.first == state.current_base.id)
 		{
 			return index;
 		}
@@ -269,10 +268,10 @@ void RecruitScreen::updateFormValues()
 	int moneyDelta = 0;
 	lqDelta = 0;
 
-	auto player = state->getPlayer();
+	auto player = state.getPlayer();
 	std::map<UString, int> bases;
 	int index = 0;
-	for (auto &b : state->player_bases)
+	for (auto &b : state.player_bases)
 	{
 		bases[b.first] = index;
 		index++;
@@ -286,7 +285,7 @@ void RecruitScreen::updateFormValues()
 		if (agent->owner != player)
 		{
 			lqDelta++;
-			moneyDelta -= state->agent_salary.at(agent->type->role);
+			moneyDelta -= state.agent_salary.at(agent->type->role);
 		}
 		// Transferred to this
 		else if (bases[agent->homeBuilding->base.id] != leftIndex)
@@ -308,7 +307,7 @@ void RecruitScreen::updateFormValues()
 			// Hired to other
 			if (agent->owner != player)
 			{
-				moneyDelta -= state->agent_salary.at(agent->type->role);
+				moneyDelta -= state.agent_salary.at(agent->type->role);
 			}
 			// Transferred to other
 			else if (bases[agent->homeBuilding->base.id] == leftIndex)
@@ -325,7 +324,7 @@ void RecruitScreen::updateFormValues()
 		if (agent->owner == player)
 		{
 			// Fired from any base
-			moneyDelta -= state->agent_fired_penalty.at(agent->type->role);
+			moneyDelta -= state.agent_fired_penalty.at(agent->type->role);
 			// Fired from this base in particular
 			if (bases[agent->homeBuilding->base.id] == leftIndex)
 			{
@@ -335,7 +334,7 @@ void RecruitScreen::updateFormValues()
 	}
 
 	// Update money
-	const auto balance = state->getPlayer()->balance + moneyDelta;
+	const auto balance = state.getPlayer()->balance + moneyDelta;
 	form->findControlTyped<Label>("TEXT_FUNDS")->setText(Strings::fromInteger(balance, true));
 	form->findControlTyped<Label>("TEXT_FUNDS_DELTA")
 	    ->setText(
@@ -347,7 +346,7 @@ void RecruitScreen::updateFormValues()
 void RecruitScreen::updateBaseHighlight()
 {
 	const auto usage =
-	    state->current_base->getUsage(*state, FacilityType::Capacity::Quarters, lqDelta);
+	    state.current_base->getUsage(state, FacilityType::Capacity::Quarters, lqDelta);
 	fillBaseBar(usage);
 	auto facilityLabel = form->findControlTyped<Label>("FACILITY_FIRST_TEXT");
 	facilityLabel->setText(format("%.f%%", usage));
@@ -435,10 +434,10 @@ std::vector<sp<Image>> RecruitScreen::getBigUnitRanks()
 
 void RecruitScreen::attemptCloseScreen()
 {
-	auto player = state->getPlayer();
+	auto player = state.getPlayer();
 	std::map<UString, int> bases;
 	int index = 0;
-	for (auto &b : state->player_bases)
+	for (auto &b : state.player_bases)
 	{
 		bases[b.first] = index;
 		index++;
@@ -498,25 +497,25 @@ void RecruitScreen::attemptCloseScreen()
 void RecruitScreen::executeOrders()
 {
 	std::vector<StateRef<Base>> bases;
-	for (auto &b : state->player_bases)
+	for (auto &b : state.player_bases)
 	{
 		bases.push_back(b.second->building->base);
 	}
 	bases.resize(8);
 
-	auto player = state->getPlayer();
+	auto player = state.getPlayer();
 
 	for (int i = 0; i < 8; i++)
 	{
 		for (auto &a : agentLists[i])
 		{
-			StateRef<Agent> agent{state.get(), a->getData<Agent>()};
+			StateRef<Agent> agent{&state, a->getData<Agent>()};
 			if (bases[i] != agent->homeBuilding->base)
 			{
 				if (agent->owner != player)
 				{
-					agent->hire(*state, bases[i]->building);
-					player->balance -= state->agent_salary.at(agent->type->role);
+					agent->hire(state, bases[i]->building);
+					player->balance -= state.agent_salary.at(agent->type->role);
 				}
 				else
 				{
@@ -528,15 +527,15 @@ void RecruitScreen::executeOrders()
 						{
 							if (agent->lab_assigned)
 							{
-								StateRef<Lab> lab{state.get(), agent->lab_assigned};
+								StateRef<Lab> lab{&state, agent->lab_assigned};
 								agent->lab_assigned->removeAgent(lab, agent);
 							}
-							agent->transfer(*state, bases[i]->building);
+							agent->transfer(state, bases[i]->building);
 							break;
 						}
 						case AgentType::Role::Soldier:
 						{
-							agent->transfer(*state, bases[i]->building);
+							agent->transfer(state, bases[i]->building);
 							break;
 						}
 					}
@@ -548,9 +547,9 @@ void RecruitScreen::executeOrders()
 	for (auto &a : agentLists[8])
 	{
 		auto agent = a->getData<Agent>();
-		if (agent->owner == state->getPlayer())
+		if (agent->owner == state.getPlayer())
 		{
-			player->balance -= state->agent_fired_penalty.at(agent->type->role);
+			player->balance -= state.agent_fired_penalty.at(agent->type->role);
 			std::list<sp<AEquipment>> equipmentToStrip;
 			for (auto &e : agent->equipment)
 			{
@@ -566,12 +565,12 @@ void RecruitScreen::executeOrders()
 				agent->homeBuilding->base->inventoryAgentEquipment[e->type.id] +=
 				    e->type->type == AEquipmentType::Type::Ammo ? e->ammo : 1;
 			}
-			agent->die(*state, true);
-			agent->handleDeath(*state);
+			agent->die(state, true);
+			agent->handleDeath(state);
 		}
 	}
 
-	state->cleanUpDeathNote();
+	state.cleanUpDeathNote();
 }
 
 void RecruitScreen::closeScreen(bool confirmed)
@@ -587,10 +586,10 @@ void RecruitScreen::closeScreen(bool confirmed)
 	std::vector<int> vecLqDelta;
 	vecLqDelta.resize(8);
 
-	auto player = state->getPlayer();
+	auto player = state.getPlayer();
 	std::map<UString, int> bases;
 	int index = 0;
-	for (auto &b : state->player_bases)
+	for (auto &b : state.player_bases)
 	{
 		bases[b.first] = index;
 		index++;
@@ -606,7 +605,7 @@ void RecruitScreen::closeScreen(bool confirmed)
 			if (agent->owner != player)
 			{
 				vecLqDelta[i]++;
-				moneyDelta -= state->agent_salary.at(agent->type->role);
+				moneyDelta -= state.agent_salary.at(agent->type->role);
 			}
 			// Moved away from his base to this base
 			else if (bases[agent->homeBuilding->base.id] != i)
@@ -623,7 +622,7 @@ void RecruitScreen::closeScreen(bool confirmed)
 		if (agent->owner == player)
 		{
 			vecLqDelta[bases[agent->homeBuilding->base.id]]--;
-			moneyDelta -= state->agent_fired_penalty.at(agent->type->role);
+			moneyDelta -= state.agent_fired_penalty.at(agent->type->role);
 		}
 	}
 
@@ -641,10 +640,9 @@ void RecruitScreen::closeScreen(bool confirmed)
 	// Check every base, find first bad one
 	int bindex = 0;
 	StateRef<Base> bad_base;
-	for (auto &b : state->player_bases)
+	for (auto &b : state.player_bases)
 	{
-		if (b.second->getUsage(*state, FacilityType::Capacity::Quarters, vecLqDelta[bindex]) >
-		    100.f)
+		if (b.second->getUsage(state, FacilityType::Capacity::Quarters, vecLqDelta[bindex]) > 100.f)
 		{
 			bad_base = b.second->building->base;
 			break;
@@ -658,7 +656,7 @@ void RecruitScreen::closeScreen(bool confirmed)
 		                        mksp<MessageBox>(tr("Accomodation exceeded"),
 		                                         tr("Transfer limited by available accommodation."),
 		                                         MessageBox::ButtonOptions::Ok)});
-		if (bad_base != state->current_base)
+		if (bad_base != state.current_base)
 		{
 			for (auto &view : miniViews)
 			{
@@ -684,7 +682,7 @@ void RecruitScreen::pause() {}
 
 void RecruitScreen::resume()
 {
-	form->findControlTyped<Label>("TEXT_FUNDS")->setText(state->getPlayerBalance());
+	form->findControlTyped<Label>("TEXT_FUNDS")->setText(state.getPlayerBalance());
 }
 
 void RecruitScreen::finish() {}

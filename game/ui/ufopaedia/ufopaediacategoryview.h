@@ -18,7 +18,7 @@ class UfopaediaCategoryView : public Stage
 {
   private:
 	sp<Form> menuform;
-	sp<GameState> state;
+	GameState &state;
 	sp<UfopaediaCategory> category;
 	std::vector<sp<Label>> orgLabels, orgValues;
 	std::vector<sp<Label>> statsLabels, statsValues;
@@ -38,7 +38,7 @@ class UfopaediaCategoryView : public Stage
 	void setPreviousSection();
 
   public:
-	UfopaediaCategoryView(sp<GameState> state, sp<UfopaediaCategory> cat,
+	UfopaediaCategoryView(GameState &state, sp<UfopaediaCategory> cat,
 	                      sp<UfopaediaEntry> entry = nullptr);
 	~UfopaediaCategoryView() override;
 

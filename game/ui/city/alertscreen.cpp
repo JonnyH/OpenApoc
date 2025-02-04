@@ -23,10 +23,10 @@
 namespace OpenApoc
 {
 
-AlertScreen::AlertScreen(sp<GameState> state, sp<Building> building)
+AlertScreen::AlertScreen(GameState &state, sp<Building> building)
     : Stage(), menuform(ui().getForm("city/alert")), state(state), building(building)
 {
-	menuform->findControlTyped<Label>("TEXT_FUNDS")->setText(state->getPlayerBalance());
+	menuform->findControlTyped<Label>("TEXT_FUNDS")->setText(state.getPlayerBalance());
 	menuform->findControlTyped<Label>("TEXT_OWNER_NAME")->setText(tr(building->owner->name));
 	menuform->findControlTyped<Label>("TEXT_BUILDING_FUNCTION")
 	    ->setText(tr(building->function->name));
@@ -93,14 +93,14 @@ void AlertScreen::eventOccurred(Event *e)
 				vehicle->wasAlreadyAtTgtBuilding = false;
 
 				// check if vehicle already at tgt building
-				if (Building::getId(*state, vehicle->currentBuilding)
-				        .compare(Building::getId(*state, this->building)) == 0)
+				if (Building::getId(state, vehicle->currentBuilding)
+				        .compare(Building::getId(state, this->building)) == 0)
 				{
 					vehicle->wasAlreadyAtTgtBuilding = true;
 				}
 				++building->pendingInvestigatorCount;
-				vehicle->setMission(*state, VehicleMission::investigateBuilding(
-				                                *state, *vehicle, {state.get(), building}));
+				vehicle->setMission(state, VehicleMission::investigateBuilding(state, *vehicle,
+				                                                               {&state, building}));
 			}
 
 			// send agents on foot
@@ -110,9 +110,9 @@ void AlertScreen::eventOccurred(Event *e)
 				if (!agent->currentVehicle)
 				{
 					++building->pendingInvestigatorCount;
-					agent->setMission(*state,
-					                  AgentMission::investigateBuilding(
-					                      *state, *agent, {state.get(), building}, false, useTaxi));
+					agent->setMission(state, AgentMission::investigateBuilding(state, *agent,
+					                                                           {&state, building},
+					                                                           false, useTaxi));
 				}
 			}
 

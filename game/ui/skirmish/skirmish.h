@@ -40,7 +40,7 @@ class Skirmish : public Stage
 	                     bool customAliens, std::map<StateRef<AgentType>, int> aliens, int score);
 
   public:
-	Skirmish(sp<GameState> state);
+	Skirmish(GameState &state);
 	~Skirmish() override;
 
 	UString getLocationText();

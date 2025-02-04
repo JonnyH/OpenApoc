@@ -30,7 +30,7 @@
 namespace OpenApoc
 {
 
-TransactionScreen::TransactionScreen(sp<GameState> state, bool forceLimits)
+TransactionScreen::TransactionScreen(GameState &state, bool forceLimits)
     : BaseStage(state), forceLimits(forceLimits)
 {
 	// Load resources
@@ -67,7 +67,7 @@ TransactionScreen::TransactionScreen(sp<GameState> state, bool forceLimits)
 void TransactionScreen::changeBase(sp<Base> newBase)
 {
 	BaseStage::changeBase(newBase);
-	textViewBaseStatic->setText(state->current_base->name);
+	textViewBaseStatic->setText(state.current_base->name);
 
 	// Set index for all controls
 	int index = getLeftIndex();
@@ -84,7 +84,7 @@ void TransactionScreen::changeBase(sp<Base> newBase)
 
 void TransactionScreen::restoreBase()
 {
-	if (state->current_base != prevBase)
+	if (state.current_base != prevBase)
 	{
 		this->changeBase(prevBase);
 	}
@@ -178,9 +178,9 @@ void TransactionScreen::setDisplayType(Type type)
 int TransactionScreen::getLeftIndex()
 {
 	int index = 0;
-	for (auto &b : state->player_bases)
+	for (auto &b : state.player_bases)
 	{
-		if (b.first == state->current_base.id)
+		if (b.first == state.current_base.id)
 		{
 			return index;
 		}
@@ -196,12 +196,12 @@ void TransactionScreen::populateControlsPeople(AgentType::Role role)
 	int leftIndex = getLeftIndex();
 	int rightIndex = getRightIndex();
 
-	for (auto &a : state->agents)
+	for (auto &a : state.agents)
 	{
-		if (a.second->owner == state->getPlayer() && a.second->type->role == role)
+		if (a.second->owner == state.getPlayer() && a.second->type->role == role)
 		{
 			auto control = TransactionControl::createControl(
-			    *state, StateRef<Agent>{state.get(), a.first}, leftIndex, rightIndex);
+			    state, StateRef<Agent>{&state, a.first}, leftIndex, rightIndex);
 			if (control)
 			{
 				control->addCallback(FormEventType::ScrollBarChange, onScrollChange);
@@ -217,12 +217,12 @@ void TransactionScreen::populateControlsVehicle()
 	int leftIndex = getLeftIndex();
 	int rightIndex = getRightIndex();
 
-	for (auto &v : state->vehicle_types)
+	for (auto &v : state.vehicle_types)
 	{
-		if (state->economy.find(v.first) != state->economy.end())
+		if (state.economy.find(v.first) != state.economy.end())
 		{
 			auto control = TransactionControl::createControl(
-			    *state, StateRef<VehicleType>{state.get(), v.first}, leftIndex, rightIndex);
+			    state, StateRef<VehicleType>{&state, v.first}, leftIndex, rightIndex);
 			if (control)
 			{
 				control->addCallback(FormEventType::ScrollBarChange, onScrollChange);
@@ -231,12 +231,12 @@ void TransactionScreen::populateControlsVehicle()
 			}
 		}
 	}
-	for (auto &v : state->vehicles)
+	for (auto &v : state.vehicles)
 	{
-		if (v.second->owner == state->getPlayer())
+		if (v.second->owner == state.getPlayer())
 		{
 			auto control = TransactionControl::createControl(
-			    *state, StateRef<Vehicle>{state.get(), v.first}, leftIndex, rightIndex);
+			    state, StateRef<Vehicle>{&state, v.first}, leftIndex, rightIndex);
 			if (control)
 			{
 				control->addCallback(FormEventType::ScrollBarChange, onScrollChange);
@@ -261,7 +261,7 @@ void TransactionScreen::populateControlsAgentEquipment()
 	int rightIndex = getRightIndex();
 	for (auto &t : agTypes)
 	{
-		for (auto &ae : state->agent_equipment)
+		for (auto &ae : state.agent_equipment)
 		{
 			if (ae.second->bioStorage)
 			{
@@ -286,10 +286,10 @@ void TransactionScreen::populateControlsAgentEquipment()
 				}
 			}
 			// Add equipment
-			if (state->economy.find(ae.first) != state->economy.end())
+			if (state.economy.find(ae.first) != state.economy.end())
 			{
 				auto control = TransactionControl::createControl(
-				    *state, StateRef<AEquipmentType>{state.get(), ae.first}, leftIndex, rightIndex);
+				    state, StateRef<AEquipmentType>{&state, ae.first}, leftIndex, rightIndex);
 				if (control)
 				{
 					control->addCallback(FormEventType::ScrollBarChange, onScrollChange);
@@ -300,10 +300,10 @@ void TransactionScreen::populateControlsAgentEquipment()
 			// Add ammo
 			for (auto &ammo : ae.second->ammo_types)
 			{
-				if (state->economy.find(ammo.id) != state->economy.end())
+				if (state.economy.find(ammo.id) != state.economy.end())
 				{
 					auto controlAmmo =
-					    TransactionControl::createControl(*state, ammo, leftIndex, rightIndex);
+					    TransactionControl::createControl(state, ammo, leftIndex, rightIndex);
 					if (controlAmmo)
 					{
 						controlAmmo->addCallback(FormEventType::ScrollBarChange, onScrollChange);
@@ -332,7 +332,7 @@ void TransactionScreen::populateControlsVehicleEquipment()
 	int rightIndex = getRightIndex();
 	for (auto &t : vehTypes)
 	{
-		for (auto ve_it = state->vehicle_equipment.begin(); ve_it != state->vehicle_equipment.end();
+		for (auto ve_it = state.vehicle_equipment.begin(); ve_it != state.vehicle_equipment.end();
 		     ++ve_it)
 		{
 			auto &ve = *ve_it;
@@ -350,12 +350,12 @@ void TransactionScreen::populateControlsVehicleEquipment()
 			{
 				continue;
 			}
-			if (state->economy.find(ve.first) == state->economy.end())
+			if (state.economy.find(ve.first) == state.economy.end())
 			{
 				continue;
 			}
 			auto itemControl = TransactionControl::createControl(
-			    *state, StateRef<VEquipmentType>{state.get(), ve.first}, leftIndex, rightIndex);
+			    state, StateRef<VEquipmentType>{&state, ve.first}, leftIndex, rightIndex);
 			if (itemControl)
 			{
 				itemControl->addCallback(FormEventType::ScrollBarChange, onScrollChange);
@@ -367,20 +367,20 @@ void TransactionScreen::populateControlsVehicleEquipment()
 				transactionControls[type].push_back(itemControl);
 			}
 			// don't add ammo control if not in economy
-			if (state->economy.find(ve.second->ammo_type.id) == state->economy.end())
+			if (state.economy.find(ve.second->ammo_type.id) == state.economy.end())
 			{
 				continue;
 			}
 			auto veNextIterator = std::next(ve_it, 1);
 			// skip this iteration if we're adding a control for the same ammo type in the
 			// next iteration
-			if (veNextIterator != state->vehicle_equipment.end() &&
+			if (veNextIterator != state.vehicle_equipment.end() &&
 			    veNextIterator->second->ammo_type.id == ve.second->ammo_type.id)
 			{
 				continue;
 			}
 
-			auto ammoControl = TransactionControl::createControl(*state, ve.second->ammo_type,
+			auto ammoControl = TransactionControl::createControl(state, ve.second->ammo_type,
 			                                                     leftIndex, rightIndex);
 			if (ammoControl)
 			{
@@ -401,7 +401,7 @@ void TransactionScreen::populateControlsAlien()
 	int leftIndex = getLeftIndex();
 	int rightIndex = getRightIndex();
 
-	for (auto &ae : state->agent_equipment)
+	for (auto &ae : state.agent_equipment)
 	{
 		const auto &alienTypeName = ae.first;
 
@@ -410,7 +410,7 @@ void TransactionScreen::populateControlsAlien()
 			continue;
 		}
 		// Add alien
-		for (auto &b : state->player_bases)
+		for (auto &b : state.player_bases)
 		{
 			const auto alienTypeControl = findControlById(type, alienTypeName);
 
@@ -420,7 +420,7 @@ void TransactionScreen::populateControlsAlien()
 				continue;
 
 			auto control = TransactionControl::createControl(
-			    *state, StateRef<AEquipmentType>{state.get(), ae.first}, leftIndex, rightIndex);
+			    state, StateRef<AEquipmentType>{&state, ae.first}, leftIndex, rightIndex);
 			if (control)
 			{
 				control->addCallback(FormEventType::ScrollBarChange, onScrollChange);
@@ -482,7 +482,7 @@ void TransactionScreen::updateBaseHighlight()
 	if (viewHighlightPrevious != viewHighlight)
 	{
 		int i = 0;
-		for (auto &b : state->player_bases)
+		for (auto &b : state.player_bases)
 		{
 			auto viewName = format("BUTTON_BASE_%d", ++i);
 			auto view = form->findControlTyped<GraphicButton>(viewName);
@@ -499,10 +499,10 @@ void TransactionScreen::updateBaseHighlight()
 		{
 			auto facilityPic = form->findControlTyped<Graphic>("FACILITY_FIRST_PIC");
 			facilityPic->setVisible(true);
-			facilityPic->setImage(state->facility_types["FACILITYTYPE_LIVING_QUARTERS"]->sprite);
+			facilityPic->setImage(state.facility_types["FACILITYTYPE_LIVING_QUARTERS"]->sprite);
 			form->findControlTyped<Graphic>("FACILITY_FIRST_BAR")->setVisible(true);
 			const auto usage =
-			    state->current_base->getUsage(*state, FacilityType::Capacity::Quarters, lqDelta);
+			    state.current_base->getUsage(state, FacilityType::Capacity::Quarters, lqDelta);
 			fillBaseBar(true, usage);
 			auto facilityLabel = form->findControlTyped<Label>("FACILITY_FIRST_TEXT");
 			facilityLabel->setVisible(true);
@@ -513,10 +513,10 @@ void TransactionScreen::updateBaseHighlight()
 		{
 			auto facilityPic = form->findControlTyped<Graphic>("FACILITY_FIRST_PIC");
 			facilityPic->setVisible(true);
-			facilityPic->setImage(state->facility_types["FACILITYTYPE_STORES"]->sprite);
+			facilityPic->setImage(state.facility_types["FACILITYTYPE_STORES"]->sprite);
 			form->findControlTyped<Graphic>("FACILITY_FIRST_BAR")->setVisible(true);
 			const auto usage =
-			    state->current_base->getUsage(*state, FacilityType::Capacity::Stores, cargoDelta);
+			    state.current_base->getUsage(state, FacilityType::Capacity::Stores, cargoDelta);
 			fillBaseBar(true, usage);
 			auto facilityLabel = form->findControlTyped<Label>("FACILITY_FIRST_TEXT");
 			facilityLabel->setVisible(true);
@@ -527,10 +527,10 @@ void TransactionScreen::updateBaseHighlight()
 		{
 			auto facilityPic = form->findControlTyped<Graphic>("FACILITY_FIRST_PIC");
 			facilityPic->setVisible(true);
-			facilityPic->setImage(state->facility_types["FACILITYTYPE_ALIEN_CONTAINMENT"]->sprite);
+			facilityPic->setImage(state.facility_types["FACILITYTYPE_ALIEN_CONTAINMENT"]->sprite);
 			form->findControlTyped<Graphic>("FACILITY_FIRST_BAR")->setVisible(true);
 			const auto usage =
-			    state->current_base->getUsage(*state, FacilityType::Capacity::Aliens, bioDelta);
+			    state.current_base->getUsage(state, FacilityType::Capacity::Aliens, bioDelta);
 			fillBaseBar(true, usage);
 			auto facilityLabel = form->findControlTyped<Label>("FACILITY_FIRST_TEXT");
 			facilityLabel->setVisible(true);
@@ -585,26 +585,26 @@ void TransactionScreen::displayItem(sp<TransactionControl> control)
 		case TransactionControl::Type::AgentEquipmentCargo:
 		{
 			AEquipmentSheet(formItemAgent)
-			    .display(*state->agent_equipment[control->itemId], control->researched);
+			    .display(*state.agent_equipment[control->itemId], control->researched);
 			formItemAgent->setVisible(true);
 			break;
 		}
 		case TransactionControl::Type::VehicleType:
 		{
-			VehicleSheet(formItemVehicle).display(state->vehicle_types[control->itemId]);
+			VehicleSheet(formItemVehicle).display(state.vehicle_types[control->itemId]);
 			formItemVehicle->setVisible(true);
 			break;
 		}
 		case TransactionControl::Type::Vehicle:
 		{
-			VehicleSheet(formItemVehicle).display(state->vehicles[control->itemId]);
+			VehicleSheet(formItemVehicle).display(state.vehicles[control->itemId]);
 			formItemVehicle->setVisible(true);
 			break;
 		}
 		case TransactionControl::Type::VehicleEquipment:
 		{
 			VehicleSheet(formItemVehicle)
-			    .display(state->vehicle_equipment[control->itemId], control->researched);
+			    .display(state.vehicle_equipment[control->itemId], control->researched);
 			formItemVehicle->setVisible(true);
 			break;
 		}
@@ -626,7 +626,7 @@ bool TransactionScreen::isClosable() const
 			}
 
 			int i = 0;
-			for ([[maybe_unused]] auto &b : state->player_bases)
+			for ([[maybe_unused]] auto &b : state.player_bases)
 			{
 				if (c->tradeState.shipmentsTotal(i++))
 				{

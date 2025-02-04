@@ -248,7 +248,7 @@ Lab::~Lab()
 	}
 }
 
-void Lab::setResearch(StateRef<Lab> lab, StateRef<ResearchTopic> topic, sp<GameState> state)
+void Lab::setResearch(StateRef<Lab> lab, StateRef<ResearchTopic> topic, GameState &state)
 {
 	if (topic)
 	{
@@ -274,7 +274,7 @@ void Lab::setResearch(StateRef<Lab> lab, StateRef<ResearchTopic> topic, sp<GameS
 		if (lab->type == ResearchTopic::Type::Engineering &&
 		    lab->manufacture_man_hours_invested == 0)
 		{
-			state->player->balance += lab->current_project->cost;
+			state.player->balance += lab->current_project->cost;
 		}
 		lab->current_project->current_lab = "";
 		lab->manufacture_man_hours_invested = 0;
@@ -295,13 +295,13 @@ void Lab::setResearch(StateRef<Lab> lab, StateRef<ResearchTopic> topic, sp<GameS
 				if (!topic->started)
 				{
 					StateRef<Base> thisBase;
-					for (auto &base : state->player_bases)
+					for (auto &base : state.player_bases)
 					{
 						for (auto &facility : base.second->facilities)
 						{
 							if (facility->lab == lab)
 							{
-								thisBase = {state.get(), base.first};
+								thisBase = {&state, base.first};
 								break;
 							}
 						}
@@ -315,8 +315,8 @@ void Lab::setResearch(StateRef<Lab> lab, StateRef<ResearchTopic> topic, sp<GameS
 				}
 				break;
 			case ResearchTopic::Type::Engineering:
-				LogAssert(state->player->balance >= topic->cost);
-				state->player->balance -= topic->cost;
+				LogAssert(state.player->balance >= topic->cost);
+				state.player->balance -= topic->cost;
 				lab->manufacture_goal = 1;
 				break;
 			default:
@@ -372,7 +372,7 @@ int Lab::getTotalSkill() const
 	return totalLabSkill;
 }
 
-void Lab::update(unsigned int ticks, StateRef<Lab> lab, sp<GameState> state)
+void Lab::update(unsigned int ticks, StateRef<Lab> lab, GameState &state)
 {
 	if (lab->current_project)
 	{
@@ -421,13 +421,13 @@ void Lab::update(unsigned int ticks, StateRef<Lab> lab, sp<GameState> state)
 				{
 					// Produce a research remains item
 					StateRef<Base> thisBase;
-					for (auto &base : state->player_bases)
+					for (auto &base : state.player_bases)
 					{
 						for (auto &facility : base.second->facilities)
 						{
 							if (facility->lab == lab)
 							{
-								thisBase = {state.get(), base.first};
+								thisBase = {&state, base.first};
 								break;
 							}
 						}
@@ -441,7 +441,7 @@ void Lab::update(unsigned int ticks, StateRef<Lab> lab, sp<GameState> state)
 					auto event = new GameResearchEvent(GameEventType::ResearchCompleted,
 					                                   lab->current_project, lab);
 					fw().pushEvent(event);
-					Lab::setResearch(lab, {state.get(), ""}, state);
+					Lab::setResearch(lab, {&state, ""}, state);
 				}
 				break;
 			case ResearchTopic::Type::Engineering:
@@ -451,7 +451,7 @@ void Lab::update(unsigned int ticks, StateRef<Lab> lab, sp<GameState> state)
 					// Add item to base
 					bool found = false;
 					UString item_name;
-					for (auto &base : state->player_bases)
+					for (auto &base : state.player_bases)
 					{
 						for (auto &facility : base.second->facilities)
 						{
@@ -482,7 +482,7 @@ void Lab::update(unsigned int ticks, StateRef<Lab> lab, sp<GameState> state)
 									{
 										int count = 1;
 										auto type = StateRef<AEquipmentType>{
-										    state.get(), lab->current_project->itemId};
+										    &state, lab->current_project->itemId};
 										if (type->type == AEquipmentType::Type::Ammo)
 										{
 											count = type->max_ammo;
@@ -499,12 +499,12 @@ void Lab::update(unsigned int ticks, StateRef<Lab> lab, sp<GameState> state)
 									case ResearchTopic::ItemType::Craft:
 									{
 										auto type =
-										    state->vehicle_types[lab->current_project->itemId];
+										    state.vehicle_types[lab->current_project->itemId];
 
 										auto v = base.second->building->city->placeVehicle(
-										    *state, {state.get(), type}, state->getPlayer(),
+										    state, {&state, type}, state.getPlayer(),
 										    base.second->building);
-										v->homeBuilding = {state.get(), base.second->building};
+										v->homeBuilding = {&state, base.second->building};
 									}
 									break;
 								}
@@ -525,13 +525,13 @@ void Lab::update(unsigned int ticks, StateRef<Lab> lab, sp<GameState> state)
 						    GameEventType::ManufactureCompleted, lab->current_project,
 						    lab->manufacture_done, lab->manufacture_goal, lab);
 						fw().pushEvent(event);
-						Lab::setResearch(lab, {state.get(), ""}, state);
+						Lab::setResearch(lab, {&state, ""}, state);
 					}
 					else
 					{
-						if (state->player->balance >= lab->current_project->cost)
+						if (state.player->balance >= lab->current_project->cost)
 						{
-							state->player->balance -= lab->current_project->cost;
+							state.player->balance -= lab->current_project->cost;
 							lab->manufacture_man_hours_invested -= lab->current_project->man_hours;
 						}
 						else
@@ -540,7 +540,7 @@ void Lab::update(unsigned int ticks, StateRef<Lab> lab, sp<GameState> state)
 							    GameEventType::ManufactureHalted, lab->current_project,
 							    lab->manufacture_done, lab->manufacture_goal, lab);
 							fw().pushEvent(event);
-							Lab::setResearch(lab, {state.get(), ""}, state);
+							Lab::setResearch(lab, {&state, ""}, state);
 						}
 					}
 				}

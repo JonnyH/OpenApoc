@@ -15,12 +15,12 @@ class BuildingScreen : public Stage
 {
   private:
 	sp<Form> menuform;
-	sp<GameState> state;
+	GameState &state;
 	sp<Building> building;
 	sp<AgentAssignment> agentAssignment;
 
   public:
-	BuildingScreen(sp<GameState> state, sp<Building> building);
+	BuildingScreen(GameState &state, sp<Building> building);
 	~BuildingScreen() override;
 	// Stage control
 	void begin() override;

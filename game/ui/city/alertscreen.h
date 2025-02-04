@@ -15,12 +15,12 @@ class AlertScreen : public Stage
 {
   private:
 	sp<Form> menuform;
-	sp<GameState> state;
+	GameState &state;
 	sp<Building> building;
 	sp<AgentAssignment> agentAssignment;
 
   public:
-	AlertScreen(sp<GameState> state, sp<Building> building);
+	AlertScreen(GameState &state, sp<Building> building);
 	~AlertScreen() override;
 	// Stage control
 	void begin() override;

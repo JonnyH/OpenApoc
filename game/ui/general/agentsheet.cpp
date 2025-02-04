@@ -33,9 +33,9 @@ AgentSheet::AgentSheet(sp<Form> profileForm, sp<Form> statsForm)
 {
 }
 
-AgentSheet::AgentSheet(sp<GameState> state, sp<Form> profileForm, sp<Form> statsForm,
+AgentSheet::AgentSheet(GameState &state, sp<Form> profileForm, sp<Form> statsForm,
                        sp<Form> historyForm)
-    : profileForm(profileForm), statsForm(statsForm), historyForm(historyForm), state(state)
+    : profileForm(profileForm), statsForm(statsForm), historyForm(historyForm), state(&state)
 {
 }
 

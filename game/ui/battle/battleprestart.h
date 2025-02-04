@@ -43,7 +43,7 @@ class BattlePreStart : public Stage
 	sp<Form> formAgentStats;
 	sp<Form> formAgentProfile;
 
-	sp<GameState> state;
+	GameState &state;
 
 	void displayAgent(sp<Agent> agent);
 	std::vector<sp<Image>> bigUnitRanks;
@@ -57,7 +57,7 @@ class BattlePreStart : public Stage
 	int draggedOrigin = 0;
 
   public:
-	BattlePreStart(sp<GameState> state);
+	BattlePreStart(GameState &state);
 
 	void updateAgents();
 

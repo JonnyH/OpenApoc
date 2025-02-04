@@ -25,31 +25,30 @@ namespace OpenApoc
 namespace
 {
 
-std::shared_future<void> loadBattleBuilding(sp<GameState> state, sp<Building> building,
-                                            bool hotseat, bool raid,
-                                            std::list<StateRef<Agent>> playerAgents,
+std::shared_future<void> loadBattleBuilding(GameState &state, sp<Building> building, bool hotseat,
+                                            bool raid, std::list<StateRef<Agent>> playerAgents,
                                             StateRef<Vehicle> playerVehicle)
 {
 	auto loadTask = fw().threadPoolEnqueue(
-	    [hotseat, building, state, raid, playerAgents, playerVehicle]() mutable -> void
+	    [hotseat, building, &state, raid, playerAgents, playerVehicle]() mutable -> void
 	    {
-		    StateRef<Organisation> org = raid ? building->owner : state->getAliens();
-		    StateRef<Building> bld = {state.get(), building};
+		    StateRef<Organisation> org = raid ? building->owner : state.getAliens();
+		    StateRef<Building> bld = {&state, building};
 
 		    const std::map<StateRef<AgentType>, int> *aliens = nullptr;
 		    const int *guards = nullptr;
 		    const int *civilians = nullptr;
 
-		    Battle::beginBattle(*state, hotseat, org, playerAgents, aliens, guards, civilians,
+		    Battle::beginBattle(state, hotseat, org, playerAgents, aliens, guards, civilians,
 		                        playerVehicle, bld);
 	    });
 	return loadTask;
 }
 } // namespace
-BuildingScreen::BuildingScreen(sp<GameState> state, sp<Building> building)
+BuildingScreen::BuildingScreen(GameState &state, sp<Building> building)
     : Stage(), menuform(ui().getForm("city/building")), state(state), building(building)
 {
-	menuform->findControlTyped<Label>("TEXT_FUNDS")->setText(state->getPlayerBalance());
+	menuform->findControlTyped<Label>("TEXT_FUNDS")->setText(state.getPlayerBalance());
 	menuform->findControlTyped<Label>("TEXT_BUILDING_NAME")->setText(tr(building->name));
 	menuform->findControlTyped<Label>("TEXT_OWNER_NAME")->setText(tr(building->owner->name));
 	menuform->findControlTyped<Label>("TEXT_BUILDING_FUNCTION")
@@ -126,7 +125,7 @@ void BuildingScreen::eventOccurred(Event *e)
 			StateRef<Vehicle> vehicle;
 			if (agentAssignment->currentVehicle)
 			{
-				vehicle = {state.get(), Vehicle::getId(*state, agentAssignment->currentVehicle)};
+				vehicle = {&state, Vehicle::getId(state, agentAssignment->currentVehicle)};
 			}
 
 			if (agents.empty())
@@ -141,7 +140,7 @@ void BuildingScreen::eventOccurred(Event *e)
 			else
 			{
 				if (e->forms().RaisedBy->Name == "BUTTON_EXTERMINATE" &&
-				    building->owner != state->getAliens())
+				    building->owner != state.getAliens())
 				{
 					bool foundAlien = false;
 					for (auto &e : building->current_crew)
@@ -155,13 +154,13 @@ void BuildingScreen::eventOccurred(Event *e)
 					if (!foundAlien)
 					{
 						UString message = "You have not found any Aliens in this building.";
-						if (building->owner != state->getPlayer())
+						if (building->owner != state.getPlayer())
 						{
 							auto priorRelationship =
-							    building->owner->isRelatedTo(state->getPlayer());
-							building->owner->adjustRelationTo(*state, state->getPlayer(),
-							                                  -5 - state->difficulty);
-							auto newRelationship = building->owner->isRelatedTo(state->getPlayer());
+							    building->owner->isRelatedTo(state.getPlayer());
+							building->owner->adjustRelationTo(state, state.getPlayer(),
+							                                  -5 - state.difficulty);
+							auto newRelationship = building->owner->isRelatedTo(state.getPlayer());
 							if (newRelationship != priorRelationship &&
 							    newRelationship == Organisation::Relation::Unfriendly)
 							{
@@ -202,7 +201,7 @@ void BuildingScreen::eventOccurred(Event *e)
 						fw().stageQueueCommand(
 						    {StageCmd::Command::REPLACEALL,
 						     mksp<BattleBriefing>(state, building->owner,
-						                          Building::getId(*state, building), inBuilding,
+						                          Building::getId(state, building), inBuilding,
 						                          raid,
 						                          loadBattleBuilding(state, building, hotseat, raid,
 						                                             agents, vehicle))});
@@ -211,7 +210,7 @@ void BuildingScreen::eventOccurred(Event *e)
 				}
 				else
 				{
-					if (building->owner == state->getPlayer())
+					if (building->owner == state.getPlayer())
 					{
 						fw().stageQueueCommand(
 						    {StageCmd::Command::PUSH,
@@ -223,7 +222,7 @@ void BuildingScreen::eventOccurred(Event *e)
 					}
 					if (config().getBool("OpenApoc.Mod.RaidHostileAction"))
 					{
-						building->owner->adjustRelationTo(*state, state->getPlayer(), -200.0f);
+						building->owner->adjustRelationTo(state, state.getPlayer(), -200.0f);
 					}
 					bool inBuilding = true;
 					bool raid = true;
@@ -231,7 +230,7 @@ void BuildingScreen::eventOccurred(Event *e)
 					fw().stageQueueCommand(
 					    {StageCmd::Command::REPLACEALL,
 					     mksp<BattleBriefing>(
-					         state, building->owner, Building::getId(*state, building), inBuilding,
+					         state, building->owner, Building::getId(state, building), inBuilding,
 					         raid,
 					         loadBattleBuilding(state, building, hotseat, raid, agents, vehicle))});
 					return;

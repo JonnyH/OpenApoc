@@ -16,11 +16,11 @@ namespace OpenApoc
 
 namespace
 {
-std::shared_future<void> loadBattleBase(sp<GameState> state, StateRef<Base> base,
+std::shared_future<void> loadBattleBase(GameState &state, StateRef<Base> base,
                                         StateRef<Organisation> attacker)
 {
 	auto loadTask = fw().threadPoolEnqueue(
-	    [base, state, attacker]() -> void
+	    [base, &state, attacker]() -> void
 	    {
 		    std::list<StateRef<Agent>> agents;
 		    StateRef<Vehicle> veh = {};
@@ -30,7 +30,7 @@ std::shared_future<void> loadBattleBase(sp<GameState> state, StateRef<Base> base
 		    const int *guards = nullptr;
 		    const int *civilians = nullptr;
 
-		    Battle::beginBattle(*state, hotseat, attacker, agents, aliens, guards, civilians, veh,
+		    Battle::beginBattle(state, hotseat, attacker, agents, aliens, guards, civilians, veh,
 		                        base->building);
 	    });
 
@@ -38,7 +38,7 @@ std::shared_future<void> loadBattleBase(sp<GameState> state, StateRef<Base> base
 }
 } // namespace
 
-BaseDefenseScreen::BaseDefenseScreen(sp<GameState> state, StateRef<Base> base,
+BaseDefenseScreen::BaseDefenseScreen(GameState &state, StateRef<Base> base,
                                      StateRef<Organisation> attacker)
     : Stage(), menuform(ui().getForm("city/basedefense")), state(state), base(base),
       attacker(attacker)

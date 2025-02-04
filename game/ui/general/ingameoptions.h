@@ -14,10 +14,10 @@ class InGameOptions : public Stage
   private:
 	sp<Form> menuform;
 
-	sp<GameState> state;
+	GameState &state;
 
   public:
-	InGameOptions(sp<GameState> state);
+	InGameOptions(GameState &state);
 	~InGameOptions() override;
 
 	void saveList();

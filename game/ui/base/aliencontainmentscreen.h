@@ -12,7 +12,7 @@ class AlienContainmentScreen : public TransactionScreen
 	void executeOrders() override;
 
   public:
-	AlienContainmentScreen(sp<GameState> state, bool forceLimits = false);
+	AlienContainmentScreen(GameState &state, bool forceLimits = false);
 	~AlienContainmentScreen() override = default;
 };
 
