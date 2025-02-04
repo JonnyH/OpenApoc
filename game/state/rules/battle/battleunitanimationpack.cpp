@@ -17,7 +17,7 @@ sp<BattleUnitAnimationPack> StateObject<BattleUnitAnimationPack>::get(const Game
 	auto it = state.battle_unit_animation_packs.find(id);
 	if (it == state.battle_unit_animation_packs.end())
 	{
-		LogError2("No BattleUnitAnimationPack matching ID \"{}\"", id);
+		LogError("No BattleUnitAnimationPack matching ID \"{}\"", id);
 		return nullptr;
 	}
 	return it->second;
@@ -43,7 +43,7 @@ const UString &StateObject<BattleUnitAnimationPack>::getId(const GameState &stat
 		if (a.second == ptr)
 			return a.first;
 	}
-	LogError2("No BattleUnitAnimationPack matching pointer {}", static_cast<void *>(ptr.get()));
+	LogError("No BattleUnitAnimationPack matching pointer {}", static_cast<void *>(ptr.get()));
 	return emptyString;
 }
 
@@ -53,7 +53,7 @@ const UString BattleUnitAnimationPack::getNameFromID(UString id)
 	auto plen = getPrefix().length();
 	if (id.length() > plen)
 		return id.substr(plen, id.length() - plen);
-	LogError2("Invalid BattleUnitAnimationPack ID {}", id);
+	LogError("Invalid BattleUnitAnimationPack ID {}", id);
 	return emptyString;
 }
 
@@ -166,8 +166,8 @@ void BattleUnitAnimationPack::drawShadow(
 		e = hand_state_animations[key][facing];
 		if (!e)
 		{
-			LogWarning2("Body {} {} Hands {} {} Movement {} Frame missing!", (int)currentBody,
-			            (int)targetBody, (int)currentHands, (int)targetHands, (int)movement);
+			LogWarning("Body {} {} Hands {} {} Movement {} Frame missing!", (int)currentBody,
+			           (int)targetBody, (int)currentHands, (int)targetHands, (int)movement);
 			return;
 		}
 		frame = e->frame_count - hands_animation_delay;
@@ -181,8 +181,8 @@ void BattleUnitAnimationPack::drawShadow(
 		e = body_state_animations[key][facing];
 		if (!e)
 		{
-			LogWarning2("Body {} {} Hands {} {} Movement {} Frame missing!", (int)currentBody,
-			            (int)targetBody, (int)currentHands, (int)targetHands, (int)movement);
+			LogWarning("Body {} {} Hands {} {} Movement {} Frame missing!", (int)currentBody,
+			           (int)targetBody, (int)currentHands, (int)targetHands, (int)movement);
 			return;
 		}
 		frame = e->frame_count - body_animation_delay;
@@ -197,8 +197,8 @@ void BattleUnitAnimationPack::drawShadow(
 		e = standart_animations[key][facing];
 		if (!e)
 		{
-			LogWarning2("Body {} {} Hands {} {} Movement {} Frame missing!", (int)currentBody,
-			            (int)targetBody, (int)currentHands, (int)targetHands, (int)movement);
+			LogWarning("Body {} {} Hands {} {} Movement {} Frame missing!", (int)currentBody,
+			           (int)targetBody, (int)currentHands, (int)targetHands, (int)movement);
 			return;
 		}
 		if (currentHands == HandState::Firing)
@@ -209,7 +209,7 @@ void BattleUnitAnimationPack::drawShadow(
 
 	if ((int)e->frames.size() <= frame)
 	{
-		LogError2("drawShadow: Frame missing?");
+		LogError("drawShadow: Frame missing?");
 		return;
 	}
 
@@ -263,8 +263,8 @@ void BattleUnitAnimationPack::drawUnit(
 		e = hand_state_animations[key][facing];
 		if (!e)
 		{
-			LogWarning2("Body {} {} Hands {} {} Movement {} Frame missing!", (int)currentBody,
-			            (int)targetBody, (int)currentHands, (int)targetHands, (int)movement);
+			LogWarning("Body {} {} Hands {} {} Movement {} Frame missing!", (int)currentBody,
+			           (int)targetBody, (int)currentHands, (int)targetHands, (int)movement);
 			return;
 		}
 		frame = e->frame_count - hands_animation_delay;
@@ -288,8 +288,8 @@ void BattleUnitAnimationPack::drawUnit(
 		e = body_state_animations[key][facing];
 		if (!e)
 		{
-			LogWarning2("Body {} {} Hands {} {} Movement {} Frame missing!", (int)currentBody,
-			            (int)targetBody, (int)currentHands, (int)targetHands, (int)movement);
+			LogWarning("Body {} {} Hands {} {} Movement {} Frame missing!", (int)currentBody,
+			           (int)targetBody, (int)currentHands, (int)targetHands, (int)movement);
 			return;
 		}
 		frame = e->frame_count - body_animation_delay;
@@ -305,8 +305,8 @@ void BattleUnitAnimationPack::drawUnit(
 			                         currentHands, firingAngle, movement, currentBody}][facing];
 			if (!e)
 			{
-				LogWarning2("Body {} {} Hands {} {} Movement {} Frame missing!", (int)currentBody,
-				            (int)targetBody, (int)currentHands, (int)targetHands, (int)movement);
+				LogWarning("Body {} {} Hands {} {} Movement {} Frame missing!", (int)currentBody,
+				           (int)targetBody, (int)currentHands, (int)targetHands, (int)movement);
 				return;
 			}
 		}
@@ -319,8 +319,8 @@ void BattleUnitAnimationPack::drawUnit(
 			e = standart_animations[key][facing];
 			if (!e)
 			{
-				LogWarning2("Body {} {} Hands {} {} Movement {} Frame missing!", (int)currentBody,
-				            (int)targetBody, (int)currentHands, (int)targetHands, (int)movement);
+				LogWarning("Body {} {} Hands {} {} Movement {} Frame missing!", (int)currentBody,
+				           (int)targetBody, (int)currentHands, (int)targetHands, (int)movement);
 				return;
 			}
 		}
@@ -346,7 +346,7 @@ void BattleUnitAnimationPack::drawUnit(
 
 	if ((int)e->frames.size() <= frame)
 	{
-		LogError2("drawUnit: body Frame missing?");
+		LogError("drawUnit: body Frame missing?");
 		return;
 	}
 
@@ -365,7 +365,7 @@ void BattleUnitAnimationPack::drawUnit(
 		{
 			if ((int)e_legs->frames.size() <= frame_legs)
 			{
-				LogError2("drawUnit: legs Frame missing?");
+				LogError("drawUnit: legs Frame missing?");
 				return;
 			}
 			b = &e_legs->frames[frame_legs].unit_image_parts[ie];
@@ -381,8 +381,8 @@ void BattleUnitAnimationPack::drawUnit(
 					continue;
 				if ((int)body->images.size() <= b->index)
 				{
-					LogError2("Missing image: body {} size {} index {}", body.id,
-					          body->images.size(), b->index);
+					LogError("Missing image: body {} size {} index {}", body.id,
+					         body->images.size(), b->index);
 					break;
 				}
 				draw(r, body->images[b->index], screenPosition - b->offset - body->image_offset,
@@ -393,8 +393,8 @@ void BattleUnitAnimationPack::drawUnit(
 					continue;
 				if ((int)legs->images.size() <= b->index)
 				{
-					LogError2("Missing image: legs {} size {} index {}", legs.id,
-					          legs->images.size(), b->index);
+					LogError("Missing image: legs {} size {} index {}", legs.id,
+					         legs->images.size(), b->index);
 					break;
 				}
 				draw(r, legs->images[b->index], screenPosition - b->offset - legs->image_offset,
@@ -405,8 +405,8 @@ void BattleUnitAnimationPack::drawUnit(
 					continue;
 				if ((int)helmet->images.size() <= b->index)
 				{
-					LogError2("Missing image: helmet {} size {} index {}", helmet.id,
-					          helmet->images.size(), b->index);
+					LogError("Missing image: helmet {} size {} index {}", helmet.id,
+					         helmet->images.size(), b->index);
 					break;
 				}
 				draw(r, helmet->images[b->index], screenPosition - b->offset - helmet->image_offset,
@@ -417,8 +417,8 @@ void BattleUnitAnimationPack::drawUnit(
 					continue;
 				if ((int)leftHand->images.size() <= b->index)
 				{
-					LogError2("Missing image: leftHand {} size {} index {}", leftHand.id,
-					          leftHand->images.size(), b->index);
+					LogError("Missing image: leftHand {} size {} index {}", leftHand.id,
+					         leftHand->images.size(), b->index);
 					break;
 				}
 				draw(r, leftHand->images[b->index],
@@ -429,8 +429,8 @@ void BattleUnitAnimationPack::drawUnit(
 					continue;
 				if ((int)rightHand->images.size() <= b->index)
 				{
-					LogError2("Missing image: rightHand {} size {} index {}", rightHand.id,
-					          rightHand->images.size(), b->index);
+					LogError("Missing image: rightHand {} size {} index {}", rightHand.id,
+					         rightHand->images.size(), b->index);
 					break;
 				}
 				draw(r, rightHand->images[b->index],
@@ -441,9 +441,9 @@ void BattleUnitAnimationPack::drawUnit(
 					continue;
 				if ((int)heldItem->held_image_pack->images.size() <= b->index)
 				{
-					LogError2("Missing image: heldItem {} pack {} size {} index {}", heldItem.id,
-					          heldItem->held_image_pack.id,
-					          heldItem->held_image_pack->images.size(), b->index);
+					LogError("Missing image: heldItem {} pack {} size {} index {}", heldItem.id,
+					         heldItem->held_image_pack.id, heldItem->held_image_pack->images.size(),
+					         b->index);
 					break;
 				}
 				draw(r, heldItem->held_image_pack->images[b->index],

@@ -59,7 +59,7 @@ void UfopaediaView::eventOccurred(Event *e)
 				{
 					fw().stageQueueCommand(
 					    {StageCmd::Command::PUSH, mksp<UfopaediaCategoryView>(state, cat.second)});
-					LogInfo2("Clicked category \"{}\"", catName);
+					LogInfo("Clicked category \"{}\"", catName);
 					return;
 				}
 			}

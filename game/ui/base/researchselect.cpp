@@ -71,18 +71,18 @@ void ResearchSelect::begin()
 	    FormEventType::ListBoxChangeSelected,
 	    [this](FormsEvent *e)
 	    {
-		    LogInfo2("Research selection change");
+		    LogInfo("Research selection change");
 		    auto list = std::static_pointer_cast<ListBox>(e->forms().RaisedBy);
 		    auto topic = list->getSelectedData<ResearchTopic>();
 		    if (topic->current_lab)
 		    {
-			    LogInfo2("Topic already in progress");
+			    LogInfo("Topic already in progress");
 		    }
 		    else
 		    {
 			    if (topic->isComplete())
 			    {
-				    LogInfo2("Topic already complete");
+				    LogInfo("Topic already complete");
 				    auto message_box = mksp<MessageBox>(tr("PROJECT COMPLETE"),
 				                                        tr("This project is already complete."),
 				                                        MessageBox::ButtonOptions::Ok);
@@ -94,7 +94,7 @@ void ResearchSelect::begin()
 			    if (topic->required_lab_size == ResearchTopic::LabSize::Large &&
 			        this->lab->size == ResearchTopic::LabSize::Small)
 			    {
-				    LogInfo2("Topic is large and lab is small");
+				    LogInfo("Topic is large and lab is small");
 				    auto message_box =
 				        mksp<MessageBox>(tr("PROJECT TOO LARGE"),
 				                         tr("This project requires an advanced lab or workshop."),
@@ -107,7 +107,7 @@ void ResearchSelect::begin()
 			    if (this->lab->type == ResearchTopic::Type::Engineering &&
 			        topic->cost > state->player->balance)
 			    {
-				    LogInfo2("Cannot afford to manufacture");
+				    LogInfo("Cannot afford to manufacture");
 				    auto message_box = mksp<MessageBox>(
 				        tr("FUNDS EXCEEDED"), tr("Production costs exceed your available funds."),
 				        MessageBox::ButtonOptions::Ok);
@@ -129,7 +129,7 @@ void ResearchSelect::begin()
 	    FormEventType::ListBoxChangeHover,
 	    [this](FormsEvent *e)
 	    {
-		    LogInfo2("Research display on hover change");
+		    LogInfo("Research display on hover change");
 		    auto list = std::static_pointer_cast<ListBox>(e->forms().RaisedBy);
 		    auto topic = list->getHoveredData<ResearchTopic>();
 		    auto title = this->form->findControlTyped<Label>("TEXT_SELECTED_TITLE");
@@ -199,7 +199,7 @@ void ResearchSelect::begin()
 	    FormEventType::ButtonClick,
 	    [this](FormsEvent *)
 	    {
-		    LogInfo2("Research selection OK pressed, applying selection");
+		    LogInfo("Research selection OK pressed, applying selection");
 		    Lab::setResearch({state.get(), this->lab}, {state.get(), current_topic}, state);
 	    });
 }

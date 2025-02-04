@@ -50,7 +50,7 @@ class Program
 		std::unique_ptr<char[]> log(new char[logLength]);
 		gl20::GetShaderInfoLog(shader, logLength, NULL, log.get());
 
-		LogError2("Shader compile error: {}", log.get());
+		LogError("Shader compile error: {}", log.get());
 
 		gl20::DeleteShader(shader);
 		return 0;
@@ -60,13 +60,13 @@ class Program
 		GLuint vShader = createShader(gl20::VERTEX_SHADER, vertexSource);
 		if (!vShader)
 		{
-			LogError2("Failed to compile vertex shader");
+			LogError("Failed to compile vertex shader");
 			return;
 		}
 		GLuint fShader = createShader(gl20::FRAGMENT_SHADER, fragmentSource);
 		if (!fShader)
 		{
-			LogError2("Failed to compile fragment shader");
+			LogError("Failed to compile fragment shader");
 			gl20::DeleteShader(vShader);
 			return;
 		}
@@ -91,7 +91,7 @@ class Program
 		std::unique_ptr<char[]> log(new char[logLength]);
 		gl20::GetProgramInfoLog(prog, logLength, NULL, log.get());
 
-		LogError2("Program link error: {}", log.get());
+		LogError("Program link error: {}", log.get());
 
 		gl20::DeleteProgram(prog);
 		prog = 0;
@@ -174,22 +174,22 @@ class RGBProgram : public SpriteProgram
 	{
 		this->posLoc = gl20::GetAttribLocation(this->prog, "position");
 		if (this->posLoc < 0)
-			LogError2("\"position\" attribute not found in shader");
+			LogError("\"position\" attribute not found in shader");
 		this->texcoordLoc = gl20::GetAttribLocation(this->prog, "texcoord_in");
 		if (this->texcoordLoc < 0)
-			LogError2("\"texcoord_in\" attribute not found in shader");
+			LogError("\"texcoord_in\" attribute not found in shader");
 		this->screenSizeLoc = gl20::GetUniformLocation(this->prog, "screenSize");
 		if (this->screenSizeLoc < 0)
-			LogError2("\"screenSize\" uniform not found in shader");
+			LogError("\"screenSize\" uniform not found in shader");
 		this->texLoc = gl20::GetUniformLocation(this->prog, "tex");
 		if (this->texLoc < 0)
-			LogError2("\"tex\" uniform not found in shader");
+			LogError("\"tex\" uniform not found in shader");
 		this->flipYLoc = gl20::GetUniformLocation(this->prog, "flipY");
 		if (this->flipYLoc < 0)
-			LogError2("\"flipY\" uniform not found in shader");
+			LogError("\"flipY\" uniform not found in shader");
 		this->tintLoc = gl20::GetUniformLocation(this->prog, "tint");
 		if (this->tintLoc < 0)
-			LogError2("\"tint\" uniform not found in shader");
+			LogError("\"tint\" uniform not found in shader");
 	}
 	void setUniforms(Vec2<int> screenSize, bool flipY, Colour tint = {255, 255, 255, 255},
 	                 GLint texUnit = 0)
@@ -484,7 +484,7 @@ class BindTexture
 			case gl20::TEXTURE_3D:
 				return gl20::TEXTURE_BINDING_3D;
 			default:
-				LogError2("Unknown texture enum {}", static_cast<int>(e));
+				LogError("Unknown texture enum {}", static_cast<int>(e));
 				return gl20::TEXTURE_BINDING_2D;
 		}
 	}
@@ -711,7 +711,7 @@ class OGL20Renderer : public Renderer
 		this->bound_thread = std::this_thread::get_id();
 		GLint viewport[4];
 		gl20::GetIntegerv(gl20::VIEWPORT, viewport);
-		LogInfo2("Viewport {{{},{},{},{}}}", viewport[0], viewport[1], viewport[2], viewport[3]);
+		LogInfo("Viewport {{{},{},{},{}}}", viewport[0], viewport[1], viewport[2], viewport[3]);
 		LogAssert(viewport[0] == 0 && viewport[1] == 0);
 		this->defaultSurface = mksp<Surface>(Vec2<int>{viewport[2], viewport[3]});
 		this->defaultSurface->rendererPrivateData.reset(
@@ -720,7 +720,7 @@ class OGL20Renderer : public Renderer
 
 		GLint maxTexUnits;
 		gl20::GetIntegerv(gl20::MAX_COMBINED_TEXTURE_IMAGE_UNITS, &maxTexUnits);
-		LogInfo2("MAX_COMBINED_TEXTURE_IMAGE_UNITS: {}", maxTexUnits);
+		LogInfo("MAX_COMBINED_TEXTURE_IMAGE_UNITS: {}", maxTexUnits);
 		gl20::Enable(gl20::BLEND);
 		gl20::BlendFuncSeparate(gl20::SRC_ALPHA, gl20::ONE_MINUS_SRC_ALPHA, gl20::SRC_ALPHA,
 		                        gl20::DST_ALPHA);
@@ -765,7 +765,7 @@ class OGL20Renderer : public Renderer
 		}
 
 		sp<PaletteImage> paletteImage = std::dynamic_pointer_cast<PaletteImage>(image);
-		LogError2("Unsupported image type");
+		LogError("Unsupported image type");
 	}
 	void drawScaled(sp<Image> image, Vec2<float> position, Vec2<float> size,
 	                Scaler scaler = Scaler::Linear) override
@@ -803,7 +803,7 @@ class OGL20Renderer : public Renderer
 			{
 				// blending indices doesn't make sense. You'll have to render
 				// it to an RGB surface then scale that
-				LogError2("Only nearest scaler is supported on paletted images");
+				LogError("Only nearest scaler is supported on paletted images");
 			}
 			this->drawPalette(*img, position, size, tint);
 			return;
@@ -821,7 +821,7 @@ class OGL20Renderer : public Renderer
 			this->drawSurface(*fbo, position, size, scaler, tint);
 			return;
 		}
-		LogError2("Unsupported image type");
+		LogError("Unsupported image type");
 	}
 
 	void drawTinted(sp<Image> i, Vec2<float> position, Colour tint) override
@@ -955,7 +955,7 @@ class OGL20Renderer : public Renderer
 				filter = gl20::NEAREST;
 				break;
 			default:
-				LogError2("Unknown scaler requested");
+				LogError("Unknown scaler requested");
 				filter = gl20::NEAREST;
 				break;
 		}
@@ -1001,7 +1001,7 @@ class OGL20Renderer : public Renderer
 				filter = gl20::NEAREST;
 				break;
 			default:
-				LogError2("Unknown scaler requested");
+				LogError("Unknown scaler requested");
 				filter = gl20::NEAREST;
 				break;
 		}
@@ -1073,18 +1073,18 @@ class OGL20RendererFactory : public OpenApoc::RendererFactory
 			auto success = gl20::sys::LoadFunctions();
 			if (!success)
 			{
-				LogInfo2("failed to load GL implementation functions");
+				LogInfo("failed to load GL implementation functions");
 				return nullptr;
 			}
 			if (success.GetNumMissing())
 			{
-				LogInfo2("GL implementation missing {} functions", success.GetNumMissing());
+				LogInfo("GL implementation missing {} functions", success.GetNumMissing());
 				return nullptr;
 			}
 			if (!gl20::sys::IsVersionGEQ(2, 0))
 			{
-				LogInfo2("GL version not at least 2.0, got {}.{}", gl20::sys::GetMajorVersion(),
-				         gl20::sys::GetMinorVersion());
+				LogInfo("GL version not at least 2.0, got {}.{}", gl20::sys::GetMajorVersion(),
+				        gl20::sys::GetMinorVersion());
 				return nullptr;
 			}
 			functionLoadSuccess = true;
@@ -1101,7 +1101,7 @@ FBOData::~FBOData()
 {
 	if (renderer_dead)
 	{
-		LogWarning2("FBOData being destroyed after renderer");
+		LogWarning("FBOData being destroyed after renderer");
 		return;
 	}
 	if (tex)
@@ -1113,7 +1113,7 @@ GLRGBImage::~GLRGBImage()
 {
 	if (renderer_dead)
 	{
-		LogWarning2("GLRGBImage being destroyed after renderer");
+		LogWarning("GLRGBImage being destroyed after renderer");
 		return;
 	}
 	owner->delete_texture_object(this->texID);
@@ -1122,7 +1122,7 @@ GLPalette::~GLPalette()
 {
 	if (renderer_dead)
 	{
-		LogWarning2("GLPalette being destroyed after renderer");
+		LogWarning("GLPalette being destroyed after renderer");
 		return;
 	}
 	owner->delete_texture_object(this->texID);
@@ -1131,7 +1131,7 @@ GLPaletteImage::~GLPaletteImage()
 {
 	if (renderer_dead)
 	{
-		LogWarning2("GLPaletteImage being destroyed after renderer");
+		LogWarning("GLPaletteImage being destroyed after renderer");
 		return;
 	}
 	owner->delete_texture_object(this->texID);

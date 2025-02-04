@@ -40,19 +40,19 @@ class WavSampleLoader : public SampleLoader
 		const auto splitString = split(path, ":");
 		if (splitString.size() != 2)
 		{
-			LogInfo2("String \"{}\" doesn't look like a rawsample - need 2 elements (got {})", path,
-			         splitString.size());
+			LogInfo("String \"{}\" doesn't look like a rawsample - need 2 elements (got {})", path,
+			        splitString.size());
 			return nullptr;
 		}
 		if (splitString[0] != "WAV")
 		{
-			LogInfo2("String \"{}\" doesn't look like a wav - no WAV prefix", path);
+			LogInfo("String \"{}\" doesn't look like a wav - no WAV prefix", path);
 			return nullptr;
 		}
 		const auto file = data.fs.open(splitString[1]);
 		if (!file)
 		{
-			LogWarning2("wav \"{}\" failed to open file \"{}\"", path, splitString[1]);
+			LogWarning("wav \"{}\" failed to open file \"{}\"", path, splitString[1]);
 			return nullptr;
 		}
 
@@ -66,14 +66,14 @@ class WavSampleLoader : public SampleLoader
 		const auto *returnedSpec = SDL_LoadWAV(fullPath.c_str(), &spec, &buf, &bufSize);
 		if (returnedSpec == nullptr)
 		{
-			LogWarning2("Failed to open WAV file at \"{}\" - \"{}\"", fullPath, SDL_GetError());
+			LogWarning("Failed to open WAV file at \"{}\" - \"{}\"", fullPath, SDL_GetError());
 			return nullptr;
 		}
 
 		if (spec.channels != 1)
 		{
-			LogWarning2("Failed to open WAV file at \"{}\" - only single channel samples supported",
-			            fullPath);
+			LogWarning("Failed to open WAV file at \"{}\" - only single channel samples supported",
+			           fullPath);
 			SDL_FreeWAV(buf);
 			return nullptr;
 		}
@@ -81,8 +81,8 @@ class WavSampleLoader : public SampleLoader
 		const auto format = sdlFormatToSampleFormat(spec.format);
 		if (!format)
 		{
-			LogWarning2("Failed to open WAV file at \"{}\" - unsupported SDL format 0x{:08x}",
-			            fullPath, spec.format);
+			LogWarning("Failed to open WAV file at \"{}\" - unsupported SDL format 0x{:08x}",
+			           fullPath, spec.format);
 			SDL_FreeWAV(buf);
 			return nullptr;
 		}

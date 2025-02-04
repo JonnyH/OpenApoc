@@ -45,7 +45,7 @@ UfopaediaCategoryView::UfopaediaCategoryView(sp<GameState> state, sp<UfopaediaCa
 		}
 		if (it == cat->entries.end())
 		{
-			LogError2("Failed to find UFOpaedia entry {} in category {}", entry->title, cat->title);
+			LogError("Failed to find UFOpaedia entry {} in category {}", entry->title, cat->title);
 		}
 	}
 }
@@ -83,7 +83,7 @@ void UfopaediaCategoryView::begin()
 		auto label = menuform->findControlTyped<Label>(labelName);
 		if (!label)
 		{
-			LogError2("Failed to find UI control matching \"{}\"", labelName);
+			LogError("Failed to find UI control matching \"{}\"", labelName);
 		}
 		label->setText("");
 		statsLabels.push_back(label);
@@ -92,7 +92,7 @@ void UfopaediaCategoryView::begin()
 		auto value = menuform->findControlTyped<Label>(valueName);
 		if (!value)
 		{
-			LogError2("Failed to find UI control matching \"{}\"", valueName);
+			LogError("Failed to find UI control matching \"{}\"", valueName);
 		}
 		value->setText("");
 		statsValues.push_back(value);
@@ -103,7 +103,7 @@ void UfopaediaCategoryView::begin()
 		auto label = menuform->findControlTyped<Label>(labelName);
 		if (!label)
 		{
-			LogError2("Failed to find UI control matching \"{}\"", labelName);
+			LogError("Failed to find UI control matching \"{}\"", labelName);
 		}
 		label->setText("");
 		orgLabels.push_back(label);
@@ -112,7 +112,7 @@ void UfopaediaCategoryView::begin()
 		auto value = menuform->findControlTyped<Label>(valueName);
 		if (!value)
 		{
-			LogError2("Failed to find UI control matching \"{}\"", valueName);
+			LogError("Failed to find UI control matching \"{}\"", valueName);
 		}
 		value->setText("");
 		orgValues.push_back(value);
@@ -184,7 +184,7 @@ void UfopaediaCategoryView::eventOccurred(Event *e)
 			auto entry = e->forms().RaisedBy->getData<UfopaediaEntry>();
 			if (!entry)
 			{
-				LogError2("Invalid UfopaediaEntry in shortcut control");
+				LogError("Invalid UfopaediaEntry in shortcut control");
 			}
 			auto it = this->category->entries.begin();
 			// Find the entry iterator
@@ -193,7 +193,7 @@ void UfopaediaCategoryView::eventOccurred(Event *e)
 				it++;
 				if (it == this->category->entries.end())
 				{
-					LogError2("Failed to find current category \"{}\"", this->category->title);
+					LogError("Failed to find current category \"{}\"", this->category->title);
 				}
 			}
 			this->position_iterator = it;
@@ -440,9 +440,9 @@ void UfopaediaCategoryView::setFormStats()
 							break;
 						default:
 						{
-							LogError2("Trying to read non-vehicle equipment type {} on vehicle "
-							          "equipment ufopaedia page",
-							          ref->id);
+							LogError("Trying to read non-vehicle equipment type {} on vehicle "
+							         "equipment ufopaedia page",
+							         ref->id);
 							break;
 						}
 					}
@@ -531,7 +531,7 @@ void UfopaediaCategoryView::setFormStats()
 				}
 				case UfopaediaEntry::Data::Building:
 				{
-					LogError2("Building not implemented yet");
+					LogError("Building not implemented yet");
 					// FIXME: Not implemented yet
 					break;
 				}
@@ -608,7 +608,7 @@ void UfopaediaCategoryView::setNextSection()
 		it++;
 		if (it == state->ufopaedia.end())
 		{
-			LogError2("Failed to find current category \"{}\"", this->category->title);
+			LogError("Failed to find current category \"{}\"", this->category->title);
 		}
 	}
 	// Increment it once to get the next
@@ -632,7 +632,7 @@ void UfopaediaCategoryView::setPreviousSection()
 		it++;
 		if (it == state->ufopaedia.end())
 		{
-			LogError2("Failed to find current category \"{}\"", this->category->title);
+			LogError("Failed to find current category \"{}\"", this->category->title);
 		}
 	}
 	// Loop around to the beginning

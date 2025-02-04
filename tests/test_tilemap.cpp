@@ -34,7 +34,7 @@ class FakeSceneryTileObject : public TileObject
 	void draw(Renderer &, TileTransform &, Vec2<float>, TileViewMode, bool, int, bool,
 	          bool) override
 	{
-		LogError2("DRAW CALLED ON FAKE SCENERY??");
+		LogError("DRAW CALLED ON FAKE SCENERY??");
 		exit(EXIT_FAILURE);
 	}
 };
@@ -45,7 +45,7 @@ static void test_collision(const TileMap &map, Vec3<float> line_start, Vec3<floa
 	auto collision = map.findCollision(line_start, line_end);
 	if (collision.obj != expected_collision)
 	{
-		LogError2(
+		LogError(
 		    "Line between {{{:f},{:f},{:f}}} and {{{:f},{:f},{:f}}} collided with {}, expected {}",
 		    line_start.x, line_start.y, line_start.z, line_end.x, line_end.y, line_end.z,
 		    collision.obj ? collision.obj->getName() : "NONE",
@@ -93,10 +93,10 @@ int main(int argc, char **argv)
 		object.second->setPosition(initialPosition);
 		if (initialPosition != object.second->getPosition())
 		{
-			LogError2("Object {} moved from {{{:f},{:f},{:f}}} to {{{:f},{:f},{:f}}}",
-			          object.second->getName(), initialPosition.x, initialPosition.y,
-			          initialPosition.z, object.second->getPosition().x,
-			          object.second->getPosition().y, object.second->getPosition().z);
+			LogError("Object {} moved from {{{:f},{:f},{:f}}} to {{{:f},{:f},{:f}}}",
+			         object.second->getName(), initialPosition.x, initialPosition.y,
+			         initialPosition.z, object.second->getPosition().x,
+			         object.second->getPosition().y, object.second->getPosition().z);
 			exit(EXIT_FAILURE);
 		}
 	}

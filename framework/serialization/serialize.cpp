@@ -165,10 +165,10 @@ up<SerializationArchive> SerializationArchive::readArchive(const UString &path)
 	up<SerializationDataProvider> dataProvider = getProvider(!fs::is_directory(path));
 	if (!dataProvider->openArchive(path, false))
 	{
-		LogWarning2("Failed to open archive at \"{}\"", path);
+		LogWarning("Failed to open archive at \"{}\"", path);
 		return nullptr;
 	}
-	LogInfo2("Opened archive \"{}\"", path);
+	LogInfo("Opened archive \"{}\"", path);
 
 	return mkup<XMLSerializationArchive>(std::move(dataProvider));
 }
@@ -190,7 +190,7 @@ SerializationNode *XMLSerializationArchive::getRoot(const UString &prefix, const
 	auto path = prefix + name + ".xml";
 	if (dataProvider == nullptr)
 	{
-		LogWarning2("Reading from not opened archive: {}!", path);
+		LogWarning("Reading from not opened archive: {}!", path);
 		return nullptr;
 	}
 
@@ -205,12 +205,12 @@ SerializationNode *XMLSerializationArchive::getRoot(const UString &prefix, const
 			auto parse_result = doc.load_string(content.c_str());
 			if (!parse_result)
 			{
-				LogInfo2("Failed to parse \"{}\" : \"{}\" at \"{}\"", path,
-				         parse_result.description(), (unsigned long long)parse_result.offset);
+				LogInfo("Failed to parse \"{}\" : \"{}\" at \"{}\"", path,
+				        parse_result.description(), (unsigned long long)parse_result.offset);
 				return nullptr;
 			}
 			it = this->docRoots.find(path);
-			LogInfo2("Parsed \"{}\"", path);
+			LogInfo("Parsed \"{}\"", path);
 		}
 	}
 	if (it == this->docRoots.end())
@@ -221,7 +221,7 @@ SerializationNode *XMLSerializationArchive::getRoot(const UString &prefix, const
 	auto root = it->second.child(name);
 	if (!root)
 	{
-		LogWarning2("Failed to find root with name \"{}\" in \"{}\"", name, path);
+		LogWarning("Failed to find root with name \"{}\" in \"{}\"", name, path);
 		return nullptr;
 	}
 	const UString *newPrefix = &this->prefixes.emplace_back(prefix + name + "/");
@@ -235,7 +235,7 @@ bool XMLSerializationArchive::write(const UString &path, bool pack, bool pretty)
 	auto dataProvider = getProvider(pack);
 	if (!dataProvider->openArchive(path, true))
 	{
-		LogWarning2("Failed to open archive at \"{}\"", path);
+		LogWarning("Failed to open archive at \"{}\"", path);
 		return false;
 	}
 

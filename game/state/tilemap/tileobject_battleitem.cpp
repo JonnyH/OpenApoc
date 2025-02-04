@@ -19,7 +19,7 @@ void TileObjectBattleItem::draw(Renderer &r, TileTransform &, Vec2<float> screen
 	auto item = this->item.lock();
 	if (!item)
 	{
-		LogError2("Called with no owning item object");
+		LogError("Called with no owning item object");
 		return;
 	}
 	Vec2<float> transformedScreenPos = screenPosition;
@@ -42,7 +42,7 @@ void TileObjectBattleItem::draw(Renderer &r, TileTransform &, Vec2<float> screen
 			break;
 		}
 		default:
-			LogError2("Unsupported view mode");
+			LogError("Unsupported view mode");
 	}
 	if (sprite)
 		drawTinted(r, sprite, transformedScreenPos, visible);
@@ -61,7 +61,7 @@ sp<BattleItem> TileObjectBattleItem::getItem()
 	auto i = item.lock();
 	if (!i)
 	{
-		LogError2("Item disappeared");
+		LogError("Item disappeared");
 		return nullptr;
 	}
 	return i;
@@ -72,7 +72,7 @@ Vec3<float> TileObjectBattleItem::getPosition() const
 	auto p = this->item.lock();
 	if (!p)
 	{
-		LogError2("Called with no owning item object");
+		LogError("Called with no owning item object");
 		return {0, 0, 0};
 	}
 	return p->getPosition();

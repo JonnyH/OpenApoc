@@ -22,8 +22,8 @@ namespace OpenApoc
 void InitialGameStateExtractor::extractOrganisations(GameState &state) const
 {
 	auto &data = this->ufo2p;
-	LogInfo2("Number of org strings: {}", data.organisation_names->readStrings.size());
-	LogInfo2("Number of orgs: {}", (unsigned)data.organisation_data->count());
+	LogInfo("Number of org strings: {}", data.organisation_names->readStrings.size());
+	LogInfo("Number of orgs: {}", (unsigned)data.organisation_data->count());
 
 	// Organisations
 
@@ -178,7 +178,7 @@ void InitialGameStateExtractor::extractOrganisations(GameState &state) const
 				case 3:
 					if (i != ORG_TRANSTELLAR)
 					{
-						LogError2("Modded game? Only Transtellar should have vehicle park of 3?");
+						LogError("Modded game? Only Transtellar should have vehicle park of 3?");
 					}
 					o->providesTransportationServices = true;
 					o->vehiclePark[{&state, "VEHICLETYPE_AIRTAXI"}] = 10;
@@ -237,7 +237,7 @@ void InitialGameStateExtractor::extractOrganisations(GameState &state) const
 				case 55:
 					if (i != ORG_MEGAPOL)
 					{
-						LogError2("Modded game? Only Megapol should have vehicle park of 55?");
+						LogError("Modded game? Only Megapol should have vehicle park of 55?");
 					}
 					o->vehiclePark[{&state, "VEHICLETYPE_POLICE_HOVERCAR"}] = 18;
 					o->vehiclePark[{&state, "VEHICLETYPE_POLICE_CAR"}] = 15;
@@ -253,8 +253,8 @@ void InitialGameStateExtractor::extractOrganisations(GameState &state) const
 					o->vehiclePark[{&state, "VEHICLETYPE_HAWK_AIR_WARRIOR"}] = 15;
 					break;
 				default:
-					LogError2("Modded game? Found unexpected vehiclePark value of {}",
-					          (int)vdata.vehiclePark);
+					LogError("Modded game? Found unexpected vehiclePark value of {}",
+					         (int)vdata.vehiclePark);
 			}
 
 			// Missions

@@ -12,7 +12,7 @@ sp<UFOMissionPreference> StateObject<UFOMissionPreference>::get(const GameState 
 	auto it = state.ufo_mission_preference.find(id);
 	if (it == state.ufo_mission_preference.end())
 	{
-		LogError2("No UFOMissionPreference matching ID \"{}\"", id);
+		LogError("No UFOMissionPreference matching ID \"{}\"", id);
 		return nullptr;
 	}
 	return it->second;

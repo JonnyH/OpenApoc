@@ -44,7 +44,7 @@ void TileObject::removeFromMap()
 		auto erased = this->owningTile->ownedObjects.erase(thisPtr);
 		if (erased != 1)
 		{
-			LogError2("Nothing erased?");
+			LogError("Nothing erased?");
 		}
 		int layer = map.getLayer(this->type);
 		this->drawOnTile->drawnObjects[layer].erase(
@@ -93,31 +93,31 @@ void TileObject::setPosition(Vec3<float> newPosition)
 	auto thisPtr = shared_from_this();
 	if (!thisPtr)
 	{
-		LogError2("This == null");
+		LogError("This == null");
 	}
 	if (newPosition.x < 0 || newPosition.y < 0 || newPosition.z < 0 ||
 	    newPosition.x > map.size.x + 1 || newPosition.y > map.size.y + 1 ||
 	    newPosition.z > map.size.z + 1)
 	{
-		LogWarning2("Trying to place object at {} in map of size {}", newPosition, map.size);
+		LogWarning("Trying to place object at {} in map of size {}", newPosition, map.size);
 		newPosition.x = clamp(newPosition.x, 0.0f, (float)map.size.x + 1);
 		newPosition.y = clamp(newPosition.y, 0.0f, (float)map.size.y + 1);
 		newPosition.z = clamp(newPosition.z, 0.0f, (float)map.size.z + 1);
-		LogWarning2("Clamped object to {}", newPosition);
+		LogWarning("Clamped object to {}", newPosition);
 	}
 	this->removeFromMap();
 
 	this->owningTile = map.getTile(newPosition);
 	if (!this->owningTile)
 	{
-		LogError2("Failed to get tile for position {}", newPosition);
+		LogError("Failed to get tile for position {}", newPosition);
 		return;
 	}
 
 	auto inserted = this->owningTile->ownedObjects.insert(thisPtr);
 	if (!inserted.second)
 	{
-		LogError2("Object already in owned object list?");
+		LogError("Object already in owned object list?");
 	}
 
 	Vec3<int> minBounds = {floorf(newPosition.x + getCenterOffset().x - this->bounds_div_2.x),
@@ -142,7 +142,7 @@ void TileObject::setPosition(Vec3<float> newPosition)
 				Tile *intersectingTile = map.getTile(x, y, z);
 				if (!intersectingTile)
 				{
-					LogError2("Failed to get intersecting tile at {{{},{},{}}}", x, y, z);
+					LogError("Failed to get intersecting tile at {{{},{},{}}}", x, y, z);
 					continue;
 				}
 				this->intersectingTiles.push_back(intersectingTile);
@@ -155,7 +155,7 @@ void TileObject::setPosition(Vec3<float> newPosition)
 	{
 		if (t->intersectingObjects.find(shared_from_this()) == t->intersectingObjects.end())
 		{
-			LogError2("Intersecting objects inconsistent");
+			LogError("Intersecting objects inconsistent");
 		}
 	}
 

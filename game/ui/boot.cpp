@@ -61,11 +61,11 @@ void BootUp::update()
 		    {
 			    auto &ui_instance = ui();
 			    std::ignore = ui_instance;
-			    LogWarning2("Loading save \"{}\"", path);
+			    LogWarning("Loading save \"{}\"", path);
 
 			    if (!loadedState->loadGame(path))
 			    {
-				    LogError2("Failed to load supplied game \"{}\"", path);
+				    LogError("Failed to load supplied game \"{}\"", path);
 			    }
 			    loadedState->initState();
 		    });

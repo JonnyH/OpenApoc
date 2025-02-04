@@ -56,7 +56,7 @@ void Graphic::onRender()
 						pos.y = Size.y - image->size.y;
 						break;
 					default:
-						LogError2("Unknown ImageVAlign");
+						LogError("Unknown ImageVAlign");
 						return;
 				}
 
@@ -72,7 +72,7 @@ void Graphic::onRender()
 						pos.x = Size.x - image->size.x;
 						break;
 					default:
-						LogError2("Unknown ImageHAlign");
+						LogError("Unknown ImageHAlign");
 						return;
 				}
 

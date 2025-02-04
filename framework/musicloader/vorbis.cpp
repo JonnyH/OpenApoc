@@ -24,12 +24,12 @@ struct VorbisMusicTrack : public MusicTrack
 		*returnedSamples = 0;
 		if (!music)
 		{
-			LogError2("Trying to play non-vorbis music");
+			LogError("Trying to play non-vorbis music");
 			return MusicTrack::MusicCallbackReturn::End;
 		}
 		if (!music->_valid)
 		{
-			LogError2("VorbisMusic: Trying to play non-valid track");
+			LogError("VorbisMusic: Trying to play non-valid track");
 			return MusicTrack::MusicCallbackReturn::End;
 		}
 		constexpr int bytes_per_sample = 2; // Always use S16
@@ -51,7 +51,7 @@ struct VorbisMusicTrack : public MusicTrack
 			            bytes_per_sample, samples_are_signed, &music->_bitstream);
 			if (read_bytes < 0)
 			{
-				LogError2("VorbisMusic: Error {} decoding music", read_bytes);
+				LogError("VorbisMusic: Error {} decoding music", read_bytes);
 				return MusicTrack::MusicCallbackReturn::End;
 			}
 			if (read_bytes == 0)
@@ -129,13 +129,13 @@ class VorbisMusicLoader : public MusicLoader
 		// expected format: "ogg:file.ogg"
 		if (strings.size() != 2 || strings[0] != "ogg")
 		{
-			LogInfo2("VorbisFile: Not valid vorbis string \"{}\"", path);
+			LogInfo("VorbisFile: Not valid vorbis string \"{}\"", path);
 			return nullptr;
 		}
 		auto file = _data.fs.open(strings[1]);
 		if (!file)
 		{
-			LogInfo2("VorbisMusic: Failed to open \"{}\"", strings[1]);
+			LogInfo("VorbisMusic: Failed to open \"{}\"", strings[1]);
 			return nullptr;
 		}
 
@@ -146,7 +146,7 @@ class VorbisMusicLoader : public MusicLoader
 
 		if (ret < 0)
 		{
-			LogWarning2("VorbisMusic: Error {} opening file \"{}\"", ret, path);
+			LogWarning("VorbisMusic: Error {} opening file \"{}\"", ret, path);
 			return nullptr;
 		}
 
@@ -155,7 +155,7 @@ class VorbisMusicLoader : public MusicLoader
 		auto *info = ov_info(&music->_vorbis_file, -1);
 		if (!info)
 		{
-			LogWarning2("VorbisMusic: Failed to read info for \"{}\"", path);
+			LogWarning("VorbisMusic: Failed to read info for \"{}\"", path);
 			return nullptr;
 		}
 
@@ -170,7 +170,7 @@ class VorbisMusicLoader : public MusicLoader
 		}
 		if (!valid_sample_rate)
 		{
-			LogWarning2("VorbisMusic: \"{}\" has unsupported sample rate \"{}\"", path, info->rate);
+			LogWarning("VorbisMusic: \"{}\" has unsupported sample rate \"{}\"", path, info->rate);
 			return nullptr;
 		}
 
@@ -185,13 +185,13 @@ class VorbisMusicLoader : public MusicLoader
 		}
 		if (!valid_channel_count)
 		{
-			LogWarning2("VorbisMusic: \"{}\" has unsupported channel count \"{}\"", path,
-			            info->channels);
+			LogWarning("VorbisMusic: \"{}\" has unsupported channel count \"{}\"", path,
+			           info->channels);
 			return nullptr;
 		}
 
-		LogInfo2("VorbisMusic: Successfully opened \"{}\" - channels: {}, samplerate: {}", path,
-		         info->channels, info->rate);
+		LogInfo("VorbisMusic: Successfully opened \"{}\" - channels: {}, samplerate: {}", path,
+		        info->channels, info->rate);
 		music->format.channels = info->channels;
 		music->format.frequency = info->rate;
 		// Always assume sint16 - it'll convert it otherwise

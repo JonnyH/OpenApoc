@@ -954,7 +954,7 @@ BattleView::BattleView(sp<GameState> gameState)
 	                  {
 		                  if (baseForm->findControlTyped<Ticker>("NEWS_TICKER")->hasMessages())
 		                  {
-			                  LogWarning2("Has Messages!");
+			                  LogWarning("Has Messages!");
 			                  this->zoomLastEvent();
 		                  }
 	                  });
@@ -1700,7 +1700,7 @@ void BattleView::update()
 					break;
 				}
 				default:
-					LogError2("Using an item other than the motion scanner / medikit?");
+					LogError("Using an item other than the motion scanner / medikit?");
 			}
 		}
 	}
@@ -2224,7 +2224,7 @@ void BattleView::updateHiddenForm()
 void BattleView::refreshDelayText()
 {
 	int delay = primingTab->findControlTyped<ScrollBar>("DELAY_SLIDER")->getValue();
-	LogWarning2("Delay {}", delay);
+	LogWarning("Delay {}", delay);
 	UString text;
 	if (delay == 0)
 	{
@@ -2288,7 +2288,7 @@ void BattleView::updatePathPreview()
 	auto target = selectedTilePosition;
 	if (!lastSelectedUnit)
 	{
-		LogError2("Trying to update path preview with no unit selected!?");
+		LogError("Trying to update path preview with no unit selected!?");
 		return;
 	}
 
@@ -2322,8 +2322,8 @@ void BattleView::updatePathPreview()
 		target.z--;
 		if (target.z == -1)
 		{
-			LogError2("Solid ground missing on level 0? Reached {} {} {}", target.x, target.y,
-			          target.z);
+			LogError("Solid ground missing on level 0? Reached {} {} {}", target.x, target.y,
+			         target.z);
 			return;
 		}
 		to = map.getTile(target);
@@ -2351,7 +2351,7 @@ void BattleView::updatePathPreview()
 	    BattleUnitTileHelper{map, *lastSelectedUnit}, false, false, true, false, &cost, maxCost);
 	if (pathPreview.empty())
 	{
-		LogError2("Empty path returned for path preview!?");
+		LogError("Empty path returned for path preview!?");
 		return;
 	}
 	// If we have not reached the target - then show "Too Far"
@@ -2383,7 +2383,7 @@ void BattleView::updateAttackCost()
 	auto target = selectedTilePosition;
 	if (!lastSelectedUnit)
 	{
-		LogError2("Trying to update path attack cost with no unit selected!?");
+		LogError("Trying to update path attack cost with no unit selected!?");
 		return;
 	}
 	WeaponStatus status;
@@ -2518,11 +2518,11 @@ void BattleView::orderMove(Vec3<int> target, bool strafe, bool demandGiveWay)
 
 			if (unit->setMission(*state, mission))
 			{
-				LogInfo2("BattleUnit \"{}\" going to location {}", unit->agent->name, target);
+				LogInfo("BattleUnit \"{}\" going to location {}", unit->agent->name, target);
 			}
 			else
 			{
-				LogInfo2("BattleUnit \"{}\" could not receive order to move", unit->agent->name);
+				LogInfo("BattleUnit \"{}\" could not receive order to move", unit->agent->name);
 			}
 		}
 	}
@@ -2534,11 +2534,11 @@ void BattleView::orderTurn(Vec3<int> target)
 	{
 		if (unit->setMission(*state, BattleUnitMission::turn(*unit, target)))
 		{
-			LogWarning2("BattleUnit \"{}\" turning to face location {}", unit->agent->name, target);
+			LogWarning("BattleUnit \"{}\" turning to face location {}", unit->agent->name, target);
 		}
 		else
 		{
-			LogWarning2("BattleUnit \"{}\" could not receive order to turn", unit->agent->name);
+			LogWarning("BattleUnit \"{}\" could not receive order to turn", unit->agent->name);
 		}
 	}
 }
@@ -2559,8 +2559,8 @@ void BattleView::orderThrow(Vec3<int> target, bool right)
 
 	if (unit->setMission(*state, BattleUnitMission::throwItem(*unit, item, target)))
 	{
-		LogWarning2("BattleUnit \"{}\" throwing item in the {} hand", unit->agent->name,
-		            right ? "right" : "left");
+		LogWarning("BattleUnit \"{}\" throwing item in the {} hand", unit->agent->name,
+		           right ? "right" : "left");
 		selectionState = BattleSelectionState::Normal;
 	}
 	else
@@ -2720,8 +2720,8 @@ void BattleView::orderDrop(bool right)
 	{
 		// Special case, just add mission in front of anything and start it, no need to clear orders
 		unit->addMission(*state, BattleUnitMission::dropItem(*unit, item));
-		LogWarning2("BattleUnit \"{}\" dropping item in {} hand", unit->agent->name,
-		            right ? "right" : "left");
+		LogWarning("BattleUnit \"{}\" dropping item in {} hand", unit->agent->name,
+		           right ? "right" : "left");
 	}
 	else // Try to pick something up
 	{
@@ -2814,7 +2814,7 @@ void BattleView::orderTeleport(Vec3<int> target, bool right)
 	// FIXME: REMOVE TEMPORARY CHEAT
 	if (!item || item->type->type != AEquipmentType::Type::Teleporter)
 	{
-		LogWarning2("Using teleporter cheat!");
+		LogWarning("Using teleporter cheat!");
 		item = mksp<AEquipment>();
 		UString tp = "AEQUIPMENTTYPE_PERSONAL_TELEPORTER";
 		item->type = {&*state, tp};
@@ -2829,15 +2829,15 @@ void BattleView::orderTeleport(Vec3<int> target, bool right)
 	auto m = BattleUnitMission::teleport(*unit, item, target);
 	if (unit->setMission(*state, m) && !m->cancelled)
 	{
-		LogWarning2("BattleUnit \"{}\" teleported using item in {} hand ", unit->agent->name,
-		            right ? "right" : "left");
+		LogWarning("BattleUnit \"{}\" teleported using item in {} hand ", unit->agent->name,
+		           right ? "right" : "left");
 		selectionState = BattleSelectionState::Normal;
 	}
 	else
 	{
 		actionImpossibleDelay = 40;
-		LogWarning2("BattleUnit \"{}\" could not teleport using item in {} hand ",
-		            unit->agent->name, right ? "right" : "left");
+		LogWarning("BattleUnit \"{}\" could not teleport using item in {} hand ", unit->agent->name,
+		           right ? "right" : "left");
 	}
 }
 
@@ -3196,7 +3196,7 @@ bool BattleView::handleKeyDown(Event *e)
 			{
 				if (modifierLShift || modifierRShift)
 				{
-					LogWarning2("Psi amplified!");
+					LogWarning("Psi amplified!");
 					for (auto &u : battle.units)
 					{
 						if (u.second->isDead())
@@ -3211,7 +3211,7 @@ bool BattleView::handleKeyDown(Event *e)
 				}
 				else
 				{
-					LogWarning2("Panic mode engaged!");
+					LogWarning("Panic mode engaged!");
 					for (auto &u : battle.units)
 					{
 						if (u.second->isConscious())
@@ -3225,7 +3225,7 @@ bool BattleView::handleKeyDown(Event *e)
 			// Heal everybody
 			case SDLK_h:
 			{
-				LogWarning2("Heals for everybody!");
+				LogWarning("Heals for everybody!");
 				for (auto &u : battle.units)
 				{
 					if (u.second->isDead())
@@ -3245,7 +3245,7 @@ bool BattleView::handleKeyDown(Event *e)
 			// Restore TUs
 			case SDLK_t:
 			{
-				LogWarning2("Restoring TU");
+				LogWarning("Restoring TU");
 				for (auto &u : battle.units)
 				{
 					if (!u.second->isConscious() ||
@@ -3675,7 +3675,7 @@ bool BattleView::handleMouseDown(Event *e)
 			}
 		}
 		// Determine course of action
-		LogWarning2("Click at tile {}, {}, {}", t.x, t.y, t.z);
+		LogWarning("Click at tile {}, {}, {}", t.x, t.y, t.z);
 		switch (selectionState)
 		{
 			case BattleSelectionState::Normal:
@@ -3753,7 +3753,7 @@ bool BattleView::handleMouseDown(Event *e)
 						}
 						break;
 					default:
-						LogError2("Unhandled mouse button!");
+						LogError("Unhandled mouse button!");
 						break;
 				}
 				break;
@@ -3784,7 +3784,7 @@ bool BattleView::handleMouseDown(Event *e)
 						}
 						break;
 					default:
-						LogError2("Unhandled mouse button!");
+						LogError("Unhandled mouse button!");
 						break;
 				}
 				// Debug section below
@@ -3899,7 +3899,7 @@ bool BattleView::handleMouseDown(Event *e)
 						u->aiState.attackerPosition,
 						u->aiList.lastSeenEnemyPosition);*/
 					}
-					LogWarning2("{}", debug);
+					LogWarning("{}", debug);
 				}
 				break;
 			case BattleSelectionState::FireAny:
@@ -3948,7 +3948,7 @@ bool BattleView::handleMouseDown(Event *e)
 						break;
 					}
 					default:
-						LogError2("Unhandled mouse button!");
+						LogError("Unhandled mouse button!");
 						break;
 				}
 				break;
@@ -3968,7 +3968,7 @@ bool BattleView::handleMouseDown(Event *e)
 						break;
 					}
 					default:
-						LogError2("Unhandled mouse button!");
+						LogError("Unhandled mouse button!");
 						break;
 				}
 				break;
@@ -3988,7 +3988,7 @@ bool BattleView::handleMouseDown(Event *e)
 						break;
 					}
 					default:
-						LogError2("Unhandled mouse button!");
+						LogError("Unhandled mouse button!");
 						break;
 				}
 				break;
@@ -4035,7 +4035,7 @@ bool BattleView::handleMouseDown(Event *e)
 						selectionState = BattleSelectionState::Normal;
 						if (activeTab != psiTab)
 						{
-							LogError2("How come are we in psi mode but not in psi tab?");
+							LogError("How come are we in psi mode but not in psi tab?");
 						}
 						else
 						{
@@ -4051,7 +4051,7 @@ bool BattleView::handleMouseDown(Event *e)
 						break;
 					}
 					default:
-						LogError2("Unhandled mouse button!");
+						LogError("Unhandled mouse button!");
 						break;
 				}
 				break;
@@ -4066,7 +4066,7 @@ bool BattleView::handleGameStateEvent(Event *e)
 	auto gameEvent = dynamic_cast<GameEvent *>(e);
 	if (!gameEvent)
 	{
-		LogError2("Invalid game state event");
+		LogError("Invalid game state event");
 		return true;
 	}
 	if (!gameEvent->message().empty())

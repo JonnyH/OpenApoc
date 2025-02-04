@@ -141,7 +141,7 @@ int AEquipment::getAccuracy(BodyState bodyState, MovementState movementState,
 
 	if (this->type->type != AEquipmentType::Type::Weapon)
 	{
-		LogError2("getAccuracy (non-thrown) called on non-weapon");
+		LogError("getAccuracy (non-thrown) called on non-weapon");
 		return 0;
 	}
 
@@ -340,7 +340,7 @@ void AEquipment::loadAmmo(GameState &state, sp<AEquipment> ammoItem)
 		    std::find(type->ammo_types.begin(), type->ammo_types.end(), ammoItem->type) ==
 		        type->ammo_types.end())
 		{
-			LogError2("Incorrect ammo type \"{}\" for \"{}\"", ammoItem->type->name, type->name);
+			LogError("Incorrect ammo type \"{}\" for \"{}\"", ammoItem->type->name, type->name);
 			return;
 		}
 	}
@@ -349,7 +349,7 @@ void AEquipment::loadAmmo(GameState &state, sp<AEquipment> ammoItem)
 		// If no ammoItem is supplied then look in the agent's inventory
 		if (!ownerAgent)
 		{
-			LogError2("Trying to auto-reload a weapon not in agent inventory!?");
+			LogError("Trying to auto-reload a weapon not in agent inventory!?");
 			return;
 		}
 		ammoItem = getAutoreloadAmmoType(*this);
@@ -565,7 +565,7 @@ void AEquipment::update(GameState &state, unsigned int ticks)
 		switch (triggerType)
 		{
 			case TriggerType::None:
-				LogError2("Primed activated item with no trigger?");
+				LogError("Primed activated item with no trigger?");
 				break;
 			case TriggerType::Contact:
 			{
@@ -699,7 +699,7 @@ void AEquipment::explode(GameState &state)
 			auto bItem = ownerItem.lock();
 			if (!bItem)
 			{
-				LogError2("WTF? Exploding ammo/weapon in agent inventory???");
+				LogError("WTF? Exploding ammo/weapon in agent inventory???");
 				break;
 			}
 			while (shots-- > 0)
@@ -723,7 +723,7 @@ void AEquipment::explode(GameState &state)
 			break;
 		}
 		default:
-			LogWarning2("Implement blown up payload firing in all directions etc.");
+			LogWarning("Implement blown up payload firing in all directions etc.");
 			break;
 	}
 }
@@ -732,12 +732,12 @@ void AEquipment::fire(GameState &state, Vec3<float> targetPosition, StateRef<Bat
 {
 	if (this->type->type != AEquipmentType::Type::Weapon)
 	{
-		LogError2("fire() called on non-Weapon");
+		LogError("fire() called on non-Weapon");
 		return;
 	}
 	if (!readyToFire)
 	{
-		LogError2("fire() called on non-ready Weapon");
+		LogError("fire() called on non-ready Weapon");
 		return;
 	}
 
@@ -771,7 +771,7 @@ void AEquipment::fire(GameState &state, Vec3<float> targetPosition, StateRef<Bat
 		float velocityZ = 0.0f;
 		if (!getVelocityForLaunch(*unit, targetPosition, velocityXY, velocityZ))
 		{
-			LogError2("Firing a launcher with no valid trajectory?");
+			LogError("Firing a launcher with no valid trajectory?");
 			return;
 		}
 		// Throw item (accuracy applied inside)

@@ -21,13 +21,13 @@ int main(int argc, char **argv)
 
 	if (r1 != expected_r1)
 	{
-		LogError2("unexpected r1 0x{:016x}, expected 0x{:016x}", r1, expected_r1);
+		LogError("unexpected r1 0x{:016x}, expected 0x{:016x}", r1, expected_r1);
 		return EXIT_FAILURE;
 	}
 
 	if (r2 != expected_r2)
 	{
-		LogError2("unexpected r2 0x{:016x}, expected 0x{:016x}", r2, expected_r2);
+		LogError("unexpected r2 0x{:016x}, expected 0x{:016x}", r2, expected_r2);
 		return EXIT_FAILURE;
 	}
 
@@ -38,13 +38,13 @@ int main(int argc, char **argv)
 
 	if (r1 != expected_r1)
 	{
-		LogError2("unexpected post-reseed r1 0x{:016x}, expected 0x{:016x}", r1, expected_r1);
+		LogError("unexpected post-reseed r1 0x{:016x}, expected 0x{:016x}", r1, expected_r1);
 		return EXIT_FAILURE;
 	}
 
 	if (r2 != expected_r2)
 	{
-		LogError2("unexpected post-reseed r2 0x{:016x}, expected 0x{:016x}", r2, expected_r2);
+		LogError("unexpected post-reseed r2 0x{:016x}, expected 0x{:016x}", r2, expected_r2);
 		return EXIT_FAILURE;
 	}
 
@@ -59,7 +59,7 @@ int main(int argc, char **argv)
 	uint64_t r3 = rng2();
 	if (r3 != expected_r3)
 	{
-		LogError2("unexpected r3 0x{:016x}, expected 0x{:016x}", r3, expected_r3);
+		LogError("unexpected r3 0x{:016x}, expected 0x{:016x}", r3, expected_r3);
 		return EXIT_FAILURE;
 	}
 
@@ -78,10 +78,10 @@ int main(int argc, char **argv)
 		buckets[value]++;
 	}
 
-	LogWarning2("RNG buckets:");
+	LogWarning("RNG buckets:");
 	for (int i = 0; i < num_test_buckets; i++)
 	{
-		LogWarning2("{}:\t{}", i, buckets[i]);
+		LogWarning("{}:\t{}", i, buckets[i]);
 	}
 
 	return EXIT_SUCCESS;

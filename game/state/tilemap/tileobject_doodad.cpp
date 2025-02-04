@@ -20,7 +20,7 @@ void TileObjectDoodad::draw(Renderer &r, TileTransform &transform, Vec2<float> s
 	auto doodad = this->doodad.lock();
 	if (!doodad)
 	{
-		LogError2("Called with no owning doodad object");
+		LogError("Called with no owning doodad object");
 		return;
 	}
 	sp<Image> sprite;
@@ -35,7 +35,7 @@ void TileObjectDoodad::draw(Renderer &r, TileTransform &transform, Vec2<float> s
 			// no doodads on strategy view?
 			return;
 		default:
-			LogError2("Unsupported view mode");
+			LogError("Unsupported view mode");
 	}
 	drawTinted(r, sprite, transformedScreenPos, visible);
 }
@@ -55,7 +55,7 @@ Vec3<float> TileObjectDoodad::getPosition() const
 	auto d = this->doodad.lock();
 	if (!d)
 	{
-		LogError2("Called with no owning doodad object");
+		LogError("Called with no owning doodad object");
 		return {0, 0, 0};
 	}
 	return d->getPosition();

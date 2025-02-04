@@ -20,7 +20,7 @@ template <> sp<BattleDoor> StateObject<BattleDoor>::get(const GameState &state, 
 	auto it = state.current_battle->doors.find(id);
 	if (it == state.current_battle->doors.end())
 	{
-		LogError2("No agent_type matching ID \"{}\"", id);
+		LogError("No agent_type matching ID \"{}\"", id);
 		return nullptr;
 	}
 	return it->second;
@@ -45,7 +45,7 @@ const UString &StateObject<BattleDoor>::getId(const GameState &state, const sp<B
 		if (a.second == ptr)
 			return a.first;
 	}
-	LogError2("No BattleDoor matching pointer {}", static_cast<void *>(ptr.get()));
+	LogError("No BattleDoor matching pointer {}", static_cast<void *>(ptr.get()));
 	return emptyString;
 }
 

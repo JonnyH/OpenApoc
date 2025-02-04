@@ -25,7 +25,7 @@ sp<BuildingFunction> StateObject<BuildingFunction>::get(const GameState &state, 
 	auto it = state.building_functions.find(id);
 	if (it == state.building_functions.end())
 	{
-		LogError2("No building_function matching ID \"{}\"", id);
+		LogError("No building_function matching ID \"{}\"", id);
 		return nullptr;
 	}
 	return it->second;
@@ -51,7 +51,7 @@ template <> sp<Building> StateObject<Building>::get(const GameState &state, cons
 			return it->second;
 	}
 
-	LogError2("No building type matching ID \"{}\"", id);
+	LogError("No building type matching ID \"{}\"", id);
 	return nullptr;
 }
 
@@ -78,7 +78,7 @@ const UString &StateObject<Building>::getId(const GameState &state, const sp<Bui
 				return b.first;
 		}
 	}
-	LogError2("No building matching pointer {}", static_cast<void *>(ptr.get()));
+	LogError("No building matching pointer {}", static_cast<void *>(ptr.get()));
 	return emptyString;
 }
 
@@ -278,8 +278,8 @@ void Building::updateCargo(GameState &state)
 				}
 				if (ferries.empty())
 				{
-					LogError2("There is no ferry type for cargo with bio = {} in the game!?",
-					          needBio);
+					LogError("There is no ferry type for cargo with bio = {} in the game!?",
+					         needBio);
 					return;
 				}
 				// Spawn a random vehicle type and provide service
@@ -288,8 +288,8 @@ void Building::updateCargo(GameState &state)
 				v->provideService(state, true);
 				spawnedFerry = true;
 #ifdef DEBUG_VERBOSE_CARGO_SYSTEM
-				LogWarning2("Spawned cargo ferry {} owned by {} at {}", v->type.id, ferryCompany.id,
-				            thisRef.id);
+				LogWarning("Spawned cargo ferry {} owned by {} at {}", v->type.id, ferryCompany.id,
+				           thisRef.id);
 #endif
 				break;
 			}
@@ -328,7 +328,7 @@ void Building::updateCargo(GameState &state)
 				}
 				if (ferries.empty())
 				{
-					LogError2("There is no ferry type for agents in the game!?");
+					LogError("There is no ferry type for agents in the game!?");
 					return;
 				}
 				// Spawn a random vehicle type and provide service
@@ -337,8 +337,8 @@ void Building::updateCargo(GameState &state)
 				v->provideService(state, true);
 				spawnedFerry = true;
 #ifdef DEBUG_VERBOSE_CARGO_SYSTEM
-				LogWarning2("Spawned passenger ferry {} owned by {} at {}", v->type.id,
-				            ferryCompany.id, thisRef.id);
+				LogWarning("Spawned passenger ferry {} owned by {} at {}", v->type.id,
+				           ferryCompany.id, thisRef.id);
 #endif
 				break;
 			}
@@ -376,16 +376,16 @@ void Building::updateCargo(GameState &state)
 		if (c.type == Cargo::Type::Bio)
 		{
 #ifdef DEBUG_VERBOSE_CARGO_SYSTEM
-			LogWarning2("BIOCARGO: {} needs to deliver {} to {}", thisRef.id,
-			            c.count * c.space / c.divisor, c.destination.id);
+			LogWarning("BIOCARGO: {} needs to deliver {} to {}", thisRef.id,
+			           c.count * c.space / c.divisor, c.destination.id);
 #endif
 			spaceNeeded[c.destination][sourceOrg][0] += std::max(1, c.count * c.space / c.divisor);
 		}
 		else
 		{
 #ifdef DEBUG_VERBOSE_CARGO_SYSTEM
-			LogWarning2("CARGO: {} needs to deliver {} to {}", thisRef.id,
-			            c.count * c.space / c.divisor, c.destination.id);
+			LogWarning("CARGO: {} needs to deliver {} to {}", thisRef.id,
+			           c.count * c.space / c.divisor, c.destination.id);
 #endif
 			spaceNeeded[c.destination][sourceOrg][1] += std::max(1, c.count * c.space / c.divisor);
 		}
@@ -402,8 +402,8 @@ void Building::updateCargo(GameState &state)
 			continue;
 		}
 #ifdef DEBUG_VERBOSE_CARGO_SYSTEM
-		LogWarning2("AGENT: {} needs to deliver to {}", thisRef.id,
-		            a->missions.front().targetBuilding.id);
+		LogWarning("AGENT: {} needs to deliver to {}", thisRef.id,
+		           a->missions.front().targetBuilding.id);
 #endif
 		spaceNeeded[a->missions.front().targetBuilding][a->owner].resize(3);
 		spaceNeeded[a->missions.front().targetBuilding][a->owner][2]++;
@@ -625,7 +625,7 @@ void Building::updateCargo(GameState &state)
 					if (reserved)
 					{
 #ifdef DEBUG_VERBOSE_CARGO_SYSTEM
-						LogWarning2(
+						LogWarning(
 						    "Ordered ferry {} name {} in {} type {} owned by {} bound for {}",
 						    DEBUG_CARGO && DEBUG_PASS ? "CA" : (DEBUG_CARGO ? "C" : "A"), v.first,
 						    !v.second->currentBuilding ? "" : v.second->currentBuilding.id,
@@ -1061,7 +1061,7 @@ void Building::decreasePendingInvestigatorCount(GameState &state)
 	}
 	else if (this->pendingInvestigatorCount < 0) // shouldn't happen
 	{
-		LogError2("Building investigate count < 0?");
+		LogError("Building investigate count < 0?");
 		this->pendingInvestigatorCount = 0;
 	}
 }

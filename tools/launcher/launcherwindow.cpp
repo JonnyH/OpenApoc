@@ -25,7 +25,7 @@ static std::list<std::pair<UString, ModInfo>> enumerateMods()
 	fs::path modPath = Options::modPath.get();
 	if (!fs::is_directory(modPath))
 	{
-		LogError2("Mod path \"{}\" not a valid directory", modPath.string());
+		LogError("Mod path \"{}\" not a valid directory", modPath.string());
 		return {};
 	}
 
@@ -364,11 +364,11 @@ void LauncherWindow::play()
 	QString path = QCoreApplication::applicationDirPath() + "/OpenApoc";
 #endif
 
-	LogWarning2("Running \"{}\"", path.toStdString());
+	LogWarning("Running \"{}\"", path.toStdString());
 	const auto ret = QProcess::startDetached(path, {});
 	if (!ret)
 	{
-		LogError2("Failed to start OpenApoc process");
+		LogError("Failed to start OpenApoc process");
 	}
 	this->exit();
 }

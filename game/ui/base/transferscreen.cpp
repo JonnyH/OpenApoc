@@ -136,7 +136,7 @@ int TransferScreen::getRightIndex()
 		}
 		index++;
 	}
-	LogError2("The right side base wasn't found.");
+	LogError("The right side base wasn't found.");
 	return -1; // should not be reached
 }
 
@@ -629,8 +629,8 @@ void TransferScreen::executeOrders()
 						}
 						default:
 						{
-							LogError2("Unhandled TransactionControl::Type {}",
-							          static_cast<int>(c->itemType));
+							LogError("Unhandled TransactionControl::Type {}",
+							         static_cast<int>(c->itemType));
 							break;
 						}
 					}

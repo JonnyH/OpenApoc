@@ -561,7 +561,7 @@ void Control::configureChildrenFromXml(pugi::xml_node *parent)
 			}
 			else
 			{
-				LogError2("Radiobutton \"{}\" has no group", node.attribute("id").as_string());
+				LogError("Radiobutton \"{}\" has no group", node.attribute("id").as_string());
 			}
 			auto rb = this->createChild<RadioButton>(group);
 			rb->configureFromXml(&node);
@@ -653,8 +653,8 @@ void Control::configureSelfFromXml(pugi::xml_node *node)
 			auto pal = fw().data->loadPalette(child.text().get());
 			if (!pal)
 			{
-				LogError2("Control referenced palette \"{}\" that cannot be loaded",
-				          child.text().get());
+				LogError("Control referenced palette \"{}\" that cannot be loaded",
+				         child.text().get());
 			}
 			this->palette = pal;
 		}
@@ -724,8 +724,8 @@ void Control::configureSelfFromXml(pugi::xml_node *node)
 				}
 				else
 				{
-					LogWarning2("Control \"{}\" has not supported size x value \"{}\"", this->Name,
-					            specialsizex);
+					LogWarning("Control \"{}\" has not supported size x value \"{}\"", this->Name,
+					           specialsizex);
 				}
 			}
 
@@ -752,15 +752,15 @@ void Control::configureSelfFromXml(pugi::xml_node *node)
 					}
 					else
 					{
-						LogWarning2(
+						LogWarning(
 						    "Control \"{}\" with \"item\" size.y does not have ListBox parent ",
 						    this->Name);
 					}
 				}
 				else
 				{
-					LogWarning2("Control \"{}\" has not supported size y value \"{}\"", this->Name,
-					            specialsizey);
+					LogWarning("Control \"{}\" has not supported size y value \"{}\"", this->Name,
+					           specialsizey);
 				}
 			}
 		}
@@ -775,7 +775,7 @@ void Control::configureSelfFromXml(pugi::xml_node *node)
 			}
 			else
 			{
-				LogWarning2("Could not find font for tooltip of control \"{}\"", Name);
+				LogWarning("Could not find font for tooltip of control \"{}\"", Name);
 			}
 			UString backgroundString = child.attribute("background").as_string();
 			if (!backgroundString.empty())
@@ -843,8 +843,8 @@ void Control::configureSelfFromXml(pugi::xml_node *node)
 		}
 	}
 
-	LogInfo2("Control \"{}\" has {} subcontrols ({}, {}, {}, {})", this->Name, Controls.size(),
-	         Location.x, Location.y, Size.x, Size.y);
+	LogInfo("Control \"{}\" has {} subcontrols ({}, {}, {}, {})", this->Name, Controls.size(),
+	        Location.x, Location.y, Size.x, Size.y);
 }
 
 void Control::unloadResources() {}
@@ -911,7 +911,7 @@ void Control::setParent(sp<Control> Parent)
 		auto previousParent = this->owningControl.lock();
 		if (previousParent)
 		{
-			LogError2("Reparenting control");
+			LogError("Reparenting control");
 		}
 		Parent->Controls.push_back(shared_from_this());
 		Parent->setDirty();
@@ -926,7 +926,7 @@ void Control::setParent(sp<Control> Parent, int position)
 		auto previousParent = this->owningControl.lock();
 		if (previousParent)
 		{
-			LogError2("Reparenting control");
+			LogError("Reparenting control");
 		}
 		Parent->Controls.insert(Parent->Controls.begin() + position, shared_from_this());
 		Parent->setDirty();
@@ -1192,7 +1192,7 @@ void Control::pushFormEvent(FormEventType type, Event *parentEvent)
 			break;
 		}
 		default:
-			LogError2("Unexpected event type {}", (int)type);
+			LogError("Unexpected event type {}", (int)type);
 	}
 	this->triggerEventCallbacks(event);
 }

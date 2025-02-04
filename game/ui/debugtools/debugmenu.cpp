@@ -139,7 +139,7 @@ void DebugMenu::bulkExportPcks()
 		UString pckloadstr = UString("PCK:") + pckname + UString(":") +
 		                     pckname.substr(0, pckname.length() - 3) + UString("tab");
 
-		LogInfo2("Processing {}", pckloadstr);
+		LogInfo("Processing {}", pckloadstr);
 
 		sp<ImageSet> pckset = fw().data->loadImageSet(pckloadstr);
 
@@ -156,7 +156,7 @@ void DebugMenu::bulkExportPcks()
 				if (sp<RGBImage> bi = std::dynamic_pointer_cast<RGBImage>(curimg))
 				{
 
-					LogInfo2("Saving {}", outputname);
+					LogInfo("Saving {}", outputname);
 					fw().data->writeImage(outputname, bi);
 				}
 				else if (sp<PaletteImage> pi = std::dynamic_pointer_cast<PaletteImage>(curimg))
@@ -167,7 +167,7 @@ void DebugMenu::bulkExportPcks()
 						outputname = UString("extracted/") + pckname + UString("/") +
 						             Strings::fromInteger(idx) + UString(".#") +
 						             Strings::fromInteger(palidx) + UString(".png");
-						LogInfo2("Saving {}", outputname);
+						LogInfo("Saving {}", outputname);
 						fw().data->writeImage(outputname, pi, PaletteList.at(palidx));
 					}
 				}

@@ -65,7 +65,7 @@ void BaseScreen::begin()
 		auto label = form->findControlTyped<Label>(labelName);
 		if (!label)
 		{
-			LogError2("Failed to find UI control matching \"{}\"", labelName);
+			LogError("Failed to find UI control matching \"{}\"", labelName);
 		}
 		statsLabels.push_back(label);
 
@@ -73,7 +73,7 @@ void BaseScreen::begin()
 		auto value = form->findControlTyped<Label>(valueName);
 		if (!value)
 		{
-			LogError2("Failed to find UI control matching \"{}\"", valueName);
+			LogError("Failed to find UI control matching \"{}\"", valueName);
 		}
 		statsValues.push_back(value);
 	}
@@ -356,8 +356,8 @@ void BaseScreen::eventOccurred(Event *e)
 					}
 					if (!ufopaedia_category)
 					{
-						LogError2("No UFOPaedia category found for entry {}",
-						          ufopaedia_entry->title);
+						LogError("No UFOPaedia category found for entry {}",
+						         ufopaedia_entry->title);
 					}
 					fw().stageQueueCommand(
 					    {StageCmd::Command::PUSH,

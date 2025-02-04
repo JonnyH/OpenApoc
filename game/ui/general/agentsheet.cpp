@@ -193,7 +193,7 @@ void AgentSheet::clear()
 		auto label = statsForm->findControlTyped<Label>(labelName);
 		if (!label)
 		{
-			LogError2("Failed to find UI control matching \"{}\"", labelName);
+			LogError("Failed to find UI control matching \"{}\"", labelName);
 		}
 		else
 		{

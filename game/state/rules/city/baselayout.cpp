@@ -10,7 +10,7 @@ template <> sp<BaseLayout> StateObject<BaseLayout>::get(const GameState &state, 
 	auto it = state.base_layouts.find(id);
 	if (it == state.base_layouts.end())
 	{
-		LogError2("No base layout type matching ID \"{}\"", id);
+		LogError("No base layout type matching ID \"{}\"", id);
 		return nullptr;
 	}
 	return it->second;

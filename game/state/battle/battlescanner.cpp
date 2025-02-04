@@ -29,7 +29,7 @@ sp<BattleScanner> StateObject<BattleScanner>::get(const GameState &state, const 
 	auto it = state.current_battle->scanners.find(id);
 	if (it == state.current_battle->scanners.end())
 	{
-		LogError2("No scanner type matching ID \"{}\"", id);
+		LogError("No scanner type matching ID \"{}\"", id);
 		return nullptr;
 	}
 	return it->second;

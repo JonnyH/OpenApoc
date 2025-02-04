@@ -30,7 +30,7 @@ void InitialGameStateExtractor::extractCityMap(GameState &state, UString fileNam
 	auto inFile = fw().data->fs.open(map_prefix + fileName);
 	if (!inFile)
 	{
-		LogError2("Failed to open \"{}\"", fileName);
+		LogError("Failed to open \"{}\"", fileName);
 	}
 	auto fileSize = inFile.size();
 
@@ -38,7 +38,7 @@ void InitialGameStateExtractor::extractCityMap(GameState &state, UString fileNam
 
 	if (fileSize != expectedFileSize)
 	{
-		LogError2("Unexpected filesize {} - expected {}", fileSize, expectedFileSize);
+		LogError("Unexpected filesize {} - expected {}", fileSize, expectedFileSize);
 	}
 
 	city->size = {fullSize.x, fullSize.y, fullSize.z};

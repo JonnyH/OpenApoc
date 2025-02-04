@@ -150,7 +150,7 @@ void EquipmentPaperDoll::onRender()
 		auto *slot = getSlotAtPosition(pos, slotList);
 		if (!slot)
 		{
-			LogWarning2("Equipment at {} not in slot", pos);
+			LogWarning("Equipment at {} not in slot", pos);
 		}
 		auto equipmentSize = equipment->getEquipmentSlotSize();
 		auto alignX = slot->align_x;

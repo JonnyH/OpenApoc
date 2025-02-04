@@ -14,39 +14,39 @@ static bool test_one_rect_compaction(std::set<Rect<T>> rect_set, unsigned expect
 {
 	if (rect_set.size() != expected_start_count)
 	{
-		LogError2("Rect set has size {} at start, expected {}", (unsigned)rect_set.size(),
-		          expected_start_count);
+		LogError("Rect set has size {} at start, expected {}", (unsigned)rect_set.size(),
+		         expected_start_count);
 		return false;
 	}
 	unsigned num_collapsed = Rect<T>::compactRectSet(rect_set);
 
 	if (expected_start_count != 0 && rect_set.empty())
 	{
-		LogError2("Collapsed down to zero size set");
+		LogError("Collapsed down to zero size set");
 		return false;
 	}
 	if (num_collapsed && num_collapsed >= expected_start_count)
 	{
-		LogError2("Somehow managed to collapse {} rects in a set containing {} rects",
-		          num_collapsed, expected_start_count);
+		LogError("Somehow managed to collapse {} rects in a set containing {} rects", num_collapsed,
+		         expected_start_count);
 		return false;
 	}
 	if (Rect<T>::compactRectSet(rect_set) != 0)
 	{
-		LogError2("A second collapse actually collapsed something?");
+		LogError("A second collapse actually collapsed something?");
 		return false;
 	}
 
 	if (expected_to_collapse && num_collapsed == 0)
 	{
-		LogError2("No rects collapsed but some were expected");
+		LogError("No rects collapsed but some were expected");
 		return false;
 	}
 
 	if (expected_end_size && rect_set.size() != expected_end_size)
 	{
-		LogError2("Expected to collapse to {} rects but got {}", (unsigned)rect_set.size(),
-		          expected_end_size);
+		LogError("Expected to collapse to {} rects but got {}", (unsigned)rect_set.size(),
+		         expected_end_size);
 		return false;
 	}
 
@@ -59,14 +59,14 @@ static bool test_rect_compaction()
 
 	if (!test_one_rect_compaction(rect_set, 0, false))
 	{
-		LogError2("zero-sized set failed");
+		LogError("zero-sized set failed");
 		return false;
 	}
 	rect_set.clear();
 	rect_set.insert(Rect<int>{{0, 0}, {1, 1}});
 	if (!test_one_rect_compaction(rect_set, 1, false))
 	{
-		LogError2("one-sized set failed");
+		LogError("one-sized set failed");
 		return false;
 	}
 
@@ -76,7 +76,7 @@ static bool test_rect_compaction()
 
 	if (!test_one_rect_compaction(rect_set, 2, true))
 	{
-		LogError2("trivial x compact set failed");
+		LogError("trivial x compact set failed");
 		return false;
 	}
 
@@ -86,7 +86,7 @@ static bool test_rect_compaction()
 
 	if (!test_one_rect_compaction(rect_set, 2, true))
 	{
-		LogError2("trivial y compact set failed");
+		LogError("trivial y compact set failed");
 		return false;
 	}
 
@@ -96,7 +96,7 @@ static bool test_rect_compaction()
 
 	if (!test_one_rect_compaction(rect_set, 2, false))
 	{
-		LogError2("trivial non-compactable set failed");
+		LogError("trivial non-compactable set failed");
 		return false;
 	}
 
@@ -106,7 +106,7 @@ static bool test_rect_compaction()
 
 	if (!test_one_rect_compaction(rect_set, 2, false))
 	{
-		LogError2("trivial non-compactable set failed");
+		LogError("trivial non-compactable set failed");
 		return false;
 	}
 
@@ -117,7 +117,7 @@ static bool test_rect_compaction()
 
 	if (!test_one_rect_compaction(rect_set, 3, true, 2))
 	{
-		LogError2("3->2 x compaction set failed");
+		LogError("3->2 x compaction set failed");
 		return false;
 	}
 
@@ -128,7 +128,7 @@ static bool test_rect_compaction()
 
 	if (!test_one_rect_compaction(rect_set, 3, true, 2))
 	{
-		LogError2("3->2 y compaction set failed");
+		LogError("3->2 y compaction set failed");
 		return false;
 	}
 
@@ -139,7 +139,7 @@ void test_point_within(Rect<int> r, Vec2<int> p, bool expected)
 {
 	if (r.within(p) != expected)
 	{
-		LogError2("Point {} incorrectly {} rect {}", p, expected ? "not within" : "within", r);
+		LogError("Point {} incorrectly {} rect {}", p, expected ? "not within" : "within", r);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -147,7 +147,7 @@ void test_rect_within(Rect<int> r1, Rect<int> r2, bool expected)
 {
 	if (r1.within(r2) != expected)
 	{
-		LogError2("Rect {} incorrectly {} rect {}", r2, expected ? "not within" : "within", r1);
+		LogError("Rect {} incorrectly {} rect {}", r2, expected ? "not within" : "within", r1);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -155,8 +155,8 @@ void test_rect_intersects(Rect<int> r1, Rect<int> r2, bool expected)
 {
 	if (r1.intersects(r2) != expected)
 	{
-		LogError2("Rect {} incorrectly {} rect {}", r2,
-		          expected ? "does not intersect" : "intersects", r1);
+		LogError("Rect {} incorrectly {} rect {}", r2,
+		         expected ? "does not intersect" : "intersects", r1);
 		exit(EXIT_FAILURE);
 	}
 }

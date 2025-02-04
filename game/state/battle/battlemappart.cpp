@@ -916,7 +916,7 @@ bool BattleMapPart::findSupport(bool allowClinging)
 				}
 				if (!mp)
 				{
-					LogError2("Map part disappeared? {} {} {}", x, y, z);
+					LogError("Map part disappeared? {} {} {}", x, y, z);
 					return false;
 				}
 				mp->supportedParts.emplace_back(position, type->type);
@@ -995,7 +995,7 @@ bool BattleMapPart::findSupport(bool allowClinging)
 				}
 				if (!mp)
 				{
-					LogError2("Map part disappeared? {} {} {}", x, y, z);
+					LogError("Map part disappeared? {} {} {}", x, y, z);
 					return false;
 				}
 				mp->supportedParts.emplace_back(position, type->type);
@@ -1244,7 +1244,7 @@ void BattleMapPart::updateFalling(GameState &state, unsigned int ticks)
 			// Do not let the tiles fall through the level 0 regardless of type or collisions
 			if (!destroyed)
 			{
-				LogError2("Tile at {:f}, {:f} fell through the ground", position.x, position.y);
+				LogError("Tile at {:f}, {:f} fell through the ground", position.x, position.y);
 			}
 			destroyed = true;
 		}
@@ -1313,7 +1313,7 @@ void BattleMapPart::setPosition(GameState &, const Vec3<float> &pos)
 	position = pos;
 	if (!this->tileObject)
 	{
-		LogError2("setPosition called on map part with no tile object");
+		LogError("setPosition called on map part with no tile object");
 		return;
 	}
 

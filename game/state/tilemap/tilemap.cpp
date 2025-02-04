@@ -54,7 +54,7 @@ TileMap::TileMap(Vec3<int> size, Vec3<float> velocityScale, Vec3<int> voxelMapSi
 		{
 			if (seenTypes.find(type) != seenTypes.end())
 			{
-				LogError2("Type {} appears in multiple layers", static_cast<int>(type));
+				LogError("Type {} appears in multiple layers", static_cast<int>(type));
 			}
 			seenTypes.insert(type);
 		}
@@ -67,7 +67,7 @@ void TileMap::addObjectToMap(sp<Projectile> projectile)
 {
 	if (projectile->tileObject)
 	{
-		LogError2("Projectile already has tile object");
+		LogError("Projectile already has tile object");
 	}
 	// FIXME: mksp<> doesn't work for private (but accessible due to friend)
 	// constructors?
@@ -80,15 +80,15 @@ void TileMap::addObjectToMap(GameState &state, sp<Vehicle> vehicle)
 {
 	if (vehicle->tileObject)
 	{
-		LogError2("Vehicle already has tile object");
+		LogError("Vehicle already has tile object");
 	}
 	if (vehicle->shadowObject)
 	{
-		LogError2("Vehicle already has shadow object");
+		LogError("Vehicle already has shadow object");
 	}
 	if (vehicle->crashed && vehicle->smokeDoodad)
 	{
-		LogError2("Vehicle already has smoke object");
+		LogError("Vehicle already has smoke object");
 	}
 	// FIXME: mksp<> doesn't work for private (but accessible due to friend)
 	// constructors?
@@ -115,7 +115,7 @@ void TileMap::addObjectToMap(sp<Scenery> scenery)
 {
 	if (scenery->tileObject)
 	{
-		LogError2("Scenery already has tile object");
+		LogError("Scenery already has tile object");
 	}
 	// FIXME: mksp<> doesn't work for private (but accessible due to friend)
 	// constructors?
@@ -128,7 +128,7 @@ void TileMap::addObjectToMap(sp<Doodad> doodad)
 {
 	if (doodad->tileObject)
 	{
-		LogError2("Doodad already has tile object");
+		LogError("Doodad already has tile object");
 	}
 	// FIXME: mksp<> doesn't work for private (but accessible due to friend)
 	// constructors?
@@ -141,7 +141,7 @@ void TileMap::addObjectToMap(sp<BattleMapPart> map_part)
 {
 	if (map_part->tileObject)
 	{
-		LogError2("Map part already has tile object");
+		LogError("Map part already has tile object");
 	}
 	// FIXME: mksp<> doesn't work for private (but accessible due to friend)
 	// constructors?
@@ -154,11 +154,11 @@ void TileMap::addObjectToMap(sp<BattleItem> item)
 {
 	if (item->tileObject)
 	{
-		LogError2("Item already has tile object");
+		LogError("Item already has tile object");
 	}
 	if (item->shadowObject)
 	{
-		LogError2("Item already has shadow object");
+		LogError("Item already has shadow object");
 	}
 	// FIXME: mksp<> doesn't work for private (but accessible due to friend)
 	// constructors?
@@ -175,11 +175,11 @@ void TileMap::addObjectToMap(sp<BattleUnit> unit)
 {
 	if (unit->tileObject)
 	{
-		LogError2("Unit already has tile object");
+		LogError("Unit already has tile object");
 	}
 	if (unit->shadowObject)
 	{
-		LogError2("Unit already has shadow object");
+		LogError("Unit already has shadow object");
 	}
 	// FIXME: mksp<> doesn't work for private (but accessible due to friend)
 	// constructors?
@@ -199,7 +199,7 @@ void TileMap::addObjectToMap(sp<BattleHazard> hazard)
 {
 	if (hazard->tileObject)
 	{
-		LogError2("Hazard already has tile object");
+		LogError("Hazard already has tile object");
 	}
 	// FIXME: mksp<> doesn't work for private (but accessible due to friend)
 	// constructors?
@@ -217,7 +217,7 @@ unsigned int TileMap::getLayer(TileObject::Type type) const
 			return i;
 		}
 	}
-	LogError2("No layer matching object type {}", static_cast<int>(type));
+	LogError("No layer matching object type {}", static_cast<int>(type));
 	return 0;
 }
 
@@ -252,9 +252,9 @@ sp<Image> TileMap::dumpVoxelView(const Rect<int> viewRect, const TileTransform &
 	int w = viewRect.p1.x - viewRect.p0.x;
 	Vec2<float> offset = {viewRect.p0.x, viewRect.p0.y};
 
-	LogWarning2("ViewRect {}", viewRect);
+	LogWarning("ViewRect {}", viewRect);
 
-	LogWarning2("Dumping voxels {{{},{}}} voxels w/offset {}", w, h, offset);
+	LogWarning("Dumping voxels {{{},{}}} voxels w/offset {}", w, h, offset);
 
 	int inc = fast ? 2 : 1;
 

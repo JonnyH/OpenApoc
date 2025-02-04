@@ -116,7 +116,7 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 	auto portraitSmallTabFile = fw().data->fs.open(portraitSmallTabFileName);
 	if (!portraitSmallTabFile)
 	{
-		LogError2("Failed to open small portrait TAB file \"{}\"", portraitSmallTabFileName);
+		LogError("Failed to open small portrait TAB file \"{}\"", portraitSmallTabFileName);
 		return;
 	}
 	size_t portraitSmallCount = portraitSmallTabFile.size() / 4;
@@ -125,7 +125,7 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 	auto portraitLargeTabFile = fw().data->fs.open(portraitLargeTabFileName);
 	if (!portraitLargeTabFile)
 	{
-		LogError2("Failed to open Large portrait TAB file \"{}\"", portraitLargeTabFileName);
+		LogError("Failed to open Large portrait TAB file \"{}\"", portraitLargeTabFileName);
 		return;
 	}
 	size_t portraitLargeCount = portraitLargeTabFile.size() / 4;
@@ -1667,7 +1667,7 @@ void InitialGameStateExtractor::extractAgentBodyTypes(GameState &state) const
 			{
 				if (entry.first == BodyState::Prone)
 				{
-					LogError2("Large units cannot go prone!");
+					LogError("Large units cannot go prone!");
 				}
 				switch (entry.second.y)
 				{
@@ -1725,7 +1725,7 @@ void InitialGameStateExtractor::extractAgentBodyTypes(GameState &state) const
 					}
 					break;
 					default:
-						LogError2(
+						LogError(
 						    "Large units cannot have loftemps other than 19 or 20! encountered {}.",
 						    entry.second.y);
 						break;

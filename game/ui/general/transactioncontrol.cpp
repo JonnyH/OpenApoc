@@ -164,7 +164,7 @@ void TransactionControl::link(sp<TransactionControl> c1, sp<TransactionControl> 
 {
 	if (c1->linked && c2->linked)
 	{
-		LogError2("Cannot link two already linked transaction controls!");
+		LogError("Cannot link two already linked transaction controls!");
 		return;
 	}
 	if (!c2->linked)
@@ -236,7 +236,7 @@ sp<TransactionControl> TransactionControl::createControl(GameState &state, State
 			type = Type::Soldier;
 			break;
 		default:
-			LogError2("Unknown type of agent {}.", agent.id);
+			LogError("Unknown type of agent {}.", agent.id);
 			return nullptr;
 	}
 
@@ -536,7 +536,7 @@ sp<TransactionControl> TransactionControl::createControl(GameState &state,
 			// Nothing, we can still sell it for parts or transfer!
 		}
 	}
-	LogInfo2("Vehicle type {} starting price {}", vehicle->type.id, price);
+	LogInfo("Vehicle type {} starting price {}", vehicle->type.id, price);
 	// Add price of ammo and equipment
 	for (auto &e : vehicle->equipment)
 	{
@@ -547,8 +547,8 @@ sp<TransactionControl> TransactionControl::createControl(GameState &state,
 			{
 				price += e->ammo * state.economy[e->type->ammo_type.id].currentPrice;
 			}
-			LogInfo2("Vehicle type {} price increased to {} after counting {}", vehicle->type.id,
-			         price, e->type.id);
+			LogInfo("Vehicle type {} price increased to {} after counting {}", vehicle->type.id,
+			        price, e->type.id);
 		}
 	}
 	// Subtract price of default equipment
@@ -557,11 +557,11 @@ sp<TransactionControl> TransactionControl::createControl(GameState &state,
 		if (state.economy.find(e.second.id) != state.economy.end())
 		{
 			price -= state.economy[e.second.id].currentPrice;
-			LogInfo2("Vehicle type {} price decreased to {} after counting {}", vehicle->type.id,
-			         price, e.second.id);
+			LogInfo("Vehicle type {} price decreased to {} after counting {}", vehicle->type.id,
+			        price, e.second.id);
 		}
 	}
-	LogInfo2("Vehicle type {} final price {}", vehicle->type.id, price);
+	LogInfo("Vehicle type {} final price {}", vehicle->type.id, price);
 
 	auto manufacturer = vehicle->type->manufacturer;
 	bool isAmmo = false;

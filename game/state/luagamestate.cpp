@@ -38,16 +38,16 @@ static int dofileReplace(lua_State *L)
 {
 	const char *filename = lua_tostring(L, -1);
 	UString scriptPath = filename;
-	LogInfo2("Running script \"{}\"", scriptPath);
+	LogInfo("Running script \"{}\"", scriptPath);
 	const auto scriptFile = fw().data->fs.open(scriptPath);
 	if (!scriptFile)
 	{
-		LogWarning2("Failed to open script \"{}\"", scriptPath);
+		LogWarning("Failed to open script \"{}\"", scriptPath);
 		return false;
 	}
 
 	const auto &fullPath = scriptFile.systemPath();
-	LogInfo2("Loading script from \"{}\"", fullPath);
+	LogInfo("Loading script from \"{}\"", fullPath);
 
 	bool ret = true;
 	pushLuaDebugTraceback(L);
@@ -55,11 +55,11 @@ static int dofileReplace(lua_State *L)
 	if (luaL_loadfile(L, fullPath.c_str()) || lua_pcall(L, 0, 0, -2))
 	{
 		handleLuaError(L);
-		LogWarning2("Script \"{}\" failed", scriptPath);
+		LogWarning("Script \"{}\" failed", scriptPath);
 		ret = false;
 	}
 	lua_pop(L, 1); // pop debug.traceback function
-	LogInfo2("Script run {}", ret ? "success" : "fail");
+	LogInfo("Script run {}", ret ? "success" : "fail");
 	return lua_gettop(L) - 1;
 }
 
@@ -103,7 +103,7 @@ void LuaGameState::init(GameState &game)
 		}
 		if (!runScript(s))
 		{
-			LogError2("Failed to load init script \"{}\"", s);
+			LogError("Failed to load init script \"{}\"", s);
 		}
 	}
 	lua_pop(L, 1); // pop debug.traceback function
@@ -138,16 +138,16 @@ int LuaGameState::callHook(const UString &hookName, int nresults, int nargs)
 
 bool LuaGameState::runScript(const UString &scriptPath)
 {
-	LogInfo2("Running script \"{}\"", scriptPath);
+	LogInfo("Running script \"{}\"", scriptPath);
 	auto scriptFile = fw().data->fs.open(scriptPath);
 	if (!scriptFile)
 	{
-		LogWarning2("Failed to open script \"{}\"", scriptPath);
+		LogWarning("Failed to open script \"{}\"", scriptPath);
 		return false;
 	}
 
 	const auto &fullPath = scriptFile.systemPath();
-	LogInfo2("Loading script from \"{}\"", fullPath);
+	LogInfo("Loading script from \"{}\"", fullPath);
 
 	bool ret = true;
 	pushLuaDebugTraceback(L);
@@ -155,11 +155,11 @@ bool LuaGameState::runScript(const UString &scriptPath)
 	if (luaL_loadfile(L, fullPath.c_str()) || lua_pcall(L, 0, 0, -2))
 	{
 		handleLuaError(L);
-		LogWarning2("Script \"{}\" failed", scriptPath);
+		LogWarning("Script \"{}\" failed", scriptPath);
 		ret = false;
 	}
 	lua_pop(L, 1); // pop debug.traceback function
-	LogInfo2("Script run {}", ret ? "success" : "fail");
+	LogInfo("Script run {}", ret ? "success" : "fail");
 	return ret;
 }
 

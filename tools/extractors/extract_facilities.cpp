@@ -13,8 +13,8 @@ namespace OpenApoc
 void InitialGameStateExtractor::extractFacilities(GameState &state) const
 {
 	auto &data = this->ufo2p;
-	LogInfo2("Number of facility strings: {}", (unsigned)data.facility_names->count());
-	LogInfo2("Number of facility data chunks: {}", (unsigned)data.facility_data->count());
+	LogInfo("Number of facility strings: {}", (unsigned)data.facility_names->count());
+	LogInfo("Number of facility data chunks: {}", (unsigned)data.facility_data->count());
 
 	// Start at 2, as 'earth' and 'corridor' are handled specially, this aren't really 'facilities'
 	// in openapoc terms
@@ -23,11 +23,11 @@ void InitialGameStateExtractor::extractFacilities(GameState &state) const
 		UString id = data.getFacilityId(i);
 		auto f = data.facility_data->get(i);
 
-		LogInfo2(
+		LogInfo(
 		    "Facility {}: {} cost {} image_offset {} size {} build_time {} maint {} capacity {}", i,
 		    id, (int)f.cost, (int)f.image_offset, (int)f.size, (int)f.build_time,
 		    (int)f.maintainance_cost, (int)f.capacity);
-		LogInfo2("u1 0x{:04x} u2 0x{:04x}", (unsigned)f.unknown1, (unsigned)f.unknown2);
+		LogInfo("u1 0x{:04x} u2 0x{:04x}", (unsigned)f.unknown1, (unsigned)f.unknown2);
 
 		auto facilityType = mksp<FacilityType>();
 		facilityType->name = data.facility_names->get(i);

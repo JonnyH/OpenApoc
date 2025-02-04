@@ -123,7 +123,7 @@ void BattleItem::setPosition(const Vec3<float> &pos)
 	this->position = pos;
 	if (!this->tileObject)
 	{
-		LogError2("setPosition called on item with no tile object");
+		LogError("setPosition called on item with no tile object");
 	}
 	else
 	{
@@ -132,7 +132,7 @@ void BattleItem::setPosition(const Vec3<float> &pos)
 
 	if (!this->shadowObject)
 	{
-		LogError2("setPosition called on item with no shadow object");
+		LogError("setPosition called on item with no shadow object");
 	}
 	else
 	{
@@ -247,8 +247,8 @@ void BattleItem::update(GameState &state, unsigned int ticks)
 				               std::min(newPosition.z, previousPosition.z)};
 				break;
 			default:
-				LogError2("What the hell is this item colliding with? Type is {}",
-				          (int)c.obj->getType());
+				LogError("What the hell is this item colliding with? Type is {}",
+				         (int)c.obj->getType());
 				break;
 		}
 	}
@@ -278,8 +278,8 @@ void BattleItem::update(GameState &state, unsigned int ticks)
 		// Fell below 0???
 		if (newPosition.z < 0)
 		{
-			LogError2("Item at {:f} {:f} fell off the end of the world!?", newPosition.x,
-			          newPosition.y);
+			LogError("Item at {:f} {:f} fell off the end of the world!?", newPosition.x,
+			         newPosition.y);
 			die(state, false);
 			return;
 		}

@@ -35,19 +35,19 @@ class RawMusicTrack : public MusicTrack
 	{
 		if (!file)
 		{
-			LogError2("Failed to open file \"{}\"", fileName);
+			LogError("Failed to open file \"{}\"", fileName);
 			return;
 		}
 		if (file.size() < fileOffset + (numSamples * MusicChannels * MusicBytesPerSample))
 		{
-			LogError2("File \"{}\" insufficient size for offset {} + size {} - returned size {}",
-			          fileName, fileOffset, numSamples * MusicChannels * MusicBytesPerSample,
-			          file.size());
+			LogError("File \"{}\" insufficient size for offset {} + size {} - returned size {}",
+			         fileName, fileOffset, numSamples * MusicChannels * MusicBytesPerSample,
+			         file.size());
 			return;
 		}
 		if (!file.seekg(fileOffset))
 		{
-			LogError2("Failed to seek to offset {}", fileOffset);
+			LogError("Failed to seek to offset {}", fileOffset);
 			return;
 		}
 
@@ -68,7 +68,7 @@ class RawMusicTrack : public MusicTrack
 	{
 		if (!valid)
 		{
-			LogError2("Playing invalid file \"{}\"", file.fileName());
+			LogError("Playing invalid file \"{}\"", file.fileName());
 			*returnedSamples = 0;
 			return MusicCallbackReturn::End;
 		}
@@ -80,7 +80,7 @@ class RawMusicTrack : public MusicTrack
 		if (!file.read(reinterpret_cast<char *>(sampleBuffer),
 		               samples * MusicBytesPerSample * MusicChannels))
 		{
-			LogError2("Failed to read sample data in \"{}\"", file.fileName());
+			LogError("Failed to read sample data in \"{}\"", file.fileName());
 			this->valid = false;
 			samples = 0;
 		}
@@ -90,7 +90,7 @@ class RawMusicTrack : public MusicTrack
 			// Prepare this track to be reused
 			if (!file.seekg(startingPosition))
 			{
-				LogWarning2("Could not rewind track {}", name);
+				LogWarning("Could not rewind track {}", name);
 			}
 			samplePosition = 0;
 			return MusicCallbackReturn::End;
@@ -123,24 +123,24 @@ class RawMusicLoader : public MusicLoader
 		// Expected format: "rawmusic:file:start_byte_offset:byte_size"
 		if (strings.size() != 4)
 		{
-			LogInfo2("Invalid raw music path string \"{}\"", path);
+			LogInfo("Invalid raw music path string \"{}\"", path);
 			return nullptr;
 		}
 		if (strings[0] != "rawmusic")
 		{
-			LogInfo2("Not rawmusic path: \"{}\"", path);
+			LogInfo("Not rawmusic path: \"{}\"", path);
 			return nullptr;
 		}
 		if (!Strings::isInteger(strings[2]))
 		{
-			LogInfo2("Raw music track \"{}\" start offset \"{}\" doesn't look like a number", path,
-			         strings[2]);
+			LogInfo("Raw music track \"{}\" start offset \"{}\" doesn't look like a number", path,
+			        strings[2]);
 			return nullptr;
 		}
 		if (!Strings::isInteger(strings[3]))
 		{
-			LogInfo2("Raw music track \"{}\" length \"{}\" doesn't look like a number", path,
-			         strings[3]);
+			LogInfo("Raw music track \"{}\" length \"{}\" doesn't look like a number", path,
+			        strings[3]);
 			return nullptr;
 		}
 

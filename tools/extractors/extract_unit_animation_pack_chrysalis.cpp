@@ -48,7 +48,7 @@ makeUpChrysalisAnimationEntry(int from, int count, int fromB, int countB, bool b
 					    BattleUnitAnimationPack::AnimationEntry::Frame::UnitImagePart::Helmet;
 					break;
 				default:
-					LogError2("If you reached this then OpenApoc programmers made a mistake");
+					LogError("If you reached this then OpenApoc programmers made a mistake");
 					break;
 			}
 			e->frames[i].unit_image_draw_order.push_back(part_type);

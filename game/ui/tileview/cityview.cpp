@@ -533,7 +533,7 @@ void CityView::tryOpenUfopaediaEntry(StateRef<UfopaediaEntry> ufopaediaEntry)
 		}
 		if (!ufopaedia_category)
 		{
-			LogError2("No UFOPaedia category found for entry {}", ufopaediaEntry->title);
+			LogError("No UFOPaedia category found for entry {}", ufopaediaEntry->title);
 		}
 		fw().stageQueueCommand(
 		    {StageCmd::Command::PUSH,
@@ -549,13 +549,13 @@ void CityView::orderGoToBase()
 		{
 			if (v && v->owner == this->state->getPlayer())
 			{
-				LogInfo2("Goto base for vehicle \"{}\"", v->name);
+				LogInfo("Goto base for vehicle \"{}\"", v->name);
 				auto bld = v->homeBuilding;
 				if (!bld)
 				{
-					LogError2("Vehicle \"{}\" has no building", v->name);
+					LogError("Vehicle \"{}\" has no building", v->name);
 				}
-				LogInfo2("Vehicle \"{}\" goto building \"{}\"", v->name, bld->name);
+				LogInfo("Vehicle \"{}\" goto building \"{}\"", v->name, bld->name);
 				// FIXME: Don't clear missions if not replacing current mission
 				if (v->city.id == "CITYMAP_HUMAN")
 				{
@@ -574,13 +574,13 @@ void CityView::orderGoToBase()
 	{
 		for (auto &a : this->state->current_city->cityViewSelectedSoldiers)
 		{
-			LogInfo2("Goto base for vehicle \"{}\"", a->name);
+			LogInfo("Goto base for vehicle \"{}\"", a->name);
 			auto bld = a->homeBuilding;
 			if (!bld)
 			{
-				LogError2("Vehicle \"{}\" has no building", a->name);
+				LogError("Vehicle \"{}\" has no building", a->name);
 			}
-			LogInfo2("Vehicle \"{}\" goto building \"{}\"", a->name, bld->name);
+			LogInfo("Vehicle \"{}\" goto building \"{}\"", a->name, bld->name);
 			// FIXME: Don't clear missions if not replacing current mission
 			a->setMission(*this->state, AgentMission::gotoBuilding(*this->state, *a, bld));
 		}
@@ -624,7 +624,7 @@ void CityView::orderMove(StateRef<Building> building, bool alternative)
 		{
 			if (v && v->owner == this->state->getPlayer())
 			{
-				LogInfo2("Vehicle \"{}\" goto building \"{}\"", v->name, building->name);
+				LogInfo("Vehicle \"{}\" goto building \"{}\"", v->name, building->name);
 				// FIXME: Don't clear missions if not replacing current mission
 				v->setMission(*state,
 				              VehicleMission::gotoBuilding(*state, *v, building, useTeleporter));
@@ -641,7 +641,7 @@ void CityView::orderMove(StateRef<Building> building, bool alternative)
 			{
 				continue;
 			}
-			LogInfo2("Agent \"{}\" goto building \"{}\"", a->name, building->name);
+			LogInfo("Agent \"{}\" goto building \"{}\"", a->name, building->name);
 			// FIXME: Don't clear missions if not replacing current mission
 			a->setMission(*state,
 			              AgentMission::gotoBuilding(*state, *a, building, useTeleporter, useTaxi));
@@ -1181,7 +1181,7 @@ void CityView::setSelectedTab(int tabIndex)
 {
 	if (tabIndex < 0 || tabIndex > uiTabs.size())
 	{
-		LogError2("Trying to select invalid tab: {}", tabIndex);
+		LogError("Trying to select invalid tab: {}", tabIndex);
 		return;
 	}
 	for (auto tab : uiTabs)
@@ -1898,7 +1898,7 @@ void CityView::refreshBaseView()
 		auto view = this->uiTabs[0]->findControlTyped<GraphicButton>(viewName);
 		if (!view)
 		{
-			LogError2("Failed to find UI control matching \"{}\"", viewName);
+			LogError("Failed to find UI control matching \"{}\"", viewName);
 		}
 		view->setVisible(true);
 		view->setData(viewBase);
@@ -3492,13 +3492,13 @@ bool CityView::handleKeyDown(Event *e)
 				{
 					if (modifierLShift)
 					{
-						LogInfo2("Single Level Debug Repair");
+						LogInfo("Single Level Debug Repair");
 						state->current_city->repairScenery(*state, true);
 						return true;
 					}
 					else
 					{
-						LogInfo2("Debug Repair");
+						LogInfo("Debug Repair");
 						std::set<sp<Scenery>> stuffToRepair;
 						for (auto &s : state->current_city->scenery)
 						{
@@ -3507,9 +3507,9 @@ bool CityView::handleKeyDown(Event *e)
 								stuffToRepair.insert(s);
 							}
 						}
-						LogInfo2("Repairing {} tiles out of {}",
-						         static_cast<unsigned>(stuffToRepair.size()),
-						         static_cast<unsigned>(state->current_city->scenery.size()));
+						LogInfo("Repairing {} tiles out of {}",
+						        static_cast<unsigned>(stuffToRepair.size()),
+						        static_cast<unsigned>(state->current_city->scenery.size()));
 
 						for (auto &s : stuffToRepair)
 						{
@@ -3520,7 +3520,7 @@ bool CityView::handleKeyDown(Event *e)
 				}
 				case SDLK_x:
 				{
-					LogWarning2("Crashing!");
+					LogWarning("Crashing!");
 					for (auto &v : state->vehicles)
 					{
 						if (v.second->currentBuilding || v.second->city != state->current_city ||
@@ -3544,7 +3544,7 @@ bool CityView::handleKeyDown(Event *e)
 				}
 				case SDLK_u:
 				{
-					LogWarning2("Spawning crashed UFOs...");
+					LogWarning("Spawning crashed UFOs...");
 
 					std::vector<StateRef<VehicleType>> validTypes;
 
@@ -3555,14 +3555,14 @@ bool CityView::handleKeyDown(Event *e)
 						if (type.second->crashed_sprite)
 						{
 							validTypes.emplace_back(state.get(), type.second);
-							LogWarning2("Valid UFO type: {}", type.second->name);
+							LogWarning("Valid UFO type: {}", type.second->name);
 						}
 					}
 
 					for (int i = 0; i < 3; i++)
 					{
 						auto type = pickRandom(state->rng, validTypes);
-						LogWarning2("Crashing {}", type->name);
+						LogWarning("Crashing {}", type->name);
 						pos.z = 9 + i;
 						auto ufo = state->current_city->placeVehicle(*state, {state.get(), type},
 						                                             state->getAliens(), pos);
@@ -3574,7 +3574,7 @@ bool CityView::handleKeyDown(Event *e)
 				}
 				case SDLK_a:
 				{
-					LogWarning2("All you ever want...");
+					LogWarning("All you ever want...");
 
 					for (auto &e : state->vehicle_equipment)
 					{
@@ -3592,7 +3592,7 @@ bool CityView::handleKeyDown(Event *e)
 				}
 				case SDLK_b:
 				{
-					LogWarning2("Spawning base defense mission");
+					LogWarning("Spawning base defense mission");
 					Vec3<float> pos = {state->current_base->building->bounds.p0.x - 1,
 					                   state->current_base->building->bounds.p0.y - 1, 10};
 					auto v = state->cities["CITYMAP_HUMAN"]->placeVehicle(
@@ -3604,7 +3604,7 @@ bool CityView::handleKeyDown(Event *e)
 				}
 				case SDLK_MINUS:
 				{
-					LogWarning2("Destroying selected vehicles...");
+					LogWarning("Destroying selected vehicles...");
 					for (auto &v : state->current_city->cityViewSelectedOwnedVehicles)
 					{
 						v->die(*state);
@@ -3847,7 +3847,7 @@ bool CityView::handleMouseDown(Event *e)
 								}
 							}
 						}
-						LogWarning2("{}", debug);
+						LogWarning("{}", debug);
 					}
 
 					if (modifierLAlt && modifierLCtrl && modifierLShift)
@@ -3868,14 +3868,14 @@ bool CityView::handleMouseDown(Event *e)
 				{
 					vehicle =
 					    std::dynamic_pointer_cast<TileObjectVehicle>(collision.obj)->getVehicle();
-					LogWarning2("CLICKED VEHICLE {} at {}", vehicle->name, vehicle->position);
+					LogWarning("CLICKED VEHICLE {} at {}", vehicle->name, vehicle->position);
 					for (auto &m : vehicle->missions)
 					{
-						LogWarning2("Mission {}", m.getName());
+						LogWarning("Mission {}", m.getName());
 					}
 					for (auto &c : vehicle->cargo)
 					{
-						LogInfo2("Cargo {}x{}", c.id, c.count);
+						LogInfo("Cargo {}x{}", c.id, c.count);
 					}
 					if (modifierLAlt && modifierLCtrl && modifierLShift)
 					{
@@ -3903,7 +3903,7 @@ bool CityView::handleMouseDown(Event *e)
 				}
 				default:
 				{
-					LogError2("Clicked on some object we didn't care to process?");
+					LogError("Clicked on some object we didn't care to process?");
 					break;
 				}
 			}
@@ -3916,15 +3916,15 @@ bool CityView::handleMouseDown(Event *e)
 				{
 					vehicle = std::dynamic_pointer_cast<TileObjectVehicle>(collisionVehicle.obj)
 					              ->getVehicle();
-					LogWarning2("SECONDARY CLICK ON VEHICLE {} at {}", vehicle->name,
-					            vehicle->position);
+					LogWarning("SECONDARY CLICK ON VEHICLE {} at {}", vehicle->name,
+					           vehicle->position);
 					for (auto &m : vehicle->missions)
 					{
-						LogWarning2("Mission {}", m.getName());
+						LogWarning("Mission {}", m.getName());
 					}
 					for (auto &c : vehicle->cargo)
 					{
-						LogInfo2("Cargo {}x{}", c.id, c.count);
+						LogInfo("Cargo {}x{}", c.id, c.count);
 					}
 				}
 			}
@@ -3936,7 +3936,7 @@ bool CityView::handleMouseDown(Event *e)
 		{
 			projectile =
 			    std::dynamic_pointer_cast<TileObjectProjectile>(projCollision.obj)->getProjectile();
-			LogInfo2("CLICKED PROJECTILE {} at {}", projectile->damage, projectile->position);
+			LogInfo("CLICKED PROJECTILE {} at {}", projectile->damage, projectile->position);
 
 			if (!vehicle && !scenery && !portal)
 			{
@@ -4019,7 +4019,7 @@ bool CityView::handleGameStateEvent(Event *e)
 	auto gameEvent = dynamic_cast<GameEvent *>(e);
 	if (!gameEvent)
 	{
-		LogError2("Invalid game state event");
+		LogError("Invalid game state event");
 		return true;
 	}
 	if (!gameEvent->message().empty())
@@ -4156,7 +4156,7 @@ bool CityView::handleGameStateEvent(Event *e)
 		case GameEventType::UfoRecoveryUnmanned:
 		{
 			auto gameRecoveryEvent = dynamic_cast<GameVehicleEvent *>(e);
-			LogWarning2("Load unmanned ufo loot on craft!");
+			LogWarning("Load unmanned ufo loot on craft!");
 			// Remove ufo
 			gameRecoveryEvent->vehicle->die(*state, true);
 			// Return to base
@@ -4169,7 +4169,7 @@ bool CityView::handleGameStateEvent(Event *e)
 			auto ev = dynamic_cast<GameBuildingEvent *>(e);
 			if (!ev)
 			{
-				LogError2("Invalid spotted event");
+				LogError("Invalid spotted event");
 			}
 			state->totalScore.alienIncidents += ALIEN_INCIDENT_SCORE;
 			state->weekScore.alienIncidents += ALIEN_INCIDENT_SCORE;
@@ -4186,7 +4186,7 @@ bool CityView::handleGameStateEvent(Event *e)
 			auto ev = dynamic_cast<GameBuildingEvent *>(e);
 			if (!ev)
 			{
-				LogError2("Invalid investigation event");
+				LogError("Invalid investigation event");
 			}
 			auto game_state = this->state;
 			auto building = ev->building;
@@ -4246,7 +4246,7 @@ bool CityView::handleGameStateEvent(Event *e)
 			auto ev = dynamic_cast<GameResearchEvent *>(e);
 			if (!ev)
 			{
-				LogError2("Invalid research event");
+				LogError("Invalid research event");
 			}
 			state->totalScore.researchCompleted += ev->topic->score;
 			state->weekScore.researchCompleted += ev->topic->score;
@@ -4267,7 +4267,7 @@ bool CityView::handleGameStateEvent(Event *e)
 			}
 			if (!lab_facility)
 			{
-				LogError2("No facilities matching lab");
+				LogError("No facilities matching lab");
 			}
 			auto game_state = this->state;
 			auto ufopaedia_entry = ev->topic->ufopaedia_entry;
@@ -4289,7 +4289,7 @@ bool CityView::handleGameStateEvent(Event *e)
 				}
 				if (!ufopaedia_category)
 				{
-					LogError2("No UFOPaedia category found for entry {}", ufopaedia_entry->title);
+					LogError("No UFOPaedia category found for entry {}", ufopaedia_entry->title);
 				}
 			}
 			setUpdateSpeed(CityUpdateSpeed::Pause);
@@ -4325,7 +4325,7 @@ bool CityView::handleGameStateEvent(Event *e)
 			auto ev = dynamic_cast<GameManufactureEvent *>(e);
 			if (!ev)
 			{
-				LogError2("Invalid manufacture event");
+				LogError("Invalid manufacture event");
 			}
 			sp<Facility> lab_facility;
 			sp<Base> lab_base;
@@ -4345,7 +4345,7 @@ bool CityView::handleGameStateEvent(Event *e)
 			}
 			if (!lab_facility)
 			{
-				LogError2("No facilities matching lab");
+				LogError("No facilities matching lab");
 			}
 			auto game_state = this->state;
 
@@ -4385,7 +4385,7 @@ bool CityView::handleGameStateEvent(Event *e)
 			auto ev = dynamic_cast<GameManufactureEvent *>(e);
 			if (!ev)
 			{
-				LogError2("Invalid manufacture event");
+				LogError("Invalid manufacture event");
 			}
 			sp<Facility> lab_facility;
 			sp<Base> lab_base;
@@ -4405,7 +4405,7 @@ bool CityView::handleGameStateEvent(Event *e)
 			}
 			if (!lab_facility)
 			{
-				LogError2("No facilities matching lab");
+				LogError("No facilities matching lab");
 			}
 			auto game_state = this->state;
 
@@ -4440,7 +4440,7 @@ bool CityView::handleGameStateEvent(Event *e)
 			auto ev = dynamic_cast<GameFacilityEvent *>(e);
 			if (!ev)
 			{
-				LogError2("Invalid facility event");
+				LogError("Invalid facility event");
 				return true;
 			}
 			setUpdateSpeed(CityUpdateSpeed::Pause);

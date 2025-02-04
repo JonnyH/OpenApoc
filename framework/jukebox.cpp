@@ -41,7 +41,7 @@ class JukeBoxImpl : public JukeBox
 	{
 		if (!playlistsLoaded)
 		{
-			LogWarning2("JukeBox::play() called without any playlists loaded");
+			LogWarning("JukeBox::play() called without any playlists loaded");
 			return;
 		}
 		if (this->list == list)
@@ -66,7 +66,7 @@ class JukeBoxImpl : public JukeBox
 		{
 			auto musicTrack = fw.data->loadMusic(track);
 			if (!musicTrack)
-				LogError2("Failed to load music track \"{}\" - skipping", track);
+				LogError("Failed to load music track \"{}\" - skipping", track);
 			else
 				this->trackList.push_back(musicTrack);
 		}
@@ -81,16 +81,16 @@ class JukeBoxImpl : public JukeBox
 		JukeBoxImpl *jukebox = static_cast<JukeBoxImpl *>(data);
 		if (jukebox->trackList.empty())
 		{
-			LogWarning2("Trying to play empty jukebox");
+			LogWarning("Trying to play empty jukebox");
 			return;
 		}
 		if (jukebox->position >= jukebox->trackList.size())
 		{
-			LogInfo2("End of jukebox playlist");
+			LogInfo("End of jukebox playlist");
 			return;
 		}
-		LogInfo2("Playing track {} ({})", jukebox->position,
-		         jukebox->trackList[jukebox->position]->getName());
+		LogInfo("Playing track {} ({})", jukebox->position,
+		        jukebox->trackList[jukebox->position]->getName());
 		jukebox->fw.soundBackend->setTrack(jukebox->trackList[jukebox->position]);
 
 		jukebox->position++;
@@ -129,13 +129,13 @@ class JukeBoxImpl : public JukeBox
 			auto file = fw.data->fs.open(path);
 			if (!file)
 			{
-				LogWarning2("Failed to open playlist file \"{}\"", path);
+				LogWarning("Failed to open playlist file \"{}\"", path);
 				continue;
 			}
 			auto data = file.readAll();
 			if (!data)
 			{
-				LogWarning2("Failed to read playlist file \"{}\"", path);
+				LogWarning("Failed to read playlist file \"{}\"", path);
 				continue;
 			}
 
@@ -143,14 +143,14 @@ class JukeBoxImpl : public JukeBox
 			auto result = doc.load_buffer(data.get(), file.size());
 			if (!result)
 			{
-				LogWarning2("Failed to parse playlist \"{}\" - \"{}\" at \"{}\"", path,
-				            result.description(), result.offset);
+				LogWarning("Failed to parse playlist \"{}\" - \"{}\" at \"{}\"", path,
+				           result.description(), result.offset);
 				continue;
 			}
 			auto node = doc.child("openapoc_playlist");
 			if (!node)
 			{
-				LogWarning2("No root \"openapoc_playlist\" element in playlist file \"{}\"", path);
+				LogWarning("No root \"openapoc_playlist\" element in playlist file \"{}\"", path);
 				continue;
 			}
 

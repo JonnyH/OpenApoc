@@ -222,8 +222,8 @@ void ListBox::update()
 				break;
 			}
 			default:
-				LogWarning2("Unknown ListBox::ListOrientation value: {}",
-				            static_cast<int>(ListOrientation));
+				LogWarning("Unknown ListBox::ListOrientation value: {}",
+				           static_cast<int>(ListOrientation));
 				break;
 		}
 		scroller->setMaximum(scroller->getMinimum() + scrollerLength);
@@ -476,7 +476,7 @@ void ListBox::setSelected(sp<Control> c)
 	}
 	if (c && !found)
 	{
-		LogError2(
+		LogError(
 		    "Trying set ListBox selected control to something that isn't a member of the list");
 	}
 	this->selected = c;

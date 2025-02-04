@@ -67,8 +67,8 @@ void InitialGameStateExtractor::extractSharedBattleResources(GameState &state) c
 	auto gameObjectStrategySpriteTabFile = fw().data->fs.open(gameObjectStrategySpriteTabFileName);
 	if (!gameObjectStrategySpriteTabFile)
 	{
-		LogError2("Failed to open dropped item StrategySprite TAB file \"{}\"",
-		          gameObjectStrategySpriteTabFileName);
+		LogError("Failed to open dropped item StrategySprite TAB file \"{}\"",
+		         gameObjectStrategySpriteTabFileName);
 		return;
 	}
 	size_t gameObjectStrategySpriteCount = gameObjectStrategySpriteTabFile.size() / 4;

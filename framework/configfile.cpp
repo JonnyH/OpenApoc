@@ -94,7 +94,7 @@ class ConfigFileImpl
 	{
 		if (this->parsed)
 		{
-			LogError2("Already parsed options");
+			LogError("Already parsed options");
 			return true;
 		}
 		fs::path programPath(argv[0]);
@@ -116,7 +116,7 @@ class ConfigFileImpl
 		std::ifstream portableFile("./portable.txt");
 		if (portableFile)
 		{
-			LogInfo2("portable mode set");
+			LogInfo("portable mode set");
 			settingsPath = programName + "_";
 		}
 		else
@@ -145,7 +145,7 @@ class ConfigFileImpl
 			auto unknown_options = po::collect_unrecognized(parsed.options, po::include_positional);
 			for (const auto &unknown : unknown_options)
 			{
-				LogWarning2("Ignoring option \"{}\"", unknown);
+				LogWarning("Ignoring option \"{}\"", unknown);
 			}
 		}
 		catch (po::error &err)
@@ -217,7 +217,7 @@ class ConfigFileImpl
 			auto splitString = split(optionPair.first, ".");
 			if (splitString.size() < 1)
 			{
-				LogError2("Invalid option string \"{}\"", optionPair.first);
+				LogError("Invalid option string \"{}\"", optionPair.first);
 				continue;
 			}
 			UString sectionName;
@@ -270,7 +270,7 @@ class ConfigFileImpl
 	{
 		if (!this->parsed)
 		{
-			LogError2("Not yet parsed options");
+			LogError("Not yet parsed options");
 			return false;
 		}
 		auto it = this->modifiedOptions.find(name);
@@ -284,12 +284,12 @@ class ConfigFileImpl
 	{
 		if (!this->parsed)
 		{
-			LogError2("Not yet parsed options");
+			LogError("Not yet parsed options");
 			throw std::exception();
 		}
 		if (!this->get(key))
 		{
-			LogError2("Option \"{}\" not set", key);
+			LogError("Option \"{}\" not set", key);
 			throw std::exception();
 		}
 		auto it = this->modifiedOptions.find(key);
@@ -304,7 +304,7 @@ class ConfigFileImpl
 	{
 		if (!this->parsed)
 		{
-			LogError2("Not yet parsed options");
+			LogError("Not yet parsed options");
 			return "";
 		}
 		UString combinedOption;
@@ -320,7 +320,7 @@ class ConfigFileImpl
 	{
 		if (this->parsed)
 		{
-			LogError2("Adding option when already parsed");
+			LogError("Adding option when already parsed");
 		}
 		this->createSection(section);
 		UString combinedOption;
@@ -338,7 +338,7 @@ class ConfigFileImpl
 	{
 		if (this->parsed)
 		{
-			LogError2("Adding option when already parsed");
+			LogError("Adding option when already parsed");
 		}
 		this->createSection(section);
 		UString combinedOption;
@@ -356,7 +356,7 @@ class ConfigFileImpl
 	{
 		if (this->parsed)
 		{
-			LogError2("Adding option when already parsed");
+			LogError("Adding option when already parsed");
 		}
 		this->positionalArgNames.push_back(name);
 		this->posDesc.add(name.c_str(), 1);

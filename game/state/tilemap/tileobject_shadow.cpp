@@ -27,7 +27,7 @@ void TileObjectShadow::draw(Renderer &r, TileTransform &transform, Vec2<float> s
 	auto item = this->ownerBattleItem.lock();
 	if (!vehicle && !unit && !item)
 	{
-		LogError2("Called with no owning object");
+		LogError("Called with no owning object");
 		return;
 	}
 	if (this->fellOffTheBottomOfTheMap)
@@ -73,7 +73,7 @@ void TileObjectShadow::draw(Renderer &r, TileTransform &transform, Vec2<float> s
 			break;
 		}
 		default:
-			LogError2("Unsupported view mode");
+			LogError("Unsupported view mode");
 	}
 }
 

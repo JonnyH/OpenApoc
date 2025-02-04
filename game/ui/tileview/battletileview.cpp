@@ -299,7 +299,7 @@ void BattleTileView::eventOccurred(Event *e)
 			{
 				case SDLK_F6:
 				{
-					LogWarning2("Writing voxel view to tileviewvoxels.png");
+					LogWarning("Writing voxel view to tileviewvoxels.png");
 					auto imageOffset = -this->getScreenOffset();
 					auto img = std::dynamic_pointer_cast<RGBImage>(this->map.dumpVoxelView(
 					    {imageOffset, imageOffset + dpySize}, *this, battle.battleViewZLevel));
@@ -308,7 +308,7 @@ void BattleTileView::eventOccurred(Event *e)
 				}
 				case SDLK_F7:
 				{
-					LogWarning2("Writing voxel view (fast) to tileviewvoxels.png");
+					LogWarning("Writing voxel view (fast) to tileviewvoxels.png");
 					auto imageOffset = -this->getScreenOffset();
 					auto img = std::dynamic_pointer_cast<RGBImage>(
 					    this->map.dumpVoxelView({imageOffset, imageOffset + dpySize}, *this,
@@ -318,7 +318,7 @@ void BattleTileView::eventOccurred(Event *e)
 				}
 				case SDLK_F8:
 				{
-					LogWarning2("Writing voxel view to tileviewvoxels.png");
+					LogWarning("Writing voxel view to tileviewvoxels.png");
 					auto imageOffset = -this->getScreenOffset();
 					auto img = std::dynamic_pointer_cast<RGBImage>(
 					    this->map.dumpVoxelView({imageOffset, imageOffset + dpySize}, *this,
@@ -328,7 +328,7 @@ void BattleTileView::eventOccurred(Event *e)
 				}
 				case SDLK_F9:
 				{
-					LogWarning2("Writing voxel view (fast) to tileviewvoxels.png");
+					LogWarning("Writing voxel view (fast) to tileviewvoxels.png");
 					auto imageOffset = -this->getScreenOffset();
 					auto img = std::dynamic_pointer_cast<RGBImage>(
 					    this->map.dumpVoxelView({imageOffset, imageOffset + dpySize}, *this,
@@ -816,8 +816,8 @@ void BattleTileView::render()
 										{
 											img = nullptr;         // don't draw using img
 											if (!lastSelectedUnit) // shouldn't happen
-												LogError2("Displaying attack cost without selected "
-												          "unit?!");
+												LogError("Displaying attack cost without selected "
+												         "unit?!");
 											auto imgCost = tuIndicators[calculatedAttackCost];
 											auto imgStock =
 											    tuIndicators[lastSelectedUnit->agent->modified_stats
@@ -1508,7 +1508,7 @@ void BattleTileView::render()
 		}
 		break;
 		default:
-			LogError2("Unexpected tile view mode \"{}\"", (int)this->viewMode);
+			LogError("Unexpected tile view mode \"{}\"", (int)this->viewMode);
 			break;
 	}
 

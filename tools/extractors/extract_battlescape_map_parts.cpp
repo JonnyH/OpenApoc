@@ -25,7 +25,7 @@ void InitialGameStateExtractor::readBattleMapParts(
 	auto inFile = fw().data->fs.open(datFileName);
 	if (!inFile)
 	{
-		LogError2("Failed to open mapunits DAT file at \"{}\"", datFileName);
+		LogError("Failed to open mapunits DAT file at \"{}\"", datFileName);
 		return;
 	}
 	auto fileSize = inFile.size();
@@ -36,12 +36,12 @@ void InitialGameStateExtractor::readBattleMapParts(
 	auto strategySpriteTabFile = fw().data->fs.open(strategySpriteTabFileName);
 	if (!strategySpriteTabFile)
 	{
-		LogError2("Failed to open strategy sprite TAB file \"{}\"", strategySpriteTabFileName);
+		LogError("Failed to open strategy sprite TAB file \"{}\"", strategySpriteTabFileName);
 		return;
 	}
 	size_t strategySpriteCount = strategySpriteTabFile.size() / 4;
 
-	LogInfo2("Loading {} entries from \"{}\"", objectCount, datFileName);
+	LogInfo("Loading {} entries from \"{}\"", objectCount, datFileName);
 
 	for (size_t i = 0; i < objectCount; i++)
 	{
@@ -50,7 +50,7 @@ void InitialGameStateExtractor::readBattleMapParts(
 		inFile.read((char *)&entry, sizeof(entry));
 		if (!inFile)
 		{
-			LogError2("Failed to read entry {} in \"{}\"", i, datFileName);
+			LogError("Failed to read entry {} in \"{}\"", i, datFileName);
 			return;
 		}
 
@@ -106,14 +106,14 @@ void InitialGameStateExtractor::readBattleMapParts(
 			auto animateTabFile = fw().data->fs.open(animateTabFileName);
 			if (!animateTabFile)
 			{
-				LogError2("Failed to open animate sprite TAB file \"{}\"", animateTabFileName);
+				LogError("Failed to open animate sprite TAB file \"{}\"", animateTabFileName);
 				return;
 			}
 			size_t animateSpriteCount = animateTabFile.size() / 4;
 
 			if (animateSpriteCount < entry.animation_idx + entry.animation_length)
 			{
-				LogWarning2("Bogus animation value, animation frames not present for ID {}", id);
+				LogWarning("Bogus animation value, animation frames not present for ID {}", id);
 			}
 			else
 			{
@@ -235,7 +235,7 @@ void InitialGameStateExtractor::readBattleMapParts(
 		{
 			if (gets_support_from % 10 < 1 || gets_support_from % 10 > 4)
 			{
-				LogError2("Unrecognized support by id {}", (int)entry.gets_support_from);
+				LogError("Unrecognized support by id {}", (int)entry.gets_support_from);
 				return;
 			}
 			object->supportedByDirections.insert((MapDirection)(gets_support_from % 10));
@@ -261,7 +261,7 @@ void InitialGameStateExtractor::readBattleMapParts(
 					object->supportedByTypes.insert(BattleMapPartType::Type::Feature);
 					break;
 				default:
-					LogError2("Unrecognized support by id {}", (int)entry.gets_support_from);
+					LogError("Unrecognized support by id {}", (int)entry.gets_support_from);
 					return;
 			}
 		}

@@ -58,7 +58,7 @@ bool ResearchDependency::satisfied() const
 			return true;
 		}
 		default:
-			LogError2("Unexpected ResearchDependency Type");
+			LogError("Unexpected ResearchDependency Type");
 			return false;
 	}
 }
@@ -157,7 +157,7 @@ sp<ResearchTopic> StateObject<ResearchTopic>::get(const GameState &state, const 
 	auto it = state.research.topics.find(id);
 	if (it == state.research.topics.end())
 	{
-		LogError2("No research topic matching ID \"{}\"", id);
+		LogError("No research topic matching ID \"{}\"", id);
 		return nullptr;
 	}
 	return it->second;
@@ -183,7 +183,7 @@ const UString &StateObject<ResearchTopic>::getId(const GameState &state,
 		if (r.second == ptr)
 			return r.first;
 	}
-	LogError2("No research matching pointer {}", static_cast<void *>(ptr.get()));
+	LogError("No research matching pointer {}", static_cast<void *>(ptr.get()));
 	return emptyString;
 }
 
@@ -192,7 +192,7 @@ template <> sp<Lab> StateObject<Lab>::get(const GameState &state, const UString 
 	auto it = state.research.labs.find(id);
 	if (it == state.research.labs.end())
 	{
-		LogError2("No lab matching ID \"{}\"", id);
+		LogError("No lab matching ID \"{}\"", id);
 		return nullptr;
 	}
 	return it->second;
@@ -217,7 +217,7 @@ template <> const UString &StateObject<Lab>::getId(const GameState &state, const
 		if (l.second == ptr)
 			return l.first;
 	}
-	LogError2("No lab matching pointer {}", static_cast<void *>(ptr.get()));
+	LogError("No lab matching pointer {}", static_cast<void *>(ptr.get()));
 	return emptyString;
 }
 
@@ -336,7 +336,7 @@ void Lab::removeAgent(StateRef<Lab> lab, StateRef<Agent> &agent)
 void Lab::setQuantity(StateRef<Lab> lab, unsigned quantity)
 {
 	if (lab->type != ResearchTopic::Type::Engineering)
-		LogError2("Cannot set goal for a research lab");
+		LogError("Cannot set goal for a research lab");
 	else
 	{
 		LogAssert(quantity >= 1 && quantity <= 50);
@@ -366,7 +366,7 @@ int Lab::getTotalSkill() const
 				totalLabSkill += agent->current_stats.engineering_skill;
 				break;
 			default:
-				LogError2("Unexpected lab type");
+				LogError("Unexpected lab type");
 				break;
 		}
 	}
@@ -406,7 +406,7 @@ void Lab::update(unsigned int ticks, StateRef<Lab> lab, sp<GameState> state)
 				                              lab->manufacture_man_hours_invested);
 				break;
 			default:
-				LogError2("Unexpected lab type");
+				LogError("Unexpected lab type");
 		}
 
 		unsigned ticks_left =
@@ -547,7 +547,7 @@ void Lab::update(unsigned int ticks, StateRef<Lab> lab, sp<GameState> state)
 				}
 				break;
 			default:
-				LogError2("Unexpected lab type");
+				LogError("Unexpected lab type");
 		}
 	}
 }

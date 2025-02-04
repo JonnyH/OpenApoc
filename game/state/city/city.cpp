@@ -77,7 +77,7 @@ void City::initCity(GameState &state)
 {
 	if (this->map)
 	{
-		LogError2("Called on city with existing map");
+		LogError("Called on city with existing map");
 		return;
 	}
 	this->map.reset(new TileMap(this->size, VELOCITY_SCALE_CITY,
@@ -103,7 +103,7 @@ void City::initCity(GameState &state)
 		{
 			if (s->building->carEntranceLocation.x != -1)
 			{
-				LogWarning2("Building has multiple car entrances? {}", s->building->name);
+				LogWarning("Building has multiple car entrances? {}", s->building->name);
 			}
 			s->building->carEntranceLocation = s->initialPosition;
 			// crew quarters is the closest to camera spot with vehicle access
@@ -124,22 +124,22 @@ void City::initCity(GameState &state)
 	{
 		if (b.second->landingPadLocations.empty())
 		{
-			LogError2("Building {} has no landing pads", b.first);
+			LogError("Building {} has no landing pads", b.first);
 		}
-		LogInfo2("Building {} has {} landing pads:", b.first,
-		         (unsigned)b.second->landingPadLocations.size());
+		LogInfo("Building {} has {} landing pads:", b.first,
+		        (unsigned)b.second->landingPadLocations.size());
 		for (auto &loc : b.second->landingPadLocations)
 		{
-			LogInfo2("Pad: {}", loc);
+			LogInfo("Pad: {}", loc);
 		}
-		LogInfo2("Car: {}", b.second->carEntranceLocation);
+		LogInfo("Car: {}", b.second->carEntranceLocation);
 		if (b.second->crewQuarters == Vec3<int>{-1, -1, -1})
 		{
-			LogWarning2("Building {} has no car exit?", b.first);
+			LogWarning("Building {} has no car exit?", b.first);
 			b.second->crewQuarters = {(b.second->bounds.p0.x + b.second->bounds.p1.x) / 2,
 			                          (b.second->bounds.p0.y + b.second->bounds.p1.y) / 2, 2};
 		}
-		LogInfo2("Crew Quarters: {}", b.second->crewQuarters);
+		LogInfo("Crew Quarters: {}", b.second->crewQuarters);
 		if (b.second->function.id == "BUILDINGFUNCTION_SPACE_PORT")
 		{
 			spaceports.emplace_back(&state, b.first);
@@ -279,7 +279,7 @@ void City::update(GameState &state, unsigned int ticks)
 					break;
 				}
 				default:
-					LogError2("Collision with non-collidable object");
+					LogError("Collision with non-collidable object");
 			}
 			deadProjectiles.emplace(c.projectile->shared_from_this(), displayDoodad, playSound);
 		}
@@ -440,7 +440,7 @@ void City::repairScenery(GameState &state, bool debugRepair)
 	while (!constructionVehicles.empty() || debugRepair)
 	{
 		// Step 02: Repair destroyed scenery
-		LogInfo2("Repair Cycle starting");
+		LogInfo("Repair Cycle starting");
 		std::set<sp<Scenery>> sceneryToRepair;
 		for (auto &s : scenery)
 		{
@@ -575,7 +575,7 @@ void City::repairScenery(GameState &state, bool debugRepair)
 		v->tilesRepaired = 0;
 	}
 
-	LogInfo2("Repair Cycle Complete");
+	LogInfo("Repair Cycle Complete");
 }
 
 std::set<sp<OpenApoc::Vehicle>> City::findConstructionVehicles(GameState &state)
@@ -650,7 +650,7 @@ void City::repairVehicles(GameState &state [[maybe_unused]])
 
 void City::initialSceneryLinkUp()
 {
-	LogWarning2("Begun scenery link up!");
+	LogWarning("Begun scenery link up!");
 	auto &mapref = *map;
 
 	for (auto &s : this->scenery)
@@ -671,7 +671,7 @@ void City::initialSceneryLinkUp()
 			}
 		}
 	}
-	LogWarning2("Begun scenery link up cycle!");
+	LogWarning("Begun scenery link up cycle!");
 	bool foundSupport;
 	// First support without clinging to establish proper links
 	do
@@ -714,11 +714,11 @@ void City::initialSceneryLinkUp()
 		if (mp->willCollapse())
 		{
 			auto pos = mp->tileObject->getOwningTile()->position;
-			LogWarning2("SC {} at {} is UNLINKED", mp->type.id, pos);
+			LogWarning("SC {} at {} is UNLINKED", mp->type.id, pos);
 		}
 	}
 
-	LogWarning2("Attempting link up of unlinked parts");
+	LogWarning("Attempting link up of unlinked parts");
 	do
 	{
 		foundSupport = false;
@@ -742,12 +742,12 @@ void City::initialSceneryLinkUp()
 		if (mp->willCollapse())
 		{
 			auto pos = mp->tileObject->getOwningTile()->position;
-			LogWarning2("SC {} at {} is going to fall", mp->type.id, pos);
+			LogWarning("SC {} at {} is going to fall", mp->type.id, pos);
 		}
 	}
 
 	mapref.updateAllCityInfo();
-	LogWarning2("Link up finished!");
+	LogWarning("Link up finished!");
 }
 
 sp<Doodad> City::placeDoodad(StateRef<DoodadType> type, Vec3<float> position)
@@ -783,7 +783,7 @@ sp<Vehicle> City::createVehicle(GameState &state, StateRef<VehicleType> type,
 {
 	if (building->city.id != id)
 	{
-		LogError2("Adding vehicle to a building in a different city?");
+		LogError("Adding vehicle to a building in a different city?");
 		return nullptr;
 	}
 	auto v = createVehicle(state, type, owner);
@@ -806,7 +806,7 @@ sp<Vehicle> City::placeVehicle(GameState &state, StateRef<VehicleType> type,
 {
 	if (building->city.id != id)
 	{
-		LogError2("Adding vehicle to a building in a different city?");
+		LogError("Adding vehicle to a building in a different city?");
 		return nullptr;
 	}
 	auto v = placeVehicle(state, type, owner);
@@ -831,7 +831,7 @@ template <> sp<City> StateObject<City>::get(const GameState &state, const UStrin
 	auto it = state.cities.find(id);
 	if (it == state.cities.end())
 	{
-		LogError2("No citymap matching ID \"{}\"", id);
+		LogError("No citymap matching ID \"{}\"", id);
 		return nullptr;
 	}
 	return it->second;
@@ -858,7 +858,7 @@ template <> const UString &StateObject<City>::getId(const GameState &state, cons
 			return c.first;
 		}
 	}
-	LogError2("No city matching pointer {}", static_cast<void *>(ptr.get()));
+	LogError("No city matching pointer {}", static_cast<void *>(ptr.get()));
 	return emptyString;
 }
 
@@ -976,7 +976,7 @@ bool RoadSegment::getIntactByTile(const Vec3<int> &position) const
 			return tileIntact[i];
 		}
 	}
-	LogError2("Invalid position supplied to getIntactByTile");
+	LogError("Invalid position supplied to getIntactByTile");
 	return false;
 }
 

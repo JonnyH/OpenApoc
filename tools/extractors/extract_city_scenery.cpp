@@ -75,16 +75,16 @@ void InitialGameStateExtractor::extractCityScenery(GameState &state, UString til
 	auto inFile = fw().data->fs.open("xcom3/ufodata/" + datFile + ".dat");
 	if (!inFile)
 	{
-		LogError2("Failed to open \"{}.dat\"", datFile);
+		LogError("Failed to open \"{}.dat\"", datFile);
 	}
 
 	auto fileSize = inFile.size();
 
 	auto tileCount = fileSize / sizeof(struct citymap_tile_entry);
-	LogInfo2("Loading {} tile entries", tileCount);
+	LogInfo("Loading {} tile entries", tileCount);
 	if (fileSize % sizeof(citymap_tile_entry))
 	{
-		LogWarning2("filesize {} doesn't divide by tile record size", fileSize);
+		LogWarning("filesize {} doesn't divide by tile record size", fileSize);
 	}
 
 	for (unsigned i = 0; i < tileCount; i++)
@@ -112,7 +112,7 @@ void InitialGameStateExtractor::extractCityScenery(GameState &state, UString til
 				tile->walk_mode = SceneryTileType::WalkMode::Onto;
 				break;
 			default:
-				LogError2("Unexpected scenery walk type {} for ID {}", (int)entry.walk_type, id);
+				LogError("Unexpected scenery walk type {} for ID {}", (int)entry.walk_type, id);
 		}
 
 		switch (entry.tile_type)
@@ -134,7 +134,7 @@ void InitialGameStateExtractor::extractCityScenery(GameState &state, UString til
 				tile->tile_type = SceneryTileType::TileType::CityWall;
 				break;
 			default:
-				LogError2("Unexpected scenery tile type {} for ID {}", (int)entry.tile_type, id);
+				LogError("Unexpected scenery tile type {} for ID {}", (int)entry.tile_type, id);
 		}
 
 		switch (entry.road_type)
@@ -149,7 +149,7 @@ void InitialGameStateExtractor::extractCityScenery(GameState &state, UString til
 				tile->road_type = SceneryTileType::RoadType::Terminal;
 				break;
 			default:
-				LogError2("Unexpected scenery road type {} for ID {}", (int)entry.road_type, id);
+				LogError("Unexpected scenery road type {} for ID {}", (int)entry.road_type, id);
 		}
 
 		tile->connection.resize(4);

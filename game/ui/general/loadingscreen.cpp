@@ -64,7 +64,7 @@ void LoadingScreen::eventOccurred(Event *e)
 		auto gameEvent = dynamic_cast<GameEvent *>(e);
 		if (!gameEvent)
 		{
-			LogError2("Invalid game state event");
+			LogError("Invalid game state event");
 			return;
 		}
 		if (!gameEvent->message().empty())

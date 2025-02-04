@@ -15,7 +15,7 @@ sp<BattleUnitImagePack> StateObject<BattleUnitImagePack>::get(const GameState &s
 	auto it = state.battle_unit_image_packs.find(id);
 	if (it == state.battle_unit_image_packs.end())
 	{
-		LogError2("No BattleUnitImagePack matching ID \"{}\"", id);
+		LogError("No BattleUnitImagePack matching ID \"{}\"", id);
 		return nullptr;
 	}
 	return it->second;
@@ -41,7 +41,7 @@ const UString &StateObject<BattleUnitImagePack>::getId(const GameState &state,
 		if (a.second == ptr)
 			return a.first;
 	}
-	LogError2("No BattleUnitImagePack matching pointer {}", static_cast<void *>(ptr.get()));
+	LogError("No BattleUnitImagePack matching pointer {}", static_cast<void *>(ptr.get()));
 	return emptyString;
 }
 
@@ -53,7 +53,7 @@ const UString BattleUnitImagePack::getNameFromID(UString id)
 	auto plen = getPrefix().length();
 	if (id.length() > plen)
 		return id.substr(plen, id.length() - plen);
-	LogError2("Invalid BattleUnitImagePack ID {}", id);
+	LogError("Invalid BattleUnitImagePack ID {}", id);
 	return emptyString;
 }
 } // namespace OpenApoc

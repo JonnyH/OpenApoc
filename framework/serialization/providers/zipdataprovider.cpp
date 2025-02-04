@@ -36,7 +36,7 @@ bool ZipDataProvider::openArchive(const UString &path, bool write)
 		}
 		if (!mz_zip_writer_init_file(&archive, path.c_str(), 0))
 		{
-			LogWarning2("Failed to init zip file \"{}\" for writing", path);
+			LogWarning("Failed to init zip file \"{}\" for writing", path);
 			return false;
 		}
 	}
@@ -44,7 +44,7 @@ bool ZipDataProvider::openArchive(const UString &path, bool write)
 	{
 		if (!mz_zip_reader_init_file(&archive, path.c_str(), 0))
 		{
-			LogWarning2("Failed to init zip file \"{}\" for reading", path);
+			LogWarning("Failed to init zip file \"{}\" for reading", path);
 			return false;
 		}
 
@@ -67,7 +67,7 @@ bool ZipDataProvider::readDocument(const UString &filename, UString &result)
 	auto it = fileLookup.find(filename);
 	if (it == fileLookup.end())
 	{
-		LogInfo2("File \"{}\" not found in zip in zip \"{}\"", filename, zipPath);
+		LogInfo("File \"{}\" not found in zip in zip \"{}\"", filename, zipPath);
 		return false;
 	}
 	unsigned int fileId = it->second;
@@ -75,22 +75,22 @@ bool ZipDataProvider::readDocument(const UString &filename, UString &result)
 	memset(&stat, 0, sizeof(stat));
 	if (!mz_zip_reader_file_stat(&archive, fileId, &stat))
 	{
-		LogWarning2("Failed to stat file \"{}\" in zip \"{}\"", filename, zipPath);
+		LogWarning("Failed to stat file \"{}\" in zip \"{}\"", filename, zipPath);
 		return false;
 	}
 	if (stat.m_uncomp_size == 0)
 	{
-		LogInfo2("Skipping {} - possibly a directory?", filename);
+		LogInfo("Skipping {} - possibly a directory?", filename);
 		return false;
 	}
 
-	LogInfo2("Reading {} bytes for file \"{}\" in zip \"{}\"", (unsigned long)stat.m_uncomp_size,
-	         filename, zipPath);
+	LogInfo("Reading {} bytes for file \"{}\" in zip \"{}\"", (unsigned long)stat.m_uncomp_size,
+	        filename, zipPath);
 
 	up<char[]> data(new char[(unsigned int)stat.m_uncomp_size]);
 	if (!mz_zip_reader_extract_to_mem(&archive, fileId, data.get(), (size_t)stat.m_uncomp_size, 0))
 	{
-		LogWarning2("Failed to extract file \"{}\" in zip \"{}\"", filename, zipPath);
+		LogWarning("Failed to extract file \"{}\" in zip \"{}\"", filename, zipPath);
 		return false;
 	}
 
@@ -102,7 +102,7 @@ bool ZipDataProvider::saveDocument(const UString &path, const UString &contents)
 	if (!mz_zip_writer_add_mem(&archive, path.c_str(), contents.c_str(), contents.length(),
 	                           MZ_DEFAULT_COMPRESSION))
 	{
-		LogWarning2("Failed to insert \"{}\" into zip file \"{}\"", path, this->zipPath);
+		LogWarning("Failed to insert \"{}\" into zip file \"{}\"", path, this->zipPath);
 		return false;
 	}
 	return true;
@@ -113,7 +113,7 @@ bool ZipDataProvider::finalizeSave()
 	{
 		if (!mz_zip_writer_finalize_archive(&archive))
 		{
-			LogWarning2("Failed to finalize archive \"{}\"", zipPath);
+			LogWarning("Failed to finalize archive \"{}\"", zipPath);
 			return false;
 		}
 	}

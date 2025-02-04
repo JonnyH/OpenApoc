@@ -14,7 +14,7 @@ sp<PaletteImage> BitmapFont::getString(const UString &Text)
 {
 	if (Text.find('\n') != std::string::npos)
 	{
-		LogWarning2(
+		LogWarning(
 		    "Multiline text not supported. Newline characters will be ignored. Text : \"{}\"",
 		    Text);
 	}
@@ -77,8 +77,8 @@ sp<PaletteImage> BitmapFont::getGlyph(char32_t codepoint)
 	{
 		// FIXME: Hack - assume all missing glyphs are spaces
 		// TODO: Fallback fonts?
-		LogWarning2("Font {} missing glyph for character \"{}\" (codepoint {})", this->getName(),
-		            to_ustring(std::u32string(1, codepoint)), static_cast<uint32_t>(codepoint));
+		LogWarning("Font {} missing glyph for character \"{}\" (codepoint {})", this->getName(),
+		           to_ustring(std::u32string(1, codepoint)), static_cast<uint32_t>(codepoint));
 		auto missingGlyph = this->getGlyph(to_char32(' '));
 		fontbitmaps.emplace(codepoint, missingGlyph);
 	}
@@ -107,13 +107,13 @@ sp<BitmapFont> BitmapFont::loadFont(const std::map<char32_t, UString> &glyphMap,
 		auto fontImage = fw().data->loadImage(p.second);
 		if (!fontImage)
 		{
-			LogError2("Failed to read glyph image \"{}\"", p.second);
+			LogError("Failed to read glyph image \"{}\"", p.second);
 			continue;
 		}
 		auto paletteImage = std::dynamic_pointer_cast<PaletteImage>(fontImage);
 		if (!paletteImage)
 		{
-			LogError2("Glyph image \"{}\" doesn't look like a PaletteImage", p.second);
+			LogError("Glyph image \"{}\" doesn't look like a PaletteImage", p.second);
 			continue;
 		}
 		unsigned int maxWidth = 0;
@@ -189,9 +189,9 @@ std::list<UString> BitmapFont::wordWrapText(const UString &Text, int MaxWidth)
 				{
 					if (currentLine == "")
 					{
-						LogWarning2("No break in line \"{}\" found - this will probably overflow "
-						            "the control",
-						            currentTestLine);
+						LogWarning("No break in line \"{}\" found - this will probably overflow "
+						           "the control",
+						           currentTestLine);
 						currentLine = currentTestLine;
 						remainingChunks.pop_front();
 					}

@@ -124,22 +124,22 @@ void ResearchScreen::begin()
 	    FormEventType::ListBoxChangeSelected,
 	    [this](FormsEvent *e)
 	    {
-		    LogWarning2("unassigned agent selected");
+		    LogWarning("unassigned agent selected");
 		    if (this->assigned_agent_count >= this->viewFacility->type->capacityAmount)
 		    {
-			    LogWarning2("no free space in lab");
+			    LogWarning("no free space in lab");
 			    return;
 		    }
 		    auto list = std::static_pointer_cast<ListBox>(e->forms().RaisedBy);
 		    auto agent = list->getSelectedData<Agent>();
 		    if (!agent)
 		    {
-			    LogError2("No agent in selected data");
+			    LogError("No agent in selected data");
 			    return;
 		    }
 		    if (agent->assigned_to_lab)
 		    {
-			    LogError2("Agent \"{}\" already assigned to a lab?", agent->name);
+			    LogError("Agent \"{}\" already assigned to a lab?", agent->name);
 			    return;
 		    }
 		    agent->assigned_to_lab = true;
@@ -148,17 +148,17 @@ void ResearchScreen::begin()
 	    });
 	auto removeFn = [this](FormsEvent *e)
 	{
-		LogWarning2("assigned agent selected");
+		LogWarning("assigned agent selected");
 		auto list = std::static_pointer_cast<ListBox>(e->forms().RaisedBy);
 		auto agent = list->getSelectedData<Agent>();
 		if (!agent)
 		{
-			LogError2("No agent in selected data");
+			LogError("No agent in selected data");
 			return;
 		}
 		if (!agent->assigned_to_lab)
 		{
-			LogError2("Agent \"{}\" not assigned to a lab?", agent->name);
+			LogError("Agent \"{}\" not assigned to a lab?", agent->name);
 			return;
 		}
 		agent->assigned_to_lab = false;
@@ -213,7 +213,7 @@ void ResearchScreen::eventOccurred(Event *e)
 							    this->viewFacility->lab->manufacture_goal;
 							break;
 						default:
-							LogError2("Unknown lab type");
+							LogError("Unknown lab type");
 							break;
 					}
 					updateProgressInfo();
@@ -361,7 +361,7 @@ void ResearchScreen::setCurrentLabInfo()
 	}
 	else
 	{
-		LogError2("Unexpected CapacityType in lab");
+		LogError("Unexpected CapacityType in lab");
 	}
 
 	form->findControlTyped<Label>("TEXT_LAB_TYPE")->setText(labTypeName);
@@ -393,9 +393,9 @@ void ResearchScreen::setCurrentLabInfo()
 					this->assigned_agent_count++;
 					if (this->assigned_agent_count > this->viewFacility->type->capacityAmount)
 					{
-						LogError2("Selected lab has {} assigned agents, but has a capacity of {}",
-						          this->assigned_agent_count,
-						          this->viewFacility->type->capacityAmount);
+						LogError("Selected lab has {} assigned agents, but has a capacity of {}",
+						         this->assigned_agent_count,
+						         this->viewFacility->type->capacityAmount);
 					}
 					agent.second->lab_assigned = this->viewFacility->lab;
 					assigned_to_current_lab = true;
@@ -466,7 +466,7 @@ void ResearchScreen::updateProgressInfo()
 				          0.0f, 1.0f);
 				break;
 			default:
-				LogError2("Unknown lab type");
+				LogError("Unknown lab type");
 				break;
 		}
 		// This creates an image with the size of the PROGRESS_BAR control, then fills

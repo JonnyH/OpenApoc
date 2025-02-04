@@ -78,7 +78,7 @@ class Gles3::Gles3Loader
 			this->dlfcn_handle = dlopen(lib_name.c_str(), RTLD_NOW | RTLD_LOCAL);
 			if (!this->dlfcn_handle)
 			{
-				LogInfo2("Failed to load library \"{}\" : \"{}\"", lib_name, dlerror());
+				LogInfo("Failed to load library \"{}\" : \"{}\"", lib_name, dlerror());
 			}
 #elif defined(GLESWRAP_PLATFORM_WGL)
 			this->win32_handle = LoadLibraryA("opengl32.dll");
@@ -170,14 +170,14 @@ bool Gles3::supported(bool desktop_extension, std::string lib_name)
 
 	if (!tmp_loader.load(LocalGetString, "GetString"))
 	{
-		LogInfo2("No \"glGetString\" symbol found");
+		LogInfo("No \"glGetString\" symbol found");
 		return false;
 	}
 
 	if (desktop_extension)
 	{
 		std::string extension_list = reinterpret_cast<const char *>(LocalGetString(EXTENSIONS));
-		LogInfo2("GL_EXTENSIONS: \"{}\"", extension_list);
+		LogInfo("GL_EXTENSIONS: \"{}\"", extension_list);
 		if (extension_list.find("GL_ARB_ES3_compatibility ") != extension_list.npos)
 		{
 			return true;
@@ -482,12 +482,12 @@ Gles3::KhrDebug::KhrDebug(const Gles3 *parent) : supported(false), name("GL_KHR_
 		return;
 	if (parent->Extensions.count(name))
 	{
-		LogInfo2("Extension {} supported", name);
+		LogInfo("Extension {} supported", name);
 		this->supported = true;
 	}
 	else
 	{
-		LogInfo2("Extension {} not supported", name);
+		LogInfo("Extension {} not supported", name);
 		return;
 	}
 	std::string func_suffix;

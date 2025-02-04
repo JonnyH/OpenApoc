@@ -78,7 +78,7 @@ AEquipScreen::AEquipScreen(sp<GameState> state, sp<Agent> firstAgent)
 		    auto agent = list->getSelectedData<Agent>();
 		    if (!agent)
 		    {
-			    LogError2("No agent in selected data");
+			    LogError("No agent in selected data");
 			    return;
 		    }
 		    if (agent->unit && !agent->unit->isConscious())
@@ -1128,7 +1128,7 @@ void AEquipScreen::removeItemFromInventory(sp<AEquipment> item)
 	switch (getMode())
 	{
 		case Mode::Enemy:
-			LogError2("Trying to remove item from inventory in enemy screen!?");
+			LogError("Trying to remove item from inventory in enemy screen!?");
 			break;
 		case Mode::Agent:
 			removeItemFromInventoryAgent(item);
@@ -1153,7 +1153,7 @@ void AEquipScreen::removeItemFromInventoryBattle(sp<AEquipment> item)
 	auto battleItem = item->ownerItem.lock();
 	if (!battleItem)
 	{
-		LogError2("No battle item object in battle inventory?");
+		LogError("No battle item object in battle inventory?");
 		return;
 	}
 	battleItem->die(*state, false);
@@ -1227,7 +1227,7 @@ void AEquipScreen::addItemToInventory(sp<AEquipment> item)
 	switch (getMode())
 	{
 		case Mode::Enemy:
-			LogError2("Trying to add item to inventory in enemy screen!?");
+			LogError("Trying to add item to inventory in enemy screen!?");
 			break;
 		case Mode::Agent:
 			addItemToInventoryAgent(item);
@@ -1668,8 +1668,8 @@ void AEquipScreen::processTemplate(int idx, bool remember)
 				}
 				else
 				{
-					LogError2("Agent {} cannot apply template, fail at pos {} item {}",
-					          currentAgent->name, pos, type.id);
+					LogError("Agent {} cannot apply template, fail at pos {} item {}",
+					         currentAgent->name, pos, type.id);
 				}
 			}
 			updateAgentControl(currentAgent);
@@ -1788,7 +1788,7 @@ void AEquipScreen::closeScreen()
 				}
 				if (!dropperAgent)
 				{
-					LogError2("Somehow items got dropped but no agent dropped them!?");
+					LogError("Somehow items got dropped but no agent dropped them!?");
 					return;
 				}
 				// Find building to drop to
@@ -1858,7 +1858,7 @@ bool AEquipScreen::isInVicinity(sp<Agent> agent)
 	{
 		case Mode::Enemy:
 		case Mode::Battle:
-			LogError2(
+			LogError(
 			    "Should not be possible for enemy or battle mode to be with no current battle?");
 			return true;
 		case Mode::Agent:

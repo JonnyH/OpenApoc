@@ -50,45 +50,45 @@ class PCXImageLoader : public OpenApoc::ImageLoader
 		auto data = file.readAll();
 		if (size < sizeof(struct PcxHeader) + 256 * 3)
 		{
-			LogInfo2("File \"{}\" size {} too small for PCX header + palette\n", path,
-			         static_cast<unsigned>(size));
+			LogInfo("File \"{}\" size {} too small for PCX header + palette\n", path,
+			        static_cast<unsigned>(size));
 			return nullptr;
 		}
 		struct PcxHeader *header = reinterpret_cast<struct PcxHeader *>(&data[0]);
 
 		if (header->Identifier != PcxIdentifier)
 		{
-			LogInfo2("File \"{}\" had invalid PCX identifier 0x{:02x}", path,
-			         static_cast<unsigned>(header->Identifier));
+			LogInfo("File \"{}\" had invalid PCX identifier 0x{:02x}", path,
+			        static_cast<unsigned>(header->Identifier));
 			return nullptr;
 		}
 
 		if (header->Encoding != 1)
 		{
-			LogWarning2("File \"{}\" had invalid PCX Encoding 0x{:02x}", path,
-			            static_cast<unsigned>(header->Encoding));
+			LogWarning("File \"{}\" had invalid PCX Encoding 0x{:02x}", path,
+			           static_cast<unsigned>(header->Encoding));
 			return nullptr;
 		}
 
 		if (header->BitsPerPixel != 8)
 		{
-			LogWarning2("File \"{}\" had invalid PCX BitsPerPixel 0x{:02x}", path,
-			            static_cast<unsigned>(header->BitsPerPixel));
+			LogWarning("File \"{}\" had invalid PCX BitsPerPixel 0x{:02x}", path,
+			           static_cast<unsigned>(header->BitsPerPixel));
 			return nullptr;
 		}
 
 		if (header->NumBitPlanes != 1)
 		{
-			LogWarning2("File \"{}\" had invalid PCX NumBitPlanes 0x{:02x}", path,
-			            static_cast<unsigned>(header->NumBitPlanes));
+			LogWarning("File \"{}\" had invalid PCX NumBitPlanes 0x{:02x}", path,
+			           static_cast<unsigned>(header->NumBitPlanes));
 			return nullptr;
 		}
 
 		uint8_t pal = data[size - (256 * 3) - 1];
 		if (pal != 0x0C)
 		{
-			LogWarning2("File \"{}\" had invalid PCX palette identifier byte 0x{:02x}", path,
-			            static_cast<unsigned>(pal));
+			LogWarning("File \"{}\" had invalid PCX palette identifier byte 0x{:02x}", path,
+			           static_cast<unsigned>(pal));
 			return nullptr;
 		}
 
@@ -124,7 +124,7 @@ class PCXImageLoader : public OpenApoc::ImageLoader
 					uint8_t idx;
 					if (img_data >= reinterpret_cast<uint8_t *>(&data[size]))
 					{
-						LogWarning2("Unexpected EOF reading PCX file \"{}\" ", path);
+						LogWarning("Unexpected EOF reading PCX file \"{}\" ", path);
 						return nullptr;
 					}
 					b = *img_data++;
@@ -134,7 +134,7 @@ class PCXImageLoader : public OpenApoc::ImageLoader
 						run_length = b & 0x3F;
 						if (img_data >= reinterpret_cast<uint8_t *>(&data[size]))
 						{
-							LogWarning2("Unexpected EOF reading PCX file \"{}\" ", path);
+							LogWarning("Unexpected EOF reading PCX file \"{}\" ", path);
 							return nullptr;
 						}
 						idx = *img_data++;

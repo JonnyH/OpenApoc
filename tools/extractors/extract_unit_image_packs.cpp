@@ -21,7 +21,7 @@ sp<BattleUnitImagePack> InitialGameStateExtractor::extractImagePack(GameState &s
 	auto imageTabFile = fw().data->fs.open(imageTabFileName);
 	if (!imageTabFile)
 	{
-		LogError2("Failed to open TAB file \"{}\"", imageTabFileName);
+		LogError("Failed to open TAB file \"{}\"", imageTabFileName);
 		return nullptr;
 	}
 	size_t imageTabFileEntryCount = imageTabFile.size() / 4;
@@ -63,7 +63,7 @@ int InitialGameStateExtractor::getItemImagePacksCount() const
 	auto heldSpriteTabFile = fw().data->fs.open(heldSpriteTabFileName);
 	if (!heldSpriteTabFile)
 	{
-		LogError2("Failed to open held item sprite TAB file \"{}\"", heldSpriteTabFileName);
+		LogError("Failed to open held item sprite TAB file \"{}\"", heldSpriteTabFileName);
 		return -1;
 	}
 	return heldSpriteTabFile.size() / 4 / 8;
