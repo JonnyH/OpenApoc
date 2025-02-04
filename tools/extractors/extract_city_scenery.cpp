@@ -252,8 +252,8 @@ void InitialGameStateExtractor::extractCityScenery(GameState &state, UString til
 			                                         tilePrefix, entry.damagedtile_idx)};
 		}
 
-		auto imageString = format(
-		    "PCK:xcom3/ufodata/" + spriteFile + ".pck:xcom3/ufodata/" + spriteFile + ".tab:%u", i);
+		auto imageString = fmt::format(
+		    "PCK:xcom3/ufodata/" + spriteFile + ".pck:xcom3/ufodata/" + spriteFile + ".tab:{}", i);
 
 		tile->sprite = fw().data->loadImage(imageString);
 
@@ -263,17 +263,17 @@ void InitialGameStateExtractor::extractCityScenery(GameState &state, UString til
 		{
 			if (entry.voxelIdx[z] == 0)
 				continue;
-			auto lofString = format("LOFTEMPS:xcom3/ufodata/" + lofFile + ".dat:xcom3/ufodata/" +
-			                            lofFile + ".tab:%d",
-			                        (int)entry.voxelIdx[z]);
+			auto lofString = fmt::format("LOFTEMPS:xcom3/ufodata/" + lofFile +
+			                                 ".dat:xcom3/ufodata/" + lofFile + ".tab:{}",
+			                             (int)entry.voxelIdx[z]);
 			tile->voxelMap->slices[z] = fw().data->loadVoxelSlice(lofString);
 		}
 
 		if (entry.stratmap_idx != 0)
 		{
-			auto stratmapString = format("PCKSTRAT:xcom3/ufodata/" + stratmapFile +
-			                                 ".pck:xcom3/ufodata/" + stratmapFile + ".tab:%d",
-			                             (int)entry.stratmap_idx);
+			auto stratmapString = fmt::format("PCKSTRAT:xcom3/ufodata/" + stratmapFile +
+			                                      ".pck:xcom3/ufodata/" + stratmapFile + ".tab:{}",
+			                                  (int)entry.stratmap_idx);
 			tile->strategySprite = fw().data->loadImage(stratmapString);
 		}
 
@@ -289,9 +289,9 @@ void InitialGameStateExtractor::extractCityScenery(GameState &state, UString til
 
 		if (entry.overlaytile_idx != 0xff)
 		{
-			auto overlayString =
-			    format("PCK:xcom3/ufodata/" + ovrFile + ".pck:xcom3/ufodata/" + ovrFile + ".tab:%d",
-			           (int)entry.overlaytile_idx);
+			auto overlayString = fmt::format("PCK:xcom3/ufodata/" + ovrFile +
+			                                     ".pck:xcom3/ufodata/" + ovrFile + ".tab:{}",
+			                                 (int)entry.overlaytile_idx);
 			tile->overlaySprite = fw().data->loadImage(overlayString);
 		}
 
