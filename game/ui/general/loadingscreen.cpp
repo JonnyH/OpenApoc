@@ -6,6 +6,7 @@
 #include "framework/data.h"
 #include "framework/event.h"
 #include "framework/framework.h"
+#include "framework/logger.h"
 #include "framework/options.h"
 #include "framework/renderer.h"
 #include "game/state/gameevent.h"
@@ -63,7 +64,7 @@ void LoadingScreen::eventOccurred(Event *e)
 		auto gameEvent = dynamic_cast<GameEvent *>(e);
 		if (!gameEvent)
 		{
-			LogError("Invalid game state event");
+			LogError2("Invalid game state event");
 			return;
 		}
 		if (!gameEvent->message().empty())

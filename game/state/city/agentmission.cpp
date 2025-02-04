@@ -41,24 +41,24 @@ bool AgentTileHelper::canEnterTile(Tile *from, Tile *to, bool, bool &, float &co
 {
 	if (!from)
 	{
-		LogError("No 'from' position supplied");
+		LogError2("No 'from' position supplied");
 		return false;
 	}
 	Vec3<int> fromPos = from->position;
 	if (!to)
 	{
-		LogError("No 'to' position supplied");
+		LogError2("No 'to' position supplied");
 		return false;
 	}
 	Vec3<int> toPos = to->position;
 	if (fromPos == toPos)
 	{
-		LogError("FromPos == ToPos %s", toPos);
+		LogError2("FromPos == ToPos {}", toPos);
 		return false;
 	}
 	if (!map.tileIsValid(toPos))
 	{
-		LogError("ToPos %s is not on the map", toPos);
+		LogError2("ToPos {} is not on the map", toPos);
 		return false;
 	}
 
@@ -182,7 +182,7 @@ int AgentTileHelper::convertDirection(Vec3<int> dir) const
 	{
 		return 5;
 	}
-	LogError("Impossible to reach here? convertDirection for 0,0,0?");
+	LogError2("Impossible to reach here? convertDirection for 0,0,0?");
 	return -1;
 }
 
@@ -204,7 +204,7 @@ bool AgentTileHelper::isMoveAllowed(Scenery &scenery, int dir) const
 		case SceneryTileType::TileType::CityWall:
 			return false;
 	}
-	LogError("Unhandled situiation in isMoveAllowed, can't reach here?");
+	LogError2("Unhandled situiation in isMoveAllowed, can't reach here?");
 	return false;
 }
 
@@ -295,7 +295,7 @@ bool AgentMission::getNextDestination(GameState &state, Agent &a, Vec3<float> &d
 			return false;
 		}
 		default:
-			LogWarning("TODO: Implement getNextDestination");
+			LogWarning2("TODO: Implement getNextDestination");
 			return false;
 	}
 	return false;
@@ -328,7 +328,7 @@ void AgentMission::update(GameState &state, Agent &a, unsigned int ticks, bool f
 			return;
 		}
 		default:
-			LogWarning("TODO: Implement update");
+			LogWarning2("TODO: Implement update");
 			return;
 	}
 }
@@ -364,7 +364,7 @@ bool AgentMission::isFinishedInternal(GameState &, Agent &a)
 		case MissionType::Teleport:
 			return true;
 		default:
-			LogWarning("TODO: Implement isFinishedInternal");
+			LogWarning2("TODO: Implement isFinishedInternal");
 			return false;
 	}
 }
@@ -427,9 +427,9 @@ void AgentMission::start(GameState &state, Agent &a)
 					{
 						// FIXME: Implement agent pathing to closest building when in the field and
 						// unable to path
-						LogWarning("Implement agent pathing to closest building when in the field "
-						           "and unable to path to "
-						           "building");
+						LogWarning2("Implement agent pathing to closest building when in the field "
+						            "and unable to path to "
+						            "building");
 						// For now just get into closest building
 						fw().pushEvent(new GameAgentEvent(GameEventType::AgentUnableToReach,
 						                                  {&state, a.shared_from_this()}, true));
@@ -470,7 +470,7 @@ void AgentMission::start(GameState &state, Agent &a)
 			// No setup
 			return;
 		default:
-			LogError("TODO: Implement start");
+			LogError2("TODO: Implement start");
 			return;
 	}
 }
@@ -484,7 +484,7 @@ void AgentMission::setPathTo(GameState &state [[maybe_unused]], Agent &a, StateR
 	auto key = Vec3<int>{(Vec3<int>)a.position * map.size + b->crewQuarters};
 	if (map.agentPathCache.find(key) != map.agentPathCache.end())
 	{
-		LogWarning("Found cached path from %s to %s, using it", a.position, b->crewQuarters);
+		LogWarning2("Found cached path from {} to {}, using it", a.position, b->crewQuarters);
 		path = map.agentPathCache[key];
 	}
 	else

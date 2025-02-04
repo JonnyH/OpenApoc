@@ -1,6 +1,7 @@
 #include "game/state/battle/battle.h"
 #include "framework/configfile.h"
 #include "framework/framework.h"
+#include "framework/logger.h"
 #include "framework/sound.h"
 #include "game/state/battle/ai/aitype.h"
 #include "game/state/battle/battledoor.h"
@@ -350,7 +351,7 @@ bool Battle::initialMapCheck(GameState &state, std::list<StateRef<Agent>> agents
 			{
 				continue;
 			}
-			LogWarning("Los block center %s visible from %s", ePos, sPos);
+			LogWarning2("Los block center {} visible from {}", ePos, sPos);
 			enemySpawn->low_priority = true;
 		}
 	}
@@ -448,8 +449,8 @@ void Battle::initialMapPartRemoval(GameState &state)
 					}
 					for (auto &p : partsToKill)
 					{
-						LogWarning("Removing MP %s at %s as it's blocking unit %s",
-						           p->getOwner()->type.id, p->getPosition(), u.first);
+						LogWarning2("Removing MP {} at {} as it's blocking unit {}",
+						            p->getOwner()->type.id, p->getPosition(), u.first);
 						auto mp = p->getOwner();
 						mp->destroyed = true;
 						mp->tileObject->removeFromMap();
@@ -463,7 +464,7 @@ void Battle::initialMapPartRemoval(GameState &state)
 
 void Battle::initialMapPartLinkUp()
 {
-	LogWarning("Begun initial map parts link up!");
+	LogWarning2("Begun initial map parts link up!");
 	auto &mapref = *map;
 
 	for (auto &s : this->map_parts)
@@ -484,7 +485,7 @@ void Battle::initialMapPartLinkUp()
 			}
 		}
 	}
-	LogWarning("Begun map parts link up cycle!");
+	LogWarning2("Begun map parts link up cycle!");
 	bool foundSupport;
 	// Establish support based on existing supported map parts
 	do
@@ -510,12 +511,12 @@ void Battle::initialMapPartLinkUp()
 		if (mp->willCollapse())
 		{
 			auto pos = mp->tileObject->getOwningTile()->position;
-			LogWarning("MP %s SBT %d at %s is UNLINKED", mp->type.id,
-			           (int)mp->type->getVanillaSupportedById(), pos);
+			LogWarning2("MP {} SBT {} at {} is UNLINKED", mp->type.id,
+			            (int)mp->type->getVanillaSupportedById(), pos);
 		}
 	}
 
-	LogWarning("Attempting link up of unlinked parts");
+	LogWarning2("Attempting link up of unlinked parts");
 	// Try to link to objects of same type first, then to anything
 	for (int iteration = 0; iteration <= 2; iteration++)
 	{
@@ -545,13 +546,13 @@ void Battle::initialMapPartLinkUp()
 		if (mp->willCollapse())
 		{
 			auto pos = mp->tileObject->getOwningTile()->position;
-			LogWarning("MP %s SBT %d at %s is going to fall", mp->type.id,
-			           (int)mp->type->getVanillaSupportedById(), pos);
+			LogWarning2("MP {} SBT {} at {} is going to fall", mp->type.id,
+			            (int)mp->type->getVanillaSupportedById(), pos);
 		}
 	}
 
 	mapref.updateAllBattlescapeInfo();
-	LogWarning("Link up finished!");
+	LogWarning2("Link up finished!");
 }
 
 enum class UnitSize
@@ -894,7 +895,7 @@ void Battle::initialUnitSpawn(GameState &state)
 				// If there is no block then just spawn anywhere
 				if (!block)
 				{
-					LogWarning("Map has not enough blocks with spawn points!?!?!?");
+					LogWarning2("Map has not enough blocks with spawn points!?!?!?");
 
 					for (int x = 0; x < size.x; x++)
 					{
@@ -924,7 +925,7 @@ void Battle::initialUnitSpawn(GameState &state)
 
 					if (unitsToSpawn.size() > 0)
 					{
-						LogError("Map has not big enough to spawn all units!?!?!?");
+						LogError2("Map has not big enough to spawn all units!?!?!?");
 						return;
 					}
 					continue;
@@ -1324,7 +1325,7 @@ sp<BattleHazard> Battle::placeHazard(GameState &state, StateRef<Organisation> ow
 				// Nothing can spread into a fire that's eating up a feature
 				if (existingHazard->hazardType->fire)
 				{
-					LogWarning(
+					LogWarning2(
 					    "Ensure we are not putting out a fire that is attached to a feature!");
 				}
 				existingHazard->dieAndRemove(state, false);
@@ -1409,7 +1410,7 @@ void Battle::updateProjectiles(GameState &state, unsigned int ticks)
 						break;
 					}
 					default:
-						LogError("Collision with non-collidable object");
+						LogError2("Collision with non-collidable object");
 				}
 			}
 			deadProjectiles.emplace(c.projectile->shared_from_this(), displayDoodad, playSound);
@@ -2324,7 +2325,7 @@ void Battle::beginTurn(GameState &state)
 {
 	if (mode != Mode::TurnBased)
 	{
-		LogError("beginTurn called in real time?");
+		LogError2("beginTurn called in real time?");
 		return;
 	}
 
@@ -2413,8 +2414,8 @@ void Battle::giveInterruptChanceToUnit(GameState &state, StateRef<BattleUnit> gi
 		}
 		else
 		{
-			LogWarning("Interrupting AI %s for unit %s decided to %s", decision.ai, receiver->id,
-			           decision.getName());
+			LogWarning2("Interrupting AI {} for unit {} decided to {}", decision.ai, receiver->id,
+			            decision.getName());
 			receiver->aiList.reset(state, *receiver);
 			if (interruptQueue.empty())
 			{
@@ -2435,7 +2436,7 @@ void Battle::beginBattle(GameState &state, bool hotseat, StateRef<Organisation> 
 {
 	if (state.current_battle)
 	{
-		LogError("Battle::beginBattle called while another battle is in progress!");
+		LogError2("Battle::beginBattle called while another battle is in progress!");
 		return;
 	}
 	auto b =
@@ -2459,7 +2460,7 @@ void Battle::beginBattle(GameState &state, bool hotseat, StateRef<Organisation> 
 {
 	if (state.current_battle)
 	{
-		LogError("Battle::beginBattle called while another battle is in progress!");
+		LogError2("Battle::beginBattle called while another battle is in progress!");
 		return;
 	}
 	auto b = BattleMap::createBattle(state, opponent, player_agents, aliens, guards, civilians,
@@ -2479,7 +2480,7 @@ void Battle::enterBattle(GameState &state)
 {
 	if (!state.current_battle)
 	{
-		LogError("Battle::enterBattle called with no battle!");
+		LogError2("Battle::enterBattle called with no battle!");
 		return;
 	}
 
@@ -2524,7 +2525,7 @@ void Battle::enterBattle(GameState &state)
 	}
 	if (!firstPlayerUnit)
 	{
-		LogError("WTF, no player units found?");
+		LogError2("WTF, no player units found?");
 		state.current_battle->battleViewScreenCenter = state.current_battle->map->size / 2;
 		state.current_battle->battleViewZLevel = state.current_battle->map->size.z / 2 + 1;
 	}
@@ -2548,7 +2549,7 @@ void Battle::finishBattle(GameState &state)
 {
 	if (!state.current_battle)
 	{
-		LogError("Battle::FinishBattle called with no battle!");
+		LogError2("Battle::FinishBattle called with no battle!");
 		return;
 	}
 
@@ -2738,7 +2739,7 @@ void Battle::finishBattle(GameState &state)
 		{
 			loot.push_back(e->item);
 		}
-		LogWarning("Implement UFO parts loot");
+		LogWarning2("Implement UFO parts loot");
 	}
 	// Player didn't secure the area
 	// - doesn't get loot
@@ -2806,7 +2807,7 @@ void Battle::finishBattle(GameState &state)
 	{
 		// FIXME: Should find 15 closest buildings that are intact and within 15 tiles
 		// (center to center) and pick one of them
-		LogWarning("Properly find building to house retreated aliens");
+		LogWarning2("Properly find building to house retreated aliens");
 		Vec2<int> battleLocation;
 		StateRef<City> city;
 		if (state.current_battle->mission_type == Battle::MissionType::UfoRecovery)
@@ -2835,7 +2836,7 @@ void Battle::finishBattle(GameState &state)
 		}
 		if (!closestBuilding)
 		{
-			LogError("WTF? No building in city closer than INT_MAX?");
+			LogError2("WTF? No building in city closer than INT_MAX?");
 			return;
 		}
 		for (auto &a : retreatedAliens)
@@ -2952,7 +2953,7 @@ void Battle::exitBattle(GameState &state)
 {
 	if (!state.current_battle)
 	{
-		LogError("Battle::ExitBattle called with no battle!");
+		LogError2("Battle::ExitBattle called with no battle!");
 		return;
 	}
 	// Load cityscape messages
@@ -3057,7 +3058,7 @@ void Battle::exitBattle(GameState &state)
 	// Check cargo limits (this can move loot into leftover loot)
 	if (config().getBool("OpenApoc.NewFeature.EnforceCargoLimits"))
 	{
-		LogWarning("Implement feature: Enforce containment limits");
+		LogWarning2("Implement feature: Enforce containment limits");
 
 		// FIXME: Implement enforce cargo limits
 		// Basically here we should open a window where we offer to leave behind
@@ -3101,7 +3102,7 @@ void Battle::exitBattle(GameState &state)
 	if (!leftoverBioLoot.empty())
 	{
 		// Bio loot is wasted if can't be loaded on player craft
-		LogWarning("Bio loot remaining");
+		LogWarning2("Bio loot remaining");
 	}
 
 	// Cargo loot remaining?
@@ -3111,7 +3112,7 @@ void Battle::exitBattle(GameState &state)
 		if (state.current_battle->mission_type == Battle::MissionType::UfoRecovery)
 		{
 			// Still can't do anything if we're recovering UFO
-			LogWarning("AllowBuildingLootDeposit and UfoRecovery mission type");
+			LogWarning2("AllowBuildingLootDeposit and UfoRecovery mission type");
 		}
 		else
 		{
@@ -3464,7 +3465,7 @@ void Battle::exitBattle(GameState &state)
 
 	if (victory)
 	{
-		LogError("You won, but we have no screen for that yet LOL!");
+		LogError2("You won, but we have no screen for that yet LOL!");
 	}
 
 	state.current_battle = nullptr;
@@ -3523,7 +3524,7 @@ void Battle::loadImagePacks(GameState &state)
 {
 	if (state.battle_unit_image_packs.size() > 0)
 	{
-		LogInfo("Image packs are already loaded.");
+		LogInfo2("Image packs are already loaded.");
 		return;
 	}
 	// Find out all image packs used by map's units and items
@@ -3641,30 +3642,30 @@ void Battle::loadImagePacks(GameState &state)
 		if (imagePackName.length() == 0)
 			continue;
 		auto imagePackPath = BattleUnitImagePack::getImagePackPath() + "/" + imagePackName;
-		LogInfo("Loading image pack \"%s\" from \"%s\"", imagePackName, imagePackPath);
+		LogInfo2("Loading image pack \"{}\" from \"{}\"", imagePackName, imagePackPath);
 		auto imagePack = mksp<BattleUnitImagePack>();
 		if (!imagePack->loadImagePack(state, imagePackPath))
 		{
-			LogError("Failed to load image pack \"%s\" from \"%s\"", imagePackName, imagePackPath);
+			LogError2("Failed to load image pack \"{}\" from \"{}\"", imagePackName, imagePackPath);
 			continue;
 		}
 		state.battle_unit_image_packs[fmt::format("{}{}", BattleUnitImagePack::getPrefix(),
 		                                          imagePackName)] = imagePack;
-		LogInfo("Loaded image pack \"%s\" from \"%s\"", imagePackName, imagePackPath);
+		LogInfo2("Loaded image pack \"{}\" from \"{}\"", imagePackName, imagePackPath);
 	}
 }
 
 void Battle::unloadImagePacks(GameState &state)
 {
 	state.battle_unit_image_packs.clear();
-	LogInfo("Unloaded all image packs.");
+	LogInfo2("Unloaded all image packs.");
 }
 
 void Battle::loadAnimationPacks(GameState &state)
 {
 	if (state.battle_unit_animation_packs.size() > 0)
 	{
-		LogInfo("Animation packs are already loaded.");
+		LogInfo2("Animation packs are already loaded.");
 		return;
 	}
 	// Find out all animation packs used by units
@@ -3744,24 +3745,24 @@ void Battle::loadAnimationPacks(GameState &state)
 	{
 		auto animationPackPath =
 		    BattleUnitAnimationPack::getAnimationPackPath() + "/" + animationPackName;
-		LogInfo("Loading animation pack \"%s\" from \"%s\"", animationPackName, animationPackPath);
+		LogInfo2("Loading animation pack \"{}\" from \"{}\"", animationPackName, animationPackPath);
 		auto animationPack = mksp<BattleUnitAnimationPack>();
 		if (!animationPack->loadAnimationPack(state, animationPackPath))
 		{
-			LogError("Failed to load animation pack \"%s\" from \"%s\"", animationPackName,
-			         animationPackPath);
+			LogError2("Failed to load animation pack \"{}\" from \"{}\"", animationPackName,
+			          animationPackPath);
 			continue;
 		}
 		state.battle_unit_animation_packs[fmt::format("{}{}", BattleUnitAnimationPack::getPrefix(),
 		                                              animationPackName)] = animationPack;
-		LogInfo("Loaded animation pack \"%s\" from \"%s\"", animationPackName, animationPackPath);
+		LogInfo2("Loaded animation pack \"{}\" from \"{}\"", animationPackName, animationPackPath);
 	}
 }
 
 void Battle::unloadAnimationPacks(GameState &state)
 {
 	state.battle_unit_animation_packs.clear();
-	LogInfo("Unloaded all animation packs.");
+	LogInfo2("Unloaded all animation packs.");
 }
 
 void Battle::saveMessages(GameState &state)

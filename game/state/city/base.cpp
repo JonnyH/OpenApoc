@@ -1,6 +1,7 @@
 #include "game/state/city/base.h"
 #include "dependencies/magic_enum/include/magic_enum/magic_enum.hpp"
 #include "framework/framework.h"
+#include "framework/logger.h"
 #include "game/state/city/building.h"
 #include "game/state/city/city.h"
 #include "game/state/city/facility.h"
@@ -26,7 +27,7 @@ template <> sp<Base> StateObject<Base>::get(const GameState &state, const UStrin
 	auto it = state.player_bases.find(id);
 	if (it == state.player_bases.end())
 	{
-		LogError("No baseas matching ID \"%s\"", id);
+		LogError2("No baseas matching ID \"{}\"", id);
 		return nullptr;
 	}
 	return it->second;
@@ -50,7 +51,7 @@ template <> const UString &StateObject<Base>::getId(const GameState &state, cons
 		if (b.second == ptr)
 			return b.first;
 	}
-	LogError("No base matching pointer %p", static_cast<void *>(ptr.get()));
+	LogError2("No base matching pointer {}", static_cast<void *>(ptr.get()));
 	return emptyString;
 }
 
@@ -70,7 +71,7 @@ Base::Base(GameState &state, StateRef<Building> building) : building(building)
 	StateRef<FacilityType> type = {&state, FacilityType::getPrefix() + "ACCESS_LIFT"};
 	if (canBuildFacility(type, building->base_layout->baseLift, true) != BuildError::NoError)
 	{
-		LogError("Building %s has invalid lift location", building->name);
+		LogError2("Building {} has invalid lift location", building->name);
 	}
 	else
 	{
@@ -138,7 +139,7 @@ void Base::die(GameState &state, bool collapse)
 	state.current_base.clear();
 	if (state.player_bases.empty())
 	{
-		LogError("Player lost, but we have no screen for that yet!");
+		LogError2("Player lost, but we have no screen for that yet!");
 		return;
 	}
 	else
@@ -188,7 +189,7 @@ static bool randomlyPlaceFacility(GameState &state, Base &base, StateRef<Facilit
 	}
 	else
 	{
-		LogError("Position %s in base in possible list but failed to build", position);
+		LogError2("Position {} in base in possible list but failed to build", position);
 		return false;
 	}
 }
@@ -214,7 +215,7 @@ void Base::startingBase(GameState &state)
 {
 	while (!tryToPlaceInitialFacilities(state, *this))
 	{
-		LogInfo("Failed to place facilities, trying again");
+		LogInfo2("Failed to place facilities, trying again");
 		// Cleanup the partially-placed base
 		for (int y = 0; y < this->SIZE; y++)
 		{
@@ -227,15 +228,15 @@ void Base::startingBase(GameState &state)
 		// removed
 		if (this->facilities.size() > 1)
 		{
-			LogError("Failed to cleanup facilities after unsuccessful random place");
+			LogError2("Failed to cleanup facilities after unsuccessful random place");
 		}
 		if (this->facilities.empty())
 		{
-			LogError("No access lift after facility cleanup after unsuccessful random place");
+			LogError2("No access lift after facility cleanup after unsuccessful random place");
 		}
 		if (this->facilities[0]->type->fixed != true)
 		{
-			LogError("Remaining facility after cleanup not an access lift?");
+			LogError2("Remaining facility after cleanup not an access lift?");
 		}
 	}
 }
@@ -270,7 +271,7 @@ Base::BuildError Base::canBuildFacility(StateRef<FacilityType> type, Vec2<int> p
 	{
 		if (!building)
 		{
-			LogError("Building disappeared");
+			LogError2("Building disappeared");
 			return BuildError::OutOfBounds;
 		}
 		else if (building->owner->balance - type->buildCost < 0)
@@ -301,7 +302,7 @@ void Base::buildFacility(GameState &state, StateRef<FacilityType> type, Vec2<int
 	{
 		if (!building)
 		{
-			LogError("Building disappeared");
+			LogError2("Building disappeared");
 		}
 		else
 		{
@@ -608,7 +609,7 @@ float Base::getUsage(GameState &state, const sp<Facility> facility, const int de
 	float usage = 0.0f;
 	if (delta != 0)
 	{
-		LogError("Delta is only supposed to be used with stores, alien containment and LQ!");
+		LogError2("Delta is only supposed to be used with stores, alien containment and LQ!");
 	}
 
 	if (facility->lab->current_project)

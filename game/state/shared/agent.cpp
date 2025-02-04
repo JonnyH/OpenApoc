@@ -1,6 +1,7 @@
 #include "game/state/shared/agent.h"
 #include "framework/configfile.h"
 #include "framework/framework.h"
+#include "framework/logger.h"
 #include "game/state/battle/ai/aitype.h"
 #include "game/state/battle/battleunit.h"
 #include "game/state/city/agentmission.h"
@@ -31,7 +32,7 @@ template <> sp<Agent> StateObject<Agent>::get(const GameState &state, const UStr
 	auto it = state.agents.find(id);
 	if (it == state.agents.end())
 	{
-		LogError("No agent matching ID \"%s\"", id);
+		LogError2("No agent matching ID \"{}\"", id);
 		return nullptr;
 	}
 	return it->second;
@@ -55,7 +56,7 @@ template <> const UString &StateObject<Agent>::getId(const GameState &state, con
 		if (a.second == ptr)
 			return a.first;
 	}
-	LogError("No agent matching pointer %p", static_cast<void *>(ptr.get()));
+	LogError2("No agent matching pointer {}", static_cast<void *>(ptr.get()));
 	return emptyString;
 }
 
@@ -100,7 +101,7 @@ StateRef<Agent> AgentGenerator::createAgent(GameState &state, StateRef<Organisat
 		auto firstNameList = this->first_names.find(agent->gender);
 		if (firstNameList == this->first_names.end())
 		{
-			LogError("No first name list for gender");
+			LogError2("No first name list for gender");
 			return nullptr;
 		}
 
@@ -293,7 +294,7 @@ UString Agent::getRankName() const
 		case Rank::Commander:
 			return tr("Commander");
 	}
-	LogError("Unknown rank %d", (int)rank);
+	LogError2("Unknown rank {}", (int)rank);
 	return "";
 }
 
@@ -664,8 +665,8 @@ sp<AEquipment> Agent::addEquipmentByType(GameState &state, StateRef<AEquipmentTy
 	{
 		if (!allowFailure)
 		{
-			LogError("Trying to add \"%s\" on agent \"%s\" failed: no valid slot found",
-			         equipmentType.id, this->name);
+			LogError2("Trying to add \"{}\" on agent \"{}\" failed: no valid slot found",
+			          equipmentType.id, this->name);
 		}
 		return nullptr;
 	}
@@ -689,8 +690,8 @@ sp<AEquipment> Agent::addEquipmentByType(GameState &state, StateRef<AEquipmentTy
 	{
 		if (!allowFailure)
 		{
-			LogError("Trying to add \"%s\" on agent \"%s\" failed: no valid slot found",
-			         equipmentType.id, this->name);
+			LogError2("Trying to add \"{}\" on agent \"{}\" failed: no valid slot found",
+			          equipmentType.id, this->name);
 		}
 		return nullptr;
 	}
@@ -737,8 +738,8 @@ void Agent::addEquipment(GameState &state, sp<AEquipment> object, EquipmentSlotT
 	Vec2<int> pos = findFirstSlotByType(slotType, object->type);
 	if (pos.x == -1)
 	{
-		LogError("Trying to add \"%s\" on agent \"%s\" failed: no valid slot found", type.id,
-		         this->name);
+		LogError2("Trying to add \"{}\" on agent \"{}\" failed: no valid slot found", type.id,
+		          this->name);
 		return;
 	}
 
@@ -750,11 +751,11 @@ void Agent::addEquipment(GameState &state, Vec2<int> pos, sp<AEquipment> object)
 	EquipmentSlotType slotType;
 	if (!canAddEquipment(pos, object->type, slotType))
 	{
-		LogError("Trying to add \"%s\" at %s on agent  \"%s\" failed", object->type.id, pos,
-		         this->name);
+		LogError2("Trying to add \"{}\" at {} on agent  \"{}\" failed", object->type.id, pos,
+		          this->name);
 	}
 
-	LogInfo("Equipped \"%s\" with equipment \"%s\"", this->name, object->type->name);
+	LogInfo2("Equipped \"{}\" with equipment \"{}\"", this->name, object->type->name);
 	// Proper position
 	for (auto &slot : type->equipment_layout->slots)
 	{
@@ -906,18 +907,18 @@ bool Agent::popFinishedMissions(GameState &state)
 				break;
 			}
 		}
-		LogWarning("Agent %s mission \"%s\" finished", name, missions.front().getName());
+		LogWarning2("Agent {} mission \"{}\" finished", name, missions.front().getName());
 		missions.pop_front();
 		popped = true;
 		if (!missions.empty())
 		{
-			LogWarning("Agent %s mission \"%s\" starting", name, missions.front().getName());
+			LogWarning2("Agent {} mission \"{}\" starting", name, missions.front().getName());
 			missions.front().start(state, *this);
 			continue;
 		}
 		else
 		{
-			LogWarning("No next agent mission, going idle");
+			LogWarning2("No next agent mission, going idle");
 			break;
 		}
 	}

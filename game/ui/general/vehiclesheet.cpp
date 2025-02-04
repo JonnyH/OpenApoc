@@ -2,6 +2,7 @@
 #include "forms/graphic.h"
 #include "forms/label.h"
 #include "forms/textedit.h"
+#include "framework/logger.h"
 #include "game/state/gamestate.h"
 #include "game/state/rules/battle/damage.h"
 #include "game/state/tilemap/tilemap.h"
@@ -54,7 +55,7 @@ void VehicleSheet::clear()
 			auto label = form->findControlTyped<Label>(labelName);
 			if (!label)
 			{
-				LogError("Failed to find UI control matching \"%s\"", labelName);
+				LogError2("Failed to find UI control matching \"{}\"", labelName);
 			}
 			else
 			{
@@ -165,7 +166,7 @@ void VehicleSheet::displayEquipImplementation(sp<VEquipment> item, sp<VEquipment
 			displayGeneral(item, type);
 			break;
 		default:
-			LogError("Unhandled equipment type %s on vehicle", type->id);
+			LogError2("Unhandled equipment type {} on vehicle", type->id);
 			break;
 	}
 }

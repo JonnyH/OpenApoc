@@ -2,6 +2,7 @@
 #include "luaframework.h"
 #include "configfile.h"
 #include "framework.h"
+#include "framework/logger.h"
 
 namespace OpenApoc
 {
@@ -60,12 +61,12 @@ void pushToLua(lua_State *L, sp<Image> &v)
 void pushToLua(lua_State *L, sp<LazyImage> &v [[maybe_unused]])
 {
 	lua_pushnil(L);
-	LogError("Unimplemented Lua function");
+	LogError2("Unimplemented Lua function");
 }
 void pushToLua(lua_State *L, sp<VoxelSlice> &v [[maybe_unused]])
 {
 	lua_pushnil(L);
-	LogError("Unimplemented Lua function");
+	LogError2("Unimplemented Lua function");
 }
 void pushToLua(lua_State *L, sp<Sample> &v)
 {
@@ -77,7 +78,7 @@ void pushToLua(lua_State *L, sp<Sample> &v)
 void pushToLua(lua_State *L, sp<VoxelMap> &v [[maybe_unused]])
 {
 	lua_pushnil(L);
-	LogError("Unimplemented Lua function");
+	LogError2("Unimplemented Lua function");
 }
 void pushToLua(lua_State *L, Colour &v)
 {
@@ -95,27 +96,27 @@ void pushToLua(lua_State *L, Colour &v)
 void pushToLua(lua_State *L, const sp<Image> &v [[maybe_unused]])
 {
 	lua_pushnil(L);
-	LogError("Unimplemented Lua function");
+	LogError2("Unimplemented Lua function");
 }
 void pushToLua(lua_State *L, const sp<LazyImage> &v [[maybe_unused]])
 {
 	lua_pushnil(L);
-	LogError("Unimplemented Lua function");
+	LogError2("Unimplemented Lua function");
 }
 void pushToLua(lua_State *L, const sp<VoxelSlice> &v [[maybe_unused]])
 {
 	lua_pushnil(L);
-	LogError("Unimplemented Lua function");
+	LogError2("Unimplemented Lua function");
 }
 void pushToLua(lua_State *L, const sp<Sample> &v [[maybe_unused]])
 {
 	lua_pushnil(L);
-	LogError("Unimplemented Lua function");
+	LogError2("Unimplemented Lua function");
 }
 void pushToLua(lua_State *L, const sp<VoxelMap> &v [[maybe_unused]])
 {
 	lua_pushnil(L);
-	LogError("Unimplemented Lua function");
+	LogError2("Unimplemented Lua function");
 }
 void pushToLua(lua_State *L, const Colour &v)
 {
@@ -241,7 +242,7 @@ lua_CFunction getLuaObjectConstMethods<Xorshift128Plus<uint32_t>>(const std::str
 	return nullptr;
 }
 
-void pushToLua(lua_State *L [[maybe_unused]]) { LogError("Unimplemented Lua function"); }
+void pushToLua(lua_State *L [[maybe_unused]]) { LogError2("Unimplemented Lua function"); }
 
 void pushLuaDebugTraceback(lua_State *L)
 {

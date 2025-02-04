@@ -4,6 +4,7 @@
 #include "game/state/battle/battleunit.h"
 #include "framework/configfile.h"
 #include "framework/framework.h"
+#include "framework/logger.h"
 #include "framework/sound.h"
 #include "game/state/battle/ai/unitaihelper.h"
 #include "game/state/battle/battle.h"
@@ -34,7 +35,7 @@ static int getPsiCost(PsiStatus status, bool isAttack)
 	switch (status)
 	{
 		case PsiStatus::NotEngaged:
-			LogError("Invalid value NotEngaged for psiStatus in getPsiCost()");
+			LogError2("Invalid value NotEngaged for psiStatus in getPsiCost()");
 			return 0;
 		case PsiStatus::Control:
 			return isAttack ? 32 : 4;
@@ -45,7 +46,7 @@ static int getPsiCost(PsiStatus status, bool isAttack)
 		case PsiStatus::Probe:
 			return isAttack ? 8 : 3;
 	}
-	LogError("Unexpected Psi Status in getPsiCost()");
+	LogError2("Unexpected Psi Status in getPsiCost()");
 	return 0;
 }
 
@@ -101,7 +102,7 @@ template <> sp<BattleUnit> StateObject<BattleUnit>::get(const GameState &state, 
 	auto it = state.current_battle->units.find(id);
 	if (it == state.current_battle->units.end())
 	{
-		LogError("No agent_type matching ID \"%s\"", id);
+		LogError2("No agent_type matching ID \"{}\"", id);
 		return nullptr;
 	}
 	return it->second;
@@ -126,7 +127,7 @@ const UString &StateObject<BattleUnit>::getId(const GameState &state, const sp<B
 		if (a.second == ptr)
 			return a.first;
 	}
-	LogError("No battleUnit matching pointer %p", static_cast<void *>(ptr.get()));
+	LogError2("No battleUnit matching pointer {}", static_cast<void *>(ptr.get()));
 	return emptyString;
 }
 
@@ -252,7 +253,7 @@ void BattleUnit::setPosition(GameState &state, const Vec3<float> &pos, bool goal
 	position = pos;
 	if (!tileObject)
 	{
-		LogError("setPosition called on unit with no tile object");
+		LogError2("setPosition called on unit with no tile object");
 		return;
 	}
 
@@ -854,7 +855,7 @@ void BattleUnit::setFocus(GameState &state, StateRef<BattleUnit> unit)
 		}
 		else
 		{
-			LogError("Inconsistent focusUnit/focusBy!");
+			LogError2("Inconsistent focusUnit/focusBy!");
 		}
 	}
 	focusUnit = unit;
@@ -1062,7 +1063,7 @@ int BattleUnit::getPsiChanceForEquipment(StateRef<BattleUnit> target, PsiStatus 
 {
 	if (status == PsiStatus::NotEngaged)
 	{
-		LogError("Invalid value NotEngaged for psiStatus in getPsiChance()");
+		LogError2("Invalid value NotEngaged for psiStatus in getPsiChance()");
 		return 0;
 	}
 	auto e1 = agent->getFirstItemInSlot(EquipmentSlotType::RightHand);
@@ -1128,8 +1129,8 @@ bool BattleUnit::startAttackPsiInternal(GameState &state, StateRef<BattleUnit> t
 	int roll = randBoundsExclusive(state.rng, 0, 100);
 	experiencePoints.psi_attack++;
 	experiencePoints.psi_energy++;
-	LogWarning("Psi Attack #%d Roll %d Chance %d %s Attacker %s Target %s", (int)status, roll,
-	           chance, roll < chance ? (UString) "SUCCESS" : (UString) "FAILURE", id, target->id);
+	LogWarning2("Psi Attack #{} Roll {} Chance {} {} Attacker {} Target {}", (int)status, roll,
+	            chance, roll < chance ? (UString) "SUCCESS" : (UString) "FAILURE", id, target->id);
 	if (roll >= chance)
 	{
 		return false;
@@ -1226,7 +1227,7 @@ void BattleUnit::applyPsiAttack(GameState &state, BattleUnit &attacker, PsiStatu
 				}
 				break;
 			case PsiStatus::NotEngaged:
-				LogError("Invalid value NotEngaged for psiStatus in applyPsiAttack()");
+				LogError2("Invalid value NotEngaged for psiStatus in applyPsiAttack()");
 				return;
 		}
 	} while (!finished && !realTime && !impact && status != PsiStatus::Probe);
@@ -1525,7 +1526,7 @@ AIType BattleUnit::getAIType() const
 		case MoraleState::Berserk:
 			return AIType::Berserk;
 	}
-	LogError("Unhandled morale state in getAIType()");
+	LogError2("Unhandled morale state in getAIType()");
 	return AIType::None;
 }
 
@@ -1552,7 +1553,7 @@ bool BattleUnit::canProne(Vec3<int> pos, Vec2<int> fac) const
 {
 	if (isLarge())
 	{
-		LogError("Large unit attempting to go prone? WTF? Should large units ever acces this?");
+		LogError2("Large unit attempting to go prone? WTF? Should large units ever acces this?");
 		return false;
 	}
 	// Check if agent can go prone and stand in its current tile
@@ -1853,18 +1854,18 @@ bool BattleUnit::applyDamage(GameState &state, int power, StateRef<DamageType> d
 
 void BattleUnit::applyMoraleDamage(int moraleDamage, int psiAttackPower, GameState &state)
 {
-	LogWarning("Psionic damageType");
+	LogWarning2("Psionic damageType");
 	const int random = randBoundsExclusive(state.rng, 0, 100);
 	const int chance =
 	    getPsiAttackChance(psiAttackPower, agent->modified_stats.psi_defence, PsiStatus::Panic);
 
-	LogWarning("Chance: %i  Random: %i", chance, random);
+	LogWarning2("Chance: {}  Random: {}", chance, random);
 
 	if (random < chance)
 	{
-		LogWarning("Psionic damage passed the defence of %s", agent->name);
+		LogWarning2("Psionic damage passed the defence of {}", agent->name);
 		agent->modified_stats.loseMorale(moraleDamage);
-		LogWarning("morale: %d", agent->modified_stats.bravery);
+		LogWarning2("morale: {}", agent->modified_stats.bravery);
 	}
 }
 
@@ -1917,7 +1918,7 @@ bool BattleUnit::handleCollision(GameState &state, Collision &c)
 
 	if (!this->tileObject)
 	{
-		LogError("It's possible multiple projectiles hit the same tile in the same tick (?)");
+		LogError2("It's possible multiple projectiles hit the same tile in the same tick (?)");
 		return false;
 	}
 
@@ -2501,12 +2502,12 @@ void BattleUnit::updateIdling(GameState &state)
 		// Sanity checks
 		if (goalFacing != facing)
 		{
-			LogError("Unit %s (%s) turning without a mission, wtf?", id, agent->type->id);
+			LogError2("Unit {} ({}) turning without a mission, wtf?", id, agent->type->id);
 		}
 		if (target_body_state != current_body_state)
 		{
-			LogError("Unit %s (%s) changing body state without a mission, wtf?", id,
-			         agent->type->id);
+			LogError2("Unit {} ({}) changing body state without a mission, wtf?", id,
+			          agent->type->id);
 		}
 
 		// Reach goal before everything else
@@ -2565,8 +2566,8 @@ void BattleUnit::updateIdling(GameState &state)
 				}
 				else
 				{
-					LogError("Hmm? Agent ordered to move walking without a standing/flying valid "
-					         "body state?");
+					LogError2("Hmm? Agent ordered to move walking without a standing/flying valid "
+					          "body state?");
 				}
 			}
 			// Stop flying if we can stand
@@ -2802,8 +2803,8 @@ void BattleUnit::updateMovementFalling(GameState &state, unsigned int &moveTicks
 				               std::min(newPosition.z, previousPosition.z)};
 				break;
 			default:
-				LogError("What the hell is this unit colliding with? Type is %d",
-				         (int)c.obj->getType());
+				LogError2("What the hell is this unit colliding with? Type is {}",
+				          (int)c.obj->getType());
 				break;
 		}
 	}
@@ -2842,7 +2843,8 @@ void BattleUnit::updateMovementFalling(GameState &state, unsigned int &moveTicks
 		// Fell below 0???
 		if (newPosition.z < 0)
 		{
-			LogError("Unit at %f %f fell off the end of the world!?", newPosition.x, newPosition.y);
+			LogError2("Unit at {:f} {:f} fell off the end of the world!?", newPosition.x,
+			          newPosition.y);
 			die(state, nullptr, false);
 			destroyed = true;
 			return;
@@ -3461,7 +3463,7 @@ void BattleUnit::updateAttacking(GameState &state, unsigned int ticks)
 				targetPosition = (Vec3<float>)targetTile + offsetTileGround;
 				break;
 			case TargetingMode::NoTarget:
-				LogError("Invalid targeting mode NoTarget while targeting");
+				LogError2("Invalid targeting mode NoTarget while targeting");
 				break;
 		}
 
@@ -3512,7 +3514,7 @@ void BattleUnit::updateAttacking(GameState &state, unsigned int ticks)
 				weaponRight = nullptr;
 				break;
 			case WeaponStatus::NotFiring:
-				LogError("Invalid targeting mode NoTarget while targeting");
+				LogError2("Invalid targeting mode NoTarget while targeting");
 				break;
 		}
 
@@ -3711,7 +3713,7 @@ void BattleUnit::updateFiring(GameState &state, sp<AEquipment> &weaponLeft,
 				}
 				break;
 			case WeaponStatus::NotFiring:
-				LogError("Weapon fired while not firing!?");
+				LogError2("Weapon fired while not firing!?");
 				break;
 		}
 	}
@@ -3768,7 +3770,7 @@ void BattleUnit::updateAI(GameState &state, unsigned int)
 	auto decision = aiList.think(state, *this);
 	if (!decision.isEmpty())
 	{
-		LogWarning("AI %s for unit %s decided to %s", decision.ai, id, decision.getName());
+		LogWarning2("AI {} for unit {} decided to {}", decision.ai, id, decision.getName());
 		executeAIDecision(state, decision);
 	}
 }
@@ -4453,7 +4455,7 @@ void BattleUnit::tryToRiseUp(GameState &state)
 			case BodyState::Dead:
 			case BodyState::Jumping:
 			case BodyState::Throwing:
-				LogError("Not possible to reach this?");
+				LogError2("Not possible to reach this?");
 				break;
 		}
 		break;
@@ -4549,7 +4551,7 @@ void BattleUnit::dropDown(GameState &state)
 				proposedBodyState = BodyState::Downed;
 				break;
 			case BodyState::Dead:
-				LogError("Impossible");
+				LogError2("Impossible");
 				break;
 		}
 		break;
@@ -5095,8 +5097,8 @@ bool BattleUnit::useItem(GameState &state, sp<AEquipment> item)
 	if (item->ownerAgent != agent || (item->equippedSlotType != EquipmentSlotType::RightHand &&
 	                                  item->equippedSlotType != EquipmentSlotType::LeftHand))
 	{
-		LogError("Unit %s attempting to use item that is not in hand or does not belong to us?",
-		         id);
+		LogError2("Unit {} attempting to use item that is not in hand or does not belong to us?",
+		          id);
 		return false;
 	}
 	switch (item->type->type)
@@ -5132,7 +5134,7 @@ bool BattleUnit::useItem(GameState &state, sp<AEquipment> item)
 					// 10% of max TUs
 					if (!spendTU(state, getMotionScannerCost()))
 					{
-						LogWarning("Notify unsufficient TU for motion scanner");
+						LogWarning2("Notify unsufficient TU for motion scanner");
 						return false;
 					}
 				}
@@ -5173,7 +5175,7 @@ bool BattleUnit::useMedikit(GameState &state, BodyPart part)
 		// 37.5% of max TUs
 		if (!spendTU(state, getMedikitCost()))
 		{
-			LogWarning("Notify unsufficient TU for medikit");
+			LogWarning2("Notify unsufficient TU for medikit");
 			return false;
 		}
 		fatalWounds[part]--;
@@ -5198,8 +5200,8 @@ void BattleUnit::setBodyState(GameState &state, BodyState bodyState)
 {
 	if (!agent->isBodyStateAllowed(bodyState))
 	{
-		LogError("SetBodyState called on %s (%s) (%s) with bodyState %d", id, agent->name,
-		         agent->type->id, (int)bodyState);
+		LogError2("SetBodyState called on {} ({}) ({}) with bodyState {}", id, agent->name,
+		          agent->type->id, (int)bodyState);
 		return;
 	}
 	bool roseUp = current_body_state == BodyState::Downed;
@@ -5331,7 +5333,7 @@ void BattleUnit::setMovementState(MovementState state)
 {
 	if (!agent->isMovementStateAllowed(state))
 	{
-		LogError("WTF? Where the hell you're going?");
+		LogError2("WTF? Where the hell you're going?");
 		return;
 	}
 
@@ -5375,8 +5377,8 @@ void BattleUnit::setMovementState(MovementState state)
 		}
 		else
 		{
-			LogError("setMovementState %d incompatible with current body states %d to %d",
-			         (int)state, (int)current_body_state, (int)target_body_state);
+			LogError2("setMovementState {} incompatible with current body states {} to {}",
+			          (int)state, (int)current_body_state, (int)target_body_state);
 			return;
 		}
 	}
@@ -5585,7 +5587,7 @@ bool BattleUnit::popFinishedMissions(GameState &state)
 	bool popped = false;
 	while (missions.size() > 0 && missions.front()->isFinished(state, *this))
 	{
-		LogWarning("Unit %s mission \"%s\" finished", id, missions.front()->getName());
+		LogWarning2("Unit {} mission \"{}\" finished", id, missions.front()->getName());
 		missions.pop_front();
 		popped = true;
 		// We may have retreated as a result of finished mission
@@ -5601,7 +5603,7 @@ bool BattleUnit::popFinishedMissions(GameState &state)
 		}
 		else
 		{
-			LogWarning("No next unit mission, going idle");
+			LogWarning2("No next unit mission, going idle");
 			break;
 		}
 	}
@@ -5667,7 +5669,7 @@ bool BattleUnit::addMission(GameState &state, BattleUnitMission::Type type)
 		case BattleUnitMission::Type::Jump:
 		case BattleUnitMission::Type::GotoLocation:
 		case BattleUnitMission::Type::Teleport:
-			LogError("Cannot add mission by type if it requires parameters");
+			LogError2("Cannot add mission by type if it requires parameters");
 			break;
 	}
 	return false;

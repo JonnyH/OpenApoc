@@ -19,7 +19,7 @@ RendererImageData::~RendererImageData() = default;
 
 sp<Image> RendererImageData::readBack()
 {
-	LogWarning("NOT IMPLEMENTED");
+	LogWarning2("NOT IMPLEMENTED");
 	return nullptr;
 }
 

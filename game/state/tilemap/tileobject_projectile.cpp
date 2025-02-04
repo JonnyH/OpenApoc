@@ -1,4 +1,5 @@
 #include "game/state/tilemap/tileobject_projectile.h"
+#include "framework/logger.h"
 #include "framework/renderer.h"
 #include "game/state/shared/projectile.h"
 #include "game/state/tilemap/tilemap.h"
@@ -15,7 +16,7 @@ void TileObjectProjectile::draw(Renderer &r, TileTransform &transform, Vec2<floa
 	auto projectile = this->projectile.lock();
 	if (!projectile)
 	{
-		LogError("Called with no owning projectile object");
+		LogError2("Called with no owning projectile object");
 		return;
 	}
 
@@ -58,7 +59,7 @@ Vec3<float> TileObjectProjectile::getPosition() const
 	auto p = this->projectile.lock();
 	if (!p)
 	{
-		LogError("Called with no owning projectile object");
+		LogError2("Called with no owning projectile object");
 		return {0, 0, 0};
 	}
 	return p->getPosition();
@@ -69,7 +70,7 @@ void TileObjectProjectile::addToDrawnTiles(Tile *)
 	auto p = this->projectile.lock();
 	if (!p)
 	{
-		LogError("Called with no owning projectile object");
+		LogError2("Called with no owning projectile object");
 		return;
 	}
 	Vec3<float> maxCoords = {-1, -1, -1};

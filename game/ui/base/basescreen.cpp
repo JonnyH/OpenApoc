@@ -11,6 +11,7 @@
 #include "framework/framework.h"
 #include "framework/image.h"
 #include "framework/keycodes.h"
+#include "framework/logger.h"
 #include "framework/renderer.h"
 #include "game/state/city/base.h"
 #include "game/state/city/building.h"
@@ -64,7 +65,7 @@ void BaseScreen::begin()
 		auto label = form->findControlTyped<Label>(labelName);
 		if (!label)
 		{
-			LogError("Failed to find UI control matching \"%s\"", labelName);
+			LogError2("Failed to find UI control matching \"{}\"", labelName);
 		}
 		statsLabels.push_back(label);
 
@@ -72,7 +73,7 @@ void BaseScreen::begin()
 		auto value = form->findControlTyped<Label>(valueName);
 		if (!value)
 		{
-			LogError("Failed to find UI control matching \"%s\"", valueName);
+			LogError2("Failed to find UI control matching \"{}\"", valueName);
 		}
 		statsValues.push_back(value);
 	}
@@ -355,8 +356,8 @@ void BaseScreen::eventOccurred(Event *e)
 					}
 					if (!ufopaedia_category)
 					{
-						LogError("No UFOPaedia category found for entry %s",
-						         ufopaedia_entry->title);
+						LogError2("No UFOPaedia category found for entry {}",
+						          ufopaedia_entry->title);
 					}
 					fw().stageQueueCommand(
 					    {StageCmd::Command::PUSH,

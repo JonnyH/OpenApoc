@@ -1,5 +1,6 @@
 #include "framework/data.h"
 #include "framework/framework.h"
+#include "framework/logger.h"
 #include "game/state/city/economyinfo.h"
 #include "game/state/gamestate.h"
 #include "library/strings_format.h"
@@ -34,9 +35,9 @@ static std::vector<UString> vehicleAmmoNames = {
 void InitialGameStateExtractor::extractEconomy(GameState &state) const
 {
 	auto &data = this->ufo2p;
-	LogInfo("Number of economy 1 data chunks: %u", (unsigned)data.economy_data1->count());
-	LogInfo("Number of economy 2 data chunks: %u", (unsigned)data.economy_data2->count());
-	LogInfo("Number of economy 3 data chunks: %u", (unsigned)data.economy_data3->count());
+	LogInfo2("Number of economy 1 data chunks: {}", (unsigned)data.economy_data1->count());
+	LogInfo2("Number of economy 2 data chunks: {}", (unsigned)data.economy_data2->count());
+	LogInfo2("Number of economy 3 data chunks: {}", (unsigned)data.economy_data3->count());
 
 	for (unsigned idx = 0; idx < data.economy_data1->count(); idx++)
 	{
@@ -71,7 +72,7 @@ void InitialGameStateExtractor::extractEconomy(GameState &state) const
 			}
 			else
 			{
-				LogError("Unexpected data in economy data pack 1!");
+				LogError2("Unexpected data in economy data pack 1!");
 			}
 		}
 		state.economy[id] = economyInfo;
@@ -97,7 +98,7 @@ void InitialGameStateExtractor::extractEconomy(GameState &state) const
 		}
 		else
 		{
-			LogError("Unexpected data in economy data pack 2!");
+			LogError2("Unexpected data in economy data pack 2!");
 		}
 		state.economy[id] = economyInfo;
 	}
@@ -123,7 +124,7 @@ void InitialGameStateExtractor::extractEconomy(GameState &state) const
 		}
 		else
 		{
-			LogError("Unexpected data in economy data pack 3!");
+			LogError2("Unexpected data in economy data pack 3!");
 		}
 		state.economy[id] = economyInfo;
 	}

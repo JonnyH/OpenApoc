@@ -1,5 +1,6 @@
 #include "framework/data.h"
 #include "framework/framework.h"
+#include "framework/logger.h"
 #include "framework/palette.h"
 #include "game/state/gamestate.h"
 #include "game/state/rules/battle/battleunitimagepack.h"
@@ -20,7 +21,7 @@ sp<BattleUnitImagePack> InitialGameStateExtractor::extractImagePack(GameState &s
 	auto imageTabFile = fw().data->fs.open(imageTabFileName);
 	if (!imageTabFile)
 	{
-		LogError("Failed to open TAB file \"%s\"", imageTabFileName);
+		LogError2("Failed to open TAB file \"{}\"", imageTabFileName);
 		return nullptr;
 	}
 	size_t imageTabFileEntryCount = imageTabFile.size() / 4;
@@ -62,7 +63,7 @@ int InitialGameStateExtractor::getItemImagePacksCount() const
 	auto heldSpriteTabFile = fw().data->fs.open(heldSpriteTabFileName);
 	if (!heldSpriteTabFile)
 	{
-		LogError("Failed to open held item sprite TAB file \"%s\"", heldSpriteTabFileName);
+		LogError2("Failed to open held item sprite TAB file \"{}\"", heldSpriteTabFileName);
 		return -1;
 	}
 	return heldSpriteTabFile.size() / 4 / 8;

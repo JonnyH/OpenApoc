@@ -61,7 +61,7 @@ GL::GLuint CreateShader(GL::GLenum type, const UString &source)
 	std::unique_ptr<char[]> log(new char[logLength]);
 	gl->GetShaderInfoLog(shader, logLength, NULL, log.get());
 
-	LogError("Shader compile error: %s", log.get());
+	LogError2("Shader compile error: {}", log.get());
 
 	gl->DeleteShader(shader);
 	return 0;
@@ -73,13 +73,13 @@ GL::GLuint CompileProgram(const UString &vertexSource, const UString &fragmentSo
 	GL::GLuint vShader = CreateShader(GL::VERTEX_SHADER, vertexSource);
 	if (!vShader)
 	{
-		LogError("Failed to compile vertex shader");
+		LogError2("Failed to compile vertex shader");
 		return 0;
 	}
 	GL::GLuint fShader = CreateShader(GL::FRAGMENT_SHADER, fragmentSource);
 	if (!fShader)
 	{
-		LogError("Failed to compile fragment shader");
+		LogError2("Failed to compile fragment shader");
 		gl->DeleteShader(vShader);
 		return 0;
 	}
@@ -104,7 +104,7 @@ GL::GLuint CompileProgram(const UString &vertexSource, const UString &fragmentSo
 	std::unique_ptr<char[]> log(new char[logLength]);
 	gl->GetProgramInfoLog(prog, logLength, NULL, log.get());
 
-	LogError("Program link error: %s", log.get());
+	LogError2("Program link error: {}", log.get());
 
 	gl->DeleteProgram(prog);
 	return 0;
@@ -238,7 +238,7 @@ class Spritesheet
 		else if (format == GL::R8UI)
 			data_format = GL::RED_INTEGER;
 		else
-			LogError("Unknown GL internal format 0x%x", format);
+			LogError2("Unknown GL internal format 0x{:x}", format);
 
 		gl->TexImage3D(GL::TEXTURE_2D_ARRAY, 0, this->format, this->page_size.x, this->page_size.y,
 		               this->pages.size(), 0, data_format, GL::UNSIGNED_BYTE, nullptr);
@@ -265,7 +265,7 @@ class Spritesheet
 		auto image = entry->parent.lock();
 		if (!image)
 		{
-			LogError("Spritesheet entry has no parent");
+			LogError2("Spritesheet entry has no parent");
 		}
 		auto rgbImage = std::dynamic_pointer_cast<RGBImage>(image);
 		if (rgbImage)
@@ -291,7 +291,7 @@ class Spritesheet
 			                  GL::UNSIGNED_BYTE, l.getData());
 			return;
 		}
-		LogError("Unknown image type");
+		LogError2("Unknown image type");
 	}
 	void repack()
 	{
@@ -312,7 +312,7 @@ class Spritesheet
 		pages.clear();
 		while (!validEntries.empty())
 		{
-			LogInfo("Repack: creating sheet %d", (int)pages.size());
+			LogInfo2("Repack: creating sheet {}", (int)pages.size());
 			auto page = mksp<SpritesheetPage>((int)pages.size(), page_size, node_count);
 			pages.push_back(page);
 			page->addMultiple(validEntries);
@@ -343,13 +343,13 @@ class Spritesheet
 			}
 		}
 		// Required a new page
-		LogInfo("Creating spritesheet page %d", (int)pages.size());
+		LogInfo2("Creating spritesheet page {}", (int)pages.size());
 		auto page = mksp<SpritesheetPage>((int)pages.size(), page_size, node_count);
 		auto ret = page->addEntry(entry);
 		if (!ret)
 		{
-			LogError("Failed to pack a %s sized sprite in a new page of size %s?", entry->size,
-			         page_size);
+			LogError2("Failed to pack a {} sized sprite in a new page of size {}?", entry->size,
+			          page_size);
 		}
 		this->pages.push_back(page);
 		// Because of the way texStorage sets the array length at creation time
@@ -488,7 +488,7 @@ class SpriteBuffer
 	{
 		if (this->buffer_contents == 0)
 		{
-			LogWarning("Calling draw with no sprites stored?");
+			LogWarning2("Calling draw with no sprites stored?");
 			return;
 		}
 		gl->BindBuffer(GL::ARRAY_BUFFER, this->sprite_buffer_id);
@@ -771,7 +771,7 @@ class GLSurface final : public RendererImageData
 		                         this->tex_id, 0);
 		if (gl->CheckFramebufferStatus(GL::DRAW_FRAMEBUFFER) != GL::FRAMEBUFFER_COMPLETE)
 		{
-			LogError("Surface framebuffer not complete");
+			LogError2("Surface framebuffer not complete");
 		}
 	}
 	~GLSurface() override;
@@ -1034,7 +1034,7 @@ class TexturedDrawMachine
 		auto tex = std::dynamic_pointer_cast<GLSurface>(i->rendererPrivateData);
 		if (!tex)
 		{
-			LogWarning("Drawing using undefined surface contents");
+			LogWarning2("Drawing using undefined surface contents");
 			tex = mksp<GLSurface>(i->size, owner);
 			i->rendererPrivateData = tex;
 		}
@@ -1309,8 +1309,8 @@ class OGLES30Renderer final : public Renderer
 	unsigned int maxColouredBuffers = 0;
 	~OGLES30Renderer() override
 	{
-		LogInfo("Max %u sprite buffers %u textured buffers %u coloured buffers",
-		        this->maxSpriteBuffers, this->maxTexturedBuffers, this->maxColouredBuffers);
+		LogInfo2("Max {} sprite buffers {} textured buffers {} coloured buffers",
+		         this->maxSpriteBuffers, this->maxTexturedBuffers, this->maxColouredBuffers);
 		renderer_dead = true;
 	}
 
@@ -1318,17 +1318,17 @@ class OGLES30Renderer final : public Renderer
 	{
 		if (this->spriteMachine->used_buffers > this->maxSpriteBuffers)
 		{
-			LogInfo("New max sprite buffers: %u", this->spriteMachine->used_buffers);
+			LogInfo2("New max sprite buffers: {}", this->spriteMachine->used_buffers);
 			this->maxSpriteBuffers = this->spriteMachine->used_buffers;
 		}
 		if (this->texturedMachine->used_buffers > this->maxTexturedBuffers)
 		{
-			LogInfo("New max textured buffers: %u", this->texturedMachine->used_buffers);
+			LogInfo2("New max textured buffers: {}", this->texturedMachine->used_buffers);
 			this->maxTexturedBuffers = this->texturedMachine->used_buffers;
 		}
 		if (this->colouredDrawMachine->used_buffers > this->maxColouredBuffers)
 		{
-			LogInfo("New max coloured buffers: %u", this->colouredDrawMachine->used_buffers);
+			LogInfo2("New max coloured buffers: {}", this->colouredDrawMachine->used_buffers);
 			this->maxColouredBuffers = this->colouredDrawMachine->used_buffers;
 		}
 		this->spriteMachine->used_buffers = 0;
@@ -1394,7 +1394,7 @@ class OGLES30Renderer final : public Renderer
 			                            flip_y, Renderer::Scaler::Linear);
 			return;
 		}
-		LogError("Unknown image type");
+		LogError2("Unknown image type");
 	}
 	void drawScaled(sp<Image> i, Vec2<float> position, Vec2<float> size, Scaler scaler) override
 	{
@@ -1450,7 +1450,7 @@ class OGLES30Renderer final : public Renderer
 			                            scaler);
 			return;
 		}
-		LogError("Unknown image type");
+		LogError2("Unknown image type");
 	}
 	void drawTinted(sp<Image> i, Vec2<float> position, Colour tint) override
 	{
@@ -1682,12 +1682,12 @@ void GLESWRAP_APIENTRY debug_message_proc(GL::KhrDebug::GLenum, GL::KhrDebug::GL
 		case GL::KhrDebug::DEBUG_SEVERITY_HIGH:
 		case GL::KhrDebug::DEBUG_SEVERITY_MEDIUM:
 		{
-			LogWarning("Debug message: \"%s\"", message);
+			LogWarning2("Debug message: \"{}\"", message);
 			break;
 		}
 		default:
 		{
-			LogInfo("Debug message: \"%s\"", message);
+			LogInfo2("Debug message: \"{}\"", message);
 			break;
 		}
 	}
@@ -1702,7 +1702,7 @@ OGLES30Renderer::OGLES30Renderer() : state(State::Idle)
 	this->colouredDrawMachine.reset(new ColouredDrawMachine{quadBufferCount});
 	GL::GLint viewport[4];
 	gl->GetIntegerv(GL::VIEWPORT, viewport);
-	LogInfo("Viewport {%d,%d,%d,%d}", viewport[0], viewport[1], viewport[2], viewport[3]);
+	LogInfo2("Viewport {{{},{},{},{}}}", viewport[0], viewport[1], viewport[2], viewport[3]);
 	this->default_surface = mksp<Surface>(Vec2<int>{viewport[2], viewport[3]});
 	this->default_surface->rendererPrivateData =
 	    mksp<GLSurface>(0, Vec2<int>{viewport[2], viewport[3]}, this);
@@ -1717,12 +1717,12 @@ OGLES30Renderer::OGLES30Renderer() : state(State::Idle)
 	if (spritesheetPageSize.x > (unsigned int)max_texture_size ||
 	    spritesheetPageSize.y > (unsigned int)max_texture_size)
 	{
-		LogWarning("Default spritesheet size %s larger than HW limit %d - clamping...",
-		           spritesheetPageSize, max_texture_size);
+		LogWarning2("Default spritesheet size {} larger than HW limit {} - clamping...",
+		            spritesheetPageSize, max_texture_size);
 		spritesheetPageSize.x = std::min(spritesheetPageSize.x, (unsigned int)max_texture_size);
 		spritesheetPageSize.y = std::min(spritesheetPageSize.y, (unsigned int)max_texture_size);
 	}
-	LogInfo("Set spritesheet size to %s", spritesheetPageSize);
+	LogInfo2("Set spritesheet size to {}", spritesheetPageSize);
 
 	bool use_debug = false;
 
@@ -1732,7 +1732,7 @@ OGLES30Renderer::OGLES30Renderer() : state(State::Idle)
 
 	if (use_debug)
 	{
-		LogInfo("Enabling KHR_debug output");
+		LogInfo2("Enabling KHR_debug output");
 		gl->Enable(static_cast<GL::GLenum>(GL::KhrDebug::DEBUG_OUTPUT_SYNCHRONOUS));
 		gl->Enable(static_cast<GL::GLenum>(GL::KhrDebug::DEBUG_OUTPUT));
 		gl->KHR_debug.DebugMessageCallback(debug_message_proc, NULL);
@@ -1755,25 +1755,25 @@ class OGLES30RendererFactory : public RendererFactory
 			// First see if we're a direct OpenGL|ES context
 			if (GL::supported(true))
 			{
-				LogInfo("Using OpenGL ES3 compatibility");
+				LogInfo2("Using OpenGL ES3 compatibility");
 				gl.reset(new GL(true));
 			}
 			// Then check for ES3 compatibility extension on desktop OpenGL
 			else if (GL::supported(false))
 			{
-				LogInfo("Using OpenGL|ES context");
+				LogInfo2("Using OpenGL|ES context");
 				gl.reset(new GL(false));
 			}
 			else
 			{
-				LogInfo("Failed to find ES3-compatible device");
+				LogInfo2("Failed to find ES3-compatible device");
 				return nullptr;
 			}
 			return new OGLES30Renderer();
 		}
 		else
 		{
-			LogWarning("Initialisation already attempted");
+			LogWarning2("Initialisation already attempted");
 			return nullptr;
 		}
 	}
@@ -1783,7 +1783,7 @@ GLRGBTexture::~GLRGBTexture()
 {
 	if (renderer_dead)
 	{
-		LogWarning("GLRGBTexture being destroyed after renderer");
+		LogWarning2("GLRGBTexture being destroyed after renderer");
 		return;
 	}
 
@@ -1793,7 +1793,7 @@ GLPaletteTexture::~GLPaletteTexture()
 {
 	if (renderer_dead)
 	{
-		LogWarning("GLPaletteTexture being destroyed after renderer");
+		LogWarning2("GLPaletteTexture being destroyed after renderer");
 		return;
 	}
 	owner->delete_texture_object(this->tex_id);
@@ -1802,7 +1802,7 @@ GLSurface::~GLSurface()
 {
 	if (renderer_dead)
 	{
-		LogWarning("GLSurface being destroyed after renderer");
+		LogWarning2("GLSurface being destroyed after renderer");
 		return;
 	}
 	if (this->fbo_id)

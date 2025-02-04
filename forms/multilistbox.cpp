@@ -3,6 +3,7 @@
 #include "forms/scrollbar.h"
 #include "framework/event.h"
 #include "framework/framework.h"
+#include "framework/logger.h"
 #include "framework/renderer.h"
 
 namespace OpenApoc
@@ -462,8 +463,9 @@ void MultilistBox::setSelected(sp<Control> Item, bool select)
 	}
 	if (!found)
 	{
-		LogError("Trying set MultilistBox selected control to something that isn't a member of the "
-		         "list");
+		LogError2(
+		    "Trying set MultilistBox selected control to something that isn't a member of the "
+		    "list");
 	}
 
 	if (funcHandleSelection(nullptr, Item, select))

@@ -242,7 +242,7 @@ void BuyAndSellScreen::closeScreen()
 					break;
 				case Organisation::PurchaseResult::OrgHasNoBuildings:
 				case Organisation::PurchaseResult::OrgHostile:
-					LogError("How did we end up buying from an org we can't buy from!?");
+					LogError2("How did we end up buying from an org we can't buy from!?");
 					break;
 				case Organisation::PurchaseResult::OK:
 					// Everything went fine
@@ -429,7 +429,7 @@ void BuyAndSellScreen::executeOrders()
 				if (c->itemType != TransactionControl::Type::Vehicle &&
 				    state->economy.find(c->itemId) == state->economy.end())
 				{
-					LogError("Economy not found for %s: How are we selling it then!?", c->itemId);
+					LogError2("Economy not found for {}: How are we selling it then!?", c->itemId);
 					continue;
 				}
 
@@ -505,8 +505,8 @@ void BuyAndSellScreen::executeOrders()
 							}
 							case TransactionControl::Type::VehicleType:
 							{
-								LogError("How did we manage to sell a vehicle type %s!?",
-								         c->itemId);
+								LogError2("How did we manage to sell a vehicle type {}!?",
+								          c->itemId);
 								break;
 							}
 							case TransactionControl::Type::Soldier:
@@ -514,7 +514,7 @@ void BuyAndSellScreen::executeOrders()
 							case TransactionControl::Type::Physicist:
 							case TransactionControl::Type::Engineer:
 							{
-								LogError("How did we manage to sell an agent type %s!", c->itemId);
+								LogError2("How did we manage to sell an agent type {}!", c->itemId);
 								break;
 							}
 						}
@@ -526,8 +526,8 @@ void BuyAndSellScreen::executeOrders()
 						auto org = c->manufacturer;
 						if (org->isRelatedTo(player) == Organisation::Relation::Hostile)
 						{
-							LogError("How the hell is being bought from a hostile org %s?",
-							         c->manufacturerName);
+							LogError2("How the hell is being bought from a hostile org {}?",
+							          c->manufacturerName);
 							continue;
 						}
 
@@ -535,13 +535,13 @@ void BuyAndSellScreen::executeOrders()
 						{
 							case TransactionControl::Type::Vehicle:
 							{
-								LogError("It should be impossible to buy a particular vehicle %s.",
-								         c->itemId);
+								LogError2("It should be impossible to buy a particular vehicle {}.",
+								          c->itemId);
 								break;
 							}
 							case TransactionControl::Type::AgentEquipmentBio:
 							{
-								LogError("Alien %s: How are we buying it!?", c->itemId);
+								LogError2("Alien {}: How are we buying it!?", c->itemId);
 								break;
 							}
 							case TransactionControl::Type::AgentEquipmentCargo:
@@ -573,7 +573,7 @@ void BuyAndSellScreen::executeOrders()
 							case TransactionControl::Type::Physicist:
 							case TransactionControl::Type::Engineer:
 							{
-								LogError("How did we manage to sell an agent type %s!", c->itemId);
+								LogError2("How did we manage to sell an agent type {}!", c->itemId);
 								break;
 							}
 						}

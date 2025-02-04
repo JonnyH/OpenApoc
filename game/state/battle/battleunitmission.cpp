@@ -1,5 +1,6 @@
 #include "game/state/battle/battleunitmission.h"
 #include "framework/framework.h"
+#include "framework/logger.h"
 #include "framework/sound.h"
 #include "game/state/battle/battleitem.h"
 #include "game/state/battle/battleunit.h"
@@ -138,7 +139,7 @@ bool BattleUnitTileHelper::canEnterTile(Tile *from, Tile *to, bool allowJumping,
 	// Error checks
 	if (!to)
 	{
-		LogError("No 'to' position supplied");
+		LogError2("No 'to' position supplied");
 		return false;
 	}
 	Vec3<int> toPos = to->position;
@@ -150,17 +151,17 @@ bool BattleUnitTileHelper::canEnterTile(Tile *from, Tile *to, bool allowJumping,
 	Vec3<int> fromPos = from->position;
 	if (fromPos == toPos)
 	{
-		LogError("FromPos == ToPos %s", toPos);
+		LogError2("FromPos == ToPos {}", toPos);
 		return false;
 	}
 	if (!map.tileIsValid(fromPos))
 	{
-		LogError("FromPos %s is not on the map", fromPos);
+		LogError2("FromPos {} is not on the map", fromPos);
 		return false;
 	}
 	if (!map.tileIsValid(toPos))
 	{
-		LogError("ToPos %s is not on the map", toPos);
+		LogError2("ToPos {} is not on the map", toPos);
 		return false;
 	}
 
@@ -1470,8 +1471,8 @@ bool BattleUnitMission::getNextBodyState(GameState &state, BattleUnit &u, BodySt
 				}
 				else
 				{
-					LogError("Unit %s (%s) (%s) lost capability to attain bodyState %d?", u.id,
-					         u.agent->name, u.agent->type->id, (int)targetBodyState);
+					LogError2("Unit {} ({}) ({}) lost capability to attain bodyState {}?", u.id,
+					          u.agent->name, u.agent->type->id, (int)targetBodyState);
 				}
 			}
 			return advanceBodyState(state, u, targetBodyState, dest);
@@ -1501,8 +1502,8 @@ MovementState BattleUnitMission::getNextMovementState(GameState &, BattleUnit &u
 				}
 				else
 				{
-					LogError("Agent with allowed Jumping body state does not have allowed Normal "
-					         "movement");
+					LogError2("Agent with allowed Jumping body state does not have allowed Normal "
+					          "movement");
 					return u.current_movement_state;
 				}
 			}
@@ -1537,7 +1538,7 @@ MovementState BattleUnitMission::getNextMovementState(GameState &, BattleUnit &u
 						break;
 					}
 				default:
-					LogError("Invalid facingDelta %d", facingDelta);
+					LogError2("Invalid facingDelta {}", facingDelta);
 					break;
 			}
 			break;
@@ -1693,7 +1694,7 @@ void BattleUnitMission::update(GameState &state, BattleUnit &u, unsigned int tic
 			}
 			return;
 		default:
-			LogWarning("TODO: Implement update");
+			LogWarning2("TODO: Implement update");
 			return;
 	}
 }
@@ -1756,14 +1757,14 @@ bool BattleUnitMission::isFinishedInternal(GameState &, BattleUnit &u)
 			// Is finished only when unit dies on timer
 			return false;
 		default:
-			LogWarning("TODO: Implement isfinishedinternal");
+			LogWarning2("TODO: Implement isfinishedinternal");
 			return false;
 	}
 }
 
 void BattleUnitMission::start(GameState &state, BattleUnit &u)
 {
-	LogWarning("Unit %s mission \"%s\" starting", u.id, getName());
+	LogWarning2("Unit {} mission \"{}\" starting", u.id, getName());
 
 	switch (this->type)
 	{
@@ -1789,8 +1790,8 @@ void BattleUnitMission::start(GameState &state, BattleUnit &u)
 				}
 				if (item->type->type != AEquipmentType::Type::Teleporter)
 				{
-					LogError("Unit is trying to teleport using non-teleporter item %s!?",
-					         item->type->name);
+					LogError2("Unit is trying to teleport using non-teleporter item {}!?",
+					          item->type->name);
 					cancelled = true;
 					return;
 				}
@@ -1819,7 +1820,7 @@ void BattleUnitMission::start(GameState &state, BattleUnit &u)
 				if (!u.agent->isBodyStateAllowed(teleBodyState))
 					teleBodyState = BodyState::Prone;
 				if (!u.agent->isBodyStateAllowed(teleBodyState))
-					LogError("Unit has no valid body state? WTF?");
+					LogError2("Unit has no valid body state? WTF?");
 				u.setBodyState(state, teleBodyState);
 				u.setMovementState(MovementState::None);
 				u.falling = false;
@@ -1956,7 +1957,7 @@ void BattleUnitMission::start(GameState &state, BattleUnit &u)
 		case Type::Snooze:
 			return;
 		default:
-			LogWarning("TODO: Implement start");
+			LogWarning2("TODO: Implement start");
 			return;
 	}
 }
@@ -1975,8 +1976,8 @@ void BattleUnitMission::setPathTo(GameState &state, BattleUnit &u, Vec3<int> tar
 			// If unit cannot move at all - cancel
 			if (!u.canMove())
 			{
-				LogInfo("Cannot move to %d %d %d, unit has no movement ability", target.x, target.y,
-				        target.z);
+				LogInfo2("Cannot move to {} {} {}, unit has no movement ability", target.x,
+				         target.y, target.z);
 				cancelled = true;
 				return;
 			}
@@ -2006,9 +2007,9 @@ void BattleUnitMission::setPathTo(GameState &state, BattleUnit &u, Vec3<int> tar
 							    !targetTile->getUnitIfPresent(true, true, false, u.tileObject,
 							                                  false, u.isLarge()))
 							{
-								LogInfo("Cannot move to %d %d %d, found an adjacent free tile, "
-								        "moving to an adjacent tile",
-								        target.x, target.y, target.z);
+								LogInfo2("Cannot move to {} {} {}, found an adjacent free tile, "
+								         "moving to an adjacent tile",
+								         target.x, target.y, target.z);
 								approachOnly = true;
 								break;
 							}
@@ -2025,7 +2026,7 @@ void BattleUnitMission::setPathTo(GameState &state, BattleUnit &u, Vec3<int> tar
 				}
 				if (!approachOnly)
 				{
-					LogInfo("Cannot move to %d %d %d, impassable", target.x, target.y, target.z);
+					LogInfo2("Cannot move to {} {} {}, impassable", target.x, target.y, target.z);
 					cancelled = true;
 					return;
 				}
@@ -2040,8 +2041,8 @@ void BattleUnitMission::setPathTo(GameState &state, BattleUnit &u, Vec3<int> tar
 				target.z--;
 				if (target.z == -1)
 				{
-					LogError("Solid ground missing on level 0? Reached %d %d %d", target.x,
-					         target.y, target.z);
+					LogError2("Solid ground missing on level 0? Reached {} {} {}", target.x,
+					          target.y, target.z);
 					cancelled = true;
 					return;
 				}
@@ -2059,7 +2060,7 @@ void BattleUnitMission::setPathTo(GameState &state, BattleUnit &u, Vec3<int> tar
 		// Cancel movement if the closest path ends at the current position
 		if (path.size() == 1 && path.back() == Vec3<int>{u.position})
 		{
-			LogInfo("Cannot move to %s, closest path ends at origin", Vec3<int>{u.goalPosition});
+			LogInfo2("Cannot move to {}, closest path ends at origin", Vec3<int>{u.goalPosition});
 			cancelled = true;
 			return;
 		}
@@ -2074,7 +2075,7 @@ void BattleUnitMission::setPathTo(GameState &state, BattleUnit &u, Vec3<int> tar
 	}
 	else
 	{
-		LogError("Mission %s: Unit without tileobject attempted pathfinding!", getName());
+		LogError2("Mission {}: Unit without tileobject attempted pathfinding!", getName());
 		cancelled = true;
 		return;
 	}
@@ -2456,7 +2457,7 @@ bool BattleUnitMission::advanceBodyState(GameState &state, BattleUnit &u, BodySt
 	}
 	if (u.current_body_state != u.target_body_state)
 	{
-		LogError("Requesting to change body state during another body state change?");
+		LogError2("Requesting to change body state during another body state change?");
 		u.setBodyState(state, u.target_body_state);
 	}
 

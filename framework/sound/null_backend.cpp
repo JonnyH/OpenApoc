@@ -22,23 +22,23 @@ class NullSoundBackend : public SoundBackend
 	{
 		std::ignore = sample;
 		std::ignore = gain;
-		LogInfo("Called on NULL backend");
+		LogInfo2("Called on NULL backend");
 	}
 
 	void playMusic(std::function<void(void *)> finishedCallback, void *callbackData) override
 	{
 		std::ignore = finishedCallback;
 		std::ignore = callbackData;
-		LogInfo("Called on NULL backend");
+		LogInfo2("Called on NULL backend");
 	}
 
 	void setTrack(sp<MusicTrack> track) override
 	{
 		std::ignore = track;
-		LogInfo("Called on NULL backend");
+		LogInfo2("Called on NULL backend");
 	}
 
-	void stopMusic() override { LogInfo("Called on NULL backend"); }
+	void stopMusic() override { LogInfo2("Called on NULL backend"); }
 
 	~NullSoundBackend() override { this->stopMusic(); }
 
@@ -61,7 +61,7 @@ class NullSoundBackendFactory : public SoundBackendFactory
   public:
 	SoundBackend *create(int concurrent_sample_count) override
 	{
-		LogWarning("Creating NULL sound backend (Sound disabled)");
+		LogWarning2("Creating NULL sound backend (Sound disabled)");
 		return new NullSoundBackend(concurrent_sample_count);
 	}
 

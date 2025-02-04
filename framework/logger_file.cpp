@@ -67,7 +67,7 @@ void enableFileLogger(const char *outputFile)
 	logFile.open(outputFile);
 	if (!logFile.good())
 	{
-		LogError("File logger failed to open file \"%s\"", outputFile);
+		LogError2("File logger failed to open file \"{}\"", outputFile);
 	}
 	fileLogLevel = (LogLevel)Options::fileLogLevelOption.get();
 	backtraceLogLevel = (LogLevel)Options::backtraceLogLevelOption.get();

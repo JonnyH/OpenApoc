@@ -1,5 +1,6 @@
 #include "framework/data.h"
 #include "framework/framework.h"
+#include "framework/logger.h"
 #include "framework/palette.h"
 #include "game/state/gamestate.h"
 #include "game/state/rules/battle/battleunitanimationpack.h"
@@ -18,7 +19,7 @@ sp<BattleUnitAnimationPack::AnimationEntry> InitialGameStateExtractor::combineAn
 	auto e = mksp<BattleUnitAnimationPack::AnimationEntry>();
 
 	if (e1->is_overlay != e2->is_overlay)
-		LogError("Incompatible entries: one is overlay, other isn't!");
+		LogError2("Incompatible entries: one is overlay, other isn't!");
 
 	e->is_overlay = e1->is_overlay;
 	e->frame_count = e1->frame_count + e2->frame_count;
@@ -104,8 +105,8 @@ sp<BattleUnitAnimationPack::AnimationEntry> InitialGameStateExtractor::getAnimat
 						continue;
 					break;
 				default:
-					LogError("Impossible part index %d found in UF located at entry %d offset %d",
-					         part_idx, offset_uf, j);
+					LogError2("Impossible part index {} found in UF located at entry {} offset {}",
+					          part_idx, offset_uf, j);
 					break;
 			}
 			for (int f = 0; f < (doubleFrames ? 2 : 1); f++)
@@ -174,7 +175,7 @@ InitialGameStateExtractor::makeUpAnimationEntry(int from, int count, int fromS, 
 					    BattleUnitAnimationPack::AnimationEntry::Frame::UnitImagePart::Helmet;
 					break;
 				default:
-					LogError("If you reached this then OpenApoc programmers made a mistake");
+					LogError2("If you reached this then OpenApoc programmers made a mistake");
 					break;
 			}
 			e->frames[i].unit_image_draw_order.push_back(part_type);
@@ -216,7 +217,7 @@ InitialGameStateExtractor::extractAnimationPack(GameState &state, const UString 
 				inFile.read((char *)&data, sizeof(data));
 				if (!inFile)
 				{
-					LogError("Failed to read entry in \"%s\"", fileName);
+					LogError2("Failed to read entry in \"{}\"", fileName);
 					return nullptr;
 				}
 				dataAD.push_back(data);
@@ -240,7 +241,7 @@ InitialGameStateExtractor::extractAnimationPack(GameState &state, const UString 
 				inFile.read((char *)&data, sizeof(data));
 				if (!inFile)
 				{
-					LogError("Failed to read entry in \"%s\"", fileName);
+					LogError2("Failed to read entry in \"{}\"", fileName);
 					return nullptr;
 				}
 				dataUA.push_back(data);
@@ -264,7 +265,7 @@ InitialGameStateExtractor::extractAnimationPack(GameState &state, const UString 
 				inFile.read((char *)&data, sizeof(data));
 				if (!inFile)
 				{
-					LogError("Failed to read entry in \"%s\"", fileName);
+					LogError2("Failed to read entry in \"{}\"", fileName);
 					return nullptr;
 				}
 				dataUF.push_back(data);

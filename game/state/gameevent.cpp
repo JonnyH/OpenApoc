@@ -134,7 +134,7 @@ UString GameVehicleEvent::message()
 			    "{} {}", tr("Vehicle landed with alien loot in base with no alien containment"),
 			    vehicle->name);
 		default:
-			LogError("Invalid vehicle event type");
+			LogError2("Invalid vehicle event type");
 			break;
 	}
 	return "";
@@ -201,7 +201,7 @@ UString GameAgentEvent::message()
 		case GameEventType::AgentOutOfAmmo:
 			return fmt::format("{} {}", agent->name, tr(": Out of ammo"));
 		default:
-			LogError("Invalid agent event type");
+			LogError2("Invalid agent event type");
 			break;
 	}
 	return "";
@@ -237,7 +237,7 @@ UString GameBuildingEvent::message()
 		case GameEventType::CommenceInvestigation:
 			return "";
 		default:
-			LogError("Invalid building event type");
+			LogError2("Invalid building event type");
 			break;
 	}
 	return "";
@@ -295,7 +295,7 @@ UString GameBaseEvent::message()
 			return fmt::format("Base mission completed at: {}", base->name);
 
 		default:
-			LogError("Invalid event type");
+			LogError2("Invalid event type");
 			break;
 	}
 	return "";
@@ -309,7 +309,7 @@ UString GameBattleEvent::message()
 			return fmt::format("Turn: {}   Side: {}", battle->currentTurn,
 			                   battle->currentActiveOrganisation->name);
 		default:
-			LogError("Invalid battle event type");
+			LogError2("Invalid battle event type");
 			break;
 	}
 	return "";
@@ -414,8 +414,8 @@ GameSomethingDiedEvent::GameSomethingDiedEvent(GameEventType type, UString name,
 			messageInner = fmt::format("{} {}", tr("Module lost during recovery:"), name);
 			break;
 		default:
-			LogWarning("GameSomethingDiedEvent %s called on non-death event %d", name,
-			           static_cast<int>(type));
+			LogWarning2("GameSomethingDiedEvent {} called on non-death event {}", name,
+			            static_cast<int>(type));
 			break;
 	}
 }

@@ -1,4 +1,5 @@
 #include "framework/framework.h"
+#include "framework/logger.h"
 #include "game/state/gamestate.h"
 #include "game/state/rules/city/baselayout.h"
 #include "library/strings_format.h"
@@ -36,8 +37,8 @@ void InitialGameStateExtractor::extractBaseLayouts(GameState &state) const
 					{
 						if (foundLift)
 						{
-							LogError("Unexpected repeated lift at position {%d,%d} in base %s", row,
-							         col, id);
+							LogError2("Unexpected repeated lift at position {{{},{}}} in base {}",
+							          row, col, id);
 						}
 						foundLift = true;
 						layout->baseLift = {col, row};
@@ -48,14 +49,14 @@ void InitialGameStateExtractor::extractBaseLayouts(GameState &state) const
 						break;
 					}
 					default:
-						LogError("Unexpected module id %d at {%d,%d} in base %s",
-						         (int)b.module[row][col], col, row, id);
+						LogError2("Unexpected module id {} at {{{},{}}} in base {}",
+						          (int)b.module[row][col], col, row, id);
 				}
 			}
 		}
 		if (!foundLift)
 		{
-			LogError("No lift found in base %s", id);
+			LogError2("No lift found in base {}", id);
 		}
 		Rect<int>::compactRectSet(layout->baseCorridors);
 		state.base_layouts[id] = layout;

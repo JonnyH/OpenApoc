@@ -1,5 +1,6 @@
 #include "framework/data.h"
 #include "framework/framework.h"
+#include "framework/logger.h"
 #include "framework/palette.h"
 #include "game/state/rules/battle/battlemap.h"
 #include "game/state/rules/battle/battlemaptileset.h"
@@ -24,7 +25,7 @@ void InitialGameStateExtractor::readBattleMapParts(
 	auto inFile = fw().data->fs.open(datFileName);
 	if (!inFile)
 	{
-		LogError("Failed to open mapunits DAT file at \"%s\"", datFileName);
+		LogError2("Failed to open mapunits DAT file at \"{}\"", datFileName);
 		return;
 	}
 	auto fileSize = inFile.size();
@@ -35,12 +36,12 @@ void InitialGameStateExtractor::readBattleMapParts(
 	auto strategySpriteTabFile = fw().data->fs.open(strategySpriteTabFileName);
 	if (!strategySpriteTabFile)
 	{
-		LogError("Failed to open strategy sprite TAB file \"%s\"", strategySpriteTabFileName);
+		LogError2("Failed to open strategy sprite TAB file \"{}\"", strategySpriteTabFileName);
 		return;
 	}
 	size_t strategySpriteCount = strategySpriteTabFile.size() / 4;
 
-	LogInfo("Loading %zu entries from \"%s\"", objectCount, datFileName);
+	LogInfo2("Loading {} entries from \"{}\"", objectCount, datFileName);
 
 	for (size_t i = 0; i < objectCount; i++)
 	{
@@ -49,7 +50,7 @@ void InitialGameStateExtractor::readBattleMapParts(
 		inFile.read((char *)&entry, sizeof(entry));
 		if (!inFile)
 		{
-			LogError("Failed to read entry %zu in \"%s\"", i, datFileName);
+			LogError2("Failed to read entry {} in \"{}\"", i, datFileName);
 			return;
 		}
 
@@ -105,14 +106,14 @@ void InitialGameStateExtractor::readBattleMapParts(
 			auto animateTabFile = fw().data->fs.open(animateTabFileName);
 			if (!animateTabFile)
 			{
-				LogError("Failed to open animate sprite TAB file \"%s\"", animateTabFileName);
+				LogError2("Failed to open animate sprite TAB file \"{}\"", animateTabFileName);
 				return;
 			}
 			size_t animateSpriteCount = animateTabFile.size() / 4;
 
 			if (animateSpriteCount < entry.animation_idx + entry.animation_length)
 			{
-				LogWarning("Bogus animation value, animation frames not present for ID %s", id);
+				LogWarning2("Bogus animation value, animation frames not present for ID {}", id);
 			}
 			else
 			{
@@ -234,7 +235,7 @@ void InitialGameStateExtractor::readBattleMapParts(
 		{
 			if (gets_support_from % 10 < 1 || gets_support_from % 10 > 4)
 			{
-				LogError("Unrecognized support by id %d", (int)entry.gets_support_from);
+				LogError2("Unrecognized support by id {}", (int)entry.gets_support_from);
 				return;
 			}
 			object->supportedByDirections.insert((MapDirection)(gets_support_from % 10));
@@ -260,7 +261,7 @@ void InitialGameStateExtractor::readBattleMapParts(
 					object->supportedByTypes.insert(BattleMapPartType::Type::Feature);
 					break;
 				default:
-					LogError("Unrecognized support by id %d", (int)entry.gets_support_from);
+					LogError2("Unrecognized support by id {}", (int)entry.gets_support_from);
 					return;
 			}
 		}

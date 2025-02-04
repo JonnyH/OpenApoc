@@ -12,6 +12,7 @@
 #include "framework/font.h"
 #include "framework/framework.h"
 #include "framework/keycodes.h"
+#include "framework/logger.h"
 #include "framework/renderer.h"
 #include "game/state/city/base.h"
 #include "game/state/city/building.h"
@@ -388,8 +389,8 @@ void VEquipScreen::eventOccurred(Event *e)
 				}
 				if (base->inventoryVehicleEquipment[draggedEquipment->id] <= 0)
 				{
-					LogError("Trying to equip item \"%s\" with zero inventory",
-					         this->draggedEquipment->id);
+					LogError2("Trying to equip item \"{}\" with zero inventory",
+					          this->draggedEquipment->id);
 				}
 				auto e =
 				    this->selected->addEquipment(*state, equipmentGridPos, this->draggedEquipment);
@@ -430,8 +431,8 @@ void VEquipScreen::render()
 			allowedEquipmentUser = VEquipmentType::User::Ground;
 			break;
 		default:
-			LogError(
-			    "Trying to draw equipment screen of unsupported vehicle type for vehicle \"%s\"",
+			LogError2(
+			    "Trying to draw equipment screen of unsupported vehicle type for vehicle \"{}\"",
 			    this->selected->name);
 			allowedEquipmentUser = VEquipmentType::User::Air;
 			break;
@@ -536,17 +537,17 @@ void VEquipScreen::setSelectedVehicle(sp<Vehicle> vehicle)
 {
 	if (!vehicle)
 	{
-		LogError("Trying to set invalid selected vehicle");
+		LogError2("Trying to set invalid selected vehicle");
 		return;
 	}
-	LogInfo("Selecting vehicle \"%s\"", vehicle->name);
+	LogInfo2("Selecting vehicle \"{}\"", vehicle->name);
 	this->selected = vehicle;
 	auto backgroundImage = vehicle->type->equipment_screen;
 	if (!backgroundImage)
 	{
-		LogError("Trying to view equipment screen of vehicle \"%s\" which has no equipment screen "
-		         "background",
-		         vehicle->type->name);
+		LogError2("Trying to view equipment screen of vehicle \"{}\" which has no equipment screen "
+		          "background",
+		          vehicle->type->name);
 	}
 
 	auto backgroundControl = form->findControlTyped<Graphic>("BACKGROUND");
@@ -572,7 +573,7 @@ void VEquipScreen::setHighlightedSlotType(EquipmentSlotType type)
 			break;
 		default:
 		{
-			LogError("Non-vehicle slot type in VEquipScreen?");
+			LogError2("Non-vehicle slot type in VEquipScreen?");
 		}
 	}
 }

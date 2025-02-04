@@ -1,5 +1,6 @@
 #include "framework/data.h"
 #include "framework/framework.h"
+#include "framework/logger.h"
 #include "game/state/gamestate.h"
 #include "game/state/rules/aequipmenttype.h"
 #include "game/state/rules/battle/battlecommonimagelist.h"
@@ -92,15 +93,15 @@ void InitialGameStateExtractor::extractAlienEquipmentSets(GameState &state,
 	// Equipment sets - score - alien
 	{
 		if (data_t.agent_equipment_set_score_requirement->count() != 1)
-			LogError("Incorrect amount of alien score requirement structures: encountered %u, "
-			         "expected 1",
-			         (unsigned)data_t.agent_equipment_set_score_requirement->count());
+			LogError2("Incorrect amount of alien score requirement structures: encountered {}, "
+			          "expected 1",
+			          (unsigned)data_t.agent_equipment_set_score_requirement->count());
 		auto sdata = data_t.agent_equipment_set_score_requirement->get(0);
 
 		if (data_t.agent_equipment_set_score_alien->count() != 1)
-			LogError("Incorrect amount of alien score equipment set structures: encountered %u, "
-			         "expected 1",
-			         (unsigned)data_t.agent_equipment_set_score_alien->count());
+			LogError2("Incorrect amount of alien score equipment set structures: encountered {}, "
+			          "expected 1",
+			          (unsigned)data_t.agent_equipment_set_score_alien->count());
 		auto data = data_t.agent_equipment_set_score_alien->get(0);
 		for (unsigned i = 0; i < 8; i++)
 		{
@@ -188,7 +189,7 @@ void InitialGameStateExtractor::extractAlienEquipmentSets(GameState &state,
 					diff = 4;
 					break;
 				default:
-					LogError("Unknown difficulty");
+					LogError2("Unknown difficulty");
 			}
 
 			es->min_score =
@@ -209,7 +210,8 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 	auto gameObjectSpriteTabFile = fw().data->fs.open(gameObjectSpriteTabFileName);
 	if (!gameObjectSpriteTabFile)
 	{
-		LogError("Failed to open dropped item sprite TAB file \"%s\"", gameObjectSpriteTabFileName);
+		LogError2("Failed to open dropped item sprite TAB file \"{}\"",
+		          gameObjectSpriteTabFileName);
 		return;
 	}
 	size_t gameObjectSpriteCount = gameObjectSpriteTabFile.size() / 4;
@@ -218,8 +220,8 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 	auto gameObjectShadowSpriteTabFile = fw().data->fs.open(gameObjectShadowSpriteTabFileName);
 	if (!gameObjectShadowSpriteTabFile)
 	{
-		LogError("Failed to open shadow dropped item sprite TAB file \"%s\"",
-		         gameObjectShadowSpriteTabFileName);
+		LogError2("Failed to open shadow dropped item sprite TAB file \"{}\"",
+		          gameObjectShadowSpriteTabFileName);
 		return;
 	}
 	size_t gameObjectShadowSpriteCount = gameObjectShadowSpriteTabFile.size() / 4;
@@ -228,7 +230,7 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 	auto heldSpriteTabFile = fw().data->fs.open(heldSpriteTabFileName);
 	if (!heldSpriteTabFile)
 	{
-		LogError("Failed to open held item sprite TAB file \"%s\"", heldSpriteTabFileName);
+		LogError2("Failed to open held item sprite TAB file \"{}\"", heldSpriteTabFileName);
 		return;
 	}
 	size_t heldSpriteCount = heldSpriteTabFile.size() / 4 / 8;
@@ -539,8 +541,8 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 						e->body_part = BodyPart::Helmet;
 						break;
 					default:
-						LogError("Unexpected body part type %d for ID %s", (int)adata.body_part,
-						         id);
+						LogError2("Unexpected body part type {} for ID {}", (int)adata.body_part,
+						          id);
 				}
 				switch (adata.damage_modifier)
 				{
@@ -554,8 +556,8 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 						armoredUnitPicIndex = 4;
 						break;
 					default:
-						LogError("Unexpected damage modifier %d for ID %s",
-						         (int)adata.damage_modifier, id);
+						LogError2("Unexpected damage modifier {} for ID {}",
+						          (int)adata.damage_modifier, id);
 						break;
 				}
 				e->body_image_pack = {&state,
@@ -701,12 +703,12 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 						e->type = AEquipmentType::Type::MediKit;
 						break;
 					default:
-						LogError("Unexpected general type %d for ID %s", (int)gdata.type, id);
+						LogError2("Unexpected general type {} for ID {}", (int)gdata.type, id);
 				}
 			}
 			break;
 			default:
-				LogInfo("Encountered empty item in ID %s, moving on", id);
+				LogInfo2("Encountered empty item in ID {}, moving on", id);
 				continue;
 		}
 
@@ -760,7 +762,7 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 		if (payload_idx != std::numeric_limits<unsigned>::max())
 		{
 			if (payload_idx >= data_t.agent_payload->count())
-				LogError("Invalid payload index %u for ID %s", payload_idx, id);
+				LogError2("Invalid payload index {} for ID {}", payload_idx, id);
 
 			auto pdata = data_t.agent_payload->get(payload_idx);
 
@@ -996,8 +998,8 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 						e->trigger_type = TriggerType::Boomeroid;
 						break;
 					default:
-						LogError("Unexpected grenade trigger type %d for ID %s",
-						         (int)pdata.trigger_type, id);
+						LogError2("Unexpected grenade trigger type {} for ID {}",
+						          (int)pdata.trigger_type, id);
 				}
 			}
 			e->explosion_depletion_rate = pdata.explosion_depletion_rate;
@@ -1038,9 +1040,9 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 	// Equipment sets - score (level) - human
 	{
 		if (data_t.agent_equipment_set_score_human->count() != 1)
-			LogError("Incorrect amount of human score equipment set structures: encountered %u, "
-			         "expected 1",
-			         (unsigned)data_t.agent_equipment_set_score_human->count());
+			LogError2("Incorrect amount of human score equipment set structures: encountered {}, "
+			          "expected 1",
+			          (unsigned)data_t.agent_equipment_set_score_human->count());
 		auto data = data_t.agent_equipment_set_score_human->get(0);
 		for (unsigned i = 0; i < 12; i++)
 		{

@@ -1,5 +1,6 @@
 #include "game/state/shared/doodad.h"
 #include "framework/framework.h"
+#include "framework/logger.h"
 #include "game/state/battle/battle.h"
 #include "game/state/city/city.h"
 #include "game/state/gamestate.h"
@@ -73,7 +74,7 @@ sp<Image> Doodad::getSprite()
 		if (animTime > age)
 			return frame;
 	}
-	LogWarning("Doodad reached age %d with no frame", age);
+	LogWarning2("Doodad reached age {} with no frame", age);
 	return frame;
 }
 

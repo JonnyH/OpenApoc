@@ -3,6 +3,7 @@
 #include "framework/event.h"
 #include "framework/framework.h"
 #include "framework/image.h"
+#include "framework/logger.h"
 #include "framework/renderer.h"
 #include "library/sp.h"
 
@@ -14,7 +15,7 @@ ApocCursor::ApocCursor(sp<Palette> pal) : cursorPos{0, 0}
 	auto f = fw().data->fs.open("xcom3/tacdata/mouse.dat");
 	if (!f)
 	{
-		LogError("Failed to open xcom3/tacdata/mouse.dat");
+		LogError2("Failed to open xcom3/tacdata/mouse.dat");
 		return;
 	}
 

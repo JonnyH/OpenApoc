@@ -6,6 +6,7 @@
 #include "framework/font.h"
 #include "framework/framework.h"
 #include "framework/keycodes.h"
+#include "framework/logger.h"
 #include "framework/renderer.h"
 #include "game/state/gamestate.h"
 #include "game/state/rules/battle/damage.h"
@@ -192,7 +193,7 @@ void AgentSheet::clear()
 		auto label = statsForm->findControlTyped<Label>(labelName);
 		if (!label)
 		{
-			LogError("Failed to find UI control matching \"%s\"", labelName);
+			LogError2("Failed to find UI control matching \"{}\"", labelName);
 		}
 		else
 		{

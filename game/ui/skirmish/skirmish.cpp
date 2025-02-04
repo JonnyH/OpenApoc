@@ -7,6 +7,7 @@
 #include "framework/event.h"
 #include "framework/framework.h"
 #include "framework/keycodes.h"
+#include "framework/logger.h"
 #include "game/state/battle/battle.h"
 #include "game/state/city/base.h"
 #include "game/state/city/building.h"
@@ -336,7 +337,7 @@ void Skirmish::goToBattle(bool customAliens, std::map<StateRef<AgentType>, int> 
 		f->buildTime = 0;
 	}
 
-	LogWarning("Adding new agents to base %s", playerBase.id);
+	LogWarning2("Adding new agents to base {}", playerBase.id);
 	int countHumans = menuform->findControlTyped<ScrollBar>("NUM_HUMANS_SLIDER")->getValue();
 	int countHybrids = menuform->findControlTyped<ScrollBar>("NUM_HYBRIDS_SLIDER")->getValue();
 	int countAndroids = menuform->findControlTyped<ScrollBar>("NUM_ANDROIDS_SLIDER")->getValue();
@@ -479,7 +480,7 @@ void Skirmish::goToBattle(bool customAliens, std::map<StateRef<AgentType>, int> 
 		}
 	}
 
-	LogWarning("Resetting base inventory");
+	LogWarning2("Resetting base inventory");
 	playerBase->inventoryAgentEquipment.clear();
 	for (auto &t : state.agent_equipment)
 	{

@@ -26,14 +26,14 @@ bool test_gamestate_serialization_roundtrip(OpenApoc::sp<OpenApoc::GameState> st
 	if (!state->saveGame(save_name))
 	{
 
-		LogWarning("Failed to save packed gamestate");
+		LogWarning2("Failed to save packed gamestate");
 		return false;
 	}
 
 	auto read_gamestate = OpenApoc::mksp<OpenApoc::GameState>();
 	if (!read_gamestate->loadGame(save_name))
 	{
-		LogWarning("Failed to load packed gamestate");
+		LogWarning2("Failed to load packed gamestate");
 		return false;
 	}
 
@@ -43,7 +43,7 @@ bool test_gamestate_serialization_roundtrip(OpenApoc::sp<OpenApoc::GameState> st
 #endif
 	if (0)
 	{
-		LogWarning("Gamestate changed over serialization");
+		LogWarning2("Gamestate changed over serialization");
 
 		return false;
 	}
@@ -57,10 +57,10 @@ bool test_gamestate_serialization(OpenApoc::sp<OpenApoc::GameState> state)
 	ss << "openapoc_test_serialize-" << std::this_thread::get_id();
 	auto tempPath = fs::temp_directory_path() / ss.str();
 	OpenApoc::UString pathString(tempPath.string());
-	LogInfo("Writing temp state to \"%s\"", pathString);
+	LogInfo2("Writing temp state to \"{}\"", pathString);
 	if (!test_gamestate_serialization_roundtrip(state, pathString))
 	{
-		LogWarning("Packed save test failed");
+		LogWarning2("Packed save test failed");
 		return false;
 	}
 
@@ -96,7 +96,7 @@ int main(int argc, char **argv)
 
 	OpenApoc::Framework fw("OpenApoc", false);
 
-	LogInfo("Loading \"%s\"", gamestate_name);
+	LogInfo2("Loading \"{}\"", gamestate_name);
 
 	auto state = OpenApoc::mksp<OpenApoc::GameState>();
 
@@ -104,51 +104,51 @@ int main(int argc, char **argv)
 		auto state2 = OpenApoc::mksp<OpenApoc::GameState>();
 		if (*state != *state2)
 		{
-			LogError("Empty gamestate failed comparison");
+			LogError2("Empty gamestate failed comparison");
 			return EXIT_FAILURE;
 		}
 	}
 	if (!state->loadGame(common_name))
 	{
-		LogError("Failed to load gamestate_common");
+		LogError2("Failed to load gamestate_common");
 		return EXIT_FAILURE;
 	}
 
 	if (!state->loadGame(gamestate_name))
 	{
-		LogError("Failed to load supplied gamestate");
+		LogError2("Failed to load supplied gamestate");
 		return EXIT_FAILURE;
 	}
-	LogInfo("Testing non-started non-inited state");
+	LogInfo2("Testing non-started non-inited state");
 	if (!test_gamestate_serialization(state))
 	{
-		LogError("Serialization test failed for non-started non-inited game");
+		LogError2("Serialization test failed for non-started non-inited game");
 		return EXIT_FAILURE;
 	}
 
-	LogInfo("Testing started non-inited state");
+	LogInfo2("Testing started non-inited state");
 	state->startGame();
 
 	if (!test_gamestate_serialization(state))
 	{
-		LogError("Serialization test failed for started non-inited game");
+		LogError2("Serialization test failed for started non-inited game");
 		return EXIT_FAILURE;
 	}
 
-	LogInfo("Testing started inited state");
+	LogInfo2("Testing started inited state");
 	state->initState();
 	state->fillPlayerStartingProperty();
 	state->fillOrgStartingProperty();
 
 	if (!test_gamestate_serialization(state))
 	{
-		LogError("Serialization test failed for started inited game");
+		LogError2("Serialization test failed for started inited game");
 		return EXIT_FAILURE;
 	}
 
-	LogInfo("Testing state with battle");
-	LogInfo("--Test disabled until we find a way to compare sets properly (fails in sets of "
-	        "pointers like hazards)--");
+	LogInfo2("Testing state with battle");
+	LogInfo2("--Test disabled until we find a way to compare sets properly (fails in sets of "
+	         "pointers like hazards)--");
 	if (false)
 	{
 
@@ -169,10 +169,10 @@ int main(int argc, char **argv)
 		}
 		if (!vType)
 		{
-			LogError("No vehicle with BattleMap found");
+			LogError2("No vehicle with BattleMap found");
 			return EXIT_FAILURE;
 		}
-		LogInfo("Using vehicle map for \"%s\"", vType->name);
+		LogInfo2("Using vehicle map for \"{}\"", vType->name);
 		v->type = {state.get(), vType};
 		v->name = fmt::format("{} {}", v->type->name, ++v->type->numCreated);
 		state->vehicles[vID] = v;
@@ -197,14 +197,14 @@ int main(int argc, char **argv)
 
 		if (!test_gamestate_serialization(state))
 		{
-			LogError("Serialization test failed for in-battle game");
+			LogError2("Serialization test failed for in-battle game");
 			return EXIT_FAILURE;
 		}
 		OpenApoc::Battle::finishBattle(*state);
 		OpenApoc::Battle::exitBattle(*state);
 	}
 
-	LogInfo("test_serialize success");
+	LogInfo2("test_serialize success");
 
 	return EXIT_SUCCESS;
 }

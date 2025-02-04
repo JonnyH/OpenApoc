@@ -10,6 +10,7 @@
 #include "framework/event.h"
 #include "framework/framework.h"
 #include "framework/keycodes.h"
+#include "framework/logger.h"
 #include "game/state/gamestate.h"
 #include "game/state/shared/organisation.h"
 #include "library/strings_format.h"
@@ -124,16 +125,16 @@ void CheatOptions::eventOccurred(Event *e)
 		{
 			for (auto &r : this->state->research.topics)
 			{
-				LogWarning("Topic \"%s\"", r.first);
+				LogWarning2("Topic \"{}\"", r.first);
 				auto &topic = r.second;
 				if (topic->isComplete())
 				{
-					LogWarning("Topic \"%s\" already complete", r.first);
+					LogWarning2("Topic \"{}\" already complete", r.first);
 				}
 				else
 				{
 					topic->forceComplete();
-					LogWarning("Topic \"%s\" marked as complete", r.first);
+					LogWarning2("Topic \"{}\" marked as complete", r.first);
 				}
 			}
 			this->state->research.resortTopicList();
@@ -219,13 +220,13 @@ void CheatOptions::eventOccurred(Event *e)
 		{
 			state->gameTime.addTicks(TICKS_PER_DAY);
 			// state->gameTime.setDayPassed( true);
-			LogWarning("Scheduling end of day");
+			LogWarning2("Scheduling end of day");
 		}
 		else if (e->forms().RaisedBy->Name == "BUTTON_FAST_FORWARD_WEEK")
 		{
 			state->gameTime.addTicks(TICKS_PER_DAY * 7);
 			//	state->gameTime.setWeekPassed( true);
-			LogWarning("Scheduling end of week");
+			LogWarning2("Scheduling end of week");
 		}
 	}
 	if (e->type() == EVENT_FORM_INTERACTION &&
@@ -236,7 +237,7 @@ void CheatOptions::eventOccurred(Event *e)
 			auto bar = std::dynamic_pointer_cast<ScrollBar>(e->forms().RaisedBy);
 			if (!bar)
 			{
-				LogError("Failed to cast \"%s\" control to ScrollBar", e->forms().RaisedBy->Name);
+				LogError2("Failed to cast \"{}\" control to ScrollBar", e->forms().RaisedBy->Name);
 				return;
 			}
 			menuform->findControlTyped<Label>("TEXT_MODIFY_FUNDS")
@@ -251,8 +252,8 @@ void CheatOptions::eventOccurred(Event *e)
 					auto bar = std::dynamic_pointer_cast<ScrollBar>(e->forms().RaisedBy);
 					if (!bar)
 					{
-						LogError("Failed to cast \"%s\" control to ScrollBar",
-						         e->forms().RaisedBy->Name);
+						LogError2("Failed to cast \"{}\" control to ScrollBar",
+						          e->forms().RaisedBy->Name);
 						return;
 					}
 					updateMultiplierText(desc.controlName, desc.multMin, desc.multMax);

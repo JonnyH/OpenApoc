@@ -6,6 +6,7 @@
 #include <string_view>
 #include <utility>
 
+#include "framework/logger.h"
 #include "launcherwindow.h"
 #include "library/strings_format.h"
 #include "ui_launcherwindow.h"
@@ -24,7 +25,7 @@ static std::list<std::pair<UString, ModInfo>> enumerateMods()
 	fs::path modPath = Options::modPath.get();
 	if (!fs::is_directory(modPath))
 	{
-		LogError("Mod path \"%s\" not a valid directory", modPath.string());
+		LogError2("Mod path \"{}\" not a valid directory", modPath.string());
 		return {};
 	}
 
@@ -363,11 +364,11 @@ void LauncherWindow::play()
 	QString path = QCoreApplication::applicationDirPath() + "/OpenApoc";
 #endif
 
-	LogWarning("Running \"%s\"", path.toStdString());
+	LogWarning2("Running \"{}\"", path.toStdString());
 	const auto ret = QProcess::startDetached(path, {});
 	if (!ret)
 	{
-		LogError("Failed to start OpenApoc process");
+		LogError2("Failed to start OpenApoc process");
 	}
 	this->exit();
 }

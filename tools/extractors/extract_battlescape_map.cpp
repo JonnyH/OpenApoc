@@ -1,5 +1,6 @@
 #include "framework/data.h"
 #include "framework/framework.h"
+#include "framework/logger.h"
 #include "game/state/battle/battle.h"
 #include "game/state/gamestate.h"
 #include "game/state/rules/battle/battlemap.h"
@@ -30,14 +31,14 @@ void InitialGameStateExtractor::extractBattlescapeMapFromPath(GameState &state,
 		auto inFile = fw().data->fs.open(datFileName);
 		if (!inFile)
 		{
-			LogError("Failed to open \"%s\"", fileName);
+			LogError2("Failed to open \"{}\"", fileName);
 			return;
 		}
 
 		inFile.read((char *)&bdata, sizeof(bdata));
 		if (!inFile)
 		{
-			LogError("Failed to read entry in \"%s\"", fileName);
+			LogError2("Failed to read entry in \"{}\"", fileName);
 			return;
 		}
 	}
@@ -49,14 +50,14 @@ void InitialGameStateExtractor::extractBattlescapeMapFromPath(GameState &state,
 		auto inFile = fw().data->fs.open(fullPath);
 		if (!inFile)
 		{
-			LogError("Failed to open \"%s\"", fileName);
+			LogError2("Failed to open \"{}\"", fileName);
 			return;
 		}
 
 		inFile.read((char *)&rdata, sizeof(rdata));
 		if (!inFile)
 		{
-			LogError("Failed to read entry in \"%s\"", fileName);
+			LogError2("Failed to read entry in \"{}\"", fileName);
 			return;
 		}
 	}
@@ -69,7 +70,7 @@ void InitialGameStateExtractor::extractBattlescapeMapFromPath(GameState &state,
 		auto inFile = fw().data->fs.open(fullPath);
 		if (!inFile)
 		{
-			LogError("Failed to open \"%s\"", fileName);
+			LogError2("Failed to open \"{}\"", fileName);
 			return;
 		}
 
@@ -169,7 +170,7 @@ void InitialGameStateExtractor::extractBattlescapeMapFromPath(GameState &state,
 	for (const auto &sdtFile : sdtFiles)
 	{
 		fileCounter++;
-		LogInfo("Reading map %s", sdtFile);
+		LogInfo2("Reading map {}", sdtFile);
 		/*  Trim off '.sdt' to get the base map name */
 		LogAssert(sdtFile.length() >= 4);
 		auto secName = sdtFile.substr(0, sdtFile.length() - 4);
@@ -208,14 +209,14 @@ void InitialGameStateExtractor::extractBattlescapeMapFromPath(GameState &state,
 				auto inFile = fw().data->fs.open(fullPath);
 				if (!inFile)
 				{
-					LogInfo("Sector %s not present for map %d", sector, index);
+					LogInfo2("Sector {} not present for map {}", sector, index);
 					continue;
 				}
 
 				inFile.read((char *)&sdata, sizeof(sdata));
 				if (!inFile)
 				{
-					LogError("Failed to read entry in \"%s\"", fileName);
+					LogError2("Failed to read entry in \"{}\"", fileName);
 					return;
 				}
 			}
@@ -272,14 +273,14 @@ InitialGameStateExtractor::extractMapSectors(GameState &state, const UString &ma
 		auto inFile = fw().data->fs.open(datFileName);
 		if (!inFile)
 		{
-			LogError("Failed to open \"%s\"", fileName);
+			LogError2("Failed to open \"{}\"", fileName);
 			return {};
 		}
 
 		inFile.read((char *)&bdata, sizeof(bdata));
 		if (!inFile)
 		{
-			LogError("Failed to read entry in \"%s\"", fileName);
+			LogError2("Failed to read entry in \"{}\"", fileName);
 			return {};
 		}
 	}
@@ -289,7 +290,7 @@ InitialGameStateExtractor::extractMapSectors(GameState &state, const UString &ma
 	for (const auto &sdtFile : sdtFiles)
 	{
 		fileCounter++;
-		LogInfo("Reading map %s", sdtFile);
+		LogInfo2("Reading map {}", sdtFile);
 		/*  Trim off '.sdt' to get the base map name */
 		LogAssert(sdtFile.length() >= 4);
 		auto secName = sdtFile.substr(0, sdtFile.length() - 4);
@@ -325,14 +326,14 @@ InitialGameStateExtractor::extractMapSectors(GameState &state, const UString &ma
 				auto inFile = fw().data->fs.open(fullPath);
 				if (!inFile)
 				{
-					LogInfo("Sector %s not present for map %s", sector, mapRootName);
+					LogInfo2("Sector {} not present for map {}", sector, mapRootName);
 					continue;
 				}
 
 				inFile.read((char *)&sdata, sizeof(sdata));
 				if (!inFile)
 				{
-					LogError("Failed to read entry in \"%s\"", fileName);
+					LogError2("Failed to read entry in \"{}\"", fileName);
 					return {};
 				}
 			}
@@ -345,7 +346,7 @@ InitialGameStateExtractor::extractMapSectors(GameState &state, const UString &ma
 				auto inFile = fw().data->fs.open(fullPath);
 				if (!inFile)
 				{
-					LogError("Failed to open \"%s\"", fileName);
+					LogError2("Failed to open \"{}\"", fileName);
 					return {};
 				}
 
@@ -359,7 +360,7 @@ InitialGameStateExtractor::extractMapSectors(GameState &state, const UString &ma
 					inFile.read((char *)&ldata, sizeof(ldata));
 					if (!inFile)
 					{
-						LogError("Failed to read entry %d in \"%s\"", i, fileName);
+						LogError2("Failed to read entry {} in \"{}\"", i, fileName);
 						return {};
 					}
 
@@ -492,7 +493,7 @@ InitialGameStateExtractor::extractMapSectors(GameState &state, const UString &ma
 						inFile.read((char *)&ldata, sizeof(ldata));
 						if (!inFile)
 						{
-							LogError("Failed to read entry %d in \"%s\"", i, fileName);
+							LogError2("Failed to read entry {} in \"{}\"", i, fileName);
 							return {};
 						}
 
@@ -512,8 +513,8 @@ InitialGameStateExtractor::extractMapSectors(GameState &state, const UString &ma
 								lp = Organisation::LootPriority::C;
 								break;
 							default:
-								LogError("Encountered invalid loot priority in %d for sector %d", i,
-								         sector);
+								LogError2("Encountered invalid loot priority in {} for sector {:d}",
+								          i, sector);
 								return {};
 						}
 						tiles->loot_locations[{ldata.x, ldata.y, ldata.z}] = lp;
@@ -531,13 +532,13 @@ InitialGameStateExtractor::extractMapSectors(GameState &state, const UString &ma
 				auto inFile = fw().data->fs.open(fullPath);
 				if (!inFile)
 				{
-					LogError("Failed to open \"%s\"", fileName);
+					LogError2("Failed to open \"{}\"", fileName);
 				}
 				auto fileSize = inFile.size();
 
 				if (fileSize != expectedFileSize)
 				{
-					LogError("Unexpected filesize %zu - expected %u", fileSize, expectedFileSize);
+					LogError2("Unexpected filesize {} - expected {}", fileSize, expectedFileSize);
 				}
 
 				for (unsigned int z = 0; z < bdata.chunk_z * sdata.chunks_z; z++)
@@ -551,8 +552,8 @@ InitialGameStateExtractor::extractMapSectors(GameState &state, const UString &ma
 							inFile.read((char *)&tdata, sizeof(tdata));
 							if (!inFile)
 							{
-								LogError("Failed to read entry %d,%d,%d in \"%s\"", x, y, z,
-								         fileName);
+								LogError2("Failed to read entry {},{},{} in \"{}\"", x, y, z,
+								          fileName);
 								return {};
 							}
 							// read ground
@@ -603,8 +604,8 @@ InitialGameStateExtractor::extractMapSectors(GameState &state, const UString &ma
 									}
 									else
 									{
-										LogError("Encountered gun emplacement %d in sector %s",
-										         tdata.FT, sector);
+										LogError2("Encountered gun emplacement {} in sector {}",
+										          tdata.FT, sector);
 									}
 								}
 								else

@@ -6,6 +6,7 @@
 #include "framework/event.h"
 #include "framework/framework.h"
 #include "framework/keycodes.h"
+#include "framework/logger.h"
 #include "game/state/city/agentmission.h"
 #include "game/state/city/base.h"
 #include "game/state/city/building.h"
@@ -88,8 +89,8 @@ void BaseBuyScreen::eventOccurred(Event *e)
 				}
 				if (!newBuilding)
 				{
-					LogError("We just bought %s's last building? WTF?",
-					         base->building->owner->name);
+					LogError2("We just bought {}'s last building? WTF?",
+					          base->building->owner->name);
 				}
 				base->building->owner = state->getPlayer();
 				// Boot organisation's vehicles and agents

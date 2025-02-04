@@ -7,6 +7,7 @@
 #include "framework/event.h"
 #include "framework/framework.h"
 #include "framework/keycodes.h"
+#include "framework/logger.h"
 #include "game/state/city/building.h"
 #include "game/state/city/vehicle.h"
 #include "game/state/gamestate.h"
@@ -69,7 +70,7 @@ void LocationScreen::begin()
 	}
 	else
 	{
-		LogError("Nothing set as owner in LocationScreen?");
+		LogError2("Nothing set as owner in LocationScreen?");
 	}
 	menuform->findControlTyped<Label>("TEXT_FUNDS")->setText(state->getPlayerBalance());
 }

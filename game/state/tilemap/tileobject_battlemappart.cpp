@@ -1,5 +1,6 @@
 #include "game/state/tilemap/tileobject_battlemappart.h"
 #include "framework/image.h"
+#include "framework/logger.h"
 #include "framework/renderer.h"
 #include "game/state/battle/battlemappart.h"
 #include "game/state/tilemap/tilemap.h"
@@ -44,7 +45,7 @@ void TileObjectBattleMapPart::draw(Renderer &r, TileTransform &transform,
 			}
 			break;
 		default:
-			LogError("Unsupported view mode");
+			LogError2("Unsupported view mode");
 	}
 	if (sprite)
 	{
@@ -65,7 +66,7 @@ TileObject::Type TileObjectBattleMapPart::convertType(BattleMapPartType::Type ty
 		case BattleMapPartType::Type::Feature:
 			return TileObject::Type::Feature;
 		default:
-			LogError("Unknown BattleMapPartType::Type %d", (int)type);
+			LogError2("Unknown BattleMapPartType::Type {}", (int)type);
 			return TileObject::Type::Ground;
 	}
 }
@@ -141,7 +142,7 @@ float TileObjectBattleMapPart::getZOrder() const
 			return z + (float)map_part->type->height / 40.0f / 2.0f - 14.0f;
 		}
 		default:
-			LogError("Impossible map part type %d", (int)type);
+			LogError2("Impossible map part type {}", (int)type);
 			return 0.0f;
 	}
 }

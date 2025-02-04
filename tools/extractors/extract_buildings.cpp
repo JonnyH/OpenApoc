@@ -1,5 +1,6 @@
 #include "framework/data.h"
 #include "framework/framework.h"
+#include "framework/logger.h"
 #include "game/state/city/building.h"
 #include "game/state/city/city.h"
 #include "game/state/city/vehicle.h"
@@ -58,12 +59,12 @@ void InitialGameStateExtractor::extractBuildings(GameState &state, UString bldFi
 	auto inFile = fw().data->fs.open(fileName);
 	if (!inFile)
 	{
-		LogError("Failed to open \"%s\"", fileName);
+		LogError2("Failed to open \"{}\"", fileName);
 	}
 	auto fileSize = inFile.size();
 	auto bldCount = fileSize / sizeof(struct BldFileEntry);
 
-	LogInfo("Loading %lu buildings from %s", (unsigned long)bldCount, fileName);
+	LogInfo2("Loading {} buildings from {}", (unsigned long)bldCount, fileName);
 
 	for (unsigned i = 0; i < bldCount; i++)
 	{
@@ -76,8 +77,8 @@ void InitialGameStateExtractor::extractBuildings(GameState &state, UString bldFi
 			b->name = data.alien_building_names->get(entry.function_idx);
 			b->function = {
 			    &state, fmt::format("{}{}", BuildingFunction::getPrefix(), canon_string(b->name))};
-			LogInfo("Alien bld %d %s func %d %s", entry.name_idx, b->name, entry.function_idx,
-			        b->function.id);
+			LogInfo2("Alien bld {} {} func {} {}", entry.name_idx, b->name, entry.function_idx,
+			         b->function.id);
 
 			b->accessTopic = {&state, fmt::format("RESEARCH_ALIEN_BUILDING_{}", i)};
 			if (i < 9)

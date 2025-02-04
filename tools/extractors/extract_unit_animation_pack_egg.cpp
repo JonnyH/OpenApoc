@@ -1,5 +1,6 @@
 #include "framework/data.h"
 #include "framework/framework.h"
+#include "framework/logger.h"
 #include "framework/palette.h"
 #include "game/state/gamestate.h"
 #include "game/state/rules/battle/battleunitanimationpack.h"
@@ -49,7 +50,7 @@ sp<BattleUnitAnimationPack::AnimationEntry> makeUpEggAnimationEntry(int from, in
 					    BattleUnitAnimationPack::AnimationEntry::Frame::UnitImagePart::Helmet;
 					break;
 				default:
-					LogError("If you reached this then OpenApoc programmers made a mistake");
+					LogError2("If you reached this then OpenApoc programmers made a mistake");
 					return e;
 			}
 			e->frames[i].unit_image_draw_order.push_back(part_type);

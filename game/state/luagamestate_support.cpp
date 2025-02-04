@@ -4,6 +4,7 @@ extern "C"
 #include "dependencies/lua/lua.h"
 #include "dependencies/lua/lualib.h"
 }
+#include "framework/logger.h"
 #include "game/state/luagamestate_support.h"
 #include "game/state/luagamestate_support_generated.h"
 
@@ -28,13 +29,13 @@ const GameState *getConstGameStateFromLua(lua_State *L)
 void pushToLua(lua_State *L, sp<TacticalAI> &v [[maybe_unused]])
 {
 	lua_pushnil(L);
-	LogError("Unimplemented Lua function");
+	LogError2("Unimplemented Lua function");
 }
 void pushToLua(lua_State *L, UnitAI &v) { pushToLua(L, v.type); }
 void pushToLua(lua_State *L, const sp<TacticalAI> &v [[maybe_unused]])
 {
 	lua_pushnil(L);
-	LogError("Unimplemented Lua function");
+	LogError2("Unimplemented Lua function");
 }
 void pushToLua(lua_State *L, const UnitAI &v) { pushToLua(L, v.type); }
 

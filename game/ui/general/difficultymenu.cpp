@@ -6,6 +6,7 @@
 #include "framework/event.h"
 #include "framework/framework.h"
 #include "framework/keycodes.h"
+#include "framework/logger.h"
 #include "framework/modinfo.h"
 #include "framework/options.h"
 #include "game/state/city/city.h"
@@ -85,7 +86,7 @@ void DifficultyMenu::eventOccurred(Event *e)
 		}
 		else
 		{
-			LogWarning("Unknown button pressed: %s", e->forms().RaisedBy->Name);
+			LogWarning2("Unknown button pressed: {}", e->forms().RaisedBy->Name);
 			return;
 		}
 

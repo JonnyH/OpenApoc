@@ -1,4 +1,5 @@
 #include "game/state/battle/battlemappart.h"
+#include "framework/logger.h"
 #include "game/state/battle/battle.h"
 #include "game/state/battle/battledoor.h"
 #include "game/state/battle/battlehazard.h"
@@ -915,7 +916,7 @@ bool BattleMapPart::findSupport(bool allowClinging)
 				}
 				if (!mp)
 				{
-					LogError("Map part disappeared? %d %d %d", x, y, z);
+					LogError2("Map part disappeared? {} {} {}", x, y, z);
 					return false;
 				}
 				mp->supportedParts.emplace_back(position, type->type);
@@ -994,7 +995,7 @@ bool BattleMapPart::findSupport(bool allowClinging)
 				}
 				if (!mp)
 				{
-					LogError("Map part disappeared? %d %d %d", x, y, z);
+					LogError2("Map part disappeared? {} {} {}", x, y, z);
 					return false;
 				}
 				mp->supportedParts.emplace_back(position, type->type);
@@ -1243,7 +1244,7 @@ void BattleMapPart::updateFalling(GameState &state, unsigned int ticks)
 			// Do not let the tiles fall through the level 0 regardless of type or collisions
 			if (!destroyed)
 			{
-				LogError("Tile at %f, %f fell through the ground", position.x, position.y);
+				LogError2("Tile at {:f}, {:f} fell through the ground", position.x, position.y);
 			}
 			destroyed = true;
 		}
@@ -1312,7 +1313,7 @@ void BattleMapPart::setPosition(GameState &, const Vec3<float> &pos)
 	position = pos;
 	if (!this->tileObject)
 	{
-		LogError("setPosition called on map part with no tile object");
+		LogError2("setPosition called on map part with no tile object");
 		return;
 	}
 

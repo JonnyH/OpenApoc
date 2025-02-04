@@ -40,9 +40,9 @@ int main(int argc, char **argv)
 	{
 		if (*it_expected != *it_test)
 		{
-			LogError("Colour parsing by name mismatch: expected (%d, %d, %d), got (%d, %d, %d)",
-			         it_expected->r, it_expected->g, it_expected->b, it_test->r, it_test->g,
-			         it_test->b);
+			LogError2("Colour parsing by name mismatch: expected ({}, {}, {}), got ({}, {}, {})",
+			          it_expected->r, it_expected->g, it_expected->b, it_test->r, it_test->g,
+			          it_test->b);
 			return EXIT_FAILURE;
 		}
 		++it_expected;
@@ -55,9 +55,9 @@ int main(int argc, char **argv)
 	{
 		if (*it_expected != *it_test)
 		{
-			LogError("Colour parsing by name mismatch: expected (%d, %d, %d), got (%d, %d, %d)",
-			         it_expected->r, it_expected->g, it_expected->b, it_test->r, it_test->g,
-			         it_test->b);
+			LogError2("Colour parsing by name mismatch: expected ({}, {}, {}), got ({}, {}, {})",
+			          it_expected->r, it_expected->g, it_expected->b, it_test->r, it_test->g,
+			          it_test->b);
 			return EXIT_FAILURE;
 		}
 		++it_expected;

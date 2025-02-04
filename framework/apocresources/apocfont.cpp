@@ -16,14 +16,14 @@ sp<BitmapFont> ApocalypseFont::loadFont(const UString &fontDescPath)
 	auto file = fw().data->fs.open(fontDescPath);
 	if (!file)
 	{
-		LogWarning("Failed to open font file at path \"%s\"", fontDescPath);
+		LogWarning2("Failed to open font file at path \"{}\"", fontDescPath);
 		return nullptr;
 	}
 
 	auto data = file.readAll();
 	if (!data)
 	{
-		LogWarning("Failed to read font file at path \"%s\"", fontDescPath);
+		LogWarning2("Failed to read font file at path \"{}\"", fontDescPath);
 		return nullptr;
 	}
 
@@ -33,23 +33,23 @@ sp<BitmapFont> ApocalypseFont::loadFont(const UString &fontDescPath)
 
 	if (!parseResult)
 	{
-		LogWarning("Failed to parse font file at \"%s\" - \"%s\" at \"%llu\"", fontDescPath,
-		           parseResult.description(), (unsigned long long)parseResult.offset);
+		LogWarning2("Failed to parse font file at \"{}\" - \"{}\" at \"{}\"", fontDescPath,
+		            parseResult.description(), (unsigned long long)parseResult.offset);
 		return nullptr;
 	}
 
 	auto openapocNode = doc.child("openapoc");
 	if (!openapocNode)
 	{
-		LogWarning("Failed to find \"openapoc\" root node in font file at \"%s\"", fontDescPath);
+		LogWarning2("Failed to find \"openapoc\" root node in font file at \"{}\"", fontDescPath);
 		return nullptr;
 	}
 
 	auto fontNode = openapocNode.child("apocfont");
 	if (!fontNode)
 	{
-		LogWarning("Failed to find \"openapoc::apocfont\" node in font file at \"%s\"",
-		           fontDescPath);
+		LogWarning2("Failed to find \"openapoc::apocfont\" node in font file at \"{}\"",
+		            fontDescPath);
 		return nullptr;
 	}
 
@@ -63,26 +63,26 @@ sp<BitmapFont> ApocalypseFont::loadFont(const UString &fontDescPath)
 	fontName = fontNode.attribute("name").value();
 	if (fontName.empty())
 	{
-		LogError("apocfont element with no \"name\" attribute");
+		LogError2("apocfont element with no \"name\" attribute");
 		return nullptr;
 	}
 
 	height = fontNode.attribute("height").as_int();
 	if (height <= 0)
 	{
-		LogError("apocfont \"%s\" with invalid \"height\" attribute", fontName);
+		LogError2("apocfont \"{}\" with invalid \"height\" attribute", fontName);
 		return nullptr;
 	}
 	spacewidth = fontNode.attribute("spacewidth").as_int();
 	if (spacewidth <= 0)
 	{
-		LogError("apocfont \"%s\" with invalid \"spacewidth\" attribute", fontName);
+		LogError2("apocfont \"{}\" with invalid \"spacewidth\" attribute", fontName);
 		return nullptr;
 	}
 	kerning = fontNode.attribute("kerning").as_int();
 	if (kerning <= 0)
 	{
-		LogError("apocfont \"%s\" with invalid \"kerning\" attribute", fontName);
+		LogError2("apocfont \"{}\" with invalid \"kerning\" attribute", fontName);
 		return nullptr;
 	}
 
@@ -92,15 +92,15 @@ sp<BitmapFont> ApocalypseFont::loadFont(const UString &fontDescPath)
 		UString glyphPath = glyphNode.attribute("glyph").value();
 		if (glyphPath.empty())
 		{
-			LogError("Font \"%s\" has glyph with missing string attribute - skipping glyph",
-			         fontName);
+			LogError2("Font \"{}\" has glyph with missing string attribute - skipping glyph",
+			          fontName);
 			continue;
 		}
 		UString glyphString = glyphNode.attribute("string").value();
 		if (glyphString.empty())
 		{
-			LogError("apocfont \"%s\" has glyph with missing string attribute - skipping glyph",
-			         fontName);
+			LogError2("apocfont \"{}\" has glyph with missing string attribute - skipping glyph",
+			          fontName);
 			continue;
 		}
 
@@ -108,17 +108,17 @@ sp<BitmapFont> ApocalypseFont::loadFont(const UString &fontDescPath)
 
 		if (pointString.length() != 1)
 		{
-			LogError("apocfont \"%s\" glyph \"%s\" has %lu codepoints, expected one - skipping "
-			         "glyph",
-			         fontName, glyphString, pointString.length());
+			LogError2(
+			    "apocfont \"{}\" glyph \"{}\" has {} codepoints, expected one - skipping glyph",
+			    fontName, glyphString, pointString.length());
 			continue;
 		}
 		char32_t c = pointString[0];
 
 		if (charMap.find(c) != charMap.end())
 		{
-			LogError("Font \"%s\" has multiple glyphs for string \"%s\" - skipping glyph", fontName,
-			         glyphString);
+			LogError2("Font \"{}\" has multiple glyphs for string \"{}\" - skipping glyph",
+			          fontName, glyphString);
 			continue;
 		}
 

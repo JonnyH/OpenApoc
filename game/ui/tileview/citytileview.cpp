@@ -4,6 +4,7 @@
 #include "framework/framework.h"
 #include "framework/image.h"
 #include "framework/keycodes.h"
+#include "framework/logger.h"
 #include "framework/palette.h"
 #include "framework/renderer.h"
 #include "game/state/city/agentmission.h"
@@ -170,7 +171,7 @@ void CityTileView::eventOccurred(Event *e)
 						DEBUG_SHOW_ALIEN_CREW = false;
 						DEBUG_LAYER = -1;
 					}
-					LogWarning("Debug walk type display set to %d", DEBUG_SHOW_MISC_TYPE);
+					LogWarning2("Debug walk type display set to {}", DEBUG_SHOW_MISC_TYPE);
 					return;
 				}
 				case SDLK_F5:
@@ -189,7 +190,7 @@ void CityTileView::eventOccurred(Event *e)
 						DEBUG_SHOW_MISC_TYPE = 0;
 						DEBUG_LAYER = -1;
 					}
-					LogWarning("Debug Alien display set to %s", DEBUG_SHOW_ALIEN_CREW);
+					LogWarning2("Debug Alien display set to {}", DEBUG_SHOW_ALIEN_CREW);
 					return;
 				}
 				case SDLK_F12:
@@ -203,7 +204,7 @@ void CityTileView::eventOccurred(Event *e)
 						DEBUG_SHOW_MISC_TYPE = 0;
 						DEBUG_LAYER = -1;
 					}
-					LogWarning("Debug slopes display set to %s", DEBUG_SHOW_SLOPES);
+					LogWarning2("Debug slopes display set to {}", DEBUG_SHOW_SLOPES);
 					return;
 				}
 				case SDLK_F11:
@@ -217,7 +218,7 @@ void CityTileView::eventOccurred(Event *e)
 						DEBUG_SHOW_MISC_TYPE = 0;
 						DEBUG_LAYER = -1;
 					}
-					LogWarning("Debug roads display set to %s", DEBUG_SHOW_ROADS);
+					LogWarning2("Debug roads display set to {}", DEBUG_SHOW_ROADS);
 					return;
 				}
 				case SDLK_F10:
@@ -231,7 +232,7 @@ void CityTileView::eventOccurred(Event *e)
 						DEBUG_SHOW_MISC_TYPE = 0;
 						DEBUG_LAYER = -1;
 					}
-					LogWarning("Debug tube display set to %s", DEBUG_SHOW_TUBE);
+					LogWarning2("Debug tube display set to {}", DEBUG_SHOW_TUBE);
 					return;
 				}
 				case SDLK_KP_0:
@@ -260,7 +261,7 @@ void CityTileView::eventOccurred(Event *e)
 					return;
 				case SDLK_F6:
 				{
-					LogWarning("Writing voxel view LOF to tileviewvoxels.png");
+					LogWarning2("Writing voxel view LOF to tileviewvoxels.png");
 					auto imageOffset = -this->getScreenOffset();
 					auto img = std::dynamic_pointer_cast<RGBImage>(this->map.dumpVoxelView(
 					    {imageOffset, imageOffset + dpySize}, *this, 12.99f));
@@ -269,7 +270,7 @@ void CityTileView::eventOccurred(Event *e)
 				}
 				case SDLK_F7:
 				{
-					LogWarning("Writing voxel view LOF (fast) to tileviewvoxels.png");
+					LogWarning2("Writing voxel view LOF (fast) to tileviewvoxels.png");
 					auto imageOffset = -this->getScreenOffset();
 					auto img = std::dynamic_pointer_cast<RGBImage>(this->map.dumpVoxelView(
 					    {imageOffset, imageOffset + dpySize}, *this, 12.99f, true));
@@ -278,7 +279,7 @@ void CityTileView::eventOccurred(Event *e)
 				}
 				case SDLK_F8:
 				{
-					LogWarning("Writing voxel view LOS to tileviewvoxels.png");
+					LogWarning2("Writing voxel view LOS to tileviewvoxels.png");
 					auto imageOffset = -this->getScreenOffset();
 					auto img = std::dynamic_pointer_cast<RGBImage>(this->map.dumpVoxelView(
 					    {imageOffset, imageOffset + dpySize}, *this, 12.99f, false, true));
@@ -287,7 +288,7 @@ void CityTileView::eventOccurred(Event *e)
 				}
 				case SDLK_F9:
 				{
-					LogWarning("Writing voxel view LOS (fast) to tileviewvoxels.png");
+					LogWarning2("Writing voxel view LOS (fast) to tileviewvoxels.png");
 					auto imageOffset = -this->getScreenOffset();
 					auto img = std::dynamic_pointer_cast<RGBImage>(this->map.dumpVoxelView(
 					    {imageOffset, imageOffset + dpySize}, *this, 11.0f, true, true));
@@ -440,8 +441,8 @@ void CityTileView::render()
 													          DEBUG_SHOW_MISC_TYPE - 1;
 													break;
 												default:
-													LogError("Unhandled DEBUG_SHOW_WALK_TYPE %d",
-													         DEBUG_SHOW_MISC_TYPE);
+													LogError2("Unhandled DEBUG_SHOW_WALK_TYPE {}",
+													          DEBUG_SHOW_MISC_TYPE);
 													DEBUG_SHOW_MISC_TYPE = 0;
 													break;
 											}
@@ -1084,7 +1085,7 @@ void CityTileView::update()
 		}
 		else
 		{
-			LogError("Unhandled hoursClamped %d", hour);
+			LogError2("Unhandled hoursClamped {}", hour);
 		}
 
 		for (int i = 0; i < 256; i++)

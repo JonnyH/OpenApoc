@@ -13,32 +13,32 @@ static bool testImage(const UString &imageName, const UString &referenceName)
 	auto reference = fw().data->loadImage(referenceName);
 	if (!img)
 	{
-		LogWarning("Failed to load image");
+		LogWarning2("Failed to load image");
 		return false;
 	}
 	if (!reference)
 	{
-		LogWarning("Failed to load reference");
+		LogWarning2("Failed to load reference");
 		return false;
 	}
 
 	auto rgbImg = std::dynamic_pointer_cast<RGBImage>(img);
 	if (!rgbImg)
 	{
-		LogWarning("Image not RGBImage");
+		LogWarning2("Image not RGBImage");
 		return false;
 	}
 
 	auto rgbReference = std::dynamic_pointer_cast<RGBImage>(reference);
 	if (!rgbReference)
 	{
-		LogWarning("Reference not RGB image");
+		LogWarning2("Reference not RGB image");
 		return false;
 	}
 
 	if (img->size != reference->size)
 	{
-		LogWarning("Invalid size, %s doesn't match reference %s", img->size, reference->size);
+		LogWarning2("Invalid size, {} doesn't match reference {}", img->size, reference->size);
 		return false;
 	}
 
@@ -53,10 +53,10 @@ static bool testImage(const UString &imageName, const UString &referenceName)
 			auto r = refLock.get({x, y});
 			if (i != r)
 			{
-				LogWarning(
-				    "Image mismatch at {%d,%d} (RGBA img {%d,%d,%d,%d} != RGBA ref {%d,%d,%d,%d}",
-				    x, y, (int)i.r, (int)i.g, (int)i.b, (int)i.a, (int)r.r, (int)r.g, (int)r.b,
-				    (int)r.a);
+				LogWarning2("Image mismatch at {{{},{}}} (RGBA img {{{},{},{},{}}} != RGBA ref "
+				            "{{{},{},{},{}}}",
+				            x, y, (int)i.r, (int)i.g, (int)i.b, (int)i.a, (int)r.r, (int)r.g,
+				            (int)r.b, (int)r.a);
 
 				return false;
 			}
@@ -112,11 +112,11 @@ int main(int argc, char **argv)
 	{
 		if (!testImage(imagePair.first, imagePair.second))
 		{
-			LogError("Image \"%s\" didn't match reference \"%s\"", imagePair.first,
-			         imagePair.second);
+			LogError2("Image \"{}\" didn't match reference \"{}\"", imagePair.first,
+			          imagePair.second);
 			return EXIT_FAILURE;
 		}
-		LogInfo("Image \"%s\" matches reference \"%s\"", imagePair.first, imagePair.second);
+		LogInfo2("Image \"{}\" matches reference \"{}\"", imagePair.first, imagePair.second);
 	}
 
 	return EXIT_SUCCESS;

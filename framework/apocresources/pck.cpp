@@ -52,8 +52,8 @@ static sp<PaletteImage> readPckCompression1(std::istream &input, Vec2<unsigned> 
 
 		if (col != header.column)
 		{
-			LogWarning("Header column %u doesn't match skip column %u (%u %% %u)",
-			           (unsigned)header.column, col, (unsigned)header.pixelSkip, IMAGE_STRIDE);
+			LogWarning2("Header column {} doesn't match skip column {} ({} % {})",
+			            (unsigned)header.column, col, (unsigned)header.pixelSkip, IMAGE_STRIDE);
 			return nullptr;
 		}
 
@@ -65,7 +65,7 @@ static sp<PaletteImage> readPckCompression1(std::istream &input, Vec2<unsigned> 
 			input.read(reinterpret_cast<char *>(&idx), sizeof(idx));
 			if (!input)
 			{
-				LogWarning("Unexpected EOF reading Pck RLE data");
+				LogWarning2("Unexpected EOF reading Pck RLE data");
 				return nullptr;
 			}
 			if (x < size.x && y < size.y)
@@ -107,12 +107,12 @@ static sp<PaletteImage> readPckCompression3(std::istream &input, Vec2<unsigned> 
 		auto blkFile = fw().data->fs.open("xcom3/tacdata/xcom.blk");
 		if (!blkFile)
 		{
-			LogWarning("Failed to open xcom.blk");
+			LogWarning2("Failed to open xcom.blk");
 			return nullptr;
 		}
 		blkSize = blkFile.size();
 		blkData = blkFile.readAll();
-		LogInfo("Loaded %zu bytes of xcom.blk", blkSize);
+		LogInfo2("Loaded {} bytes of xcom.blk", blkSize);
 	}
 
 	auto img = mksp<PaletteImage>(size);
@@ -133,7 +133,7 @@ static sp<PaletteImage> readPckCompression3(std::istream &input, Vec2<unsigned> 
 			input.read(reinterpret_cast<char *>(&subHeader), sizeof(subHeader));
 			if (!input)
 			{
-				LogWarning("Unexpected EOF reading row header");
+				LogWarning2("Unexpected EOF reading row header");
 				return nullptr;
 			}
 			unsigned blkOffset = 0;
@@ -144,7 +144,7 @@ static sp<PaletteImage> readPckCompression3(std::istream &input, Vec2<unsigned> 
 			{
 				if (blkOffset >= blkSize)
 				{
-					LogWarning("BLKOffset %u too large for xcom.blk size", blkOffset);
+					LogWarning2("BLKOffset {} too large for xcom.blk size", blkOffset);
 				}
 				else
 				{
@@ -154,7 +154,7 @@ static sp<PaletteImage> readPckCompression3(std::istream &input, Vec2<unsigned> 
 					}
 					else
 					{
-						LogWarning("{%d,%d} out of bounds", col, row);
+						LogWarning2("{{{},{}}} out of bounds", col, row);
 					}
 				}
 				blkOffset++;
@@ -175,7 +175,7 @@ static unsigned int guessTabMultiplier(IFile &pckFile, IFile &tabFile)
 	auto tabSize = tabFile.size();
 	if (tabSize < 4)
 	{
-		LogWarning("Tab size %zu too small for a single entry?", tabSize);
+		LogWarning2("Tab size {} too small for a single entry?", tabSize);
 		return 0;
 	}
 
@@ -186,7 +186,7 @@ static unsigned int guessTabMultiplier(IFile &pckFile, IFile &tabFile)
 	tabFile.read(reinterpret_cast<char *>(&lastOffset), sizeof(lastOffset));
 	if (!tabFile)
 	{
-		LogWarning("Failed to read last tab offset");
+		LogWarning2("Failed to read last tab offset");
 		return 0;
 	}
 	tabFile.seekg(tabOffset);
@@ -206,24 +206,24 @@ sp<ImageSet> PCKLoader::load(Data &d, UString PckFilename, UString TabFilename)
 	auto pck = d.fs.open(PckFilename);
 	if (!pck)
 	{
-		LogError("Failed to open PCK file \"%s\"", PckFilename);
+		LogError2("Failed to open PCK file \"{}\"", PckFilename);
 		return nullptr;
 	}
 	auto tab = d.fs.open(TabFilename);
 	if (!tab)
 	{
-		LogError("Failed to open TAB file \"%s\"", TabFilename);
+		LogError2("Failed to open TAB file \"{}\"", TabFilename);
 		return nullptr;
 	}
 
 	auto tabMultiplier = guessTabMultiplier(pck, tab);
 	if (tabMultiplier == 0)
 	{
-		LogWarning("Failed to guess tab file type for \"%s\"", TabFilename);
+		LogWarning2("Failed to guess tab file type for \"{}\"", TabFilename);
 		return nullptr;
 	}
 
-	LogInfo("Reading \"%s\" with tab multiplier %u", TabFilename, tabMultiplier);
+	LogInfo2("Reading \"{}\" with tab multiplier {}", TabFilename, tabMultiplier);
 
 	unsigned int endIdx = (tab.size() / 4);
 
@@ -237,7 +237,7 @@ sp<ImageSet> PCKLoader::load(Data &d, UString PckFilename, UString TabFilename)
 		tab.read(reinterpret_cast<char *>(&pckOffset), sizeof(pckOffset));
 		if (!tab)
 		{
-			LogWarning("Reached EOF reading tab index %u", i);
+			LogWarning2("Reached EOF reading tab index {}", i);
 			return nullptr;
 		}
 		pckOffset *= tabMultiplier;
@@ -246,7 +246,7 @@ sp<ImageSet> PCKLoader::load(Data &d, UString PckFilename, UString TabFilename)
 		pck.read(reinterpret_cast<char *>(&header), sizeof(header));
 		if (!pck)
 		{
-			LogInfo("Reached EOF reading PCK header at tab index %u", i);
+			LogInfo2("Reached EOF reading PCK header at tab index {}", i);
 			break;
 		}
 		sp<PaletteImage> img;
@@ -264,12 +264,12 @@ sp<ImageSet> PCKLoader::load(Data &d, UString PckFilename, UString TabFilename)
 				img = readPckCompression3(pck, {header.rightClip, header.bottomClip});
 				break;
 			default:
-				LogWarning("Unknown compression mode %u", (unsigned)header.compressionMode);
+				LogWarning2("Unknown compression mode {}", (unsigned)header.compressionMode);
 				break;
 		}
 		if (!img)
 		{
-			LogInfo("No image at PCK index %u", i);
+			LogInfo2("No image at PCK index {}", i);
 			continue;
 		}
 		img->calculateBounds();
@@ -316,7 +316,7 @@ static sp<PaletteImage> loadStrategy(IFile &file)
 
 			if (x >= 8 || y >= 8)
 			{
-				LogInfo("Writing to {%d,%d} in 8x8 stratmap image", x, y);
+				LogInfo2("Writing to {{{},{}}} in 8x8 stratmap image", x, y);
 			}
 			else
 			{
@@ -336,13 +336,13 @@ sp<ImageSet> PCKLoader::loadStrat(Data &data, UString PckFilename, UString TabFi
 	auto tabFile = data.fs.open(TabFilename);
 	if (!tabFile)
 	{
-		LogWarning("Failed to open tab \"%s\"", TabFilename);
+		LogWarning2("Failed to open tab \"{}\"", TabFilename);
 		return nullptr;
 	}
 	auto pckFile = data.fs.open(PckFilename);
 	if (!pckFile)
 	{
-		LogWarning("Failed to open tab \"%s\"", TabFilename);
+		LogWarning2("Failed to open tab \"{}\"", TabFilename);
 		return nullptr;
 	}
 
@@ -353,18 +353,18 @@ sp<ImageSet> PCKLoader::loadStrat(Data &data, UString PckFilename, UString TabFi
 		pckFile.seekg(offset, std::ios::beg);
 		if (!pckFile)
 		{
-			LogError("Failed to seek to offset %u", offset);
+			LogError2("Failed to seek to offset {}", offset);
 			return nullptr;
 		}
 		auto img = loadStrategy(pckFile);
 		if (!img)
 		{
-			LogError("Failed to load image");
+			LogError2("Failed to load image");
 			return nullptr;
 		}
 		if (img->size != Vec2<unsigned int>{8, 8})
 		{
-			LogError("Invalid size of {%d,%d} in stratmap image", img->size.x, img->size.y);
+			LogError2("Invalid size of {{{},{}}} in stratmap image", img->size.x, img->size.y);
 			return nullptr;
 		}
 		imageSet->images.push_back(img);
@@ -375,7 +375,7 @@ sp<ImageSet> PCKLoader::loadStrat(Data &data, UString PckFilename, UString TabFi
 
 	imageSet->maxSize = {8, 8};
 
-	LogInfo("Loaded %u images", static_cast<unsigned>(imageSet->images.size()));
+	LogInfo2("Loaded {} images", static_cast<unsigned>(imageSet->images.size()));
 
 	return imageSet;
 }
@@ -402,7 +402,7 @@ static sp<PaletteImage> loadShadowImage(IFile &file, uint8_t shadedIdx)
 	file.read(reinterpret_cast<char *>(&header), sizeof(header));
 	if (!file)
 	{
-		LogError("Unexpected EOF reading shadow PCK header\n");
+		LogError2("Unexpected EOF reading shadow PCK header\n");
 		return nullptr;
 	}
 	auto img = mksp<PaletteImage>(Vec2<int>{header.width, header.height});
@@ -417,7 +417,7 @@ static sp<PaletteImage> loadShadowImage(IFile &file, uint8_t shadedIdx)
 		file.read(reinterpret_cast<char *>(&b), 1);
 		if (!file)
 		{
-			LogError("Unexpected EOF reading shadow data\n");
+			LogError2("Unexpected EOF reading shadow data\n");
 			return nullptr;
 		}
 		uint8_t idx = b;
@@ -449,7 +449,7 @@ static sp<PaletteImage> loadShadowImage(IFile &file, uint8_t shadedIdx)
 		file.read(reinterpret_cast<char *>(&b), 1);
 		if (!file)
 		{
-			LogError("Unexpected EOF reading shadow data\n");
+			LogError2("Unexpected EOF reading shadow data\n");
 			return nullptr;
 		}
 	}
@@ -463,13 +463,13 @@ sp<ImageSet> PCKLoader::loadShadow(Data &data, UString PckFilename, UString TabF
 	auto tabFile = data.fs.open(TabFilename);
 	if (!tabFile)
 	{
-		LogWarning("Failed to open tab \"%s\"", TabFilename);
+		LogWarning2("Failed to open tab \"{}\"", TabFilename);
 		return nullptr;
 	}
 	auto pckFile = data.fs.open(PckFilename);
 	if (!pckFile)
 	{
-		LogWarning("Failed to open tab \"%s\"", TabFilename);
+		LogWarning2("Failed to open tab \"{}\"", TabFilename);
 		return nullptr;
 	}
 	imageSet->maxSize = {0, 0};
@@ -482,13 +482,13 @@ sp<ImageSet> PCKLoader::loadShadow(Data &data, UString PckFilename, UString TabF
 		pckFile.seekg(offset, std::ios::beg);
 		if (!pckFile)
 		{
-			LogError("Failed to seek to offset %u", offset);
+			LogError2("Failed to seek to offset {}", offset);
 			return nullptr;
 		}
 		auto img = loadShadowImage(pckFile, shadedIdx);
 		if (!img)
 		{
-			LogError("Failed to load image");
+			LogError2("Failed to load image");
 			return nullptr;
 		}
 		imageSet->images.push_back(img);
@@ -501,7 +501,7 @@ sp<ImageSet> PCKLoader::loadShadow(Data &data, UString PckFilename, UString TabF
 			imageSet->maxSize.y = img->size.y;
 	}
 
-	LogInfo("Loaded %u images", static_cast<unsigned>(imageSet->images.size()));
+	LogInfo2("Loaded {} images", static_cast<unsigned>(imageSet->images.size()));
 
 	return imageSet;
 }

@@ -32,7 +32,7 @@ StrTab::StrTab(std::istream &file, off_t start_offset, off_t end_offset, bool ma
 				std::stringstream ss;
 				ss << s << " " << ++unique_id[s];
 				s = ss.str();
-				LogWarning("Munged string to make unique: \"%s\"", s.c_str());
+				LogWarning2("Munged string to make unique: \"{}\"", s);
 			}
 			else
 				unique_id.emplace(s, 0);
@@ -40,15 +40,15 @@ StrTab::StrTab(std::istream &file, off_t start_offset, off_t end_offset, bool ma
 		readStrings.push_back(s);
 	}
 	if (c)
-		LogError("Table didn't end with NULL");
+		LogError2("Table didn't end with NULL");
 }
 
 std::string StrTab::get(int offset) const
 {
 	if (offset >= (int)readStrings.size())
 	{
-		LogError("Trying to read string table entry %d - table size %zu", offset,
-		         readStrings.size());
+		LogError2("Trying to read string table entry {} - table size {}", offset,
+		          readStrings.size());
 	}
 	return readStrings[offset];
 }

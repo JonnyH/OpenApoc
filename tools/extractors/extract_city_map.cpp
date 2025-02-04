@@ -1,5 +1,6 @@
 #include "framework/data.h"
 #include "framework/framework.h"
+#include "framework/logger.h"
 #include "game/state/city/city.h"
 #include "game/state/rules/city/scenerytiletype.h"
 #include "library/strings_format.h"
@@ -29,7 +30,7 @@ void InitialGameStateExtractor::extractCityMap(GameState &state, UString fileNam
 	auto inFile = fw().data->fs.open(map_prefix + fileName);
 	if (!inFile)
 	{
-		LogError("Failed to open \"%s\"", fileName);
+		LogError2("Failed to open \"{}\"", fileName);
 	}
 	auto fileSize = inFile.size();
 
@@ -37,7 +38,7 @@ void InitialGameStateExtractor::extractCityMap(GameState &state, UString fileNam
 
 	if (fileSize != expectedFileSize)
 	{
-		LogError("Unexpected filesize %zu - expected %u", fileSize, expectedFileSize);
+		LogError2("Unexpected filesize {} - expected {}", fileSize, expectedFileSize);
 	}
 
 	city->size = {fullSize.x, fullSize.y, fullSize.z};

@@ -1,6 +1,7 @@
 #include "game/ui/general/aequipmentsheet.h"
 #include "forms/graphic.h"
 #include "forms/label.h"
+#include "framework/logger.h"
 #include "game/state/gamestate.h"
 #include "game/state/rules/battle/damage.h"
 #include "library/strings_format.h"
@@ -32,7 +33,7 @@ void AEquipmentSheet::clear()
 			auto label = form->findControlTyped<Label>(labelName);
 			if (!label)
 			{
-				LogError("Failed to find UI control matching \"%s\"", labelName);
+				LogError2("Failed to find UI control matching \"{}\"", labelName);
 			}
 			else
 			{
@@ -146,7 +147,7 @@ void AEquipmentSheet::displayWeapon(sp<AEquipment> item [[maybe_unused]],
 {
 	if (itemType.ammo_types.empty())
 	{
-		LogError("Ammo weapon without any ammo types?");
+		LogError2("Ammo weapon without any ammo types?");
 		return;
 	}
 

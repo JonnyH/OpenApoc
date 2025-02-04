@@ -36,7 +36,7 @@ void enableSDLDialogLogger(SDL_Window *win)
 	LogAssert(win);
 	if (parentWindow)
 	{
-		LogError("SDL Dialog already enabled");
+		LogError2("SDL Dialog already enabled");
 		return;
 	}
 	parentWindow = win;

@@ -1,5 +1,6 @@
 #include "framework/data.h"
 #include "framework/framework.h"
+#include "framework/logger.h"
 #include "game/state/gamestate.h"
 #include "game/state/rules/aequipmenttype.h"
 #include "game/state/rules/battle/battlecommonimagelist.h"
@@ -66,8 +67,8 @@ void InitialGameStateExtractor::extractSharedBattleResources(GameState &state) c
 	auto gameObjectStrategySpriteTabFile = fw().data->fs.open(gameObjectStrategySpriteTabFileName);
 	if (!gameObjectStrategySpriteTabFile)
 	{
-		LogError("Failed to open dropped item StrategySprite TAB file \"%s\"",
-		         gameObjectStrategySpriteTabFileName);
+		LogError2("Failed to open dropped item StrategySprite TAB file \"{}\"",
+		          gameObjectStrategySpriteTabFileName);
 		return;
 	}
 	size_t gameObjectStrategySpriteCount = gameObjectStrategySpriteTabFile.size() / 4;

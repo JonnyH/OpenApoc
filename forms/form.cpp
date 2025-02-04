@@ -2,6 +2,7 @@
 #include "dependencies/pugixml/src/pugixml.hpp"
 #include "framework/data.h"
 #include "framework/framework.h"
+#include "framework/logger.h"
 
 namespace OpenApoc
 {
@@ -63,34 +64,34 @@ sp<Form> Form::loadForm(const UString &path)
 	auto file = fw().data->fs.open(path);
 	if (!file)
 	{
-		LogWarning("Failed to open form file \"%s\"", path);
+		LogWarning2("Failed to open form file \"{}\"", path);
 		return nullptr;
 	}
 	auto data = file.readAll();
 	if (!data)
 	{
-		LogWarning("Failed to read form data from \"%s\"", path);
+		LogWarning2("Failed to read form data from \"{}\"", path);
 		return nullptr;
 	}
 	pugi::xml_document doc;
 	auto result = doc.load_buffer(data.get(), file.size());
 	if (!result)
 	{
-		LogWarning("Failed to parse form file at \"%s\" - \"%s\" at \"%llu\"", path,
-		           result.description(), (unsigned long long)result.offset);
+		LogWarning2("Failed to parse form file at \"{}\" - \"{}\" at \"{}\"", path,
+		            result.description(), (unsigned long long)result.offset);
 		return nullptr;
 	}
 
 	auto node = doc.child("openapoc");
 	if (!node)
 	{
-		LogWarning("No root \"openapoc\" root element in form file \"%s\"", path);
+		LogWarning2("No root \"openapoc\" root element in form file \"{}\"", path);
 		return nullptr;
 	}
 	auto child = node.child("form");
 	if (!child)
 	{
-		LogWarning("No child node of \"form\" in form file \"%s\"", path);
+		LogWarning2("No child node of \"form\" in form file \"{}\"", path);
 		return nullptr;
 	}
 	auto form = mksp<Form>();

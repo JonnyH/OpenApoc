@@ -1,4 +1,5 @@
 #include "game/state/battle/ai/unitaihelper.h"
+#include "framework/logger.h"
 #include "game/state/battle/ai/aidecision.h"
 #include "game/state/battle/battleunit.h"
 #include "game/state/gamestate.h"
@@ -156,7 +157,7 @@ sp<AIMovement> UnitAIHelper::getTakeCoverMovement(GameState &state, BattleUnit &
 		}
 	}
 
-	LogWarning("Implement take cover (for now proning instead)");
+	LogWarning2("Implement take cover (for now proning instead)");
 
 	if (!u.agent->isBodyStateAllowed(BodyState::Prone))
 	{

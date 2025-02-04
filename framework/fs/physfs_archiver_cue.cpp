@@ -77,7 +77,7 @@ class CueParser
 		UString cmd(command);
 		if (to_upper(cmd) != "FILE")
 		{
-			LogInfo("Encountered unexpected command: \"%s\", ignoring", cmd);
+			LogInfo2("Encountered unexpected command: \"{}\", ignoring", cmd);
 			return false;
 		}
 		// auto matchIter = std::sregex_iterator(arg.begin(), arg.end(), fileArgRegex);
@@ -104,8 +104,7 @@ class CueParser
 			}
 			if (last_char == arg.size())
 			{
-				LogError("Malformed argument for FILE command (arguments are: \"%s\")",
-				         arg.c_str());
+				LogError2("Malformed argument for FILE command (arguments are: \"{}\")", arg);
 				return false;
 			}
 			last_char -= 1;
@@ -113,11 +112,11 @@ class CueParser
 		if (last_char >= first_char)
 		{
 			dataFileName = arg.substr(first_char, last_char - first_char + 1);
-			LogInfo("Reading from \"%s\"", dataFileName);
+			LogInfo2("Reading from \"{}\"", dataFileName);
 		}
 		else
 		{
-			LogError("Bad file name for FILE command (arguments are: \"%s\")", arg.c_str());
+			LogError2("Bad file name for FILE command (arguments are: \"{}\")", arg);
 			return false;
 		}
 
@@ -129,8 +128,8 @@ class CueParser
 		}
 		if (first_char == arg.size())
 		{
-			LogError("File type not specified for \"%s\" (arguments are: \"%s\")", dataFileName,
-			         arg.c_str());
+			LogError2("File type not specified for \"{}\" (arguments are: \"{}\")", dataFileName,
+			          arg);
 			return false;
 		}
 		last_char = arg.size() - 1;
@@ -143,7 +142,7 @@ class CueParser
 
 		if (to_upper(fileTypeStr) != "BINARY")
 		{
-			LogError("Unsupported file type: \"%s\"", fileTypeStr);
+			LogError2("Unsupported file type: \"{}\"", fileTypeStr);
 			parserState = PARSER_ERROR;
 			fileType = CueFileType::FT_UNDEFINED;
 			return false;
@@ -161,7 +160,7 @@ class CueParser
 			// According to
 			// https://www.gnu.org/software/ccd2cue/manual/html_node/FILE-_0028CUE-Command_0029.html#FILE-_0028CUE-Command_0029
 			// only TRACK is allowed after FILE
-			LogError("Encountered unexpected command: \"%s\" (only TRACK is allowed)", cmd);
+			LogError2("Encountered unexpected command: \"{}\" (only TRACK is allowed)", cmd);
 			parserState = PARSER_ERROR;
 			fileType = CueFileType::FT_UNDEFINED;
 			return false;
@@ -182,7 +181,7 @@ class CueParser
 
 		if (trackNumber > 1)
 		{
-			LogWarning("First track is not numbered 1 (actual number is %d)", trackNumber);
+			LogWarning2("First track is not numbered 1 (actual number is {})", trackNumber);
 		}
 
 		// Read track mode
@@ -213,7 +212,7 @@ class CueParser
 			trackMode = CueTrackMode::MODE2_2352;
 		if (trackMode == CueTrackMode::MODE_UNDEFINED)
 		{
-			LogError("Unknown/unimplemented mode \"%s\"", modeStr);
+			LogError2("Unknown/unimplemented mode \"{}\"", modeStr);
 			parserState = PARSER_ERROR;
 			return false;
 		}
@@ -228,7 +227,7 @@ class CueParser
 		// valid
 		if (to_upper(cmd) != "INDEX")
 		{
-			LogInfo("Encountered unexpected/unknown command: \"%s\", ignoring", cmd);
+			LogInfo2("Encountered unexpected/unknown command: \"{}\", ignoring", cmd);
 			return false;
 		}
 		// FIXME: I seriously could not make heads or tails of these indices.
@@ -293,7 +292,7 @@ class CueParser
 					}
 					break;
 				default:
-					LogError("Invalid CueParser state!");
+					LogError2("Invalid CueParser state!");
 			}
 			if ((parserState == PARSER_FINISH) || (parserState == PARSER_ERROR))
 				return parserState == PARSER_FINISH;
@@ -493,7 +492,7 @@ class CueIO
 			case CueTrackMode::MODE2_2352:
 				return lba * 2048 + 12 + 4 + 8;
 			default:
-				LogError("Unknown track mode set!");
+				LogError2("Unknown track mode set!");
 				// Return negative offset to indicate error
 				return -1;
 		}
@@ -516,7 +515,7 @@ class CueIO
 			case CueTrackMode::MODE2_2324:
 				return 2324;
 			default:
-				LogError("Bad track mode!");
+				LogError2("Bad track mode!");
 		}
 		// Unsupported track mode
 		return -1;
@@ -538,7 +537,7 @@ class CueIO
 			case CueTrackMode::MODE2_2324:
 				return 2324;
 			default:
-				LogError("Bad track mode!");
+				LogError2("Bad track mode!");
 		}
 		// Unsupported track mode
 		return -1;
@@ -562,7 +561,7 @@ class CueIO
 			case CueTrackMode::MODE2_2336:
 				return 8; // 8 bytes subheader (?)
 			default:
-				LogError("Bad track mode!");
+				LogError2("Bad track mode!");
 		}
 		// Unsupported track mode
 		return -1;
@@ -591,7 +590,7 @@ class CueIO
 		int64_t remainLength = length - (lbaCurrent - lbaStart) * blockSize() - posInLba;
 		if (remainLength < 0)
 		{
-			LogError("Trying to read past end of stream!");
+			LogError2("Trying to read past end of stream!");
 			return -1;
 		}
 		if (len > remainLength)
@@ -610,8 +609,8 @@ class CueIO
 			totalRead += fileStream.gcount();
 			if (fileStream.gcount() != readSize)
 			{
-				LogWarning("Read buffer underrun! Wanted %" PRId64 " bytes, got %" PRId64, readSize,
-				           fileStream.gcount());
+				LogWarning2("Read buffer underrun! Wanted {} bytes, got {}", readSize,
+				            fileStream.gcount());
 				return totalRead;
 			}
 			posInLba += readSize;
@@ -960,28 +959,29 @@ class CueArchiver
 		// FIXME: This fsize is completely and utterly wrong - unless you're reading an actual iso
 		// (mode1_2048)
 		uint64_t fsize = fs::file_size(filePath);
-		LogInfo("Opening file %s of size %" PRIu64, fileName, fsize);
+		LogInfo2("Opening file {} of size {}", fileName, fsize);
 		cio = new CueIO(fileName, 0, fsize, ftype, tmode);
 		if (!cio->fileStream)
 		{
-			LogError("Could not open file: bad stream!");
+			LogError2("Could not open file: bad stream!");
 		}
 		cio->seek(cio->blockSize() * 16);
-		LogInfo("Reading ISO volume descriptor");
+		LogInfo2("Reading ISO volume descriptor");
 		IsoVolumeDescriptor descriptor;
 		cio->read(&descriptor, sizeof(descriptor));
-		LogInfo("CD magic: %c, %c, %c, %c, %c", descriptor.identifier[0], descriptor.identifier[1],
-		        descriptor.identifier[2], descriptor.identifier[3], descriptor.identifier[4]);
+		LogInfo2("CD magic: {:c}, {:c}, {:c}, {:c}, {:c}", descriptor.identifier[0],
+		         descriptor.identifier[1], descriptor.identifier[2], descriptor.identifier[3],
+		         descriptor.identifier[4]);
 		const char magic[] = {'C', 'D', '0', '0', '1'};
 		if (std::memcmp((void *)magic, (void *)descriptor.identifier, 5))
 		{
-			LogError("Bad CD magic!");
+			LogError2("Bad CD magic!");
 		}
-		LogInfo("Descriptor type: %d", (int)descriptor.type);
+		LogInfo2("Descriptor type: {}", (int)descriptor.type);
 		IsoDirRecord_hdr rootRecord;
 		std::memcpy(&rootRecord, descriptor.primary.rootDirEnt, 34);
-		LogInfo("Volume ID: %s", descriptor.primary.volIdentifier);
-		LogInfo("Root dirent length: %d", (int)rootRecord.length);
+		LogInfo2("Volume ID: {}", descriptor.primary.volIdentifier);
+		LogInfo2("Root dirent length: {}", (int)rootRecord.length);
 		readDir(rootRecord, root);
 	}
 	~CueArchiver() { delete cio; }
@@ -1070,7 +1070,7 @@ class CueArchiver
 				break;
 			default:
 				// Well, this should never happen?
-				LogError("Unexpected FSEntry::type value!");
+				LogError2("Unexpected FSEntry::type value!");
 		}
 		return 1;
 	}
@@ -1078,26 +1078,26 @@ class CueArchiver
   public:
 	static void *cueOpenArchive(PHYSFS_Io *, const char *filename, int forWriting, int *claimed)
 	{
-		LogWarning("Opening \"%s\"", filename);
+		LogWarning2("Opening \"{}\"", filename);
 		// FIXME: Here we assume the filename actually points to the actual .cue file,
 		// ignoring the PHYSFS_Io (though how would we even read the accompanying file?)
 		// TODO: Actually read from PHYSFS_Io to allow mounting non-CUE images?
 		if (!filename)
 		{
-			LogError("FIXME: Cannot operate on purely-PhysFS_Io archives (need a filename)");
+			LogError2("FIXME: Cannot operate on purely-PhysFS_Io archives (need a filename)");
 			return nullptr;
 		}
 
 		if (forWriting)
 		{
-			LogError("Cue files cannot be written to");
+			LogError2("Cue files cannot be written to");
 			return nullptr;
 		}
 
 		CueParser parser(filename);
 		if (!parser.isValid())
 		{
-			LogError("Could not parse file \"%s\"", filename);
+			LogError2("Could not parse file \"{}\"", filename);
 			return nullptr;
 		}
 
@@ -1111,9 +1111,9 @@ class CueArchiver
 
 		if (!fs::exists(dataFilePath))
 		{
-			LogWarning("Could not find binary file \"%s\" referenced in the cuesheet",
-			           parser.getDataFileName());
-			LogWarning("Trying case-insensitive search...");
+			LogWarning2("Could not find binary file \"{}\" referenced in the cuesheet",
+			            parser.getDataFileName());
+			LogWarning2("Trying case-insensitive search...");
 			UString ucBin(parser.getDataFileName());
 			ucBin = to_lower(ucBin);
 			// for (fs::directory_entry &dirent :
@@ -1122,7 +1122,7 @@ class CueArchiver
 			     dirent_it != fs::directory_iterator(); dirent_it++)
 			{
 				auto dirent = *dirent_it;
-				LogInfo("Trying %s", dirent.path().string());
+				LogInfo2("Trying {}", dirent.path().string());
 				UString ucDirent(dirent.path().filename().string());
 				ucDirent = to_lower(ucDirent);
 				if (ucDirent == ucBin)
@@ -1133,10 +1133,10 @@ class CueArchiver
 			}
 			if (!fs::exists(dataFilePath))
 			{
-				LogError("Binary file does not exist: \"%s\"", dataFilePath.string());
+				LogError2("Binary file does not exist: \"{}\"", dataFilePath.string());
 				return nullptr;
 			}
-			LogWarning("Using \"%s\" as a binary file source", dataFilePath.string());
+			LogWarning2("Using \"{}\" as a binary file source", dataFilePath.string());
 		}
 
 		return new CueArchiver(dataFilePath.string(), parser.getDataFileType(),
@@ -1230,10 +1230,10 @@ namespace OpenApoc
 void parseCueFile(UString fileName)
 {
 	CueParser parser(fileName);
-	LogInfo("Parser status: %d", parser.isValid());
-	LogInfo("Data file: %s", parser.getDataFileName());
-	LogInfo("Track mode: %d", (int)parser.getTrackMode());
-	LogInfo("File mode: %d", (int)parser.getDataFileType());
+	LogInfo2("Parser status: {:d}", parser.isValid());
+	LogInfo2("Data file: {}", parser.getDataFileName());
+	LogInfo2("Track mode: {}", (int)parser.getTrackMode());
+	LogInfo2("File mode: {}", (int)parser.getDataFileType());
 }
 
 PHYSFS_Archiver *getCueArchiver() { return CueArchiver::createArchiver(); }

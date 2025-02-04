@@ -8,6 +8,7 @@
 #include "framework/font.h"
 #include "framework/image.h"
 #include "framework/jukebox.h"
+#include "framework/logger.h"
 #include "framework/logger_file.h"
 #include "framework/logger_sdldialog.h"
 #include "framework/options.h"
@@ -94,17 +95,17 @@ class FrameworkPrivate
 		int threadPoolSize = Options::threadPoolSizeOption.get();
 		if (threadPoolSize > 0)
 		{
-			LogInfo("Set thread pool size to %d", threadPoolSize);
+			LogInfo2("Set thread pool size to {}", threadPoolSize);
 		}
 		else if (std::thread::hardware_concurrency() != 0)
 		{
 			threadPoolSize = std::thread::hardware_concurrency();
-			LogInfo("Set thread pool size to reported HW concurrency of %d", threadPoolSize);
+			LogInfo2("Set thread pool size to reported HW concurrency of {}", threadPoolSize);
 		}
 		else
 		{
 			threadPoolSize = 2;
-			LogInfo("Failed to get HW concurrency, falling back to pool size %d", threadPoolSize);
+			LogInfo2("Failed to get HW concurrency, falling back to pool size {}", threadPoolSize);
 		}
 
 		this->threadPool.reset(new ThreadPool(threadPoolSize));
@@ -114,11 +115,11 @@ class FrameworkPrivate
 Framework::Framework(const UString programName, bool createWindow)
     : p(new FrameworkPrivate), programName(programName), createWindow(createWindow)
 {
-	LogInfo("Starting framework");
+	LogInfo2("Starting framework");
 
 	if (this->instance)
 	{
-		LogError("Multiple Framework instances created");
+		LogError2("Multiple Framework instances created");
 	}
 
 	this->instance = this;
@@ -148,7 +149,8 @@ Framework::Framework(const UString programName, bool createWindow)
 		if (PHYSFS_init(programName.c_str()) == 0)
 		{
 			PHYSFS_ErrorCode error = PHYSFS_getLastErrorCode();
-			LogError("Failed to init code %i PHYSFS: %s", (int)error, PHYSFS_getErrorByCode(error));
+			LogError2("Failed to init code {} PHYSFS: {}", (int)error,
+			          PHYSFS_getErrorByCode(error));
 		}
 	}
 #ifdef ANDROID
@@ -157,8 +159,8 @@ Framework::Framework(const UString programName, bool createWindow)
 	// Initialize subsystems separately?
 	if (SDL_Init(SDL_INIT_EVENTS | SDL_INIT_TIMER) < 0)
 	{
-		LogError("Cannot init SDL2");
-		LogError("SDL error: %s", SDL_GetError());
+		LogError2("Cannot init SDL2");
+		LogError2("SDL error: {}", SDL_GetError());
 		p->quitProgram = true;
 		return;
 	}
@@ -166,12 +168,12 @@ Framework::Framework(const UString programName, bool createWindow)
 	{
 		if (SDL_InitSubSystem(SDL_INIT_VIDEO) < 0)
 		{
-			LogError("Cannot init SDL_VIDEO - \"%s\"", SDL_GetError());
+			LogError2("Cannot init SDL_VIDEO - \"{}\"", SDL_GetError());
 			p->quitProgram = true;
 			return;
 		}
 	}
-	LogInfo("Loading config\n");
+	LogInfo2("Loading config\n");
 	p->quitProgram = false;
 	UString settingsPath(PHYSFS_getPrefDir(PROGRAM_ORGANISATION, PROGRAM_NAME));
 	settingsPath += "/settings.cfg";
@@ -197,7 +199,7 @@ Framework::Framework(const UString programName, bool createWindow)
 		desiredLanguageName = Options::languageOption.get();
 	}
 
-	LogInfo("Setting up locale \"%s\"", desiredLanguageName);
+	LogInfo2("Setting up locale \"{}\"", desiredLanguageName);
 
 	boost::locale::generator gen;
 
@@ -208,14 +210,14 @@ Framework::Framework(const UString programName, bool createWindow)
 	for (auto &path : resourcePaths)
 	{
 		auto langPath = path + "/languages";
-		LogInfo("Adding \"%s\" to language path", langPath);
+		LogInfo2("Adding \"{}\" to language path", langPath);
 		gen.add_messages_path(langPath);
 	}
 
 	std::vector<UString> translationDomains = {"paedia_string", "ufo_string"};
 	for (auto &domain : translationDomains)
 	{
-		LogInfo("Adding \"%s\" to translation domains", domain);
+		LogInfo2("Adding \"{}\" to translation domains", domain);
 		gen.add_messages_domain(domain);
 	}
 
@@ -229,25 +231,27 @@ Framework::Framework(const UString programName, bool createWindow)
 	auto localeEncoding = std::use_facet<boost::locale::info>(loc).encoding();
 	auto isUTF8 = std::use_facet<boost::locale::info>(loc).utf8();
 
-	LogInfo("Locale info: Name \"%s\" language \"%s\" country \"%s\" variant \"%s\" encoding "
-	        "\"%s\" utf8:%s",
-	        localeName.c_str(), localeLang.c_str(), localeCountry.c_str(), localeVariant.c_str(),
-	        localeEncoding.c_str(), isUTF8 ? "true" : "false");
+	LogInfo2("Locale info: Name \"{}\" language \"{}\" country \"{}\" variant \"{}\" encoding "
+	         "\"{}\" utf8:{}",
+	         localeName, localeLang, localeCountry, localeVariant, localeEncoding,
+	         isUTF8 ? "true" : "false");
 
 	this->data.reset(Data::createData(resourcePaths));
 
 	auto testFile = this->data->fs.open("music");
 	if (!testFile)
 	{
-		LogError("Failed to open \"music\" from the CD - likely the cd couldn't be loaded or paths "
-		         "are incorrect if using an extracted CD image");
+		LogError2(
+		    "Failed to open \"music\" from the CD - likely the cd couldn't be loaded or paths "
+		    "are incorrect if using an extracted CD image");
 	}
 
 	auto testFile2 = this->data->fs.open("filedoesntexist");
 	if (testFile2)
 	{
-		LogError("Succeeded in opening \"FileDoesntExist\" - either you have the weirdest filename "
-		         "preferences or something is wrong");
+		LogError2(
+		    "Succeeded in opening \"FileDoesntExist\" - either you have the weirdest filename "
+		    "preferences or something is wrong");
 	}
 	srand(static_cast<unsigned int>(SDL_GetTicks()));
 
@@ -261,20 +265,20 @@ Framework::Framework(const UString programName, bool createWindow)
 
 Framework::~Framework()
 {
-	LogInfo("Destroying framework");
+	LogInfo2("Destroying framework");
 	// Stop any audio first, as if you've got ongoing music/samples it could call back into the
 	// framework for the threadpool/data read/all kinda of stuff it shouldn't do on a
 	// half-destroyed framework
 	audioShutdown();
-	LogInfo("Stopping threadpool");
+	LogInfo2("Stopping threadpool");
 	p->threadPool.reset();
-	LogInfo("Clearing stages");
+	LogInfo2("Clearing stages");
 	p->ProgramStages.clear();
-	LogInfo("Saving config");
+	LogInfo2("Saving config");
 	if (config().getBool("Config.Save"))
 		config().save();
 
-	LogInfo("Shutdown");
+	LogInfo2("Shutdown");
 	// Make sure we destroy the data implementation before the renderer to ensure any possibly
 	// cached images are already destroyed
 	this->data.reset();
@@ -282,7 +286,7 @@ Framework::~Framework()
 	{
 		displayShutdown();
 	}
-	LogInfo("SDL shutdown");
+	LogInfo2("SDL shutdown");
 	PHYSFS_deinit();
 	SDL_Quit();
 	instance = nullptr;
@@ -292,7 +296,7 @@ Framework &Framework::getInstance()
 {
 	if (!instance)
 	{
-		LogError("Framework::getInstance() called with no live Framework");
+		LogError2("Framework::getInstance() called with no live Framework");
 	}
 	return *instance;
 }
@@ -303,11 +307,11 @@ void Framework::run(sp<Stage> initialStage)
 	size_t frameCount = Options::frameLimit.get();
 	if (!createWindow)
 	{
-		LogError("Trying to run framework without window");
+		LogError2("Trying to run framework without window");
 		return;
 	}
 	size_t frame = 0;
-	LogInfo("Program loop started");
+	LogInfo2("Program loop started");
 
 	auto target_frame_duration =
 	    std::chrono::duration<int64_t, std::micro>(1000000 / Options::targetFPS.get());
@@ -327,7 +331,7 @@ void Framework::run(sp<Stage> initialStage)
 			auto time_to_sleep = expected_frame_time - frame_time_now;
 			auto time_to_sleep_us =
 			    std::chrono::duration_cast<std::chrono::microseconds>(time_to_sleep);
-			LogDebug("sleeping for %d us", time_to_sleep_us.count());
+			LogDebug2("sleeping for {} us", time_to_sleep_us.count());
 			std::this_thread::sleep_for(time_to_sleep);
 			continue;
 		}
@@ -338,7 +342,7 @@ void Framework::run(sp<Stage> initialStage)
 		    frame_time_now > expected_frame_time + 5 * target_frame_duration)
 		{
 			frame_time_limited_warning_shown = true;
-			LogWarning("Over 5 frames behind - likely vsync limited?");
+			LogWarning2("Over 5 frames behind - likely vsync limited?");
 		}
 
 		processEvents();
@@ -410,7 +414,7 @@ void Framework::run(sp<Stage> initialStage)
 		}
 		if (frameCount && frame == frameCount)
 		{
-			LogWarning("Quitting hitting frame count limit of %llu", (unsigned long long)frame);
+			LogWarning2("Quitting hitting frame count limit of {}", (unsigned long long)frame);
 			p->quitProgram = true;
 		}
 	}
@@ -437,7 +441,7 @@ void Framework::processEvents()
 		}
 		if (!e)
 		{
-			LogError("Invalid event on queue");
+			LogError2("Invalid event on queue");
 			continue;
 		}
 		this->cursor->eventOccured(e.get());
@@ -452,17 +456,17 @@ void Framework::processEvents()
 					screenshotName = fmt::format("screenshot{:03}.png", screenshotId);
 					screenshotId++;
 				} while (fs::exists(fs::path(screenshotName)));
-				LogWarning("Writing screenshot to \"%s\"", screenshotName);
+				LogWarning2("Writing screenshot to \"{}\"", screenshotName);
 				if (!p->defaultSurface->rendererPrivateData)
 				{
-					LogWarning("No renderer data on surface - nothing drawn yet?");
+					LogWarning2("No renderer data on surface - nothing drawn yet?");
 				}
 				else
 				{
 					auto img = p->defaultSurface->rendererPrivateData->readBack();
 					if (!img)
 					{
-						LogWarning("No image returned");
+						LogWarning2("No image returned");
 					}
 					else
 					{
@@ -472,11 +476,11 @@ void Framework::processEvents()
 							    auto ret = fw().data->writeImage(screenshotName, img);
 							    if (!ret)
 							    {
-								    LogWarning("Failed to write screenshot");
+								    LogWarning2("Failed to write screenshot");
 							    }
 							    else
 							    {
-								    LogWarning("Wrote screenshot to \"%s\"", screenshotName);
+								    LogWarning2("Wrote screenshot to \"{}\"", screenshotName);
 							    }
 						    });
 					}
@@ -710,7 +714,7 @@ void Framework::translateSdlEvents()
 
 void Framework::shutdownFramework()
 {
-	LogInfo("Shutdown framework");
+	LogInfo2("Shutdown framework");
 	p->ProgramStages.clear();
 	p->quitProgram = true;
 }
@@ -746,7 +750,7 @@ void Framework::displayInitialise()
 	{
 		return;
 	}
-	LogInfo("Init display");
+	LogInfo2("Init display");
 	int display_flags = SDL_WINDOW_OPENGL;
 #ifdef OPENAPOC_GLES
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
@@ -774,7 +778,7 @@ void Framework::displayInitialise()
 	ScreenMode mode = optionsScreenMode();
 	if (mode == ScreenMode::Unknown)
 	{
-		LogError("Unknown screen mode specified: {%s}", Options::screenModeOption.get());
+		LogError2("Unknown screen mode specified: {{{}}}", Options::screenModeOption.get());
 		mode = ScreenMode::Windowed;
 	}
 
@@ -786,7 +790,7 @@ void Framework::displayInitialise()
 	int displayNumber = Options::screenDisplayNumberOption.get();
 	if (displayNumber >= SDL_GetNumVideoDisplays())
 	{
-		LogWarning("Requested display number (%d) does not exist. Using display 0", displayNumber);
+		LogWarning2("Requested display number ({}) does not exist. Using display 0", displayNumber);
 		displayNumber = 0;
 	}
 
@@ -795,8 +799,8 @@ void Framework::displayInitialise()
 
 	if (scrW < 640 || scrH < 480)
 	{
-		LogError(
-		    "Requested display size of {%d,%d} is lower than {640,480} and probably won't work",
+		LogError2(
+		    "Requested display size of {{{},{}}} is lower than {{640,480}} and probably won't work",
 		    scrW, scrH);
 	}
 
@@ -806,27 +810,27 @@ void Framework::displayInitialise()
 
 	if (!p->window)
 	{
-		LogError("Failed to create window \"%s\"", SDL_GetError());
+		LogError2("Failed to create window \"{}\"", SDL_GetError());
 		exit(1);
 	}
 
 	p->context = SDL_GL_CreateContext(p->window);
 	if (!p->context)
 	{
-		LogWarning("Could not create GL context! [SDLError: %s]", SDL_GetError());
-		LogWarning("Attempting to create context by lowering the requested version");
+		LogWarning2("Could not create GL context! [SDLError: {}]", SDL_GetError());
+		LogWarning2("Attempting to create context by lowering the requested version");
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 		p->context = SDL_GL_CreateContext(p->window);
 		if (!p->context)
 		{
-			LogError("Failed to create GL context! [SDLerror: %s]", SDL_GetError());
+			LogError2("Failed to create GL context! [SDLerror: {}]", SDL_GetError());
 			SDL_DestroyWindow(p->window);
 			exit(1);
 		}
 	}
 	// Output the context parameters
-	LogInfo("Created OpenGL context, parameters:");
+	LogInfo2("Created OpenGL context, parameters:");
 	int value;
 	SDL_GL_GetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, &value);
 	UString profileType;
@@ -844,17 +848,17 @@ void Framework::displayInitialise()
 		default:
 			profileType = "Unknown";
 	}
-	LogInfo("  Context profile: %s", profileType);
+	LogInfo2("  Context profile: {}", profileType);
 	int ctxMajor, ctxMinor;
 	SDL_GL_GetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, &ctxMajor);
 	SDL_GL_GetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, &ctxMinor);
-	LogInfo("  Context version: %d.%d", ctxMajor, ctxMinor);
+	LogInfo2("  Context version: {}.{}", ctxMajor, ctxMinor);
 	int bitsRed, bitsGreen, bitsBlue, bitsAlpha;
 	SDL_GL_GetAttribute(SDL_GL_RED_SIZE, &bitsRed);
 	SDL_GL_GetAttribute(SDL_GL_GREEN_SIZE, &bitsGreen);
 	SDL_GL_GetAttribute(SDL_GL_BLUE_SIZE, &bitsBlue);
 	SDL_GL_GetAttribute(SDL_GL_ALPHA_SIZE, &bitsAlpha);
-	LogInfo("  RGBA bits: %d-%d-%d-%d", bitsRed, bitsGreen, bitsBlue, bitsAlpha);
+	LogInfo2("  RGBA bits: {}-{}-{}-{}", bitsRed, bitsGreen, bitsBlue, bitsAlpha);
 	SDL_GL_MakeCurrent(p->window, p->context); // for good measure?
 	SDL_ShowCursor(SDL_DISABLE);
 
@@ -868,22 +872,22 @@ void Framework::displayInitialise()
 		auto rendererFactory = p->registeredRenderers.find(rendererName);
 		if (rendererFactory == p->registeredRenderers.end())
 		{
-			LogInfo("Renderer \"%s\" not in supported list", rendererName);
+			LogInfo2("Renderer \"{}\" not in supported list", rendererName);
 			continue;
 		}
 		Renderer *r = rendererFactory->second->create();
 		if (!r)
 		{
-			LogInfo("Renderer \"%s\" failed to init", rendererName);
+			LogInfo2("Renderer \"{}\" failed to init", rendererName);
 			continue;
 		}
 		this->renderer.reset(r);
-		LogInfo("Using renderer: %s", this->renderer->getName());
+		LogInfo2("Using renderer: {}", this->renderer->getName());
 		break;
 	}
 	if (!this->renderer)
 	{
-		LogError("No functional renderer found");
+		LogError2("No functional renderer found");
 		abort();
 	}
 	this->p->defaultSurface = this->renderer->getDefaultSurface();
@@ -906,20 +910,20 @@ void Framework::displayInitialise()
 		{
 			constexpr int referenceWidth = 1280;
 			scaleYFloat = scaleXFloat = (float)referenceWidth / p->windowSize.x;
-			LogInfo("Autoscaling enabled, scaling by (%f,%f)", scaleXFloat, scaleYFloat);
+			LogInfo2("Autoscaling enabled, scaling by ({:f},{:f})", scaleXFloat, scaleYFloat);
 		}
 
 		p->displaySize.x = (int)((float)p->windowSize.x * scaleXFloat);
 		p->displaySize.y = (int)((float)p->windowSize.y * scaleYFloat);
 		if (p->displaySize.x < 640 || p->displaySize.y < 480)
 		{
-			LogWarning("Requested scaled size of %d is lower than {640,480} and probably "
-			           "won't work, so forcing 640x480",
-			           p->displaySize.x);
+			LogWarning2("Requested scaled size of {} is lower than {{640,480}} and probably won't "
+			            "work, so forcing 640x480",
+			            p->displaySize.x);
 			p->displaySize.x = std::max(640, p->displaySize.x);
 			p->displaySize.y = std::max(480, p->displaySize.y);
 		}
-		LogInfo("Scaling from %s to %s", p->displaySize, p->windowSize);
+		LogInfo2("Scaling from {} to {}", p->displaySize, p->windowSize);
 		p->scaleSurface = mksp<Surface>(p->displaySize);
 	}
 	else
@@ -936,7 +940,7 @@ void Framework::displayShutdown()
 	{
 		return;
 	}
-	LogInfo("Shutdown Display");
+	LogInfo2("Shutdown Display");
 	p->defaultSurface.reset();
 	renderer.reset();
 
@@ -1008,7 +1012,7 @@ void Framework::displaySetIcon(sp<RGBImage> image)
 
 void Framework::audioInitialise()
 {
-	LogInfo("Initialise Audio");
+	LogInfo2("Initialise Audio");
 
 	p->registeredSoundBackends["SDLRaw"].reset(getSDLSoundBackend());
 	p->registeredSoundBackends["null"].reset(getNullSoundBackend());
@@ -1020,22 +1024,22 @@ void Framework::audioInitialise()
 		auto backendFactory = p->registeredSoundBackends.find(soundBackendName);
 		if (backendFactory == p->registeredSoundBackends.end())
 		{
-			LogInfo("Sound backend %s not in supported list", soundBackendName);
+			LogInfo2("Sound backend {} not in supported list", soundBackendName);
 			continue;
 		}
 		SoundBackend *backend = backendFactory->second->create(concurrent_sample_count);
 		if (!backend)
 		{
-			LogInfo("Sound backend %s failed to init", soundBackendName);
+			LogInfo2("Sound backend {} failed to init", soundBackendName);
 			continue;
 		}
 		this->soundBackend.reset(backend);
-		LogInfo("Using sound backend %s", soundBackendName);
+		LogInfo2("Using sound backend {}", soundBackendName);
 		break;
 	}
 	if (!this->soundBackend)
 	{
-		LogError("No functional sound backend found");
+		LogError2("No functional sound backend found");
 	}
 	this->jukebox = createJukebox(*this);
 
@@ -1050,7 +1054,7 @@ void Framework::audioInitialise()
 
 void Framework::audioShutdown()
 {
-	LogInfo("Shutdown Audio");
+	LogInfo2("Shutdown Audio");
 	this->jukebox.reset();
 	this->soundBackend.reset();
 }
@@ -1136,19 +1140,19 @@ void Framework::setupModDataPaths()
 	auto mods = split(Options::modList.get(), ":");
 	for (const auto &modString : mods)
 	{
-		LogWarning("loading mod \"%s\"", modString);
+		LogWarning2("loading mod \"{}\"", modString);
 		auto modPath = Options::modPath.get() + "/" + modString;
 		auto modInfo = ModInfo::getInfo(modPath);
 		if (!modInfo)
 		{
-			LogError("Failed to load ModInfo for mod \"%s\"", modString);
+			LogError2("Failed to load ModInfo for mod \"{}\"", modString);
 			continue;
 		}
 		auto modDataPath = modPath + "/" + modInfo->getDataPath();
-		LogWarning("Loaded modinfo for mod ID \"%s\"", modInfo->getID());
+		LogWarning2("Loaded modinfo for mod ID \"{}\"", modInfo->getID());
 		if (modInfo->getDataPath() != "")
 		{
-			LogWarning("Appending data path \"%s\"", modDataPath);
+			LogWarning2("Appending data path \"{}\"", modDataPath);
 			this->data->fs.addPath(modDataPath);
 		}
 	}

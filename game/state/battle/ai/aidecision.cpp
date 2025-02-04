@@ -1,4 +1,5 @@
 #include "game/state/battle/ai/aidecision.h"
+#include "framework/logger.h"
 #include "game/state/battle/battleunit.h"
 #include "game/state/shared/aequipment.h"
 #include "library/strings_format.h"
@@ -51,7 +52,7 @@ UString AIAction::getName()
 		case AIAction::Type::AttackSuicide:
 			return fmt::format("Attack (suicide) {}  ", targetUnit->id);
 	}
-	LogError("Unimplemented getName for AIAction %d", (int)type);
+	LogError2("Unimplemented getName for AIAction {}", (int)type);
 	return "";
 }
 
@@ -124,7 +125,7 @@ UString AIMovement::getName()
 		case AIMovement::Type::Turn:
 			return fmt::format("Turn to {}", targetLocation);
 	}
-	LogError("Unimplemented getName for AIMovement %d", (int)type);
+	LogError2("Unimplemented getName for AIMovement {}", (int)type);
 	return "";
 }
 
