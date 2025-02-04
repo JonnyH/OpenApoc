@@ -35,7 +35,7 @@ namespace OpenApoc
 
 const Vec2<int> BaseScreen::NO_SELECTION = {-1, -1};
 
-BaseScreen::BaseScreen(sp<GameState> state) : BaseStage(state), selection(NO_SELECTION), drag(false)
+BaseScreen::BaseScreen(GameState &state) : BaseStage(state), selection(NO_SELECTION), drag(false)
 {
 	form = ui().getForm("basescreen");
 	viewHighlight = BaseGraphics::FacilityHighlight::Construction;
@@ -46,9 +46,9 @@ BaseScreen::~BaseScreen() = default;
 void BaseScreen::changeBase(sp<Base> newBase)
 {
 	BaseStage::changeBase(newBase);
-	form->findControlTyped<TextEdit>("TEXT_BASE_NAME")->setText(state->current_base->name);
+	form->findControlTyped<TextEdit>("TEXT_BASE_NAME")->setText(state.current_base->name);
 	form->findControlTyped<Graphic>("GRAPHIC_MINIMAP")
-	    ->setImage(BaseGraphics::drawMinimap(state, *state->current_base->building));
+	    ->setImage(BaseGraphics::drawMinimap(state, *state.current_base->building));
 }
 
 void BaseScreen::begin()
@@ -78,7 +78,7 @@ void BaseScreen::begin()
 	}
 
 	auto facilities = form->findControlTyped<ListBox>("LISTBOX_FACILITIES");
-	for (auto &i : state->facility_types)
+	for (auto &i : state.facility_types)
 	{
 		auto &facility = i.second;
 		if (!facility->isVisible())
@@ -112,7 +112,7 @@ void BaseScreen::begin()
 	        FormEventType::ButtonClick,
 	        [this](Event *)
 	        {
-		        if (this->state->player_bases.size() <= 1)
+		        if (this->state.player_bases.size() <= 1)
 		        {
 			        fw().stageQueueCommand(
 			            {StageCmd::Command::PUSH,
@@ -131,7 +131,7 @@ void BaseScreen::begin()
 	        FormEventType::ButtonClick,
 	        [this](Event *)
 	        {
-		        if (!this->state->current_base->alienContainmentExists())
+		        if (!this->state.current_base->alienContainmentExists())
 		        {
 			        fw().stageQueueCommand(
 			            {StageCmd::Command::PUSH,
@@ -139,7 +139,7 @@ void BaseScreen::begin()
 			                              tr("Alien Containment does not exist at this base."),
 			                              MessageBox::ButtonOptions::Ok)});
 		        }
-		        else if (this->state->current_base->alienContainmentIsEmpty(*state))
+		        else if (this->state.current_base->alienContainmentIsEmpty(state))
 		        {
 			        fw().stageQueueCommand(
 			            {StageCmd::Command::PUSH,
@@ -159,10 +159,10 @@ void BaseScreen::begin()
 	        [this](Event *)
 	        {
 		        bool playerHasSoldiers = false;
-		        for (auto &a : this->state->agents)
+		        for (auto &a : this->state.agents)
 		        {
 			        auto agent = a.second;
-			        if (agent->owner == this->state->getPlayer() &&
+			        if (agent->owner == this->state.getPlayer() &&
 			            agent->type->role == AgentType::Role::Soldier)
 			        {
 				        playerHasSoldiers = true;
@@ -180,10 +180,10 @@ void BaseScreen::begin()
 	        [this](Event *)
 	        {
 		        bool playerHasVehicles = false;
-		        for (auto &v : this->state->vehicles)
+		        for (auto &v : this->state.vehicles)
 		        {
 			        auto vehicle = v.second;
-			        if (vehicle->owner == this->state->getPlayer())
+			        if (vehicle->owner == this->state.getPlayer())
 			        {
 				        playerHasVehicles = true;
 				        break;
@@ -207,7 +207,7 @@ void BaseScreen::begin()
 	    ->addCallback(FormEventType::TextEditFinish,
 	                  [this](FormsEvent *e)
 	                  {
-		                  this->state->current_base->name =
+		                  this->state.current_base->name =
 		                      std::dynamic_pointer_cast<TextEdit>(e->forms().RaisedBy)->getText();
 	                  });
 	form->findControlTyped<TextEdit>("TEXT_BASE_NAME")
@@ -215,7 +215,7 @@ void BaseScreen::begin()
 	                  [this](FormsEvent *e)
 	                  {
 		                  std::dynamic_pointer_cast<TextEdit>(e->forms().RaisedBy)
-		                      ->setText(this->state->current_base->name);
+		                      ->setText(this->state.current_base->name);
 	                  });
 }
 
@@ -224,7 +224,7 @@ void BaseScreen::pause() {}
 void BaseScreen::resume()
 {
 	BaseStage::begin();
-	textFunds->setText(state->getPlayerBalance());
+	textFunds->setText(state.getPlayerBalance());
 }
 
 void BaseScreen::finish() {}
@@ -245,7 +245,7 @@ void BaseScreen::eventOccurred(Event *e)
 		}
 		if (e->keyboard().KeyCode == SDLK_F10)
 		{
-			for (auto &facility : state->current_base->facilities)
+			for (auto &facility : state.current_base->facilities)
 			{
 				{
 					facility->buildTime = 0;
@@ -270,7 +270,7 @@ void BaseScreen::eventOccurred(Event *e)
 				selection /= BaseGraphics::TILE_SIZE;
 				if (!drag)
 				{
-					selFacility = state->current_base->getFacility(selection);
+					selFacility = state.current_base->getFacility(selection);
 				}
 				return;
 			}
@@ -289,7 +289,7 @@ void BaseScreen::eventOccurred(Event *e)
 				auto dragFacilityName = list->getHoveredData<UString>();
 				if (dragFacilityName)
 				{
-					dragFacility = StateRef<FacilityType>{state.get(), *dragFacilityName};
+					dragFacility = StateRef<FacilityType>{&state, *dragFacilityName};
 					return;
 				}
 			}
@@ -332,7 +332,7 @@ void BaseScreen::eventOccurred(Event *e)
 
 				StateRef<FacilityType> clickedFacility;
 				if (clickedFacilityName)
-					clickedFacility = StateRef<FacilityType>{state.get(), *clickedFacilityName};
+					clickedFacility = StateRef<FacilityType>{&state, *clickedFacilityName};
 				if (!clickedFacility)
 					return;
 
@@ -340,7 +340,7 @@ void BaseScreen::eventOccurred(Event *e)
 				sp<UfopaediaCategory> ufopaedia_category;
 				if (ufopaedia_entry)
 				{
-					for (auto &cat : this->state->ufopaedia)
+					for (auto &cat : this->state.ufopaedia)
 					{
 						for (auto &entry : cat.second->entries)
 						{
@@ -373,12 +373,12 @@ void BaseScreen::eventOccurred(Event *e)
 				if (selection != NO_SELECTION)
 				{
 					Base::BuildError error =
-					    state->current_base->canBuildFacility(dragFacility, selection);
+					    state.current_base->canBuildFacility(dragFacility, selection);
 					switch (error)
 					{
 						case Base::BuildError::NoError:
-							state->current_base->buildFacility(*state, dragFacility, selection);
-							textFunds->setText(state->getPlayerBalance());
+							state.current_base->buildFacility(state, dragFacility, selection);
+							textFunds->setText(state.getPlayerBalance());
 							refreshView();
 							break;
 						case Base::BuildError::Occupied:
@@ -425,7 +425,7 @@ void BaseScreen::eventOccurred(Event *e)
 				if (selection != NO_SELECTION)
 				{
 					Base::BuildError error =
-					    state->current_base->canDestroyFacility(*state, selection);
+					    state.current_base->canDestroyFacility(state, selection);
 					switch (error)
 					{
 						case Base::BuildError::NoError:
@@ -435,8 +435,8 @@ void BaseScreen::eventOccurred(Event *e)
 							                      MessageBox::ButtonOptions::YesNo,
 							                      [this]
 							                      {
-								                      this->state->current_base->destroyFacility(
-								                          *this->state, this->selection);
+								                      this->state.current_base->destroyFacility(
+								                          this->state, this->selection);
 								                      this->refreshView();
 							                      })});
 							break;
@@ -486,12 +486,12 @@ void BaseScreen::eventOccurred(Event *e)
 			statsValues[0]->setText(format("%d", selFacility->type->capacityAmount));
 			statsLabels[1]->setText(tr("Usage"));
 			statsValues[1]->setText(
-			    format("%.f%%", state->current_base->getUsage(*state, selFacility)));
+			    format("%.f%%", state.current_base->getUsage(state, selFacility)));
 		}
 	}
 	else if (selection != NO_SELECTION)
 	{
-		int sprite = BaseGraphics::getCorridorSprite(*state->current_base, selection);
+		int sprite = BaseGraphics::getCorridorSprite(*state.current_base, selection);
 		auto image = format(
 		    "PCK:xcom3/ufodata/base.pck:xcom3/ufodata/base.tab:%d:xcom3/ufodata/base.pcx", sprite);
 		if (sprite != 0)
@@ -522,7 +522,7 @@ void BaseScreen::renderBase()
 {
 	const Vec2<int> BASE_POS = baseView->getLocationOnScreen();
 
-	BaseGraphics::renderBase(BASE_POS, *state->current_base);
+	BaseGraphics::renderBase(BASE_POS, *state.current_base);
 
 	// Draw selection
 	if (selection != NO_SELECTION)

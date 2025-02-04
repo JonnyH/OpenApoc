@@ -16,7 +16,7 @@ class DiplomaticTreatyScreen : public Stage
 {
   private:
 	sp<Form> menuform;
-	sp<GameState> state;
+	GameState &state;
 
 	sp<Label> labelOffer;
 	sp<Label> labelBribe;
@@ -25,7 +25,7 @@ class DiplomaticTreatyScreen : public Stage
 	int bribeAmount = 0;
 
   public:
-	DiplomaticTreatyScreen(sp<GameState> state, StateRef<Organisation> org);
+	DiplomaticTreatyScreen(GameState &state, StateRef<Organisation> org);
 	~DiplomaticTreatyScreen() override;
 	// Stage control
 	void begin() override;

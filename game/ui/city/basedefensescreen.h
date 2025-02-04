@@ -17,14 +17,14 @@ class BaseDefenseScreen : public Stage
   private:
 	sp<Form> menuform;
 
-	sp<GameState> state;
+	GameState &state;
 	StateRef<Base> base;
 	StateRef<Organisation> attacker;
 
 	void initiateDefenseMission(StateRef<Base> base, StateRef<Organisation> attacker);
 
   public:
-	BaseDefenseScreen(sp<GameState> state, StateRef<Base> base, StateRef<Organisation> attacker);
+	BaseDefenseScreen(GameState &state, StateRef<Base> base, StateRef<Organisation> attacker);
 	~BaseDefenseScreen() override;
 	// Stage control
 	void begin() override;

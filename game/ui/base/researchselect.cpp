@@ -23,7 +23,7 @@
 namespace OpenApoc
 {
 
-ResearchSelect::ResearchSelect(sp<GameState> state, sp<Lab> lab)
+ResearchSelect::ResearchSelect(GameState &state, sp<Lab> lab)
     : Stage(), form(ui().getForm("researchselect")), lab(lab), state(state)
 {
 	progressImage = fw().data->loadImage(format(
@@ -36,7 +36,7 @@ void ResearchSelect::begin()
 {
 	current_topic = this->lab->current_project;
 
-	form->findControlTyped<Label>("TEXT_FUNDS")->setText(state->getPlayerBalance());
+	form->findControlTyped<Label>("TEXT_FUNDS")->setText(state.getPlayerBalance());
 	auto title = form->findControlTyped<Label>("TEXT_TITLE");
 	auto progress = form->findControlTyped<Label>("TEXT_PROGRESS");
 	auto skill = form->findControlTyped<Label>("TEXT_SKILL");
@@ -104,7 +104,7 @@ void ResearchSelect::begin()
 				    return;
 			    }
 			    if (this->lab->type == ResearchTopic::Type::Engineering &&
-			        topic->cost > state->player->balance)
+			        topic->cost > state.player->balance)
 			    {
 				    LogInfo("Cannot afford to manufacture");
 				    auto message_box = mksp<MessageBox>(
@@ -149,19 +149,19 @@ void ResearchSelect::begin()
 					    switch (topic->item_type)
 					    {
 						    case ResearchTopic::ItemType::VehicleEquipment:
-							    pic->setImage(this->state->vehicle_equipment[topic->itemId]
+							    pic->setImage(this->state.vehicle_equipment[topic->itemId]
 							                      ->equipscreen_sprite);
 							    break;
 						    case ResearchTopic::ItemType::VehicleEquipmentAmmo:
 							    pic->setImage(nullptr);
 							    break;
 						    case ResearchTopic::ItemType::AgentEquipment:
-							    pic->setImage(this->state->agent_equipment[topic->itemId]
-							                      ->equipscreen_sprite);
+							    pic->setImage(
+							        this->state.agent_equipment[topic->itemId]->equipscreen_sprite);
 							    break;
 						    case ResearchTopic::ItemType::Craft:
 							    pic->setImage(
-							        this->state->vehicle_types[topic->itemId]->equip_icon_small);
+							        this->state.vehicle_types[topic->itemId]->equip_icon_small);
 							    break;
 					    }
 				    }
@@ -199,7 +199,7 @@ void ResearchSelect::begin()
 	    [this](FormsEvent *)
 	    {
 		    LogInfo("Research selection OK pressed, applying selection");
-		    Lab::setResearch({state.get(), this->lab}, {state.get(), current_topic}, state);
+		    Lab::setResearch({&state, this->lab}, {&state, current_topic}, state);
 	    });
 }
 
@@ -225,13 +225,13 @@ void ResearchSelect::populateResearchList()
 	research_list->ItemSize = 20;
 	research_list->ItemSpacing = 1;
 
-	for (auto &t : state->research.topic_list)
+	for (auto &t : state.research.topic_list)
 	{
 		if (t->type != this->lab->type)
 		{
 			continue;
 		}
-		if ((!t->dependencies.satisfied(state->current_base) && t->started == false) || t->hidden)
+		if ((!t->dependencies.satisfied(state.current_base) && t->started == false) || t->hidden)
 		{
 			continue;
 		}

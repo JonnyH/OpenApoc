@@ -40,12 +40,11 @@ namespace OpenApoc
 const Vec2<int> AEquipScreen::EQUIP_GRID_SLOT_SIZE{16, 16};
 const Vec2<int> AEquipScreen::EQUIP_GRID_SLOTS{16, 16};
 
-AEquipScreen::AEquipScreen(sp<GameState> state, sp<Agent> firstAgent)
+AEquipScreen::AEquipScreen(GameState &state, sp<Agent> firstAgent)
     : Stage(), firstAgent(firstAgent), formMain(ui().getForm("aequipscreen")),
       pal(fw().data->loadPalette("xcom3/ufodata/agenteqp.pcx")), state(state),
       labelFont(ui().getFont("smalfont")), bigUnitRanks(RecruitScreen::getBigUnitRanks())
 {
-	this->state = state;
 	formAgentStats = formMain->findControlTyped<Form>("AGENT_STATS_VIEW");
 	formAgentProfile = formMain->findControlTyped<Form>("AGENT_PROFILE_VIEW");
 	formAgentHistory = formMain->findControlTyped<Form>("AGENT_HISTORY_VIEW");
@@ -157,20 +156,20 @@ AEquipScreen::~AEquipScreen() = default;
 
 void AEquipScreen::begin()
 {
-	if (state->current_battle)
+	if (state.current_battle)
 	{
 		formMain->findControlTyped<Graphic>("DOLLAR")->setVisible(false);
 	}
 	else
 	{
 		formMain->findControlTyped<Graphic>("DOLLAR")->setVisible(true);
-		formMain->findControlTyped<Label>("TEXT_FUNDS")->setText(state->getPlayerBalance());
+		formMain->findControlTyped<Label>("TEXT_FUNDS")->setText(state.getPlayerBalance());
 	}
 
-	auto owner = state->getPlayer();
-	if (state->current_battle)
+	auto owner = state.getPlayer();
+	if (state.current_battle)
 	{
-		owner = state->current_battle->currentPlayer;
+		owner = state.current_battle->currentPlayer;
 	}
 
 	if (firstAgent)
@@ -179,7 +178,7 @@ void AEquipScreen::begin()
 	}
 	else
 	{
-		for (auto &agent : state->agents)
+		for (auto &agent : state.agents)
 		{
 			if (!checkAgent(agent.second, owner))
 			{
@@ -870,7 +869,7 @@ AEquipScreen::Mode AEquipScreen::getMode()
 
 	// If viewing an enemy
 	if (currentAgent && currentAgent->unit &&
-	    currentAgent->unit->owner != state->current_battle->currentPlayer)
+	    currentAgent->unit->owner != state.current_battle->currentPlayer)
 	{
 		return Mode::Enemy;
 	}
@@ -982,7 +981,7 @@ void AEquipScreen::populateInventoryItemsBase()
 
 	for (auto &invPair : base->inventoryAgentEquipment)
 	{
-		StateRef<AEquipmentType> type = {state.get(), invPair.first};
+		StateRef<AEquipmentType> type = {&state, invPair.first};
 
 		// Skip wrong types
 		bool showArmor = formMain->findControlTyped<RadioButton>("BUTTON_SHOW_ARMOUR")->isChecked();
@@ -1156,7 +1155,7 @@ void AEquipScreen::removeItemFromInventoryBattle(sp<AEquipment> item)
 		LogError("No battle item object in battle inventory?");
 		return;
 	}
-	battleItem->die(*state, false);
+	battleItem->die(state, false);
 }
 
 void AEquipScreen::removeItemFromInventoryBase(sp<AEquipment> item)
@@ -1253,7 +1252,7 @@ void AEquipScreen::addItemToInventoryBattle(sp<AEquipment> item)
 	auto currentAgent = selectedAgents.front();
 
 	item->ownerUnit = currentAgent->unit;
-	auto bi = state->current_battle->placeItem(*state, item, currentAgent->unit->position);
+	auto bi = state.current_battle->placeItem(state, item, currentAgent->unit->position);
 	if (bi->findSupport())
 	{
 		bi->getSupport();
@@ -1311,7 +1310,7 @@ bool AEquipScreen::tryPickUpItem(sp<Agent> agent, Vec2<int> slotPos, bool altern
 	{
 		return false;
 	}
-	if (!equipment->canBeUsed(*state) && (alternative || getMode() != Mode::Battle))
+	if (!equipment->canBeUsed(state) && (alternative || getMode() != Mode::Battle))
 	{
 		if (alienArtifact)
 		{
@@ -1345,7 +1344,7 @@ bool AEquipScreen::tryPickUpItem(sp<Agent> agent, Vec2<int> slotPos, bool altern
 			break;
 		}
 		draggedEquipment = equipment;
-		agent->removeEquipment(*state, equipment);
+		agent->removeEquipment(state, equipment);
 	}
 	return true;
 }
@@ -1362,7 +1361,7 @@ std::pair<sp<AEquipment>, bool> AEquipScreen::tryPickUpItem(Vec2<int> inventoryP
 
 		const auto &item = std::get<2>(tuple);
 
-		if (!item->type->canBeUsed(*state, state->getPlayer()) && getMode() != Mode::Battle)
+		if (!item->type->canBeUsed(state, state.getPlayer()) && getMode() != Mode::Battle)
 		{
 			if (alienArtifact)
 			{
@@ -1420,7 +1419,7 @@ bool AEquipScreen::tryPlaceItem(sp<Agent> agent, Vec2<int> slotPos, bool *insuff
 		              equipmentUnderCursor->type->ammo_types.end(),
 		              draggedEquipment->type) != equipmentUnderCursor->type->ammo_types.end())
 		{
-			if (equipmentUnderCursor->canBeUsed(*state))
+			if (equipmentUnderCursor->canBeUsed(state))
 			{
 				canAdd = true;
 			}
@@ -1460,9 +1459,9 @@ bool AEquipScreen::tryPlaceItem(sp<Agent> agent, Vec2<int> slotPos, bool *insuff
 	}
 
 	if (canAdd && agent->unit && agent->unit->tileObject &&
-	    state->current_battle->mode == Battle::Mode::TurnBased && draggedEquipmentOrigin.x == -1 &&
+	    state.current_battle->mode == Battle::Mode::TurnBased && draggedEquipmentOrigin.x == -1 &&
 	    draggedEquipmentOrigin.y == -1 &&
-	    !agent->unit->spendTU(*state, agent->unit->getPickupCost()))
+	    !agent->unit->spendTU(state, agent->unit->getPickupCost()))
 	{
 		canAdd = false;
 		if (insufficientTU)
@@ -1476,19 +1475,19 @@ bool AEquipScreen::tryPlaceItem(sp<Agent> agent, Vec2<int> slotPos, bool *insuff
 		// Adding to empty slot
 		if (!equipmentUnderCursor)
 		{
-			agent->addEquipment(*state, slotPos, this->draggedEquipment);
+			agent->addEquipment(state, slotPos, this->draggedEquipment);
 		}
 		// Inserting ammo
 		else
 		{
-			equipmentUnderCursor->loadAmmo(*state, draggedEquipment);
+			equipmentUnderCursor->loadAmmo(state, draggedEquipment);
 
 			if (draggedEquipment->ammo > 0)
 			{
 				if (draggedEquipmentOrigin.x != -1 && draggedEquipmentOrigin.y != -1 &&
 				    agent->canAddEquipment(draggedEquipmentOrigin, draggedEquipment->type))
 				{
-					agent->addEquipment(*state, draggedEquipmentOrigin, draggedEquipment);
+					agent->addEquipment(state, draggedEquipmentOrigin, draggedEquipment);
 				}
 				else
 				{
@@ -1540,9 +1539,9 @@ bool AEquipScreen::tryPlaceItem(sp<Agent> agent, bool toAgent, bool *insufficien
 		canAdd = agent->canAddEquipment(slotPos, draggedEquipment->type);
 	}
 	if (canAdd && agent->unit && agent->unit->tileObject &&
-	    state->current_battle->mode == Battle::Mode::TurnBased && draggedEquipmentOrigin.x == -1 &&
+	    state.current_battle->mode == Battle::Mode::TurnBased && draggedEquipmentOrigin.x == -1 &&
 	    draggedEquipmentOrigin.y == -1 &&
-	    !agent->unit->spendTU(*state, agent->unit->getPickupCost()))
+	    !agent->unit->spendTU(state, agent->unit->getPickupCost()))
 	{
 		canAdd = false;
 		if (insufficientTU)
@@ -1554,7 +1553,7 @@ bool AEquipScreen::tryPlaceItem(sp<Agent> agent, bool toAgent, bool *insufficien
 	if (canAdd)
 	{
 		// Adding to empty slot
-		agent->addEquipment(*state, slotPos, this->draggedEquipment);
+		agent->addEquipment(state, slotPos, this->draggedEquipment);
 	}
 	else // cannot add to agent
 	{
@@ -1570,7 +1569,7 @@ void AEquipScreen::processTemplate(int idx, bool remember)
 	{
 		return;
 	}
-	auto &temp = state->agentEquipmentTemplates[idx];
+	auto &temp = state.agentEquipmentTemplates[idx];
 	if (remember)
 	{
 		// Expecting to have an agent
@@ -1600,7 +1599,7 @@ void AEquipScreen::processTemplate(int idx, bool remember)
 			}
 			for (auto &eq : toRemove)
 			{
-				currentAgent->removeEquipment(*state, eq);
+				currentAgent->removeEquipment(state, eq);
 				addItemToInventory(eq);
 			}
 			// Find base which is in the current building
@@ -1658,7 +1657,7 @@ void AEquipScreen::processTemplate(int idx, bool remember)
 				if (currentAgent->canAddEquipment(pos, equipment->type))
 				{
 					// Give item to agent
-					currentAgent->addEquipment(*state, pos, equipment);
+					currentAgent->addEquipment(state, pos, equipment);
 					// Remote equipment and possibly payload from the base
 					base->inventoryAgentEquipment[type->id] -= countType;
 					if (payloadType)
@@ -1724,7 +1723,7 @@ void AEquipScreen::closeScreen()
 				{
 					int price = 0;
 					entry.first->cargo.emplace_back(
-					    *state, e->type, e->type->type == AEquipmentType::Type::Ammo ? e->ammo : 1,
+					    state, e->type, e->type->type == AEquipmentType::Type::Ammo ? e->ammo : 1,
 					    price, nullptr, entry.first->homeBuilding);
 				}
 			}
@@ -1752,8 +1751,8 @@ void AEquipScreen::closeScreen()
 				{
 					int price = 0;
 					entry.first->cargo.emplace_back(
-					    *state, e->type, e->type->type == AEquipmentType::Type::Ammo ? e->ammo : 1,
-					    price, nullptr, state->current_base->building);
+					    state, e->type, e->type->type == AEquipmentType::Type::Ammo ? e->ammo : 1,
+					    price, nullptr, state.current_base->building);
 				}
 			}
 		}
@@ -1777,9 +1776,9 @@ void AEquipScreen::closeScreen()
 				}
 				// First agent in this position
 				sp<Agent> dropperAgent;
-				for (auto &a : state->agents)
+				for (auto &a : state.agents)
 				{
-					if (a.second->owner == state->getPlayer() && !a.second->currentBuilding &&
+					if (a.second->owner == state.getPlayer() && !a.second->currentBuilding &&
 					    !a.second->currentVehicle && (Vec3<int>)a.second->position == entry.first)
 					{
 						dropperAgent = a.second;
@@ -1798,7 +1797,7 @@ void AEquipScreen::closeScreen()
 				{
 					if (b.second->bounds.within(pos))
 					{
-						buildingToDropTo = {state.get(), b.first};
+						buildingToDropTo = {&state, b.first};
 						break;
 					}
 				}
@@ -1809,7 +1808,7 @@ void AEquipScreen::closeScreen()
 					{
 						int price = 0;
 						buildingToDropTo->cargo.emplace_back(
-						    *state, e->type,
+						    state, e->type,
 						    e->type->type == AEquipmentType::Type::Ammo ? e->ammo : 1, price,
 						    nullptr, dropperAgent->homeBuilding);
 					}
@@ -1817,30 +1816,30 @@ void AEquipScreen::closeScreen()
 			}
 		}
 	}
-	if (!selectedAgents.empty() && state->current_battle)
+	if (!selectedAgents.empty() && state.current_battle)
 	{
 		auto currentAgent = selectedAgents.front();
 		if (currentAgent != firstAgent && selectedAgents.front()->unit->tileObject)
 		{
 			auto pos =
-			    std::find(state->current_battle->battleViewSelectedUnits.begin(),
-			              state->current_battle->battleViewSelectedUnits.end(), currentAgent->unit);
+			    std::find(state.current_battle->battleViewSelectedUnits.begin(),
+			              state.current_battle->battleViewSelectedUnits.end(), currentAgent->unit);
 
-			if (pos == state->current_battle->battleViewSelectedUnits.end())
+			if (pos == state.current_battle->battleViewSelectedUnits.end())
 			{
 				// Unit not in selection => replace selection with unit
-				state->current_battle->battleViewSelectedUnits.clear();
-				state->current_battle->battleViewSelectedUnits.push_back(currentAgent->unit);
+				state.current_battle->battleViewSelectedUnits.clear();
+				state.current_battle->battleViewSelectedUnits.push_back(currentAgent->unit);
 			}
 			// Unit is selected
 			else
 			{
-				state->current_battle->battleViewSelectedUnits.erase(pos);
-				state->current_battle->battleViewSelectedUnits.push_front(currentAgent->unit);
+				state.current_battle->battleViewSelectedUnits.erase(pos);
+				state.current_battle->battleViewSelectedUnits.push_front(currentAgent->unit);
 			}
 			if (currentAgent->unit->squadNumber != -1)
 			{
-				state->current_battle->battleViewSquadIndex = currentAgent->unit->squadNumber;
+				state.current_battle->battleViewSquadIndex = currentAgent->unit->squadNumber;
 			}
 		}
 	}
@@ -1849,7 +1848,7 @@ void AEquipScreen::closeScreen()
 
 bool AEquipScreen::isInVicinity(sp<Agent> agent)
 {
-	if (state->current_battle || selectedAgents.empty())
+	if (state.current_battle || selectedAgents.empty())
 	{
 		return true;
 	}
@@ -1897,10 +1896,10 @@ StateRef<Base> AEquipScreen::getAgentBase(sp<Agent> agent)
 
 void AEquipScreen::attemptCloseScreen()
 {
-	auto owner = state->getPlayer();
-	if (state->current_battle)
+	auto owner = state.getPlayer();
+	if (state.current_battle)
 	{
-		owner = state->current_battle->currentPlayer;
+		owner = state.current_battle->currentPlayer;
 	}
 	bool empty = true;
 	for (auto &entry : vehicleItems)
@@ -1909,7 +1908,7 @@ void AEquipScreen::attemptCloseScreen()
 		{
 			empty = false;
 
-			for (auto &a : state->agents)
+			for (auto &a : state.agents)
 			{
 				if (!checkAgent(a.second, owner))
 				{
@@ -1931,7 +1930,7 @@ void AEquipScreen::attemptCloseScreen()
 		{
 			empty = false;
 
-			for (auto &a : state->agents)
+			for (auto &a : state.agents)
 			{
 				if (!checkAgent(a.second, owner))
 				{
@@ -1953,7 +1952,7 @@ void AEquipScreen::attemptCloseScreen()
 		{
 			empty = false;
 
-			for (auto &a : state->agents)
+			for (auto &a : state.agents)
 			{
 				if (!checkAgent(a.second, owner))
 				{
@@ -2021,7 +2020,7 @@ bool AEquipScreen::checkAgent(sp<Agent> agent, sp<Organisation> owner)
 		return false;
 	}
 	// Battle: Unit is not participating in battle or dead
-	if (state->current_battle)
+	if (state.current_battle)
 	{
 		if (!agent->unit || agent->unit->retreated || agent->unit->isDead())
 		{
@@ -2049,14 +2048,14 @@ void AEquipScreen::updateAgents()
 {
 	auto agentList = formMain->findControlTyped<ListBox>("AGENT_SELECT_BOX");
 	agentList->clear();
-	auto owner = state->getPlayer();
-	if (state->current_battle)
+	auto owner = state.getPlayer();
+	if (state.current_battle)
 	{
-		owner = state->current_battle->currentPlayer;
+		owner = state.current_battle->currentPlayer;
 	}
 	if (getMode() != Mode::Enemy)
 	{
-		for (auto &agent : state->agents)
+		for (auto &agent : state.agents)
 		{
 			sp<Agent> agentSp = agent.second;
 			if (!checkAgent(agentSp, owner))
@@ -2087,7 +2086,7 @@ void AEquipScreen::updateAgentControl(sp<Agent> agent)
 
 	auto agentList = formMain->findControlTyped<ListBox>("AGENT_SELECT_BOX");
 	auto control = ControlGenerator::createLargeAgentControl(
-	    *state, agent, agentList->Size.x, UnitSkillState::Hidden, selstate, !isInVicinity(agent));
+	    state, agent, agentList->Size.x, UnitSkillState::Hidden, selstate, !isInVicinity(agent));
 
 	control->addCallback(
 	    FormEventType::MouseEnter,
@@ -2174,7 +2173,7 @@ void AEquipScreen::clampInventoryPage()
 
 bool AEquipScreen::isTurnBased() const
 {
-	return state->current_battle && state->current_battle->mode == Battle::Mode::TurnBased;
+	return state.current_battle && state.current_battle->mode == Battle::Mode::TurnBased;
 }
 
 } // namespace OpenApoc

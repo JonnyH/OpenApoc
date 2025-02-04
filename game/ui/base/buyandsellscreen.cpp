@@ -25,7 +25,7 @@
 namespace OpenApoc
 {
 
-BuyAndSellScreen::BuyAndSellScreen(sp<GameState> state, bool forceLimits)
+BuyAndSellScreen::BuyAndSellScreen(GameState &state, bool forceLimits)
     : TransactionScreen(state, forceLimits)
 {
 	form->findControlTyped<Label>("TITLE")->setText(tr("BUY AND SELL"));
@@ -91,7 +91,7 @@ void BuyAndSellScreen::updateFormValues(bool queueHighlightUpdate)
 	TransactionScreen::updateFormValues(queueHighlightUpdate);
 
 	// Update money
-	const auto balance = state->getPlayer()->balance + moneyDelta;
+	const auto balance = state.getPlayer()->balance + moneyDelta;
 	form->findControlTyped<Label>("TEXT_FUNDS")->setText(Strings::fromInteger(balance, true));
 	form->findControlTyped<Label>("TEXT_FUNDS_DELTA")
 	    ->setText(
@@ -100,7 +100,7 @@ void BuyAndSellScreen::updateFormValues(bool queueHighlightUpdate)
 
 void BuyAndSellScreen::closeScreen()
 {
-	auto player = state->getPlayer();
+	auto player = state.getPlayer();
 
 	// Step 01: Check funds
 	{
@@ -129,7 +129,7 @@ void BuyAndSellScreen::closeScreen()
 				if (!c->getLinked() || c->getLinked()->front().lock() == c)
 				{
 					int i = 0;
-					for ([[maybe_unused]] const auto &b : state->player_bases)
+					for ([[maybe_unused]] const auto &b : state.player_bases)
 					{
 						int cargoDelta = c->getCargoDelta(i);
 						if (cargoDelta)
@@ -146,11 +146,10 @@ void BuyAndSellScreen::closeScreen()
 		// Check every base, find first bad one
 		int i = 0;
 		StateRef<Base> bad_base;
-		for (auto &b : state->player_bases)
+		for (auto &b : state.player_bases)
 		{
 			if ((vecChanged[i] || forceLimits) && vecCargoDelta[i] > 0 &&
-			    b.second->getUsage(*state, FacilityType::Capacity::Stores, vecCargoDelta[i]) >
-			        100.f)
+			    b.second->getUsage(state, FacilityType::Capacity::Stores, vecCargoDelta[i]) > 100.f)
 			{
 				bad_base = b.second->building->base;
 				break;
@@ -170,7 +169,7 @@ void BuyAndSellScreen::closeScreen()
 			    {StageCmd::Command::PUSH,
 			     mksp<MessageBox>(title, message, MessageBox::ButtonOptions::Ok)});
 
-			if (bad_base != state->current_base)
+			if (bad_base != state.current_base)
 			{
 				for (auto &view : miniViews)
 				{
@@ -229,7 +228,7 @@ void BuyAndSellScreen::closeScreen()
 				continue;
 			}
 			// Expecting all bases to be in one city
-			auto canBuy = o->canPurchaseFrom(*state, state->current_base->building, false);
+			auto canBuy = o->canPurchaseFrom(state, state.current_base->building, false);
 			switch (canBuy)
 			{
 				case Organisation::PurchaseResult::NoTransportAvailable:
@@ -306,11 +305,11 @@ void BuyAndSellScreen::closeScreen()
 		// Find out who provides transportation services
 		std::list<StateRef<Organisation>> badOrgs;
 		std::list<StateRef<Organisation>> ferryCompanies;
-		for (auto &o : state->organisations)
+		for (auto &o : state.organisations)
 		{
 			if (o.second->providesTransportationServices)
 			{
-				StateRef<Organisation> org{state.get(), o.first};
+				StateRef<Organisation> org{&state, o.first};
 				if (o.second->isRelatedTo(player) == Organisation::Relation::Hostile)
 				{
 					badOrgs.push_back(org);
@@ -333,7 +332,7 @@ void BuyAndSellScreen::closeScreen()
 				bool ferryFound = false;
 				for (auto &o : ferryCompanies)
 				{
-					for (auto &v : state->vehicles)
+					for (auto &v : state.vehicles)
 					{
 						if (v.second->owner != o ||
 						    (!v.second->type->provideFreightCargo &&
@@ -417,7 +416,7 @@ void BuyAndSellScreen::closeScreen()
 
 void BuyAndSellScreen::executeOrders()
 {
-	auto player = state->getPlayer();
+	auto player = state.getPlayer();
 	for (auto &l : transactionControls)
 	{
 		for (auto &c : l.second)
@@ -425,15 +424,15 @@ void BuyAndSellScreen::executeOrders()
 			if (!c->getLinked() || c->getLinked()->front().lock() == c)
 			{
 				if (c->itemType != TransactionControl::Type::Vehicle &&
-				    state->economy.find(c->itemId) == state->economy.end())
+				    state.economy.find(c->itemId) == state.economy.end())
 				{
 					LogError("Economy not found for %s: How are we selling it then!?", c->itemId);
 					continue;
 				}
 
 				int i = 0;
-				auto &economy = state->economy[c->itemId];
-				for (auto &b : state->player_bases)
+				auto &economy = state.economy[c->itemId];
+				for (auto &b : state.player_bases)
 				{
 					int order = c->tradeState.shipmentsTotal(i++);
 
@@ -444,20 +443,20 @@ void BuyAndSellScreen::executeOrders()
 						{
 							case TransactionControl::Type::Vehicle:
 							{
-								StateRef<Vehicle> vehicle{state.get(), c->itemId};
+								StateRef<Vehicle> vehicle{&state, c->itemId};
 								// Expecting sold vehicle to be parked
 								// Offload agents
 								while (!vehicle->currentAgents.empty())
 								{
 									auto agent = *vehicle->currentAgents.begin();
-									agent->enterBuilding(*state, vehicle->currentBuilding);
+									agent->enterBuilding(state, vehicle->currentBuilding);
 								}
 								// Offload cargo
 								for (auto &c : vehicle->cargo)
 								{
 									vehicle->currentBuilding->cargo.push_back(c);
 								}
-								vehicle->die(*state, true);
+								vehicle->die(state, true);
 								player->balance += c->price;
 								break;
 							}
@@ -471,7 +470,7 @@ void BuyAndSellScreen::executeOrders()
 							{
 								economy.currentStock += order;
 								player->balance += order * economy.currentPrice;
-								StateRef<AEquipmentType> equipment{state.get(), c->itemId};
+								StateRef<AEquipmentType> equipment{&state, c->itemId};
 
 								const auto numItemsPerUnit =
 								    equipment->type == AEquipmentType::Type::Ammo
@@ -544,26 +543,26 @@ void BuyAndSellScreen::executeOrders()
 							}
 							case TransactionControl::Type::AgentEquipmentCargo:
 							{
-								StateRef<AEquipmentType> equipment{state.get(), c->itemId};
-								org->purchase(*state, b.second->building, equipment, -order);
+								StateRef<AEquipmentType> equipment{&state, c->itemId};
+								org->purchase(state, b.second->building, equipment, -order);
 								break;
 							}
 							case TransactionControl::Type::VehicleAmmo:
 							{
-								StateRef<VAmmoType> ammo{state.get(), c->itemId};
-								org->purchase(*state, b.second->building, ammo, -order);
+								StateRef<VAmmoType> ammo{&state, c->itemId};
+								org->purchase(state, b.second->building, ammo, -order);
 								break;
 							}
 							case TransactionControl::Type::VehicleEquipment:
 							{
-								StateRef<VEquipmentType> equipment{state.get(), c->itemId};
-								org->purchase(*state, b.second->building, equipment, -order);
+								StateRef<VEquipmentType> equipment{&state, c->itemId};
+								org->purchase(state, b.second->building, equipment, -order);
 								break;
 							}
 							case TransactionControl::Type::VehicleType:
 							{
-								StateRef<VehicleType> vehicle{state.get(), c->itemId};
-								org->purchase(*state, b.second->building, vehicle, -order);
+								StateRef<VehicleType> vehicle{&state, c->itemId};
+								org->purchase(state, b.second->building, vehicle, -order);
 								break;
 							}
 							case TransactionControl::Type::Soldier:
@@ -581,7 +580,7 @@ void BuyAndSellScreen::executeOrders()
 		}
 	}
 	// Rest in peace, vehicles
-	state->cleanUpDeathNote();
+	state.cleanUpDeathNote();
 }
 
 }; // namespace OpenApoc

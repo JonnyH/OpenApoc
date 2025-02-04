@@ -20,14 +20,14 @@ class InfiltrationScreen : public Stage
 	sp<Form> menuform;
 	sp<Graphic> graph;
 
-	sp<GameState> state;
+	GameState &state;
 	std::array<Label *, 10> shown_org_names;
 	std::array<const Organisation *, 10> shown_orgs;
 	void reset_shown_orgs();
 	void update_view();
 
   public:
-	InfiltrationScreen(sp<GameState> state);
+	InfiltrationScreen(GameState &state);
 	~InfiltrationScreen() override;
 	// Stage control
 	void begin() override;

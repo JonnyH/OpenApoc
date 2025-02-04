@@ -20,10 +20,10 @@
 namespace OpenApoc
 {
 
-BaseSelectScreen::BaseSelectScreen(sp<GameState> state, Vec3<float> centerPos)
-    : CityTileView(*state->current_city->map, Vec3<int>{TILE_X_CITY, TILE_Y_CITY, TILE_Z_CITY},
+BaseSelectScreen::BaseSelectScreen(GameState &state, Vec3<float> centerPos)
+    : CityTileView(*state.current_city->map, Vec3<int>{TILE_X_CITY, TILE_Y_CITY, TILE_Z_CITY},
                    Vec2<int>{STRAT_TILE_X, STRAT_TILE_Y}, TileViewMode::Strategy,
-                   state->current_city->cityViewScreenCenter, *state),
+                   state.current_city->cityViewScreenCenter, state),
       menuform(ui().getForm("city/baseselect")), state(state)
 {
 	this->centerPos = centerPos;
@@ -36,7 +36,7 @@ BaseSelectScreen::~BaseSelectScreen() = default;
 
 void BaseSelectScreen::begin()
 {
-	menuform->findControlTyped<Label>("TEXT_FUNDS")->setText(state->getPlayerBalance());
+	menuform->findControlTyped<Label>("TEXT_FUNDS")->setText(state.getPlayerBalance());
 	autoScroll = config().getBool("Options.Misc.AutoScroll");
 }
 
@@ -80,7 +80,7 @@ void BaseSelectScreen::eventOccurred(Event *e)
 			    Vec2<float>{e->mouse().X, e->mouse().Y} - screenOffset, 9.99f);
 			auto clickBottom = this->screenToTileCoords(
 			    Vec2<float>{e->mouse().X, e->mouse().Y} - screenOffset, 0.0f);
-			auto collision = state->current_city->map->findCollision(clickTop, clickBottom);
+			auto collision = state.current_city->map->findCollision(clickTop, clickBottom);
 			if (collision)
 			{
 				if (collision.obj->getType() == TileObject::Type::Scenery)
@@ -90,7 +90,7 @@ void BaseSelectScreen::eventOccurred(Event *e)
 					auto building = scenery->building;
 					if (building)
 					{
-						if (building->base_layout && building->owner == state->getGovernment())
+						if (building->base_layout && building->owner == state.getGovernment())
 						{
 							fw().stageQueueCommand(
 							    {StageCmd::Command::PUSH, mksp<BaseBuyScreen>(state, building)});
@@ -118,10 +118,10 @@ void BaseSelectScreen::render()
 
 	// Draw bases
 	static const Colour PLAYER_BASE_AVAILABLE{160, 236, 252};
-	for (auto &b : state->current_city->buildings)
+	for (auto &b : state.current_city->buildings)
 	{
 		auto building = b.second;
-		if (building->base_layout && building->owner != state->getPlayer())
+		if (building->base_layout && building->owner != state.getPlayer())
 		{
 			Vec3<float> posA = {building->bounds.p0.x, building->bounds.p0.y, 0};
 			Vec2<float> screenPosA = this->tileToOffsetScreenCoords(posA);

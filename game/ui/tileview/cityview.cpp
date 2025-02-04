@@ -85,33 +85,32 @@ namespace OpenApoc
 namespace
 {
 
-std::shared_future<void> loadBattleBuilding(sp<GameState> state, sp<Building> building,
-                                            bool hotseat, bool raid,
-                                            std::list<StateRef<Agent>> playerAgents,
+std::shared_future<void> loadBattleBuilding(GameState &state, sp<Building> building, bool hotseat,
+                                            bool raid, std::list<StateRef<Agent>> playerAgents,
                                             StateRef<Vehicle> playerVehicle)
 {
 	auto loadTask = fw().threadPoolEnqueue(
-	    [hotseat, building, state, raid, playerAgents, playerVehicle]() mutable -> void
+	    [hotseat, building, &state, raid, playerAgents, playerVehicle]() mutable -> void
 	    {
-		    StateRef<Organisation> org = raid ? building->owner : state->getAliens();
-		    StateRef<Building> bld = {state.get(), building};
+		    StateRef<Organisation> org = raid ? building->owner : state.getAliens();
+		    StateRef<Building> bld = {&state, building};
 
 		    const std::map<StateRef<AgentType>, int> *aliens = nullptr;
 		    const int *guards = nullptr;
 		    const int *civilians = nullptr;
 
-		    Battle::beginBattle(*state, hotseat, org, playerAgents, aliens, guards, civilians,
+		    Battle::beginBattle(state, hotseat, org, playerAgents, aliens, guards, civilians,
 		                        playerVehicle, bld);
 	    });
 	return loadTask;
 }
 
-std::shared_future<void> loadBattleVehicle(sp<GameState> state, StateRef<Vehicle> ufo,
+std::shared_future<void> loadBattleVehicle(GameState &state, StateRef<Vehicle> ufo,
                                            StateRef<Vehicle> playerVehicle)
 {
 
 	auto loadTask = fw().threadPoolEnqueue(
-	    [state, ufo, playerVehicle]() -> void
+	    [&state, ufo, playerVehicle]() -> void
 	    {
 		    std::list<StateRef<Agent>> agents;
 		    for (auto &a : playerVehicle->currentAgents)
@@ -125,27 +124,27 @@ std::shared_future<void> loadBattleVehicle(sp<GameState> state, StateRef<Vehicle
 		    StateRef<Organisation> org = ufo->owner;
 		    bool hotseat = false;
 		    const std::map<StateRef<AgentType>, int> *aliens = nullptr;
-		    Battle::beginBattle(*state, hotseat, org, agents, aliens, playerVehicle, ufo);
+		    Battle::beginBattle(state, hotseat, org, agents, aliens, playerVehicle, ufo);
 	    });
 
 	return loadTask;
 }
 
-sp<Facility> findCurrentResearchFacility(sp<GameState> state, AgentType::Role role,
+sp<Facility> findCurrentResearchFacility(GameState &state, AgentType::Role role,
                                          FacilityType::Capacity capacity)
 {
 	sp<Facility> lab;
-	if (!state->current_city->cityViewSelectedCivilians.empty())
+	if (!state.current_city->cityViewSelectedCivilians.empty())
 	{
-		for (auto &a : state->current_city->cityViewSelectedCivilians)
+		for (auto &a : state.current_city->cityViewSelectedCivilians)
 		{
 			if (a && a->type->role == role)
 			{
-				state->current_base = a->homeBuilding->base;
+				state.current_base = a->homeBuilding->base;
 				if (a->assigned_to_lab)
 				{
-					auto thisRef = StateRef<Agent>{state.get(), a};
-					for (auto &fac : state->current_base->facilities)
+					auto thisRef = StateRef<Agent>{&state, a};
+					for (auto &fac : state.current_base->facilities)
 					{
 						if (!fac->lab)
 						{
@@ -162,7 +161,7 @@ sp<Facility> findCurrentResearchFacility(sp<GameState> state, AgentType::Role ro
 				}
 				else
 				{
-					for (auto &f : state->current_base->facilities)
+					for (auto &f : state.current_base->facilities)
 					{
 						if (f->type->capacityType == capacity)
 						{
@@ -176,7 +175,7 @@ sp<Facility> findCurrentResearchFacility(sp<GameState> state, AgentType::Role ro
 		}
 		if (lab == nullptr)
 		{
-			for (auto &base : state->player_bases)
+			for (auto &base : state.player_bases)
 			{
 				for (auto &facility : base.second->facilities)
 				{
@@ -193,7 +192,7 @@ sp<Facility> findCurrentResearchFacility(sp<GameState> state, AgentType::Role ro
 	}
 	else
 	{
-		for (auto &f : state->current_base->facilities)
+		for (auto &f : state.current_base->facilities)
 		{
 			if (f->type->capacityType == capacity)
 			{
@@ -295,10 +294,10 @@ bool CityView::handleClickedBuilding(StateRef<Building> building, bool rightClic
 				if (building->base)
 				{
 					// Base screen
-					state->current_base = building->base;
+					state.current_base = building->base;
 					this->uiTabs[0]
 					    ->findControlTyped<Label>("TEXT_BASE_NAME")
-					    ->setText(this->state->current_base->name);
+					    ->setText(this->state.current_base->name);
 					fw().stageQueueCommand(
 					    {StageCmd::Command::PUSH, mksp<BaseScreen>(this->state)});
 				}
@@ -485,7 +484,7 @@ bool CityView::handleClickedOrganisation(StateRef<Organisation> organisation, bo
 	}
 	else
 	{
-		if (state->current_city->cityViewSelectedOrganisation == organisation)
+		if (state.current_city->cityViewSelectedOrganisation == organisation)
 		{
 			if (++organisation->lastClickedBuilding >= organisation->buildings.size())
 			{
@@ -496,7 +495,7 @@ bool CityView::handleClickedOrganisation(StateRef<Organisation> organisation, bo
 		}
 		else
 		{
-			state->current_city->cityViewSelectedOrganisation = organisation;
+			state.current_city->cityViewSelectedOrganisation = organisation;
 		}
 	}
 	return true;
@@ -517,7 +516,7 @@ void CityView::tryOpenUfopaediaEntry(StateRef<UfopaediaEntry> ufopaediaEntry)
 	if (ufopaediaEntry && ufopaediaEntry->dependency.satisfied())
 	{
 		sp<UfopaediaCategory> ufopaedia_category;
-		for (auto &cat : this->state->ufopaedia)
+		for (auto &cat : this->state.ufopaedia)
 		{
 			for (auto &entry : cat.second->entries)
 			{
@@ -544,9 +543,9 @@ void CityView::orderGoToBase()
 {
 	if (activeTab == uiTabs[1])
 	{
-		for (auto &v : this->state->current_city->cityViewSelectedOwnedVehicles)
+		for (auto &v : this->state.current_city->cityViewSelectedOwnedVehicles)
 		{
-			if (v && v->owner == this->state->getPlayer())
+			if (v && v->owner == this->state.getPlayer())
 			{
 				LogInfo("Goto base for vehicle \"%s\"", v->name);
 				auto bld = v->homeBuilding;
@@ -558,12 +557,11 @@ void CityView::orderGoToBase()
 				// FIXME: Don't clear missions if not replacing current mission
 				if (v->city.id == "CITYMAP_HUMAN")
 				{
-					v->setMission(*this->state,
-					              VehicleMission::gotoBuilding(*this->state, *v, bld));
+					v->setMission(this->state, VehicleMission::gotoBuilding(this->state, *v, bld));
 				}
 				else
 				{
-					v->setMission(*this->state, VehicleMission::gotoPortal(*this->state, *v));
+					v->setMission(this->state, VehicleMission::gotoPortal(this->state, *v));
 				}
 			}
 		}
@@ -571,7 +569,7 @@ void CityView::orderGoToBase()
 	}
 	if (activeTab == uiTabs[2])
 	{
-		for (auto &a : this->state->current_city->cityViewSelectedSoldiers)
+		for (auto &a : this->state.current_city->cityViewSelectedSoldiers)
 		{
 			LogInfo("Goto base for vehicle \"%s\"", a->name);
 			auto bld = a->homeBuilding;
@@ -581,7 +579,7 @@ void CityView::orderGoToBase()
 			}
 			LogInfo("Vehicle \"%s\" goto building \"%s\"", a->name, bld->name);
 			// FIXME: Don't clear missions if not replacing current mission
-			a->setMission(*this->state, AgentMission::gotoBuilding(*this->state, *a, bld));
+			a->setMission(this->state, AgentMission::gotoBuilding(this->state, *a, bld));
 		}
 		return;
 	}
@@ -595,19 +593,18 @@ void CityView::orderMove(Vec3<float> position, bool alternative, bool portal)
 	{
 		if (portal)
 		{
-			for (auto &v : this->state->current_city->cityViewSelectedOwnedVehicles)
+			for (auto &v : this->state.current_city->cityViewSelectedOwnedVehicles)
 			{
-				if (v && v->owner == this->state->getPlayer())
+				if (v && v->owner == this->state.getPlayer())
 				{
-					v->setMission(*state, VehicleMission::gotoPortal(*state, *v, position));
+					v->setMission(state, VehicleMission::gotoPortal(state, *v, position));
 				}
 			}
 		}
 		else
 		{
-			state->current_city->groupMove(*state,
-			                               state->current_city->cityViewSelectedOwnedVehicles,
-			                               position, useTeleporter);
+			state.current_city->groupMove(state, state.current_city->cityViewSelectedOwnedVehicles,
+			                              position, useTeleporter);
 		}
 		return;
 	}
@@ -619,14 +616,14 @@ void CityView::orderMove(StateRef<Building> building, bool alternative)
 	    alternative && config().getBool("OpenApoc.NewFeature.AllowManualCityTeleporters");
 	if (activeTab == uiTabs[1])
 	{
-		for (auto &v : this->state->current_city->cityViewSelectedOwnedVehicles)
+		for (auto &v : this->state.current_city->cityViewSelectedOwnedVehicles)
 		{
-			if (v && v->owner == this->state->getPlayer())
+			if (v && v->owner == this->state.getPlayer())
 			{
 				LogInfo("Vehicle \"%s\" goto building \"%s\"", v->name, building->name);
 				// FIXME: Don't clear missions if not replacing current mission
-				v->setMission(*state,
-				              VehicleMission::gotoBuilding(*state, *v, building, useTeleporter));
+				v->setMission(state,
+				              VehicleMission::gotoBuilding(state, *v, building, useTeleporter));
 			}
 		}
 		return;
@@ -634,7 +631,7 @@ void CityView::orderMove(StateRef<Building> building, bool alternative)
 	if (activeTab == uiTabs[2])
 	{
 		bool useTaxi = !alternative && config().getBool("OpenApoc.NewFeature.AllowSoldierTaxiUse");
-		for (auto &a : this->state->current_city->cityViewSelectedSoldiers)
+		for (auto &a : this->state.current_city->cityViewSelectedSoldiers)
 		{
 			if (a->type->role != AgentType::Role::Soldier)
 			{
@@ -642,46 +639,46 @@ void CityView::orderMove(StateRef<Building> building, bool alternative)
 			}
 			LogInfo("Agent \"%s\" goto building \"%s\"", a->name, building->name);
 			// FIXME: Don't clear missions if not replacing current mission
-			a->setMission(*state,
-			              AgentMission::gotoBuilding(*state, *a, building, useTeleporter, useTaxi));
+			a->setMission(state,
+			              AgentMission::gotoBuilding(state, *a, building, useTeleporter, useTaxi));
 		}
 	}
 }
 /* if (agent->type->role == AgentType::Role::Soldier)
 {
-    auto pos = std::find(state->current_city->cityViewSelectedSoldiers.begin(),
-                         state->current_city->cityViewSelectedSoldiers.end(), agent);
+    auto pos = std::find(state.current_city->cityViewSelectedSoldiers.begin(),
+                         state.current_city->cityViewSelectedSoldiers.end(), agent);
     if (inverse)
     {
         // Agent in selection => remove
-        if (pos != state->current_city->cityViewSelectedSoldiers.end())
+        if (pos != state.current_city->cityViewSelectedSoldiers.end())
         {
-            state->current_city->cityViewSelectedSoldiers.erase(pos);
+            state.current_city->cityViewSelectedSoldiers.erase(pos);
         }
     }
     else
     {
         // Agent not selected
-        if (pos == state->current_city->cityViewSelectedSoldiers.end())
+        if (pos == state.current_city->cityViewSelectedSoldiers.end())
         {
             // If additive add
             if (additive)
             {
-                state->current_city->cityViewSelectedSoldiers.push_front(agent);
+                state.current_city->cityViewSelectedSoldiers.push_front(agent);
             }
             else
             {
                 // Agent not in selection => replace selection with agent
-                state->current_city->cityViewSelectedSoldiers.clear();
-                state->current_city->cityViewSelectedSoldiers.push_back(agent);
+                state.current_city->cityViewSelectedSoldiers.clear();
+                state.current_city->cityViewSelectedSoldiers.push_back(agent);
             }
         }
         // Agent is selected
         else
         {
             // First move vehicle to front
-            state->current_city->cityViewSelectedSoldiers.erase(pos);
-            state->current_city->cityViewSelectedSoldiers.push_front(agent);
+            state.current_city->cityViewSelectedSoldiers.erase(pos);
+            state.current_city->cityViewSelectedSoldiers.push_front(agent);
             // Then if not additive then zoom to agent
             if (!additive)
             {
@@ -698,46 +695,46 @@ void CityView::orderMove(StateRef<Building> building, bool alternative)
     }*/
 void CityView::orderSelect(StateRef<Vehicle> vehicle, bool inverse, bool additive)
 {
-	if (vehicle->owner == state->getPlayer())
+	if (vehicle->owner == state.getPlayer())
 	{
-		auto pos = std::find(state->current_city->cityViewSelectedOwnedVehicles.begin(),
-		                     state->current_city->cityViewSelectedOwnedVehicles.end(), vehicle);
+		auto pos = std::find(state.current_city->cityViewSelectedOwnedVehicles.begin(),
+		                     state.current_city->cityViewSelectedOwnedVehicles.end(), vehicle);
 
-		if (vehicle->city != state->current_city)
+		if (vehicle->city != state.current_city)
 		{
 			return;
 		}
 		if (inverse)
 		{
 			// Vehicle in selection => remove
-			if (pos != state->current_city->cityViewSelectedOwnedVehicles.end())
+			if (pos != state.current_city->cityViewSelectedOwnedVehicles.end())
 			{
-				state->current_city->cityViewSelectedOwnedVehicles.erase(pos);
+				state.current_city->cityViewSelectedOwnedVehicles.erase(pos);
 			}
 		}
 		else
 		{
 			// Vehicle not selected
-			if (pos == state->current_city->cityViewSelectedOwnedVehicles.end())
+			if (pos == state.current_city->cityViewSelectedOwnedVehicles.end())
 			{
 				// Selecting non-owned vehicles is always additive to current selection
 				if (additive)
 				{
-					state->current_city->cityViewSelectedOwnedVehicles.push_front(vehicle);
+					state.current_city->cityViewSelectedOwnedVehicles.push_front(vehicle);
 				}
 				else
 				{
 					// Vehicle not in selection => replace selection with vehicle
-					state->current_city->cityViewSelectedOwnedVehicles.clear();
-					state->current_city->cityViewSelectedOwnedVehicles.push_back(vehicle);
+					state.current_city->cityViewSelectedOwnedVehicles.clear();
+					state.current_city->cityViewSelectedOwnedVehicles.push_back(vehicle);
 				}
 			}
 			// Vehicle is selected
 			else
 			{
 				// First move vehicle to front
-				state->current_city->cityViewSelectedOwnedVehicles.erase(pos);
-				state->current_city->cityViewSelectedOwnedVehicles.push_front(vehicle);
+				state.current_city->cityViewSelectedOwnedVehicles.erase(pos);
+				state.current_city->cityViewSelectedOwnedVehicles.push_front(vehicle);
 
 				// Then if not additive then zoom to vehicle
 				if (!additive)
@@ -750,44 +747,44 @@ void CityView::orderSelect(StateRef<Vehicle> vehicle, bool inverse, bool additiv
 	}
 	else
 	{
-		auto pos = std::find(state->current_city->cityViewSelectedOtherVehicles.begin(),
-		                     state->current_city->cityViewSelectedOtherVehicles.end(), vehicle);
+		auto pos = std::find(state.current_city->cityViewSelectedOtherVehicles.begin(),
+		                     state.current_city->cityViewSelectedOtherVehicles.end(), vehicle);
 
-		if (vehicle->city != state->current_city)
+		if (vehicle->city != state.current_city)
 		{
 			return;
 		}
 		if (inverse)
 		{
 			// Vehicle in selection => remove
-			if (pos != state->current_city->cityViewSelectedOtherVehicles.end())
+			if (pos != state.current_city->cityViewSelectedOtherVehicles.end())
 			{
-				state->current_city->cityViewSelectedOtherVehicles.erase(pos);
+				state.current_city->cityViewSelectedOtherVehicles.erase(pos);
 			}
 		}
 		else
 		{
 			// Vehicle not selected
-			if (pos == state->current_city->cityViewSelectedOtherVehicles.end())
+			if (pos == state.current_city->cityViewSelectedOtherVehicles.end())
 			{
 				// Selecting non-owned vehicles is always additive to current selection
 				if (additive)
 				{
-					state->current_city->cityViewSelectedOtherVehicles.push_front(vehicle);
+					state.current_city->cityViewSelectedOtherVehicles.push_front(vehicle);
 				}
 				else
 				{
 					// Vehicle not in selection => replace selection with vehicle
-					state->current_city->cityViewSelectedOtherVehicles.clear();
-					state->current_city->cityViewSelectedOtherVehicles.push_back(vehicle);
+					state.current_city->cityViewSelectedOtherVehicles.clear();
+					state.current_city->cityViewSelectedOtherVehicles.push_back(vehicle);
 				}
 			}
 			// Vehicle is selected
 			else
 			{
 				// First move vehicle to front
-				state->current_city->cityViewSelectedOtherVehicles.erase(pos);
-				state->current_city->cityViewSelectedOtherVehicles.push_front(vehicle);
+				state.current_city->cityViewSelectedOtherVehicles.erase(pos);
+				state.current_city->cityViewSelectedOtherVehicles.push_front(vehicle);
 
 				// Then if not additive then zoom to vehicle
 				if (!additive)
@@ -798,7 +795,7 @@ void CityView::orderSelect(StateRef<Vehicle> vehicle, bool inverse, bool additiv
 			}
 		}
 	}
-	if (state->current_city->cityViewSelectedOwnedVehicles.empty())
+	if (state.current_city->cityViewSelectedOwnedVehicles.empty())
 	{
 		return;
 	}
@@ -808,39 +805,39 @@ void CityView::orderSelect(StateRef<Agent> agent, bool inverse, bool additive)
 {
 	if (agent->type->role == AgentType::Role::Soldier)
 	{
-		auto pos = std::find(state->current_city->cityViewSelectedSoldiers.begin(),
-		                     state->current_city->cityViewSelectedSoldiers.end(), agent);
+		auto pos = std::find(state.current_city->cityViewSelectedSoldiers.begin(),
+		                     state.current_city->cityViewSelectedSoldiers.end(), agent);
 		if (inverse)
 		{
 			// Agent in selection => remove
-			if (pos != state->current_city->cityViewSelectedSoldiers.end())
+			if (pos != state.current_city->cityViewSelectedSoldiers.end())
 			{
-				state->current_city->cityViewSelectedSoldiers.erase(pos);
+				state.current_city->cityViewSelectedSoldiers.erase(pos);
 			}
 		}
 		else
 		{
 			// Agent not selected
-			if (pos == state->current_city->cityViewSelectedSoldiers.end())
+			if (pos == state.current_city->cityViewSelectedSoldiers.end())
 			{
 				// If additive add
 				if (additive)
 				{
-					state->current_city->cityViewSelectedSoldiers.push_front(agent);
+					state.current_city->cityViewSelectedSoldiers.push_front(agent);
 				}
 				else
 				{
 					// Agent not in selection => replace selection with agent
-					state->current_city->cityViewSelectedSoldiers.clear();
-					state->current_city->cityViewSelectedSoldiers.push_back(agent);
+					state.current_city->cityViewSelectedSoldiers.clear();
+					state.current_city->cityViewSelectedSoldiers.push_back(agent);
 				}
 			}
 			// Agent is selected
 			else
 			{
 				// First move vehicle to front
-				state->current_city->cityViewSelectedSoldiers.erase(pos);
-				state->current_city->cityViewSelectedSoldiers.push_front(agent);
+				state.current_city->cityViewSelectedSoldiers.erase(pos);
+				state.current_city->cityViewSelectedSoldiers.push_front(agent);
 				// Then if not additive then zoom to agent
 				if (!additive)
 				{
@@ -856,13 +853,13 @@ void CityView::orderSelect(StateRef<Agent> agent, bool inverse, bool additive)
 			}
 		}
 		auto agentForm = this->uiTabs[2];
-		if (state->current_city->cityViewSelectedSoldiers.empty())
+		if (state.current_city->cityViewSelectedSoldiers.empty())
 		{
 			agentForm->findControlTyped<CheckBox>("BUTTON_AGENT_PHYSICAL")->setChecked(false);
 			agentForm->findControlTyped<CheckBox>("BUTTON_AGENT_PSI")->setChecked(false);
 			return;
 		}
-		agent = state->current_city->cityViewSelectedSoldiers.front();
+		agent = state.current_city->cityViewSelectedSoldiers.front();
 		switch (agent->trainingAssignment)
 		{
 			case TrainingAssignment::None:
@@ -886,39 +883,39 @@ void CityView::orderSelect(StateRef<Agent> agent, bool inverse, bool additive)
 	// Biochem
 	if (agent->type->role == AgentType::Role::BioChemist)
 	{
-		auto pos = std::find(state->current_city->cityViewSelectedBios.begin(),
-		                     state->current_city->cityViewSelectedBios.end(), agent);
+		auto pos = std::find(state.current_city->cityViewSelectedBios.begin(),
+		                     state.current_city->cityViewSelectedBios.end(), agent);
 		if (inverse)
 		{
 			// Agent in selection => remove
-			if (pos != state->current_city->cityViewSelectedBios.end())
+			if (pos != state.current_city->cityViewSelectedBios.end())
 			{
-				state->current_city->cityViewSelectedBios.erase(pos);
+				state.current_city->cityViewSelectedBios.erase(pos);
 			}
 		}
 		else
 		{
 			// Agent not selected
-			if (pos == state->current_city->cityViewSelectedBios.end())
+			if (pos == state.current_city->cityViewSelectedBios.end())
 			{
 				// If additive add
 				if (additive)
 				{
-					state->current_city->cityViewSelectedBios.push_front(agent);
+					state.current_city->cityViewSelectedBios.push_front(agent);
 				}
 				else
 				{
 					// Agent not in selection => replace selection with agent
-					state->current_city->cityViewSelectedBios.clear();
-					state->current_city->cityViewSelectedBios.push_back(agent);
+					state.current_city->cityViewSelectedBios.clear();
+					state.current_city->cityViewSelectedBios.push_back(agent);
 				}
 			}
 			// Agent is selected
 			else
 			{
 				// First move agent to front
-				state->current_city->cityViewSelectedBios.erase(pos);
-				state->current_city->cityViewSelectedBios.push_front(agent);
+				state.current_city->cityViewSelectedBios.erase(pos);
+				state.current_city->cityViewSelectedBios.push_front(agent);
 				// Then if not additive then zoom to agent
 				if (!additive)
 				{
@@ -930,39 +927,39 @@ void CityView::orderSelect(StateRef<Agent> agent, bool inverse, bool additive)
 	// Physics
 	if (agent->type->role == AgentType::Role::Physicist)
 	{
-		auto pos = std::find(state->current_city->cityViewSelectedPhysics.begin(),
-		                     state->current_city->cityViewSelectedPhysics.end(), agent);
+		auto pos = std::find(state.current_city->cityViewSelectedPhysics.begin(),
+		                     state.current_city->cityViewSelectedPhysics.end(), agent);
 		if (inverse)
 		{
 			// Agent in selection => remove
-			if (pos != state->current_city->cityViewSelectedPhysics.end())
+			if (pos != state.current_city->cityViewSelectedPhysics.end())
 			{
-				state->current_city->cityViewSelectedPhysics.erase(pos);
+				state.current_city->cityViewSelectedPhysics.erase(pos);
 			}
 		}
 		else
 		{
 			// Agent not selected
-			if (pos == state->current_city->cityViewSelectedPhysics.end())
+			if (pos == state.current_city->cityViewSelectedPhysics.end())
 			{
 				// If additive add
 				if (additive)
 				{
-					state->current_city->cityViewSelectedPhysics.push_front(agent);
+					state.current_city->cityViewSelectedPhysics.push_front(agent);
 				}
 				else
 				{
 					// Agent not in selection => replace selection with agent
-					state->current_city->cityViewSelectedPhysics.clear();
-					state->current_city->cityViewSelectedPhysics.push_back(agent);
+					state.current_city->cityViewSelectedPhysics.clear();
+					state.current_city->cityViewSelectedPhysics.push_back(agent);
 				}
 			}
 			// Agent is selected
 			else
 			{
 				// First move agent to front
-				state->current_city->cityViewSelectedPhysics.erase(pos);
-				state->current_city->cityViewSelectedPhysics.push_front(agent);
+				state.current_city->cityViewSelectedPhysics.erase(pos);
+				state.current_city->cityViewSelectedPhysics.push_front(agent);
 				// Then if not additive then zoom to agent
 				if (!additive)
 				{
@@ -974,39 +971,39 @@ void CityView::orderSelect(StateRef<Agent> agent, bool inverse, bool additive)
 	// Engineers
 	if (agent->type->role == AgentType::Role::Engineer)
 	{
-		auto pos = std::find(state->current_city->cityViewSelectedEngineers.begin(),
-		                     state->current_city->cityViewSelectedEngineers.end(), agent);
+		auto pos = std::find(state.current_city->cityViewSelectedEngineers.begin(),
+		                     state.current_city->cityViewSelectedEngineers.end(), agent);
 		if (inverse)
 		{
 			// Agent in selection => remove
-			if (pos != state->current_city->cityViewSelectedEngineers.end())
+			if (pos != state.current_city->cityViewSelectedEngineers.end())
 			{
-				state->current_city->cityViewSelectedEngineers.erase(pos);
+				state.current_city->cityViewSelectedEngineers.erase(pos);
 			}
 		}
 		else
 		{
 			// Agent not selected
-			if (pos == state->current_city->cityViewSelectedEngineers.end())
+			if (pos == state.current_city->cityViewSelectedEngineers.end())
 			{
 				// If additive add
 				if (additive)
 				{
-					state->current_city->cityViewSelectedEngineers.push_front(agent);
+					state.current_city->cityViewSelectedEngineers.push_front(agent);
 				}
 				else
 				{
 					// Agent not in selection => replace selection with agent
-					state->current_city->cityViewSelectedEngineers.clear();
-					state->current_city->cityViewSelectedEngineers.push_back(agent);
+					state.current_city->cityViewSelectedEngineers.clear();
+					state.current_city->cityViewSelectedEngineers.push_back(agent);
 				}
 			}
 			// Agent is selected
 			else
 			{
 				// First move agent to front
-				state->current_city->cityViewSelectedEngineers.erase(pos);
-				state->current_city->cityViewSelectedEngineers.push_front(agent);
+				state.current_city->cityViewSelectedEngineers.erase(pos);
+				state.current_city->cityViewSelectedEngineers.push_front(agent);
 				// Then if not additive then zoom to agent
 				if (!additive)
 				{
@@ -1016,19 +1013,19 @@ void CityView::orderSelect(StateRef<Agent> agent, bool inverse, bool additive)
 		}
 	}
 	// Build civilian list
-	state->current_city->cityViewSelectedCivilians.clear();
+	state.current_city->cityViewSelectedCivilians.clear();
 
-	for (auto &a : state->current_city->cityViewSelectedBios)
+	for (auto &a : state.current_city->cityViewSelectedBios)
 	{
-		state->current_city->cityViewSelectedCivilians.push_back(a);
+		state.current_city->cityViewSelectedCivilians.push_back(a);
 	}
-	for (auto &a : state->current_city->cityViewSelectedPhysics)
+	for (auto &a : state.current_city->cityViewSelectedPhysics)
 	{
-		state->current_city->cityViewSelectedCivilians.push_back(a);
+		state.current_city->cityViewSelectedCivilians.push_back(a);
 	}
-	for (auto &a : state->current_city->cityViewSelectedEngineers)
+	for (auto &a : state.current_city->cityViewSelectedEngineers)
 	{
-		state->current_city->cityViewSelectedCivilians.push_back(a);
+		state.current_city->cityViewSelectedCivilians.push_back(a);
 	}
 }
 
@@ -1036,9 +1033,9 @@ void CityView::orderFire(Vec3<float> position)
 {
 	if (activeTab == uiTabs[1])
 	{
-		for (auto &v : this->state->current_city->cityViewSelectedOwnedVehicles)
+		for (auto &v : this->state.current_city->cityViewSelectedOwnedVehicles)
 		{
-			if (v && v->owner == this->state->getPlayer())
+			if (v && v->owner == this->state.getPlayer())
 			{
 				v->setManualFirePosition(position);
 			}
@@ -1051,28 +1048,28 @@ void CityView::orderAttack(StateRef<Vehicle> vehicle, bool forced)
 {
 	if (activeTab == uiTabs[1])
 	{
-		for (auto &v : this->state->current_city->cityViewSelectedOwnedVehicles)
+		for (auto &v : this->state.current_city->cityViewSelectedOwnedVehicles)
 		{
-			if (v && v->owner == this->state->getPlayer() && v != vehicle)
+			if (v && v->owner == this->state.getPlayer() && v != vehicle)
 			{
 				if (forced)
 				{
-					if (vehicle->owner == state->getPlayer() &&
+					if (vehicle->owner == state.getPlayer() &&
 					    !config().getBool("OpenApoc.NewFeature.AllowAttackingOwnedVehicles"))
 					{
-						v->setMission(*state,
-						              VehicleMission::followVehicle(*this->state, *v, vehicle));
+						v->setMission(state,
+						              VehicleMission::followVehicle(this->state, *v, vehicle));
 					}
 					else
 					{
-						v->setMission(*state,
-						              VehicleMission::attackVehicle(*this->state, *v, vehicle));
+						v->setMission(state,
+						              VehicleMission::attackVehicle(this->state, *v, vehicle));
 					}
 				}
 				else if (vehicle->crashed || vehicle->falling || vehicle->sliding)
 				{
-					bool foundSoldier = vehicle->owner == state->getPlayer() ||
-					                    state->getPlayer()->isRelatedTo(vehicle->owner) !=
+					bool foundSoldier = vehicle->owner == state.getPlayer() ||
+					                    state.getPlayer()->isRelatedTo(vehicle->owner) !=
 					                        Organisation::Relation::Hostile;
 					for (auto &a : v->currentAgents)
 					{
@@ -1082,27 +1079,27 @@ void CityView::orderAttack(StateRef<Vehicle> vehicle, bool forced)
 							break;
 						}
 					}
-					if (vehicle->owner != state->getAliens() && !v->type->canRescueCrashed)
+					if (vehicle->owner != state.getAliens() && !v->type->canRescueCrashed)
 					{
 						foundSoldier = false;
 					}
 					if (foundSoldier)
 					{
-						v->setMission(*state,
-						              VehicleMission::recoverVehicle(*this->state, *v, vehicle));
+						v->setMission(state,
+						              VehicleMission::recoverVehicle(this->state, *v, vehicle));
 					}
 				}
 				else
 				{
-					if (vehicle->owner == state->getPlayer())
+					if (vehicle->owner == state.getPlayer())
 					{
-						v->setMission(*state,
-						              VehicleMission::followVehicle(*this->state, *v, vehicle));
+						v->setMission(state,
+						              VehicleMission::followVehicle(this->state, *v, vehicle));
 					}
 					else
 					{
-						v->setMission(*state,
-						              VehicleMission::attackVehicle(*this->state, *v, vehicle));
+						v->setMission(state,
+						              VehicleMission::attackVehicle(this->state, *v, vehicle));
 					}
 				}
 			}
@@ -1115,11 +1112,11 @@ void CityView::orderFollow(StateRef<Vehicle> vehicle)
 {
 	if (activeTab == uiTabs[1])
 	{
-		for (auto &v : this->state->current_city->cityViewSelectedOwnedVehicles)
+		for (auto &v : this->state.current_city->cityViewSelectedOwnedVehicles)
 		{
-			if (v && v->owner == this->state->getPlayer() && v != vehicle)
+			if (v && v->owner == this->state.getPlayer() && v != vehicle)
 			{
-				v->setMission(*state, VehicleMission::followVehicle(*this->state, *v, vehicle));
+				v->setMission(state, VehicleMission::followVehicle(this->state, *v, vehicle));
 			}
 		}
 		return;
@@ -1130,11 +1127,11 @@ void CityView::orderAttack(StateRef<Building> building)
 {
 	if (activeTab == uiTabs[1])
 	{
-		for (auto &v : this->state->current_city->cityViewSelectedOwnedVehicles)
+		for (auto &v : this->state.current_city->cityViewSelectedOwnedVehicles)
 		{
-			if (v && v->owner == this->state->getPlayer())
+			if (v && v->owner == this->state.getPlayer())
 			{
-				v->setMission(*state, VehicleMission::attackBuilding(*this->state, *v, building));
+				v->setMission(state, VehicleMission::attackBuilding(this->state, *v, building));
 			}
 		}
 	}
@@ -1145,14 +1142,14 @@ void CityView::orderDisableWeapon(int index, bool disable)
 	weaponDisabled[index] = disable;
 
 	std::vector<sp<VEquipment>> currentWeapons;
-	if (!state->current_city->cityViewSelectedOwnedVehicles.empty())
+	if (!state.current_city->cityViewSelectedOwnedVehicles.empty())
 	{
-		auto vehicle = state->current_city->cityViewSelectedOwnedVehicles.front();
-		if (vehicle->owner != state->getPlayer())
+		auto vehicle = state.current_city->cityViewSelectedOwnedVehicles.front();
+		if (vehicle->owner != state.getPlayer())
 		{
-			if (state->current_city->cityViewSelectedOwnedVehicles.size() > 1)
+			if (state.current_city->cityViewSelectedOwnedVehicles.size() > 1)
 			{
-				vehicle = *++state->current_city->cityViewSelectedOwnedVehicles.begin();
+				vehicle = *++state.current_city->cityViewSelectedOwnedVehicles.begin();
 			}
 			else
 			{
@@ -1189,13 +1186,13 @@ void CityView::setSelectedTab(int tabIndex)
 	}
 	uiTabs[tabIndex]->setVisible(true);
 	this->activeTab = uiTabs[tabIndex];
-	this->state->current_city->cityViewPageIndex = tabIndex;
+	this->state.current_city->cityViewPageIndex = tabIndex;
 }
 
-CityView::CityView(sp<GameState> state)
-    : CityTileView(*state->current_city->map, Vec3<int>{TILE_X_CITY, TILE_Y_CITY, TILE_Z_CITY},
+CityView::CityView(GameState &state)
+    : CityTileView(*state.current_city->map, Vec3<int>{TILE_X_CITY, TILE_Y_CITY, TILE_Z_CITY},
                    Vec2<int>{STRAT_TILE_X, STRAT_TILE_Y}, TileViewMode::Isometric,
-                   state->current_city->cityViewScreenCenter, *state),
+                   state.current_city->cityViewScreenCenter, state),
       baseForm(ui().getForm("city/city")), overlayTab(ui().getForm("city/overlay")),
       debugOverlay(ui().getForm("city/debugoverlay_city")), updateSpeed(CityUpdateSpeed::Speed1),
       lastSpeed(CityUpdateSpeed::Pause), state(state), followVehicle(false),
@@ -1216,7 +1213,7 @@ CityView::CityView(sp<GameState> state)
 		f->takesFocus = false;
 		this->uiTabs.push_back(f);
 	}
-	setSelectedTab(this->state->current_city->cityViewPageIndex);
+	setSelectedTab(this->state.current_city->cityViewPageIndex);
 
 	// Refresh base views
 	resume();
@@ -1331,10 +1328,10 @@ CityView::CityView(sp<GameState> state)
 	                  [this](Event *)
 	                  {
 		                  bool playerHasVehicles = false;
-		                  for (auto &v : this->state->vehicles)
+		                  for (auto &v : this->state.vehicles)
 		                  {
 			                  auto vehicle = v.second;
-			                  if (vehicle->owner == this->state->getPlayer())
+			                  if (vehicle->owner == this->state.getPlayer())
 			                  {
 				                  playerHasVehicles = true;
 				                  break;
@@ -1345,9 +1342,9 @@ CityView::CityView(sp<GameState> state)
 		                  {
 			                  auto equipScreen = mksp<VEquipScreen>(this->state);
 			                  for (auto &v :
-			                       this->state->current_city->cityViewSelectedOwnedVehicles)
+			                       this->state.current_city->cityViewSelectedOwnedVehicles)
 			                  {
-				                  if (v && v->owner == this->state->getPlayer())
+				                  if (v && v->owner == this->state.getPlayer())
 				                  {
 					                  equipScreen->setSelectedVehicle(v);
 					                  break;
@@ -1360,9 +1357,9 @@ CityView::CityView(sp<GameState> state)
 	    ->addCallback(FormEventType::ButtonClick,
 	                  [this](Event *)
 	                  {
-		                  for (auto &v : this->state->current_city->cityViewSelectedOwnedVehicles)
+		                  for (auto &v : this->state.current_city->cityViewSelectedOwnedVehicles)
 		                  {
-			                  if (v && v->owner == this->state->getPlayer())
+			                  if (v && v->owner == this->state.getPlayer())
 			                  {
 				                  fw().stageQueueCommand({StageCmd::Command::PUSH,
 				                                          mksp<LocationScreen>(this->state, v)});
@@ -1374,9 +1371,9 @@ CityView::CityView(sp<GameState> state)
 	    ->addCallback(FormEventType::ButtonClick,
 	                  [this](Event *)
 	                  {
-		                  for (auto &v : this->state->current_city->cityViewSelectedOwnedVehicles)
+		                  for (auto &v : this->state.current_city->cityViewSelectedOwnedVehicles)
 		                  {
-			                  if (v && v->owner == this->state->getPlayer())
+			                  if (v && v->owner == this->state.getPlayer())
 			                  {
 				                  setSelectionState(CitySelectionState::GotoBuilding);
 				                  break;
@@ -1387,9 +1384,9 @@ CityView::CityView(sp<GameState> state)
 	    ->addCallback(FormEventType::ButtonClick,
 	                  [this](Event *)
 	                  {
-		                  for (auto &v : this->state->current_city->cityViewSelectedOwnedVehicles)
+		                  for (auto &v : this->state.current_city->cityViewSelectedOwnedVehicles)
 		                  {
-			                  if (v && v->owner == this->state->getPlayer())
+			                  if (v && v->owner == this->state.getPlayer())
 			                  {
 				                  setSelectionState(CitySelectionState::GotoLocation);
 				                  break;
@@ -1400,9 +1397,9 @@ CityView::CityView(sp<GameState> state)
 	    ->addCallback(FormEventType::ButtonClick,
 	                  [this](Event *)
 	                  {
-		                  for (auto &v : this->state->current_city->cityViewSelectedOwnedVehicles)
+		                  for (auto &v : this->state.current_city->cityViewSelectedOwnedVehicles)
 		                  {
-			                  if (v && v->owner == this->state->getPlayer())
+			                  if (v && v->owner == this->state.getPlayer())
 			                  {
 				                  setSelectionState(CitySelectionState::AttackVehicle);
 				                  break;
@@ -1413,9 +1410,9 @@ CityView::CityView(sp<GameState> state)
 	    ->addCallback(FormEventType::ButtonClick,
 	                  [this](Event *)
 	                  {
-		                  for (auto &v : this->state->current_city->cityViewSelectedOwnedVehicles)
+		                  for (auto &v : this->state.current_city->cityViewSelectedOwnedVehicles)
 		                  {
-			                  if (v && v->owner == this->state->getPlayer())
+			                  if (v && v->owner == this->state.getPlayer())
 			                  {
 				                  setSelectionState(CitySelectionState::AttackBuilding);
 				                  break;
@@ -1429,9 +1426,9 @@ CityView::CityView(sp<GameState> state)
 	    ->addCallback(FormEventType::CheckBoxSelected,
 	                  [this](Event *)
 	                  {
-		                  for (auto &v : this->state->current_city->cityViewSelectedOwnedVehicles)
+		                  for (auto &v : this->state.current_city->cityViewSelectedOwnedVehicles)
 		                  {
-			                  if (v && v->owner == this->state->getPlayer())
+			                  if (v && v->owner == this->state.getPlayer())
 			                  {
 				                  v->attackMode = Vehicle::AttackMode::Aggressive;
 			                  }
@@ -1441,9 +1438,9 @@ CityView::CityView(sp<GameState> state)
 	    ->addCallback(FormEventType::CheckBoxSelected,
 	                  [this](Event *)
 	                  {
-		                  for (auto &v : this->state->current_city->cityViewSelectedOwnedVehicles)
+		                  for (auto &v : this->state.current_city->cityViewSelectedOwnedVehicles)
 		                  {
-			                  if (v && v->owner == this->state->getPlayer())
+			                  if (v && v->owner == this->state.getPlayer())
 			                  {
 				                  v->attackMode = Vehicle::AttackMode::Standard;
 			                  }
@@ -1453,9 +1450,9 @@ CityView::CityView(sp<GameState> state)
 	    ->addCallback(FormEventType::CheckBoxSelected,
 	                  [this](Event *)
 	                  {
-		                  for (auto &v : this->state->current_city->cityViewSelectedOwnedVehicles)
+		                  for (auto &v : this->state.current_city->cityViewSelectedOwnedVehicles)
 		                  {
-			                  if (v && v->owner == this->state->getPlayer())
+			                  if (v && v->owner == this->state.getPlayer())
 			                  {
 				                  v->attackMode = Vehicle::AttackMode::Defensive;
 			                  }
@@ -1465,9 +1462,9 @@ CityView::CityView(sp<GameState> state)
 	    ->addCallback(FormEventType::CheckBoxSelected,
 	                  [this](Event *)
 	                  {
-		                  for (auto &v : this->state->current_city->cityViewSelectedOwnedVehicles)
+		                  for (auto &v : this->state.current_city->cityViewSelectedOwnedVehicles)
 		                  {
-			                  if (v && v->owner == this->state->getPlayer())
+			                  if (v && v->owner == this->state.getPlayer())
 			                  {
 				                  v->attackMode = Vehicle::AttackMode::Evasive;
 			                  }
@@ -1477,9 +1474,9 @@ CityView::CityView(sp<GameState> state)
 	    ->addCallback(FormEventType::CheckBoxSelected,
 	                  [this](Event *)
 	                  {
-		                  for (auto &v : this->state->current_city->cityViewSelectedOwnedVehicles)
+		                  for (auto &v : this->state.current_city->cityViewSelectedOwnedVehicles)
 		                  {
-			                  if (v && v->owner == this->state->getPlayer())
+			                  if (v && v->owner == this->state.getPlayer())
 			                  {
 				                  v->altitude = Vehicle::Altitude::Highest;
 			                  }
@@ -1489,9 +1486,9 @@ CityView::CityView(sp<GameState> state)
 	    ->addCallback(FormEventType::CheckBoxSelected,
 	                  [this](Event *)
 	                  {
-		                  for (auto &v : this->state->current_city->cityViewSelectedOwnedVehicles)
+		                  for (auto &v : this->state.current_city->cityViewSelectedOwnedVehicles)
 		                  {
-			                  if (v && v->owner == this->state->getPlayer())
+			                  if (v && v->owner == this->state.getPlayer())
 			                  {
 				                  v->altitude = Vehicle::Altitude::High;
 			                  }
@@ -1501,9 +1498,9 @@ CityView::CityView(sp<GameState> state)
 	    ->addCallback(FormEventType::CheckBoxSelected,
 	                  [this](Event *)
 	                  {
-		                  for (auto &v : this->state->current_city->cityViewSelectedOwnedVehicles)
+		                  for (auto &v : this->state.current_city->cityViewSelectedOwnedVehicles)
 		                  {
-			                  if (v && v->owner == this->state->getPlayer())
+			                  if (v && v->owner == this->state.getPlayer())
 			                  {
 				                  v->altitude = Vehicle::Altitude::Standard;
 			                  }
@@ -1513,9 +1510,9 @@ CityView::CityView(sp<GameState> state)
 	    ->addCallback(FormEventType::CheckBoxSelected,
 	                  [this](Event *)
 	                  {
-		                  for (auto &v : this->state->current_city->cityViewSelectedOwnedVehicles)
+		                  for (auto &v : this->state.current_city->cityViewSelectedOwnedVehicles)
 		                  {
-			                  if (v && v->owner == this->state->getPlayer())
+			                  if (v && v->owner == this->state.getPlayer())
 			                  {
 				                  v->altitude = Vehicle::Altitude::Low;
 			                  }
@@ -1527,13 +1524,13 @@ CityView::CityView(sp<GameState> state)
 	        FormEventType::ButtonClick,
 	        [this](Event *)
 	        {
-		        if (!this->state->current_city->cityViewSelectedSoldiers.empty())
+		        if (!this->state.current_city->cityViewSelectedSoldiers.empty())
 		        {
 			        fw().stageQueueCommand(
 			            {StageCmd::Command::PUSH,
 			             mksp<LocationScreen>(
 			                 this->state,
-			                 this->state->current_city->cityViewSelectedSoldiers.front())});
+			                 this->state.current_city->cityViewSelectedSoldiers.front())});
 		        }
 	        });
 	agentForm->findControl("BUTTON_EQUIP_AGENT")
@@ -1542,10 +1539,10 @@ CityView::CityView(sp<GameState> state)
 	        [this](Event *)
 	        {
 		        bool playerHasSoldiers = false;
-		        for (auto &a : this->state->agents)
+		        for (auto &a : this->state.agents)
 		        {
 			        auto agent = a.second;
-			        if (agent->owner == this->state->getPlayer() &&
+			        if (agent->owner == this->state.getPlayer() &&
 			            agent->type->role == AgentType::Role::Soldier)
 			        {
 				        playerHasSoldiers = true;
@@ -1559,8 +1556,8 @@ CityView::CityView(sp<GameState> state)
 			            {StageCmd::Command::PUSH,
 			             mksp<AEquipScreen>(
 			                 this->state,
-			                 !this->state->current_city->cityViewSelectedSoldiers.empty()
-			                     ? this->state->current_city->cityViewSelectedSoldiers.front()
+			                 !this->state.current_city->cityViewSelectedSoldiers.empty()
+			                     ? this->state.current_city->cityViewSelectedSoldiers.front()
 			                     : nullptr)});
 		        }
 	        });
@@ -1569,7 +1566,7 @@ CityView::CityView(sp<GameState> state)
 	    ->addCallback(FormEventType::ButtonClick,
 	                  [this](Event *)
 	                  {
-		                  if (!this->state->current_city->cityViewSelectedSoldiers.empty())
+		                  if (!this->state.current_city->cityViewSelectedSoldiers.empty())
 		                  {
 			                  setSelectionState(CitySelectionState::GotoBuilding);
 		                  }
@@ -1578,10 +1575,10 @@ CityView::CityView(sp<GameState> state)
 	    ->addCallback(FormEventType::ButtonClick,
 	                  [this](Event *)
 	                  {
-		                  if (!this->state->current_city->cityViewSelectedSoldiers.empty())
+		                  if (!this->state.current_city->cityViewSelectedSoldiers.empty())
 		                  {
 
-			                  auto a = this->state->current_city->cityViewSelectedSoldiers.front();
+			                  auto a = this->state.current_city->cityViewSelectedSoldiers.front();
 			                  // Don't return to base if in a vehicle
 			                  if (!a->currentVehicle)
 			                  {
@@ -1601,7 +1598,7 @@ CityView::CityView(sp<GameState> state)
 			                      ->findControlTyped<CheckBox>("BUTTON_AGENT_PSI")
 			                      ->setChecked(false);
 		                  }
-		                  for (auto &a : this->state->current_city->cityViewSelectedSoldiers)
+		                  for (auto &a : this->state.current_city->cityViewSelectedSoldiers)
 		                  {
 			                  if (checked)
 			                  {
@@ -1616,7 +1613,7 @@ CityView::CityView(sp<GameState> state)
 		                  if (checked)
 		                  {
 			                  checked = false;
-			                  for (auto &a : this->state->current_city->cityViewSelectedSoldiers)
+			                  for (auto &a : this->state.current_city->cityViewSelectedSoldiers)
 			                  {
 				                  if (a->trainingAssignment != TrainingAssignment::None)
 				                  {
@@ -1632,7 +1629,7 @@ CityView::CityView(sp<GameState> state)
 		                  // Check other button if need to
 		                  else
 		                  {
-			                  for (auto &a : this->state->current_city->cityViewSelectedSoldiers)
+			                  for (auto &a : this->state.current_city->cityViewSelectedSoldiers)
 			                  {
 				                  if (a->trainingAssignment == TrainingAssignment::Psi)
 				                  {
@@ -1660,7 +1657,7 @@ CityView::CityView(sp<GameState> state)
 			                      ->findControlTyped<CheckBox>("BUTTON_AGENT_PHYSICAL")
 			                      ->setChecked(false);
 		                  }
-		                  for (auto &a : this->state->current_city->cityViewSelectedSoldiers)
+		                  for (auto &a : this->state.current_city->cityViewSelectedSoldiers)
 		                  {
 			                  if (checked)
 			                  {
@@ -1675,7 +1672,7 @@ CityView::CityView(sp<GameState> state)
 		                  if (checked)
 		                  {
 			                  checked = false;
-			                  for (auto &a : this->state->current_city->cityViewSelectedSoldiers)
+			                  for (auto &a : this->state.current_city->cityViewSelectedSoldiers)
 			                  {
 				                  if (a->trainingAssignment != TrainingAssignment::None)
 				                  {
@@ -1691,7 +1688,7 @@ CityView::CityView(sp<GameState> state)
 		                  // Check other button if need to
 		                  else
 		                  {
-			                  for (auto &a : this->state->current_city->cityViewSelectedSoldiers)
+			                  for (auto &a : this->state.current_city->cityViewSelectedSoldiers)
 			                  {
 				                  if (a->trainingAssignment == TrainingAssignment::Physical)
 				                  {
@@ -1748,7 +1745,7 @@ CityView::CityView(sp<GameState> state)
 	        FormEventType::CheckBoxSelected,
 	        [this](Event *)
 	        {
-		        this->state->current_city->cityViewOrgButtonIndex = 0;
+		        this->state.current_city->cityViewOrgButtonIndex = 0;
 		        uiTabs[7]->findControlTyped<ListBox>("ORGANISATION_LIST")->scroller->setValue(0);
 		        this->update();
 	        });
@@ -1758,7 +1755,7 @@ CityView::CityView(sp<GameState> state)
 	        FormEventType::CheckBoxSelected,
 	        [this](Event *)
 	        {
-		        this->state->current_city->cityViewOrgButtonIndex = 1;
+		        this->state.current_city->cityViewOrgButtonIndex = 1;
 		        uiTabs[7]->findControlTyped<ListBox>("ORGANISATION_LIST")->scroller->setValue(0);
 		        this->update();
 	        });
@@ -1768,7 +1765,7 @@ CityView::CityView(sp<GameState> state)
 	        FormEventType::CheckBoxSelected,
 	        [this](Event *)
 	        {
-		        this->state->current_city->cityViewOrgButtonIndex = 2;
+		        this->state.current_city->cityViewOrgButtonIndex = 2;
 		        uiTabs[7]->findControlTyped<ListBox>("ORGANISATION_LIST")->scroller->setValue(0);
 		        this->update();
 	        });
@@ -1778,7 +1775,7 @@ CityView::CityView(sp<GameState> state)
 	        FormEventType::CheckBoxSelected,
 	        [this](Event *)
 	        {
-		        this->state->current_city->cityViewOrgButtonIndex = 3;
+		        this->state.current_city->cityViewOrgButtonIndex = 3;
 		        uiTabs[7]->findControlTyped<ListBox>("ORGANISATION_LIST")->scroller->setValue(0);
 		        this->update();
 	        });
@@ -1788,7 +1785,7 @@ CityView::CityView(sp<GameState> state)
 	        FormEventType::CheckBoxSelected,
 	        [this](Event *)
 	        {
-		        this->state->current_city->cityViewOrgButtonIndex = 4;
+		        this->state.current_city->cityViewOrgButtonIndex = 4;
 		        uiTabs[7]->findControlTyped<ListBox>("ORGANISATION_LIST")->scroller->setValue(0);
 		        this->update();
 	        });
@@ -1798,7 +1795,7 @@ CityView::CityView(sp<GameState> state)
 	        FormEventType::CheckBoxSelected,
 	        [this](Event *)
 	        {
-		        this->state->current_city->cityViewOrgButtonIndex = 5;
+		        this->state.current_city->cityViewOrgButtonIndex = 5;
 		        uiTabs[7]->findControlTyped<ListBox>("ORGANISATION_LIST")->scroller->setValue(0);
 		        this->update();
 	        });
@@ -1807,7 +1804,7 @@ CityView::CityView(sp<GameState> state)
 	    ->addCallback(FormEventType::ButtonClick,
 	                  [this](Event *)
 	                  {
-		                  if (this->state->current_city->cityViewSelectedOrganisation)
+		                  if (this->state.current_city->cityViewSelectedOrganisation)
 		                  {
 			                  fw().stageQueueCommand(
 			                      {StageCmd::Command::PUSH, mksp<BribeScreen>(this->state)});
@@ -1815,7 +1812,7 @@ CityView::CityView(sp<GameState> state)
 	                  });
 
 	auto font = ui().getFont("smallset");
-	for (int i = 0; i <= state->current_city->roadSegments.size(); i++)
+	for (int i = 0; i <= state.current_city->roadSegments.size(); i++)
 	{
 		debugLabelsOK.push_back(font->getString(format("%d", i)));
 		debugLabelsDead.push_back(font->getString(format("-%d-", i)));
@@ -1832,7 +1829,7 @@ void CityView::begin()
 {
 	vanillaControls = !config().getBool("OpenApoc.NewFeature.OpenApocCityControls");
 	CityTileView::begin();
-	if (state->current_city.id == "CITYMAP_ALIEN")
+	if (state.current_city.id == "CITYMAP_ALIEN")
 	{
 
 		fw().jukebox->play(JukeBox::PlayList::Alien);
@@ -1841,9 +1838,9 @@ void CityView::begin()
 	{
 		fw().jukebox->play(JukeBox::PlayList::City);
 	}
-	if (state->newGame)
+	if (state.newGame)
 	{
-		state->newGame = false;
+		state.newGame = false;
 		baseForm->findControlTyped<Ticker>("NEWS_TICKER")
 		    ->addMessage(tr("Welcome to X-COM Apocalypse"));
 	}
@@ -1852,7 +1849,7 @@ void CityView::begin()
 void CityView::resume()
 {
 	vanillaControls = !config().getBool("OpenApoc.NewFeature.OpenApocCityControls");
-	state->skipTurboCalculations = config().getBool("OpenApoc.NewFeature.SkipTurboMovement");
+	state.skipTurboCalculations = config().getBool("OpenApoc.NewFeature.SkipTurboMovement");
 	CityTileView::resume();
 	modifierLAlt = false;
 	modifierLCtrl = false;
@@ -1861,18 +1858,18 @@ void CityView::resume()
 	modifierRCtrl = false;
 	modifierRShift = false;
 
-	this->uiTabs[0]->findControlTyped<Label>("TEXT_BASE_NAME")->setText(state->current_base->name);
+	this->uiTabs[0]->findControlTyped<Label>("TEXT_BASE_NAME")->setText(state.current_base->name);
 
 	refreshBaseView();
 }
 
 void CityView::refreshBaseView()
 {
-	if (miniViews.size() != state->player_bases.size())
+	if (miniViews.size() != state.player_bases.size())
 	{
 		this->uiTabs[0]
 		    ->findControlTyped<Label>("TEXT_BASE_NAME")
-		    ->setText(state->current_base->name);
+		    ->setText(state.current_base->name);
 		for (auto view : miniViews)
 		{
 			view->setData(nullptr);
@@ -1886,7 +1883,7 @@ void CityView::refreshBaseView()
 	}
 
 	int b = 0;
-	for (auto &pair : state->player_bases)
+	for (auto &pair : state.player_bases)
 	{
 		auto &viewBase = pair.second;
 		auto viewName = format("BUTTON_BASE_%d", ++b);
@@ -1905,17 +1902,17 @@ void CityView::refreshBaseView()
 		                  [this](FormsEvent *e)
 		                  {
 			                  auto clickedBase = StateRef<Base>(
-			                      this->state.get(), e->forms().RaisedBy->getData<Base>());
-			                  if (clickedBase == this->state->current_base)
+			                      &this->state, e->forms().RaisedBy->getData<Base>());
+			                  if (clickedBase == this->state.current_base)
 			                  {
 				                  this->setScreenCenterTile(clickedBase->building->crewQuarters);
 			                  }
 			                  else
 			                  {
-				                  this->state->current_base = clickedBase;
+				                  this->state.current_base = clickedBase;
 				                  this->uiTabs[0]
 				                      ->findControlTyped<Label>("TEXT_BASE_NAME")
-				                      ->setText(this->state->current_base->name);
+				                      ->setText(this->state.current_base->name);
 			                  }
 		                  });
 		miniViews.push_back(view);
@@ -1943,13 +1940,13 @@ void CityView::render()
 			static const Colour targetXCOMColor = {0, 255, 0, 255};
 			static const Colour targetOtherColor = {255, 0, 0, 255};
 			static const Colour targetMutualColor = {255, 240, 0, 255};
-			for (auto &pair : state->vehicles)
+			for (auto &pair : state.vehicles)
 			{
 				auto v = pair.second;
 				if (DEBUG_SHOW_VEHICLE_PATH)
 				{
 					auto vTile = v->tileObject;
-					if (v->city != state->current_city)
+					if (v->city != state.current_city)
 						continue;
 					if (!vTile)
 						continue;
@@ -1974,7 +1971,7 @@ void CityView::render()
 				}
 				if (DEBUG_SHOW_VEHICLE_TARGETS)
 				{
-					if (v->city != state->current_city)
+					if (v->city != state.current_city)
 						continue;
 					if (v->missions.empty())
 					{
@@ -1988,11 +1985,11 @@ void CityView::render()
 						Vec2<float> targetScreenPos = this->tileToOffsetScreenCoords(targetPos);
 						Vec2<float> attackerScreenPos = this->tileToOffsetScreenCoords(attackerPos);
 
-						fw().renderer->drawLine(
-						    attackerScreenPos, targetScreenPos,
-						    targetVehicle->missions.front().targetVehicle == v ? targetMutualColor
-						    : v->owner == state->getPlayer()                   ? targetXCOMColor
-						                                                       : targetOtherColor);
+						fw().renderer->drawLine(attackerScreenPos, targetScreenPos,
+						                        targetVehicle->missions.front().targetVehicle == v
+						                            ? targetMutualColor
+						                        : v->owner == state.getPlayer() ? targetXCOMColor
+						                                                        : targetOtherColor);
 					}
 				}
 			}
@@ -2002,9 +1999,9 @@ void CityView::render()
 			static const auto lineColorFriend = Colour(0, 0, 0, 255);
 			static const auto lineColorEnemy = Colour(255, 0, 0, 255);
 
-			for (int i = 0; i < state->current_city->roadSegments.size(); i++)
+			for (int i = 0; i < state.current_city->roadSegments.size(); i++)
 			{
-				auto &s = state->current_city->roadSegments[i];
+				auto &s = state.current_city->roadSegments[i];
 				if (s.empty())
 				{
 					continue;
@@ -2019,7 +2016,7 @@ void CityView::render()
 					Vec3<float> thisPos =
 					    s.connections.front() == c ? s.tilePosition.front() : s.tilePosition.back();
 					thisPos += Vec3<float>{0.5f, 0.5f, 0.0f};
-					auto &s2 = state->current_city->roadSegments[c];
+					auto &s2 = state.current_city->roadSegments[c];
 					Vec3<float> tarPos = s2.connections.front() == i ? s2.tilePosition.front()
 					                                                 : s2.tilePosition.back();
 					tarPos += Vec3<float>{0.5f, 0.5f, 0.0f};
@@ -2051,7 +2048,7 @@ void CityView::render()
 			for (auto &view : miniViews)
 			{
 				auto viewBase = view->getData<Base>();
-				if (state->current_base == viewBase)
+				if (state.current_base == viewBase)
 				{
 					Vec2<int> pos = view->getLocationOnScreen() - 1;
 					Vec2<int> size = view->Size + 2;
@@ -2076,7 +2073,7 @@ void CityView::render()
 void CityView::update()
 {
 	unsigned int ticks = 0;
-	int day = state->gameTime.getDay();
+	int day = state.gameTime.getDay();
 	bool turbo = false;
 	switch (this->updateSpeed)
 	{
@@ -2103,7 +2100,7 @@ void CityView::update()
 			ticks = 6;
 			break;
 		case CityUpdateSpeed::Speed5:
-			if (!this->state->canTurbo())
+			if (!this->state.canTurbo())
 			{
 				setUpdateSpeed(CityUpdateSpeed::Speed1);
 				ticks = 1;
@@ -2114,12 +2111,12 @@ void CityView::update()
 			}
 			break;
 	}
-	baseForm->findControl("BUTTON_SPEED5")->Enabled = this->state->canTurbo();
+	baseForm->findControl("BUTTON_SPEED5")->Enabled = this->state.canTurbo();
 
 	if (turbo)
 	{
-		this->state->updateTurbo();
-		if (!this->state->canTurbo())
+		this->state.updateTurbo();
+		if (!this->state.canTurbo())
 		{
 			setUpdateSpeed(CityUpdateSpeed::Speed1);
 		}
@@ -2129,7 +2126,7 @@ void CityView::update()
 		while (ticks > 0)
 		{
 			int ticksPerUpdate = UPDATE_EVERY_TICK ? 1 : ticks;
-			state->update(ticksPerUpdate);
+			state.update(ticksPerUpdate);
 			ticks -= ticksPerUpdate;
 		}
 	}
@@ -2137,11 +2134,11 @@ void CityView::update()
 	// Switch dimensions
 	bool switchDimension = false;
 	// Switch dimension if new day in city and vehicles in alien dimension
-	if (day != state->gameTime.getDay())
+	if (day != state.gameTime.getDay())
 	{
-		for (auto &v : state->vehicles)
+		for (auto &v : state.vehicles)
 		{
-			if (state->current_city != v.second->city && v.second->owner == state->getPlayer())
+			if (state.current_city != v.second->city && v.second->owner == state.getPlayer())
 			{
 				switchDimension = true;
 				break;
@@ -2149,43 +2146,43 @@ void CityView::update()
 		}
 	}
 	// Switch dimension if no owned vehicle in alien dimension
-	if (state->current_city.id == "CITYMAP_ALIEN")
+	if (state.current_city.id == "CITYMAP_ALIEN")
 	{
 		switchDimension = true;
-		for (auto &v : state->vehicles)
+		for (auto &v : state.vehicles)
 		{
-			if (state->current_city == v.second->city && v.second->owner == state->getPlayer())
+			if (state.current_city == v.second->city && v.second->owner == state.getPlayer())
 			{
 				switchDimension = false;
 				break;
 			}
 			// Don't switch if UFOs crashing
-			if (v.second->owner == state->getAliens() && v.second->falling)
+			if (v.second->owner == state.getAliens() && v.second->falling)
 			{
 				switchDimension = false;
 				break;
 			}
 		}
 		// Don't switch if any projectiles exist
-		if (!state->current_city->projectiles.empty())
+		if (!state.current_city->projectiles.empty())
 		{
 			switchDimension = false;
 		}
 	}
-	if (DEBUG_SHOW_ALIEN ? state->current_city.id != "CITYMAP_ALIEN" : switchDimension)
+	if (DEBUG_SHOW_ALIEN ? state.current_city.id != "CITYMAP_ALIEN" : switchDimension)
 	{
 		setUpdateSpeed(CityUpdateSpeed::Speed1);
-		for (auto &newCity : state->cities)
+		for (auto &newCity : state.cities)
 		{
-			if (state->current_city != newCity.second)
+			if (state.current_city != newCity.second)
 			{
 				if (switchDimension)
 				{
-					state->setCurrentCity({state.get(), newCity.first});
+					state.setCurrentCity({&state, newCity.first});
 				}
 				else // Debug warping should not trigger research unlocks
 				{
-					state->current_city = {state.get(), newCity.first};
+					state.current_city = {&state, newCity.first};
 				}
 				auto cityView = mksp<CityView>(state);
 				cityView->DEBUG_SHOW_ALIEN = DEBUG_SHOW_ALIEN;
@@ -2213,7 +2210,7 @@ void CityView::update()
 
 	// Update time display
 	auto clockControl = baseForm->findControlTyped<Label>("CLOCK");
-	clockControl->setText(state->gameTime.getLongTimeString());
+	clockControl->setText(state.gameTime.getLongTimeString());
 
 	// Update base icons
 	if (activeTab == uiTabs[0])
@@ -2236,15 +2233,15 @@ void CityView::update()
 			vehiclesMIA.insert(i.vehicle);
 		}
 
-		for (const auto &v : state->vehicles)
+		for (const auto &v : state.vehicles)
 		{
 			const auto &vehicle = v.second;
 
-			const auto vehicleOwnerIsNotPlayer = vehicle->owner != state->getPlayer();
+			const auto vehicleOwnerIsNotPlayer = vehicle->owner != state.getPlayer();
 			const auto vehicleIsDead = v.second->isDead();
 
 			const auto vehicleIsFromAnotherDimensionAndMustBeIgnored =
-			    showCurrentDimensionVehicles && vehicle->city != state->current_city &&
+			    showCurrentDimensionVehicles && vehicle->city != state.current_city &&
 			    !vehicle->betweenDimensions;
 
 			if (vehicleOwnerIsNotPlayer || vehicleIsDead ||
@@ -2255,7 +2252,7 @@ void CityView::update()
 
 			currentVehicleIndex++;
 
-			const auto info = ControlGenerator::createVehicleInfo(*state, vehicle);
+			const auto info = ControlGenerator::createVehicleInfo(state, vehicle);
 			vehiclesMIA.erase(info.vehicle);
 
 			const bool redo = currentVehicleIndex >= ownedVehicleInfoList.size() ||
@@ -2266,7 +2263,7 @@ void CityView::update()
 				continue;
 			}
 
-			const auto control = ControlGenerator::createVehicleControl(*state, info);
+			const auto control = ControlGenerator::createVehicleControl(state, info);
 			control->addCallback(
 			    FormEventType::MouseDown,
 			    [this, vehicle](FormsEvent *e)
@@ -2298,7 +2295,7 @@ void CityView::update()
 					    }
 				    }
 				    handleClickedVehicle(
-				        StateRef<Vehicle>{state.get(), Vehicle::getId(*state, vehicle)},
+				        StateRef<Vehicle>{&state, Vehicle::getId(state, vehicle)},
 				        Event::isPressed(e->forms().MouseInfo.Button, Event::MouseButton::Right),
 				        CitySelectionState::Normal);
 			    });
@@ -2324,15 +2321,15 @@ void CityView::update()
 
 		// Update weapon controls and vehicle stance
 		std::vector<sp<VEquipment>> currentWeapons;
-		if (!state->current_city->cityViewSelectedOwnedVehicles.empty())
+		if (!state.current_city->cityViewSelectedOwnedVehicles.empty())
 		{
-			auto vehicle = state->current_city->cityViewSelectedOwnedVehicles.front();
+			auto vehicle = state.current_city->cityViewSelectedOwnedVehicles.front();
 			auto vehicleForm = this->uiTabs[1];
-			if (vehicle->owner != state->getPlayer())
+			if (vehicle->owner != state.getPlayer())
 			{
-				if (state->current_city->cityViewSelectedOwnedVehicles.size() > 1)
+				if (state.current_city->cityViewSelectedOwnedVehicles.size() > 1)
 				{
-					vehicle = *++state->current_city->cityViewSelectedOwnedVehicles.begin();
+					vehicle = *++state.current_city->cityViewSelectedOwnedVehicles.begin();
 				}
 				else
 				{
@@ -2494,14 +2491,14 @@ void CityView::update()
 		auto agentForm = uiTabs[2];
 		sp<Label> agentName = agentForm->findControlTyped<Label>("TEXT_AGENT_NAME");
 		sp<Label> agentAssignment = agentForm->findControlTyped<Label>("TEXT_AGENT_ASSIGNMENT");
-		if (state->current_city->cityViewSelectedSoldiers.empty())
+		if (state.current_city->cityViewSelectedSoldiers.empty())
 		{
 			agentName->setText("");
 			agentAssignment->setText("");
 		}
 		else
 		{
-			StateRef<Agent> agent = state->current_city->cityViewSelectedSoldiers.front();
+			StateRef<Agent> agent = state.current_city->cityViewSelectedSoldiers.front();
 			StateRef<Base> base;
 			if (agent->type->role == AgentType::Role::Soldier)
 			{
@@ -2579,7 +2576,7 @@ void CityView::update()
 						case TrainingAssignment::Physical:
 						{
 							UString efficiency = tr("Combat training (efficiency=");
-							auto usage = base->getUsage(*state, FacilityType::Capacity::Training);
+							auto usage = base->getUsage(state, FacilityType::Capacity::Training);
 							usage = (100.0f / std::max(100.f, usage)) * 100;
 							efficiency += format("%.f%%", usage) + UString(")");
 							agentAssignment->setText(efficiency);
@@ -2588,7 +2585,7 @@ void CityView::update()
 						case TrainingAssignment::Psi:
 						{
 							UString efficiency = tr("Psionic training (efficiency=");
-							auto usage = base->getUsage(*state, FacilityType::Capacity::Psi);
+							auto usage = base->getUsage(state, FacilityType::Capacity::Psi);
 							usage = (100.0f / std::max(100.f, usage)) * 100;
 							efficiency += format("%.f%%", usage) + UString(")");
 							agentAssignment->setText(efficiency);
@@ -2605,22 +2602,22 @@ void CityView::update()
 			agentsMIA.insert(i.agent);
 		}
 
-		for (auto &a : state->agents)
+		for (auto &a : state.agents)
 		{
 			auto agent = a.second;
-			if (agent->owner != state->getPlayer() || agent->isDead() ||
+			if (agent->owner != state.getPlayer() || agent->isDead() ||
 			    agent->type->role != AgentType::Role::Soldier)
 			{
 				continue;
 			}
 			currentAgentIndex++;
-			auto info = ControlGenerator::createAgentInfo(*state, agent);
+			auto info = ControlGenerator::createAgentInfo(state, agent);
 			agentsMIA.erase(info.agent);
 			bool redo = currentAgentIndex >= ownedSoldierInfoList.size() ||
 			            ownedSoldierInfoList[currentAgentIndex] != info;
 			if (redo)
 			{
-				auto control = ControlGenerator::createAgentControl(*state, info);
+				auto control = ControlGenerator::createAgentControl(state, info);
 				control->addCallback(
 				    FormEventType::MouseDown,
 				    [this, agent](FormsEvent *e)
@@ -2651,11 +2648,10 @@ void CityView::update()
 							    }
 						    }
 					    }
-					    handleClickedAgent(
-					        StateRef<Agent>{state.get(), Agent::getId(*state, agent)},
-					        Event::isPressed(e->forms().MouseInfo.Button,
-					                         Event::MouseButton::Right),
-					        CitySelectionState::Normal);
+					    handleClickedAgent(StateRef<Agent>{&state, Agent::getId(state, agent)},
+					                       Event::isPressed(e->forms().MouseInfo.Button,
+					                                        Event::MouseButton::Right),
+					                       CitySelectionState::Normal);
 				    });
 				if (currentAgentIndex >= ownedSoldierInfoList.size())
 				{
@@ -2683,20 +2679,20 @@ void CityView::update()
 		auto agentForm = uiTabs[3];
 		sp<Label> agentName = agentForm->findControlTyped<Label>("TEXT_AGENT_NAME");
 		sp<Label> agentAssignment = agentForm->findControlTyped<Label>("TEXT_AGENT_ASSIGNMENT");
-		if (state->current_city->cityViewSelectedBios.empty())
+		if (state.current_city->cityViewSelectedBios.empty())
 		{
 			agentName->setText("");
 			agentAssignment->setText("");
 		}
 		else
 		{
-			StateRef<Agent> agent = state->current_city->cityViewSelectedBios.front();
+			StateRef<Agent> agent = state.current_city->cityViewSelectedBios.front();
 			if (agent->type->role == AgentType::Role::BioChemist)
 			{
 				agentName->setText(agent->name);
 				if (agent->assigned_to_lab)
 				{
-					auto thisRef = StateRef<Agent>{state.get(), agent};
+					auto thisRef = StateRef<Agent>{&state, agent};
 					for (auto &fac : agent->homeBuilding->base->facilities)
 					{
 						if (!fac->lab)
@@ -2743,22 +2739,22 @@ void CityView::update()
 		{
 			agentsMIA.insert(i.agent);
 		}
-		for (auto &a : state->agents)
+		for (auto &a : state.agents)
 		{
 			auto agent = a.second;
-			if (agent->owner != state->getPlayer() || agent->isDead() ||
+			if (agent->owner != state.getPlayer() || agent->isDead() ||
 			    agent->type->role != AgentType::Role::BioChemist)
 			{
 				continue;
 			}
 			currentAgentIndex++;
-			auto info = ControlGenerator::createAgentInfo(*state, agent);
+			auto info = ControlGenerator::createAgentInfo(state, agent);
 			agentsMIA.erase(info.agent);
 			bool redo = currentAgentIndex >= ownedBioInfoList.size() ||
 			            ownedBioInfoList[currentAgentIndex] != info;
 			if (redo)
 			{
-				auto control = ControlGenerator::createAgentControl(*state, info);
+				auto control = ControlGenerator::createAgentControl(state, info);
 				control->addCallback(
 				    FormEventType::MouseDown,
 				    [this, agent](FormsEvent *e)
@@ -2779,11 +2775,10 @@ void CityView::update()
 							    }
 						    }
 					    }
-					    handleClickedAgent(
-					        StateRef<Agent>{state.get(), Agent::getId(*state, agent)},
-					        Event::isPressed(e->forms().MouseInfo.Button,
-					                         Event::MouseButton::Right),
-					        CitySelectionState::Normal);
+					    handleClickedAgent(StateRef<Agent>{&state, Agent::getId(state, agent)},
+					                       Event::isPressed(e->forms().MouseInfo.Button,
+					                                        Event::MouseButton::Right),
+					                       CitySelectionState::Normal);
 				    });
 				if (currentAgentIndex >= ownedBioInfoList.size())
 				{
@@ -2811,20 +2806,20 @@ void CityView::update()
 		auto agentForm = uiTabs[4];
 		sp<Label> agentName = agentForm->findControlTyped<Label>("TEXT_AGENT_NAME");
 		sp<Label> agentAssignment = agentForm->findControlTyped<Label>("TEXT_AGENT_ASSIGNMENT");
-		if (state->current_city->cityViewSelectedEngineers.empty())
+		if (state.current_city->cityViewSelectedEngineers.empty())
 		{
 			agentName->setText("");
 			agentAssignment->setText("");
 		}
 		else
 		{
-			StateRef<Agent> agent = state->current_city->cityViewSelectedEngineers.front();
+			StateRef<Agent> agent = state.current_city->cityViewSelectedEngineers.front();
 			if (agent->type->role == AgentType::Role::Engineer)
 			{
 				agentName->setText(agent->name);
 				if (agent->assigned_to_lab)
 				{
-					auto thisRef = StateRef<Agent>{state.get(), agent};
+					auto thisRef = StateRef<Agent>{&state, agent};
 					for (auto &fac : agent->homeBuilding->base->facilities)
 					{
 						if (!fac->lab)
@@ -2874,22 +2869,22 @@ void CityView::update()
 		{
 			agentsMIA.insert(i.agent);
 		}
-		for (auto &a : state->agents)
+		for (auto &a : state.agents)
 		{
 			auto agent = a.second;
-			if (agent->owner != state->getPlayer() || agent->isDead() ||
+			if (agent->owner != state.getPlayer() || agent->isDead() ||
 			    agent->type->role != AgentType::Role::Engineer)
 			{
 				continue;
 			}
 			currentAgentIndex++;
-			auto info = ControlGenerator::createAgentInfo(*state, agent);
+			auto info = ControlGenerator::createAgentInfo(state, agent);
 			agentsMIA.erase(info.agent);
 			bool redo = currentAgentIndex >= ownedEngineerInfoList.size() ||
 			            ownedEngineerInfoList[currentAgentIndex] != info;
 			if (redo)
 			{
-				auto control = ControlGenerator::createAgentControl(*state, info);
+				auto control = ControlGenerator::createAgentControl(state, info);
 				control->addCallback(
 				    FormEventType::MouseDown,
 				    [this, agent](FormsEvent *e)
@@ -2910,11 +2905,10 @@ void CityView::update()
 							    }
 						    }
 					    }
-					    handleClickedAgent(
-					        StateRef<Agent>{state.get(), Agent::getId(*state, agent)},
-					        Event::isPressed(e->forms().MouseInfo.Button,
-					                         Event::MouseButton::Right),
-					        CitySelectionState::Normal);
+					    handleClickedAgent(StateRef<Agent>{&state, Agent::getId(state, agent)},
+					                       Event::isPressed(e->forms().MouseInfo.Button,
+					                                        Event::MouseButton::Right),
+					                       CitySelectionState::Normal);
 				    });
 				if (currentAgentIndex >= ownedEngineerInfoList.size())
 				{
@@ -2942,20 +2936,20 @@ void CityView::update()
 		auto agentForm = uiTabs[5];
 		sp<Label> agentName = agentForm->findControlTyped<Label>("TEXT_AGENT_NAME");
 		sp<Label> agentAssignment = agentForm->findControlTyped<Label>("TEXT_AGENT_ASSIGNMENT");
-		if (state->current_city->cityViewSelectedPhysics.empty())
+		if (state.current_city->cityViewSelectedPhysics.empty())
 		{
 			agentName->setText("");
 			agentAssignment->setText("");
 		}
 		else
 		{
-			StateRef<Agent> agent = state->current_city->cityViewSelectedPhysics.front();
+			StateRef<Agent> agent = state.current_city->cityViewSelectedPhysics.front();
 			if (agent->type->role == AgentType::Role::Physicist)
 			{
 				agentName->setText(agent->name);
 				if (agent->assigned_to_lab)
 				{
-					auto thisRef = StateRef<Agent>{state.get(), agent};
+					auto thisRef = StateRef<Agent>{&state, agent};
 					for (auto &fac : agent->homeBuilding->base->facilities)
 					{
 						if (!fac->lab)
@@ -3002,22 +2996,22 @@ void CityView::update()
 		{
 			agentsMIA.insert(i.agent);
 		}
-		for (auto &a : state->agents)
+		for (auto &a : state.agents)
 		{
 			auto agent = a.second;
-			if (agent->owner != state->getPlayer() || agent->isDead() ||
+			if (agent->owner != state.getPlayer() || agent->isDead() ||
 			    agent->type->role != AgentType::Role::Physicist)
 			{
 				continue;
 			}
 			currentAgentIndex++;
-			auto info = ControlGenerator::createAgentInfo(*state, agent);
+			auto info = ControlGenerator::createAgentInfo(state, agent);
 			agentsMIA.erase(info.agent);
 			bool redo = currentAgentIndex >= ownedPhysicsInfoList.size() ||
 			            ownedPhysicsInfoList[currentAgentIndex] != info;
 			if (redo)
 			{
-				auto control = ControlGenerator::createAgentControl(*state, info);
+				auto control = ControlGenerator::createAgentControl(state, info);
 				control->addCallback(
 				    FormEventType::MouseDown,
 				    [this, agent](FormsEvent *e)
@@ -3038,11 +3032,10 @@ void CityView::update()
 							    }
 						    }
 					    }
-					    handleClickedAgent(
-					        StateRef<Agent>{state.get(), Agent::getId(*state, agent)},
-					        Event::isPressed(e->forms().MouseInfo.Button,
-					                         Event::MouseButton::Right),
-					        CitySelectionState::Normal);
+					    handleClickedAgent(StateRef<Agent>{&state, Agent::getId(state, agent)},
+					                       Event::isPressed(e->forms().MouseInfo.Button,
+					                                        Event::MouseButton::Right),
+					                       CitySelectionState::Normal);
 				    });
 				if (currentAgentIndex >= ownedPhysicsInfoList.size())
 				{
@@ -3067,11 +3060,10 @@ void CityView::update()
 	{
 		auto hostileVehicleList = uiTabs[6]->findControlTyped<ListBox>("HOSTILE_VEHICLE_LIST");
 
-		if (!state->current_city->cityViewSelectedOtherVehicles.empty())
+		if (!state.current_city->cityViewSelectedOtherVehicles.empty())
 		{
-			const auto &selectedVehicle =
-			    state->current_city->cityViewSelectedOtherVehicles.front();
-			if (selectedVehicle->owner == state->getPlayer())
+			const auto &selectedVehicle = state.current_city->cityViewSelectedOtherVehicles.front();
+			if (selectedVehicle->owner == state.getPlayer())
 			{
 				uiTabs[6]->findControlTyped<Label>("TEXT_VEHICLE_NAME")->setText("");
 				uiTabs[6]->findControlTyped<Label>("TEXT_VEHICLE_OWNER")->setText("");
@@ -3079,7 +3071,7 @@ void CityView::update()
 			else
 			{
 				const auto selectedVehicleIsUnresearchedUfo =
-				    selectedVehicle->owner == state->getAliens() &&
+				    selectedVehicle->owner == state.getAliens() &&
 				    !selectedVehicle->type->ufopaedia_entry->dependency.satisfied();
 
 				const auto vehicleDisplayName =
@@ -3105,27 +3097,25 @@ void CityView::update()
 		{
 			vehiclesMIA.insert(i.vehicle);
 		}
-		for (const auto &v : state->vehicles)
+		for (const auto &v : state.vehicles)
 		{
 			const auto &vehicle = v.second;
-			if (!v.second->tileObject || v.second->city != state->current_city ||
-			    v.second->isDead())
+			if (!v.second->tileObject || v.second->city != state.current_city || v.second->isDead())
 			{
 				continue;
 			}
 
 			// Show selected non-player vehicle in list of hostile vehicles
-			if (state->getPlayer()->isRelatedTo(vehicle->owner) !=
-			        Organisation::Relation::Hostile &&
-			    (vehicle->owner == state->getPlayer() ||
-			     state->current_city->cityViewSelectedOtherVehicles.empty() ||
-			     state->current_city->cityViewSelectedOtherVehicles.front() != v.second))
+			if (state.getPlayer()->isRelatedTo(vehicle->owner) != Organisation::Relation::Hostile &&
+			    (vehicle->owner == state.getPlayer() ||
+			     state.current_city->cityViewSelectedOtherVehicles.empty() ||
+			     state.current_city->cityViewSelectedOtherVehicles.front() != v.second))
 			{
 				continue;
 			}
 
 			currentVehicleIndex++;
-			const auto info = ControlGenerator::createVehicleInfo(*state, vehicle);
+			const auto info = ControlGenerator::createVehicleInfo(state, vehicle);
 			vehiclesMIA.erase(info.vehicle);
 			const auto redo = currentVehicleIndex >= hostileVehicleInfoList.size() ||
 			                  hostileVehicleInfoList[currentVehicleIndex] != info;
@@ -3133,7 +3123,7 @@ void CityView::update()
 			if (!redo)
 				continue;
 
-			auto control = ControlGenerator::createVehicleControl(*state, info);
+			auto control = ControlGenerator::createVehicleControl(state, info);
 			control->addCallback(
 			    FormEventType::MouseDown,
 			    [this, vehicle](FormsEvent *e)
@@ -3166,7 +3156,7 @@ void CityView::update()
 				    //	}
 				    //}
 				    handleClickedVehicle(
-				        StateRef<Vehicle>{state.get(), Vehicle::getId(*state, vehicle)},
+				        StateRef<Vehicle>{&state, Vehicle::getId(state, vehicle)},
 				        Event::isPressed(e->forms().MouseInfo.Button, Event::MouseButton::Right),
 				        CitySelectionState::Normal);
 			    });
@@ -3194,14 +3184,14 @@ void CityView::update()
 	{
 		auto orgList = uiTabs[7]->findControlTyped<ListBox>("ORGANISATION_LIST");
 
-		auto selectedOrg = state->current_city->cityViewSelectedOrganisation;
-		if (selectedOrg && (state->current_city->cityViewOrgButtonIndex == 0 ||
-		                    static_cast<int>(selectedOrg->isRelatedTo(state->getPlayer())) ==
-		                        state->current_city->cityViewOrgButtonIndex - 1))
+		auto selectedOrg = state.current_city->cityViewSelectedOrganisation;
+		if (selectedOrg && (state.current_city->cityViewOrgButtonIndex == 0 ||
+		                    static_cast<int>(selectedOrg->isRelatedTo(state.getPlayer())) ==
+		                        state.current_city->cityViewOrgButtonIndex - 1))
 		{
 			uiTabs[7]->findControlTyped<Label>("TEXT_ORG_NAME")->setText(tr(selectedOrg->name));
 			UString relation = "";
-			switch (selectedOrg->isRelatedTo(state->getPlayer()))
+			switch (selectedOrg->isRelatedTo(state.getPlayer()))
 			{
 				case Organisation::Relation::Allied:
 					relation += tr(": allied with:");
@@ -3219,7 +3209,7 @@ void CityView::update()
 					relation += tr(": hostile towards:");
 					break;
 			}
-			relation += UString(" ") + tr(state->getPlayer()->name);
+			relation += UString(" ") + tr(state.getPlayer()->name);
 			uiTabs[7]->findControlTyped<Label>("TEXT_ORG_RELATION")->setText(relation);
 		}
 		else
@@ -3234,31 +3224,30 @@ void CityView::update()
 		{
 			orgsMIA.insert(i.organisation);
 		}
-		for (auto &o : state->organisations)
+		for (auto &o : state.organisations)
 		{
 			auto org = o.second;
-			if (state->getCivilian() == org || state->getAliens() == org ||
-			    state->getPlayer() == org)
+			if (state.getCivilian() == org || state.getAliens() == org || state.getPlayer() == org)
 			{
 				continue;
 			}
 			auto rel =
-			    state->current_city->cityViewOrgButtonIndex == 0
+			    state.current_city->cityViewOrgButtonIndex == 0
 			        ? (Organisation::Relation)0
-			        : (Organisation::Relation)(state->current_city->cityViewOrgButtonIndex - 1);
-			if (state->current_city->cityViewOrgButtonIndex != 0 &&
-			    o.second->isRelatedTo(state->getPlayer()) != rel)
+			        : (Organisation::Relation)(state.current_city->cityViewOrgButtonIndex - 1);
+			if (state.current_city->cityViewOrgButtonIndex != 0 &&
+			    o.second->isRelatedTo(state.getPlayer()) != rel)
 			{
 				continue;
 			}
 			currentOrgIndex++;
-			auto info = ControlGenerator::createOrganisationInfo(*state, org);
+			auto info = ControlGenerator::createOrganisationInfo(state, org);
 			orgsMIA.erase(info.organisation);
 			bool redo = currentOrgIndex >= organisationInfoList.size() ||
 			            organisationInfoList[currentOrgIndex] != info;
 			if (redo)
 			{
-				auto control = ControlGenerator::createOrganisationControl(*state, info);
+				auto control = ControlGenerator::createOrganisationControl(state, info);
 				control->addCallback(FormEventType::MouseDown,
 				                     [this, org](FormsEvent *e)
 				                     {
@@ -3291,7 +3280,7 @@ void CityView::update()
 					                     //	}
 					                     //}
 					                     handleClickedOrganisation(
-					                         StateRef<Organisation>{state.get(), org->id},
+					                         StateRef<Organisation>{&state, org->id},
 					                         Event::isPressed(e->forms().MouseInfo.Button,
 					                                          Event::MouseButton::Right),
 					                         CitySelectionState::Normal);
@@ -3316,7 +3305,7 @@ void CityView::update()
 	else
 	{
 		// Clear org selection on exit
-		state->current_city->cityViewSelectedOrganisation.clear();
+		state.current_city->cityViewSelectedOrganisation.clear();
 	}
 
 	baseForm->update();
@@ -3326,10 +3315,10 @@ void CityView::update()
 	// this frame
 	if (this->followVehicle && this->updateSpeed != CityUpdateSpeed::Pause)
 	{
-		if (activeTab == uiTabs[1] && !state->current_city->cityViewSelectedOwnedVehicles.empty())
+		if (activeTab == uiTabs[1] && !state.current_city->cityViewSelectedOwnedVehicles.empty())
 		{
-			auto v = state->current_city->cityViewSelectedOwnedVehicles.front();
-			if (v->city == state->current_city)
+			auto v = state.current_city->cityViewSelectedOwnedVehicles.front();
+			if (v->city == state.current_city)
 			{
 				// Don't follow if vehicle is in building
 				if (!v->currentBuilding)
@@ -3338,11 +3327,11 @@ void CityView::update()
 				}
 			}
 		}
-		else if (activeTab == uiTabs[2] && !state->current_city->cityViewSelectedSoldiers.empty())
+		else if (activeTab == uiTabs[2] && !state.current_city->cityViewSelectedSoldiers.empty())
 		{
-			auto a = state->current_city->cityViewSelectedSoldiers.front();
+			auto a = state.current_city->cityViewSelectedSoldiers.front();
 
-			if (a->city == state->current_city)
+			if (a->city == state.current_city)
 			{
 				if (a->currentVehicle)
 				{
@@ -3354,11 +3343,11 @@ void CityView::update()
 				}
 			}
 		}
-		else if (!state->current_city->cityViewSelectedOtherVehicles.empty() &&
+		else if (!state.current_city->cityViewSelectedOtherVehicles.empty() &&
 		         activeTab == uiTabs[6])
 		{
-			auto v = state->current_city->cityViewSelectedOtherVehicles.front();
-			if (v->city == state->current_city)
+			auto v = state.current_city->cityViewSelectedOtherVehicles.front();
+			if (v->city == state.current_city)
 			{
 				// Don't follow if vehicle is in building
 				if (!v->currentBuilding)
@@ -3369,7 +3358,7 @@ void CityView::update()
 		}
 	}
 	// Store screen center for serialisation
-	state->current_city->cityViewScreenCenter = centerPos;
+	state.current_city->cityViewScreenCenter = centerPos;
 }
 
 void CityView::initiateUfoMission(StateRef<Vehicle> ufo, StateRef<Vehicle> playerCraft)
@@ -3381,7 +3370,7 @@ void CityView::initiateUfoMission(StateRef<Vehicle> ufo, StateRef<Vehicle> playe
 	                                             loadBattleVehicle(state, ufo, playerCraft))});
 }
 
-void CityView::initiateBuildingMission(sp<GameState> state, StateRef<Building> building,
+void CityView::initiateBuildingMission(GameState &state, StateRef<Building> building,
                                        std::list<StateRef<Agent>> agents)
 {
 	bool inBuilding = true;
@@ -3390,7 +3379,7 @@ void CityView::initiateBuildingMission(sp<GameState> state, StateRef<Building> b
 	fw().stageQueueCommand(
 	    {StageCmd::Command::REPLACEALL,
 	     mksp<BattleBriefing>(
-	         state, building->owner, Building::getId(*state, building), inBuilding, raid,
+	         state, building->owner, Building::getId(state, building), inBuilding, raid,
 	         loadBattleBuilding(state, building, hotseat, raid, agents, nullptr))});
 }
 
@@ -3486,14 +3475,14 @@ bool CityView::handleKeyDown(Event *e)
 					if (modifierLShift)
 					{
 						LogInfo("Single Level Debug Repair");
-						state->current_city->repairScenery(*state, true);
+						state.current_city->repairScenery(state, true);
 						return true;
 					}
 					else
 					{
 						LogInfo("Debug Repair");
 						std::set<sp<Scenery>> stuffToRepair;
-						for (auto &s : state->current_city->scenery)
+						for (auto &s : state.current_city->scenery)
 						{
 							if (s->damaged || !s->isAlive())
 							{
@@ -3502,11 +3491,11 @@ bool CityView::handleKeyDown(Event *e)
 						}
 						LogInfo("Repairing %u tiles out of %u",
 						        static_cast<unsigned>(stuffToRepair.size()),
-						        static_cast<unsigned>(state->current_city->scenery.size()));
+						        static_cast<unsigned>(state.current_city->scenery.size()));
 
 						for (auto &s : stuffToRepair)
 						{
-							s->repair(*state);
+							s->repair(state);
 						}
 						return true;
 					}
@@ -3514,9 +3503,9 @@ bool CityView::handleKeyDown(Event *e)
 				case SDLK_x:
 				{
 					LogWarning("Crashing!");
-					for (auto &v : state->vehicles)
+					for (auto &v : state.vehicles)
 					{
-						if (v.second->currentBuilding || v.second->city != state->current_city ||
+						if (v.second->currentBuilding || v.second->city != state.current_city ||
 						    v.second->crashed || v.second->falling || !v.second->tileObject)
 						{
 							continue;
@@ -3526,11 +3515,11 @@ bool CityView::handleKeyDown(Event *e)
 						                       : v.second->getMaxHealth() / 4;
 						if (v.second->type->type == VehicleType::Type::UFO)
 						{
-							v.second->crash(*state, nullptr);
+							v.second->crash(state, nullptr);
 						}
 						else
 						{
-							v.second->startFalling(*state);
+							v.second->startFalling(state);
 						}
 					}
 					return true;
@@ -3543,24 +3532,24 @@ bool CityView::handleKeyDown(Event *e)
 
 					auto pos = this->centerPos;
 
-					for (const auto &type : state->vehicle_types)
+					for (const auto &type : state.vehicle_types)
 					{
 						if (type.second->crashed_sprite)
 						{
-							validTypes.emplace_back(state.get(), type.second);
+							validTypes.emplace_back(&state, type.second);
 							LogWarning("Valid UFO type: %s", type.second->name);
 						}
 					}
 
 					for (int i = 0; i < 3; i++)
 					{
-						auto type = pickRandom(state->rng, validTypes);
+						auto type = pickRandom(state.rng, validTypes);
 						LogWarning("Crashing %s", type->name);
 						pos.z = 9 + i;
-						auto ufo = state->current_city->placeVehicle(*state, {state.get(), type},
-						                                             state->getAliens(), pos);
-						ufo->crash(*state, nullptr);
-						ufo->applyDamage(*state, 1, 0);
+						auto ufo = state.current_city->placeVehicle(state, {&state, type},
+						                                            state.getAliens(), pos);
+						ufo->crash(state, nullptr);
+						ufo->applyDamage(state, 1, 0);
 					}
 
 					return true;
@@ -3569,16 +3558,16 @@ bool CityView::handleKeyDown(Event *e)
 				{
 					LogWarning("All you ever want...");
 
-					for (auto &e : state->vehicle_equipment)
+					for (auto &e : state.vehicle_equipment)
 					{
 						if (e.second->store_space > 0)
 						{
-							state->current_base->inventoryVehicleEquipment[e.first]++;
+							state.current_base->inventoryVehicleEquipment[e.first]++;
 						}
 					}
-					for (auto &e : state->vehicle_ammo)
+					for (auto &e : state.vehicle_ammo)
 					{
-						state->current_base->inventoryVehicleAmmo[e.first] += 10;
+						state.current_base->inventoryVehicleAmmo[e.first] += 10;
 					}
 
 					return true;
@@ -3586,25 +3575,25 @@ bool CityView::handleKeyDown(Event *e)
 				case SDLK_b:
 				{
 					LogWarning("Spawning base defense mission");
-					Vec3<float> pos = {state->current_base->building->bounds.p0.x - 1,
-					                   state->current_base->building->bounds.p0.y - 1, 10};
-					auto v = state->cities["CITYMAP_HUMAN"]->placeVehicle(
-					    *state, StateRef<VehicleType>{state.get(), "VEHICLETYPE_ALIEN_TRANSPORTER"},
-					    state->getAliens(), pos);
-					v->setMission(*state, VehicleMission::infiltrateOrSubvertBuilding(
-					                          *state, *v, false, state->current_base->building));
+					Vec3<float> pos = {state.current_base->building->bounds.p0.x - 1,
+					                   state.current_base->building->bounds.p0.y - 1, 10};
+					auto v = state.cities["CITYMAP_HUMAN"]->placeVehicle(
+					    state, StateRef<VehicleType>{&state, "VEHICLETYPE_ALIEN_TRANSPORTER"},
+					    state.getAliens(), pos);
+					v->setMission(state, VehicleMission::infiltrateOrSubvertBuilding(
+					                         state, *v, false, state.current_base->building));
 					return true;
 				}
 				case SDLK_MINUS:
 				{
 					LogWarning("Destroying selected vehicles...");
-					for (auto &v : state->current_city->cityViewSelectedOwnedVehicles)
+					for (auto &v : state.current_city->cityViewSelectedOwnedVehicles)
 					{
-						v->die(*state);
+						v->die(state);
 					}
-					for (auto &o : state->current_city->cityViewSelectedOtherVehicles)
+					for (auto &o : state.current_city->cityViewSelectedOtherVehicles)
 					{
-						o->die(*state);
+						o->die(state);
 					}
 
 					return true;
@@ -3759,7 +3748,7 @@ bool CityView::handleMouseDown(Event *e)
 		    Vec2<float>{e->mouse().X, e->mouse().Y} - screenOffset, 12.99f);
 		auto clickBottom =
 		    this->screenToTileCoords(Vec2<float>{e->mouse().X, e->mouse().Y} - screenOffset, 0.0f);
-		auto collision = state->current_city->map->findCollision(
+		auto collision = state.current_city->map->findCollision(
 		    clickTop, clickBottom, sceneryPortalVehicleSet, nullptr, true);
 
 		auto position = collision.position;
@@ -3805,7 +3794,7 @@ bool CityView::handleMouseDown(Event *e)
 					           (int)scenery->type->tube[1], (int)scenery->type->tube[2],
 					           (int)scenery->type->tube[3], (int)scenery->type->tube[4],
 					           (int)scenery->type->tube[5]);
-					auto &map = *state->current_city->map;
+					auto &map = *state.current_city->map;
 					for (auto &p : scenery->supportedBy)
 					{
 						debug += format("\nCan be supported by %s", p);
@@ -3852,11 +3841,11 @@ bool CityView::handleMouseDown(Event *e)
 					{
 						if (building && buttonPressed == Event::MouseButton::Right)
 						{
-							building->collapse(*state);
+							building->collapse(state);
 						}
 						else
 						{
-							scenery->die(*state);
+							scenery->die(state);
 						}
 						return true;
 					}
@@ -3879,7 +3868,7 @@ bool CityView::handleMouseDown(Event *e)
 					{
 						if (buttonPressed == Event::MouseButton::Right)
 						{
-							vehicle->die(*state);
+							vehicle->die(state);
 						}
 						else if (!vehicle->falling && !vehicle->crashed)
 						{
@@ -3888,11 +3877,11 @@ bool CityView::handleMouseDown(Event *e)
 							                      : vehicle->getMaxHealth() / 4;
 							if (vehicle->type->type == VehicleType::Type::UFO)
 							{
-								vehicle->crash(*state, nullptr);
+								vehicle->crash(state, nullptr);
 							}
 							else
 							{
-								vehicle->startFalling(*state);
+								vehicle->startFalling(state);
 							}
 						}
 						return true;
@@ -3908,7 +3897,7 @@ bool CityView::handleMouseDown(Event *e)
 			// Find vehicle click if no vehicle
 			if (!vehicle)
 			{
-				auto collisionVehicle = state->current_city->map->findCollision(
+				auto collisionVehicle = state.current_city->map->findCollision(
 				    clickTop, clickBottom, vehicleSet, nullptr, true);
 				if (collisionVehicle)
 				{
@@ -3928,8 +3917,8 @@ bool CityView::handleMouseDown(Event *e)
 			}
 		}
 
-		auto projCollision = state->current_city->map->findCollision(clickTop, clickBottom,
-		                                                             projectileSet, nullptr, true);
+		auto projCollision = state.current_city->map->findCollision(clickTop, clickBottom,
+		                                                            projectileSet, nullptr, true);
 		if (projCollision)
 		{
 			projectile =
@@ -3961,9 +3950,9 @@ bool CityView::handleMouseDown(Event *e)
 			}
 			// Click on vehicle
 			if (vehicle &&
-			    handleClickedVehicle(
-			        StateRef<Vehicle>{state.get(), Vehicle::getId(*state, vehicle)},
-			        buttonPressed == Event::MouseButton::Right, selectionState, (bool)scenery))
+			    handleClickedVehicle(StateRef<Vehicle>{&state, Vehicle::getId(state, vehicle)},
+			                         buttonPressed == Event::MouseButton::Right, selectionState,
+			                         (bool)scenery))
 			{
 				return true;
 			}
@@ -4022,7 +4011,7 @@ bool CityView::handleGameStateEvent(Event *e)
 	}
 	if (!gameEvent->message().empty())
 	{
-		state->logEvent(gameEvent);
+		state.logEvent(gameEvent);
 		baseForm->findControlTyped<Ticker>("NEWS_TICKER")->addMessage(gameEvent->message());
 		switch (gameEvent->type)
 		{
@@ -4063,7 +4052,7 @@ bool CityView::handleGameStateEvent(Event *e)
 					    // pending and will not try to ferry this alien cargo again.
 					    missions.clear();
 					    missions.push_back(
-					        VehicleMission::offerService(*state, *vehicle, currentBuilding));
+					        VehicleMission::offerService(state, *vehicle, currentBuilding));
 				    });
 
 				// Destroy all aliens in vehicle
@@ -4156,10 +4145,10 @@ bool CityView::handleGameStateEvent(Event *e)
 			auto gameRecoveryEvent = dynamic_cast<GameVehicleEvent *>(e);
 			LogWarning("Load unmanned ufo loot on craft!");
 			// Remove ufo
-			gameRecoveryEvent->vehicle->die(*state, true);
+			gameRecoveryEvent->vehicle->die(state, true);
 			// Return to base
 			gameRecoveryEvent->actor->setMission(
-			    *state, VehicleMission::gotoBuilding(*state, *gameRecoveryEvent->actor));
+			    state, VehicleMission::gotoBuilding(state, *gameRecoveryEvent->actor));
 			break;
 		}
 		case GameEventType::AlienSpotted:
@@ -4169,10 +4158,10 @@ bool CityView::handleGameStateEvent(Event *e)
 			{
 				LogError("Invalid spotted event");
 			}
-			state->totalScore.alienIncidents += ALIEN_INCIDENT_SCORE;
-			state->weekScore.alienIncidents += ALIEN_INCIDENT_SCORE;
+			state.totalScore.alienIncidents += ALIEN_INCIDENT_SCORE;
+			state.weekScore.alienIncidents += ALIEN_INCIDENT_SCORE;
 			fw().soundBackend->playSample(
-			    pickRandom(state->rng, state->city_common_sample_list->alertSounds));
+			    pickRandom(state.rng, state.city_common_sample_list->alertSounds));
 			zoomLastEvent();
 			setUpdateSpeed(CityUpdateSpeed::Speed1);
 			fw().stageQueueCommand(
@@ -4186,7 +4175,7 @@ bool CityView::handleGameStateEvent(Event *e)
 			{
 				LogError("Invalid investigation event");
 			}
-			auto game_state = this->state;
+			auto &game_state = this->state;
 			auto building = ev->building;
 
 			// the player may have called an alien extermination before all units arrive
@@ -4199,11 +4188,11 @@ bool CityView::handleGameStateEvent(Event *e)
 			std::list<StateRef<Agent>> agents;
 			for (auto v : building->currentVehicles)
 			{
-				if (v->owner == state->getPlayer())
+				if (v->owner == state.getPlayer())
 				{
 					for (auto a : v->currentAgents)
 					{
-						if (a->owner == state->getPlayer())
+						if (a->owner == state.getPlayer())
 						{
 							agents.push_back(a);
 						}
@@ -4212,7 +4201,7 @@ bool CityView::handleGameStateEvent(Event *e)
 			}
 			for (auto a : building->currentAgents)
 			{
-				if (a->owner == state->getPlayer())
+				if (a->owner == state.getPlayer())
 				{
 					agents.push_back(a);
 				}
@@ -4233,7 +4222,7 @@ bool CityView::handleGameStateEvent(Event *e)
 			                        mksp<MessageBox>(
 			                            title, message, MessageBox::ButtonOptions::YesNo,
 			                            // "Yes" callback
-			                            [this, game_state, building, agents]()
+			                            [this, &game_state, building, agents]()
 			                            { initiateBuildingMission(game_state, building, agents); },
 			                            // "No" callback
 			                            [this]() { setUpdateSpeed(CityUpdateSpeed::Pause); })});
@@ -4246,11 +4235,11 @@ bool CityView::handleGameStateEvent(Event *e)
 			{
 				LogError("Invalid research event");
 			}
-			state->totalScore.researchCompleted += ev->topic->score;
-			state->weekScore.researchCompleted += ev->topic->score;
-			this->state->research.resortTopicList();
+			state.totalScore.researchCompleted += ev->topic->score;
+			state.weekScore.researchCompleted += ev->topic->score;
+			this->state.research.resortTopicList();
 			sp<Facility> lab_facility;
-			for (auto &base : state->player_bases)
+			for (auto &base : state.player_bases)
 			{
 				for (auto &facility : base.second->facilities)
 				{
@@ -4267,12 +4256,12 @@ bool CityView::handleGameStateEvent(Event *e)
 			{
 				LogError("No facilities matching lab");
 			}
-			auto game_state = this->state;
+			auto &game_state = this->state;
 			auto ufopaedia_entry = ev->topic->ufopaedia_entry;
 			sp<UfopaediaCategory> ufopaedia_category;
 			if (ufopaedia_entry)
 			{
-				for (auto &cat : this->state->ufopaedia)
+				for (auto &cat : this->state.ufopaedia)
 				{
 					for (auto &entry : cat.second->entries)
 					{
@@ -4297,7 +4286,7 @@ bool CityView::handleGameStateEvent(Event *e)
 			           tr("Do you wish to view the UFOpaedia report?")),
 			    MessageBox::ButtonOptions::YesNo,
 			    // "Yes" callback
-			    [game_state, lab_facility, ufopaedia_category, ufopaedia_entry]()
+			    [&game_state, lab_facility, ufopaedia_category, ufopaedia_entry]()
 			    {
 				    fw().stageQueueCommand(
 				        {StageCmd::Command::PUSH, mksp<ResearchScreen>(game_state, lab_facility)});
@@ -4310,7 +4299,7 @@ bool CityView::handleGameStateEvent(Event *e)
 				    }
 			    },
 			    // "No" callback
-			    [game_state, lab_facility]()
+			    [&game_state, lab_facility]()
 			    {
 				    fw().stageQueueCommand(
 				        {StageCmd::Command::PUSH, mksp<ResearchScreen>(game_state, lab_facility)});
@@ -4327,7 +4316,7 @@ bool CityView::handleGameStateEvent(Event *e)
 			}
 			sp<Facility> lab_facility;
 			sp<Base> lab_base;
-			for (auto &base : state->player_bases)
+			for (auto &base : state.player_bases)
 			{
 				for (auto &facility : base.second->facilities)
 				{
@@ -4345,22 +4334,22 @@ bool CityView::handleGameStateEvent(Event *e)
 			{
 				LogError("No facilities matching lab");
 			}
-			auto game_state = this->state;
+			auto &game_state = this->state;
 
 			UString item_name;
 			switch (ev->topic->item_type)
 			{
 				case ResearchTopic::ItemType::VehicleEquipment:
-					item_name = game_state->vehicle_equipment[ev->topic->itemId]->name;
+					item_name = game_state.vehicle_equipment[ev->topic->itemId]->name;
 					break;
 				case ResearchTopic::ItemType::VehicleEquipmentAmmo:
-					item_name = game_state->vehicle_ammo[ev->topic->itemId]->name;
+					item_name = game_state.vehicle_ammo[ev->topic->itemId]->name;
 					break;
 				case ResearchTopic::ItemType::AgentEquipment:
-					item_name = game_state->agent_equipment[ev->topic->itemId]->name;
+					item_name = game_state.agent_equipment[ev->topic->itemId]->name;
 					break;
 				case ResearchTopic::ItemType::Craft:
-					item_name = game_state->vehicle_types[ev->topic->itemId]->name;
+					item_name = game_state.vehicle_types[ev->topic->itemId]->name;
 					break;
 			}
 			setUpdateSpeed(CityUpdateSpeed::Pause);
@@ -4370,7 +4359,7 @@ bool CityView::handleGameStateEvent(Event *e)
 			           ev->goal, tr("Do you wish to reasign the Workshop?")),
 			    MessageBox::ButtonOptions::YesNo,
 			    // Yes callback
-			    [game_state, lab_facility]()
+			    [&game_state, lab_facility]()
 			    {
 				    fw().stageQueueCommand(
 				        {StageCmd::Command::PUSH, mksp<ResearchScreen>(game_state, lab_facility)});
@@ -4387,7 +4376,7 @@ bool CityView::handleGameStateEvent(Event *e)
 			}
 			sp<Facility> lab_facility;
 			sp<Base> lab_base;
-			for (auto &base : state->player_bases)
+			for (auto &base : state.player_bases)
 			{
 				for (auto &facility : base.second->facilities)
 				{
@@ -4405,22 +4394,22 @@ bool CityView::handleGameStateEvent(Event *e)
 			{
 				LogError("No facilities matching lab");
 			}
-			auto game_state = this->state;
+			auto &game_state = this->state;
 
 			UString item_name;
 			switch (ev->topic->item_type)
 			{
 				case ResearchTopic::ItemType::VehicleEquipment:
-					item_name = game_state->vehicle_equipment[ev->topic->itemId]->name;
+					item_name = game_state.vehicle_equipment[ev->topic->itemId]->name;
 					break;
 				case ResearchTopic::ItemType::VehicleEquipmentAmmo:
-					item_name = game_state->vehicle_ammo[ev->topic->itemId]->name;
+					item_name = game_state.vehicle_ammo[ev->topic->itemId]->name;
 					break;
 				case ResearchTopic::ItemType::AgentEquipment:
-					item_name = game_state->agent_equipment[ev->topic->itemId]->name;
+					item_name = game_state.agent_equipment[ev->topic->itemId]->name;
 					break;
 				case ResearchTopic::ItemType::Craft:
-					item_name = game_state->vehicle_types[ev->topic->itemId]->name;
+					item_name = game_state.vehicle_types[ev->topic->itemId]->name;
 					break;
 			}
 			setUpdateSpeed(CityUpdateSpeed::Pause);
@@ -4477,18 +4466,18 @@ bool CityView::handleGameStateEvent(Event *e)
 
 void CityView::updateSelectedUnits()
 {
-	auto o = state->getPlayer();
+	auto o = state.getPlayer();
 	bool foundOwned = false;
 	bool foundOwnedVehicle = false;
 	// Vehicles
 	{
-		auto it = state->current_city->cityViewSelectedOwnedVehicles.begin();
-		while (it != state->current_city->cityViewSelectedOwnedVehicles.end())
+		auto it = state.current_city->cityViewSelectedOwnedVehicles.begin();
+		while (it != state.current_city->cityViewSelectedOwnedVehicles.end())
 		{
 			auto v = *it;
-			if (!v || v->isDead() || v->city != state->current_city)
+			if (!v || v->isDead() || v->city != state.current_city)
 			{
-				it = state->current_city->cityViewSelectedOwnedVehicles.erase(it);
+				it = state.current_city->cityViewSelectedOwnedVehicles.erase(it);
 			}
 			else
 			{
@@ -4503,13 +4492,13 @@ void CityView::updateSelectedUnits()
 	}
 	// Agents
 	{
-		auto itSold = state->current_city->cityViewSelectedSoldiers.begin();
-		while (itSold != state->current_city->cityViewSelectedSoldiers.end())
+		auto itSold = state.current_city->cityViewSelectedSoldiers.begin();
+		while (itSold != state.current_city->cityViewSelectedSoldiers.end())
 		{
 			auto a = *itSold;
 			if (!a || a->isDead())
 			{
-				itSold = state->current_city->cityViewSelectedSoldiers.erase(itSold);
+				itSold = state.current_city->cityViewSelectedSoldiers.erase(itSold);
 			}
 			else
 			{
@@ -4520,13 +4509,13 @@ void CityView::updateSelectedUnits()
 				itSold++;
 			}
 		}
-		auto itBio = state->current_city->cityViewSelectedBios.begin();
-		while (itBio != state->current_city->cityViewSelectedBios.end())
+		auto itBio = state.current_city->cityViewSelectedBios.begin();
+		while (itBio != state.current_city->cityViewSelectedBios.end())
 		{
 			auto a = *itBio;
 			if (!a || a->isDead())
 			{
-				itBio = state->current_city->cityViewSelectedBios.erase(itBio);
+				itBio = state.current_city->cityViewSelectedBios.erase(itBio);
 			}
 			else
 			{
@@ -4537,13 +4526,13 @@ void CityView::updateSelectedUnits()
 				itBio++;
 			}
 		}
-		auto itPhy = state->current_city->cityViewSelectedPhysics.begin();
-		while (itPhy != state->current_city->cityViewSelectedPhysics.end())
+		auto itPhy = state.current_city->cityViewSelectedPhysics.begin();
+		while (itPhy != state.current_city->cityViewSelectedPhysics.end())
 		{
 			auto a = *itPhy;
 			if (!a || a->isDead())
 			{
-				itPhy = state->current_city->cityViewSelectedPhysics.erase(itPhy);
+				itPhy = state.current_city->cityViewSelectedPhysics.erase(itPhy);
 			}
 			else
 			{
@@ -4554,13 +4543,13 @@ void CityView::updateSelectedUnits()
 				itPhy++;
 			}
 		}
-		auto itEng = state->current_city->cityViewSelectedEngineers.begin();
-		while (itEng != state->current_city->cityViewSelectedEngineers.end())
+		auto itEng = state.current_city->cityViewSelectedEngineers.begin();
+		while (itEng != state.current_city->cityViewSelectedEngineers.end())
 		{
 			auto a = *itEng;
 			if (!a || a->isDead())
 			{
-				itEng = state->current_city->cityViewSelectedEngineers.erase(itEng);
+				itEng = state.current_city->cityViewSelectedEngineers.erase(itEng);
 			}
 			else
 			{
@@ -4619,9 +4608,9 @@ void CityView::setUpdateSpeed(CityUpdateSpeed updateSpeed)
 
 void CityView::zoomLastEvent()
 {
-	if (!state->messages.empty())
+	if (!state.messages.empty())
 	{
-		auto message = state->messages.back();
+		auto message = state.messages.back();
 		if (message.location != EventMessage::NO_LOCATION)
 		{
 			setScreenCenterTile(message.location);
@@ -4657,7 +4646,7 @@ void CityView::setSelectionState(CitySelectionState selectionState)
 			UString message;
 			if (activeTab == uiTabs[1])
 			{
-				if (state->current_city->cityViewSelectedOwnedVehicles.size() > 1)
+				if (state.current_city->cityViewSelectedOwnedVehicles.size() > 1)
 				{
 					message = tr("Click on destination building for selected vehicles");
 				}
@@ -4668,7 +4657,7 @@ void CityView::setSelectionState(CitySelectionState selectionState)
 			}
 			else
 			{
-				if (state->current_city->cityViewSelectedSoldiers.size() > 1)
+				if (state.current_city->cityViewSelectedSoldiers.size() > 1)
 				{
 					message = tr("Click on destination building for selected people");
 				}

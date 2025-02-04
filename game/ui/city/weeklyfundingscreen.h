@@ -15,7 +15,7 @@ class WeeklyFundingScreen : public Stage
 {
   private:
 	sp<Form> menuform;
-	sp<GameState> state;
+	GameState &state;
 
 	sp<Label> labelCurrentIncome;
 	sp<Label> labelRatingDescription;
@@ -23,7 +23,7 @@ class WeeklyFundingScreen : public Stage
 	sp<Label> labelNextWeekIncome;
 
   public:
-	WeeklyFundingScreen(sp<GameState> state);
+	WeeklyFundingScreen(GameState &state);
 	~WeeklyFundingScreen() override;
 	// Stage control
 	void begin() override;

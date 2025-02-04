@@ -24,10 +24,9 @@
 namespace OpenApoc
 {
 
-std::shared_future<void> enterBattle(sp<GameState> state)
+std::shared_future<void> enterBattle(GameState &state)
 {
-	auto loadTask =
-	    fw().threadPoolEnqueue([state]() -> void { Battle::enterBattle(*state.get()); });
+	auto loadTask = fw().threadPoolEnqueue([&state]() -> void { Battle::enterBattle(state); });
 
 	return loadTask;
 }
@@ -40,7 +39,7 @@ void BattlePreStart::displayAgent(sp<Agent> agent)
 	}
 
 	AgentSheet(formAgentProfile, formAgentStats)
-	    .display(*agent, bigUnitRanks, state->current_battle->mode == Battle::Mode::TurnBased);
+	    .display(*agent, bigUnitRanks, state.current_battle->mode == Battle::Mode::TurnBased);
 	formAgentStats->setVisible(true);
 	formAgentProfile->setVisible(true);
 
@@ -51,14 +50,14 @@ void BattlePreStart::displayAgent(sp<Agent> agent)
 	menuform->findControlTyped<Graphic>("LEFT_HAND")
 	    ->setImage(lHand ? lHand->type->equipscreen_sprite : nullptr);
 }
-BattlePreStart::BattlePreStart(sp<GameState> state)
+BattlePreStart::BattlePreStart(GameState &state)
     : Stage(), TOP_LEFT({302, 80}), menuform(ui().getForm("battle/prestart")), state(state)
 {
 
 	menuform->findControlTyped<GraphicButton>("BUTTON_EQUIP")
 	    ->addCallback(
 	        FormEventType::ButtonClick,
-	        [state](Event *) {
+	        [&state](Event *) {
 		        fw().stageQueueCommand({StageCmd::Command::PUSH, mksp<AEquipScreen>(state)});
 	        });
 	formAgentStats = menuform->findControlTyped<Form>("AGENT_STATS_VIEW");
@@ -67,16 +66,16 @@ BattlePreStart::BattlePreStart(sp<GameState> state)
 	formAgentProfile->setVisible(false);
 	menuform->findControlTyped<GraphicButton>("BUTTON_OK")
 	    ->addCallback(FormEventType::ButtonClick,
-	                  [this, state](Event *)
+	                  [this, &state](Event *)
 	                  {
-		                  auto gameState = this->state;
+		                  auto &gameState = this->state;
 
 		                  fw().stageQueueCommand(
 		                      {StageCmd::Command::PUSH,
 		                       mksp<LoadingScreen>(
-		                           gameState, enterBattle(gameState),
-		                           [gameState]() { return mksp<BattleView>(gameState); },
-		                           this->state->battle_common_image_list->loadingImage, 1)});
+		                           &gameState, enterBattle(gameState),
+		                           [&gameState]() { return mksp<BattleView>(gameState); },
+		                           this->state.battle_common_image_list->loadingImage, 1)});
 	                  });
 
 	for (int i = 12; i <= 18; i++)
@@ -93,9 +92,9 @@ void BattlePreStart::updateAgents()
 	selectedAgent = nullptr;
 	agents.clear();
 	// Create agent controls
-	for (auto &u : state->current_battle->units)
+	for (auto &u : state.current_battle->units)
 	{
-		if (u.second->owner != state->current_battle->currentPlayer)
+		if (u.second->owner != state.current_battle->currentPlayer)
 		{
 			continue;
 		}
@@ -109,10 +108,10 @@ void BattlePreStart::updateAgents()
 		}
 		agents.insert(
 		    mksp<AgentIcon>(u.second->agent,
-		                    ControlGenerator::createAgentControl(*state, u.second->agent,
+		                    ControlGenerator::createAgentControl(state, u.second->agent,
 		                                                         UnitSelectionState::Unselected),
 		                    ControlGenerator::createAgentControl(
-		                        *state, u.second->agent, UnitSelectionState::FirstSelected)));
+		                        state, u.second->agent, UnitSelectionState::FirstSelected)));
 	}
 
 	// Position agent controls
@@ -140,7 +139,7 @@ void BattlePreStart::pause()
 {
 	if (draggedAgent)
 	{
-		draggedAgent->agent->unit->assignToSquad(*state->current_battle, draggedOrigin);
+		draggedAgent->agent->unit->assignToSquad(*state.current_battle, draggedOrigin);
 		draggedAgent = nullptr;
 	}
 }
@@ -191,7 +190,7 @@ void BattlePreStart::eventOccurred(Event *e)
 		{
 			draggedAgent = selectedAgent;
 			draggedOrigin = draggedAgent->agent->unit->squadNumber;
-			draggedAgent->agent->unit->removeFromSquad(*state->current_battle);
+			draggedAgent->agent->unit->removeFromSquad(*state.current_battle);
 			draggedAgentOffset =
 			    draggedAgent->normalControl->Location - Vec2<int>{e->mouse().X, e->mouse().Y};
 			draggedMoved = false;
@@ -207,9 +206,9 @@ void BattlePreStart::eventOccurred(Event *e)
 		{
 			int num = selectedAgent->agent->unit->squadNumber;
 			int pos = selectedAgent->agent->unit->squadPosition;
-			selectedAgent->agent->unit->removeFromSquad(*state->current_battle);
-			draggedAgent->agent->unit->assignToSquad(*state->current_battle, num, pos);
-			selectedAgent->agent->unit->assignToSquad(*state->current_battle, draggedOrigin);
+			selectedAgent->agent->unit->removeFromSquad(*state.current_battle);
+			draggedAgent->agent->unit->assignToSquad(*state.current_battle, num, pos);
+			selectedAgent->agent->unit->assignToSquad(*state.current_battle, draggedOrigin);
 		}
 		else
 		{
@@ -225,9 +224,9 @@ void BattlePreStart::eventOccurred(Event *e)
 				}
 			}
 			if (newSquad == -1 ||
-			    !draggedAgent->agent->unit->assignToSquad(*state->current_battle, newSquad))
+			    !draggedAgent->agent->unit->assignToSquad(*state.current_battle, newSquad))
 			{
-				draggedAgent->agent->unit->assignToSquad(*state->current_battle, draggedOrigin);
+				draggedAgent->agent->unit->assignToSquad(*state.current_battle, draggedOrigin);
 			}
 		}
 

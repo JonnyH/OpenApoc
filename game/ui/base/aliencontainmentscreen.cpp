@@ -22,7 +22,7 @@
 namespace OpenApoc
 {
 
-AlienContainmentScreen::AlienContainmentScreen(sp<GameState> state, bool forceLimits)
+AlienContainmentScreen::AlienContainmentScreen(GameState &state, bool forceLimits)
     : TransactionScreen(state, forceLimits)
 {
 	form->findControlTyped<Label>("TITLE")->setText(tr("ALIEN CONTAINMENT"));
@@ -67,7 +67,7 @@ void AlienContainmentScreen::closeScreen()
 				continue;
 			}
 			int i = 0;
-			for ([[maybe_unused]] const auto &b : state->player_bases)
+			for ([[maybe_unused]] const auto &b : state.player_bases)
 			{
 				int bioDelta = c->getBioDelta(i);
 				if (bioDelta)
@@ -89,10 +89,10 @@ void AlienContainmentScreen::closeScreen()
 		// Check every base, find first bad one
 		int i = 0;
 		StateRef<Base> bad_base;
-		for (auto &b : state->player_bases)
+		for (auto &b : state.player_bases)
 		{
 			if ((vecChanged[i] || forceLimits) &&
-			    b.second->getUsage(*state, FacilityType::Capacity::Aliens, vecBioDelta[i]) > 100.f)
+			    b.second->getUsage(state, FacilityType::Capacity::Aliens, vecBioDelta[i]) > 100.f)
 			{
 				bad_base = b.second->building->base;
 				break;
@@ -110,7 +110,7 @@ void AlienContainmentScreen::closeScreen()
 			    {StageCmd::Command::PUSH,
 			     mksp<MessageBox>(title, message, MessageBox::ButtonOptions::Ok)});
 
-			if (bad_base != state->current_base)
+			if (bad_base != state.current_base)
 			{
 				for (auto &view : miniViews)
 				{
@@ -140,7 +140,7 @@ void AlienContainmentScreen::executeOrders()
 	for (auto &c : transactionControls[Type::Aliens])
 	{
 		int i = 0;
-		for (auto &b : state->player_bases)
+		for (auto &b : state.player_bases)
 		{
 			if (c->tradeState.shipmentsFrom(i) > 0)
 			{

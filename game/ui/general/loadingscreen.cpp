@@ -18,7 +18,7 @@
 namespace OpenApoc
 {
 
-LoadingScreen::LoadingScreen(sp<GameState> state, std::shared_future<void> task,
+LoadingScreen::LoadingScreen(GameState *state, std::shared_future<void> task,
                              std::function<sp<Stage>()> nextScreenFn, sp<Image> background,
                              int scaleDivisor, bool showRotatingImage)
     : Stage(), loadingTask(std::move(task)), nextScreenFn(std::move(nextScreenFn)),
@@ -54,10 +54,6 @@ void LoadingScreen::finish() {}
 
 void LoadingScreen::eventOccurred(Event *e)
 {
-	if (!state)
-	{
-		return;
-	}
 	if (e->type() == EVENT_GAME_STATE)
 	{
 		auto gameEvent = dynamic_cast<GameEvent *>(e);
@@ -68,7 +64,8 @@ void LoadingScreen::eventOccurred(Event *e)
 		}
 		if (!gameEvent->message().empty())
 		{
-			state->logEvent(gameEvent);
+			if (state)
+				state->logEvent(gameEvent);
 		}
 		switch (gameEvent->type)
 		{

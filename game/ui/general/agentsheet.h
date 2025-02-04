@@ -13,7 +13,7 @@ class AgentSheet
 {
   public:
 	AgentSheet(sp<Form> profileForm, sp<Form> statsForm);
-	AgentSheet(sp<GameState> state, sp<Form> profileForm, sp<Form> statsForm, sp<Form> historyFrom);
+	AgentSheet(GameState &state, sp<Form> profileForm, sp<Form> statsForm, sp<Form> historyFrom);
 	void display(const Agent &item, std::vector<sp<Image>> &ranks, bool turnBased = true);
 	void clear();
 
@@ -21,7 +21,7 @@ class AgentSheet
 	sp<Form> profileForm;
 	sp<Form> historyForm;
 	sp<Form> statsForm;
-	sp<GameState> state;
+	GameState *state = nullptr;
 	sp<Image> createStatsBar(int initialValue, int currentValue, int modifiedValue, int maxValue,
 	                         const std::pair<Colour, Colour> &colour, Vec2<int> imageSize);
 

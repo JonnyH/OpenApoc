@@ -51,7 +51,7 @@ class AEquipScreen : public Stage
 	sp<Form> formAgentHistory;
 
 	sp<Palette> pal;
-	sp<GameState> state;
+	GameState &state;
 	sp<BitmapFont> labelFont;
 	std::list<sp<Agent>> selectedAgents;
 
@@ -142,7 +142,7 @@ class AEquipScreen : public Stage
 	bool isTurnBased() const;
 
   public:
-	AEquipScreen(sp<GameState> state, sp<Agent> firstAgent = nullptr);
+	AEquipScreen(GameState &state, sp<Agent> firstAgent = nullptr);
 	~AEquipScreen() override;
 
 	void begin() override;

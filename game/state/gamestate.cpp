@@ -1270,7 +1270,7 @@ void GameState::updateEndOfHour()
 	}
 	for (auto &lab : this->research.labs)
 	{
-		Lab::update(TICKS_PER_HOUR, {this, lab.second}, shared_from_this());
+		Lab::update(TICKS_PER_HOUR, {this, lab.second}, *this);
 	}
 	for (auto &c : this->cities)
 	{

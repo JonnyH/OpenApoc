@@ -55,13 +55,13 @@ class VEquipScreen : public Stage
 
 	std::map<sp<Control>, sp<Vehicle>> vehicleSelectionControls;
 
-	sp<GameState> state;
+	GameState &state;
 
 	bool modifierLShift = false;
 	bool modifierRShift = false;
 
   public:
-	VEquipScreen(sp<GameState> state);
+	VEquipScreen(GameState &state);
 	~VEquipScreen() override;
 
 	void begin() override;

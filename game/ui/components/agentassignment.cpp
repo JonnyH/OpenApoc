@@ -31,7 +31,7 @@ const UString AgentAssignment::AGENT_SELECT_BOX("AGENT_SELECT_BOX");
 const UString AgentAssignment::AGENT_LIST_NAME("AGENT_LIST");
 const UString AgentAssignment::VEHICLE_LIST_NAME("VEHICLE_LIST");
 
-AgentAssignment::AgentAssignment(sp<GameState> state) : Form(), state(state) {}
+AgentAssignment::AgentAssignment(GameState &state) : Form(), state(state) {}
 
 void AgentAssignment::init(sp<Form> form, Vec2<int> location, Vec2<int> size)
 {
@@ -50,7 +50,7 @@ void AgentAssignment::init(sp<Form> form, Vec2<int> location, Vec2<int> size)
 			auto icon = c->findControl(ControlGenerator::VEHICLE_ICON_NAME);
 			if (icon && *icon->getData<int>() != std::min(13, vehicle->getPassengers()))
 			{
-				auto newIcon = ControlGenerator::createVehicleIcon(*state, vehicle);
+				auto newIcon = ControlGenerator::createVehicleIcon(state, vehicle);
 				c->replaceChildByName(newIcon);
 			}
 		}
@@ -70,7 +70,7 @@ void AgentAssignment::init(sp<Form> form, Vec2<int> location, Vec2<int> size)
 			    *icon->getData<CityUnitState>() != ControlGenerator::getCityUnitState(agent))
 			{
 				auto newIcon = ControlGenerator::createAgentIcon(
-				    *state, agent, UnitSelectionState::Unselected, false);
+				    state, agent, UnitSelectionState::Unselected, false);
 				c->replaceChildByName(newIcon);
 			}
 		}
@@ -227,9 +227,9 @@ void AgentAssignment::updateLocation()
 	// update agents, vehicles and buildings lists
 	if (building)
 	{
-		for (auto &a : state->agents)
+		for (auto &a : state.agents)
 		{
-			if (a.second->owner == state->getPlayer() &&
+			if (a.second->owner == state.getPlayer() &&
 			    a.second->type->role == AgentType::Role::Soldier &&
 			    (a.second->currentBuilding == building ||
 			     (a.second->currentVehicle &&
@@ -238,9 +238,9 @@ void AgentAssignment::updateLocation()
 				agents.emplace_back(a.second);
 			}
 		}
-		for (auto &v : state->vehicles)
+		for (auto &v : state.vehicles)
 		{
-			if (v.second->owner == state->getPlayer() && v.second->currentBuilding == building)
+			if (v.second->owner == state.getPlayer() && v.second->currentBuilding == building)
 			{
 				vehicles.emplace_back(v.second);
 			}
@@ -249,9 +249,9 @@ void AgentAssignment::updateLocation()
 	}
 	else if (vehicle)
 	{
-		for (auto &a : state->agents)
+		for (auto &a : state.agents)
 		{
-			if (a.second->owner == state->getPlayer() &&
+			if (a.second->owner == state.getPlayer() &&
 			    a.second->type->role == AgentType::Role::Soldier &&
 			    a.second->currentVehicle == vehicle)
 			{
@@ -266,22 +266,22 @@ void AgentAssignment::updateLocation()
 	}
 	else
 	{
-		for (auto &a : state->agents)
+		for (auto &a : state.agents)
 		{
-			if (a.second->owner == state->getPlayer() &&
+			if (a.second->owner == state.getPlayer() &&
 			    a.second->type->role == AgentType::Role::Soldier)
 			{
 				agents.emplace_back(a.second);
 			}
 		}
-		for (auto &v : state->vehicles)
+		for (auto &v : state.vehicles)
 		{
-			if (v.second->owner == state->getPlayer())
+			if (v.second->owner == state.getPlayer())
 			{
 				vehicles.emplace_back(v.second);
 			}
 		}
-		for (auto &b : state->current_city->buildings)
+		for (auto &b : state.current_city->buildings)
 		{
 			bool foundBuilding = false;
 			for (auto &a : agents)
@@ -364,7 +364,7 @@ void AgentAssignment::updateLocation()
 		leftList->ItemSpacing = rightList->ItemSpacing = agentSelectBox->ItemSpacing;
 
 		// create left list
-		auto buildingLeftControl = ControlGenerator::createBuildingAssignmentControl(*state, b);
+		auto buildingLeftControl = ControlGenerator::createBuildingAssignmentControl(state, b);
 		// MouseUp - drop dragged list
 		buildingLeftControl->addCallback(
 		    FormEventType::MouseUp,
@@ -387,7 +387,7 @@ void AgentAssignment::updateLocation()
 				    success = building == (sp<Building>)currentBuilding;
 				    if (!success)
 					    break;
-				    agent->enterBuilding(*state, currentBuilding);
+				    agent->enterBuilding(state, currentBuilding);
 			    }
 
 			    if (success)
@@ -454,7 +454,7 @@ void AgentAssignment::updateLocation()
 				                           success = building == (sp<Building>)currentBuilding;
 				                           if (!success)
 					                           break;
-				                           agent->enterBuilding(*state, currentBuilding);
+				                           agent->enterBuilding(state, currentBuilding);
 			                           }
 
 			                           if (success)
@@ -497,7 +497,7 @@ void AgentAssignment::addAgentsToList(sp<MultilistBox> list, const int listOffse
 {
 	for (auto &a : agents)
 	{
-		auto agentControl = ControlGenerator::createAgentAssignmentControl(*state, a);
+		auto agentControl = ControlGenerator::createAgentAssignmentControl(state, a);
 		agentControl->setFuncPreRender(funcAgentUpdate);
 		agentControl->Size.x -= listOffset;
 		agentControl->SelectionSize.x -= listOffset;
@@ -510,7 +510,7 @@ void AgentAssignment::addVehiclesToList(sp<MultilistBox> list, const int listOff
 	const int offset = 20;
 	for (auto &v : vehicles)
 	{
-		auto vehicleControl = ControlGenerator::createVehicleAssignmentControl(*state, v);
+		auto vehicleControl = ControlGenerator::createVehicleAssignmentControl(state, v);
 		vehicleControl->setFuncPreRender(funcVehicleUpdate);
 		vehicleControl->Size.x -= listOffset;
 		vehicleControl->SelectionSize.x -= listOffset;
@@ -537,7 +537,7 @@ void AgentAssignment::addVehiclesToList(sp<MultilistBox> list, const int listOff
 				              agent->currentVehicle != vehicle;
 				    if (!success)
 					    break;
-				    agent->enterVehicle(*state, {state.get(), vehicle});
+				    agent->enterVehicle(state, {&state, vehicle});
 			    }
 
 			    if (success)
@@ -589,7 +589,7 @@ void AgentAssignment::addBuildingToRightList(sp<Building> building, sp<Multilist
 {
 	const int offset = 20;
 
-	auto buildingControl = ControlGenerator::createBuildingAssignmentControl(*state, building);
+	auto buildingControl = ControlGenerator::createBuildingAssignmentControl(state, building);
 	buildingControl->Size.x -= listOffset;
 	buildingControl->SelectionSize.x -= listOffset;
 	list->addItem(buildingControl);
@@ -671,11 +671,11 @@ std::list<StateRef<Agent>> AgentAssignment::getSelectedAgents() const
 	}
 
 	std::list<StateRef<Agent>> agents;
-	for (auto &a : state->agents)
+	for (auto &a : state.agents)
 	{
 		if (agentControlSet.find(a.second) != agentControlSet.end())
 		{
-			agents.emplace_back(state.get(), a.second);
+			agents.emplace_back(&state, a.second);
 		}
 	}
 
@@ -711,11 +711,11 @@ std::list<StateRef<Vehicle>> AgentAssignment::getSelectedVehicles() const
 	}
 
 	std::list<StateRef<Vehicle>> vehicles;
-	for (auto &v : state->vehicles)
+	for (auto &v : state.vehicles)
 	{
 		if (vehicleControlSet.find(v.second) != vehicleControlSet.end())
 		{
-			vehicles.emplace_back(state.get(), v.second);
+			vehicles.emplace_back(&state, v.second);
 		}
 	}
 

@@ -13,10 +13,10 @@ class CheatOptions : public Stage
 {
   private:
 	sp<Form> menuform;
-	sp<GameState> state;
+	GameState &state;
 
   public:
-	CheatOptions(sp<GameState> state);
+	CheatOptions(GameState &state);
 	~CheatOptions() override;
 
 	// Stage control

@@ -26,7 +26,7 @@ class SaveMenu : public Stage
   private:
 	sp<TextEdit> activeTextEdit;
 	sp<Form> menuform;
-	sp<GameState> currentState;
+	GameState *currentState;
 	SaveMenuAction currentAction;
 	SaveManager saveManager;
 
@@ -44,7 +44,7 @@ class SaveMenu : public Stage
 	                                      const UString &saveName);
 
   public:
-	SaveMenu(SaveMenuAction saveMenuAction, sp<GameState> gameState);
+	SaveMenu(SaveMenuAction saveMenuAction, GameState *gameState);
 	~SaveMenu() override;
 	// Stage control
 	void begin() override;

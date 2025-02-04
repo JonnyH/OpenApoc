@@ -30,16 +30,16 @@ static const std::map<UString, int> alienFunctionMap = {
 };
 }
 
-BattleBriefing::BattleBriefing(sp<GameState> state,
-                               StateRef<Organisation> targetOrg [[maybe_unused]], UString location,
-                               bool isBuilding, bool isRaid, std::shared_future<void> gameStateTask)
+BattleBriefing::BattleBriefing(GameState &state, StateRef<Organisation> targetOrg [[maybe_unused]],
+                               UString location, bool isBuilding, bool isRaid,
+                               std::shared_future<void> gameStateTask)
     : Stage(), menuform(ui().getForm("battle/briefing")), loading_task(std::move(gameStateTask)),
       state(state)
 {
 
 	menuform->findControlTyped<Label>("TEXT_DATE")
-	    ->setText(format("%s      %s", state->gameTime.getLongDateString(),
-	                     state->gameTime.getShortTimeString()));
+	    ->setText(format("%s      %s", state.gameTime.getLongDateString(),
+	                     state.gameTime.getShortTimeString()));
 
 	// FIXME: Read and store briefing text and image properly
 	UString briefing = "";
@@ -51,18 +51,18 @@ BattleBriefing::BattleBriefing(sp<GameState> state,
 	}
 	else
 	{
-		auto building = StateRef<Building>(&*state, location);
-		if (building->base && building->owner == state->getPlayer())
+		auto building = StateRef<Building>(&state, location);
+		if (building->base && building->owner == state.getPlayer())
 		{
 			menuform->findControlTyped<Graphic>("BRIEFING_IMAGE")
 			    ->setImage(fw().data->loadImage("xcom3/tacdata/brief4.pcx"));
-			bool lastBase = state->player_bases.size() == 1;
+			bool lastBase = state.player_bases.size() == 1;
 			briefing = lastBase ? "You must lorem ipisum etc. (Here be briefing text) (Text: "
 			                      "Building Last Base Assault)"
 			                    : "You must lorem ipisum etc. (Here be briefing text) (Text: "
 			                      "Building Non-Last Base Assault)";
 		}
-		else if (!isRaid && building->owner != state->getAliens())
+		else if (!isRaid && building->owner != state.getAliens())
 		{
 			menuform->findControlTyped<Graphic>("BRIEFING_IMAGE")
 			    ->setImage(fw().data->loadImage("xcom3/tacdata/brief.pcx"));
@@ -71,7 +71,7 @@ BattleBriefing::BattleBriefing(sp<GameState> state,
 		}
 		else
 		{
-			if (building->owner != state->getAliens())
+			if (building->owner != state.getAliens())
 			{
 				menuform->findControlTyped<Graphic>("BRIEFING_IMAGE")
 				    ->setImage(fw().data->loadImage("xcom3/tacdata/brief2.pcx"));
@@ -141,7 +141,7 @@ BattleBriefing::BattleBriefing(sp<GameState> state,
 	    ->addCallback(FormEventType::ButtonClick,
 	                  [this](Event *)
 	                  {
-		                  this->state->current_battle->setMode(Battle::Mode::RealTime);
+		                  this->state.current_battle->setMode(Battle::Mode::RealTime);
 		                  fw().stageQueueCommand(
 		                      {StageCmd::Command::REPLACEALL, mksp<BattlePreStart>(this->state)});
 	                  });
@@ -150,7 +150,7 @@ BattleBriefing::BattleBriefing(sp<GameState> state,
 	    ->addCallback(FormEventType::ButtonClick,
 	                  [this](Event *)
 	                  {
-		                  this->state->current_battle->setMode(Battle::Mode::TurnBased);
+		                  this->state.current_battle->setMode(Battle::Mode::TurnBased);
 		                  fw().stageQueueCommand(
 		                      {StageCmd::Command::REPLACEALL, mksp<BattlePreStart>(this->state)});
 	                  });

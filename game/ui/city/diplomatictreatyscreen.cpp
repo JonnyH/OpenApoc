@@ -11,7 +11,7 @@
 namespace OpenApoc
 {
 
-DiplomaticTreatyScreen::DiplomaticTreatyScreen(sp<GameState> state, StateRef<Organisation> org)
+DiplomaticTreatyScreen::DiplomaticTreatyScreen(GameState &state, StateRef<Organisation> org)
     : Stage(), menuform(ui().getForm("city/diplomatic_treaty")), state(state), organisation(org)
 {
 }
@@ -20,13 +20,13 @@ DiplomaticTreatyScreen::~DiplomaticTreatyScreen() = default;
 
 void DiplomaticTreatyScreen::begin()
 {
-	menuform->findControlTyped<Label>("TEXT_DATE")->setText(state->gameTime.getLongDateString());
-	menuform->findControlTyped<Label>("TEXT_FUNDS")->setText(state->getPlayerBalance());
+	menuform->findControlTyped<Label>("TEXT_DATE")->setText(state.gameTime.getLongDateString());
+	menuform->findControlTyped<Label>("TEXT_FUNDS")->setText(state.getPlayerBalance());
 	menuform->findControlTyped<Label>("TEXT_ORGANISATION")->setText(tr(organisation->name));
 	labelOffer = menuform->findControlTyped<Label>("TEXT_OFFER");
 	labelBribe = menuform->findControlTyped<Label>("TEXT_RIFT_BRIBE");
 
-	bribeAmount = organisation->diplomaticRiftOffer(*state, state->getPlayer());
+	bribeAmount = organisation->diplomaticRiftOffer(state, state.getPlayer());
 
 	labelOffer->setText(tr("We are unhappy with the recent activity of your organization and "
 	                       "request compensation to restore normal diplomatic relations. If you do "
@@ -60,9 +60,9 @@ void DiplomaticTreatyScreen::eventOccurred(Event *e)
 	{
 		if (e->forms().RaisedBy->Name == "BUTTON_BRIBE")
 		{
-			if (bribeAmount > 0 && state->getPlayer()->balance > bribeAmount)
+			if (bribeAmount > 0 && state.getPlayer()->balance > bribeAmount)
 			{
-				organisation->signTreatyWith(*state, state->getPlayer(), bribeAmount, false);
+				organisation->signTreatyWith(state, state.getPlayer(), bribeAmount, false);
 				fw().stageQueueCommand({StageCmd::Command::POP});
 			}
 			return;

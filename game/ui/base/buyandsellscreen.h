@@ -20,7 +20,7 @@ class BuyAndSellScreen : public TransactionScreen
 	void executeOrders() override;
 
   public:
-	BuyAndSellScreen(sp<GameState> state, bool forceLimits = false);
+	BuyAndSellScreen(GameState &state, bool forceLimits = false);
 	~BuyAndSellScreen() override = default;
 };
 

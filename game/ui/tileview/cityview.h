@@ -58,7 +58,7 @@ class CityView : public CityTileView
 	CityUpdateSpeed updateSpeed;
 	CityUpdateSpeed lastSpeed;
 
-	sp<GameState> state;
+	GameState &state;
 
 	std::vector<VehicleTileInfo> ownedVehicleInfoList;
 	std::vector<AgentInfo> ownedSoldierInfoList;
@@ -122,11 +122,11 @@ class CityView : public CityTileView
 	void orderDisableWeapon(int index, bool disable);
 
   public:
-	CityView(sp<GameState> state);
+	CityView(GameState &state);
 	~CityView() override;
 
 	void initiateUfoMission(StateRef<Vehicle> ufo, StateRef<Vehicle> playerCraft);
-	void initiateBuildingMission(sp<GameState> state, StateRef<Building> building,
+	void initiateBuildingMission(GameState &state, StateRef<Building> building,
 	                             std::list<StateRef<Agent>> agents);
 
 	void begin() override;

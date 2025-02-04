@@ -29,7 +29,7 @@
 namespace OpenApoc
 {
 
-TransferScreen::TransferScreen(sp<GameState> state, bool forceLimits)
+TransferScreen::TransferScreen(GameState &state, bool forceLimits)
     : TransactionScreen(state, forceLimits), bigUnitRanks(RecruitScreen::getBigUnitRanks())
 {
 	form->findControlTyped<Label>("TITLE")->setText(tr("TRANSFER"));
@@ -90,11 +90,11 @@ TransferScreen::TransferScreen(sp<GameState> state, bool forceLimits)
 	                  [this](Event *) { this->setDisplayType(Type::GroundEquipment); });
 
 	// Find first base that isn't current
-	for (auto &b : state->player_bases)
+	for (auto &b : state.player_bases)
 	{
-		if (b.first != state->current_base.id)
+		if (b.first != state.current_base.id)
 		{
-			second_base = {state.get(), b.first};
+			second_base = {&state, b.first};
 			textViewSecondBaseStatic->setText(second_base->name);
 			break;
 		}
@@ -127,7 +127,7 @@ void TransferScreen::changeSecondBase(sp<Base> newBase)
 int TransferScreen::getRightIndex()
 {
 	int index = 0;
-	for (auto &b : state->player_bases)
+	for (auto &b : state.player_bases)
 	{
 		if (b.first == second_base.id)
 		{
@@ -144,7 +144,7 @@ void TransferScreen::updateBaseHighlight()
 	if (viewHighlightPrevious != viewHighlight)
 	{
 		int i = 0;
-		for (auto &b : state->player_bases)
+		for (auto &b : state.player_bases)
 		{
 			auto viewName = format("BUTTON_SECOND_BASE_%d", ++i);
 			auto view = form->findControlTyped<GraphicButton>(viewName);
@@ -164,10 +164,10 @@ void TransferScreen::updateBaseHighlight()
 		{
 			auto facilityPic = form->findControlTyped<Graphic>("FACILITY_SECOND_PIC");
 			facilityPic->setVisible(true);
-			facilityPic->setImage(state->facility_types["FACILITYTYPE_LIVING_QUARTERS"]->sprite);
+			facilityPic->setImage(state.facility_types["FACILITYTYPE_LIVING_QUARTERS"]->sprite);
 			form->findControlTyped<Graphic>("FACILITY_SECOND_BAR")->setVisible(true);
 			const auto usage =
-			    second_base->getUsage(*state, FacilityType::Capacity::Quarters, lq2Delta);
+			    second_base->getUsage(state, FacilityType::Capacity::Quarters, lq2Delta);
 			fillBaseBar(false, usage);
 			auto facilityLabel = form->findControlTyped<Label>("FACILITY_SECOND_TEXT");
 			facilityLabel->setVisible(true);
@@ -178,10 +178,10 @@ void TransferScreen::updateBaseHighlight()
 		{
 			auto facilityPic = form->findControlTyped<Graphic>("FACILITY_SECOND_PIC");
 			facilityPic->setVisible(true);
-			facilityPic->setImage(state->facility_types["FACILITYTYPE_STORES"]->sprite);
+			facilityPic->setImage(state.facility_types["FACILITYTYPE_STORES"]->sprite);
 			form->findControlTyped<Graphic>("FACILITY_SECOND_BAR")->setVisible(true);
 			const auto usage =
-			    second_base->getUsage(*state, FacilityType::Capacity::Stores, cargo2Delta);
+			    second_base->getUsage(state, FacilityType::Capacity::Stores, cargo2Delta);
 			fillBaseBar(false, usage);
 			auto facilityLabel = form->findControlTyped<Label>("FACILITY_SECOND_TEXT");
 			facilityLabel->setVisible(true);
@@ -192,10 +192,10 @@ void TransferScreen::updateBaseHighlight()
 		{
 			auto facilityPic = form->findControlTyped<Graphic>("FACILITY_SECOND_PIC");
 			facilityPic->setVisible(true);
-			facilityPic->setImage(state->facility_types["FACILITYTYPE_ALIEN_CONTAINMENT"]->sprite);
+			facilityPic->setImage(state.facility_types["FACILITYTYPE_ALIEN_CONTAINMENT"]->sprite);
 			form->findControlTyped<Graphic>("FACILITY_SECOND_BAR")->setVisible(true);
 			const auto usage =
-			    second_base->getUsage(*state, FacilityType::Capacity::Aliens, bio2Delta);
+			    second_base->getUsage(state, FacilityType::Capacity::Aliens, bio2Delta);
 			fillBaseBar(false, usage);
 			auto facilityLabel = form->findControlTyped<Label>("FACILITY_SECOND_TEXT");
 			facilityLabel->setVisible(true);
@@ -223,7 +223,7 @@ void TransferScreen::displayItem(sp<TransactionControl> control)
 		case TransactionControl::Type::Engineer:
 		case TransactionControl::Type::Physicist:
 		{
-			RecruitScreen::personnelSheet(*state->agents[control->itemId], formPersonnelStats);
+			RecruitScreen::personnelSheet(*state.agents[control->itemId], formPersonnelStats);
 			formPersonnelStats->setVisible(true);
 			formAgentProfile->setVisible(false);
 			break;
@@ -231,7 +231,7 @@ void TransferScreen::displayItem(sp<TransactionControl> control)
 		case TransactionControl::Type::Soldier:
 		{
 			AgentSheet(formAgentProfile, formAgentStats)
-			    .display(*state->agents[control->itemId], bigUnitRanks, false);
+			    .display(*state.agents[control->itemId], bigUnitRanks, false);
 			formAgentStats->setVisible(true);
 			formAgentProfile->setVisible(true);
 			break;
@@ -243,7 +243,7 @@ void TransferScreen::displayItem(sp<TransactionControl> control)
 
 void TransferScreen::closeScreen()
 {
-	auto player = state->getPlayer();
+	auto player = state.getPlayer();
 
 	// Step 01: Check accommodation of different sorts
 	{
@@ -267,7 +267,7 @@ void TransferScreen::closeScreen()
 					continue;
 				}
 				int i = 0;
-				for ([[maybe_unused]] auto &b : state->player_bases)
+				for ([[maybe_unused]] auto &b : state.player_bases)
 				{
 					int crewDelta = c->getCrewDelta(i);
 					int cargoDelta = c->getCargoDelta(i);
@@ -297,18 +297,18 @@ void TransferScreen::closeScreen()
 		bool cargoOverLimit = false;
 		bool alienOverLimit = false;
 		bool crewOverLimit = false;
-		for (auto &b : state->player_bases)
+		for (auto &b : state.player_bases)
 		{
 			if (vecChanged[i] || forceLimits)
 			{
 				crewOverLimit = vecCrewDelta[i] > 0 &&
-				                b.second->getUsage(*state, FacilityType::Capacity::Quarters,
+				                b.second->getUsage(state, FacilityType::Capacity::Quarters,
 				                                   vecCrewDelta[i]) > 100.f;
 				cargoOverLimit = vecCargoDelta[i] > 0 &&
-				                 b.second->getUsage(*state, FacilityType::Capacity::Stores,
+				                 b.second->getUsage(state, FacilityType::Capacity::Stores,
 				                                    vecCargoDelta[i]) > 100.f;
 				alienOverLimit =
-				    vecBioDelta[i] > 0 && b.second->getUsage(*state, FacilityType::Capacity::Aliens,
+				    vecBioDelta[i] > 0 && b.second->getUsage(state, FacilityType::Capacity::Aliens,
 				                                             vecBioDelta[i]) > 100.f;
 				if (crewOverLimit || cargoOverLimit || alienOverLimit)
 				{
@@ -346,7 +346,7 @@ void TransferScreen::closeScreen()
 			    {StageCmd::Command::PUSH,
 			     mksp<MessageBox>(title, message, MessageBox::ButtonOptions::Ok)});
 
-			if (bad_base != state->current_base && bad_base != second_base)
+			if (bad_base != state.current_base && bad_base != second_base)
 			{
 				for (auto &view : miniViews)
 				{
@@ -367,11 +367,11 @@ void TransferScreen::closeScreen()
 		// Find out who provides transportation services
 		std::list<StateRef<Organisation>> badOrgs;
 		std::list<StateRef<Organisation>> ferryCompanies;
-		for (auto &o : state->organisations)
+		for (auto &o : state.organisations)
 		{
 			if (o.second->providesTransportationServices)
 			{
-				StateRef<Organisation> org{state.get(), o.first};
+				StateRef<Organisation> org{&state, o.first};
 				if (o.second->isRelatedTo(player) == Organisation::Relation::Hostile)
 				{
 					badOrgs.push_back(org);
@@ -394,7 +394,7 @@ void TransferScreen::closeScreen()
 				bool ferryFound = false;
 				for (auto &o : ferryCompanies)
 				{
-					for (auto &v : state->vehicles)
+					for (auto &v : state.vehicles)
 					{
 						if (v.second->owner != o ||
 						    (!v.second->type->provideFreightCargo &&
@@ -478,7 +478,7 @@ void TransferScreen::closeScreen()
 
 void TransferScreen::executeOrders()
 {
-	auto player = state->getPlayer();
+	auto player = state.getPlayer();
 
 	// Step 01: Re-direct all vehicles and agents if transferring
 	std::set<sp<TransactionControl>> linkedControls;
@@ -494,7 +494,7 @@ void TransferScreen::executeOrders()
 
 			StateRef<Base> newBase;
 			int i = 0;
-			for (auto &b : state->player_bases)
+			for (auto &b : state.player_bases)
 			{
 				if (c->tradeState.shipmentsTotal(i++) == -1)
 				{
@@ -510,32 +510,32 @@ void TransferScreen::executeOrders()
 					case TransactionControl::Type::Engineer:
 					case TransactionControl::Type::Physicist:
 					{
-						StateRef<Agent> agent{state.get(), c->itemId};
+						StateRef<Agent> agent{&state, c->itemId};
 						if (agent->lab_assigned)
 						{
-							StateRef<Lab> lab{state.get(), agent->lab_assigned};
+							StateRef<Lab> lab{&state, agent->lab_assigned};
 							agent->lab_assigned->removeAgent(lab, agent);
 						}
-						agent->transfer(*state, newBase->building);
+						agent->transfer(state, newBase->building);
 						break;
 					}
 					case TransactionControl::Type::Soldier:
 					{
-						StateRef<Agent> agent{state.get(), c->itemId};
-						agent->transfer(*state, newBase->building);
+						StateRef<Agent> agent{&state, c->itemId};
+						agent->transfer(state, newBase->building);
 						break;
 					}
 					case TransactionControl::Type::Vehicle:
 					{
-						StateRef<Vehicle> vehicle{state.get(), c->itemId};
+						StateRef<Vehicle> vehicle{&state, c->itemId};
 						if (vehicle->homeBuilding != newBase->building)
 						{
 							bool wasInBase = vehicle->currentBuilding == vehicle->homeBuilding;
 							vehicle->homeBuilding = newBase->building;
 							if (wasInBase)
 							{
-								vehicle->setMission(*state,
-								                    VehicleMission::gotoBuilding(*state, *vehicle));
+								vehicle->setMission(state,
+								                    VehicleMission::gotoBuilding(state, *vehicle));
 							}
 						}
 						break;
@@ -567,7 +567,7 @@ void TransferScreen::executeOrders()
 			}
 
 			int i = 0;
-			for (auto &b : state->player_bases)
+			for (auto &b : state.player_bases)
 			{
 				int src = i++;
 				if (!c->tradeState.shipmentsFrom(src))
@@ -576,7 +576,7 @@ void TransferScreen::executeOrders()
 				}
 
 				int i2 = 0;
-				for (auto &b2 : state->player_bases)
+				for (auto &b2 : state.player_bases)
 				{
 					int dest = i2++;
 					int order = c->tradeState.getOrder(src, dest);
@@ -589,15 +589,15 @@ void TransferScreen::executeOrders()
 					{
 						case TransactionControl::Type::AgentEquipmentBio:
 						{
-							StateRef<AEquipmentType> bio{state.get(), c->itemId};
-							b.second->building->cargo.emplace_back(*state, bio, order, 0, player,
+							StateRef<AEquipmentType> bio{&state, c->itemId};
+							b.second->building->cargo.emplace_back(state, bio, order, 0, player,
 							                                       b2.second->building);
 							b.second->inventoryBioEquipment[c->itemId] -= order;
 							break;
 						}
 						case TransactionControl::Type::AgentEquipmentCargo:
 						{
-							StateRef<AEquipmentType> equipment{state.get(), c->itemId};
+							StateRef<AEquipmentType> equipment{&state, c->itemId};
 							int quantity = order * (equipment->type == AEquipmentType::Type::Ammo
 							                            ? equipment->max_ammo
 							                            : 1);
@@ -605,23 +605,23 @@ void TransferScreen::executeOrders()
 							// accordingly
 							quantity = std::min(quantity,
 							                    (int)b.second->inventoryAgentEquipment[c->itemId]);
-							b.second->building->cargo.emplace_back(*state, equipment, quantity, 0,
+							b.second->building->cargo.emplace_back(state, equipment, quantity, 0,
 							                                       player, b2.second->building);
 							b.second->inventoryAgentEquipment[c->itemId] -= quantity;
 							break;
 						}
 						case TransactionControl::Type::VehicleAmmo:
 						{
-							StateRef<VAmmoType> ammo{state.get(), c->itemId};
-							b.second->building->cargo.emplace_back(*state, ammo, order, 0, player,
+							StateRef<VAmmoType> ammo{&state, c->itemId};
+							b.second->building->cargo.emplace_back(state, ammo, order, 0, player,
 							                                       b2.second->building);
 							b.second->inventoryVehicleAmmo[c->itemId] -= order;
 							break;
 						}
 						case TransactionControl::Type::VehicleEquipment:
 						{
-							StateRef<VEquipmentType> equipment{state.get(), c->itemId};
-							b.second->building->cargo.emplace_back(*state, equipment, order, 0,
+							StateRef<VEquipmentType> equipment{&state, c->itemId};
+							b.second->building->cargo.emplace_back(state, equipment, order, 0,
 							                                       player, b2.second->building);
 							b.second->inventoryVehicleEquipment[c->itemId] -= order;
 							break;
@@ -649,7 +649,7 @@ void TransferScreen::executeOrders()
 void TransferScreen::initViewSecondBase()
 {
 	int i = 0;
-	for (auto &b : state->player_bases)
+	for (auto &b : state.player_bases)
 	{
 		auto viewName = format("BUTTON_SECOND_BASE_%d", ++i);
 		auto view = form->findControlTyped<GraphicButton>(viewName);

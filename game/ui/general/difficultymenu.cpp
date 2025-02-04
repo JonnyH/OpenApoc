@@ -31,16 +31,16 @@ void DifficultyMenu::resume() {}
 
 void DifficultyMenu::finish() {}
 
-std::shared_future<void> loadGame(sp<GameState> state)
+std::shared_future<void> loadGame(GameState &state)
 {
 	auto loadTask = fw().threadPoolEnqueue(
-	    [state]() -> void
+	    [&state]() -> void
 	    {
-		    state->loadMods();
-		    state->startGame();
-		    state->initState();
-		    state->fillPlayerStartingProperty();
-		    state->fillOrgStartingProperty();
+		    state.loadMods();
+		    state.startGame();
+		    state.initState();
+		    state.fillPlayerStartingProperty();
+		    state.fillOrgStartingProperty();
 		    return;
 	    });
 
@@ -89,13 +89,13 @@ void DifficultyMenu::eventOccurred(Event *e)
 			return;
 		}
 
-		auto loadedState = mksp<GameState>();
-		loadedState->difficulty = difficulty;
+		current_state = mkup<GameState>();
+		auto &state = *current_state;
+		state.difficulty = difficulty;
 
-		fw().stageQueueCommand(
-		    {StageCmd::Command::PUSH,
-		     mksp<LoadingScreen>(nullptr, loadGame(loadedState),
-		                         [loadedState]() { return mksp<CityView>(loadedState); })});
+		fw().stageQueueCommand({StageCmd::Command::PUSH,
+		                        mksp<LoadingScreen>(&state, loadGame(state),
+		                                            [&state] { return mksp<CityView>(state); })});
 		return;
 	}
 }

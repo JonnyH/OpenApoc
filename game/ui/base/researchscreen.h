@@ -38,7 +38,7 @@ class ResearchScreen : public BaseStage
 	void changeBase(sp<Base> newBase) override;
 
   public:
-	ResearchScreen(sp<GameState> state, sp<Facility> selectedLab = nullptr);
+	ResearchScreen(GameState &state, sp<Facility> selectedLab = nullptr);
 	~ResearchScreen() override;
 	// Stage control
 	void begin() override;

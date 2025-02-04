@@ -141,9 +141,9 @@ std::shared_future<void> loadBattleVehicle(bool hotseat, sp<VehicleType> vehicle
 }
 } // namespace
 
-Skirmish::Skirmish(sp<GameState> state) : Stage(), menuform(ui().getForm("skirmish")), state(*state)
+Skirmish::Skirmish(GameState &state) : Stage(), menuform(ui().getForm("skirmish")), state(state)
 {
-	menuform->findControlTyped<Label>("TEXT_FUNDS")->setText(state->getPlayerBalance());
+	menuform->findControlTyped<Label>("TEXT_FUNDS")->setText(state.getPlayerBalance());
 	updateLocationLabel();
 	menuform->findControlTyped<ScrollBar>("NUM_HUMANS_SLIDER")
 	    ->addCallback(
@@ -563,8 +563,7 @@ void Skirmish::goToBattle(bool customAliens, std::map<StateRef<AgentType>, int> 
 		}
 	}
 
-	fw().stageQueueCommand(
-	    {StageCmd::Command::PUSH, mksp<AEquipScreen>(state.shared_from_this(), firstAgent)});
+	fw().stageQueueCommand({StageCmd::Command::PUSH, mksp<AEquipScreen>(state, firstAgent)});
 }
 
 void Skirmish::customizeForces(bool force)
@@ -618,9 +617,9 @@ void Skirmish::customizeForces(bool force)
 	}
 
 	fw().stageQueueCommand(
-	    {StageCmd::Command::PUSH, mksp<SelectForces>(state.shared_from_this(), *this, aliens,
-	                                                 guards == 0 ? nullptr : &guards,
-	                                                 civilians == 0 ? nullptr : &civilians)});
+	    {StageCmd::Command::PUSH,
+	     mksp<SelectForces>(state, *this, aliens, guards == 0 ? nullptr : &guards,
+	                        civilians == 0 ? nullptr : &civilians)});
 }
 
 void Skirmish::clearLocation()
@@ -657,8 +656,7 @@ void Skirmish::battleInBuilding(bool hotseat, StateRef<Base> playerBase,
 {
 	fw().stageQueueCommand(
 	    {StageCmd::Command::REPLACEALL,
-	     mksp<BattleBriefing>(state.shared_from_this(), building->owner,
-	                          Building::getId(state, building), true, raid,
+	     mksp<BattleBriefing>(state, building->owner, Building::getId(state, building), true, raid,
 	                          loadBattleBuilding(hotseat, building, &state, playerBase, raid,
 	                                             customAliens, aliens, customGuards, guards,
 	                                             customCivilians, civilians, score))});
@@ -669,10 +667,10 @@ void Skirmish::battleInBase(bool hotseat, StateRef<Base> base, bool customAliens
 {
 	fw().stageQueueCommand(
 	    {StageCmd::Command::REPLACEALL,
-	     mksp<BattleBriefing>(
-	         state.shared_from_this(), state.getAliens(), base->building.id, true, true,
-	         loadBattleBuilding(hotseat, base->building, &state, base, false, customAliens, aliens,
-	                            false, 0, false, 0, score))});
+	     mksp<BattleBriefing>(state, state.getAliens(), base->building.id, true, true,
+	                          loadBattleBuilding(hotseat, base->building, &state, base, false,
+	                                             customAliens, aliens, false, 0, false, 0,
+	                                             score))});
 }
 
 void Skirmish::battleInVehicle(bool hotseat, StateRef<Base> playerBase,
@@ -681,16 +679,15 @@ void Skirmish::battleInVehicle(bool hotseat, StateRef<Base> playerBase,
 {
 	fw().stageQueueCommand(
 	    {StageCmd::Command::REPLACEALL,
-	     mksp<BattleBriefing>(state.shared_from_this(), state.getAliens(),
-	                          VehicleType::getId(state, vehicle), false, false,
+	     mksp<BattleBriefing>(state, state.getAliens(), VehicleType::getId(state, vehicle), false,
+	                          false,
 	                          loadBattleVehicle(hotseat, vehicle, &state, playerBase, customAliens,
 	                                            aliens, score))});
 }
 
 void Skirmish::begin()
 {
-	fw().stageQueueCommand(
-	    {StageCmd::Command::PUSH, mksp<MapSelector>(state.shared_from_this(), *this)});
+	fw().stageQueueCommand({StageCmd::Command::PUSH, mksp<MapSelector>(state, *this)});
 }
 
 void Skirmish::pause() {}
@@ -729,8 +726,7 @@ void Skirmish::eventOccurred(Event *e)
 		{
 			if (!locBase && !locBuilding && !locVehicle)
 			{
-				fw().stageQueueCommand(
-				    {StageCmd::Command::PUSH, mksp<MapSelector>(state.shared_from_this(), *this)});
+				fw().stageQueueCommand({StageCmd::Command::PUSH, mksp<MapSelector>(state, *this)});
 				return;
 			}
 
@@ -750,8 +746,7 @@ void Skirmish::eventOccurred(Event *e)
 		}
 		if (e->forms().RaisedBy->Name == "BUTTON_SELECTMAP")
 		{
-			fw().stageQueueCommand(
-			    {StageCmd::Command::PUSH, mksp<MapSelector>(state.shared_from_this(), *this)});
+			fw().stageQueueCommand({StageCmd::Command::PUSH, mksp<MapSelector>(state, *this)});
 			return;
 		}
 	}

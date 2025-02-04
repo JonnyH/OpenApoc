@@ -27,7 +27,7 @@ namespace OpenApoc
 const UString existingSaveItemId = "EXISTING_SAVE_SLOT";
 const UString newSaveItemId = "NEW_SAVE_SLOT";
 
-SaveMenu::SaveMenu(SaveMenuAction saveMenuAction, sp<GameState> state)
+SaveMenu::SaveMenu(SaveMenuAction saveMenuAction, GameState *state)
     : Stage(), menuform(ui().getForm("savemenu")), currentState(state),
       currentAction(saveMenuAction)
 {
@@ -230,14 +230,15 @@ void SaveMenu::loadWithWarning(sp<Control> parent)
 			std::function<void()> onSuccess = std::function<void()>(
 			    [this, slot]
 			    {
-				    auto state = mksp<GameState>();
+				    current_state = mkup<GameState>();
+				    auto &state = *current_state;
 				    auto task = saveManager.loadGame(*slot, state);
 				    fw().stageQueueCommand(
 				        {StageCmd::Command::REPLACEALL,
 				         mksp<LoadingScreen>(nullptr, std::move(task),
-				                             [state]() -> sp<Stage>
+				                             [&state]() -> sp<Stage>
 				                             {
-					                             if (state->current_battle)
+					                             if (state.current_battle)
 					                             {
 						                             return mksp<BattleView>(state);
 					                             }
@@ -263,13 +264,14 @@ void SaveMenu::tryToLoadGame(sp<Control> slotControl)
 		sp<SaveMetadata> slot = slotControl->getData<SaveMetadata>();
 		if (slot != nullptr)
 		{
-			auto state = mksp<GameState>();
+			current_state = mkup<GameState>();
+			auto &state = *current_state;
 			auto task = saveManager.loadGame(*slot, state);
 			fw().stageQueueCommand({StageCmd::Command::REPLACEALL,
 			                        mksp<LoadingScreen>(nullptr, std::move(task),
-			                                            [state]() -> sp<Stage>
+			                                            [&state]() -> sp<Stage>
 			                                            {
-				                                            if (state->current_battle)
+				                                            if (state.current_battle)
 				                                            {
 					                                            return mksp<BattleView>(state);
 				                                            }
@@ -292,7 +294,7 @@ void SaveMenu::tryToSaveGame(const UString &saveName, const sp<Control> parent)
 		// If no game with same name exists in folder
 		if (!saveGameMetadata)
 		{
-			if (saveManager.newSaveGame(saveName, currentState))
+			if (saveManager.newSaveGame(saveName, *currentState))
 			{
 				fw().stageQueueCommand({StageCmd::Command::POP});
 			}
@@ -327,7 +329,7 @@ void SaveMenu::askUserIfWantToOverrideSavedGame(const SaveMetadata &saveMetadata
 	auto onYes = std::function<void()>(
 	    [this, saveMetadata, saveName]
 	    {
-		    if (saveManager.overrideGame(saveMetadata, saveName, currentState))
+		    if (saveManager.overrideGame(saveMetadata, saveName, *currentState))
 		    {
 			    fw().stageQueueCommand({StageCmd::Command::POP});
 		    }

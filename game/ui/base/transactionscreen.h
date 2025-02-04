@@ -121,7 +121,7 @@ class TransactionScreen : public BaseStage
 	sp<TransactionControl> findControlById(const UString &itemId);
 
   public:
-	TransactionScreen(sp<GameState> state, bool forceLimits = false);
+	TransactionScreen(GameState &state, bool forceLimits = false);
 
 	// Stage control
 	void begin() override;

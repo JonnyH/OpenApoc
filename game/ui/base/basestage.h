@@ -35,12 +35,12 @@ class BaseStage : public Stage
 	// Can be introduced during transaction screen manipulation
 	int lqDelta = 0;
 
-	sp<GameState> state;
+	GameState &state;
 	virtual void changeBase(sp<Base> newBase = nullptr);
 	void refreshView();
 
   public:
-	BaseStage(sp<GameState> state);
+	BaseStage(GameState &state);
 	~BaseStage() override;
 	// Stage control
 	void begin() override;

@@ -21,12 +21,12 @@ class BaseBuyScreen : public Stage
 	sp<Graphic> baseView;
 	int price;
 
-	sp<GameState> state;
+	GameState &state;
 	sp<Base> base;
 	void renderBase();
 
   public:
-	BaseBuyScreen(sp<GameState> state, sp<Building> building);
+	BaseBuyScreen(GameState &state, sp<Building> building);
 	~BaseBuyScreen() override;
 	// Stage control
 	void begin() override;

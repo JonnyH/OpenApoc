@@ -15,7 +15,7 @@ class MoreOptions : public Stage
 {
   private:
 	sp<Form> menuform;
-	sp<GameState> state;
+	GameState &state;
 
 	UString getOptionFullName(const UString &optionSection, const UString &optionName) const;
 
@@ -48,7 +48,7 @@ class MoreOptions : public Stage
 	                          const std::function<void(FormsEvent *e)> &buttonDownClickCallback);
 
   public:
-	MoreOptions(sp<GameState> state);
+	MoreOptions(GameState &state);
 	~MoreOptions() override;
 
 	void saveLists();

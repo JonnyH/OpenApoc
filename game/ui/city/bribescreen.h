@@ -16,7 +16,7 @@ class BribeScreen : public Stage
 {
   private:
 	sp<Form> menuform;
-	sp<GameState> state;
+	GameState &state;
 
 	sp<Label> labelFunds;
 	sp<Label> labelRelation;
@@ -32,7 +32,7 @@ class BribeScreen : public Stage
 	UString getOfferString(int itWillCost, const UString &newAttitude) const;
 
   public:
-	BribeScreen(sp<GameState> state);
+	BribeScreen(GameState &state);
 	~BribeScreen() override;
 	// Stage control
 	void begin() override;

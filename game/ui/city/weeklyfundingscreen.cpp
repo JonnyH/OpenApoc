@@ -13,7 +13,7 @@
 namespace OpenApoc
 {
 
-WeeklyFundingScreen::WeeklyFundingScreen(sp<GameState> state)
+WeeklyFundingScreen::WeeklyFundingScreen(GameState &state)
     : Stage(), menuform(ui().getForm("city/weekly_funding")), state(state)
 {
 	labelCurrentIncome = menuform->findControlTyped<Label>("FUNDING_CURRENT");
@@ -31,22 +31,22 @@ WeeklyFundingScreen::~WeeklyFundingScreen() = default;
 void WeeklyFundingScreen::begin()
 {
 	// Validate that we can recieve funding
-	if (state->fundingTerminated)
+	if (state.fundingTerminated)
 	{
 		fw().stageQueueCommand({StageCmd::Command::POP});
 		return;
 	}
 
-	menuform->findControlTyped<Label>("TEXT_FUNDS")->setText(state->getPlayerBalance());
-	menuform->findControlTyped<Label>("TEXT_DATE")->setText(state->gameTime.getLongDateString());
-	menuform->findControlTyped<Label>("TEXT_WEEK")->setText(state->gameTime.getWeekString());
+	menuform->findControlTyped<Label>("TEXT_FUNDS")->setText(state.getPlayerBalance());
+	menuform->findControlTyped<Label>("TEXT_DATE")->setText(state.gameTime.getLongDateString());
+	menuform->findControlTyped<Label>("TEXT_WEEK")->setText(state.gameTime.getWeekString());
 
 	menuform->findControlTyped<Label>("TITLE")->setText(tr("WEEKLY FUNDING ASSESSMENT"));
 
 	UString ratingDescription;
 
-	const auto player = state->getPlayer();
-	const auto government = state->getGovernment();
+	const auto player = state.getPlayer();
+	const auto government = state.getGovernment();
 	int currentIncome = player->income;
 
 	if (government->isRelatedTo(player) == Organisation::Relation::Hostile)
@@ -58,7 +58,7 @@ void WeeklyFundingScreen::begin()
 
 		currentIncome = 0;
 	}
-	else if (state->totalScore.getTotal() < -2400)
+	else if (state.totalScore.getTotal() < -2400)
 	{
 		ratingDescription = tr("The Senate considers the performance of X-COM to be so abysmal "
 		                       "that it will cease funding from now on.");
@@ -67,14 +67,14 @@ void WeeklyFundingScreen::begin()
 	}
 	else
 	{
-		const int rating = state->weekScore.getTotal();
-		const int modifier = state->calculateFundingModifier();
+		const int rating = state.weekScore.getTotal();
+		const int modifier = state.calculateFundingModifier();
 
 		int neutralRatingThreshold = 0;
-		if (!state->weekly_rating_rules.empty())
+		if (!state.weekly_rating_rules.empty())
 		{
 			// last entry should be smallest positive value that gives funding increase
-			neutralRatingThreshold = state->weekly_rating_rules.back().first;
+			neutralRatingThreshold = state.weekly_rating_rules.back().first;
 		}
 
 		const int availableGovFunds = government->balance / 2;

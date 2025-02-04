@@ -24,43 +24,43 @@
 namespace OpenApoc
 {
 
-MapSelector::MapSelector(sp<GameState> state, Skirmish &skirmish)
+MapSelector::MapSelector(GameState &state, Skirmish &skirmish)
     : Stage(), menuform(ui().getForm("mapselector")), skirmish(skirmish)
 {
-	menuform->findControlTyped<Label>("TEXT_FUNDS")->setText(state->getPlayerBalance());
+	menuform->findControlTyped<Label>("TEXT_FUNDS")->setText(state.getPlayerBalance());
 
 	auto listbox = menuform->findControlTyped<ListBox>("LISTBOX_MAPS");
 	std::set<sp<BattleMap>> seen_maps;
-	for (auto &b : state->player_bases)
+	for (auto &b : state.player_bases)
 	{
-		listbox->addItem(createMapRowBase({state.get(), b.first}, state));
+		listbox->addItem(createMapRowBase({&state, b.first}, state));
 	}
-	for (auto &v : state->vehicle_types)
+	for (auto &v : state.vehicle_types)
 	{
 		if (!v.second->battle_map || seen_maps.find(v.second->battle_map) != seen_maps.end())
 			continue;
 		seen_maps.insert(v.second->battle_map);
-		listbox->addItem(createMapRowVehicle({state.get(), v.first}, state));
+		listbox->addItem(createMapRowVehicle({&state, v.first}, state));
 	}
-	for (auto &c : state->cities)
+	for (auto &c : state.cities)
 	{
 		for (auto &b : c.second->buildings)
 		{
-			listbox->addItem(createMapRowBuilding({state.get(), b.first}, state));
+			listbox->addItem(createMapRowBuilding({&state, b.first}, state));
 		}
 	}
 }
 
 MapSelector::~MapSelector() = default;
 
-sp<Control> MapSelector::createMapRowBuilding(StateRef<Building> building, sp<GameState> state)
+sp<Control> MapSelector::createMapRowBuilding(StateRef<Building> building, GameState &state)
 {
 	auto control = mksp<Control>();
 
 	const int HEIGHT = 21;
 
 	auto text = control->createChild<Label>(
-	    format("[%s Building] %s [%s]", building->owner == state->getAliens() ? "Alien" : "Human",
+	    format("[%s Building] %s [%s]", building->owner == state.getAliens() ? "Alien" : "Human",
 	           building->name, building->battle_map.id),
 	    ui().getFont("smalfont"));
 	text->Location = {0, 0};
@@ -74,7 +74,7 @@ sp<Control> MapSelector::createMapRowBuilding(StateRef<Building> building, sp<Ga
 		btnLocation->Location = text->Location + Vec2<int>{text->Size.x, 0};
 		btnLocation->Size = {22, HEIGHT};
 		btnLocation->addCallback(FormEventType::ButtonClick,
-		                         [building, state, this](Event *)
+		                         [building, &state, this](Event *)
 		                         {
 			                         skirmish.setLocation(building);
 			                         fw().stageQueueCommand({StageCmd::Command::POP});
@@ -85,7 +85,7 @@ sp<Control> MapSelector::createMapRowBuilding(StateRef<Building> building, sp<Ga
 	return control;
 }
 
-sp<Control> MapSelector::createMapRowVehicle(StateRef<VehicleType> vehicle, sp<GameState> state)
+sp<Control> MapSelector::createMapRowVehicle(StateRef<VehicleType> vehicle, GameState &state)
 {
 	auto control = mksp<Control>();
 
@@ -104,7 +104,7 @@ sp<Control> MapSelector::createMapRowVehicle(StateRef<VehicleType> vehicle, sp<G
 		btnLocation->Location = text->Location + Vec2<int>{text->Size.x, 0};
 		btnLocation->Size = {22, HEIGHT};
 		btnLocation->addCallback(FormEventType::ButtonClick,
-		                         [vehicle, state, this](Event *)
+		                         [vehicle, &state, this](Event *)
 		                         {
 			                         skirmish.setLocation(vehicle);
 			                         fw().stageQueueCommand({StageCmd::Command::POP});
@@ -115,7 +115,7 @@ sp<Control> MapSelector::createMapRowVehicle(StateRef<VehicleType> vehicle, sp<G
 	return control;
 }
 
-sp<Control> MapSelector::createMapRowBase(StateRef<Base> base, sp<GameState> state)
+sp<Control> MapSelector::createMapRowBase(StateRef<Base> base, GameState &state)
 {
 	auto control = mksp<Control>();
 
@@ -134,7 +134,7 @@ sp<Control> MapSelector::createMapRowBase(StateRef<Base> base, sp<GameState> sta
 		btnLocation->Location = text->Location + Vec2<int>{text->Size.x, 0};
 		btnLocation->Size = {22, HEIGHT};
 		btnLocation->addCallback(FormEventType::ButtonClick,
-		                         [base, state, this](Event *)
+		                         [base, &state, this](Event *)
 		                         {
 			                         skirmish.setLocation(base);
 			                         fw().stageQueueCommand({StageCmd::Command::POP});

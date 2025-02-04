@@ -74,7 +74,7 @@ std::list<std::pair<UString, UString>> cityNotificationList = {
 
 } // namespace
 
-InGameOptions::InGameOptions(sp<GameState> state)
+InGameOptions::InGameOptions(GameState &state)
     : Stage(), menuform(ui().getForm("ingameoptions")), state(state)
 {
 }
@@ -97,7 +97,7 @@ void InGameOptions::loadList()
 	menuform->findControlTyped<Label>("LIST_NAME")->setText(tr("Message Toggles"));
 	std::list<std::pair<UString, UString>> *notificationList = nullptr;
 
-	notificationList = state->current_battle ? &battleNotificationList : &cityNotificationList;
+	notificationList = state.current_battle ? &battleNotificationList : &cityNotificationList;
 
 	auto listControl = menuform->findControlTyped<ListBox>("NOTIFICATIONS_LIST");
 	listControl->clear();
@@ -141,7 +141,7 @@ void InGameOptions::begin()
 	menuform->findControlTyped<CheckBox>("AUTO_EXECUTE_ORDERS")
 	    ->setChecked(config().getBool("Options.Misc.AutoExecute"));
 
-	if (state->current_battle)
+	if (state.current_battle)
 	{
 		menuform->findControlTyped<TextButton>("BUTTON_EXIT_BATTLE")->setVisible(true);
 		menuform->findControlTyped<TextButton>("BUTTON_SKIRMISH")->setVisible(false);
@@ -152,7 +152,7 @@ void InGameOptions::begin()
 		menuform->findControlTyped<TextButton>("BUTTON_SKIRMISH")->setVisible(true);
 	}
 
-	menuform->findControlTyped<Label>("TEXT_FUNDS")->setText(state->getPlayerBalance());
+	menuform->findControlTyped<Label>("TEXT_FUNDS")->setText(state.getPlayerBalance());
 
 	loadList();
 }
@@ -218,19 +218,19 @@ void InGameOptions::eventOccurred(Event *e)
 		if (e->forms().RaisedBy->Name == "BUTTON_SAVEGAME")
 		{
 			fw().stageQueueCommand(
-			    {StageCmd::Command::PUSH, mksp<SaveMenu>(SaveMenuAction::Save, state)});
+			    {StageCmd::Command::PUSH, mksp<SaveMenu>(SaveMenuAction::Save, &state)});
 			return;
 		}
 		if (e->forms().RaisedBy->Name == "BUTTON_DELETESAVEDGAME")
 		{
 			fw().stageQueueCommand(
-			    {StageCmd::Command::PUSH, mksp<SaveMenu>(SaveMenuAction::Delete, state)});
+			    {StageCmd::Command::PUSH, mksp<SaveMenu>(SaveMenuAction::Delete, &state)});
 			return;
 		}
 		if (e->forms().RaisedBy->Name == "BUTTON_LOADGAME")
 		{
 			fw().stageQueueCommand(
-			    {StageCmd::Command::PUSH, mksp<SaveMenu>(SaveMenuAction::Load, state)});
+			    {StageCmd::Command::PUSH, mksp<SaveMenu>(SaveMenuAction::Load, &state)});
 			return;
 		}
 		if (e->forms().RaisedBy->Name == "BUTTON_NEXT_LIST")
@@ -245,20 +245,20 @@ void InGameOptions::eventOccurred(Event *e)
 		}
 		if (e->forms().RaisedBy->Name == "BUTTON_EXIT_BATTLE")
 		{
-			int unitsLost = state->current_battle->killStrandedUnits(
-			    *state, state->current_battle->currentPlayer, true);
-			fw().stageQueueCommand(
-			    {StageCmd::Command::PUSH,
-			     mksp<MessageBox>(tr("Abort Mission"),
-			                      format("%s %d", tr("Units Lost :"), unitsLost),
-			                      MessageBox::ButtonOptions::YesNo,
-			                      [this]
-			                      {
-				                      state->current_battle->abortMission(*state);
-				                      Battle::finishBattle(*state);
-				                      fw().stageQueueCommand({StageCmd::Command::REPLACEALL,
+			int unitsLost = state.current_battle->killStrandedUnits(
+			    state, state.current_battle->currentPlayer, true);
+			fw().stageQueueCommand({StageCmd::Command::PUSH,
+			                        mksp<MessageBox>(tr("Abort Mission"),
+			                                         format("%s %d", tr("Units Lost :"), unitsLost),
+			                                         MessageBox::ButtonOptions::YesNo,
+			                                         [this]
+			                                         {
+				                                         state.current_battle->abortMission(state);
+				                                         Battle::finishBattle(state);
+				                                         fw().stageQueueCommand(
+				                                             {StageCmd::Command::REPLACEALL,
 				                                              mksp<BattleDebriefing>(state)});
-			                      })});
+			                                         })});
 		}
 		else if (e->forms().RaisedBy->Name == "BUTTON_SKIRMISH")
 		{

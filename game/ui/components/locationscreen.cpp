@@ -20,7 +20,7 @@
 namespace OpenApoc
 {
 
-LocationScreen::LocationScreen(sp<GameState> state, sp<Agent> agent)
+LocationScreen::LocationScreen(GameState &state, sp<Agent> agent)
     : Stage(), menuform(ui().getForm("city/location")), state(state), agent(agent)
 {
 	if (agent->currentBuilding)
@@ -32,7 +32,7 @@ LocationScreen::LocationScreen(sp<GameState> state, sp<Agent> agent)
 	    fw().data->loadImage("xcom3/ufodata/location.pcx"));
 }
 
-LocationScreen::LocationScreen(sp<GameState> state, sp<Vehicle> vehicle)
+LocationScreen::LocationScreen(GameState &state, sp<Vehicle> vehicle)
     : Stage(), menuform(ui().getForm("city/location")), state(state), vehicle(vehicle)
 {
 	if (vehicle->currentBuilding)
@@ -71,7 +71,7 @@ void LocationScreen::begin()
 	{
 		LogError("Nothing set as owner in LocationScreen?");
 	}
-	menuform->findControlTyped<Label>("TEXT_FUNDS")->setText(state->getPlayerBalance());
+	menuform->findControlTyped<Label>("TEXT_FUNDS")->setText(state.getPlayerBalance());
 }
 
 void LocationScreen::pause() {}

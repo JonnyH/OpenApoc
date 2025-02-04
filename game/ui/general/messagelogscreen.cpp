@@ -17,11 +17,11 @@
 namespace OpenApoc
 {
 
-MessageLogScreen::MessageLogScreen(sp<GameState> state, CityView &cityView)
+MessageLogScreen::MessageLogScreen(GameState &state, CityView &cityView)
     : Stage(), menuform(ui().getForm("messagelog")), state(state)
 {
 	auto listbox = menuform->findControlTyped<ListBox>("LISTBOX_MESSAGES");
-	for (EventMessage message : state->messages)
+	for (EventMessage message : state.messages)
 	{
 		listbox->addItem(createMessageRow(message, state, cityView));
 	}
@@ -29,11 +29,11 @@ MessageLogScreen::MessageLogScreen(sp<GameState> state, CityView &cityView)
 	listbox->scroller->scrollMax();
 }
 
-MessageLogScreen::MessageLogScreen(sp<GameState> state, BattleView &battleView)
+MessageLogScreen::MessageLogScreen(GameState &state, BattleView &battleView)
     : Stage(), menuform(ui().getForm("messagelog")), state(state)
 {
 	auto listbox = menuform->findControlTyped<ListBox>("LISTBOX_MESSAGES");
-	for (EventMessage message : state->messages)
+	for (EventMessage message : state.messages)
 	{
 		listbox->addItem(createMessageRow(message, state, battleView));
 	}
@@ -43,22 +43,22 @@ MessageLogScreen::MessageLogScreen(sp<GameState> state, BattleView &battleView)
 
 MessageLogScreen::~MessageLogScreen() = default;
 
-sp<Control> MessageLogScreen::createMessageRow(EventMessage message, sp<GameState> state,
+sp<Control> MessageLogScreen::createMessageRow(EventMessage message, GameState &state,
                                                CityView &cityView)
 {
 	return createMessageRow(message, state,
-	                        [message, state, &cityView](Event *)
+	                        [message, &state, &cityView](Event *)
 	                        {
 		                        cityView.setScreenCenterTile(message.location);
 		                        fw().stageQueueCommand({StageCmd::Command::POP});
 	                        });
 }
 
-sp<Control> MessageLogScreen::createMessageRow(EventMessage message, sp<GameState> state,
+sp<Control> MessageLogScreen::createMessageRow(EventMessage message, GameState &state,
                                                BattleView &battleView)
 {
 	return createMessageRow(message, state,
-	                        [message, state, &battleView](Event *)
+	                        [message, &state, &battleView](Event *)
 	                        {
 		                        battleView.setScreenCenterTile(message.location);
 		                        fw().stageQueueCommand({StageCmd::Command::POP});
@@ -66,7 +66,7 @@ sp<Control> MessageLogScreen::createMessageRow(EventMessage message, sp<GameStat
 }
 
 sp<Control> MessageLogScreen::createMessageRow(EventMessage message,
-                                               sp<GameState> state [[maybe_unused]],
+                                               GameState &state [[maybe_unused]],
                                                std::function<void(FormsEvent *e)> callback)
 {
 	auto control = mksp<Control>();
@@ -108,7 +108,7 @@ sp<Control> MessageLogScreen::createMessageRow(EventMessage message,
 
 void MessageLogScreen::begin()
 {
-	menuform->findControlTyped<Label>("TEXT_FUNDS")->setText(state->getPlayerBalance());
+	menuform->findControlTyped<Label>("TEXT_FUNDS")->setText(state.getPlayerBalance());
 }
 
 void MessageLogScreen::pause() {}
