@@ -79,7 +79,7 @@ static inline bool logLevelEnabled(LogLevel level [[maybe_unused]])
 		if (OpenApoc::logLevelEnabled(OpenApoc::LogLevel::Debug))                                  \
 		{                                                                                          \
 			OpenApoc::Log(OpenApoc::LogLevel::Debug, OpenApoc::UString(LOGGER_PREFIX),             \
-			              ::OpenApoc::format(f, ##__VA_ARGS__));                                   \
+			              fmt::format(f, ##__VA_ARGS__));                                          \
 		}                                                                                          \
 	} while (0)
 #define LogInfo(f, ...)                                                                            \
@@ -88,7 +88,7 @@ static inline bool logLevelEnabled(LogLevel level [[maybe_unused]])
 		if (OpenApoc::logLevelEnabled(OpenApoc::LogLevel::Info))                                   \
 		{                                                                                          \
 			OpenApoc::Log(OpenApoc::LogLevel::Info, OpenApoc::UString(LOGGER_PREFIX),              \
-			              ::OpenApoc::format(f, ##__VA_ARGS__));                                   \
+			              fmt::format(f, ##__VA_ARGS__));                                          \
 		}                                                                                          \
 	} while (0)
 #define LogWarning(f, ...)                                                                         \
@@ -97,7 +97,7 @@ static inline bool logLevelEnabled(LogLevel level [[maybe_unused]])
 		if (OpenApoc::logLevelEnabled(OpenApoc::LogLevel::Warning))                                \
 		{                                                                                          \
 			OpenApoc::Log(OpenApoc::LogLevel::Warning, OpenApoc::UString(LOGGER_PREFIX),           \
-			              ::OpenApoc::format(f, ##__VA_ARGS__));                                   \
+			              fmt::format(f, ##__VA_ARGS__));                                          \
 		}                                                                                          \
 	} while (0)
 #define LogError(f, ...)                                                                           \
@@ -106,7 +106,7 @@ static inline bool logLevelEnabled(LogLevel level [[maybe_unused]])
 		if (OpenApoc::logLevelEnabled(OpenApoc::LogLevel::Error))                                  \
 		{                                                                                          \
 			OpenApoc::Log(OpenApoc::LogLevel::Error, OpenApoc::UString(LOGGER_PREFIX),             \
-			              ::OpenApoc::format(f, ##__VA_ARGS__));                                   \
+			              fmt::format(f, ##__VA_ARGS__));                                          \
 		}                                                                                          \
 	} while (0)
 #else
@@ -116,8 +116,7 @@ static inline bool logLevelEnabled(LogLevel level [[maybe_unused]])
 	{                                                                                              \
 		if (OpenApoc::logLevelEnabled(OpenApoc::LogLevel::Debug))                                  \
 		{                                                                                          \
-			OpenApoc::Log(OpenApoc::LogLevel::Debug, LOGGER_PREFIX,                                \
-			              ::OpenApoc::format(f, __VA_ARGS__));                                     \
+			OpenApoc::Log(OpenApoc::LogLevel::Debug, LOGGER_PREFIX, fmt::format(f, __VA_ARGS__));  \
 		}                                                                                          \
 	} while (0)
 #define LogInfo(f, ...)                                                                            \
@@ -125,8 +124,7 @@ static inline bool logLevelEnabled(LogLevel level [[maybe_unused]])
 	{                                                                                              \
 		if (OpenApoc::logLevelEnabled(OpenApoc::LogLevel::Info))                                   \
 		{                                                                                          \
-			OpenApoc::Log(OpenApoc::LogLevel::Info, LOGGER_PREFIX,                                 \
-			              ::OpenApoc::format(f, __VA_ARGS__));                                     \
+			OpenApoc::Log(OpenApoc::LogLevel::Info, LOGGER_PREFIX, fmt::format(f, __VA_ARGS__));   \
 		}                                                                                          \
 	} while (0)
 #define LogWarning(f, ...)                                                                         \
@@ -135,7 +133,7 @@ static inline bool logLevelEnabled(LogLevel level [[maybe_unused]])
 		if (OpenApoc::logLevelEnabled(OpenApoc::LogLevel::Warning))                                \
 		{                                                                                          \
 			OpenApoc::Log(OpenApoc::LogLevel::Warning, LOGGER_PREFIX,                              \
-			              ::OpenApoc::format(f, __VA_ARGS__));                                     \
+			              fmt::format(f, __VA_ARGS__));                                            \
 		}                                                                                          \
 	} while (0)
 #define LogError(f, ...)                                                                           \
@@ -143,8 +141,7 @@ static inline bool logLevelEnabled(LogLevel level [[maybe_unused]])
 	{                                                                                              \
 		if (OpenApoc::logLevelEnabled(OpenApoc::LogLevel::Error))                                  \
 		{                                                                                          \
-			OpenApoc::Log(OpenApoc::LogLevel::Error, LOGGER_PREFIX,                                \
-			              ::OpenApoc::format(f, __VA_ARGS__));                                     \
+			OpenApoc::Log(OpenApoc::LogLevel::Error, LOGGER_PREFIX, fmt::format(f, __VA_ARGS__));  \
 		}                                                                                          \
 	} while (0)
 #endif
