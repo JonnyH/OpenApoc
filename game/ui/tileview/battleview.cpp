@@ -74,14 +74,14 @@ static const int NUM_TABS_TB = 4;
 
 } // anonymous namespace
 
-BattleView::BattleView(GameState &stat)
-    : BattleTileView(*state.current_battle->map,
+BattleView::BattleView(GameState &_state)
+    : BattleTileView(*_state.current_battle->map,
                      Vec3<int>{TILE_X_BATTLE, TILE_Y_BATTLE, TILE_Z_BATTLE},
                      Vec2<int>{STRAT_TILE_X, STRAT_TILE_Y}, TileViewMode::Isometric,
-                     state.current_battle->battleViewScreenCenter, state),
+                     _state.current_battle->battleViewScreenCenter, _state),
       baseForm(ui().getForm("battle/battle")),
-      debugOverlay(ui().getForm("battle/debugoverlay_battle")), state(state),
-      battle(*state.current_battle), followAgent(false),
+      debugOverlay(ui().getForm("battle/debugoverlay_battle")), state(_state),
+      battle(*_state.current_battle), followAgent(false),
       selectionState(BattleSelectionState::Normal)
 {
 	motionScannerDirectionIcons.push_back(
