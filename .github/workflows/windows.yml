@@ -27,7 +27,7 @@ jobs:
       run: cmake -E make_directory ${{runner.workspace}}/build
 
     - name: Install choco packages
-      run: choco install nsis curl
+      run: choco install nsis curl ninja
 
     - name: Download minimal cd image
       run: curl http://s2.jonnyh.net/pub/cd_minimal.iso.xz -o ${{github.workspace}}\data\cd.iso.xz
@@ -42,7 +42,7 @@ jobs:
       # Note the current convention is to use the -S and -B options here to specify source 
       # and build directories, but this is only available with CMake 3.13 and higher.  
       # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
-      run: cmake ${{github.workspace}} -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+      run: cmake ${{github.workspace}} -DCMAKE_BUILD_TYPE=$BUILD_TYPE -GNinja
 
     - name: Build
       working-directory: ${{runner.workspace}}/build
