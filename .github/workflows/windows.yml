@@ -75,8 +75,8 @@ jobs:
     - name: Upload debug files
       uses: actions/upload-artifact@v4
       with:
-        name: %OPENAPOC_DEBUG_FILENAME%
-        path: %OPENAPOC_DEBUG_FILENAME%
+        name: ${{ env.OPENAPOC_DEBUG_FILENAME }}
+        path: ${{ env.OPENAPOC_DEBUG_FILENAME }}
 
     - name: Prepare portable
       working-directory: ${{runner.workspace}}
