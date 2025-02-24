@@ -30,10 +30,10 @@ jobs:
       run: choco install nsis curl
 
     - name: Download minimal cd image
-      run: curl http://s2.jonnyh.net/pub/cd_minimal.iso.xz -o ${{runner.workspace}}\data\cd.iso.xz
+      run: curl http://s2.jonnyh.net/pub/cd_minimal.iso.xz -o ${{runner.workspace}}\OpenApoc\data\cd.iso.xz
     
     - name: Extract minimal cd image
-      run: xz -d ${{runner.workspace}}\data\cd.iso.xz
+      run: xz -d ${{runner.workspace}}\OpenApoc\data\cd.iso.xz
 
     - name: Configure CMake
       # Use a bash shell so we can use the same syntax for environment variable
