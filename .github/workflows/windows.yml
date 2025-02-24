@@ -27,7 +27,7 @@ jobs:
       uses: lukka/run-vcpkg@v11
       with:
         vcpkgGitCommitId: d5ec528843d29e3a52d745a64b469f810b2cedbf #2025.02.14
-        vcpkgDirectory: '${{ github.workspace }}/vcpkg'
+        vcpkgDirectory: '${{ runner.workspace }}/vcpkg'
 
     - name: Create Build Environment
       # Some projects don't allow in-source building, so create a separate build directory
@@ -50,7 +50,7 @@ jobs:
       # Note the current convention is to use the -S and -B options here to specify source 
       # and build directories, but this is only available with CMake 3.13 and higher.  
       # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
-      run: cmake ${{github.workspace}} -DCMAKE_BUILD_TYPE=$BUILD_TYPE -GNinja -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake
+      run: cmake ${{github.workspace}} -DCMAKE_BUILD_TYPE=$BUILD_TYPE -GNinja -DCMAKE_TOOLCHAIN_FILE=${{ runner.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake
 
     - name: Build
       working-directory: ${{runner.workspace}}/build
@@ -62,3 +62,34 @@ jobs:
       # Execute tests defined by the CMake configuration.  
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: ctest -C %BUILD_TYPE%
+
+    - name: Prepare debug
+      working-directory: ${{runner.workspace}}
+      run: |
+        git describe --tags > build-id
+        set /p OPENAPOC_VERSION= < build-id
+        set OPENAPOC_DEBUG_FILENAME=OpenApoc-debug-%PLATFORM%-%OPENAPOC_VERSION%.7z
+        copy build\bin\*.pdb OpenApoc-%OPENAPOC_VERSION%\
+        7z a %OPENAPOC_DEBUG_FILENAME% OpenApoc-%OPENAPOC_VERSION% -mx=9 -myx=7
+        del OpenApoc-%OPENAPOC_VERSION%\*.pdb
+    - name: Upload debug files
+      uses: actions/upload-artifact@v4
+      with:
+        name: %OPENAPOC_DEBUG_FILENAME%
+        path: %OPENAPOC_DEBUG_FILENAME%
+
+    - name: Prepare portable
+      working-directory: ${{runner.workspace}}
+      run: |
+        set OPENAPOC_FILENAME=OpenApoc-%PLATFORM%-%OPENAPOC_VERSION%.7z
+        mkdir OpenApoc-%OPENAPOC_VERSION%
+        echo %APPVEYOR_REPO_COMMIT% > OpenApoc-%OPENAPOC_VERSION%\git-commit
+        echo %OPENAPOC_VERSION% > OpenApoc-%OPENAPOC_VERSION%\build-id
+        copy build\bin\*.dll OpenApoc-%OPENAPOC_VERSION%\
+        copy build\bin\openapoc.exe OpenApoc-%OPENAPOC_VERSION%\
+        copy build\bin\openapoc_launcher.exe OpenApoc-%OPENAPOC_VERSION%\
+        start %QTPATH%\bin\windeployqt --no-angle --no-opengl-sw --no-compiler-runtime OpenApoc-%OPENAPOC_VERSION%\OpenApoc_Launcher.exe
+        xcopy /E OpenApoc\data OpenApoc-%OPENAPOC_VERSION%\data\
+        copy OpenApoc\*.md OpenApoc-%OPENAPOC_VERSION%\
+        copy OpenApoc\*.txt OpenApoc-%OPENAPOC_VERSION%\
+        
