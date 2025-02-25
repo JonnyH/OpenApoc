@@ -55,6 +55,7 @@ jobs:
       # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
       run: |
         '"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat ${{ env.VCVARS_ARCH }}"'
+        cl.exe
         cmake ${{github.workspace}} -DCMAKE_C_COMPILER="cl.exe" -DCMAKE_CXX_COMPILER="cl.exe" -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -GNinja -DCMAKE_TOOLCHAIN_FILE=${{ runner.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake -DUSE_SYSTEM_QT=ON -DMSVC_PDB=ON
 
     - name: Build
