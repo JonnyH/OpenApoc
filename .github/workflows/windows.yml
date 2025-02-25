@@ -68,7 +68,7 @@ jobs:
     - name: Prepare debug
       working-directory: ${{runner.workspace}}
       run: |
-        git describe --tags > build-id
+        git -C ${{github.workspace}} describe --tags > build-id
         $env:OPENAPOC_VERSION = (Get-Content build-id)
         $env:OPENAPOC_DEBUG_FILENAME = OpenApoc-debug-$env:PLATFORM-$env:OPENAPOC_VERSION.7z
         copy build\bin\*.pdb OpenApoc-$env:OPENAPOC_VERSION
