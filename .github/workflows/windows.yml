@@ -70,7 +70,7 @@ jobs:
       run: |
         git describe --tags > build-id
         $env:OPENAPOC_VERSION = (Get-Content build-id)
-        $env:OPENAPOC_DEBUG_FILENAME=OpenApoc-debug-$env:PLATFORM-$env:OPENAPOC_VERSION.7z
+        $env:OPENAPOC_DEBUG_FILENAME = OpenApoc-debug-$env:PLATFORM-$env:OPENAPOC_VERSION.7z
         copy build\bin\*.pdb OpenApoc-$env:OPENAPOC_VERSION
         7z a $env:OPENAPOC_DEBUG_FILENAME OpenApoc-$env:OPENAPOC_VERSION -mx=9 -myx=7
         del OpenApoc-$env:OPENAPOC_VERSION\*.pdb
