@@ -70,10 +70,10 @@ jobs:
       run: |
         git describe --tags > build-id
         $env:OPENAPOC_VERSION = (Get-Content build-id)
-        set OPENAPOC_DEBUG_FILENAME=OpenApoc-debug-%PLATFORM%-%OPENAPOC_VERSION%.7z
-        copy build\bin\*.pdb OpenApoc-%OPENAPOC_VERSION%\
-        7z a %OPENAPOC_DEBUG_FILENAME% OpenApoc-%OPENAPOC_VERSION% -mx=9 -myx=7
-        del OpenApoc-%OPENAPOC_VERSION%\*.pdb
+        set OPENAPOC_DEBUG_FILENAME=OpenApoc-debug-$env:PLATFORM-$env:OPENAPOC_VERSION.7z
+        copy build\bin\*.pdb OpenApoc-$env:OPENAPOC_VERSION\
+        7z a $env:OPENAPOC_DEBUG_FILENAME OpenApoc-$env:OPENAPOC_VERSION -mx=9 -myx=7
+        del OpenApoc-$env:OPENAPOC_VERSION\*.pdb
     - name: Upload debug files
       uses: actions/upload-artifact@v4
       with:
@@ -83,15 +83,15 @@ jobs:
     - name: Prepare portable
       working-directory: ${{runner.workspace}}
       run: |
-        set OPENAPOC_FILENAME=OpenApoc-%PLATFORM%-%OPENAPOC_VERSION%.7z
-        mkdir OpenApoc-%OPENAPOC_VERSION%
-        echo %APPVEYOR_REPO_COMMIT% > OpenApoc-%OPENAPOC_VERSION%\git-commit
-        echo %OPENAPOC_VERSION% > OpenApoc-%OPENAPOC_VERSION%\build-id
-        copy build\bin\*.dll OpenApoc-%OPENAPOC_VERSION%\
-        copy build\bin\openapoc.exe OpenApoc-%OPENAPOC_VERSION%\
-        copy build\bin\openapoc_launcher.exe OpenApoc-%OPENAPOC_VERSION%\
-        start %QTPATH%\bin\windeployqt --no-angle --no-opengl-sw --no-compiler-runtime OpenApoc-%OPENAPOC_VERSION%\OpenApoc_Launcher.exe
-        xcopy /E OpenApoc\data OpenApoc-%OPENAPOC_VERSION%\data\
-        copy OpenApoc\*.md OpenApoc-%OPENAPOC_VERSION%\
-        copy OpenApoc\*.txt OpenApoc-%OPENAPOC_VERSION%\
+        set OPENAPOC_FILENAME=OpenApoc-$env:PLATFORM-$env:OPENAPOC_VERSION.7z
+        mkdir OpenApoc-$env:OPENAPOC_VERSION
+        echo $env:OPENAPOC_VERSION > OpenApoc-$env:OPENAPOC_VERSION\git-commit
+        echo $env:OPENAPOC_VERSION > OpenApoc-$env:OPENAPOC_VERSION\build-id
+        copy build\bin\*.dll OpenApoc-$env:OPENAPOC_VERSION\
+        copy build\bin\openapoc.exe OpenApoc-$env:OPENAPOC_VERSION\
+        copy build\bin\openapoc_launcher.exe OpenApoc-$env:OPENAPOC_VERSION\
+        start $env:QTPATH\bin\windeployqt --no-angle --no-opengl-sw --no-compiler-runtime OpenApoc-$env:OPENAPOC_VERSION\OpenApoc_Launcher.exe
+        xcopy /E OpenApoc\data OpenApoc-$env:OPENAPOC_VERSION\data\
+        copy OpenApoc\*.md OpenApoc-$env:OPENAPOC_VERSION\
+        copy OpenApoc\*.txt OpenApoc-$env:OPENAPOC_VERSION\
         
