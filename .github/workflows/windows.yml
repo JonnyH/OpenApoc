@@ -69,7 +69,7 @@ jobs:
       working-directory: ${{runner.workspace}}
       run: |
         git describe --tags > build-id
-        set /p OPENAPOC_VERSION= < build-id
+        $env:OPENAPOC_VERSION = (Get-Content build-id)
         set OPENAPOC_DEBUG_FILENAME=OpenApoc-debug-%PLATFORM%-%OPENAPOC_VERSION%.7z
         copy build\bin\*.pdb OpenApoc-%OPENAPOC_VERSION%\
         7z a %OPENAPOC_DEBUG_FILENAME% OpenApoc-%OPENAPOC_VERSION% -mx=9 -myx=7
