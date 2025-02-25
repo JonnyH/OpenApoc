@@ -25,7 +25,7 @@ jobs:
       uses: jurplel/install-qt-action@v4
 
     - name: Setup vcvars
-      run: 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat ${{ env.VCVARS_ARCH }}'
+      run: '"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" ${{ env.VCVARS_ARCH }}'
 
 
     - name: Setup vcpkg
