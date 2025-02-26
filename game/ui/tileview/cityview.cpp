@@ -3601,7 +3601,7 @@ bool CityView::handleKeyDown(Event *e)
 				case SDLK_p:
 				{
 					LogWarning("Moving portals...");
-					state->current_city->generatePortals(*state);
+					state.current_city->generatePortals(state);
 				}
 			}
 		}
