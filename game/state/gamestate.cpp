@@ -43,7 +43,7 @@
 namespace OpenApoc
 {
 
-GameState::GameState() : player(this) {  }
+GameState::GameState() : player(this) {}
 
 GameState::~GameState()
 {
@@ -267,7 +267,7 @@ void GameState::initState()
 	skipTurboCalculations = config().getBool("OpenApoc.NewFeature.SkipTurboMovement");
 }
 
-void GameState::applyMods() { }
+void GameState::applyMods() {}
 
 void GameState::setCurrentCity(StateRef<City> city)
 {
