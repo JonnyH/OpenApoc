@@ -49,11 +49,6 @@
 				<size width="300" height="32"/>
 				<font>smalfont</font>
 			</textbutton>
-			<textbutton id="BUTTON_DEBUG" text="Debug Menu" visible="N">
-				<position x="centre" y="390"/>
-				<size width="300" height="32"/>
-				<font>smalfont</font>
-			</textbutton>
 		</style>
 	</form>
 </openapoc>

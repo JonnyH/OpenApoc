@@ -20,10 +20,6 @@ MainMenu::MainMenu() : Stage(), mainmenuform(ui().getForm("mainmenu"))
 {
 	auto versionLabel = mainmenuform->findControlTyped<Label>("VERSION_LABEL");
 	versionLabel->setText(OPENAPOC_VERSION);
-#ifndef NDEBUG
-	auto debugButton = mainmenuform->findControlTyped<Control>("BUTTON_DEBUG");
-	debugButton->setVisible(true);
-#endif
 }
 
 MainMenu::~MainMenu() = default;
