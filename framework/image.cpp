@@ -68,19 +68,12 @@ void PaletteImage::blit(sp<PaletteImage> src, sp<PaletteImage> dst, Vec2<unsigne
 
 RGBImage::RGBImage(Vec2<unsigned int> size, Colour initialColour)
     : Image(size),
-      pixels(reinterpret_cast<Colour *>(operator new[](size.x *size.y * sizeof(Colour))))
+
+      pixels(new Colour[size.x * size.y])
+
 {
-	if (initialColour.r == initialColour.g && initialColour.r == initialColour.b &&
-	    initialColour.r == initialColour.a)
-	{
-		memset(reinterpret_cast<void *>(pixels.get()), initialColour.r,
-		       sizeof(Colour) * size.x * size.y);
-	}
-	else
-	{
-		for (unsigned int i = 0; i < size.x * size.y; i++)
-			this->pixels[i] = initialColour;
-	}
+	for (unsigned int i = 0; i < size.x * size.y; i++)
+		this->pixels[i] = initialColour;
 }
 
 void RGBImage::blit(sp<RGBImage> src, sp<RGBImage> dst, Vec2<unsigned int> srcOffset,
