@@ -41,11 +41,7 @@ set (GAMEUI_SOURCE_FILES
 	components/equipscreen.cpp
 	components/locationscreen.cpp
 
-	debugtools/debugmenu.cpp
-	debugtools/formpreview.cpp
-	debugtools/imagepreview.cpp
-
-	general/aequipscreen.cpp
+		general/aequipscreen.cpp
 	general/aequipmentsheet.cpp
 	general/agentsheet.cpp
 	general/difficultymenu.cpp
@@ -109,11 +105,7 @@ set (GAMEUI_HEADER_FILES
 	components/equipscreen.h
 	components/locationscreen.h
 
-	debugtools/debugmenu.h
-	debugtools/formpreview.h
-	debugtools/imagepreview.h
-
-	general/aequipscreen.h
+		general/aequipscreen.h
 	general/aequipmentsheet.h
 	general/agentsheet.h
 	general/difficultymenu.h

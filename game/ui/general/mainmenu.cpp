@@ -7,7 +7,6 @@
 #include "framework/framework.h"
 #include "framework/jukebox.h"
 #include "framework/keycodes.h"
-#include "game/ui/debugtools/debugmenu.h"
 #include "game/ui/general/difficultymenu.h"
 #include "game/ui/general/loadingscreen.h"
 #include "game/ui/general/savemenu.h"
@@ -48,11 +47,6 @@ void MainMenu::eventOccurred(Event *e)
 			fw().stageQueueCommand({StageCmd::Command::QUIT});
 			return;
 		}
-		if (e->keyboard().KeyCode == SDLK_d)
-		{
-			fw().stageQueueCommand({StageCmd::Command::PUSH, mksp<DebugMenu>()});
-			return;
-		}
 	}
 
 	if (e->type() == EVENT_FORM_INTERACTION && e->forms().EventFlag == FormEventType::ButtonClick)
@@ -76,11 +70,6 @@ void MainMenu::eventOccurred(Event *e)
 		if (e->forms().RaisedBy->Name == "BUTTON_NEWGAME")
 		{
 			fw().stageQueueCommand({StageCmd::Command::PUSH, mksp<DifficultyMenu>()});
-			return;
-		}
-		if (e->forms().RaisedBy->Name == "BUTTON_DEBUG")
-		{
-			fw().stageQueueCommand({StageCmd::Command::PUSH, mksp<DebugMenu>()});
 			return;
 		}
 		if (e->forms().RaisedBy->Name == "BUTTON_LOADGAME")
