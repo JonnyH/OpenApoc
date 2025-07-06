@@ -40,7 +40,7 @@ template <typename T> class StateObject
 		return getPrefix() + Strings::fromU64(id);
 	}
 
-	virtual void destroy(){};
+	virtual void destroy() {};
 	// StateObjects are not copy-able
 	StateObject(const StateObject &) = delete;
 	// Move is fine
@@ -78,7 +78,7 @@ template <typename T> class StateRef
 
   public:
 	UString id;
-	StateRef() : state(nullptr){};
+	StateRef() : state(nullptr) {};
 	StateRef(const GameState *state) : state(state) {}
 	StateRef(const GameState *state, const UString &id) : state(state), id(id) {}
 	StateRef(const StateRef<T> &other) = default;
