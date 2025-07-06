@@ -1,4 +1,4 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 3.9)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.10)
 
 add_subdirectory(luagamestate_support_gen)
 add_subdirectory(gamestate_serialize_gen)

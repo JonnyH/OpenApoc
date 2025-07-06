@@ -1,5 +1,5 @@
 # check cmake version
-CMAKE_MINIMUM_REQUIRED(VERSION 3.9)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.10)
 
 # This changes the vcpkg features, so needs to be set before the first PROJECT() call
 option(BUILD_LAUNCHER "Build the launcher" ON)
@@ -191,7 +191,7 @@ add_dependencies(format format-sources)
 set(CLANG_FORMAT clang-format CACHE STRING "clang-format executable name in PATH")
 
 foreach(FORMAT_SOURCE ${FORMAT_SOURCES})
-	add_custom_command(TARGET format-sources COMMAND ${CLANG_FORMAT} -i ${FORMAT_SOURCE} DEPENDS ${FORMAT_SOURCE} .clang-format)
+	add_custom_command(TARGET format-sources POST_BUILD COMMAND ${CLANG_FORMAT} -i ${FORMAT_SOURCE} .clang-format)
 endforeach()
 
 file(GLOB_RECURSE XML_FILES ${CMAKE_SOURCE_DIR}/data/*.xml)
@@ -222,25 +222,25 @@ if (XMLLINT_COMMAND)
 			add_custom_command(TARGET format-xml COMMAND
 				${XMLLINT_COMMAND} --format --encode UTF-8
 				${XML_FILE}	--output ${XML_FILE}
-				DEPENDS ${XML_FILE})
+				POST_BUILD)
 		endforeach()
 		foreach(FONT_FILE ${FONT_FILES})
 			add_custom_command(TARGET format-fonts COMMAND
 				${XMLLINT_COMMAND} --format --encode UTF-8
 				${FONT_FILE} --output ${FONT_FILE}
-				DEPENDS ${FONT_FILE})
+				POST_BUILD)
 		endforeach()
 		foreach(FORM_FILE ${FORM_FILES})
 			add_custom_command(TARGET format-forms COMMAND
 				${XMLLINT_COMMAND} --format --encode UTF-8
 				${FORM_FILE} --output ${FORM_FILE}
-				DEPENDS ${FORM_FILE})
+				POST_BUILD)
 		endforeach()
 		foreach(ALIAS_FILE ${ALIAS_FILES})
 			add_custom_command(TARGET format-aliases COMMAND
 				${XMLLINT_COMMAND} --format --encode UTF-8
 				${ALIAS_FILE} --output ${ALIAS_FILE}
-				DEPENDS ${ALIAS_FILE})
+				POST_BUILD)
 		endforeach()
 else()
 	message("xmllint not found, disabling format-xml target")
@@ -283,7 +283,7 @@ if (GETTEXT_FOUND)
 		endforeach()
 		add_custom_target(update-translations DEPENDS pofiles)
 		foreach (LANG ${LANGUAGES})
-				add_custom_command(TARGET update-translations DEPENDS pofiles
+				add_custom_command(TARGET update-translations POST_BUILD
 						COMMAND ${CMAKE_COMMAND} -E copy
 						${CMAKE_BINARY_DIR}/ufo_string_${LANG}.gmo
 						${CMAKE_SOURCE_DIR}/data/languages/${LANG}/LC_MESSAGES/ufo_string.mo)

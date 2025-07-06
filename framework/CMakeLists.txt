@@ -2,7 +2,7 @@
 PROJECT(OpenApoc_Framework CXX C)
 
 # check cmake version
-CMAKE_MINIMUM_REQUIRED(VERSION 3.9)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.10)
 
 option(DIALOG_ON_ERROR "Pop up a dialog box showing errors" ON)
 
