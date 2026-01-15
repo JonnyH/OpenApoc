@@ -5,8 +5,8 @@ on: [push, pull_request]
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
-  CLANG_FORMAT: clang-format-18
-  CLANG_TIDY: clang-tidy-18
+  CLANG_FORMAT: clang-format-19
+  CLANG_TIDY: clang-tidy-19
 
 jobs:
   build:
@@ -35,6 +35,9 @@ jobs:
 
     - name: Update apt-get repo
       run: sudo apt-get update
+
+    - name: Show clang-format version
+      run: ${CLANG_FORMAT} --version
 
     - name: Install dependencies
       run: sudo apt-get install libsdl2-dev cmake build-essential git libunwind8-dev libboost-locale-dev libboost-filesystem-dev libboost-program-options-dev qt6-base-dev libvorbis-dev ninja-build ${CLANG_FORMAT} ${CLANG_TIDY}
