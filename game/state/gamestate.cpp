@@ -168,7 +168,7 @@ void GameState::initState()
 		city->initCity(*this);
 		if (newGame)
 		{
-			// if (c.first == "CITYMAP_HUMAN")
+			// if (c.first == "HUMAN")
 			{
 				city->fillRoadSegmentMap(*this);
 				city->initialSceneryLinkUp();
@@ -212,7 +212,7 @@ void GameState::initState()
 		}
 
 		// Fixing brainsucker pod store space for older saves
-		if (t.first == "AEQUIPMENTTYPE_BRAINSUCKER_POD")
+		if (t.first == "BRAINSUCKER_POD")
 		{
 			t.second->store_space = 1;
 		}
@@ -515,7 +515,7 @@ void GameState::fillOrgStartingProperty()
 	{
 		o.second->updateVehicleAgentPark(*this);
 		o.second->updateHirableAgents(*this);
-		for (auto &m : o.second->recurring_missions[{this, "CITYMAP_HUMAN"}])
+		for (auto &m : o.second->recurring_missions[{this, "HUMAN"}])
 		{
 			m.time +=
 			    gameTime.getTicks() +
@@ -615,12 +615,11 @@ void GameState::startGame()
 	// Add aliens into random building
 	int counter = 0;
 	int giveUpCount = 100;
-	auto buildingIt = this->cities["CITYMAP_HUMAN"]->buildings.begin();
+	auto buildingIt = this->cities["HUMAN"]->buildings.begin();
 	do
 	{
-		int buildID =
-		    randBoundsExclusive(rng, 0, (int)this->cities["CITYMAP_HUMAN"]->buildings.size());
-		buildingIt = this->cities["CITYMAP_HUMAN"]->buildings.begin();
+		int buildID = randBoundsExclusive(rng, 0, (int)this->cities["HUMAN"]->buildings.size());
+		buildingIt = this->cities["HUMAN"]->buildings.begin();
 		for (int i = 0; i < buildID; i++)
 		{
 			buildingIt++;
@@ -649,7 +648,7 @@ void GameState::fillPlayerStartingProperty()
 {
 	// Create the initial starting base
 	// Randomly shuffle buildings until we find one with a base layout
-	sp<City> humanCity = this->cities["CITYMAP_HUMAN"];
+	sp<City> humanCity = this->cities["HUMAN"];
 	setCurrentCity({this, humanCity});
 
 	std::vector<sp<Building>> buildingsWithBases;
@@ -671,8 +670,7 @@ void GameState::fillPlayerStartingProperty()
 	auto base = mksp<Base>(*this, StateRef<Building>{this, bld});
 	base->startingBase(*this);
 	base->name = "Base " + Strings::fromInteger(this->player_bases.size() + 1);
-	this->player_bases[Base::getPrefix() + Strings::fromInteger(this->player_bases.size() + 1)] =
-	    base;
+	this->player_bases[Strings::fromInteger(this->player_bases.size() + 1)] = base;
 	bld->owner = this->getPlayer();
 	bld->base = {this, base};
 	this->current_base = {this, base};
@@ -784,7 +782,7 @@ void GameState::fillPlayerStartingProperty()
 
 void GameState::invasion()
 {
-	auto invadedCity = StateRef<City>{this, "CITYMAP_HUMAN"};
+	auto invadedCity = StateRef<City>{this, "HUMAN"};
 	if (current_city != invadedCity)
 	{
 		nextInvasion += TICKS_PER_MINUTE;
@@ -793,8 +791,8 @@ void GameState::invasion()
 	nextInvasion = gameTime.getTicks() + 24 * TICKS_PER_HOUR +
 	               randBoundsInclusive(rng, 0, (int)(72 * TICKS_PER_HOUR));
 
-	auto invadingCity = StateRef<City>{this, "CITYMAP_ALIEN"};
-	auto invadingOrg = StateRef<Organisation>{this, "ORG_ALIEN"};
+	auto invadingCity = StateRef<City>{this, "ALIEN"};
+	auto invadingOrg = StateRef<Organisation>{this, "ALIEN"};
 
 	// Set a list of possible participants
 	std::map<UString, int> vehicleLimits;
@@ -809,12 +807,10 @@ void GameState::invasion()
 	}
 	// Select a random mission type
 	int week = this->gameTime.getWeek();
-	auto preference = this->ufo_mission_preference.find(
-	    format("{0}{1}", UFOMissionPreference::getPrefix(), week));
+	auto preference = this->ufo_mission_preference.find(Strings::fromInteger(week));
 	if (preference == this->ufo_mission_preference.end())
 	{
-		preference = this->ufo_mission_preference.find(
-		    format("{0}{1}", UFOMissionPreference::getPrefix(), "DEFAULT"));
+		preference = this->ufo_mission_preference.find("DEFAULT");
 	}
 	auto missionType = pickRandom(rng, preference->second->missionList);
 	// Compile list of missions rated by priority
@@ -1409,7 +1405,7 @@ void GameState::weeklyPlayerUpdate()
 void GameState::updateHumanEconomy()
 {
 	// TODO: remove hardcoded references
-	auto humanCity = cities["CITYMAP_HUMAN"];
+	auto humanCity = cities["HUMAN"];
 
 	humanCity->populationWorking = 0;
 	// Game resets only Government income, it's not right logically but will keep it to match OG

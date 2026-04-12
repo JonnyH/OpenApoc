@@ -547,7 +547,7 @@ void CityView::orderGoToBase()
 				}
 				LogInfo("Vehicle \"{0}\" goto building \"{1}\"", v->name, bld->name);
 				// FIXME: Don't clear missions if not replacing current mission
-				if (v->city.id == "CITYMAP_HUMAN")
+				if (v->city.id == "HUMAN")
 				{
 					v->setMission(*this->state,
 					              VehicleMission::gotoBuilding(*this->state, *v, bld));
@@ -1823,7 +1823,7 @@ void CityView::begin()
 {
 	vanillaControls = !config().getBool("OpenApoc.NewFeature.OpenApocCityControls");
 	CityTileView::begin();
-	if (state->current_city.id == "CITYMAP_ALIEN")
+	if (state->current_city.id == "ALIEN")
 	{
 
 		fw().jukebox->play(JukeBox::PlayList::Alien);
@@ -2140,7 +2140,7 @@ void CityView::update()
 		}
 	}
 	// Switch dimension if no owned vehicle in alien dimension
-	if (state->current_city.id == "CITYMAP_ALIEN")
+	if (state->current_city.id == "ALIEN")
 	{
 		switchDimension = true;
 		for (auto &v : state->vehicles)
@@ -2163,7 +2163,7 @@ void CityView::update()
 			switchDimension = false;
 		}
 	}
-	if (DEBUG_SHOW_ALIEN ? state->current_city.id != "CITYMAP_ALIEN" : switchDimension)
+	if (DEBUG_SHOW_ALIEN ? state->current_city.id != "ALIEN" : switchDimension)
 	{
 		setUpdateSpeed(CityUpdateSpeed::Speed1);
 		for (auto &newCity : state->cities)
@@ -3538,8 +3538,8 @@ bool CityView::handleKeyDown(Event *e)
 					LogWarning("Spawning base defense mission");
 					Vec3<float> pos = {state->current_base->building->bounds.p0.x - 1,
 					                   state->current_base->building->bounds.p0.y - 1, 10};
-					auto v = state->cities["CITYMAP_HUMAN"]->placeVehicle(
-					    *state, StateRef<VehicleType>{state.get(), "VEHICLETYPE_ALIEN_TRANSPORTER"},
+					auto v = state->cities["HUMAN"]->placeVehicle(
+					    *state, StateRef<VehicleType>{state.get(), "ALIEN_TRANSPORTER"},
 					    state->getAliens(), pos);
 					v->setMission(*state, VehicleMission::infiltrateOrSubvertBuilding(
 					                          *state, *v, false, state->current_base->building));

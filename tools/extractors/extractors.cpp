@@ -132,34 +132,34 @@ const std::map<OpenApoc::UString, std::set<int>> InitialGameStateExtractor::miss
 };
 
 const std::map<OpenApoc::UString, std::vector<int>> InitialGameStateExtractor::tubes = {
-	/*{ "CITYTILE_CITYMAP_63",{ 0,1,0,1 } },
-	{ "CITYTILE_CITYMAP_64",{ 1,0,1,0 } },
-	{ "CITYTILE_CITYMAP_65",{ 0,1,0,1 } },
-	{ "CITYTILE_CITYMAP_66",{ 1,0,1,0 } },
-	{ "CITYTILE_CITYMAP_67",{ 1,0,0,1 } },
-	{ "CITYTILE_CITYMAP_68",{ 0,1,1,0 } },
-	{ "CITYTILE_CITYMAP_69",{ 0,0,1,1 } },
-	{ "CITYTILE_CITYMAP_70",{ 1,1,0,0 } },
-	{ "CITYTILE_CITYMAP_71",{ 0,0,0,1 } },*/
-	{ "CITYTILE_CITYMAP_72",{ 1,0,1,0 } },
-	{ "CITYTILE_CITYMAP_73",{ 0,1,0,1 } },
-	{ "CITYTILE_CITYMAP_74",{ 0,0,0,0 } },
-	{ "CITYTILE_CITYMAP_75",{ 0,1,0,0 } },
-	{ "CITYTILE_CITYMAP_76",{ 1,0,0,0 } },
-	{ "CITYTILE_CITYMAP_77",{ 0,0,1,0 } },
-	{ "CITYTILE_CITYMAP_78",{ 0,0,0,1 } },
-	{ "CITYTILE_CITYMAP_79",{ 0,1,0,0 } },
-	{ "CITYTILE_CITYMAP_80",{ 1,0,0,0 } },
-	{ "CITYTILE_CITYMAP_81",{ 0,0,1,0 } },
-	{ "CITYTILE_CITYMAP_82",{ 0,0,0,1 } },
-	{ "CITYTILE_CITYMAP_83",{ 0,0,1,1 } },
-	{ "CITYTILE_CITYMAP_84",{ 1,1,0,0 } },
-	{ "CITYTILE_CITYMAP_85",{ 0,1,1,0 } },
-	{ "CITYTILE_CITYMAP_86",{ 1,0,0,1 } },
-	{ "CITYTILE_CITYMAP_87",{ 0,1,0,1 } },
-	{ "CITYTILE_CITYMAP_88",{ 1,1,1,1 } },
-	{ "CITYTILE_CITYMAP_89",{ 1,1,1,1 } },
-	{ "CITYTILE_CITYMAP_90",{ 1,1,1,1 } },
+	/*{ "CITYMAP_63",{ 0,1,0,1 } },
+	{ "CITYMAP_64",{ 1,0,1,0 } },
+	{ "CITYMAP_65",{ 0,1,0,1 } },
+	{ "CITYMAP_66",{ 1,0,1,0 } },
+	{ "CITYMAP_67",{ 1,0,0,1 } },
+	{ "CITYMAP_68",{ 0,1,1,0 } },
+	{ "CITYMAP_69",{ 0,0,1,1 } },
+	{ "CITYMAP_70",{ 1,1,0,0 } },
+	{ "CITYMAP_71",{ 0,0,0,1 } },*/
+	{ "CITYMAP_72",{ 1,0,1,0 } },
+	{ "CITYMAP_73",{ 0,1,0,1 } },
+	{ "CITYMAP_74",{ 0,0,0,0 } },
+	{ "CITYMAP_75",{ 0,1,0,0 } },
+	{ "CITYMAP_76",{ 1,0,0,0 } },
+	{ "CITYMAP_77",{ 0,0,1,0 } },
+	{ "CITYMAP_78",{ 0,0,0,1 } },
+	{ "CITYMAP_79",{ 0,1,0,0 } },
+	{ "CITYMAP_80",{ 1,0,0,0 } },
+	{ "CITYMAP_81",{ 0,0,1,0 } },
+	{ "CITYMAP_82",{ 0,0,0,1 } },
+	{ "CITYMAP_83",{ 0,0,1,1 } },
+	{ "CITYMAP_84",{ 1,1,0,0 } },
+	{ "CITYMAP_85",{ 0,1,1,0 } },
+	{ "CITYMAP_86",{ 1,0,0,1 } },
+	{ "CITYMAP_87",{ 0,1,0,1 } },
+	{ "CITYMAP_88",{ 1,1,1,1 } },
+	{ "CITYMAP_89",{ 1,1,1,1 } },
+	{ "CITYMAP_90",{ 1,1,1,1 } },
 };
 
 const std::map<OpenApoc::UString, OpenApoc::UString> InitialGameStateExtractor::unitImagePackPaths = {
@@ -331,11 +331,11 @@ void InitialGameStateExtractor::extractCommon(GameState &state) const
 	this->extractEconomy(state);
 
 	// The alien map doesn't change
-	UString alienMapId = City::getPrefix() + "ALIEN";
+	UString alienMapId = "ALIEN";
 	state.cities[alienMapId] = std::make_shared<City>();
 	state.cities[alienMapId]->id = alienMapId;
 	state.cities[alienMapId]->researchUnlock.emplace_back(&state,
-	                                                      "RESEARCH_UNLOCK_ALIEN_DIMENSION");
+	                                                      "UNLOCK_ALIEN_DIMENSION");
 	this->extractBuildings(state, "albuild", state.cities[alienMapId], true);
 	this->extractCityMap(state, "alienmap", "ALIENMAP_", state.cities[alienMapId]);
 	this->extractCityScenery(state, "ALIENMAP_", "alienmap", "alien", "alien_s", "loftemps",
@@ -358,13 +358,13 @@ void InitialGameStateExtractor::extract(GameState &state, Difficulty difficulty)
 	    {Difficulty::DIFFICULTY_5, "citymap5"},
 	};
 
-	UString humanMapId = City::getPrefix() + "HUMAN";
+	UString humanMapId = "HUMAN";
 
 	state.cities[humanMapId] = std::make_shared<City>();
 	state.cities[humanMapId]->id = humanMapId;
 	state.cities[humanMapId]->civilianSalary = 65; // this is default value in UFO2P code
 	state.cities[humanMapId]->researchUnlock.emplace_back(&state,
-	                                                      "RESEARCH_UNLOCK_DIMENSION_GATES");
+	                                                      "UNLOCK_DIMENSION_GATES");
 
 	this->extractBuildings(state, humanMapNames[difficulty], state.cities[humanMapId]);
 

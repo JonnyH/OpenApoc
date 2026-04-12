@@ -18,11 +18,6 @@ sp<BattleMapPartType> StateObject<BattleMapPartType>::get(const GameState &state
 	return nullptr;
 }
 
-template <> const UString &StateObject<BattleMapPartType>::getPrefix()
-{
-	static UString prefix = "BATTLEMAPPART_";
-	return prefix;
-}
 template <> const UString &StateObject<BattleMapPartType>::getTypeName()
 {
 	static UString name = "BattleMapPart";

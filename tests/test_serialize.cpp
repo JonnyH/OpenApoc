@@ -151,8 +151,7 @@ int main(int argc, char **argv)
 	if (false)
 	{
 
-		OpenApoc::StateRef<OpenApoc::Organisation> org = {state.get(),
-		                                                  OpenApoc::UString("ORG_ALIEN")};
+		OpenApoc::StateRef<OpenApoc::Organisation> org = {state.get(), OpenApoc::UString("ALIEN")};
 		auto v = OpenApoc::mksp<OpenApoc::Vehicle>();
 		auto vID = OpenApoc::Vehicle::generateObjectID(*state);
 		OpenApoc::sp<OpenApoc::VehicleType> vType;

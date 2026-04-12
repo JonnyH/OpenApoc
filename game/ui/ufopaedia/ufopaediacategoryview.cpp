@@ -268,7 +268,7 @@ void UfopaediaCategoryView::setFormStats()
 					StateRef<Organisation> ref = {state.get(), data_id};
 					StateRef<Organisation> player = state->getPlayer();
 					// FIXME: Should this be hardcoded?
-					if (data_id != "ORG_ALIEN")
+					if (data_id != "ALIEN")
 					{
 						orgLabels[1]->setText(tr("Balance"));
 						orgValues[1]->setText(format("${0}", Strings::fromInteger(ref->balance)));

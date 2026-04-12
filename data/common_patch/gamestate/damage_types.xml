@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <damage_types>
   <entry>
-    <key>DAMAGETYPE_ANTI-ALIEN_GAS</key>
+    <key>ANTI-ALIEN_GAS</key>
     <value>
       <sp>
         <modifiers>
           <entry>
-            <key>DAMAGEMODIFIER_TERRAIN_1_</key>
+            <key>TERRAIN_1_</key>
             <value>0</value>
           </entry>
           <entry>
-            <key>DAMAGEMODIFIER_TERRAIN_2_</key>
+            <key>TERRAIN_2_</key>
             <value>0</value>
           </entry>
         </modifiers>

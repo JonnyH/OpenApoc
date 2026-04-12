@@ -29,53 +29,53 @@ void InitialGameStateExtractor::extractDoodads(GameState &state) const
 			switch (i)
 			{
 				case UFO_DOODAD_1:
-					doodad_id = "DOODAD_1_AUTOCANNON";
+					doodad_id = "1_AUTOCANNON";
 					break;
 				case UFO_DOODAD_2:
-					doodad_id = "DOODAD_2_AIRGUARD";
+					doodad_id = "2_AIRGUARD";
 					break;
 				case UFO_DOODAD_3:
-					doodad_id = "DOODAD_3_EXPLOSION";
+					doodad_id = "3_EXPLOSION";
 					break;
 				case UFO_DOODAD_4:
-					doodad_id = "DOODAD_4_BLUEDOT";
+					doodad_id = "4_BLUEDOT";
 					break;
 				case UFO_DOODAD_5:
-					doodad_id = "DOODAD_5_SMOKE_EXPLOSION";
+					doodad_id = "5_SMOKE_EXPLOSION";
 					slow = true;
 					break;
 				case UFO_DOODAD_6:
-					doodad_id = "DOODAD_6_DIMENSION_GATE";
+					doodad_id = "6_DIMENSION_GATE";
 					slow = true;
 					d->repeatable = true;
 					break;
 				case UFO_DOODAD_7:
-					doodad_id = "DOODAD_7_JANITOR";
+					doodad_id = "7_JANITOR";
 					break;
 				case UFO_DOODAD_8:
-					doodad_id = "DOODAD_8_LASER";
+					doodad_id = "8_LASER";
 					break;
 				case UFO_DOODAD_9:
-					doodad_id = "DOODAD_9_PLASMA";
+					doodad_id = "9_PLASMA";
 					break;
 				case UFO_DOODAD_10:
-					doodad_id = "DOODAD_10_DISRUPTOR";
+					doodad_id = "10_DISRUPTOR";
 					break;
 				case UFO_DOODAD_11:
-					doodad_id = "DOODAD_11_SUBVERSION_BIG";
+					doodad_id = "11_SUBVERSION_BIG";
 					break;
 				case UFO_DOODAD_12:
-					doodad_id = "DOODAD_12_SUBVERSION_SMALL";
+					doodad_id = "12_SUBVERSION_SMALL";
 					break;
 				case UFO_DOODAD_13:
-					doodad_id = "DOODAD_13_SMOKE_FUME";
+					doodad_id = "13_SMOKE_FUME";
 					d->repeatable = true;
 					break;
 				case UFO_DOODAD_14:
-					doodad_id = "DOODAD_14_INFILTRATION_BIG";
+					doodad_id = "14_INFILTRATION_BIG";
 					break;
 				case UFO_DOODAD_15:
-					doodad_id = "DOODAD_15_INFILTRATION_SMALL";
+					doodad_id = "15_INFILTRATION_SMALL";
 					break;
 			}
 
@@ -110,50 +110,50 @@ void InitialGameStateExtractor::extractDoodads(GameState &state) const
 			switch (i)
 			{
 				case CUSTOM_DOODAD_16: // tac 28, 32
-					id = "DOODAD_16_BURNING_OBJECT";
+					id = "16_BURNING_OBJECT";
 					break;
 				case CUSTOM_DOODAD_17: // tac 32, 44
-					id = "DOODAD_17_FIRE";
+					id = "17_FIRE";
 					ttlmult = 2;
 					break;
 				case TAC_DOODAD_18: // tac 44, 52
-					id = "DOODAD_18_SMOKE";
+					id = "18_SMOKE";
 					ttlmult = 2;
 					break;
 				case TAC_DOODAD_19: // tac 52, 60
-					id = "DOODAD_19_ALIEN_GAS";
+					id = "19_ALIEN_GAS";
 					ttlmult = 2;
 					break;
 				case TAC_DOODAD_20: // tac 60, 68
-					id = "DOODAD_20_STUN_GAS";
+					id = "20_STUN_GAS";
 					ttlmult = 2;
 					break;
 				case TAC_DOODAD_21: // tac 115 - 125
-					id = "DOODAD_21_AP";
+					id = "21_AP";
 					break;
 				case TAC_DOODAD_22: // tac 126 - 136
-					id = "DOODAD_22_LASER";
+					id = "22_LASER";
 					break;
 				case TAC_DOODAD_23: // tac 137 - 147
-					id = "DOODAD_23_PLASMA";
+					id = "23_PLASMA";
 					break;
 				case TAC_DOODAD_24: // tac 148 - 158
-					id = "DOODAD_24_DISRUPTOR";
+					id = "24_DISRUPTOR";
 					break;
 				case TAC_DOODAD_25: // tac 159 - 169
-					id = "DOODAD_25_DEVASTATOR";
+					id = "25_DEVASTATOR";
 					break;
 				case TAC_DOODAD_26: // tac 170 - 180
-					id = "DOODAD_26_STUN";
+					id = "26_STUN";
 					break;
 				case TAC_DOODAD_27: // tac 181 - 185 shield
-					id = "DOODAD_27_SHIELD";
+					id = "27_SHIELD";
 					break;
 				case TAC_DOODAD_28: // tac 186 - 192
-					id = "DOODAD_28_ENZYME";
+					id = "28_ENZYME";
 					break;
 				case CUSTOM_DOODAD_29: // tac 8, 26
-					id = "DOODAD_29_EXPLODING_TERRAIN";
+					id = "29_EXPLODING_TERRAIN";
 					break;
 			}
 
@@ -181,7 +181,7 @@ void InitialGameStateExtractor::extractDoodads(GameState &state) const
 
 		// CUSTOM_DOODAD_30 30 // tac 78, 77
 		{
-			UString id = "DOODAD_30_EXPLODING_PAYLOAD";
+			UString id = "30_EXPLODING_PAYLOAD";
 			auto d = mksp<DoodadType>();
 
 			// FIXME: ENSURE CORRECT
@@ -223,7 +223,7 @@ void InitialGameStateExtractor::extractDoodads(GameState &state) const
 
 			for (int facing = 0; facing < 9; facing++)
 			{
-				UString id = format("DOODAD_BATTLE_EXPLOSION_{0}", facingMap.at(facing));
+				UString id = format("BATTLE_EXPLOSION_{0}", facingMap.at(facing));
 				auto d = mksp<DoodadType>();
 
 				// FIXME: ENSURE CORRECT

@@ -17,11 +17,6 @@ sp<DoodadType> StateObject<DoodadType>::get(const GameState &state, const UStrin
 	return it->second;
 }
 
-template <> const UString &StateObject<DoodadType>::getPrefix()
-{
-	static UString prefix = "DOODAD_";
-	return prefix;
-}
 template <> const UString &StateObject<DoodadType>::getTypeName()
 {
 	static UString name = "DoodadType";

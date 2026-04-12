@@ -24,12 +24,6 @@ sp<FacilityType> StateObject<FacilityType>::get(const GameState &state, const US
 	return it->second;
 }
 
-template <> const UString &StateObject<FacilityType>::getPrefix()
-{
-	static UString prefix = "FACILITYTYPE_";
-	return prefix;
-}
-
 template <> const UString &StateObject<FacilityType>::getTypeName()
 {
 	static UString name = "FacilityType";

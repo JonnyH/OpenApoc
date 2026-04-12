@@ -1,39 +1,39 @@
 <?xml version='1.0' encoding='utf-8'?>
 <buildings>
   <entry>
-    <key>BUILDING_DICKENS_ESTATE</key>
+    <key>DICKENS_ESTATE</key>
     <value>
-      <base_layout>BASELAYOUT_5</base_layout>
+      <base_layout>5</base_layout>
     </value>
   </entry>
   <entry>
-    <key>BUILDING_HEAVENLY_TOWERS</key>
+    <key>HEAVENLY_TOWERS</key>
     <value>
-      <base_layout>BASELAYOUT_12</base_layout>
+      <base_layout>12</base_layout>
     </value>
   </entry>
   <entry>
-    <key>BUILDING_WAREHOUSE_THREE</key>
+    <key>WAREHOUSE_THREE</key>
     <value>
-      <base_layout>BASELAYOUT_2</base_layout>
+      <base_layout>2</base_layout>
     </value>
   </entry>
   <entry>
-    <key>BUILDING_WAREHOUSE_FOUR</key>
+    <key>WAREHOUSE_FOUR</key>
     <value>
-      <base_layout>BASELAYOUT_3</base_layout>
+      <base_layout>3</base_layout>
     </value>
   </entry>
   <entry>
-    <key>BUILDING_WAREHOUSE_SEVEN</key>
+    <key>WAREHOUSE_SEVEN</key>
     <value>
-      <base_layout>BASELAYOUT_12</base_layout>
+      <base_layout>12</base_layout>
     </value>
   </entry>
   <entry>
-    <key>BUILDING_WAREHOUSE_NINE</key>
+    <key>WAREHOUSE_NINE</key>
     <value>
-      <base_layout>BASELAYOUT_0</base_layout>
+      <base_layout>0</base_layout>
     </value>
   </entry>
 </buildings>

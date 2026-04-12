@@ -34,11 +34,6 @@ template <> sp<Agent> StateObject<Agent>::get(const GameState &state, const UStr
 	return it->second;
 }
 
-template <> const UString &StateObject<Agent>::getPrefix()
-{
-	static UString prefix = "AGENT_";
-	return prefix;
-}
 template <> const UString &StateObject<Agent>::getTypeName()
 {
 	static UString name = "Agent";

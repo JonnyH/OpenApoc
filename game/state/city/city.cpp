@@ -132,7 +132,7 @@ void City::initCity(GameState &state)
 			                   (b->bounds.p0.y + b->bounds.p1.y) / 2, 2};
 		}
 		LogInfo("Crew Quarters: {0}", b->crewQuarters);
-		if (b->function.id == "BUILDINGFUNCTION_SPACE_PORT")
+		if (b->function.id == "SPACE_PORT")
 		{
 			spaceports.emplace_back(&state, b.id);
 		}
@@ -308,7 +308,7 @@ void City::hourlyLoop(GameState &state)
 void City::dailyLoop(GameState &state)
 {
 	// Alien city is never repaired
-	if (state.cities["CITYMAP_ALIEN"] != shared_from_this())
+	if (state.cities["ALIEN"] != shared_from_this())
 	{
 		repairScenery(state);
 		// check if employment situation changes in the building
@@ -361,7 +361,7 @@ void City::generatePortals(GameState &state)
 			for (auto &p : initial_portals)
 			{
 				auto doodad = mksp<Doodad>((Vec3<float>)p + Vec3<float>{0.5f, 0.5f, 0.5f},
-				                           StateRef<DoodadType>{&state, "DOODAD_6_DIMENSION_GATE"});
+				                           StateRef<DoodadType>{&state, "6_DIMENSION_GATE"});
 				doodad->voxelMap = state.city_common_image_list->portalVoxelMap;
 				map->addObjectToMap(doodad);
 				this->portals.push_back(doodad);
@@ -395,7 +395,7 @@ void City::generatePortals(GameState &state)
 					{
 						auto doodad =
 						    mksp<Doodad>(pos + Vec3<float>{0.5f, 0.5f, 0.5f},
-						                 StateRef<DoodadType>{&state, "DOODAD_6_DIMENSION_GATE"});
+						                 StateRef<DoodadType>{&state, "6_DIMENSION_GATE"});
 						doodad->voxelMap = state.city_common_image_list->portalVoxelMap;
 						map->addObjectToMap(doodad);
 						this->portals.push_back(doodad);
@@ -407,7 +407,7 @@ void City::generatePortals(GameState &state)
 	}
 	else
 	{
-		if (this->id == "CITYMAP_HUMAN")
+		if (this->id == "HUMAN")
 		{
 			curPortalPosList.clear();
 
@@ -441,7 +441,7 @@ void City::generatePortals(GameState &state)
 					{
 						auto doodad =
 						    mksp<Doodad>(newPos + Vec3<float>{0.5f, 0.5f, 0.5f},
-						                 StateRef<DoodadType>{&state, "DOODAD_6_DIMENSION_GATE"});
+						                 StateRef<DoodadType>{&state, "6_DIMENSION_GATE"});
 						doodad->voxelMap = state.city_common_image_list->portalVoxelMap;
 						map->addObjectToMap(doodad);
 						this->portals.push_back(doodad);
@@ -453,9 +453,8 @@ void City::generatePortals(GameState &state)
 				if (!portalPlaced)
 				{
 					auto currentPos = curPortalPosList.back();
-					auto doodad =
-					    mksp<Doodad>(currentPos + Vec3<float>{0.5f, 0.5f, 0.5f},
-					                 StateRef<DoodadType>{&state, "DOODAD_6_DIMENSION_GATE"});
+					auto doodad = mksp<Doodad>(currentPos + Vec3<float>{0.5f, 0.5f, 0.5f},
+					                           StateRef<DoodadType>{&state, "6_DIMENSION_GATE"});
 					doodad->voxelMap = state.city_common_image_list->portalVoxelMap;
 					map->addObjectToMap(doodad);
 					this->portals.push_back(doodad);
@@ -913,11 +912,6 @@ template <> sp<City> StateObject<City>::get(const GameState &state, const UStrin
 	return it->second;
 }
 
-template <> const UString &StateObject<City>::getPrefix()
-{
-	static UString prefix = "CITYMAP_";
-	return prefix;
-}
 template <> const UString &StateObject<City>::getTypeName()
 {
 	static UString name = "City";

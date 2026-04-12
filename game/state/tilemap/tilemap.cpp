@@ -103,7 +103,7 @@ void TileMap::addObjectToMap(GameState &state, sp<Vehicle> vehicle)
 	if (vehicle->crashed && !vehicle->carriedByVehicle)
 	{
 		sp<Doodad> smoke = mksp<Doodad>(vehicle->position + SMOKE_DOODAD_SHIFT,
-		                                StateRef<DoodadType>{&state, "DOODAD_13_SMOKE_FUME"});
+		                                StateRef<DoodadType>{&state, "13_SMOKE_FUME"});
 		addObjectToMap(smoke);
 		vehicle->smokeDoodad = smoke;
 	}

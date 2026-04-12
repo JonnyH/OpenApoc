@@ -70,12 +70,6 @@ float facingDistance(float f1, float f2)
 }
 } // namespace
 
-template <> const UString &StateObject<Vehicle>::getPrefix()
-{
-	static UString prefix = "VEHICLE_";
-	return prefix;
-}
-
 template <> const UString &StateObject<Vehicle>::getTypeName()
 {
 	static UString name = "Vehicle";
@@ -893,7 +887,7 @@ void VehicleMover::updateFalling(GameState &state, unsigned int ticks)
 		    randBoundsExclusive(state.rng, 0, 100) < 2)
 		{
 			LogWarning("Doodads");
-			UString doodadId = randBool(state.rng) ? "DOODAD_1_AUTOCANNON" : "DOODAD_2_AIRGUARD";
+			UString doodadId = randBool(state.rng) ? "1_AUTOCANNON" : "2_AIRGUARD";
 			auto doodadPos = vehicle.position;
 			doodadPos.x += (float)randBoundsInclusive(state.rng, -3, 3) / 10.0f;
 			doodadPos.y += (float)randBoundsInclusive(state.rng, -3, 3) / 10.0f;
@@ -1176,7 +1170,7 @@ void VehicleMover::updateSliding(GameState &state, unsigned int ticks)
 		if (vehicle.getMaxHealth() / vehicle.getHealth() >= 3 &&
 		    randBoundsExclusive(state.rng, 0, 100) < 2)
 		{
-			UString doodadId = randBool(state.rng) ? "DOODAD_1_AUTOCANNON" : "DOODAD_2_AIRGUARD";
+			UString doodadId = randBool(state.rng) ? "1_AUTOCANNON" : "2_AIRGUARD";
 			auto doodadPos = vehicle.position;
 			doodadPos.x += (float)randBoundsInclusive(state.rng, -3, 3) / 10.0f;
 			doodadPos.y += (float)randBoundsInclusive(state.rng, -3, 3) / 10.0f;
@@ -1456,7 +1450,7 @@ void Vehicle::setCrashed(GameState &state, bool crashed)
 	if (crashed)
 	{
 		sp<Doodad> smoke = mksp<Doodad>(position + SMOKE_DOODAD_SHIFT,
-		                                StateRef<DoodadType>{&state, "DOODAD_13_SMOKE_FUME"});
+		                                StateRef<DoodadType>{&state, "13_SMOKE_FUME"});
 		city->map->addObjectToMap(smoke);
 		smokeDoodad = smoke;
 	}
@@ -1844,7 +1838,7 @@ void Vehicle::die(GameState &state, bool silent, StateRef<Vehicle> attacker)
 	{
 		if (this->tileObject)
 		{
-			auto doodad = city->placeDoodad(StateRef<DoodadType>{&state, "DOODAD_3_EXPLOSION"},
+			auto doodad = city->placeDoodad(StateRef<DoodadType>{&state, "3_EXPLOSION"},
 			                                this->tileObject->getCenter());
 			fw().soundBackend->playSample(state.city_common_sample_list->vehicleExplosion,
 			                              position);
@@ -2367,7 +2361,7 @@ void Vehicle::updateEachSecond(GameState &state)
 	{
 		if (owner == state.getAliens())
 		{
-			if (city.id == "CITYMAP_HUMAN")
+			if (city.id == "HUMAN")
 			{
 				setMission(state, VehicleMission::gotoPortal(state, *this));
 			}

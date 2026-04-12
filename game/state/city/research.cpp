@@ -160,11 +160,6 @@ sp<ResearchTopic> StateObject<ResearchTopic>::get(const GameState &state, const 
 	}
 	return it->second;
 }
-template <> const UString &StateObject<ResearchTopic>::getPrefix()
-{
-	static UString prefix = "RESEARCH_";
-	return prefix;
-}
 template <> const UString &StateObject<ResearchTopic>::getTypeName()
 {
 	static UString name = "ResearchTopic";
@@ -196,11 +191,6 @@ template <> sp<Lab> StateObject<Lab>::get(const GameState &state, const UString 
 	return it->second;
 }
 
-template <> const UString &StateObject<Lab>::getPrefix()
-{
-	static UString prefix = "LAB_";
-	return prefix;
-}
 template <> const UString &StateObject<Lab>::getTypeName()
 {
 	static UString name = "Lab";

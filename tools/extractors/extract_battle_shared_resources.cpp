@@ -80,7 +80,7 @@ void InitialGameStateExtractor::extractSharedBattleResources(GameState &state) c
 
 	state.battle_common_image_list = mksp<BattleCommonImageList>();
 
-	state.battle_common_image_list->burningDoodad = {&state, "DOODAD_16_BURNING_OBJECT"};
+	state.battle_common_image_list->burningDoodad = {&state, "16_BURNING_OBJECT"};
 
 	state.battle_common_image_list->strategyImages = mksp<std::vector<sp<Image>>>();
 	for (size_t i = 0; i < gameObjectStrategySpriteCount; i++)

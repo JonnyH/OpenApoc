@@ -64,7 +64,7 @@ void InitialGameStateExtractor::extractCityMap(GameState &state, UString fileNam
 			}
 
 			auto tileName =
-			    format("{0}{1}{2}", SceneryTileType::getPrefix(), tilePrefix, (unsigned)idx);
+			    format("{0}{1}", tilePrefix, (unsigned)idx);
 
 			city->initial_tiles[Vec3<int>{x, y, 1}] = {&state, tileName};
 		}
@@ -81,8 +81,7 @@ void InitialGameStateExtractor::extractCityMap(GameState &state, UString fileNam
 
 				if (idx != 0)
 				{
-					auto tileName = format("{0}{1}{2}", SceneryTileType::getPrefix(), tilePrefix,
-					                       (unsigned)idx);
+					auto tileName = format("{0}{1}", tilePrefix, (unsigned)idx);
 
 					city->initial_tiles[Vec3<int>{x + 20, y + 20, z + 1}] = {&state, tileName};
 				}
@@ -102,7 +101,7 @@ void InitialGameStateExtractor::extractCityMap(GameState &state, UString fileNam
 	// Fixing buggy city
 	if (fileName == "citymap1")
 	{
-		city->initial_tiles[Vec3<int>{50, 109, 4}] = {&state, "CITYTILE_CITYMAP_83"};
+		city->initial_tiles[Vec3<int>{50, 109, 4}] = {&state, "CITYMAP_83"};
 		city->initial_tiles.erase(Vec3<int>{70, 90, 3});
 	}
 	if (fileName == "citymap2")
@@ -111,18 +110,18 @@ void InitialGameStateExtractor::extractCityMap(GameState &state, UString fileNam
 		city->initial_tiles.erase(Vec3<int>{45, 98, 6});
 		city->initial_tiles.erase(Vec3<int>{69, 80, 4});
 		city->initial_tiles.erase(Vec3<int>{77, 80, 4});
-		city->initial_tiles[Vec3<int>{44, 71, 4}] = {&state, "CITYTILE_CITYMAP_82"};
+		city->initial_tiles[Vec3<int>{44, 71, 4}] = {&state, "CITYMAP_82"};
 	}
 	if (fileName == "citymap3")
 	{
 		// Support hanging road
-		city->initial_tiles[Vec3<int>{95, 68, 2}] = {&state, "CITYTILE_CITYMAP_92"};
-		city->initial_tiles[Vec3<int>{95, 72, 2}] = {&state, "CITYTILE_CITYMAP_92"};
+		city->initial_tiles[Vec3<int>{95, 68, 2}] = {&state, "CITYMAP_92"};
+		city->initial_tiles[Vec3<int>{95, 72, 2}] = {&state, "CITYMAP_92"};
 	}
 	if (fileName == "citymap5")
 	{
 		// Support hanging road
-		city->initial_tiles[Vec3<int>{116, 100, 2}] = {&state, "CITYTILE_CITYMAP_949"};
+		city->initial_tiles[Vec3<int>{116, 100, 2}] = {&state, "CITYMAP_949"};
 	}
 
 #ifdef TUBE_DEBUG_OUTPUT

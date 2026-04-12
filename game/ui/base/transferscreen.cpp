@@ -163,7 +163,7 @@ void TransferScreen::updateBaseHighlight()
 		{
 			auto facilityPic = form->findControlTyped<Graphic>("FACILITY_SECOND_PIC");
 			facilityPic->setVisible(true);
-			facilityPic->setImage(state->facility_types["FACILITYTYPE_LIVING_QUARTERS"]->sprite);
+			facilityPic->setImage(state->facility_types["LIVING_QUARTERS"]->sprite);
 			form->findControlTyped<Graphic>("FACILITY_SECOND_BAR")->setVisible(true);
 			const auto usage =
 			    second_base->getUsage(*state, FacilityType::Capacity::Quarters, lq2Delta);
@@ -177,7 +177,7 @@ void TransferScreen::updateBaseHighlight()
 		{
 			auto facilityPic = form->findControlTyped<Graphic>("FACILITY_SECOND_PIC");
 			facilityPic->setVisible(true);
-			facilityPic->setImage(state->facility_types["FACILITYTYPE_STORES"]->sprite);
+			facilityPic->setImage(state->facility_types["STORES"]->sprite);
 			form->findControlTyped<Graphic>("FACILITY_SECOND_BAR")->setVisible(true);
 			const auto usage =
 			    second_base->getUsage(*state, FacilityType::Capacity::Stores, cargo2Delta);
@@ -191,7 +191,7 @@ void TransferScreen::updateBaseHighlight()
 		{
 			auto facilityPic = form->findControlTyped<Graphic>("FACILITY_SECOND_PIC");
 			facilityPic->setVisible(true);
-			facilityPic->setImage(state->facility_types["FACILITYTYPE_ALIEN_CONTAINMENT"]->sprite);
+			facilityPic->setImage(state->facility_types["ALIEN_CONTAINMENT"]->sprite);
 			form->findControlTyped<Graphic>("FACILITY_SECOND_BAR")->setVisible(true);
 			const auto usage =
 			    second_base->getUsage(*state, FacilityType::Capacity::Aliens, bio2Delta);

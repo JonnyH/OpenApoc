@@ -496,7 +496,7 @@ void TransactionScreen::updateBaseHighlight()
 		{
 			auto facilityPic = form->findControlTyped<Graphic>("FACILITY_FIRST_PIC");
 			facilityPic->setVisible(true);
-			facilityPic->setImage(state->facility_types["FACILITYTYPE_LIVING_QUARTERS"]->sprite);
+			facilityPic->setImage(state->facility_types["LIVING_QUARTERS"]->sprite);
 			form->findControlTyped<Graphic>("FACILITY_FIRST_BAR")->setVisible(true);
 			const auto usage =
 			    state->current_base->getUsage(*state, FacilityType::Capacity::Quarters, lqDelta);
@@ -510,7 +510,7 @@ void TransactionScreen::updateBaseHighlight()
 		{
 			auto facilityPic = form->findControlTyped<Graphic>("FACILITY_FIRST_PIC");
 			facilityPic->setVisible(true);
-			facilityPic->setImage(state->facility_types["FACILITYTYPE_STORES"]->sprite);
+			facilityPic->setImage(state->facility_types["STORES"]->sprite);
 			form->findControlTyped<Graphic>("FACILITY_FIRST_BAR")->setVisible(true);
 			const auto usage =
 			    state->current_base->getUsage(*state, FacilityType::Capacity::Stores, cargoDelta);
@@ -524,7 +524,7 @@ void TransactionScreen::updateBaseHighlight()
 		{
 			auto facilityPic = form->findControlTyped<Graphic>("FACILITY_FIRST_PIC");
 			facilityPic->setVisible(true);
-			facilityPic->setImage(state->facility_types["FACILITYTYPE_ALIEN_CONTAINMENT"]->sprite);
+			facilityPic->setImage(state->facility_types["ALIEN_CONTAINMENT"]->sprite);
 			form->findControlTyped<Graphic>("FACILITY_FIRST_BAR")->setVisible(true);
 			const auto usage =
 			    state->current_base->getUsage(*state, FacilityType::Capacity::Aliens, bioDelta);

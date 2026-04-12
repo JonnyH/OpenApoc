@@ -96,7 +96,7 @@ std::shared_future<void> loadBattleVehicle(bool hotseat, sp<VehicleType> vehicle
 			        a.second->homeBuilding == playerBase->building)
 				    agents.emplace_back(state, a.second);
 
-		    StateRef<Organisation> org = {state, UString("ORG_ALIEN")};
+		    StateRef<Organisation> org = {state, UString("ALIEN")};
 		    auto v = mksp<Vehicle>();
 		    auto vID = Vehicle::generateObjectID(*state);
 		    v->type = {state, vehicle};
@@ -107,9 +107,9 @@ std::shared_future<void> loadBattleVehicle(bool hotseat, sp<VehicleType> vehicle
 		    ufo->owner = state->getAliens();
 		    ufo->city = playerBase->building->city;
 
-		    auto playerVeh = state->current_city->placeVehicle(
-		        *state, StateRef<VehicleType>{state, "VEHICLETYPE_BIOTRANS"}, state->getPlayer(),
-		        playerBase->building);
+		    auto playerVeh =
+		        state->current_city->placeVehicle(*state, StateRef<VehicleType>{state, "BIOTRANS"},
+		                                          state->getPlayer(), playerBase->building);
 		    playerVeh->homeBuilding = playerBase->building;
 		    StateRef<Vehicle> playerVehRef = {state, playerVeh};
 		    playerVehRef->leaveBuilding(*state, {20, 20, 11});
@@ -304,18 +304,18 @@ void Skirmish::goToBattle(bool customAliens, std::map<StateRef<AgentType>, int> 
 	auto score = menuform->findControlTyped<ScrollBar>("ALIEN_SCORE_SLIDER")->getValue() * 1000;
 
 	// Create a temporary base
-	auto sourceBase = locBase ? locBase : StateRef<Base>(&state, "BASE_1");
+	auto sourceBase = locBase ? locBase : StateRef<Base>(&state, "1");
 	auto city = sourceBase->building->city;
 
 	auto newBuilding = mksp<Building>();
-	state.buildings["BUILDING_SKIRMISH"] = newBuilding;
-	city->buildings.emplace_back(&state, "BUILDING_SKIRMISH");
+	state.buildings["SKIRMISH"] = newBuilding;
+	city->buildings.emplace_back(&state, "SKIRMISH");
 
 	auto newBase = mksp<Base>();
-	state.player_bases["BASE_SKIRMISH"] = newBase;
+	state.player_bases["SKIRMISH"] = newBase;
 
-	StateRef<Building> playerBuilding = {&state, "BUILDING_SKIRMISH"};
-	StateRef<Base> playerBase = {&state, "BASE_SKIRMISH"};
+	StateRef<Building> playerBuilding = {&state, "SKIRMISH"};
+	StateRef<Base> playerBase = {&state, "SKIRMISH"};
 
 	playerBuilding->owner = state.getPlayer();
 	playerBuilding->base = playerBase;
@@ -343,9 +343,9 @@ void Skirmish::goToBattle(bool customAliens, std::map<StateRef<AgentType>, int> 
 	    menuform->findControlTyped<ScrollBar>("DAYS_PHYSICAL_SLIDER")->getValue() * TICKS_PER_DAY;
 	unsigned int psiTicks =
 	    menuform->findControlTyped<ScrollBar>("DAYS_PSI_SLIDER")->getValue() * TICKS_PER_DAY;
-	StateRef<AgentType> human = {&state, "AGENTTYPE_X-COM_AGENT_HUMAN"};
-	StateRef<AgentType> hybrid = {&state, "AGENTTYPE_X-COM_AGENT_HYBRID"};
-	StateRef<AgentType> android = {&state, "AGENTTYPE_X-COM_AGENT_ANDROID"};
+	StateRef<AgentType> human = {&state, "X-COM_AGENT_HUMAN"};
+	StateRef<AgentType> hybrid = {&state, "X-COM_AGENT_HYBRID"};
+	StateRef<AgentType> android = {&state, "X-COM_AGENT_ANDROID"};
 	auto player = state.getPlayer();
 	std::list<StateRef<Agent>> agents;
 	for (int i = 0; i < countHumans; i++)
@@ -384,68 +384,43 @@ void Skirmish::goToBattle(bool customAliens, std::map<StateRef<AgentType>, int> 
 		{
 			case 1:
 				// armor = "MEGAPOL";
-				initialEquipment.push_back(
-				    state.agent_equipment["AEQUIPMENTTYPE_MEGAPOL_HELMET"].get());
-				initialEquipment.push_back(
-				    state.agent_equipment["AEQUIPMENTTYPE_MEGAPOL_BODY_ARMOR"].get());
-				initialEquipment.push_back(
-				    state.agent_equipment["AEQUIPMENTTYPE_MEGAPOL_LEFT_ARM_ARMOR"].get());
-				initialEquipment.push_back(
-				    state.agent_equipment["AEQUIPMENTTYPE_MEGAPOL_RIGHT_ARM_ARMOR"].get());
-				initialEquipment.push_back(
-				    state.agent_equipment["AEQUIPMENTTYPE_MEGAPOL_LEG_ARMOR"].get());
+				initialEquipment.push_back(state.agent_equipment["MEGAPOL_HELMET"].get());
+				initialEquipment.push_back(state.agent_equipment["MEGAPOL_BODY_ARMOR"].get());
+				initialEquipment.push_back(state.agent_equipment["MEGAPOL_LEFT_ARM_ARMOR"].get());
+				initialEquipment.push_back(state.agent_equipment["MEGAPOL_RIGHT_ARM_ARMOR"].get());
+				initialEquipment.push_back(state.agent_equipment["MEGAPOL_LEG_ARMOR"].get());
 				break;
 			case 2:
 				// armor = "MEGAPOL+MB";
-				initialEquipment.push_back(
-				    state.agent_equipment["AEQUIPMENTTYPE_MEGAPOL_HELMET"].get());
-				initialEquipment.push_back(
-				    state.agent_equipment["AEQUIPMENTTYPE_MARSEC_BODY_UNIT"].get());
-				initialEquipment.push_back(
-				    state.agent_equipment["AEQUIPMENTTYPE_MEGAPOL_LEFT_ARM_ARMOR"].get());
-				initialEquipment.push_back(
-				    state.agent_equipment["AEQUIPMENTTYPE_MEGAPOL_RIGHT_ARM_ARMOR"].get());
-				initialEquipment.push_back(
-				    state.agent_equipment["AEQUIPMENTTYPE_MEGAPOL_LEG_ARMOR"].get());
+				initialEquipment.push_back(state.agent_equipment["MEGAPOL_HELMET"].get());
+				initialEquipment.push_back(state.agent_equipment["MARSEC_BODY_UNIT"].get());
+				initialEquipment.push_back(state.agent_equipment["MEGAPOL_LEFT_ARM_ARMOR"].get());
+				initialEquipment.push_back(state.agent_equipment["MEGAPOL_RIGHT_ARM_ARMOR"].get());
+				initialEquipment.push_back(state.agent_equipment["MEGAPOL_LEG_ARMOR"].get());
 				break;
 			case 3:
 				// armor = "MARSEC";
-				initialEquipment.push_back(
-				    state.agent_equipment["AEQUIPMENTTYPE_MARSEC_HEAD_UNIT"].get());
-				initialEquipment.push_back(
-				    state.agent_equipment["AEQUIPMENTTYPE_MARSEC_BODY_UNIT"].get());
-				initialEquipment.push_back(
-				    state.agent_equipment["AEQUIPMENTTYPE_MARSEC_LEFT_ARM_UNIT"].get());
-				initialEquipment.push_back(
-				    state.agent_equipment["AEQUIPMENTTYPE_MARSEC_RIGHT_ARM_UNIT"].get());
-				initialEquipment.push_back(
-				    state.agent_equipment["AEQUIPMENTTYPE_MARSEC_LEG_UNITS"].get());
+				initialEquipment.push_back(state.agent_equipment["MARSEC_HEAD_UNIT"].get());
+				initialEquipment.push_back(state.agent_equipment["MARSEC_BODY_UNIT"].get());
+				initialEquipment.push_back(state.agent_equipment["MARSEC_LEFT_ARM_UNIT"].get());
+				initialEquipment.push_back(state.agent_equipment["MARSEC_RIGHT_ARM_UNIT"].get());
+				initialEquipment.push_back(state.agent_equipment["MARSEC_LEG_UNITS"].get());
 				break;
 			case 4:
 				// armor = "X-COM+MB";
-				initialEquipment.push_back(
-				    state.agent_equipment["AEQUIPMENTTYPE_X-COM_HEAD_SHIELD"].get());
-				initialEquipment.push_back(
-				    state.agent_equipment["AEQUIPMENTTYPE_MARSEC_BODY_UNIT"].get());
-				initialEquipment.push_back(
-				    state.agent_equipment["AEQUIPMENTTYPE_X-COM_LEFT_ARM_SHIELD"].get());
-				initialEquipment.push_back(
-				    state.agent_equipment["AEQUIPMENTTYPE_X-COM_RIGHT_ARM_SHIELD"].get());
-				initialEquipment.push_back(
-				    state.agent_equipment["AEQUIPMENTTYPE_X-COM_LEG_SHIELDS"].get());
+				initialEquipment.push_back(state.agent_equipment["X-COM_HEAD_SHIELD"].get());
+				initialEquipment.push_back(state.agent_equipment["MARSEC_BODY_UNIT"].get());
+				initialEquipment.push_back(state.agent_equipment["X-COM_LEFT_ARM_SHIELD"].get());
+				initialEquipment.push_back(state.agent_equipment["X-COM_RIGHT_ARM_SHIELD"].get());
+				initialEquipment.push_back(state.agent_equipment["X-COM_LEG_SHIELDS"].get());
 				break;
 			case 5:
 				// armor = "X-COM";
-				initialEquipment.push_back(
-				    state.agent_equipment["AEQUIPMENTTYPE_X-COM_HEAD_SHIELD"].get());
-				initialEquipment.push_back(
-				    state.agent_equipment["AEQUIPMENTTYPE_X-COM_BODY_SHIELD"].get());
-				initialEquipment.push_back(
-				    state.agent_equipment["AEQUIPMENTTYPE_X-COM_LEFT_ARM_SHIELD"].get());
-				initialEquipment.push_back(
-				    state.agent_equipment["AEQUIPMENTTYPE_X-COM_RIGHT_ARM_SHIELD"].get());
-				initialEquipment.push_back(
-				    state.agent_equipment["AEQUIPMENTTYPE_X-COM_LEG_SHIELDS"].get());
+				initialEquipment.push_back(state.agent_equipment["X-COM_HEAD_SHIELD"].get());
+				initialEquipment.push_back(state.agent_equipment["X-COM_BODY_SHIELD"].get());
+				initialEquipment.push_back(state.agent_equipment["X-COM_LEFT_ARM_SHIELD"].get());
+				initialEquipment.push_back(state.agent_equipment["X-COM_RIGHT_ARM_SHIELD"].get());
+				initialEquipment.push_back(state.agent_equipment["X-COM_LEG_SHIELDS"].get());
 				break;
 			default:
 				break;
@@ -507,11 +482,9 @@ void Skirmish::goToBattle(bool customAliens, std::map<StateRef<AgentType>, int> 
 			continue;
 		}
 		// Manual exclusion
-		if (t.first == "AEQUIPMENTTYPE_FORCEWEB" || t.first == "AEQUIPMENTTYPE_ENERGY_POD" ||
-		    t.first == "AEQUIPMENTTYPE_DIMENSION_DESTABILISER" ||
-		    t.first == "AEQUIPMENTTYPE_ELERIUM" || t.first == "AEQUIPMENTTYPE_PSICLONE" ||
-		    t.first == "AEQUIPMENTTYPE_TRACKER_GUN" ||
-		    t.first == "AEQUIPMENTTYPE_TRACKER_GUN_CLIP" || t.first == "AEQUIPMENTTYPE_PSI-GRENADE")
+		if (t.first == "FORCEWEB" || t.first == "ENERGY_POD" ||
+		    t.first == "DIMENSION_DESTABILISER" || t.first == "ELERIUM" || t.first == "PSICLONE" ||
+		    t.first == "TRACKER_GUN" || t.first == "TRACKER_GUN_CLIP" || t.first == "PSI-GRENADE")
 		{
 			continue;
 		}
@@ -555,7 +528,7 @@ void Skirmish::goToBattle(bool customAliens, std::map<StateRef<AgentType>, int> 
 	sp<Agent> firstAgent;
 	for (auto &a : state.agents)
 	{
-		if (a.second->homeBuilding.id == "BUILDING_SKIRMISH")
+		if (a.second->homeBuilding.id == "SKIRMISH")
 		{
 			firstAgent = a.second;
 			break;

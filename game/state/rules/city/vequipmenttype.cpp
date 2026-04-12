@@ -5,12 +5,6 @@
 namespace OpenApoc
 {
 
-template <> const UString &StateObject<VEquipmentType>::getPrefix()
-{
-	static UString prefix = "VEQUIPMENTTYPE_";
-	return prefix;
-}
-
 template <> const UString &StateObject<VEquipmentType>::getTypeName()
 {
 	static UString name = "VEquipmentType";

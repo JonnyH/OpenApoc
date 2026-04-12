@@ -32,12 +32,11 @@ template <typename T> class StateObject
 
 	static sp<T> get(const GameState &state, const UString &id);
 	static const UString &getId(const GameState &state, const sp<T> ptr);
-	static const UString &getPrefix();
 	static const UString &getTypeName();
 	static UString generateObjectID(GameState &state)
 	{
-		auto id = getNextObjectID(state, getPrefix());
-		return getPrefix() + Strings::fromU64(id);
+		auto id = getNextObjectID(state, getTypeName());
+		return Strings::fromU64(id);
 	}
 
 	virtual void destroy() {};
@@ -62,13 +61,6 @@ template <typename T> class StateRef
 	{
 		if (id.empty())
 			return;
-		auto &prefix = T::getPrefix();
-		auto idPrefix = id.substr(0, prefix.length());
-		if (prefix != idPrefix)
-		{
-			LogWarning("{0} object has invalid prefix - expected \"{1}\" ID \"{2}\"",
-			           T::getTypeName(), T::getPrefix(), id);
-		}
 		obj = T::get(*state, id);
 		if (!obj)
 		{

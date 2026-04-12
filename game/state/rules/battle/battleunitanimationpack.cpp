@@ -22,11 +22,6 @@ sp<BattleUnitAnimationPack> StateObject<BattleUnitAnimationPack>::get(const Game
 	return it->second;
 }
 
-template <> const UString &StateObject<BattleUnitAnimationPack>::getPrefix()
-{
-	static UString prefix = "BATTLEUNITIANIMATIONPACK_";
-	return prefix;
-}
 template <> const UString &StateObject<BattleUnitAnimationPack>::getTypeName()
 {
 	static UString name = "BattleUnitAnimationPack";
@@ -46,15 +41,7 @@ const UString &StateObject<BattleUnitAnimationPack>::getId(const GameState &stat
 	return emptyString;
 }
 
-const UString BattleUnitAnimationPack::getNameFromID(UString id)
-{
-	static const UString emptyString = "";
-	auto plen = getPrefix().length();
-	if (id.length() > plen)
-		return id.substr(plen, id.length() - plen);
-	LogError("Invalid BattleUnitAnimationPack ID {0}", id);
-	return emptyString;
-}
+const UString BattleUnitAnimationPack::getNameFromID(UString id) { return id; }
 
 BattleUnitAnimationPack::AnimationEntry::Frame::InfoBlock::InfoBlock(int index, int offset_x,
                                                                      int offset_y)

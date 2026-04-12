@@ -15,11 +15,6 @@ template <> sp<UFOGrowth> StateObject<UFOGrowth>::get(const GameState &state, co
 	return it->second;
 }
 
-template <> const UString &StateObject<UFOGrowth>::getPrefix()
-{
-	static UString prefix = "UFO_GROWTH_";
-	return prefix;
-}
 template <> const UString &StateObject<UFOGrowth>::getTypeName()
 {
 	static UString name = "UFOGrowth";

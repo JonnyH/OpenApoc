@@ -237,7 +237,7 @@ void Battle::initBattle(GameState &state, bool first)
 		refreshLeadershipBonus(o);
 	}
 	// Let pre-placed fires spawn smokes
-	StateRef<DamageType> dt = {&state, "DAMAGETYPE_INCENDIARY"};
+	StateRef<DamageType> dt = {&state, "INCENDIARY"};
 	std::list<sp<BattleHazard>> fires;
 	for (auto &h : hazards)
 	{
@@ -1182,7 +1182,7 @@ sp<BattleExplosion> Battle::addExplosion(GameState &state, Vec3<int> position,
 	// Doodad
 	if (!doodadType)
 	{
-		doodadType = {&state, "DOODAD_30_EXPLODING_PAYLOAD"};
+		doodadType = {&state, "30_EXPLODING_PAYLOAD"};
 	}
 	placeDoodad(doodadType, position);
 
@@ -2977,7 +2977,7 @@ void Battle::exitBattle(GameState &state)
 		}
 
 		// Erase base and building
-		StateRef<Base> fakeBase = {&state, "BASE_SKIRMISH"};
+		StateRef<Base> fakeBase = {&state, "SKIRMISH"};
 		auto city = fakeBase->building->city;
 		fakeBase->building->currentAgents.clear();
 		fakeBase->building->base.clear();
@@ -2985,10 +2985,10 @@ void Battle::exitBattle(GameState &state)
 		auto &cityBuildings = city->buildings;
 		cityBuildings.erase(std::remove_if(cityBuildings.begin(), cityBuildings.end(),
 		                                   [](const StateRef<Building> &b)
-		                                   { return b.id == "BUILDING_SKIRMISH"; }),
+		                                   { return b.id == "SKIRMISH"; }),
 		                    cityBuildings.end());
-		state.buildings.erase("BUILDING_SKIRMISH");
-		state.player_bases.erase("BASE_SKIRMISH");
+		state.buildings.erase("SKIRMISH");
+		state.player_bases.erase("SKIRMISH");
 
 		// Erase vehicle
 		if (state.current_battle->player_craft)
@@ -3367,7 +3367,7 @@ void Battle::exitBattle(GameState &state)
 	// Sending vehicles back to base
 	for (auto &v : playerVehicles)
 	{
-		if (v->city.id == "CITYMAP_HUMAN")
+		if (v->city.id == "HUMAN")
 		{
 			v->setMission(state, VehicleMission::gotoBuilding(state, *v));
 			v->addMission(state, VehicleMission::offerService(state, *v), true);
@@ -3651,8 +3651,7 @@ void Battle::loadImagePacks(GameState &state)
 			         imagePackPath);
 			continue;
 		}
-		state.battle_unit_image_packs[format("{0}{1}", BattleUnitImagePack::getPrefix(),
-		                                     imagePackName)] = imagePack;
+		state.battle_unit_image_packs[imagePackName] = imagePack;
 		LogInfo("Loaded image pack \"{0}\" from \"{1}\"", imagePackName, imagePackPath);
 	}
 }
@@ -3756,8 +3755,7 @@ void Battle::loadAnimationPacks(GameState &state)
 			         animationPackPath);
 			continue;
 		}
-		state.battle_unit_animation_packs[format("{0}{1}", BattleUnitAnimationPack::getPrefix(),
-		                                         animationPackName)] = animationPack;
+		state.battle_unit_animation_packs[animationPackName] = animationPack;
 		LogInfo("Loaded animation pack \"{0}\" from \"{1}\"", animationPackName, animationPackPath);
 	}
 }

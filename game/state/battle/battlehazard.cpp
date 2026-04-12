@@ -45,7 +45,7 @@ void BattleHazard::die(GameState &state, bool violently)
 	// Place smoke where fire died off
 	if (damageType->effectType == DamageType::EffectType::Fire)
 	{
-		StateRef<DamageType> dtSmoke = {&state, "DAMAGETYPE_SMOKE"};
+		StateRef<DamageType> dtSmoke = {&state, "SMOKE"};
 		state.current_battle->placeHazard(state, ownerOrganisation, ownerUnit, dtSmoke, position,
 		                                  dtSmoke->hazardType->getLifetime(state), power, 6);
 	}
@@ -139,7 +139,7 @@ bool BattleHazard::expand(GameState &state, const TileMap &map, const Vec3<int> 
 	auto spreadDamageType = damageType;
 	if (fireSmoke)
 	{
-		spreadDamageType = {&state, "DAMAGETYPE_SMOKE"};
+		spreadDamageType = {&state, "SMOKE"};
 		ttl = spreadDamageType->hazardType->getLifetime(state);
 	}
 

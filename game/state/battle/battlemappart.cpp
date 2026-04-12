@@ -51,17 +51,17 @@ void BattleMapPart::die(GameState &state, bool explosive, bool violently)
 				// No doodad for grounds
 				break;
 			case BattleMapPartType::Type::LeftWall:
-				state.current_battle->placeDoodad({&state, "DOODAD_29_EXPLODING_TERRAIN"},
+				state.current_battle->placeDoodad({&state, "29_EXPLODING_TERRAIN"},
 				                                  tileObject->getCenter() +
 				                                      Vec3<float>(-0.5f, 0.0f, 0.0f));
 				break;
 			case BattleMapPartType::Type::RightWall:
-				state.current_battle->placeDoodad({&state, "DOODAD_29_EXPLODING_TERRAIN"},
+				state.current_battle->placeDoodad({&state, "29_EXPLODING_TERRAIN"},
 				                                  tileObject->getCenter() +
 				                                      Vec3<float>(0.0f, -0.5f, 0.0f));
 				break;
 			case BattleMapPartType::Type::Feature:
-				state.current_battle->placeDoodad({&state, "DOODAD_29_EXPLODING_TERRAIN"},
+				state.current_battle->placeDoodad({&state, "29_EXPLODING_TERRAIN"},
 				                                  tileObject->getCenter());
 				break;
 		}
@@ -1228,7 +1228,7 @@ void BattleMapPart::updateFalling(GameState &state, unsigned int ticks)
 					auto u = std::static_pointer_cast<TileObjectBattleUnit>(obj)->getUnit();
 					// FIXME: Ensure falling damage is correct
 					u->applyDamage(state, FALLING_MAP_PART_DAMAGE_TO_UNIT,
-					               {&state, "DAMAGETYPE_FALLING_OBJECT"}, BodyPart::Helmet,
+					               {&state, "FALLING_OBJECT"}, BodyPart::Helmet,
 					               DamageSource::Impact);
 					break;
 				}
@@ -1250,7 +1250,7 @@ void BattleMapPart::updateFalling(GameState &state, unsigned int ticks)
 
 		// Spawn smoke, more intense if we land here
 		{
-			StateRef<DamageType> dtSmoke = {&state, "DAMAGETYPE_SMOKE"};
+			StateRef<DamageType> dtSmoke = {&state, "SMOKE"};
 			auto hazard = state.current_battle->placeHazard(
 			    state, owner, nullptr, dtSmoke, position, dtSmoke->hazardType->getLifetime(state),
 			    2, destroyed ? 6 : 12);

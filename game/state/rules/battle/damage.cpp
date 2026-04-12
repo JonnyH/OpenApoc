@@ -5,12 +5,6 @@
 namespace OpenApoc
 {
 
-template <> const UString &StateObject<HazardType>::getPrefix()
-{
-	static UString prefix = "HAZARD_";
-	return prefix;
-}
-
 template <> const UString &StateObject<HazardType>::getTypeName()
 {
 	static UString name = "HazardType";
@@ -26,12 +20,6 @@ template <> sp<HazardType> StateObject<HazardType>::get(const GameState &state, 
 		return nullptr;
 	}
 	return it->second;
-}
-
-template <> const UString &StateObject<DamageModifier>::getPrefix()
-{
-	static UString prefix = "DAMAGEMODIFIER_";
-	return prefix;
 }
 
 template <> const UString &StateObject<DamageModifier>::getTypeName()
@@ -50,12 +38,6 @@ sp<DamageModifier> StateObject<DamageModifier>::get(const GameState &state, cons
 		return nullptr;
 	}
 	return it->second;
-}
-
-template <> const UString &StateObject<DamageType>::getPrefix()
-{
-	static UString prefix = "DAMAGETYPE_";
-	return prefix;
 }
 
 template <> const UString &StateObject<DamageType>::getTypeName()

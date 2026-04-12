@@ -20,11 +20,6 @@ sp<BattleUnitImagePack> StateObject<BattleUnitImagePack>::get(const GameState &s
 	return it->second;
 }
 
-template <> const UString &StateObject<BattleUnitImagePack>::getPrefix()
-{
-	static UString prefix = "BATTLEUNITIMAGEPACK_";
-	return prefix;
-}
 template <> const UString &StateObject<BattleUnitImagePack>::getTypeName()
 {
 	static UString name = "BattleUnitImagePack";
@@ -44,15 +39,5 @@ const UString &StateObject<BattleUnitImagePack>::getId(const GameState &state,
 	return emptyString;
 }
 
-const UString BattleUnitImagePack::getNameFromID(UString id)
-{
-	static const UString emptyString = "";
-	if (id.length() == 0)
-		return emptyString;
-	auto plen = getPrefix().length();
-	if (id.length() > plen)
-		return id.substr(plen, id.length() - plen);
-	LogError("Invalid BattleUnitImagePack ID {0}", id);
-	return emptyString;
-}
+const UString BattleUnitImagePack::getNameFromID(UString id) { return id; }
 } // namespace OpenApoc

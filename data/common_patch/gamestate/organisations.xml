@@ -1,441 +1,441 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <organisations>
   <entry>
-    <key>ORG_ALIEN</key>
+    <key>ALIEN</key>
     <value>
       <guard_types_reinforcements>
-		<entry>AGENTTYPE_ANTHROPOD</entry>
-		<entry>AGENTTYPE_SPITTER</entry>
-		<entry>AGENTTYPE_SKELETOID</entry>
+		<entry>ANTHROPOD</entry>
+		<entry>SPITTER</entry>
+		<entry>SKELETOID</entry>
 	  </guard_types_reinforcements>
 	  <!-- Aliens do not spawn security -->
       <!--
 		<guard_types_human>
-          <entry>AGENTTYPE_BUILDING_SECURITY</entry>
+          <entry>SECURITY</entry>
         </guard_types_human>
 		-->
     </value>
   </entry>
   <entry>
-    <key>ORG_CIVILIAN</key>
+    <key>CIVILIAN</key>
     <value>
 	  <hirableAgentTypes>
-	    <entry><key>AGENTTYPE_X-COM_BIOCHEMIST</key><value><first>0</first><second>2</second></value></entry>
-		<entry><key>AGENTTYPE_X-COM_MECHANIC</key><value><first>0</first><second>1</second></value></entry>
-		<entry><key>AGENTTYPE_X-COM_QUANTUM_PHYSICIST</key><value><first>0</first><second>2</second></value></entry>
+	    <entry><key>X-COM_BIOCHEMIST</key><value><first>0</first><second>2</second></value></entry>
+		<entry><key>X-COM_MECHANIC</key><value><first>0</first><second>1</second></value></entry>
+		<entry><key>X-COM_QUANTUM_PHYSICIST</key><value><first>0</first><second>2</second></value></entry>
 	  </hirableAgentTypes>
       <!-- Civilians do not spawn security -->
       <!-- However, these fields are used to spawn civilians -->
       <average_guards>10</average_guards>
       <guard_types_alien>
-	  <entry>AGENTTYPE_ALIEN_GREY</entry>
+	  <entry>ALIEN_GREY</entry>
 	  </guard_types_alien>
 	  <guard_types_human>
-        <entry>AGENTTYPE_ANDROID</entry>
-        <entry>AGENTTYPE_CIVILIAN_FEMALE</entry>
-        <entry>AGENTTYPE_CIVILIAN_FEMALE_1</entry>
-        <entry>AGENTTYPE_CIVILIAN_FEMALE_2</entry>
-        <entry>AGENTTYPE_CIVILIAN_MALE</entry>
-        <entry>AGENTTYPE_CIVILIAN_MALE_1</entry>
-        <entry>AGENTTYPE_CIVILIAN_MALE_2</entry>
-        <entry>AGENTTYPE_LOWER_CLASS_FEMALE</entry>
-        <entry>AGENTTYPE_LOWER_CLASS_FEMALE_1</entry>
-        <entry>AGENTTYPE_LOWER_CLASS_FEMALE_2</entry>
-        <entry>AGENTTYPE_LOWER_CLASS_MALE</entry>
-        <entry>AGENTTYPE_LOWER_CLASS_MALE_1</entry>
-        <entry>AGENTTYPE_LOWER_CLASS_MALE_2</entry>
-        <entry>AGENTTYPE_UPPER_CLASS_FEMALE</entry>
-        <entry>AGENTTYPE_UPPER_CLASS_FEMALE_1</entry>
-        <entry>AGENTTYPE_UPPER_CLASS_FEMALE_2</entry>
-        <entry>AGENTTYPE_UPPER_CLASS_MALE</entry>
-        <entry>AGENTTYPE_UPPER_CLASS_MALE_1</entry>
-        <entry>AGENTTYPE_UPPER_CLASS_MALE_2</entry>
+        <entry>ANDROID</entry>
+        <entry>CIVILIAN_FEMALE</entry>
+        <entry>CIVILIAN_FEMALE_1</entry>
+        <entry>CIVILIAN_FEMALE_2</entry>
+        <entry>CIVILIAN_MALE</entry>
+        <entry>CIVILIAN_MALE_1</entry>
+        <entry>CIVILIAN_MALE_2</entry>
+        <entry>LOWER_CLASS_FEMALE</entry>
+        <entry>LOWER_CLASS_FEMALE_1</entry>
+        <entry>LOWER_CLASS_FEMALE_2</entry>
+        <entry>LOWER_CLASS_MALE</entry>
+        <entry>LOWER_CLASS_MALE_1</entry>
+        <entry>LOWER_CLASS_MALE_2</entry>
+        <entry>UPPER_CLASS_FEMALE</entry>
+        <entry>UPPER_CLASS_FEMALE_1</entry>
+        <entry>UPPER_CLASS_FEMALE_2</entry>
+        <entry>UPPER_CLASS_MALE</entry>
+        <entry>UPPER_CLASS_MALE_1</entry>
+        <entry>UPPER_CLASS_MALE_2</entry>
       </guard_types_human>
     </value>
   </entry>
   <entry>
-    <key>ORG_CULT_OF_SIRIUS</key>
+    <key>CULT_OF_SIRIUS</key>
     <value>
       <guard_types_reinforcements>
-		<entry>AGENTTYPE_CULTIST</entry>
+		<entry>CULTIST</entry>
 	  </guard_types_reinforcements>
 	  <guard_types_human>
-        <entry>AGENTTYPE_CULTIST</entry>
-        <entry>AGENTTYPE_CULTIST</entry>
-        <entry>AGENTTYPE_CULTIST</entry>
-        <entry>AGENTTYPE_CULTIST</entry>
-        <entry>AGENTTYPE_CULTIST</entry>
-        <entry>AGENTTYPE_CULTIST</entry>
-        <entry>AGENTTYPE_CULTIST</entry>
-        <entry>AGENTTYPE_CULTIST</entry>
-        <entry>AGENTTYPE_CULTIST</entry>
-        <entry>AGENTTYPE_CULT_LEADER</entry>
+        <entry>CULTIST</entry>
+        <entry>CULTIST</entry>
+        <entry>CULTIST</entry>
+        <entry>CULTIST</entry>
+        <entry>CULTIST</entry>
+        <entry>CULTIST</entry>
+        <entry>CULTIST</entry>
+        <entry>CULTIST</entry>
+        <entry>CULTIST</entry>
+        <entry>CULT_LEADER</entry>
       </guard_types_human>
     </value>
   </entry>
   <entry>
-    <key>ORG_CYBERWEB</key>
+    <key>CYBERWEB</key>
     <value>
       <hirableAgentTypes>
-	    <entry><key>AGENTTYPE_X-COM_MECHANIC</key><value><first>0</first><second>1</second></value></entry>
-		<entry><key>AGENTTYPE_X-COM_QUANTUM_PHYSICIST</key><value><first>0</first><second>2</second></value></entry>
+	    <entry><key>X-COM_MECHANIC</key><value><first>0</first><second>1</second></value></entry>
+		<entry><key>X-COM_QUANTUM_PHYSICIST</key><value><first>0</first><second>2</second></value></entry>
 	  </hirableAgentTypes>
 	  <guard_types_reinforcements>
-		<entry>AGENTTYPE_BUILDING_SECURITY</entry>
+		<entry>SECURITY</entry>
 	  </guard_types_reinforcements>
       <guard_types_human>
-        <entry>AGENTTYPE_BUILDING_SECURITY</entry>
+        <entry>SECURITY</entry>
       </guard_types_human>
     </value>
   </entry>
   <entry>
-    <key>ORG_DIABLO</key>
+    <key>DIABLO</key>
     <value>
 	  <hirableAgentTypes>
-	    <entry><key>AGENTTYPE_X-COM_AGENT_HUMAN</key><value><first>0</first><second>1</second></value></entry>
+	    <entry><key>X-COM_HUMAN</key><value><first>0</first><second>1</second></value></entry>
 	  </hirableAgentTypes>
       <guard_types_reinforcements>
-		<entry>AGENTTYPE_GANGSTER</entry>
+		<entry>GANGSTER</entry>
 	  </guard_types_reinforcements>
       <guard_types_human>
-        <entry>AGENTTYPE_GANGSTER</entry>
-        <entry>AGENTTYPE_GANGSTER</entry>
-        <entry>AGENTTYPE_GANGSTER</entry>
-        <entry>AGENTTYPE_GANGSTER</entry>
-        <entry>AGENTTYPE_GANGSTER</entry>
-        <entry>AGENTTYPE_GANGSTER</entry>
-        <entry>AGENTTYPE_GANGSTER</entry>
-        <entry>AGENTTYPE_GANGSTER</entry>
-        <entry>AGENTTYPE_GANGSTER</entry>
-        <entry>AGENTTYPE_GANG_LEADER</entry>
+        <entry>GANGSTER</entry>
+        <entry>GANGSTER</entry>
+        <entry>GANGSTER</entry>
+        <entry>GANGSTER</entry>
+        <entry>GANGSTER</entry>
+        <entry>GANGSTER</entry>
+        <entry>GANGSTER</entry>
+        <entry>GANGSTER</entry>
+        <entry>GANGSTER</entry>
+        <entry>GANG_LEADER</entry>
       </guard_types_human>
     </value>
   </entry>
   <entry>
-    <key>ORG_ENERGEN</key>
+    <key>ENERGEN</key>
     <value>
 	  <hirableAgentTypes>
-	    <entry><key>AGENTTYPE_X-COM_MECHANIC</key><value><first>0</first><second>1</second></value></entry>
+	    <entry><key>X-COM_MECHANIC</key><value><first>0</first><second>1</second></value></entry>
 	  </hirableAgentTypes>
       <guard_types_reinforcements>
-		<entry>AGENTTYPE_BUILDING_SECURITY</entry>
+		<entry>SECURITY</entry>
 	  </guard_types_reinforcements>
       <guard_types_human>
-        <entry>AGENTTYPE_BUILDING_SECURITY</entry>
+        <entry>SECURITY</entry>
       </guard_types_human>
     </value>
   </entry>
   <entry>
-    <key>ORG_EVONET</key>
+    <key>EVONET</key>
     <value>
 	  <hirableAgentTypes>
-	    <entry><key>AGENTTYPE_X-COM_BIOCHEMIST</key><value><first>0</first><second>1</second></value></entry>
-		<entry><key>AGENTTYPE_X-COM_MECHANIC</key><value><first>0</first><second>1</second></value></entry>
+	    <entry><key>X-COM_BIOCHEMIST</key><value><first>0</first><second>1</second></value></entry>
+		<entry><key>X-COM_MECHANIC</key><value><first>0</first><second>1</second></value></entry>
 	  </hirableAgentTypes>
       <guard_types_reinforcements>
-		<entry>AGENTTYPE_BUILDING_SECURITY</entry>
+		<entry>SECURITY</entry>
 	  </guard_types_reinforcements>
       <guard_types_human>
-        <entry>AGENTTYPE_BUILDING_SECURITY</entry>
+        <entry>SECURITY</entry>
       </guard_types_human>
     </value>
   </entry>
   <entry>
-    <key>ORG_EXTROPIANS</key>
+    <key>EXTROPIANS</key>
     <value>
 	  <guard_types_reinforcements>
-		<entry>AGENTTYPE_BUILDING_SECURITY</entry>
+		<entry>SECURITY</entry>
 	  </guard_types_reinforcements>
       <guard_types_human>
-        <entry>AGENTTYPE_BUILDING_SECURITY</entry>
+        <entry>SECURITY</entry>
       </guard_types_human>
     </value>
   </entry>
   <entry>
-    <key>ORG_GENERAL_METRO</key>
+    <key>GENERAL_METRO</key>
     <value>
 	  <hirableAgentTypes>
-	    <entry><key>AGENTTYPE_X-COM_MECHANIC</key><value><first>0</first><second>1</second></value></entry>
+	    <entry><key>X-COM_MECHANIC</key><value><first>0</first><second>1</second></value></entry>
 	  </hirableAgentTypes>
       <guard_types_reinforcements>
-		<entry>AGENTTYPE_BUILDING_SECURITY</entry>
+		<entry>SECURITY</entry>
 	  </guard_types_reinforcements>
       <guard_types_human>
-        <entry>AGENTTYPE_BUILDING_SECURITY</entry>
+        <entry>SECURITY</entry>
       </guard_types_human>
     </value>
   </entry>
   <entry>
-    <key>ORG_GOVERNMENT</key>
+    <key>GOVERNMENT</key>
     <value>
       <guard_types_reinforcements>
-		<entry>AGENTTYPE_BUILDING_SECURITY</entry>
+		<entry>SECURITY</entry>
 	  </guard_types_reinforcements>
       <guard_types_human>
-        <entry>AGENTTYPE_BUILDING_SECURITY</entry>
+        <entry>SECURITY</entry>
       </guard_types_human>
     </value>
   </entry>
   <entry>
-    <key>ORG_GRAVBALL_LEAGUE</key>
+    <key>GRAVBALL_LEAGUE</key>
     <value>
 	  <hirableAgentTypes>
-	    <entry><key>AGENTTYPE_X-COM_AGENT_HUMAN</key><value><first>0</first><second>2</second></value></entry>
+	    <entry><key>X-COM_HUMAN</key><value><first>0</first><second>2</second></value></entry>
 	  </hirableAgentTypes>
       <guard_types_reinforcements>
-		<entry>AGENTTYPE_BUILDING_SECURITY</entry>
+		<entry>SECURITY</entry>
 	  </guard_types_reinforcements>
       <guard_types_human>
-        <entry>AGENTTYPE_BUILDING_SECURITY</entry>
+        <entry>SECURITY</entry>
       </guard_types_human>
     </value>
   </entry>
   <entry>
-    <key>ORG_LIFETREE</key>
+    <key>LIFETREE</key>
     <value>
       <hirableAgentTypes>
-	    <entry><key>AGENTTYPE_X-COM_BIOCHEMIST</key><value><first>0</first><second>1</second></value></entry>
+	    <entry><key>X-COM_BIOCHEMIST</key><value><first>0</first><second>1</second></value></entry>
 	  </hirableAgentTypes>
       <guard_types_reinforcements>
-		<entry>AGENTTYPE_BUILDING_SECURITY</entry>
+		<entry>SECURITY</entry>
 	  </guard_types_reinforcements>
       <guard_types_human>
-        <entry>AGENTTYPE_BUILDING_SECURITY</entry>
+        <entry>SECURITY</entry>
       </guard_types_human>
     </value>
   </entry>
   <entry>
-    <key>ORG_MARSEC</key>
+    <key>MARSEC</key>
     <value>
       <hirableAgentTypes>
-	    <entry><key>AGENTTYPE_X-COM_MECHANIC</key><value><first>0</first><second>1</second></value></entry>
-		<entry><key>AGENTTYPE_X-COM_QUANTUM_PHYSICIST</key><value><first>0</first><second>2</second></value></entry>
+	    <entry><key>X-COM_MECHANIC</key><value><first>0</first><second>1</second></value></entry>
+		<entry><key>X-COM_QUANTUM_PHYSICIST</key><value><first>0</first><second>2</second></value></entry>
 	  </hirableAgentTypes>
       <guard_types_reinforcements>
-		<entry>AGENTTYPE_BUILDING_SECURITY</entry>
+		<entry>SECURITY</entry>
 	  </guard_types_reinforcements>
       <guard_types_human>
-        <entry>AGENTTYPE_BUILDING_SECURITY</entry>
+        <entry>SECURITY</entry>
       </guard_types_human>
     </value>
   </entry>
   <entry>
-    <key>ORG_MEGAPOL</key>
+    <key>MEGAPOL</key>
     <value>
 	  <hirableAgentTypes>
-	    <entry><key>AGENTTYPE_X-COM_AGENT_HUMAN</key><value><first>0</first><second>1</second></value></entry>
+	    <entry><key>X-COM_HUMAN</key><value><first>0</first><second>1</second></value></entry>
 	  </hirableAgentTypes>
       <guard_types_reinforcements>
-		<entry>AGENTTYPE_POLICE</entry>
+		<entry>POLICE</entry>
 	  </guard_types_reinforcements>
       <guard_types_human>
-        <entry>AGENTTYPE_POLICE</entry>
+        <entry>POLICE</entry>
       </guard_types_human>
     </value>
   </entry>
   <entry>
-    <key>ORG_MUTANT_ALLIANCE</key>
+    <key>MUTANT_ALLIANCE</key>
     <value>
 	  <hirableAgentTypes>
-	    <entry><key>AGENTTYPE_X-COM_AGENT_HYBRID</key><value><first>0</first><second>2</second></value></entry>
+	    <entry><key>X-COM_HYBRID</key><value><first>0</first><second>2</second></value></entry>
 	  </hirableAgentTypes>
       <guard_types_reinforcements>
-		<entry>AGENTTYPE_BUILDING_SECURITY</entry>
+		<entry>SECURITY</entry>
 	  </guard_types_reinforcements>
       <guard_types_human>
-        <entry>AGENTTYPE_BUILDING_SECURITY</entry>
+        <entry>SECURITY</entry>
       </guard_types_human>
     </value>
   </entry>
   <entry>
-    <key>ORG_NANOTECH</key>
+    <key>NANOTECH</key>
     <value>
       <hirableAgentTypes>
-	    <entry><key>AGENTTYPE_X-COM_BIOCHEMIST</key><value><first>0</first><second>2</second></value></entry>
+	    <entry><key>X-COM_BIOCHEMIST</key><value><first>0</first><second>2</second></value></entry>
 	  </hirableAgentTypes>
       <guard_types_reinforcements>
-		<entry>AGENTTYPE_BUILDING_SECURITY</entry>
+		<entry>SECURITY</entry>
 	  </guard_types_reinforcements>
       <guard_types_human>
-        <entry>AGENTTYPE_BUILDING_SECURITY</entry>
+        <entry>SECURITY</entry>
       </guard_types_human>
     </value>
   </entry>
   <entry>
-    <key>ORG_NUTRIVEND</key>
+    <key>NUTRIVEND</key>
     <value>
       <hirableAgentTypes>
-	    <entry><key>AGENTTYPE_X-COM_BIOCHEMIST</key><value><first>0</first><second>2</second></value></entry>
+	    <entry><key>X-COM_BIOCHEMIST</key><value><first>0</first><second>2</second></value></entry>
 	  </hirableAgentTypes>
       <guard_types_reinforcements>
-		<entry>AGENTTYPE_BUILDING_SECURITY</entry>
+		<entry>SECURITY</entry>
 	  </guard_types_reinforcements>
       <guard_types_human>
-        <entry>AGENTTYPE_BUILDING_SECURITY</entry>
+        <entry>SECURITY</entry>
       </guard_types_human>
     </value>
   </entry>
   <entry>
-    <key>ORG_OSIRON</key>
+    <key>OSIRON</key>
     <value>
 	  <hirableAgentTypes>
-	    <entry><key>AGENTTYPE_X-COM_AGENT_HUMAN</key><value><first>0</first><second>1</second></value></entry>
+	    <entry><key>X-COM_HUMAN</key><value><first>0</first><second>1</second></value></entry>
 	  </hirableAgentTypes>
       <guard_types_reinforcements>
-		<entry>AGENTTYPE_GANGSTER</entry>
+		<entry>GANGSTER</entry>
 	  </guard_types_reinforcements>
       <guard_types_human>
-        <entry>AGENTTYPE_GANGSTER</entry>
-        <entry>AGENTTYPE_GANGSTER</entry>
-        <entry>AGENTTYPE_GANGSTER</entry>
-        <entry>AGENTTYPE_GANGSTER</entry>
-        <entry>AGENTTYPE_GANGSTER</entry>
-        <entry>AGENTTYPE_GANGSTER</entry>
-        <entry>AGENTTYPE_GANGSTER</entry>
-        <entry>AGENTTYPE_GANGSTER</entry>
-        <entry>AGENTTYPE_GANGSTER</entry>
-        <entry>AGENTTYPE_GANG_LEADER</entry>
+        <entry>GANGSTER</entry>
+        <entry>GANGSTER</entry>
+        <entry>GANGSTER</entry>
+        <entry>GANGSTER</entry>
+        <entry>GANGSTER</entry>
+        <entry>GANGSTER</entry>
+        <entry>GANGSTER</entry>
+        <entry>GANGSTER</entry>
+        <entry>GANGSTER</entry>
+        <entry>GANG_LEADER</entry>
       </guard_types_human>
     </value>
   </entry>
   <entry>
-    <key>ORG_PSYKE</key>
+    <key>PSYKE</key>
     <value>
 	  <hirableAgentTypes>
-	    <entry><key>AGENTTYPE_X-COM_AGENT_HUMAN</key><value><first>0</first><second>1</second></value></entry>
+	    <entry><key>X-COM_HUMAN</key><value><first>0</first><second>1</second></value></entry>
 	  </hirableAgentTypes>
       <guard_types_reinforcements>
-		<entry>AGENTTYPE_GANGSTER</entry>
+		<entry>GANGSTER</entry>
 	  </guard_types_reinforcements>
       <guard_types_human>
-        <entry>AGENTTYPE_GANGSTER</entry>
-        <entry>AGENTTYPE_GANGSTER</entry>
-        <entry>AGENTTYPE_GANGSTER</entry>
-        <entry>AGENTTYPE_GANGSTER</entry>
-        <entry>AGENTTYPE_GANGSTER</entry>
-        <entry>AGENTTYPE_GANGSTER</entry>
-        <entry>AGENTTYPE_GANGSTER</entry>
-        <entry>AGENTTYPE_GANGSTER</entry>
-        <entry>AGENTTYPE_GANGSTER</entry>
-        <entry>AGENTTYPE_GANG_LEADER</entry>
+        <entry>GANGSTER</entry>
+        <entry>GANGSTER</entry>
+        <entry>GANGSTER</entry>
+        <entry>GANGSTER</entry>
+        <entry>GANGSTER</entry>
+        <entry>GANGSTER</entry>
+        <entry>GANGSTER</entry>
+        <entry>GANGSTER</entry>
+        <entry>GANGSTER</entry>
+        <entry>GANG_LEADER</entry>
       </guard_types_human>
     </value>
   </entry>
   <entry>
-    <key>ORG_SANCTUARY_CLINIC</key>
+    <key>SANCTUARY_CLINIC</key>
     <value>
       <hirableAgentTypes>
-	    <entry><key>AGENTTYPE_X-COM_BIOCHEMIST</key><value><first>0</first><second>2</second></value></entry>
+	    <entry><key>X-COM_BIOCHEMIST</key><value><first>0</first><second>2</second></value></entry>
 	  </hirableAgentTypes>
       <guard_types_reinforcements>
-		<entry>AGENTTYPE_BUILDING_SECURITY</entry>
+		<entry>SECURITY</entry>
 	  </guard_types_reinforcements>
       <guard_types_human>
-        <entry>AGENTTYPE_BUILDING_SECURITY</entry>
+        <entry>SECURITY</entry>
       </guard_types_human>
     </value>
   </entry>
   <entry>
-    <key>ORG_SENSOVISION</key>
+    <key>SENSOVISION</key>
     <value>
       <hirableAgentTypes>
-	    <entry><key>AGENTTYPE_X-COM_MECHANIC</key><value><first>0</first><second>1</second></value></entry>
+	    <entry><key>X-COM_MECHANIC</key><value><first>0</first><second>1</second></value></entry>
 	  </hirableAgentTypes>
       <guard_types_reinforcements>
-		<entry>AGENTTYPE_BUILDING_SECURITY</entry>
+		<entry>SECURITY</entry>
 	  </guard_types_reinforcements>
       <guard_types_human>
-        <entry>AGENTTYPE_BUILDING_SECURITY</entry>
+        <entry>SECURITY</entry>
       </guard_types_human>
     </value>
   </entry>
   <entry>
-    <key>ORG_SOLMINE</key>
+    <key>SOLMINE</key>
     <value>
       <hirableAgentTypes>
-	    <entry><key>AGENTTYPE_X-COM_MECHANIC</key><value><first>0</first><second>1</second></value></entry>
-		<entry><key>AGENTTYPE_X-COM_QUANTUM_PHYSICIST</key><value><first>0</first><second>2</second></value></entry>
+	    <entry><key>X-COM_MECHANIC</key><value><first>0</first><second>1</second></value></entry>
+		<entry><key>X-COM_QUANTUM_PHYSICIST</key><value><first>0</first><second>2</second></value></entry>
 	  </hirableAgentTypes>
       <guard_types_reinforcements>
-		<entry>AGENTTYPE_BUILDING_SECURITY</entry>
+		<entry>SECURITY</entry>
 	  </guard_types_reinforcements>
       <guard_types_human>
-        <entry>AGENTTYPE_BUILDING_SECURITY</entry>
+        <entry>SECURITY</entry>
       </guard_types_human>
     </value>
   </entry>
   <entry>
-    <key>ORG_SUPERDYNAMICS</key>
+    <key>SUPERDYNAMICS</key>
     <value>
       <hirableAgentTypes>
-	    <entry><key>AGENTTYPE_X-COM_MECHANIC</key><value><first>0</first><second>1</second></value></entry>
-		<entry><key>AGENTTYPE_X-COM_QUANTUM_PHYSICIST</key><value><first>0</first><second>2</second></value></entry>
+	    <entry><key>X-COM_MECHANIC</key><value><first>0</first><second>1</second></value></entry>
+		<entry><key>X-COM_QUANTUM_PHYSICIST</key><value><first>0</first><second>2</second></value></entry>
 	  </hirableAgentTypes>
       <guard_types_reinforcements>
-		<entry>AGENTTYPE_BUILDING_SECURITY</entry>
+		<entry>SECURITY</entry>
 	  </guard_types_reinforcements>
       <guard_types_human>
-        <entry>AGENTTYPE_BUILDING_SECURITY</entry>
+        <entry>SECURITY</entry>
       </guard_types_human>
     </value>
   </entry>
   <entry>
-    <key>ORG_SYNTHEMESH</key>
+    <key>SYNTHEMESH</key>
     <value>
       <hirableAgentTypes>
-	    <entry><key>AGENTTYPE_X-COM_MECHANIC</key><value><first>0</first><second>1</second></value></entry>
+	    <entry><key>X-COM_MECHANIC</key><value><first>0</first><second>1</second></value></entry>
 	  </hirableAgentTypes>
       <guard_types_reinforcements>
-		<entry>AGENTTYPE_BUILDING_SECURITY</entry>
+		<entry>SECURITY</entry>
 	  </guard_types_reinforcements>
       <guard_types_human>
-        <entry>AGENTTYPE_BUILDING_SECURITY</entry>
+        <entry>SECURITY</entry>
       </guard_types_human>
     </value>
   </entry>
   <entry>
-    <key>ORG_S_E_L_F_</key>
+    <key>S_E_L_F_</key>
     <value>
 	  <hirableAgentTypes>
-	    <entry><key>AGENTTYPE_X-COM_AGENT_ANDROID</key><value><first>0</first><second>2</second></value></entry>
+	    <entry><key>X-COM_ANDROID</key><value><first>0</first><second>2</second></value></entry>
 	  </hirableAgentTypes>
       <guard_types_reinforcements>
-		<entry>AGENTTYPE_BUILDING_SECURITY</entry>
+		<entry>SECURITY</entry>
 	  </guard_types_reinforcements>
       <guard_types_human>
-        <entry>AGENTTYPE_BUILDING_SECURITY</entry>
+        <entry>SECURITY</entry>
       </guard_types_human>
     </value>
   </entry>
   <entry>
-    <key>ORG_TECHNOCRATS</key>
+    <key>TECHNOCRATS</key>
     <value>
       <guard_types_reinforcements>
-		<entry>AGENTTYPE_BUILDING_SECURITY</entry>
+		<entry>SECURITY</entry>
 	  </guard_types_reinforcements>
       <guard_types_human>
-        <entry>AGENTTYPE_BUILDING_SECURITY</entry>
+        <entry>SECURITY</entry>
       </guard_types_human>
     </value>
   </entry>
   <entry>
-    <key>ORG_TRANSTELLAR</key>
+    <key>TRANSTELLAR</key>
     <value>
       <guard_types_reinforcements>
-		<entry>AGENTTYPE_BUILDING_SECURITY</entry>
+		<entry>SECURITY</entry>
 	  </guard_types_reinforcements>
       <guard_types_human>
-        <entry>AGENTTYPE_BUILDING_SECURITY</entry>
+        <entry>SECURITY</entry>
       </guard_types_human>
     </value>
   </entry>
   <entry>
-    <key>ORG_X-COM</key>
+    <key>X-COM</key>
     <value>
       <!-- X-COM does not spawn security -->
       <!--
 		<guard_types_human>
-          <entry>AGENTTYPE_BUILDING_SECURITY</entry>
+          <entry>SECURITY</entry>
         </guard_types_human>
 		-->
     </value>

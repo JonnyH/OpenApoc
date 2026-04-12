@@ -17,11 +17,6 @@ sp<UFOMissionPreference> StateObject<UFOMissionPreference>::get(const GameState 
 	return it->second;
 }
 
-template <> const UString &StateObject<UFOMissionPreference>::getPrefix()
-{
-	static UString prefix = "UFO_MISSION_PREFERENCE_";
-	return prefix;
-}
 template <> const UString &StateObject<UFOMissionPreference>::getTypeName()
 {
 	static UString name = "UFOMissionPreference";

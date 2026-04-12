@@ -3,175 +3,175 @@
   <topics>
     <!-- Research Unlocks Begin -->
 	<entry>
-      <key>RESEARCH_UNLOCK_CELLS</key>
+      <key>UNLOCK_CELLS</key>
       <value>
 		<man_hours>1</man_hours>
         <hidden>true</hidden>
       </value>
     </entry>
 	<entry>
-      <key>RESEARCH_UNLOCK_DIMENSION_GATES</key>
+      <key>UNLOCK_DIMENSION_GATES</key>
       <value>
 		<man_hours>1</man_hours>
         <hidden>true</hidden>
       </value>
     </entry>
 	<entry>
-      <key>RESEARCH_UNLOCK_UFO_TYPE_1</key>
+      <key>UNLOCK_UFO_TYPE_1</key>
       <value>
 		<man_hours>1</man_hours>
         <hidden>true</hidden>
       </value>
     </entry>
 	<entry>
-      <key>RESEARCH_UNLOCK_UFO_TYPE_2</key>
+      <key>UNLOCK_UFO_TYPE_2</key>
       <value>
 		<man_hours>1</man_hours>
         <hidden>true</hidden>
       </value>
     </entry>
 	<entry>
-      <key>RESEARCH_UNLOCK_UFO_TYPE_3</key>
+      <key>UNLOCK_UFO_TYPE_3</key>
       <value>
 		<man_hours>1</man_hours>
         <hidden>true</hidden>
       </value>
     </entry>
 	<entry>
-      <key>RESEARCH_UNLOCK_UFO_TYPE_4</key>
+      <key>UNLOCK_UFO_TYPE_4</key>
       <value>
 		<man_hours>1</man_hours>
         <hidden>true</hidden>
       </value>
     </entry>
 	<entry>
-      <key>RESEARCH_UNLOCK_UFO_TYPE_5</key>
+      <key>UNLOCK_UFO_TYPE_5</key>
       <value>
 		<man_hours>1</man_hours>
         <hidden>true</hidden>
       </value>
     </entry>
 	<entry>
-      <key>RESEARCH_UNLOCK_UFO_TYPE_6</key>
+      <key>UNLOCK_UFO_TYPE_6</key>
       <value>
 		<man_hours>1</man_hours>
         <hidden>true</hidden>
       </value>
     </entry>
 	<entry>
-      <key>RESEARCH_UNLOCK_UFO_TYPE_7</key>
+      <key>UNLOCK_UFO_TYPE_7</key>
       <value>
 		<man_hours>1</man_hours>
         <hidden>true</hidden>
       </value>
     </entry>
 	<entry>
-      <key>RESEARCH_UNLOCK_UFO_TYPE_8</key>
+      <key>UNLOCK_UFO_TYPE_8</key>
       <value>
 		<man_hours>1</man_hours>
         <hidden>true</hidden>
       </value>
     </entry>
 	<entry>
-      <key>RESEARCH_UNLOCK_UFO_TYPE_9</key>
+      <key>UNLOCK_UFO_TYPE_9</key>
       <value>
 		<man_hours>1</man_hours>
         <hidden>true</hidden>
       </value>
     </entry>
 	<entry>
-      <key>RESEARCH_UNLOCK_UFO_TYPE_10</key>
+      <key>UNLOCK_UFO_TYPE_10</key>
       <value>
 		<man_hours>1</man_hours>
         <hidden>true</hidden>
       </value>
     </entry>
 	<entry>
-      <key>RESEARCH_UNLOCK_ALIEN_CRAFT_CONTROL_SYSTEMS</key>
+      <key>UNLOCK_ALIEN_CRAFT_CONTROL_SYSTEMS</key>
       <value>
 		<man_hours>1</man_hours>
         <hidden>true</hidden>
       </value>
     </entry>
 	<entry>
-      <key>RESEARCH_UNLOCK_ALIEN_CRAFT_ENERGY_SOURCE</key>
+      <key>UNLOCK_ALIEN_CRAFT_ENERGY_SOURCE</key>
       <value>
 		<man_hours>1</man_hours>
         <hidden>true</hidden>
       </value>
     </entry>
 	<entry>
-      <key>RESEARCH_UNLOCK_ALIEN_CRAFT_PROPULSION</key>
+      <key>UNLOCK_ALIEN_CRAFT_PROPULSION</key>
       <value>
 		<man_hours>1</man_hours>
         <hidden>true</hidden>
       </value>
     </entry>
 	<entry>
-      <key>RESEARCH_UNLOCK_ALIEN_BUILDING_1</key>
+      <key>UNLOCK_ALIEN_1</key>
       <value>
 		<man_hours>1</man_hours>
         <hidden>true</hidden>
       </value>
     </entry>
 	<entry>
-      <key>RESEARCH_UNLOCK_ALIEN_BUILDING_2</key>
+      <key>UNLOCK_ALIEN_2</key>
       <value>
 		<man_hours>1</man_hours>
         <hidden>true</hidden>
       </value>
     </entry>
 	<entry>
-      <key>RESEARCH_UNLOCK_ALIEN_BUILDING_3</key>
+      <key>UNLOCK_ALIEN_3</key>
       <value>
 		<man_hours>1</man_hours>
         <hidden>true</hidden>
       </value>
     </entry>
 	<entry>
-      <key>RESEARCH_UNLOCK_ALIEN_BUILDING_4</key>
+      <key>UNLOCK_ALIEN_4</key>
       <value>
 		<man_hours>1</man_hours>
         <hidden>true</hidden>
       </value>
     </entry>
 	<entry>
-      <key>RESEARCH_UNLOCK_ALIEN_BUILDING_5</key>
+      <key>UNLOCK_ALIEN_5</key>
       <value>
 		<man_hours>1</man_hours>
         <hidden>true</hidden>
       </value>
     </entry>
 	<entry>
-      <key>RESEARCH_UNLOCK_ALIEN_BUILDING_6</key>
+      <key>UNLOCK_ALIEN_6</key>
       <value>
 		<man_hours>1</man_hours>
         <hidden>true</hidden>
       </value>
     </entry>
 	<entry>
-      <key>RESEARCH_UNLOCK_ALIEN_BUILDING_7</key>
+      <key>UNLOCK_ALIEN_7</key>
       <value>
 		<man_hours>1</man_hours>
         <hidden>true</hidden>
       </value>
     </entry>
 	<entry>
-      <key>RESEARCH_UNLOCK_ALIEN_BUILDING_8</key>
+      <key>UNLOCK_ALIEN_8</key>
       <value>
 		<man_hours>1</man_hours>
         <hidden>true</hidden>
       </value>
     </entry>
 	<entry>
-      <key>RESEARCH_UNLOCK_ALIEN_BUILDING_9</key>
+      <key>UNLOCK_ALIEN_9</key>
       <value>
 		<man_hours>1</man_hours>
         <hidden>true</hidden>
       </value>
     </entry>
 	<entry>
-      <key>RESEARCH_UNLOCK_ALIEN_DIMENSION</key>
+      <key>UNLOCK_ALIEN_DIMENSION</key>
       <value>
 		<man_hours>1</man_hours>
         <hidden>true</hidden>
@@ -182,96 +182,96 @@
     <!-- Quantum Physics Topics Begin -->
     <!-- Quantum Physics Alien Dimension Topics Begin -->
     <entry>
-      <key>RESEARCH_DIMENSION_GATES</key>
+      <key>DIMENSION_GATES</key>
       <value>
         <order>10100</order>
-        <ufopaedia_entry>PAEDIAENTRY_DIMENSION_GATES</ufopaedia_entry>
-		<dependencies><research><entry><type>All</type><topics><entry>RESEARCH_UNLOCK_DIMENSION_GATES</entry></topics></entry></research></dependencies>
+        <ufopaedia_entry>DIMENSION_GATES</ufopaedia_entry>
+		<dependencies><research><entry><type>All</type><topics><entry>UNLOCK_DIMENSION_GATES</entry></topics></entry></research></dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_THE_ALIEN_DIMENSION</key>
+      <key>THE_ALIEN_DIMENSION</key>
       <value>
         <order>10110</order>
-        <ufopaedia_entry>PAEDIAENTRY_THE_ALIEN_DIMENSION</ufopaedia_entry>
-		<dependencies><research><entry><type>All</type><topics><entry>RESEARCH_UNLOCK_ALIEN_DIMENSION</entry></topics></entry></research></dependencies>
+        <ufopaedia_entry>THE_ALIEN_DIMENSION</ufopaedia_entry>
+		<dependencies><research><entry><type>All</type><topics><entry>UNLOCK_ALIEN_DIMENSION</entry></topics></entry></research></dependencies>
       </value>
     </entry>
     <entry>
       <!-- Assuming this is a topic akin to the other two in this group -->
-      <key>RESEARCH_ONE_WAY_TO_WIN</key>
+      <key>ONE_WAY_TO_WIN</key>
       <value>
         <order>10120</order>
-        <ufopaedia_entry>PAEDIAENTRY_ONE_WAY_TO_WIN</ufopaedia_entry>
+        <ufopaedia_entry>ONE_WAY_TO_WIN</ufopaedia_entry>
 		<hidden>true</hidden>
       </value>
     </entry>
     <!-- Quantum Physics Alien Dimension Topics End -->
     <!-- Quantum Physics Craft Topics Begin -->
     <entry>
-      <key>RESEARCH_DIMENSION_PROBE</key>
+      <key>DIMENSION_PROBE</key>
       <value>
         <order>20100</order>
 		<picture>PCK:xcom3/ufodata/smalveh.pck:xcom3/ufodata/smalveh.tab:6:xcom3/ufodata/research.pcx</picture>
-        <ufopaedia_entry>PAEDIAENTRY_DIMENSION_PROBE</ufopaedia_entry>
+        <ufopaedia_entry>DIMENSION_PROBE</ufopaedia_entry>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_BIO-TRANSPORT</key>
+      <key>BIO-TRANSPORT</key>
       <value>
         <order>20110</order>
 		<picture>PCK:xcom3/ufodata/smalveh.pck:xcom3/ufodata/smalveh.tab:3:xcom3/ufodata/research.pcx</picture>
-        <ufopaedia_entry>PAEDIAENTRY_BIOTRANS</ufopaedia_entry>
+        <ufopaedia_entry>BIOTRANS</ufopaedia_entry>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_EXPLORER</key>
+      <key>EXPLORER</key>
       <value>
         <order>20120</order>
 		<picture>PCK:xcom3/ufodata/smalveh.pck:xcom3/ufodata/smalveh.tab:9:xcom3/ufodata/research.pcx</picture>
-        <ufopaedia_entry>PAEDIAENTRY_EXPLORER</ufopaedia_entry>
+        <ufopaedia_entry>EXPLORER</ufopaedia_entry>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_RETALIATOR</key>
+      <key>RETALIATOR</key>
       <value>
         <order>20130</order>
 		<picture>PCK:xcom3/ufodata/smalveh.pck:xcom3/ufodata/smalveh.tab:7:xcom3/ufodata/research.pcx</picture>
-        <ufopaedia_entry>PAEDIAENTRY_RETALIATOR</ufopaedia_entry>
+        <ufopaedia_entry>RETALIATOR</ufopaedia_entry>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_ANNIHILATOR</key>
+      <key>ANNIHILATOR</key>
       <value>
         <order>20140</order>
 		<picture>PCK:xcom3/ufodata/smalveh.pck:xcom3/ufodata/smalveh.tab:0:xcom3/ufodata/research.pcx</picture>
-        <ufopaedia_entry>PAEDIAENTRY_ANNIHILATOR</ufopaedia_entry>
+        <ufopaedia_entry>ANNIHILATOR</ufopaedia_entry>
       </value>
     </entry>
     <!-- Quantum Physics Craft Topics End -->
     <!-- Quantum Physics Facility Topics Begin -->
     <entry>
-      <key>RESEARCH_ADVANCED_SECURITY_STATION</key>
+      <key>ADVANCED_SECURITY_STATION</key>
       <value>
         <order>30100</order>
 		<picture>PCK:xcom3/ufodata/base.pck:xcom3/ufodata/base.tab:35:xcom3/ufodata/base.pcx</picture>
-        <ufopaedia_entry>PAEDIAENTRY_ADVANCED_SECURITY_STATION</ufopaedia_entry>
+        <ufopaedia_entry>ADVANCED_SECURITY_STATION</ufopaedia_entry>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_ADVANCED_QUANTUM_PHYSICS_LAB</key>
+      <key>ADVANCED_QUANTUM_PHYSICS_LAB</key>
       <value>
         <order>30110</order>
 		<picture>PCK:xcom3/ufodata/base.pck:xcom3/ufodata/base.tab:40:xcom3/ufodata/base.pcx</picture>
-        <ufopaedia_entry>PAEDIAENTRY_ADVANCED_QUANTUM_PHYSICS_LAB</ufopaedia_entry>
+        <ufopaedia_entry>ADVANCED_QUANTUM_PHYSICS_LAB</ufopaedia_entry>
         <dependencies>
           <research>
             <entry>
               <type>Any</type>
               <topics>
-                <entry>RESEARCH_ALIEN_CONTROL_SYSTEM</entry>
-                <entry>RESEARCH_ALIEN_ENERGY_SOURCE</entry>
-                <entry>RESEARCH_ALIEN_PROPULSION_SYSTEM</entry>
+                <entry>ALIEN_CONTROL_SYSTEM</entry>
+                <entry>ALIEN_ENERGY_SOURCE</entry>
+                <entry>ALIEN_PROPULSION_SYSTEM</entry>
               </topics>
             </entry>
           </research>
@@ -280,136 +280,136 @@
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_ADVANCED_WORKSHOP</key>
+      <key>ADVANCED_WORKSHOP</key>
       <value>
         <order>30120</order>
 		<picture>PCK:xcom3/ufodata/base.pck:xcom3/ufodata/base.tab:44:xcom3/ufodata/base.pcx</picture>
-        <ufopaedia_entry>PAEDIAENTRY_ADVANCED_WORKSHOP</ufopaedia_entry>
+        <ufopaedia_entry>ADVANCED_WORKSHOP</ufopaedia_entry>
       </value>
     </entry>
     <!-- Quantum Physics Facility Topics End -->
     <!-- Quantum Physics Agent Equipment & Ammo Topics Begin -->
     <entry>
-      <key>RESEARCH_DISRUPTOR_GUN</key>
+      <key>DISRUPTOR_GUN</key>
       <value>
         <order>40100</order>
-        <ufopaedia_entry>PAEDIAENTRY_DISRUPTOR_GUN</ufopaedia_entry>
+        <ufopaedia_entry>DISRUPTOR_GUN</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_DISRUPTOR_GUN</key><value>1</value></entry>
+		<entry><key>DISRUPTOR_GUN</key><value>1</value></entry>
 		</agentItemsRequired>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_DEVASTATOR_CANNON</key>
+      <key>DEVASTATOR_CANNON</key>
       <value>
         <order>40110</order>
-        <ufopaedia_entry>PAEDIAENTRY_DEVASTATOR_CANNON</ufopaedia_entry>
+        <ufopaedia_entry>DEVASTATOR_CANNON</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_DEVASTATOR_CANNON</key><value>1</value></entry>
+		<entry><key>DEVASTATOR_CANNON</key><value>1</value></entry>
 		</agentItemsRequired>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_BOOMEROID</key>
+      <key>BOOMEROID</key>
       <value>
         <order>40120</order>
-        <ufopaedia_entry>PAEDIAENTRY_BOOMEROID</ufopaedia_entry>
+        <ufopaedia_entry>BOOMEROID</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_BOOMEROID</key><value>1</value></entry>
+		<entry><key>BOOMEROID</key><value>1</value></entry>
 		</agentItemsRequired>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_DIMENSION_MISSILE_LAUNCHER</key>
+      <key>DIMENSION_MISSILE_LAUNCHER</key>
       <value>
         <order>40130</order>
-        <ufopaedia_entry>PAEDIAENTRY_DIMENSION_MISSILE_LAUNCHER</ufopaedia_entry>
+        <ufopaedia_entry>DIMENSION_MISSILE_LAUNCHER</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_DIMENSION_MISSILE_LAUNCHER</key><value>1</value></entry>
+		<entry><key>DIMENSION_MISSILE_LAUNCHER</key><value>1</value></entry>
 		</agentItemsRequired>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_DIMENSION_MISSILE</key>
+      <key>DIMENSION_MISSILE</key>
       <value>
         <order>40140</order>
-        <ufopaedia_entry>PAEDIAENTRY_DIMENSION_MISSILE</ufopaedia_entry>
+        <ufopaedia_entry>DIMENSION_MISSILE</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_DIMENSION_MISSILE</key><value>1</value></entry>
+		<entry><key>DIMENSION_MISSILE</key><value>1</value></entry>
 		</agentItemsRequired>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_VORTEX_MINE</key>
+      <key>VORTEX_MINE</key>
       <value>
         <order>40150</order>
-        <ufopaedia_entry>PAEDIAENTRY_VORTEX_MINE</ufopaedia_entry>
+        <ufopaedia_entry>VORTEX_MINE</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_VORTEX_MINE</key><value>1</value></entry>
+		<entry><key>VORTEX_MINE</key><value>1</value></entry>
 		</agentItemsRequired>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_PERSONAL_DISRUPTOR_SHIELD</key>
+      <key>PERSONAL_DISRUPTOR_SHIELD</key>
       <value>
         <order>40160</order>
-        <ufopaedia_entry>PAEDIAENTRY_PERSONAL_DISRUPTOR_SHIELD</ufopaedia_entry>
+        <ufopaedia_entry>PERSONAL_DISRUPTOR_SHIELD</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_PERSONAL_DISRUPTOR_SHIELD</key><value>1</value></entry>
+		<entry><key>PERSONAL_DISRUPTOR_SHIELD</key><value>1</value></entry>
 		</agentItemsRequired>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_PERSONAL_TELEPORTER</key>
+      <key>PERSONAL_TELEPORTER</key>
       <value>
         <order>40170</order>
-        <ufopaedia_entry>PAEDIAENTRY_PERSONAL_TELEPORTER</ufopaedia_entry>
+        <ufopaedia_entry>PERSONAL_TELEPORTER</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_PERSONAL_TELEPORTER</key><value>1</value></entry>
+		<entry><key>PERSONAL_TELEPORTER</key><value>1</value></entry>
 		</agentItemsRequired>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_PERSONAL_CLOAKING_FIELD</key>
+      <key>PERSONAL_CLOAKING_FIELD</key>
       <value>
         <order>40180</order>
-        <ufopaedia_entry>PAEDIAENTRY_PERSONAL_CLOAKING_FIELD</ufopaedia_entry>
+        <ufopaedia_entry>PERSONAL_CLOAKING_FIELD</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_PERSONAL_CLOAKING_FIELD</key><value>1</value></entry>
+		<entry><key>PERSONAL_CLOAKING_FIELD</key><value>1</value></entry>
 		</agentItemsRequired>
 		</items>
 		</dependencies>
@@ -418,167 +418,167 @@
     <!-- Quantum Physics Agent Equipment & Ammo Topics End -->
     <!-- Quantum Physics Agent Armor Topics Begin -->
     <entry>
-      <key>RESEARCH_DISRUPTOR_ARMOR</key>
+      <key>DISRUPTOR_ARMOR</key>
       <value>
         <order>50100</order>
-        <ufopaedia_entry>PAEDIAENTRY_XCOM_BODY_SHIELD</ufopaedia_entry>
+        <ufopaedia_entry>XCOM_BODY_SHIELD</ufopaedia_entry>
       </value>
     </entry>
     <!-- Quantum Physics Agent Armor Topics End -->
     <!-- Quantum Physics Vehicle Weapons & Ammo Topics Begin -->
     <entry>
-      <key>RESEARCH_LIGHT_DISRUPTOR_BEAM</key>
+      <key>LIGHT_DISRUPTOR_BEAM</key>
       <value>
         <order>60100</order>
-        <ufopaedia_entry>PAEDIAENTRY_LIGHT_DISRUPTOR_BEAM</ufopaedia_entry>
+        <ufopaedia_entry>LIGHT_DISRUPTOR_BEAM</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<vehicleItemsRequired>
-		<entry><key>VEQUIPMENTTYPE_LIGHT_DISRUPTOR_BEAM</key><value>1</value></entry>
+		<entry><key>LIGHT_DISRUPTOR_BEAM</key><value>1</value></entry>
 		</vehicleItemsRequired>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_MEDIUM_DISRUPTOR_BEAM</key>
+      <key>MEDIUM_DISRUPTOR_BEAM</key>
       <value>
         <order>60110</order>
-        <ufopaedia_entry>PAEDIAENTRY_MEDIUM_DISRUPTOR_BEAM</ufopaedia_entry>
+        <ufopaedia_entry>MEDIUM_DISRUPTOR_BEAM</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<vehicleItemsRequired>
-		<entry><key>VEQUIPMENTTYPE_MEDIUM_DISRUPTOR_BEAM</key><value>1</value></entry>
+		<entry><key>MEDIUM_DISRUPTOR_BEAM</key><value>1</value></entry>
 		</vehicleItemsRequired>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_HEAVY_DISRUPTOR_BEAM</key>
+      <key>HEAVY_DISRUPTOR_BEAM</key>
       <value>
         <order>60120</order>
-        <ufopaedia_entry>PAEDIAENTRY_HEAVY_DISRUPTOR_BEAM</ufopaedia_entry>
+        <ufopaedia_entry>HEAVY_DISRUPTOR_BEAM</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<vehicleItemsRequired>
-		<entry><key>VEQUIPMENTTYPE_HEAVY_DISRUPTOR_BEAM</key><value>1</value></entry>
+		<entry><key>HEAVY_DISRUPTOR_BEAM</key><value>1</value></entry>
 		</vehicleItemsRequired>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_DISRUPTOR_INVERSION_BOMB</key>
+      <key>DISRUPTOR_INVERSION_BOMB</key>
       <value>
         <order>60130</order>
-        <ufopaedia_entry>PAEDIAENTRY_DISRUPTOR_BOMB_LAUNCHER</ufopaedia_entry>
+        <ufopaedia_entry>DISRUPTOR_BOMB_LAUNCHER</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<vehicleItemsRequired>
-		<entry><key>VEQUIPMENTTYPE_DISRUPTOR_BOMB_LAUNCHER</key><value>1</value></entry>
+		<entry><key>DISRUPTOR_BOMB_LAUNCHER</key><value>1</value></entry>
 		</vehicleItemsRequired>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_STASIS_FIELD_BOMB</key>
+      <key>STASIS_FIELD_BOMB</key>
       <value>
         <order>60140</order>
-        <ufopaedia_entry>PAEDIAENTRY_STATIS_BOMB_LAUNCHER</ufopaedia_entry>
+        <ufopaedia_entry>STATIS_BOMB_LAUNCHER</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<vehicleItemsRequired>
-		<entry><key>VEQUIPMENTTYPE_STASIS_BOMB_LAUNCHER</key><value>1</value></entry>
+		<entry><key>STASIS_BOMB_LAUNCHER</key><value>1</value></entry>
 		</vehicleItemsRequired>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_DISRUPTOR_MULTI-BOMB</key>
+      <key>DISRUPTOR_MULTI-BOMB</key>
       <value>
         <order>60150</order>
-        <ufopaedia_entry>PAEDIAENTRY_DISRUPTOR_MULTI_BOMB_LAUNCHER</ufopaedia_entry>
+        <ufopaedia_entry>DISRUPTOR_MULTI_BOMB_LAUNCHER</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<vehicleItemsRequired>
-		<entry><key>VEQUIPMENTTYPE_DISRUPTOR_MULTI-BOMB_LAUNCHER</key><value>1</value></entry>
+		<entry><key>DISRUPTOR_MULTI-BOMB_LAUNCHER</key><value>1</value></entry>
 		</vehicleItemsRequired>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_DIMENSION_DESTABILISER</key>
+      <key>DIMENSION_DESTABILISER</key>
       <value>
         <order>60160</order>
-        <ufopaedia_entry>PAEDIAENTRY_DIMENSION_DESTABILISER</ufopaedia_entry>
+        <ufopaedia_entry>DIMENSION_DESTABILISER</ufopaedia_entry>
        <hidden>true</hidden>
       </value>
     </entry>
     <!-- Quantum Physics Vehicle Weapons & Ammo Topics End -->
     <!-- Quantum Physics Vehicle Equipment Topics Begin -->
     <entry>
-      <key>RESEARCH_X-COM_ADVANCED_CONTROL_SYSTEM</key>
+      <key>X-COM_ADVANCED_CONTROL_SYSTEM</key>
       <value>
         <order>70100</order>
 		<picture>PCK:xcom3/ufodata/vehequip.pck:xcom3/ufodata/vehequip.tab:38:xcom3/ufodata/vhawk.pcx</picture>
-        <ufopaedia_entry>PAEDIAENTRY_ADVANCED_CONTROL_SYSTEM</ufopaedia_entry>
+        <ufopaedia_entry>ADVANCED_CONTROL_SYSTEM</ufopaedia_entry>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_SMALL_DISRUPTION_SHIELD</key>
+      <key>SMALL_DISRUPTION_SHIELD</key>
       <value>
         <order>70110</order>
-        <ufopaedia_entry>PAEDIAENTRY_SMALL_DISRUPTION_SHIELD</ufopaedia_entry>
+        <ufopaedia_entry>SMALL_DISRUPTION_SHIELD</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<vehicleItemsRequired>
-		<entry><key>VEQUIPMENTTYPE_SMALL_DISRUPTION_SHIELD</key><value>1</value></entry>
+		<entry><key>SMALL_DISRUPTION_SHIELD</key><value>1</value></entry>
 		</vehicleItemsRequired>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_LARGE_DISRUPTION_SHIELD</key>
+      <key>LARGE_DISRUPTION_SHIELD</key>
       <value>
         <order>70120</order>
-        <ufopaedia_entry>PAEDIAENTRY_LARGE_DISRUPTION_SHIELD</ufopaedia_entry>
+        <ufopaedia_entry>LARGE_DISRUPTION_SHIELD</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<vehicleItemsRequired>
-		<entry><key>VEQUIPMENTTYPE_LARGE_DISRUPTION_SHIELD</key><value>1</value></entry>
+		<entry><key>LARGE_DISRUPTION_SHIELD</key><value>1</value></entry>
 		</vehicleItemsRequired>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_CLOAKING_FIELD</key>
+      <key>CLOAKING_FIELD</key>
       <value>
         <order>70130</order>
-        <ufopaedia_entry>PAEDIAENTRY_CLOAKING_FIELD</ufopaedia_entry>
+        <ufopaedia_entry>CLOAKING_FIELD</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<vehicleItemsRequired>
-		<entry><key>VEQUIPMENTTYPE_CLOAKING_FIELD</key><value>1</value></entry>
+		<entry><key>CLOAKING_FIELD</key><value>1</value></entry>
 		</vehicleItemsRequired>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_TELEPORTER</key>
+      <key>TELEPORTER</key>
       <value>
         <order>70140</order>
-        <ufopaedia_entry>PAEDIAENTRY_TELEPORTER</ufopaedia_entry>
+        <ufopaedia_entry>TELEPORTER</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<vehicleItemsRequired>
-		<entry><key>VEQUIPMENTTYPE_TELEPORTER</key><value>1</value></entry>
+		<entry><key>TELEPORTER</key><value>1</value></entry>
 		</vehicleItemsRequired>
 		</items>
 		</dependencies>
@@ -586,7 +586,7 @@
     </entry>
     <entry>
       <!-- Assuming this goes into equipment slot -->
-      <key>RESEARCH_DIMENSION_SHIFTER</key>
+      <key>DIMENSION_SHIFTER</key>
       <value>
         <order>70150</order>
         <ufopaedia_entry/>
@@ -596,109 +596,109 @@
     <!-- Quantum Physics Vehicle Equipment Topics End -->
     <!-- Quantum Physics Alien Craft System Topics Begin -->
     <entry>
-      <key>RESEARCH_ALIEN_PROPULSION_SYSTEM</key>
+      <key>ALIEN_PROPULSION_SYSTEM</key>
       <value>
         <order>80100</order>
-        <ufopaedia_entry>PAEDIAENTRY_ALIEN_CRAFT_PROPULSION</ufopaedia_entry>
-		<dependencies><research><entry><type>All</type><topics><entry>RESEARCH_UNLOCK_ALIEN_CRAFT_PROPULSION</entry></topics></entry></research></dependencies>
+        <ufopaedia_entry>ALIEN_CRAFT_PROPULSION</ufopaedia_entry>
+		<dependencies><research><entry><type>All</type><topics><entry>UNLOCK_ALIEN_CRAFT_PROPULSION</entry></topics></entry></research></dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_ALIEN_CONTROL_SYSTEM</key>
+      <key>ALIEN_CONTROL_SYSTEM</key>
       <value>
         <order>80110</order>
-        <ufopaedia_entry>PAEDIAENTRY_ALIEN_CRAFT_CONTROL_SYSTEMS</ufopaedia_entry>
-		<dependencies><research><entry><type>All</type><topics><entry>RESEARCH_UNLOCK_ALIEN_CRAFT_CONTROL_SYSTEMS</entry></topics></entry></research></dependencies>
+        <ufopaedia_entry>ALIEN_CRAFT_CONTROL_SYSTEMS</ufopaedia_entry>
+		<dependencies><research><entry><type>All</type><topics><entry>UNLOCK_ALIEN_CRAFT_CONTROL_SYSTEMS</entry></topics></entry></research></dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_ALIEN_ENERGY_SOURCE</key>
+      <key>ALIEN_ENERGY_SOURCE</key>
       <value>
         <order>80120</order>
-        <ufopaedia_entry>PAEDIAENTRY_ALIEN_CRAFT_ENERGY_SOURCE</ufopaedia_entry>
-		<dependencies><research><entry><type>All</type><topics><entry>RESEARCH_UNLOCK_ALIEN_CRAFT_ENERGY_SOURCE</entry></topics></entry></research></dependencies>
+        <ufopaedia_entry>ALIEN_CRAFT_ENERGY_SOURCE</ufopaedia_entry>
+		<dependencies><research><entry><type>All</type><topics><entry>UNLOCK_ALIEN_CRAFT_ENERGY_SOURCE</entry></topics></entry></research></dependencies>
       </value>
     </entry>
     <!-- Quantum Physics Alien Craft System Topics End -->
     <!-- Quantum Physics Alien Craft Topics Begin -->
     <entry>
-      <key>RESEARCH_UFO_TYPE_1</key>
+      <key>UFO_TYPE_1</key>
       <value>
         <order>90100</order>
-        <ufopaedia_entry>PAEDIAENTRY_ALIEN_PROBE</ufopaedia_entry>
-		<dependencies><research><entry><type>All</type><topics><entry>RESEARCH_UNLOCK_UFO_TYPE_1</entry></topics></entry></research></dependencies>
+        <ufopaedia_entry>ALIEN_PROBE</ufopaedia_entry>
+		<dependencies><research><entry><type>All</type><topics><entry>UNLOCK_UFO_TYPE_1</entry></topics></entry></research></dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_UFO_TYPE_2</key>
+      <key>UFO_TYPE_2</key>
       <value>
         <order>90110</order>
-        <ufopaedia_entry>PAEDIAENTRY_ALIEN_SCOUT</ufopaedia_entry>
-		<dependencies><research><entry><type>All</type><topics><entry>RESEARCH_UNLOCK_UFO_TYPE_2</entry></topics></entry></research></dependencies>
+        <ufopaedia_entry>ALIEN_SCOUT</ufopaedia_entry>
+		<dependencies><research><entry><type>All</type><topics><entry>UNLOCK_UFO_TYPE_2</entry></topics></entry></research></dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_UFO_TYPE_3</key>
+      <key>UFO_TYPE_3</key>
       <value>
         <order>90120</order>
-        <ufopaedia_entry>PAEDIAENTRY_ALIEN_TRANSPORTER</ufopaedia_entry>
-		<dependencies><research><entry><type>All</type><topics><entry>RESEARCH_UNLOCK_UFO_TYPE_3</entry></topics></entry></research></dependencies>
+        <ufopaedia_entry>ALIEN_TRANSPORTER</ufopaedia_entry>
+		<dependencies><research><entry><type>All</type><topics><entry>UNLOCK_UFO_TYPE_3</entry></topics></entry></research></dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_UFO_TYPE_4</key>
+      <key>UFO_TYPE_4</key>
       <value>
         <order>90130</order>
-        <ufopaedia_entry>PAEDIAENTRY_ALIEN_FAST_ATTACK_SHIP</ufopaedia_entry>
-		<dependencies><research><entry><type>All</type><topics><entry>RESEARCH_UNLOCK_UFO_TYPE_4</entry></topics></entry></research></dependencies>
+        <ufopaedia_entry>ALIEN_FAST_ATTACK_SHIP</ufopaedia_entry>
+		<dependencies><research><entry><type>All</type><topics><entry>UNLOCK_UFO_TYPE_4</entry></topics></entry></research></dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_UFO_TYPE_5</key>
+      <key>UFO_TYPE_5</key>
       <value>
         <order>90140</order>
-        <ufopaedia_entry>PAEDIAENTRY_ALIEN_DESTROYER</ufopaedia_entry>
-		<dependencies><research><entry><type>All</type><topics><entry>RESEARCH_UNLOCK_UFO_TYPE_5</entry></topics></entry></research></dependencies>
+        <ufopaedia_entry>ALIEN_DESTROYER</ufopaedia_entry>
+		<dependencies><research><entry><type>All</type><topics><entry>UNLOCK_UFO_TYPE_5</entry></topics></entry></research></dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_UFO_TYPE_6</key>
+      <key>UFO_TYPE_6</key>
       <value>
         <order>90150</order>
-        <ufopaedia_entry>PAEDIAENTRY_ALIEN_ASSAULT_SHIP</ufopaedia_entry>
-		<dependencies><research><entry><type>All</type><topics><entry>RESEARCH_UNLOCK_UFO_TYPE_6</entry></topics></entry></research></dependencies>
+        <ufopaedia_entry>ALIEN_ASSAULT_SHIP</ufopaedia_entry>
+		<dependencies><research><entry><type>All</type><topics><entry>UNLOCK_UFO_TYPE_6</entry></topics></entry></research></dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_UFO_TYPE_7</key>
+      <key>UFO_TYPE_7</key>
       <value>
         <order>90160</order>
-        <ufopaedia_entry>PAEDIAENTRY_ALIEN_BOMBER</ufopaedia_entry>
-		<dependencies><research><entry><type>All</type><topics><entry>RESEARCH_UNLOCK_UFO_TYPE_7</entry></topics></entry></research></dependencies>
+        <ufopaedia_entry>ALIEN_BOMBER</ufopaedia_entry>
+		<dependencies><research><entry><type>All</type><topics><entry>UNLOCK_UFO_TYPE_7</entry></topics></entry></research></dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_UFO_TYPE_8</key>
+      <key>UFO_TYPE_8</key>
       <value>
         <order>90170</order>
-        <ufopaedia_entry>PAEDIAENTRY_ALIEN_ESCORT</ufopaedia_entry>
-		<dependencies><research><entry><type>All</type><topics><entry>RESEARCH_UNLOCK_UFO_TYPE_8</entry></topics></entry></research></dependencies>
+        <ufopaedia_entry>ALIEN_ESCORT</ufopaedia_entry>
+		<dependencies><research><entry><type>All</type><topics><entry>UNLOCK_UFO_TYPE_8</entry></topics></entry></research></dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_UFO_TYPE_9</key>
+      <key>UFO_TYPE_9</key>
       <value>
         <order>90180</order>
-        <ufopaedia_entry>PAEDIAENTRY_ALIEN_BATTLESHIP</ufopaedia_entry>
-		<dependencies><research><entry><type>All</type><topics><entry>RESEARCH_UNLOCK_UFO_TYPE_9</entry></topics></entry></research></dependencies>
+        <ufopaedia_entry>ALIEN_BATTLESHIP</ufopaedia_entry>
+		<dependencies><research><entry><type>All</type><topics><entry>UNLOCK_UFO_TYPE_9</entry></topics></entry></research></dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_UFO_TYPE_10</key>
+      <key>UFO_TYPE_10</key>
       <value>
         <order>90190</order>
-        <ufopaedia_entry>PAEDIAENTRY_ALIEN_MOTHERSHIP</ufopaedia_entry>
-		<dependencies><research><entry><type>All</type><topics><entry>RESEARCH_UNLOCK_UFO_TYPE_10</entry></topics></entry></research></dependencies>
+        <ufopaedia_entry>ALIEN_MOTHERSHIP</ufopaedia_entry>
+		<dependencies><research><entry><type>All</type><topics><entry>UNLOCK_UFO_TYPE_10</entry></topics></entry></research></dependencies>
       </value>
     </entry>
     <!-- Quantum Physics Alien Craft Topics Begin -->
@@ -706,493 +706,493 @@
     <!-- Bio-Chemistry Topics Begin -->
     <!-- Bio-Chemistry Alien Species Topics Begin -->
     <entry>
-      <key>RESEARCH_BRAINSUCKER_PODS</key>
+      <key>BRAINSUCKER_PODS</key>
       <value>
         <order>10100</order>
-        <ufopaedia_entry>PAEDIAENTRY_BRAINSUCKER_POD</ufopaedia_entry>
+        <ufopaedia_entry>BRAINSUCKER_POD</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_BRAINSUCKER_POD</key><value>1</value></entry>
+		<entry><key>BRAINSUCKER_POD</key><value>1</value></entry>
 		</agentItemsRequired>
 		<agentItemsConsumed>
-		<entry><key>AEQUIPMENTTYPE_BRAINSUCKER_POD</key><value>1</value></entry>
+		<entry><key>BRAINSUCKER_POD</key><value>1</value></entry>
 		</agentItemsConsumed>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_BRAINSUCKER_AUTOPSY</key>
+      <key>BRAINSUCKER_AUTOPSY</key>
       <value>
         <order>10110</order>
-        <ufopaedia_entry>PAEDIAENTRY_BRAINSUCKER_AUTOPSY</ufopaedia_entry>
+        <ufopaedia_entry>BRAINSUCKER_AUTOPSY</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_BRAINSUCKER_DEAD</key><value>1</value></entry>
+		<entry><key>BRAINSUCKER_DEAD</key><value>1</value></entry>
 		</agentItemsRequired>
 		<agentItemsConsumed>
-		<entry><key>AEQUIPMENTTYPE_BRAINSUCKER_DEAD</key><value>1</value></entry>
+		<entry><key>BRAINSUCKER_DEAD</key><value>1</value></entry>
 		</agentItemsConsumed>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_BRAINSUCKER</key>
+      <key>BRAINSUCKER</key>
       <value>
         <order>10120</order>
-        <ufopaedia_entry>PAEDIAENTRY_BRAINSUCKER</ufopaedia_entry>
+        <ufopaedia_entry>BRAINSUCKER</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_BRAINSUCKER_ALIVE</key><value>1</value></entry>
+		<entry><key>BRAINSUCKER_ALIVE</key><value>1</value></entry>
 		</agentItemsRequired>
 		<agentItemsConsumed>
-		<entry><key>AEQUIPMENTTYPE_BRAINSUCKER_ALIVE</key><value>1</value></entry>
+		<entry><key>BRAINSUCKER_ALIVE</key><value>1</value></entry>
 		</agentItemsConsumed>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_MULTIWORM_EGG_AUTOPSY</key>
+      <key>MULTIWORM_EGG_AUTOPSY</key>
       <value>
         <order>10130</order>
-        <ufopaedia_entry>PAEDIAENTRY_MULTIWORM_EGG_AUTOPSY</ufopaedia_entry>
+        <ufopaedia_entry>MULTIWORM_EGG_AUTOPSY</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_MULTIWORM_EGG_DEAD</key><value>1</value></entry>
+		<entry><key>MULTIWORM_EGG_DEAD</key><value>1</value></entry>
 		</agentItemsRequired>
 		<agentItemsConsumed>
-		<entry><key>AEQUIPMENTTYPE_MULTIWORM_EGG_DEAD</key><value>1</value></entry>
+		<entry><key>MULTIWORM_EGG_DEAD</key><value>1</value></entry>
 		</agentItemsConsumed>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_MULTIWORM_EGG</key>
+      <key>MULTIWORM_EGG</key>
       <value>
         <order>10140</order>
-        <ufopaedia_entry>PAEDIAENTRY_MULTIWORM_EGG</ufopaedia_entry>
+        <ufopaedia_entry>MULTIWORM_EGG</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_MULTIWORM_EGG_ALIVE</key><value>1</value></entry>
+		<entry><key>MULTIWORM_EGG_ALIVE</key><value>1</value></entry>
 		</agentItemsRequired>
 		<agentItemsConsumed>
-		<entry><key>AEQUIPMENTTYPE_MULTIWORM_EGG_ALIVE</key><value>1</value></entry>
+		<entry><key>MULTIWORM_EGG_ALIVE</key><value>1</value></entry>
 		</agentItemsConsumed>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_MULTIWORM_AUTOPSY</key>
+      <key>MULTIWORM_AUTOPSY</key>
       <value>
         <order>10150</order>
-        <ufopaedia_entry>PAEDIAENTRY_MULTIWORM_AUTOPSY</ufopaedia_entry>
+        <ufopaedia_entry>MULTIWORM_AUTOPSY</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_MULTIWORM_DEAD</key><value>1</value></entry>
+		<entry><key>MULTIWORM_DEAD</key><value>1</value></entry>
 		</agentItemsRequired>
 		<agentItemsConsumed>
-		<entry><key>AEQUIPMENTTYPE_MULTIWORM_DEAD</key><value>1</value></entry>
+		<entry><key>MULTIWORM_DEAD</key><value>1</value></entry>
 		</agentItemsConsumed>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_MULTIWORM</key>
+      <key>MULTIWORM</key>
       <value>
         <order>10160</order>
-        <ufopaedia_entry>PAEDIAENTRY_MULTIWORM</ufopaedia_entry>
+        <ufopaedia_entry>MULTIWORM</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_MULTIWORM_ALIVE</key><value>1</value></entry>
+		<entry><key>MULTIWORM_ALIVE</key><value>1</value></entry>
 		</agentItemsRequired>
 		<agentItemsConsumed>
-		<entry><key>AEQUIPMENTTYPE_MULTIWORM_ALIVE</key><value>1</value></entry>
+		<entry><key>MULTIWORM_ALIVE</key><value>1</value></entry>
 		</agentItemsConsumed>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_HYPERWORM_AUTOPSY</key>
+      <key>HYPERWORM_AUTOPSY</key>
       <value>
         <order>10170</order>
-        <ufopaedia_entry>PAEDIAENTRY_HYPERWORM_AUTOPSY</ufopaedia_entry>
+        <ufopaedia_entry>HYPERWORM_AUTOPSY</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_HYPERWORM_DEAD</key><value>1</value></entry>
+		<entry><key>HYPERWORM_DEAD</key><value>1</value></entry>
 		</agentItemsRequired>
 		<agentItemsConsumed>
-		<entry><key>AEQUIPMENTTYPE_HYPERWORM_DEAD</key><value>1</value></entry>
+		<entry><key>HYPERWORM_DEAD</key><value>1</value></entry>
 		</agentItemsConsumed>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_HYPERWORM</key>
+      <key>HYPERWORM</key>
       <value>
         <order>10180</order>
-        <ufopaedia_entry>PAEDIAENTRY_HYPERWORM</ufopaedia_entry>
+        <ufopaedia_entry>HYPERWORM</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_HYPERWORM_ALIVE</key><value>1</value></entry>
+		<entry><key>HYPERWORM_ALIVE</key><value>1</value></entry>
 		</agentItemsRequired>
 		<agentItemsConsumed>
-		<entry><key>AEQUIPMENTTYPE_HYPERWORM_ALIVE</key><value>1</value></entry>
+		<entry><key>HYPERWORM_ALIVE</key><value>1</value></entry>
 		</agentItemsConsumed>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_CHRYSALIS_AUTOPSY</key>
+      <key>CHRYSALIS_AUTOPSY</key>
       <value>
         <order>10190</order>
-        <ufopaedia_entry>PAEDIAENTRY_CHRYSALIS_AUTOPSY</ufopaedia_entry>
+        <ufopaedia_entry>CHRYSALIS_AUTOPSY</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_CHRYSALIS_DEAD</key><value>1</value></entry>
+		<entry><key>CHRYSALIS_DEAD</key><value>1</value></entry>
 		</agentItemsRequired>
 		<agentItemsConsumed>
-		<entry><key>AEQUIPMENTTYPE_CHRYSALIS_DEAD</key><value>1</value></entry>
+		<entry><key>CHRYSALIS_DEAD</key><value>1</value></entry>
 		</agentItemsConsumed>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_CHRYSALIS</key>
+      <key>CHRYSALIS</key>
       <value>
         <order>10200</order>
-        <ufopaedia_entry>PAEDIAENTRY_CHRYSALIS</ufopaedia_entry>
+        <ufopaedia_entry>CHRYSALIS</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_CHRYSALIS_ALIVE</key><value>1</value></entry>
+		<entry><key>CHRYSALIS_ALIVE</key><value>1</value></entry>
 		</agentItemsRequired>
 		<agentItemsConsumed>
-		<entry><key>AEQUIPMENTTYPE_CHRYSALIS_ALIVE</key><value>1</value></entry>
+		<entry><key>CHRYSALIS_ALIVE</key><value>1</value></entry>
 		</agentItemsConsumed>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_ANTHROPOD_AUTOPSY</key>
+      <key>ANTHROPOD_AUTOPSY</key>
       <value>
         <order>10210</order>
-        <ufopaedia_entry>PAEDIAENTRY_ANTHROPOD_AUTOPSY</ufopaedia_entry>
+        <ufopaedia_entry>ANTHROPOD_AUTOPSY</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_ANTHROPOD_DEAD</key><value>1</value></entry>
+		<entry><key>ANTHROPOD_DEAD</key><value>1</value></entry>
 		</agentItemsRequired>
 		<agentItemsConsumed>
-		<entry><key>AEQUIPMENTTYPE_ANTHROPOD_DEAD</key><value>1</value></entry>
+		<entry><key>ANTHROPOD_DEAD</key><value>1</value></entry>
 		</agentItemsConsumed>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_ANTHROPOD</key>
+      <key>ANTHROPOD</key>
       <value>
         <order>10220</order>
-        <ufopaedia_entry>PAEDIAENTRY_ANTHROPOD</ufopaedia_entry>
+        <ufopaedia_entry>ANTHROPOD</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_ANTHROPOD_ALIVE</key><value>1</value></entry>
+		<entry><key>ANTHROPOD_ALIVE</key><value>1</value></entry>
 		</agentItemsRequired>
 		<agentItemsConsumed>
-		<entry><key>AEQUIPMENTTYPE_ANTHROPOD_ALIVE</key><value>1</value></entry>
+		<entry><key>ANTHROPOD_ALIVE</key><value>1</value></entry>
 		</agentItemsConsumed>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_PSIMORPH_AUTOPSY</key>
+      <key>PSIMORPH_AUTOPSY</key>
       <value>
         <order>10230</order>
-        <ufopaedia_entry>PAEDIAENTRY_PSIMORPH_AUTOPSY</ufopaedia_entry>
+        <ufopaedia_entry>PSIMORPH_AUTOPSY</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_PSIMORPH_DEAD</key><value>1</value></entry>
+		<entry><key>PSIMORPH_DEAD</key><value>1</value></entry>
 		</agentItemsRequired>
 		<agentItemsConsumed>
-		<entry><key>AEQUIPMENTTYPE_PSIMORPH_DEAD</key><value>1</value></entry>
+		<entry><key>PSIMORPH_DEAD</key><value>1</value></entry>
 		</agentItemsConsumed>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_PSIMORPH</key>
+      <key>PSIMORPH</key>
       <value>
         <order>10240</order>
-        <ufopaedia_entry>PAEDIAENTRY_PSIMORPH</ufopaedia_entry>
+        <ufopaedia_entry>PSIMORPH</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_PSIMORPH_ALIVE</key><value>1</value></entry>
+		<entry><key>PSIMORPH_ALIVE</key><value>1</value></entry>
 		</agentItemsRequired>
 		<agentItemsConsumed>
-		<entry><key>AEQUIPMENTTYPE_PSIMORPH_ALIVE</key><value>1</value></entry>
+		<entry><key>PSIMORPH_ALIVE</key><value>1</value></entry>
 		</agentItemsConsumed>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_SPITTER_AUTOPSY</key>
+      <key>SPITTER_AUTOPSY</key>
       <value>
         <order>10250</order>
-        <ufopaedia_entry>PAEDIAENTRY_SPITTER_AUTOPSY</ufopaedia_entry>
+        <ufopaedia_entry>SPITTER_AUTOPSY</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_SPITTER_DEAD</key><value>1</value></entry>
+		<entry><key>SPITTER_DEAD</key><value>1</value></entry>
 		</agentItemsRequired>
 		<agentItemsConsumed>
-		<entry><key>AEQUIPMENTTYPE_SPITTER_DEAD</key><value>1</value></entry>
+		<entry><key>SPITTER_DEAD</key><value>1</value></entry>
 		</agentItemsConsumed>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_SPITTER</key>
+      <key>SPITTER</key>
       <value>
         <order>10260</order>
-        <ufopaedia_entry>PAEDIAENTRY_SPITTER</ufopaedia_entry>
+        <ufopaedia_entry>SPITTER</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_SPITTER_ALIVE</key><value>1</value></entry>
+		<entry><key>SPITTER_ALIVE</key><value>1</value></entry>
 		</agentItemsRequired>
 		<agentItemsConsumed>
-		<entry><key>AEQUIPMENTTYPE_SPITTER_ALIVE</key><value>1</value></entry>
+		<entry><key>SPITTER_ALIVE</key><value>1</value></entry>
 		</agentItemsConsumed>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_MEGASPAWN_AUTOPSY</key>
+      <key>MEGASPAWN_AUTOPSY</key>
       <value>
         <order>10270</order>
-        <ufopaedia_entry>PAEDIAENTRY_MEGASPAWN_AUTOPSY</ufopaedia_entry>
+        <ufopaedia_entry>MEGASPAWN_AUTOPSY</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_MEGASPAWN_DEAD</key><value>1</value></entry>
+		<entry><key>MEGASPAWN_DEAD</key><value>1</value></entry>
 		</agentItemsRequired>
 		<agentItemsConsumed>
-		<entry><key>AEQUIPMENTTYPE_MEGASPAWN_DEAD</key><value>1</value></entry>
+		<entry><key>MEGASPAWN_DEAD</key><value>1</value></entry>
 		</agentItemsConsumed>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_MEGASPAWN</key>
+      <key>MEGASPAWN</key>
       <value>
         <order>10280</order>
-        <ufopaedia_entry>PAEDIAENTRY_MEGASPAWN</ufopaedia_entry>
+        <ufopaedia_entry>MEGASPAWN</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_MEGASPAWN_ALIVE</key><value>1</value></entry>
+		<entry><key>MEGASPAWN_ALIVE</key><value>1</value></entry>
 		</agentItemsRequired>
 		<agentItemsConsumed>
-		<entry><key>AEQUIPMENTTYPE_MEGASPAWN_ALIVE</key><value>1</value></entry>
+		<entry><key>MEGASPAWN_ALIVE</key><value>1</value></entry>
 		</agentItemsConsumed>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_POPPER_AUTOPSY</key>
+      <key>POPPER_AUTOPSY</key>
       <value>
         <order>10290</order>
-        <ufopaedia_entry>PAEDIAENTRY_POPPER_AUTOPSY</ufopaedia_entry>
+        <ufopaedia_entry>POPPER_AUTOPSY</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_POPPER_DEAD</key><value>1</value></entry>
+		<entry><key>POPPER_DEAD</key><value>1</value></entry>
 		</agentItemsRequired>
 		<agentItemsConsumed>
-		<entry><key>AEQUIPMENTTYPE_POPPER_DEAD</key><value>1</value></entry>
+		<entry><key>POPPER_DEAD</key><value>1</value></entry>
 		</agentItemsConsumed>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_POPPER</key>
+      <key>POPPER</key>
       <value>
         <order>10300</order>
-        <ufopaedia_entry>PAEDIAENTRY_POPPER</ufopaedia_entry>
+        <ufopaedia_entry>POPPER</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_POPPER_ALIVE</key><value>1</value></entry>
+		<entry><key>POPPER_ALIVE</key><value>1</value></entry>
 		</agentItemsRequired>
 		<agentItemsConsumed>
-		<entry><key>AEQUIPMENTTYPE_POPPER_ALIVE</key><value>1</value></entry>
+		<entry><key>POPPER_ALIVE</key><value>1</value></entry>
 		</agentItemsConsumed>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_SKELETOID_AUTOPSY</key>
+      <key>SKELETOID_AUTOPSY</key>
       <value>
         <order>10310</order>
-        <ufopaedia_entry>PAEDIAENTRY_SKELETOID_AUTOPSY</ufopaedia_entry>
+        <ufopaedia_entry>SKELETOID_AUTOPSY</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_SKELETOID_DEAD</key><value>1</value></entry>
+		<entry><key>SKELETOID_DEAD</key><value>1</value></entry>
 		</agentItemsRequired>
 		<agentItemsConsumed>
-		<entry><key>AEQUIPMENTTYPE_SKELETOID_DEAD</key><value>1</value></entry>
+		<entry><key>SKELETOID_DEAD</key><value>1</value></entry>
 		</agentItemsConsumed>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_SKELETOID</key>
+      <key>SKELETOID</key>
       <value>
         <order>10320</order>
-        <ufopaedia_entry>PAEDIAENTRY_SKELETOID</ufopaedia_entry>
+        <ufopaedia_entry>SKELETOID</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_SKELETOID_ALIVE</key><value>1</value></entry>
+		<entry><key>SKELETOID_ALIVE</key><value>1</value></entry>
 		</agentItemsRequired>
 		<agentItemsConsumed>
-		<entry><key>AEQUIPMENTTYPE_SKELETOID_ALIVE</key><value>1</value></entry>
+		<entry><key>SKELETOID_ALIVE</key><value>1</value></entry>
 		</agentItemsConsumed>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_MICRONOID_AUTOPSY</key>
+      <key>MICRONOID_AUTOPSY</key>
       <value>
         <order>10330</order>
-        <ufopaedia_entry>PAEDIAENTRY_MICRONOID_AGGREGATE_AUTOPSY</ufopaedia_entry>
+        <ufopaedia_entry>MICRONOID_AGGREGATE_AUTOPSY</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_MICRONOID_AGGREGATE_DEAD</key><value>1</value></entry>
+		<entry><key>MICRONOID_AGGREGATE_DEAD</key><value>1</value></entry>
 		</agentItemsRequired>
 		<agentItemsConsumed>
-		<entry><key>AEQUIPMENTTYPE_MICRONOID_AGGREGATE_DEAD</key><value>1</value></entry>
+		<entry><key>MICRONOID_AGGREGATE_DEAD</key><value>1</value></entry>
 		</agentItemsConsumed>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_MICRONOID</key>
+      <key>MICRONOID</key>
       <value>
         <order>10340</order>
-        <ufopaedia_entry>PAEDIAENTRY_MICRONOID_AGGREGATE</ufopaedia_entry>
+        <ufopaedia_entry>MICRONOID_AGGREGATE</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_MICRONOID_AGGREGATE_ALIVE</key><value>1</value></entry>
+		<entry><key>MICRONOID_AGGREGATE_ALIVE</key><value>1</value></entry>
 		</agentItemsRequired>
 		<agentItemsConsumed>
-		<entry><key>AEQUIPMENTTYPE_MICRONOID_AGGREGATE_ALIVE</key><value>1</value></entry>
+		<entry><key>MICRONOID_AGGREGATE_ALIVE</key><value>1</value></entry>
 		</agentItemsConsumed>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_QUEENSPAWN_AUTOPSY</key>
+      <key>QUEENSPAWN_AUTOPSY</key>
       <value>
         <order>10350</order>
-        <ufopaedia_entry>PAEDIAENTRY_QUEENSPAWN_AUTOPSY</ufopaedia_entry>
+        <ufopaedia_entry>QUEENSPAWN_AUTOPSY</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_QUEENSPAWN_DEAD</key><value>1</value></entry>
+		<entry><key>QUEENSPAWN_DEAD</key><value>1</value></entry>
 		</agentItemsRequired>
 		<agentItemsConsumed>
-		<entry><key>AEQUIPMENTTYPE_QUEENSPAWN_DEAD</key><value>1</value></entry>
+		<entry><key>QUEENSPAWN_DEAD</key><value>1</value></entry>
 		</agentItemsConsumed>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_QUEENSPAWN</key>
+      <key>QUEENSPAWN</key>
       <value>
         <order>10360</order>
-        <ufopaedia_entry>PAEDIAENTRY_QUEENSPAWN</ufopaedia_entry>
+        <ufopaedia_entry>QUEENSPAWN</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_QUEENSPAWN_ALIVE</key><value>1</value></entry>
+		<entry><key>QUEENSPAWN_ALIVE</key><value>1</value></entry>
 		</agentItemsRequired>
 		<agentItemsConsumed>
-		<entry><key>AEQUIPMENTTYPE_QUEENSPAWN_ALIVE</key><value>1</value></entry>
+		<entry><key>QUEENSPAWN_ALIVE</key><value>1</value></entry>
 		</agentItemsConsumed>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_OVERSPAWN_AUTOPSY</key>
+      <key>OVERSPAWN_AUTOPSY</key>
       <value>
         <order>10370</order>
-        <ufopaedia_entry>PAEDIAENTRY_OVERSPAWN_AUTOPSY</ufopaedia_entry>
+        <ufopaedia_entry>OVERSPAWN_AUTOPSY</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_OVERSPAWN_DEAD</key><value>1</value></entry>
+		<entry><key>OVERSPAWN_DEAD</key><value>1</value></entry>
 		</agentItemsRequired>
 		<agentItemsConsumed>
-		<entry><key>AEQUIPMENTTYPE_OVERSPAWN_DEAD</key><value>1</value></entry>
+		<entry><key>OVERSPAWN_DEAD</key><value>1</value></entry>
 		</agentItemsConsumed>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_OVERSPAWN_AUTOPSY_1</key>
+      <key>OVERSPAWN_AUTOPSY_1</key>
       <value>
         <order>10380</order>
-        <ufopaedia_entry>PAEDIAENTRY_OVERSPAWN_AUTOPSY_1</ufopaedia_entry>
+        <ufopaedia_entry>OVERSPAWN_AUTOPSY_1</ufopaedia_entry>
         <dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_OVERSPAWN_ALIVE</key><value>1</value></entry>
+		<entry><key>OVERSPAWN_ALIVE</key><value>1</value></entry>
 		</agentItemsRequired>
 		<agentItemsConsumed>
-		<entry><key>AEQUIPMENTTYPE_OVERSPAWN_ALIVE</key><value>1</value></entry>
+		<entry><key>OVERSPAWN_ALIVE</key><value>1</value></entry>
 		</agentItemsConsumed>
 		</items>
 		</dependencies>
@@ -1201,28 +1201,28 @@
     <!-- Bio-Chemistry Alien Species Topics End -->
     <!-- Bio-Chemistry Theory Topics Begin -->
     <entry>
-      <key>RESEARCH_THE_ALIEN_GENETIC_STRUCTURE</key>
+      <key>THE_ALIEN_GENETIC_STRUCTURE</key>
       <value>
         <order>20100</order>
-        <ufopaedia_entry>PAEDIAENTRY_THE_ALIEN_GENETIC_STRUCTURE</ufopaedia_entry>
+        <ufopaedia_entry>THE_ALIEN_GENETIC_STRUCTURE</ufopaedia_entry>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_THE_ALIEN_LIFE_CYCLE</key>
+      <key>THE_ALIEN_LIFE_CYCLE</key>
       <value>
         <order>20110</order>
-        <ufopaedia_entry>PAEDIAENTRY_THE_ALIEN_LIFE_CYCLE</ufopaedia_entry>
+        <ufopaedia_entry>THE_ALIEN_LIFE_CYCLE</ufopaedia_entry>
         <dependencies>
           <research>
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_MULTIWORM_AUTOPSY</entry>
-                <entry>RESEARCH_MULTIWORM</entry>
-                <entry>RESEARCH_HYPERWORM_AUTOPSY</entry>
-                <entry>RESEARCH_HYPERWORM</entry>
-                <entry>RESEARCH_CHRYSALIS_AUTOPSY</entry>
-                <entry>RESEARCH_CHRYSALIS</entry>
+                <entry>MULTIWORM_AUTOPSY</entry>
+                <entry>MULTIWORM</entry>
+                <entry>HYPERWORM_AUTOPSY</entry>
+                <entry>HYPERWORM</entry>
+                <entry>CHRYSALIS_AUTOPSY</entry>
+                <entry>CHRYSALIS</entry>
               </topics>
             </entry>
           </research>
@@ -1231,39 +1231,39 @@
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_THE_REAL_ALIEN_THREAT</key>
+      <key>THE_REAL_ALIEN_THREAT</key>
       <value>
         <order>20120</order>
-        <ufopaedia_entry>PAEDIAENTRY_THE_REAL_ALIEN_THREAT</ufopaedia_entry>
+        <ufopaedia_entry>THE_REAL_ALIEN_THREAT</ufopaedia_entry>
         <dependencies>
           <research>
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_BRAINSUCKER_AUTOPSY</entry>
-                <entry>RESEARCH_BRAINSUCKER</entry>
-                <entry>RESEARCH_MULTIWORM_EGG_AUTOPSY</entry>
-                <entry>RESEARCH_MULTIWORM_EGG</entry>
-                <entry>RESEARCH_MULTIWORM_AUTOPSY</entry>
-                <entry>RESEARCH_MULTIWORM</entry>
-                <entry>RESEARCH_HYPERWORM_AUTOPSY</entry>
-                <entry>RESEARCH_HYPERWORM</entry>
-                <entry>RESEARCH_CHRYSALIS_AUTOPSY</entry>
-                <entry>RESEARCH_CHRYSALIS</entry>
-                <entry>RESEARCH_ANTHROPOD_AUTOPSY</entry>
-                <entry>RESEARCH_ANTHROPOD</entry>
-                <entry>RESEARCH_PSIMORPH_AUTOPSY</entry>
-                <entry>RESEARCH_PSIMORPH</entry>
-                <entry>RESEARCH_SPITTER_AUTOPSY</entry>
-                <entry>RESEARCH_SPITTER</entry>
-                <entry>RESEARCH_MEGASPAWN_AUTOPSY</entry>
-                <entry>RESEARCH_MEGASPAWN</entry>
-                <entry>RESEARCH_POPPER_AUTOPSY</entry>
-                <entry>RESEARCH_POPPER</entry>
-                <entry>RESEARCH_SKELETOID_AUTOPSY</entry>
-                <entry>RESEARCH_SKELETOID</entry>
-                <entry>RESEARCH_MICRONOID_AUTOPSY</entry>
-                <entry>RESEARCH_MICRONOID</entry>
+                <entry>BRAINSUCKER_AUTOPSY</entry>
+                <entry>BRAINSUCKER</entry>
+                <entry>MULTIWORM_EGG_AUTOPSY</entry>
+                <entry>MULTIWORM_EGG</entry>
+                <entry>MULTIWORM_AUTOPSY</entry>
+                <entry>MULTIWORM</entry>
+                <entry>HYPERWORM_AUTOPSY</entry>
+                <entry>HYPERWORM</entry>
+                <entry>CHRYSALIS_AUTOPSY</entry>
+                <entry>CHRYSALIS</entry>
+                <entry>ANTHROPOD_AUTOPSY</entry>
+                <entry>ANTHROPOD</entry>
+                <entry>PSIMORPH_AUTOPSY</entry>
+                <entry>PSIMORPH</entry>
+                <entry>SPITTER_AUTOPSY</entry>
+                <entry>SPITTER</entry>
+                <entry>MEGASPAWN_AUTOPSY</entry>
+                <entry>MEGASPAWN</entry>
+                <entry>POPPER_AUTOPSY</entry>
+                <entry>POPPER</entry>
+                <entry>SKELETOID_AUTOPSY</entry>
+                <entry>SKELETOID</entry>
+                <entry>MICRONOID_AUTOPSY</entry>
+                <entry>MICRONOID</entry>
               </topics>
             </entry>
           </research>
@@ -1274,72 +1274,72 @@
     <!-- Bio-Chemistry Theory Topics End -->
     <!-- Bio-Chemistry Agent Equipment & Ammo Topics Begin -->
     <entry>
-      <key>RESEARCH_BIOLOGICAL_WARFARE</key>
+      <key>BIOLOGICAL_WARFARE</key>
       <value>
         <order>30100</order>
-        <ufopaedia_entry>PAEDIAENTRY_TOXIGUN</ufopaedia_entry>
+        <ufopaedia_entry>TOXIGUN</ufopaedia_entry>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_TOXIN_TYPE_B</key>
+      <key>TOXIN_TYPE_B</key>
       <value>
         <order>30110</order>
-        <ufopaedia_entry>PAEDIAENTRY_TOXIGUN_B_CLIP</ufopaedia_entry>
+        <ufopaedia_entry>TOXIGUN_B_CLIP</ufopaedia_entry>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_TOXIN_TYPE_C</key>
+      <key>TOXIN_TYPE_C</key>
       <value>
         <order>30120</order>
-        <ufopaedia_entry>PAEDIAENTRY_TOXIGUN_C_CLIP</ufopaedia_entry>
+        <ufopaedia_entry>TOXIGUN_C_CLIP</ufopaedia_entry>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_ALIEN_GAS</key>
+      <key>ALIEN_GAS</key>
       <value>
         <order>30130</order>
-        <ufopaedia_entry>PAEDIAENTRY_ALIEN_GAS_GRENADE</ufopaedia_entry>
+        <ufopaedia_entry>ALIEN_GAS_GRENADE</ufopaedia_entry>
       </value>
     </entry>
     <!-- Bio-Chemistry Agent Equipment & Ammo Topics End -->
     <!-- Bio-Chemistry Facility Topics Begin -->
     <entry>
-      <key>RESEARCH_ADVANCED_BIOCHEMISTRY_LAB</key>
+      <key>ADVANCED_BIOCHEMISTRY_LAB</key>
       <value>
         <order>40100</order>
 		<picture>PCK:xcom3/ufodata/base.pck:xcom3/ufodata/base.tab:38:xcom3/ufodata/base.pcx</picture>
-        <ufopaedia_entry>PAEDIAENTRY_ADVANCED_BIOCHEMISTRY_LAB</ufopaedia_entry>
+        <ufopaedia_entry>ADVANCED_BIOCHEMISTRY_LAB</ufopaedia_entry>
         <dependencies>
           <research>
             <entry>
               <type>Any</type>
               <topics>
-                <entry>RESEARCH_BRAINSUCKER_AUTOPSY</entry>
-                <entry>RESEARCH_BRAINSUCKER</entry>
-                <entry>RESEARCH_MULTIWORM_EGG_AUTOPSY</entry>
-                <entry>RESEARCH_MULTIWORM_EGG</entry>
-                <entry>RESEARCH_MULTIWORM_AUTOPSY</entry>
-                <entry>RESEARCH_MULTIWORM</entry>
-                <entry>RESEARCH_HYPERWORM_AUTOPSY</entry>
-                <entry>RESEARCH_HYPERWORM</entry>
-                <entry>RESEARCH_CHRYSALIS_AUTOPSY</entry>
-                <entry>RESEARCH_CHRYSALIS</entry>
-                <entry>RESEARCH_ANTHROPOD_AUTOPSY</entry>
-                <entry>RESEARCH_ANTHROPOD</entry>
-                <entry>RESEARCH_PSIMORPH_AUTOPSY</entry>
-                <entry>RESEARCH_PSIMORPH</entry>
-                <entry>RESEARCH_SPITTER_AUTOPSY</entry>
-                <entry>RESEARCH_SPITTER</entry>
-                <entry>RESEARCH_MEGASPAWN_AUTOPSY</entry>
-                <entry>RESEARCH_MEGASPAWN</entry>
-                <entry>RESEARCH_POPPER_AUTOPSY</entry>
-                <entry>RESEARCH_POPPER</entry>
-                <entry>RESEARCH_SKELETOID_AUTOPSY</entry>
-                <entry>RESEARCH_SKELETOID</entry>
-                <entry>RESEARCH_MICRONOID_AUTOPSY</entry>
-                <entry>RESEARCH_MICRONOID</entry>
-                <entry>RESEARCH_QUEENSPAWN_AUTOPSY</entry>
-                <entry>RESEARCH_QUEENSPAWN</entry>
+                <entry>BRAINSUCKER_AUTOPSY</entry>
+                <entry>BRAINSUCKER</entry>
+                <entry>MULTIWORM_EGG_AUTOPSY</entry>
+                <entry>MULTIWORM_EGG</entry>
+                <entry>MULTIWORM_AUTOPSY</entry>
+                <entry>MULTIWORM</entry>
+                <entry>HYPERWORM_AUTOPSY</entry>
+                <entry>HYPERWORM</entry>
+                <entry>CHRYSALIS_AUTOPSY</entry>
+                <entry>CHRYSALIS</entry>
+                <entry>ANTHROPOD_AUTOPSY</entry>
+                <entry>ANTHROPOD</entry>
+                <entry>PSIMORPH_AUTOPSY</entry>
+                <entry>PSIMORPH</entry>
+                <entry>SPITTER_AUTOPSY</entry>
+                <entry>SPITTER</entry>
+                <entry>MEGASPAWN_AUTOPSY</entry>
+                <entry>MEGASPAWN</entry>
+                <entry>POPPER_AUTOPSY</entry>
+                <entry>POPPER</entry>
+                <entry>SKELETOID_AUTOPSY</entry>
+                <entry>SKELETOID</entry>
+                <entry>MICRONOID_AUTOPSY</entry>
+                <entry>MICRONOID</entry>
+                <entry>QUEENSPAWN_AUTOPSY</entry>
+                <entry>QUEENSPAWN</entry>
               </topics>
             </entry>
           </research>
@@ -1348,53 +1348,53 @@
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_ADVANCED_ALIEN_CONTAINMENT</key>
+      <key>ADVANCED_ALIEN_CONTAINMENT</key>
       <value>
         <order>40110</order>
 		<picture>PCK:xcom3/ufodata/base.pck:xcom3/ufodata/base.tab:42:xcom3/ufodata/base.pcx</picture>
-        <ufopaedia_entry>PAEDIAENTRY_ADVANCED_ALIEN_CONTAINMENT</ufopaedia_entry>
+        <ufopaedia_entry>ADVANCED_ALIEN_CONTAINMENT</ufopaedia_entry>
        <hidden>true</hidden>
       </value>
     </entry>
     <!-- Bio-Chemistry Facility Topics End -->
     <!-- Bio-Chemistry Alien Equipment & Ammo Topics Begin -->
     <entry>
-      <key>RESEARCH_BRAINSUCKER_LAUNCHER</key>
+      <key>BRAINSUCKER_LAUNCHER</key>
       <value>
         <order>50100</order>
-        <ufopaedia_entry>PAEDIAENTRY_BRAINSUCKER_LAUNCHER</ufopaedia_entry>
+        <ufopaedia_entry>BRAINSUCKER_LAUNCHER</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_BRAINSUCKER_LAUNCHER</key><value>1</value></entry>
+		<entry><key>BRAINSUCKER_LAUNCHER</key><value>1</value></entry>
 		</agentItemsRequired>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_ENTROPY_LAUNCHER</key>
+      <key>ENTROPY_LAUNCHER</key>
       <value>
         <order>50110</order>
-        <ufopaedia_entry>PAEDIAENTRY_ENTROPY_LAUNCHER</ufopaedia_entry>
+        <ufopaedia_entry>ENTROPY_LAUNCHER</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_ENTROPY_LAUNCHER</key><value>1</value></entry>
+		<entry><key>ENTROPY_LAUNCHER</key><value>1</value></entry>
 		</agentItemsRequired>
 		</items>
 		</dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_ENTROPY_POD</key>
+      <key>ENTROPY_POD</key>
       <value>
         <order>50120</order>
-        <ufopaedia_entry>PAEDIAENTRY_ENTROPY_POD</ufopaedia_entry>
+        <ufopaedia_entry>ENTROPY_POD</ufopaedia_entry>
 		<dependencies>
 		<items>
 		<agentItemsRequired>
-		<entry><key>AEQUIPMENTTYPE_ENTROPY_POD</key><value>1</value></entry>
+		<entry><key>ENTROPY_POD</key><value>1</value></entry>
 		</agentItemsRequired>
 		</items>
 		</dependencies>
@@ -1403,20 +1403,20 @@
     <!-- Bio-Chemistry Alien Equipment & Ammo Topics End -->
     <!-- Bio-Chemistry Vehicle Equipment Topics Begin -->
     <entry>
-      <key>RESEARCH_BIO-TRANSPORT_MODULE</key>
+      <key>BIO-TRANSPORT_MODULE</key>
       <value>
         <order>60100</order>
 		<picture>PCK:xcom3/ufodata/vehequip.pck:xcom3/ufodata/vehequip.tab:41:xcom3/ufodata/vhawk.pcx</picture>
-        <ufopaedia_entry>PAEDIAENTRY_BIO_TRANSPORT_MODULE</ufopaedia_entry>
+        <ufopaedia_entry>BIO_TRANSPORT_MODULE</ufopaedia_entry>
       </value>
     </entry>
     <!-- Bio-Chemistry Vehicle Equipment Topics End -->
     <!-- Bio-Chemistry Alien Building Topics Begin -->
     <entry op="delete">
-      <key>RESEARCH_ALIEN_BUILDING</key>
+      <key>ALIEN_BUILDING</key>
     </entry>
     <entry>
-      <key>RESEARCH_ALIEN_BUILDING_0</key>
+      <key>ALIEN_0</key>
       <value>
         <name>Alien building</name>
         <order>70100</order>
@@ -1430,85 +1430,85 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_THE_ALIEN_DIMENSION</entry>
+                <entry>THE_ALIEN_DIMENSION</entry>
               </topics>
             </entry>
           </research>
         </dependencies>
-        <ufopaedia_entry>PAEDIAENTRY_SLEEPING_CHAMBER</ufopaedia_entry>
+        <ufopaedia_entry>SLEEPING_CHAMBER</ufopaedia_entry>
         <score>380</score>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_ALIEN_BUILDING_1</key>
+      <key>ALIEN_1</key>
       <value>
         <order>70120</order>
-        <ufopaedia_entry>PAEDIAENTRY_FOOD_CHAMBER</ufopaedia_entry>
-		<dependencies><research><entry><type>All</type><topics><entry>RESEARCH_UNLOCK_ALIEN_BUILDING_1</entry></topics></entry></research></dependencies>
+        <ufopaedia_entry>FOOD_CHAMBER</ufopaedia_entry>
+		<dependencies><research><entry><type>All</type><topics><entry>UNLOCK_ALIEN_1</entry></topics></entry></research></dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_ALIEN_BUILDING_2</key>
+      <key>ALIEN_2</key>
       <value>
         <order>70130</order>
-        <ufopaedia_entry>PAEDIAENTRY_ALIEN_FARM</ufopaedia_entry>
-		<dependencies><research><entry><type>All</type><topics><entry>RESEARCH_UNLOCK_ALIEN_BUILDING_2</entry></topics></entry></research></dependencies>
+        <ufopaedia_entry>ALIEN_FARM</ufopaedia_entry>
+		<dependencies><research><entry><type>All</type><topics><entry>UNLOCK_ALIEN_2</entry></topics></entry></research></dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_ALIEN_BUILDING_3</key>
+      <key>ALIEN_3</key>
       <value>
         <order>70140</order>
-        <ufopaedia_entry>PAEDIAENTRY_MAINTENANCE_FACTORY</ufopaedia_entry>
-		<dependencies><research><entry><type>All</type><topics><entry>RESEARCH_UNLOCK_ALIEN_BUILDING_3</entry></topics></entry></research></dependencies>
+        <ufopaedia_entry>MAINTENANCE_FACTORY</ufopaedia_entry>
+		<dependencies><research><entry><type>All</type><topics><entry>UNLOCK_ALIEN_3</entry></topics></entry></research></dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_ALIEN_BUILDING_4</key>
+      <key>ALIEN_4</key>
       <value>
         <order>70150</order>
-        <ufopaedia_entry>PAEDIAENTRY_INCUBATOR_CHAMBER</ufopaedia_entry>
-		<dependencies><research><entry><type>All</type><topics><entry>RESEARCH_UNLOCK_ALIEN_BUILDING_4</entry></topics></entry></research></dependencies>
+        <ufopaedia_entry>INCUBATOR_CHAMBER</ufopaedia_entry>
+		<dependencies><research><entry><type>All</type><topics><entry>UNLOCK_ALIEN_4</entry></topics></entry></research></dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_ALIEN_BUILDING_5</key>
+      <key>ALIEN_5</key>
       <value>
         <order>70160</order>
-        <ufopaedia_entry>PAEDIAENTRY_CONTROL_CHAMBER</ufopaedia_entry>
-		<dependencies><research><entry><type>All</type><topics><entry>RESEARCH_UNLOCK_ALIEN_BUILDING_5</entry></topics></entry></research></dependencies>
+        <ufopaedia_entry>CONTROL_CHAMBER</ufopaedia_entry>
+		<dependencies><research><entry><type>All</type><topics><entry>UNLOCK_ALIEN_5</entry></topics></entry></research></dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_ALIEN_BUILDING_6</key>
+      <key>ALIEN_6</key>
       <value>
         <order>70170</order>
-        <ufopaedia_entry>PAEDIAENTRY_SPAWNING_CHAMBER</ufopaedia_entry>
-		<dependencies><research><entry><type>All</type><topics><entry>RESEARCH_UNLOCK_ALIEN_BUILDING_6</entry></topics></entry></research></dependencies>
+        <ufopaedia_entry>SPAWNING_CHAMBER</ufopaedia_entry>
+		<dependencies><research><entry><type>All</type><topics><entry>UNLOCK_ALIEN_6</entry></topics></entry></research></dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_ALIEN_BUILDING_7</key>
+      <key>ALIEN_7</key>
       <value>
         <order>70180</order>
-        <ufopaedia_entry>PAEDIAENTRY_ORGANIC_FACTORY</ufopaedia_entry>
-		<dependencies><research><entry><type>All</type><topics><entry>RESEARCH_UNLOCK_ALIEN_BUILDING_7</entry></topics></entry></research></dependencies>
+        <ufopaedia_entry>ORGANIC_FACTORY</ufopaedia_entry>
+		<dependencies><research><entry><type>All</type><topics><entry>UNLOCK_ALIEN_7</entry></topics></entry></research></dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_ALIEN_BUILDING_8</key>
+      <key>ALIEN_8</key>
       <value>
         <order>70190</order>
-        <ufopaedia_entry>PAEDIAENTRY_MEGAPOD_CHAMBER</ufopaedia_entry>
-		<dependencies><research><entry><type>All</type><topics><entry>RESEARCH_UNLOCK_ALIEN_BUILDING_8</entry></topics></entry></research></dependencies>
+        <ufopaedia_entry>MEGAPOD_CHAMBER</ufopaedia_entry>
+		<dependencies><research><entry><type>All</type><topics><entry>UNLOCK_ALIEN_8</entry></topics></entry></research></dependencies>
       </value>
     </entry>
     <entry>
-      <key>RESEARCH_ALIEN_BUILDING_9</key>
+      <key>ALIEN_9</key>
       <value>
         <order>70200</order>
-        <ufopaedia_entry>PAEDIAENTRY_DIMENSION_GATE_GENERATOR</ufopaedia_entry>
-		<dependencies><research><entry><type>All</type><topics><entry>RESEARCH_UNLOCK_ALIEN_BUILDING_9</entry></topics></entry></research></dependencies>
+        <ufopaedia_entry>DIMENSION_GATE_GENERATOR</ufopaedia_entry>
+		<dependencies><research><entry><type>All</type><topics><entry>UNLOCK_ALIEN_9</entry></topics></entry></research></dependencies>
       </value>
     </entry>
     <!-- Bio-Chemistry Alien Building Topics End -->
@@ -1532,7 +1532,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_DIMENSION_PROBE</entry>
+                <entry>DIMENSION_PROBE</entry>
               </topics>
             </entry>
           </research>
@@ -1540,7 +1540,7 @@
         </dependencies>
         <cost>6000</cost>
         <item_type>Craft</item_type>
-        <itemId>VEHICLETYPE_DIMENSION_PROBE</itemId>
+        <itemId>DIMENSION_PROBE</itemId>
       </value>
     </entry>
     <entry>
@@ -1559,7 +1559,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_BIO-TRANSPORT</entry>
+                <entry>BIO-TRANSPORT</entry>
               </topics>
             </entry>
           </research>
@@ -1567,7 +1567,7 @@
         </dependencies>
         <cost>12000</cost>
         <item_type>Craft</item_type>
-        <itemId>VEHICLETYPE_BIOTRANS</itemId>
+        <itemId>BIOTRANS</itemId>
       </value>
     </entry>
     <entry>
@@ -1586,7 +1586,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_EXPLORER</entry>
+                <entry>EXPLORER</entry>
               </topics>
             </entry>
           </research>
@@ -1594,7 +1594,7 @@
         </dependencies>
         <cost>22000</cost>
         <item_type>Craft</item_type>
-        <itemId>VEHICLETYPE_EXPLORER</itemId>
+        <itemId>EXPLORER</itemId>
       </value>
     </entry>
     <entry>
@@ -1613,7 +1613,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_RETALIATOR</entry>
+                <entry>RETALIATOR</entry>
               </topics>
             </entry>
           </research>
@@ -1621,7 +1621,7 @@
         </dependencies>
         <cost>35000</cost>
         <item_type>Craft</item_type>
-        <itemId>VEHICLETYPE_RETALIATOR</itemId>
+        <itemId>RETALIATOR</itemId>
       </value>
     </entry>
     <entry>
@@ -1639,7 +1639,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_ANNIHILATOR</entry>
+                <entry>ANNIHILATOR</entry>
               </topics>
             </entry>
           </research>
@@ -1647,7 +1647,7 @@
         </dependencies>
         <cost>50000</cost>
         <item_type>Craft</item_type>
-        <itemId>VEHICLETYPE_ANNIHILATOR</itemId>
+        <itemId>ANNIHILATOR</itemId>
       </value>
     </entry>
     <!-- Manufacture Topics - Craft End -->
@@ -1668,7 +1668,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_LIGHT_DISRUPTOR_BEAM</entry>
+                <entry>LIGHT_DISRUPTOR_BEAM</entry>
               </topics>
             </entry>
           </research>
@@ -1676,7 +1676,7 @@
         </dependencies>
         <cost>2000</cost>
         <item_type>VehicleEquipment</item_type>
-        <itemId>VEQUIPMENTTYPE_LIGHT_DISRUPTOR_BEAM</itemId>
+        <itemId>LIGHT_DISRUPTOR_BEAM</itemId>
       </value>
     </entry>
     <entry>
@@ -1695,7 +1695,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_MEDIUM_DISRUPTOR_BEAM</entry>
+                <entry>MEDIUM_DISRUPTOR_BEAM</entry>
               </topics>
             </entry>
           </research>
@@ -1703,7 +1703,7 @@
         </dependencies>
         <cost>4000</cost>
         <item_type>VehicleEquipment</item_type>
-        <itemId>VEQUIPMENTTYPE_MEDIUM_DISRUPTOR_BEAM</itemId>
+        <itemId>MEDIUM_DISRUPTOR_BEAM</itemId>
       </value>
     </entry>
     <entry>
@@ -1722,7 +1722,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_HEAVY_DISRUPTOR_BEAM</entry>
+                <entry>HEAVY_DISRUPTOR_BEAM</entry>
               </topics>
             </entry>
           </research>
@@ -1730,7 +1730,7 @@
         </dependencies>
         <cost>8000</cost>
         <item_type>VehicleEquipment</item_type>
-        <itemId>VEQUIPMENTTYPE_HEAVY_DISRUPTOR_BEAM</itemId>
+        <itemId>HEAVY_DISRUPTOR_BEAM</itemId>
       </value>
     </entry>
     <entry>
@@ -1748,7 +1748,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_DISRUPTOR_INVERSION_BOMB</entry>
+                <entry>DISRUPTOR_INVERSION_BOMB</entry>
               </topics>
             </entry>
           </research>
@@ -1756,7 +1756,7 @@
         </dependencies>
         <cost>3000</cost>
         <item_type>VehicleEquipment</item_type>
-        <itemId>VEQUIPMENTTYPE_DISRUPTOR_BOMB_LAUNCHER</itemId>
+        <itemId>DISRUPTOR_BOMB_LAUNCHER</itemId>
       </value>
     </entry>
     <entry>
@@ -1774,7 +1774,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_DISRUPTOR_INVERSION_BOMB</entry>
+                <entry>DISRUPTOR_INVERSION_BOMB</entry>
               </topics>
             </entry>
           </research>
@@ -1782,7 +1782,7 @@
         </dependencies>
         <cost>1500</cost>
         <item_type>VehicleEquipmentAmmo</item_type>
-        <itemId>VEQUIPMENTAMMOTYPE_DISRUPTOR_BOMB</itemId>
+        <itemId>DISRUPTOR_BOMB</itemId>
       </value>
     </entry>
     <entry>
@@ -1801,7 +1801,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_STASIS_FIELD_BOMB</entry>
+                <entry>STASIS_FIELD_BOMB</entry>
               </topics>
             </entry>
           </research>
@@ -1809,7 +1809,7 @@
         </dependencies>
         <cost>2000</cost>
         <item_type>VehicleEquipment</item_type>
-        <itemId>VEQUIPMENTTYPE_STASIS_BOMB_LAUNCHER</itemId>
+        <itemId>STASIS_BOMB_LAUNCHER</itemId>
       </value>
     </entry>
     <entry>
@@ -1828,7 +1828,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_STASIS_FIELD_BOMB</entry>
+                <entry>STASIS_FIELD_BOMB</entry>
               </topics>
             </entry>
           </research>
@@ -1836,7 +1836,7 @@
         </dependencies>
         <cost>1200</cost>
         <item_type>VehicleEquipmentAmmo</item_type>
-        <itemId>VEQUIPMENTAMMOTYPE_STASIS_BOMB</itemId>
+        <itemId>STASIS_BOMB</itemId>
       </value>
     </entry>
     <entry>
@@ -1855,7 +1855,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_DISRUPTOR_MULTI-BOMB</entry>
+                <entry>DISRUPTOR_MULTI-BOMB</entry>
               </topics>
             </entry>
           </research>
@@ -1863,7 +1863,7 @@
         </dependencies>
         <cost>4000</cost>
         <item_type>VehicleEquipment</item_type>
-        <itemId>VEQUIPMENTTYPE_DISRUPTOR_MULTI-BOMB_LAUNCHER</itemId>
+        <itemId>DISRUPTOR_MULTI-BOMB_LAUNCHER</itemId>
       </value>
     </entry>
     <entry>
@@ -1882,7 +1882,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_DISRUPTOR_MULTI-BOMB</entry>
+                <entry>DISRUPTOR_MULTI-BOMB</entry>
               </topics>
             </entry>
           </research>
@@ -1890,7 +1890,7 @@
         </dependencies>
         <cost>1800</cost>
         <item_type>VehicleEquipmentAmmo</item_type>
-        <itemId>VEQUIPMENTAMMOTYPE_DISRUPTOR_MULTI-BOMB</itemId>
+        <itemId>DISRUPTOR_MULTI-BOMB</itemId>
       </value>
     </entry>
     <!-- Manufacture Topics - Vehicle Weapons & Ammo End -->
@@ -1911,7 +1911,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_X-COM_ADVANCED_CONTROL_SYSTEM</entry>
+                <entry>X-COM_ADVANCED_CONTROL_SYSTEM</entry>
               </topics>
             </entry>
           </research>
@@ -1919,7 +1919,7 @@
         </dependencies>
         <cost>4000</cost>
         <item_type>VehicleEquipment</item_type>
-        <itemId>VEQUIPMENTTYPE_ADVANCED_CONTROL_SYSTEM</itemId>
+        <itemId>ADVANCED_CONTROL_SYSTEM</itemId>
       </value>
     </entry>
     <entry>
@@ -1936,7 +1936,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_BIO-TRANSPORT_MODULE</entry>
+                <entry>BIO-TRANSPORT_MODULE</entry>
               </topics>
             </entry>
           </research>
@@ -1944,7 +1944,7 @@
         </dependencies>
         <cost>700</cost>
         <item_type>VehicleEquipment</item_type>
-        <itemId>VEQUIPMENTTYPE_BIO-TRANSPORT_MODULE</itemId>
+        <itemId>BIO-TRANSPORT_MODULE</itemId>
       </value>
     </entry>
     <entry>
@@ -1963,7 +1963,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_SMALL_DISRUPTION_SHIELD</entry>
+                <entry>SMALL_DISRUPTION_SHIELD</entry>
               </topics>
             </entry>
           </research>
@@ -1971,7 +1971,7 @@
         </dependencies>
         <cost>5000</cost>
         <item_type>VehicleEquipment</item_type>
-        <itemId>VEQUIPMENTTYPE_SMALL_DISRUPTION_SHIELD</itemId>
+        <itemId>SMALL_DISRUPTION_SHIELD</itemId>
       </value>
     </entry>
     <entry>
@@ -1990,7 +1990,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_LARGE_DISRUPTION_SHIELD</entry>
+                <entry>LARGE_DISRUPTION_SHIELD</entry>
               </topics>
             </entry>
           </research>
@@ -1998,7 +1998,7 @@
         </dependencies>
         <cost>8000</cost>
         <item_type>VehicleEquipment</item_type>
-        <itemId>VEQUIPMENTTYPE_LARGE_DISRUPTION_SHIELD</itemId>
+        <itemId>LARGE_DISRUPTION_SHIELD</itemId>
       </value>
     </entry>
     <entry>
@@ -2017,7 +2017,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_CLOAKING_FIELD</entry>
+                <entry>CLOAKING_FIELD</entry>
               </topics>
             </entry>
           </research>
@@ -2025,7 +2025,7 @@
         </dependencies>
         <cost>6000</cost>
         <item_type>VehicleEquipment</item_type>
-        <itemId>VEQUIPMENTTYPE_CLOAKING_FIELD</itemId>
+        <itemId>CLOAKING_FIELD</itemId>
       </value>
     </entry>
     <entry>
@@ -2044,7 +2044,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_TELEPORTER</entry>
+                <entry>TELEPORTER</entry>
               </topics>
             </entry>
           </research>
@@ -2052,7 +2052,7 @@
         </dependencies>
         <cost>11000</cost>
         <item_type>VehicleEquipment</item_type>
-        <itemId>VEQUIPMENTTYPE_TELEPORTER</itemId>
+        <itemId>TELEPORTER</itemId>
       </value>
     </entry>
     <entry>
@@ -2071,7 +2071,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_DIMENSION_SHIFTER</entry>
+                <entry>DIMENSION_SHIFTER</entry>
               </topics>
             </entry>
           </research>
@@ -2079,7 +2079,7 @@
         </dependencies>
         <cost>14000</cost>
         <item_type>VehicleEquipment</item_type>
-		<itemId>VEQUIPMENTTYPE_DIMENSION_SHIFTER</itemId>
+		<itemId>DIMENSION_SHIFTER</itemId>
       </value>
     </entry>
     <!-- Manufacture Topics - Vehicle Equipment End -->
@@ -2100,7 +2100,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_BIOLOGICAL_WARFARE</entry>
+                <entry>BIOLOGICAL_WARFARE</entry>
               </topics>
             </entry>
           </research>
@@ -2108,7 +2108,7 @@
         </dependencies>
         <cost>1200</cost>
         <item_type>AgentEquipment</item_type>
-        <itemId>AEQUIPMENTTYPE_TOXIGUN</itemId>
+        <itemId>TOXIGUN</itemId>
       </value>
     </entry>
     <entry>
@@ -2127,7 +2127,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_BIOLOGICAL_WARFARE</entry>
+                <entry>BIOLOGICAL_WARFARE</entry>
               </topics>
             </entry>
           </research>
@@ -2135,7 +2135,7 @@
         </dependencies>
         <cost>200</cost>
         <item_type>AgentEquipment</item_type>
-        <itemId>AEQUIPMENTTYPE_TOXIGUN_A-CLIP</itemId>
+        <itemId>TOXIGUN_A-CLIP</itemId>
       </value>
     </entry>
     <entry>
@@ -2154,7 +2154,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_TOXIN_TYPE_B</entry>
+                <entry>TOXIN_TYPE_B</entry>
               </topics>
             </entry>
           </research>
@@ -2162,7 +2162,7 @@
         </dependencies>
         <cost>300</cost>
         <item_type>AgentEquipment</item_type>
-        <itemId>AEQUIPMENTTYPE_TOXIGUN_B-CLIP</itemId>
+        <itemId>TOXIGUN_B-CLIP</itemId>
       </value>
     </entry>
     <entry>
@@ -2181,7 +2181,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_TOXIN_TYPE_C</entry>
+                <entry>TOXIN_TYPE_C</entry>
               </topics>
             </entry>
           </research>
@@ -2189,7 +2189,7 @@
         </dependencies>
         <cost>400</cost>
         <item_type>AgentEquipment</item_type>
-        <itemId>AEQUIPMENTTYPE_TOXIGUN_C-CLIP</itemId>
+        <itemId>TOXIGUN_C-CLIP</itemId>
       </value>
     </entry>
     <entry>
@@ -2208,7 +2208,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_ALIEN_GAS</entry>
+                <entry>ALIEN_GAS</entry>
               </topics>
             </entry>
           </research>
@@ -2216,7 +2216,7 @@
         </dependencies>
         <cost>250</cost>
         <item_type>AgentEquipment</item_type>
-        <itemId>AEQUIPMENTTYPE_ALIEN_GAS_GRENADE</itemId>
+        <itemId>ALIEN_GAS_GRENADE</itemId>
       </value>
     </entry>
     <entry>
@@ -2235,7 +2235,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_ALIEN_GAS</entry>
+                <entry>ALIEN_GAS</entry>
               </topics>
             </entry>
           </research>
@@ -2243,7 +2243,7 @@
         </dependencies>
         <cost>280</cost>
         <item_type>AgentEquipment</item_type>
-        <itemId>AEQUIPMENTTYPE_HEAVY_LAUNCHER_AG_MISSILE</itemId>
+        <itemId>HEAVY_LAUNCHER_AG_MISSILE</itemId>
       </value>
     </entry>
     <entry>
@@ -2262,7 +2262,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_ALIEN_GAS</entry>
+                <entry>ALIEN_GAS</entry>
               </topics>
             </entry>
           </research>
@@ -2270,7 +2270,7 @@
         </dependencies>
         <cost>360</cost>
         <item_type>AgentEquipment</item_type>
-        <itemId>AEQUIPMENTTYPE_MINILAUNCHER_AG_MISSILE</itemId>
+        <itemId>MINILAUNCHER_AG_MISSILE</itemId>
       </value>
     </entry>
     <entry>
@@ -2289,7 +2289,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_DISRUPTOR_GUN</entry>
+                <entry>DISRUPTOR_GUN</entry>
               </topics>
             </entry>
           </research>
@@ -2297,7 +2297,7 @@
         </dependencies>
         <cost>600</cost>
         <item_type>AgentEquipment</item_type>
-        <itemId>AEQUIPMENTTYPE_DISRUPTOR_GUN</itemId>
+        <itemId>DISRUPTOR_GUN</itemId>
       </value>
     </entry>
     <entry>
@@ -2316,7 +2316,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_DEVASTATOR_CANNON</entry>
+                <entry>DEVASTATOR_CANNON</entry>
               </topics>
             </entry>
           </research>
@@ -2324,7 +2324,7 @@
         </dependencies>
         <cost>1200</cost>
         <item_type>AgentEquipment</item_type>
-        <itemId>AEQUIPMENTTYPE_DEVASTATOR_CANNON</itemId>
+        <itemId>DEVASTATOR_CANNON</itemId>
       </value>
     </entry>
     <entry>
@@ -2343,7 +2343,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_BOOMEROID</entry>
+                <entry>BOOMEROID</entry>
               </topics>
             </entry>
           </research>
@@ -2351,7 +2351,7 @@
         </dependencies>
         <cost>230</cost>
         <item_type>AgentEquipment</item_type>
-        <itemId>AEQUIPMENTTYPE_BOOMEROID</itemId>
+        <itemId>BOOMEROID</itemId>
       </value>
     </entry>
     <entry>
@@ -2370,7 +2370,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_DIMENSION_MISSILE_LAUNCHER</entry>
+                <entry>DIMENSION_MISSILE_LAUNCHER</entry>
               </topics>
             </entry>
           </research>
@@ -2378,7 +2378,7 @@
         </dependencies>
         <cost>1200</cost>
         <item_type>AgentEquipment</item_type>
-        <itemId>AEQUIPMENTTYPE_DIMENSION_MISSILE_LAUNCHER</itemId>
+        <itemId>DIMENSION_MISSILE_LAUNCHER</itemId>
       </value>
     </entry>
     <entry>
@@ -2397,7 +2397,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_DIMENSION_MISSILE_LAUNCHER</entry>
+                <entry>DIMENSION_MISSILE_LAUNCHER</entry>
               </topics>
             </entry>
           </research>
@@ -2405,7 +2405,7 @@
         </dependencies>
         <cost>400</cost>
         <item_type>AgentEquipment</item_type>
-        <itemId>AEQUIPMENTTYPE_DIMENSION_MISSILE</itemId>
+        <itemId>DIMENSION_MISSILE</itemId>
       </value>
     </entry>
     <entry>
@@ -2424,7 +2424,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_VORTEX_MINE</entry>
+                <entry>VORTEX_MINE</entry>
               </topics>
             </entry>
           </research>
@@ -2432,7 +2432,7 @@
         </dependencies>
         <cost>250</cost>
         <item_type>AgentEquipment</item_type>
-        <itemId>AEQUIPMENTTYPE_VORTEX_MINE</itemId>
+        <itemId>VORTEX_MINE</itemId>
       </value>
     </entry>
     <entry>
@@ -2451,7 +2451,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_PERSONAL_DISRUPTOR_SHIELD</entry>
+                <entry>PERSONAL_DISRUPTOR_SHIELD</entry>
               </topics>
             </entry>
           </research>
@@ -2459,7 +2459,7 @@
         </dependencies>
         <cost>2000</cost>
         <item_type>AgentEquipment</item_type>
-        <itemId>AEQUIPMENTTYPE_PERSONAL_DISRUPTOR_SHIELD</itemId>
+        <itemId>PERSONAL_DISRUPTOR_SHIELD</itemId>
       </value>
     </entry>
     <entry>
@@ -2478,7 +2478,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_PERSONAL_TELEPORTER</entry>
+                <entry>PERSONAL_TELEPORTER</entry>
               </topics>
             </entry>
           </research>
@@ -2486,7 +2486,7 @@
         </dependencies>
         <cost>6000</cost>
         <item_type>AgentEquipment</item_type>
-        <itemId>AEQUIPMENTTYPE_PERSONAL_TELEPORTER</itemId>
+        <itemId>PERSONAL_TELEPORTER</itemId>
       </value>
     </entry>
     <entry>
@@ -2505,7 +2505,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_PERSONAL_CLOAKING_FIELD</entry>
+                <entry>PERSONAL_CLOAKING_FIELD</entry>
               </topics>
             </entry>
           </research>
@@ -2513,7 +2513,7 @@
         </dependencies>
         <cost>3000</cost>
         <item_type>AgentEquipment</item_type>
-        <itemId>AEQUIPMENTTYPE_PERSONAL_CLOAKING_FIELD</itemId>
+        <itemId>PERSONAL_CLOAKING_FIELD</itemId>
       </value>
     </entry>
     <!-- Manufacture Topics - Agent Equipment & Ammo End -->
@@ -2534,7 +2534,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_DISRUPTOR_ARMOR</entry>
+                <entry>DISRUPTOR_ARMOR</entry>
               </topics>
             </entry>
           </research>
@@ -2542,7 +2542,7 @@
         </dependencies>
         <cost>1200</cost>
         <item_type>AgentEquipment</item_type>
-        <itemId>AEQUIPMENTTYPE_X-COM_LEG_SHIELDS</itemId>
+        <itemId>X-COM_LEG_SHIELDS</itemId>
       </value>
     </entry>
     <entry>
@@ -2561,7 +2561,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_DISRUPTOR_ARMOR</entry>
+                <entry>DISRUPTOR_ARMOR</entry>
               </topics>
             </entry>
           </research>
@@ -2569,7 +2569,7 @@
         </dependencies>
         <cost>1500</cost>
         <item_type>AgentEquipment</item_type>
-        <itemId>AEQUIPMENTTYPE_X-COM_BODY_SHIELD</itemId>
+        <itemId>X-COM_BODY_SHIELD</itemId>
       </value>
     </entry>
     <entry>
@@ -2588,7 +2588,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_DISRUPTOR_ARMOR</entry>
+                <entry>DISRUPTOR_ARMOR</entry>
               </topics>
             </entry>
           </research>
@@ -2596,7 +2596,7 @@
         </dependencies>
         <cost>1200</cost>
         <item_type>AgentEquipment</item_type>
-        <itemId>AEQUIPMENTTYPE_X-COM_RIGHT_ARM_SHIELD</itemId>
+        <itemId>X-COM_RIGHT_ARM_SHIELD</itemId>
       </value>
     </entry>
     <entry>
@@ -2615,7 +2615,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_DISRUPTOR_ARMOR</entry>
+                <entry>DISRUPTOR_ARMOR</entry>
               </topics>
             </entry>
           </research>
@@ -2623,7 +2623,7 @@
         </dependencies>
         <cost>1200</cost>
         <item_type>AgentEquipment</item_type>
-        <itemId>AEQUIPMENTTYPE_X-COM_LEFT_ARM_SHIELD</itemId>
+        <itemId>X-COM_LEFT_ARM_SHIELD</itemId>
       </value>
     </entry>
     <entry>
@@ -2642,7 +2642,7 @@
             <entry>
               <type>All</type>
               <topics>
-                <entry>RESEARCH_DISRUPTOR_ARMOR</entry>
+                <entry>DISRUPTOR_ARMOR</entry>
               </topics>
             </entry>
           </research>
@@ -2650,7 +2650,7 @@
         </dependencies>
         <cost>1500</cost>
         <item_type>AgentEquipment</item_type>
-        <itemId>AEQUIPMENTTYPE_X-COM_HEAD_SHIELD</itemId>
+        <itemId>X-COM_HEAD_SHIELD</itemId>
       </value>
     </entry>
     <!-- Manufacture Topics - Agent Armor End -->

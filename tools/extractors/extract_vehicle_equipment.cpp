@@ -32,9 +32,9 @@ void InitialGameStateExtractor::extractVehicleEquipment(GameState &state) const
 		auto edata = data.vehicle_equipment->get(i);
 
 		e->name = data.vehicle_equipment_names->get(i);
-		UString id = format("{0}{1}", VEquipmentType::getPrefix(), canon_string(e->name));
+		UString id = canon_string(e->name);
 
-		UString research_id = format("{0}{1}", ResearchTopic::getPrefix(), canon_string(e->name));
+		UString research_id = canon_string(e->name);
 
 		auto research_it = state.research.topics.find(research_id);
 		if (research_it != state.research.topics.end())
@@ -204,50 +204,50 @@ void InitialGameStateExtractor::extractVehicleEquipment(GameState &state) const
 				switch (wData.explosion_graphic)
 				{
 					case UFO_DOODAD_1:
-						doodad_id = "DOODAD_1_AUTOCANNON";
+						doodad_id = "1_AUTOCANNON";
 						break;
 					case UFO_DOODAD_2:
-						doodad_id = "DOODAD_2_AIRGUARD";
+						doodad_id = "2_AIRGUARD";
 						break;
 					case UFO_DOODAD_0: // same as 3
 					case UFO_DOODAD_3:
-						doodad_id = "DOODAD_3_EXPLOSION";
+						doodad_id = "3_EXPLOSION";
 						break;
 					case UFO_DOODAD_4:
-						doodad_id = "DOODAD_4_BLUEDOT";
+						doodad_id = "4_BLUEDOT";
 						break;
 					case UFO_DOODAD_5:
-						doodad_id = "DOODAD_5_SMOKE_EXPLOSION";
+						doodad_id = "5_SMOKE_EXPLOSION";
 						break;
 					case UFO_DOODAD_6:
-						doodad_id = "DOODAD_6_DIMENSION_GATE";
+						doodad_id = "6_DIMENSION_GATE";
 						break;
 					case UFO_DOODAD_7:
-						doodad_id = "DOODAD_7_JANITOR";
+						doodad_id = "7_JANITOR";
 						break;
 					case UFO_DOODAD_8:
-						doodad_id = "DOODAD_8_LASER";
+						doodad_id = "8_LASER";
 						break;
 					case UFO_DOODAD_9:
-						doodad_id = "DOODAD_9_PLASMA";
+						doodad_id = "9_PLASMA";
 						break;
 					case UFO_DOODAD_10:
-						doodad_id = "DOODAD_10_DISRUPTOR";
+						doodad_id = "10_DISRUPTOR";
 						break;
 					case UFO_DOODAD_11:
-						doodad_id = "DOODAD_11_SUBVERSION_BIG";
+						doodad_id = "11_SUBVERSION_BIG";
 						break;
 					case UFO_DOODAD_12:
-						doodad_id = "DOODAD_12_SUBVERSION_SMALL";
+						doodad_id = "12_SUBVERSION_SMALL";
 						break;
 					case UFO_DOODAD_13:
-						doodad_id = "DOODAD_13_SMOKE_FUME";
+						doodad_id = "13_SMOKE_FUME";
 						break;
 					case UFO_DOODAD_14:
-						doodad_id = "DOODAD_14_INFILTRATION_BIG";
+						doodad_id = "14_INFILTRATION_BIG";
 						break;
 					case UFO_DOODAD_15:
-						doodad_id = "DOODAD_15_INFILTRATION_SMALL";
+						doodad_id = "15_INFILTRATION_SMALL";
 						break;
 				}
 				if (doodad_id != "")
@@ -278,7 +278,7 @@ void InitialGameStateExtractor::extractVehicleEquipment(GameState &state) const
 					for (int j = 0; j < 4; j++)
 					{
 						e->splitIntoTypes.push_back(StateRef<VEquipmentType>{
-						    &state, "VEQUIPMENTTYPE_DISRUPTOR_MULTI-BOMB_FRAGMENT"});
+						    &state, "DISRUPTOR_MULTI-BOMB_FRAGMENT"});
 					}
 				}
 

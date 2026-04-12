@@ -43,12 +43,12 @@ class TACP
 
 	UString getDTypeId(int idx) const
 	{
-		return DamageType::getPrefix() + canon_string(this->damage_type_names->get(idx));
+		return canon_string(this->damage_type_names->get(idx));
 	}
 
 	UString getDModId(int idx) const
 	{
-		return DamageModifier::getPrefix() + canon_string(this->damage_modifier_names->get(idx));
+		return canon_string(this->damage_modifier_names->get(idx));
 	}
 };
 

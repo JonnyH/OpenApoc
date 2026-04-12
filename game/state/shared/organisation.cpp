@@ -522,7 +522,7 @@ void Organisation::updateHirableAgents(GameState &state)
 	if (state.getCivilian().id == this->id)
 	{
 		std::vector<StateRef<Building>> buildingsWithoutBases;
-		for (auto &b : state.cities["CITYMAP_HUMAN"]->buildings)
+		for (auto &b : state.cities["HUMAN"]->buildings)
 		{
 			if (!b->base_layout)
 				buildingsWithoutBases.emplace_back(b);
@@ -675,7 +675,7 @@ void Organisation::updateVehicleAgentPark(GameState &state)
 	bool found = false;
 	for (auto &b : buildings)
 	{
-		if (b->city.id != "CITYMAP_HUMAN")
+		if (b->city.id != "HUMAN")
 		{
 			continue;
 		}
@@ -698,7 +698,7 @@ void Organisation::updateVehicleAgentPark(GameState &state)
 	//		}
 	//	}
 	//	std::list<sp<Building>> buildingsRandomizer;
-	//	for (auto &b : state.cities["CITYMAP_HUMAN"]->buildings)
+	//	for (auto &b : state.cities["HUMAN"]->buildings)
 	//	{
 	//		if (b->owner.id != id)
 	//		{
@@ -710,7 +710,7 @@ void Organisation::updateVehicleAgentPark(GameState &state)
 	//	while (countAgents < agentPark)
 	//	{
 	//		auto agent = state.agent_generator.createAgent(state, {&state, id},
-	//		                                               {&state, "AGENTTYPE_BUILDING_SECURITY"});
+	//		                                               {&state, "BUILDING_SECURITY"});
 	//		agent->homeBuilding = {&state, building};
 	//		agent->city = agent->homeBuilding->city;
 	//		agent->enterBuilding(state, agent->homeBuilding);
@@ -730,7 +730,7 @@ void Organisation::updateVehicleAgentPark(GameState &state)
 			}
 		}
 		bool spaceLiner = false;
-		for (auto m : recurring_missions[{&state, "CITYMAP_HUMAN"}])
+		for (auto m : recurring_missions[{&state, "HUMAN"}])
 		{
 			if (m.pattern.target == MissionPattern::Target::ArriveFromSpace ||
 			    m.pattern.target == MissionPattern::Target::DepartToSpace)
@@ -750,13 +750,13 @@ void Organisation::updateVehicleAgentPark(GameState &state)
 
 			if (spaceLiner)
 			{
-				buildingsRandomizer = state.cities["CITYMAP_HUMAN"]->spaceports;
+				buildingsRandomizer = state.cities["HUMAN"]->spaceports;
 			}
 			else
 			{
 				for (auto &b : buildings)
 				{
-					if (b->city.id != "CITYMAP_HUMAN")
+					if (b->city.id != "HUMAN")
 					{
 						continue;
 					}
@@ -988,11 +988,6 @@ sp<Organisation> StateObject<Organisation>::get(const GameState &state, const US
 	return it->second;
 }
 
-template <> const UString &StateObject<Organisation>::getPrefix()
-{
-	static UString prefix = "ORG_";
-	return prefix;
-}
 template <> const UString &StateObject<Organisation>::getTypeName()
 {
 	static UString name = "Organisation";

@@ -41,8 +41,8 @@ void InitialGameStateExtractor::extractBuildingFunctions(GameState &state) const
 		{
 			f->detectionWeight = buildingFunctionDetectionWeights[i];
 		}
-		auto id = format("{0}{1}", BuildingFunction::getPrefix(), canon_string(f->name));
-		auto ped = format("{0}{1}", UfopaediaEntry::getPrefix(), canon_string(f->name));
+		auto id = canon_string(f->name);
+		auto ped = canon_string(f->name);
 		f->ufopaedia_entry = {&state, ped};
 		state.building_functions[id] = f;
 	}
@@ -75,15 +75,15 @@ void InitialGameStateExtractor::extractBuildings(GameState &state, UString bldFi
 		{
 			b->name = data.alien_building_names->get(entry.function_idx);
 			b->function = {&state,
-			               format("{0}{1}", BuildingFunction::getPrefix(), canon_string(b->name))};
+			               canon_string(b->name)};
 			LogInfo("Alien bld {0} {1} func {2} {3}", entry.name_idx, b->name, entry.function_idx,
 			        b->function.id);
 
-			b->accessTopic = {&state, format("RESEARCH_ALIEN_BUILDING_{0}", i)};
+			b->accessTopic = {&state, format("ALIEN_BUILDING_{0}", i)};
 			if (i < 9)
 			{
 				b->researchUnlock.emplace_back(&state,
-				                               format("RESEARCH_UNLOCK_ALIEN_BUILDING_{0}", i + 1));
+				                               format("UNLOCK_ALIEN_BUILDING_{0}", i + 1));
 			}
 			else
 			{
@@ -98,8 +98,7 @@ void InitialGameStateExtractor::extractBuildings(GameState &state, UString bldFi
 		{
 			b->name = data.building_names->get(entry.name_idx);
 			b->function = {&state,
-			               format("{0}{1}", BuildingFunction::getPrefix(),
-			                      canon_string(data.building_functions->get(entry.function_idx)))};
+			               canon_string(data.building_functions->get(entry.function_idx))};
 
 			b->isPurchesable = entry.is_purchaseable;
 			b->purchasePrice = static_cast<int>(entry.price) * 2000;
@@ -152,13 +151,12 @@ void InitialGameStateExtractor::extractBuildings(GameState &state, UString bldFi
 			default:
 				break;
 		}
-		b->battle_map = {&state, format("{0}{1}", BattleMap::getPrefix(),
-		                                this->battleMapPaths[battle_map_index])};
+		b->battle_map = {&state, this->battleMapPaths[battle_map_index]};
 		b->owner = {&state, data.getOrgId(entry.owner_idx)};
 		// Our rects are exclusive of p2
 		// Shift position by 20 tiles
 		b->bounds = {entry.x0 + 20, entry.y0 + 20, entry.x1 + 21, entry.y1 + 21};
-		auto id = format("{0}{1}", Building::getPrefix(), canon_string(b->name));
+		auto id = canon_string(b->name);
 		b->city = {&state, city->id};
 		state.buildings[id] = b;
 		city->buildings.emplace_back(&state, id);

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <agent_types>
   <entry>
-    <key>AGENTTYPE_X-COM_AGENT_HUMAN</key>
+    <key>X-COM_HUMAN</key>
     <value>
-      <id>AGENTTYPE_X-COM_AGENT_HUMAN</id>
+      <id>X-COM_HUMAN</id>
       <name>X-COM Agent (Human)</name>
       <role>Soldier</role>
 	  <displayRank>true</displayRank>
@@ -478,35 +478,35 @@
         <psi_attack>20</psi_attack>
         <psi_defence>30</psi_defence>
       </max_stats>
-      <bodyType>AGENTBODYTYPE_WALKING_HUMANOID</bodyType>
-      <shadow_pack>BATTLEUNITIMAGEPACK_shadow</shadow_pack>
+      <bodyType>WALKING_HUMANOID</bodyType>
+      <shadow_pack>shadow</shadow_pack>
       <appearance_count>1</appearance_count>
       <image_packs>
         <entry>
           <entry>
             <key>Body</key>
-            <value>BATTLEUNITIMAGEPACK_xcom1a</value>
+            <value>xcom1a</value>
           </entry>
           <entry>
             <key>Legs</key>
-            <value>BATTLEUNITIMAGEPACK_xcom1b</value>
+            <value>xcom1b</value>
           </entry>
           <entry>
             <key>Helmet</key>
-            <value>BATTLEUNITIMAGEPACK_xcom1c</value>
+            <value>xcom1c</value>
           </entry>
           <entry>
             <key>LeftArm</key>
-            <value>BATTLEUNITIMAGEPACK_xcom1d</value>
+            <value>xcom1d</value>
           </entry>
           <entry>
             <key>RightArm</key>
-            <value>BATTLEUNITIMAGEPACK_xcom1e</value>
+            <value>xcom1e</value>
           </entry>
         </entry>
       </image_packs>
       <animation_packs>
-        <entry>BATTLEUNITIANIMATIONPACK_unit</entry>
+        <entry>unit</entry>
       </animation_packs>
       <armor>
         <entry>
@@ -530,7 +530,7 @@
           <value>0</value>
         </entry>
       </armor>
-      <damage_modifier>DAMAGEMODIFIER_HUMAN</damage_modifier>
+      <damage_modifier>HUMAN</damage_modifier>
       <inventory>true</inventory>
       <improvementPercentagePhysical>100</improvementPercentagePhysical>
 	  <improvementPercentagePsi>100</improvementPercentagePsi>
@@ -540,7 +540,7 @@
       <availableAtTheGameStart>true</availableAtTheGameStart>
       <allowsDirectControl>true</allowsDirectControl>
       <aiType>Group</aiType>
-      <equipment_layout>AGENTEQUIPMENTLAYOUT_FULL</equipment_layout>
+      <equipment_layout>FULL</equipment_layout>
       <score>10</score>
       <damageSfx>
         <entry>
@@ -596,9 +596,9 @@
     </value>
   </entry>
   <entry>
-    <key>AGENTTYPE_X-COM_AGENT_HYBRID</key>
+    <key>X-COM_HYBRID</key>
     <value>
-      <id>AGENTTYPE_X-COM_AGENT_HYBRID</id>
+      <id>X-COM_HYBRID</id>
       <name>X-COM Agent (Hybrid)</name>
       <role>Soldier</role>
       <inventoryBackground>xcom3/tacdata/equippic/xcom.pcx</inventoryBackground>
@@ -723,35 +723,35 @@
         <psi_attack>40</psi_attack>
         <psi_defence>40</psi_defence>
       </max_stats>
-      <bodyType>AGENTBODYTYPE_WALKING_HUMANOID</bodyType>
-      <shadow_pack>BATTLEUNITIMAGEPACK_shadow</shadow_pack>
+      <bodyType>WALKING_HUMANOID</bodyType>
+      <shadow_pack>shadow</shadow_pack>
       <appearance_count>1</appearance_count>
       <image_packs>
         <entry>
           <entry>
             <key>Body</key>
-            <value>BATTLEUNITIMAGEPACK_xcom1a</value>
+            <value>xcom1a</value>
           </entry>
           <entry>
             <key>Legs</key>
-            <value>BATTLEUNITIMAGEPACK_xcom1b</value>
+            <value>xcom1b</value>
           </entry>
           <entry>
             <key>Helmet</key>
-            <value>BATTLEUNITIMAGEPACK_xcom1c</value>
+            <value>xcom1c</value>
           </entry>
           <entry>
             <key>LeftArm</key>
-            <value>BATTLEUNITIMAGEPACK_xcom1d</value>
+            <value>xcom1d</value>
           </entry>
           <entry>
             <key>RightArm</key>
-            <value>BATTLEUNITIMAGEPACK_xcom1e</value>
+            <value>xcom1e</value>
           </entry>
         </entry>
       </image_packs>
       <animation_packs>
-        <entry>BATTLEUNITIANIMATIONPACK_unit</entry>
+        <entry>unit</entry>
       </animation_packs>
       <armor>
         <entry>
@@ -775,7 +775,7 @@
           <value>0</value>
         </entry>
       </armor>
-      <damage_modifier>DAMAGEMODIFIER_MUTANT</damage_modifier>
+      <damage_modifier>MUTANT</damage_modifier>
       <inventory>true</inventory>
       <improvementPercentagePhysical>100</improvementPercentagePhysical>
 	  <improvementPercentagePsi>100</improvementPercentagePsi>
@@ -784,7 +784,7 @@
       <playable>true</playable>
       <allowsDirectControl>true</allowsDirectControl>
       <aiType>Group</aiType>
-      <equipment_layout>AGENTEQUIPMENTLAYOUT_FULL</equipment_layout>
+      <equipment_layout>FULL</equipment_layout>
       <score>10</score>
       <damageSfx>
         <entry>
@@ -840,10 +840,10 @@
     </value>
   </entry>
   <entry>
-    <key>AGENTTYPE_X-COM_AGENT_ANDROID</key>
+    <key>X-COM_ANDROID</key>
     <value>
-      <animation_pack>BATTLEUNITIANIMATIONPACK_unit</animation_pack>
-      <id>AGENTTYPE_X-COM_AGENT_ANDROID</id>
+      <animation_pack>unit</animation_pack>
+      <id>X-COM_ANDROID</id>
       <name>X-COM Agent (Android)</name>
       <role>Soldier</role>
       <inventoryBackground>xcom3/tacdata/equippic/xcom.pcx</inventoryBackground>
@@ -919,35 +919,35 @@
         <strength>85</strength>
         <psi_defence>100</psi_defence>
       </max_stats>
-      <bodyType>AGENTBODYTYPE_WALKING_HUMANOID</bodyType>
-      <shadow_pack>BATTLEUNITIMAGEPACK_shadow</shadow_pack>
+      <bodyType>WALKING_HUMANOID</bodyType>
+      <shadow_pack>shadow</shadow_pack>
       <appearance_count>1</appearance_count>
       <image_packs>
         <entry>
           <entry>
             <key>Body</key>
-            <value>BATTLEUNITIMAGEPACK_xcom1a</value>
+            <value>xcom1a</value>
           </entry>
           <entry>
             <key>Legs</key>
-            <value>BATTLEUNITIMAGEPACK_xcom1b</value>
+            <value>xcom1b</value>
           </entry>
           <entry>
             <key>Helmet</key>
-            <value>BATTLEUNITIMAGEPACK_xcom1c</value>
+            <value>xcom1c</value>
           </entry>
           <entry>
             <key>LeftArm</key>
-            <value>BATTLEUNITIMAGEPACK_xcom1d</value>
+            <value>xcom1d</value>
           </entry>
           <entry>
             <key>RightArm</key>
-            <value>BATTLEUNITIMAGEPACK_xcom1e</value>
+            <value>xcom1e</value>
           </entry>
         </entry>
       </image_packs>
       <animation_packs>
-        <entry>BATTLEUNITIANIMATIONPACK_unit</entry>
+        <entry>unit</entry>
       </animation_packs>
       <armor>
         <entry>
@@ -971,7 +971,7 @@
           <value>0</value>
         </entry>
       </armor>
-      <damage_modifier>DAMAGEMODIFIER_ANDROID</damage_modifier>
+      <damage_modifier>ANDROID</damage_modifier>
       <inventory>true</inventory>
       <improvementPercentagePhysical>10</improvementPercentagePhysical>
 	  <improvementPercentagePsi>0</improvementPercentagePsi>
@@ -980,7 +980,7 @@
       <playable>true</playable>
       <allowsDirectControl>true</allowsDirectControl>
       <aiType>Group</aiType>
-      <equipment_layout>AGENTEQUIPMENTLAYOUT_FULL</equipment_layout>
+      <equipment_layout>FULL</equipment_layout>
       <score>10</score>
       <damageSfx>
         <entry>
@@ -1036,9 +1036,9 @@
     </value>
   </entry>
   <entry>
-    <key>AGENTTYPE_X-COM_BASE_TURRET_LASER</key>
+    <key>X-COM_TURRET_LASER</key>
     <value>
-      <id>AGENTTYPE_X-COM_BASE_TURRET_LASER</id>
+      <id>X-COM_TURRET_LASER</id>
       <name>X-COM Laser Base Turret</name>
       <role>Soldier</role>
       <possible_genders>
@@ -1088,19 +1088,19 @@
         <psi_attack>0</psi_attack>
         <psi_defence>100</psi_defence>
       </max_stats>
-      <bodyType>AGENTBODYTYPE_BASE_TURRET</bodyType>
+      <bodyType>TURRET</bodyType>
       <appearance_count>1</appearance_count>
       <immuneToFatalWounds>true</immuneToFatalWounds>
       <image_packs>
         <entry>
           <entry>
             <key>Body</key>
-            <value>BATTLEUNITIMAGEPACK_gun</value>
+            <value>gun</value>
           </entry>
         </entry>
       </image_packs>
       <animation_packs>
-        <entry>BATTLEUNITIANIMATIONPACK_gun</entry>
+        <entry>gun</entry>
       </animation_packs>
       <armor>
         <entry>
@@ -1124,18 +1124,18 @@
           <value>0</value>
         </entry>
       </armor>
-      <damage_modifier>DAMAGEMODIFIER_GUN_EMPLACEMENT</damage_modifier>
-      <equipment_layout>AGENTEQUIPMENTLAYOUT_BUILTIN</equipment_layout>
+      <damage_modifier>GUN_EMPLACEMENT</damage_modifier>
+      <equipment_layout>BUILTIN</equipment_layout>
       <aiType>Loner</aiType>
       <score>0</score>
-      <built_in_weapon_right>AEQUIPMENTTYPE_X-COM_BASE_TURRET_LASER</built_in_weapon_right>
+      <built_in_weapon_right>X-COM_TURRET_LASER</built_in_weapon_right>
     </value>
   </entry>
   <entry>
-    <key>AGENTTYPE_X-COM_BASE_TURRET_DISRUPTOR</key>
+    <key>X-COM_TURRET_DISRUPTOR</key>
     <value>
-      <animation_pack>BATTLEUNITIANIMATIONPACK_gun</animation_pack>
-      <id>AGENTTYPE_X-COM_BASE_TURRET_DISRUPTOR</id>
+      <animation_pack>gun</animation_pack>
+      <id>X-COM_TURRET_DISRUPTOR</id>
       <name>X-COM Disruptor Base Turret</name>
       <role>Soldier</role>
       <possible_genders>
@@ -1185,19 +1185,19 @@
         <psi_attack>0</psi_attack>
         <psi_defence>100</psi_defence>
       </max_stats>
-      <bodyType>AGENTBODYTYPE_BASE_TURRET</bodyType>
+      <bodyType>TURRET</bodyType>
       <appearance_count>1</appearance_count>
       <immuneToFatalWounds>true</immuneToFatalWounds>
       <image_packs>
         <entry>
           <entry>
             <key>Body</key>
-            <value>BATTLEUNITIMAGEPACK_gun</value>
+            <value>gun</value>
           </entry>
         </entry>
       </image_packs>
       <animation_packs>
-        <entry>BATTLEUNITIANIMATIONPACK_gun</entry>
+        <entry>gun</entry>
       </animation_packs>
       <armor>
         <entry>
@@ -1221,11 +1221,11 @@
           <value>0</value>
         </entry>
       </armor>
-      <damage_modifier>DAMAGEMODIFIER_GUN_EMPLACEMENT</damage_modifier>
-      <equipment_layout>AGENTEQUIPMENTLAYOUT_BUILTIN</equipment_layout>
+      <damage_modifier>GUN_EMPLACEMENT</damage_modifier>
+      <equipment_layout>BUILTIN</equipment_layout>
       <aiType>Loner</aiType>
       <score>0</score>
-      <built_in_weapon_right>AEQUIPMENTTYPE_X-COM_BASE_TURRET_DISRUPTOR</built_in_weapon_right>
+      <built_in_weapon_right>X-COM_TURRET_DISRUPTOR</built_in_weapon_right>
     </value>
   </entry>
 </agent_types>

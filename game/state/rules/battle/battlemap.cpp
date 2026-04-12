@@ -97,11 +97,6 @@ template <> sp<BattleMap> StateObject<BattleMap>::get(const GameState &state, co
 	}
 	return it->second;
 }
-template <> const UString &StateObject<BattleMap>::getPrefix()
-{
-	static UString prefix = "BATTLEMAP_";
-	return prefix;
-}
 template <> const UString &StateObject<BattleMap>::getTypeName()
 {
 	static UString name = "BattleMap";
@@ -175,7 +170,7 @@ sp<Battle> BattleMap::createBattle(GameState &state, StateRef<Organisation> oppo
 	if (building->base != nullptr && building->owner == state.getPlayer())
 	{
 		// Base defense mission
-		map = {&state, "BATTLEMAP_37base"};
+		map = {&state, "37base"};
 
 		if (opponent == state.getAliens() && !aliens)
 		{
@@ -1122,7 +1117,7 @@ BattleMap::fillMap(std::vector<std::list<std::pair<Vec3<int>, sp<BattleMapPart>>
 					{
 						case BattleMapPartType::AutoConvert::Fire:
 						{
-							StateRef<DamageType> dt = {&state, "DAMAGETYPE_INCENDIARY"};
+							StateRef<DamageType> dt = {&state, "INCENDIARY"};
 							b->placeHazard(state, propertyOwner, nullptr, dt, pair.first + shift,
 							               // Make it already hot
 							               dt->hazardType->getLifetime(state) * 2, 0, 1, false);
@@ -1130,7 +1125,7 @@ BattleMap::fillMap(std::vector<std::list<std::pair<Vec3<int>, sp<BattleMapPart>>
 						}
 						case BattleMapPartType::AutoConvert::Smoke:
 						{
-							StateRef<DamageType> dt = {&state, "DAMAGETYPE_SMOKE"};
+							StateRef<DamageType> dt = {&state, "SMOKE"};
 							b->placeHazard(state, propertyOwner, nullptr, dt, pair.first + shift,
 							               dt->hazardType->getLifetime(state), 1, 2, false);
 							break;
@@ -1586,7 +1581,7 @@ void BattleMap::loadTilesets(GameState &state) const
 					tile->rubble = rubble_feature;
 					break;
 			}
-			tile->damageModifier = {&state, "DAMAGEMODIFIER_TERRAIN_1_"};
+			tile->damageModifier = {&state, "TERRAIN_1_"};
 			// Sanity check
 			if (state.battleMapTiles.find(tileName) != state.battleMapTiles.end())
 			{

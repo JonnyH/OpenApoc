@@ -278,7 +278,7 @@ sp<RGBImage> BaseGraphics::drawMiniBase(const Base &base, FacilityHighlight high
 sp<RGBImage> BaseGraphics::drawMinimap(sp<GameState> state, const Building &selected)
 {
 	// FIXME: add city ref to building
-	auto city = state->cities["CITYMAP_HUMAN"];
+	auto city = state->cities["HUMAN"];
 	auto minimap = mksp<RGBImage>(Vec2<unsigned int>{100, 100});
 	RGBImageLock l(minimap);
 

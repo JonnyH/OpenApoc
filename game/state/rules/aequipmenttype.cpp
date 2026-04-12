@@ -6,12 +6,6 @@
 namespace OpenApoc
 {
 
-template <> const UString &StateObject<AEquipmentType>::getPrefix()
-{
-	static UString prefix = "AEQUIPMENTTYPE_";
-	return prefix;
-}
-
 template <> const UString &StateObject<AEquipmentType>::getTypeName()
 {
 	static UString name = "AEquipmentType";
@@ -28,12 +22,6 @@ sp<AEquipmentType> StateObject<AEquipmentType>::get(const GameState &state, cons
 		return nullptr;
 	}
 	return it->second;
-}
-
-template <> const UString &StateObject<EquipmentSet>::getPrefix()
-{
-	static UString prefix = "EQUIPMENTSET_";
-	return prefix;
 }
 
 template <> const UString &StateObject<EquipmentSet>::getTypeName()

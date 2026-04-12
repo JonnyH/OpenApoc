@@ -32,11 +32,6 @@ template <> sp<Base> StateObject<Base>::get(const GameState &state, const UStrin
 	return it->second;
 }
 
-template <> const UString &StateObject<Base>::getPrefix()
-{
-	static UString prefix = "BASE_";
-	return prefix;
-}
 template <> const UString &StateObject<Base>::getTypeName()
 {
 	static UString name = "Base";
@@ -67,7 +62,7 @@ Base::Base(GameState &state, StateRef<Building> building) : building(building)
 			}
 		}
 	}
-	StateRef<FacilityType> type = {&state, FacilityType::getPrefix() + "ACCESS_LIFT"};
+	StateRef<FacilityType> type = {&state, "ACCESS_LIFT"};
 	if (canBuildFacility(type, building->base_layout->baseLift, true) != BuildError::NoError)
 	{
 		LogError("Building {0} has invalid lift location", building->name);

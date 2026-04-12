@@ -113,287 +113,287 @@
   </initial_agents>
   <initial_facilities>
     <entry>
-      <key>FACILITYTYPE_VEHICLE_REPAIR_BAY</key>
+      <key>REPAIR_BAY</key>
       <value>1</value>
     </entry>
     <entry>
-      <key>FACILITYTYPE_ALIEN_CONTAINMENT</key>
+      <key>ALIEN_CONTAINMENT</key>
       <value>1</value>
     </entry>
     <entry>
-      <key>FACILITYTYPE_BIOCHEMISTRY_LAB</key>
+      <key>BIOCHEMISTRY_LAB</key>
       <value>1</value>
     </entry>
     <entry>
-      <key>FACILITYTYPE_LIVING_QUARTERS</key>
+      <key>LIVING_QUARTERS</key>
       <value>3</value>
     </entry>
     <entry>
-      <key>FACILITYTYPE_MEDICAL_BAY</key>
+      <key>MEDICAL_BAY</key>
       <value>1</value>
     </entry>
     <entry>
-      <key>FACILITYTYPE_PSI-GYM</key>
+      <key>PSI-GYM</key>
       <value>1</value>
     </entry>
     <entry>
-      <key>FACILITYTYPE_QUANTUM_PHYSICS_LAB</key>
+      <key>QUANTUM_PHYSICS_LAB</key>
       <value>1</value>
     </entry>
     <entry>
-      <key>FACILITYTYPE_STORES</key>
+      <key>STORES</key>
       <value>2</value>
     </entry>
     <entry>
-      <key>FACILITYTYPE_TRAINING_AREA</key>
+      <key>TRAINING_AREA</key>
       <value>1</value>
     </entry>
     <entry>
-      <key>FACILITYTYPE_WORKSHOP</key>
+      <key>WORKSHOP</key>
       <value>1</value>
     </entry>
   </initial_facilities>
   <initial_agent_equipment>
    
     <entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_BODY_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_HELMET</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_LEFT_ARM_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_LEG_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_RIGHT_ARM_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_LASER_SNIPER_GUN</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_LASER_POD</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_AP_GRENADE</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_AP_GRENADE</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_STUN_GRENADE</entry>
-      <entry>AEQUIPMENTTYPE_MEDI-KIT</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_LASER_POD</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_STUN_GRENADE</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_SMOKE_GRENADE</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_SMOKE_GRENADE</entry>
+      <entry>MEGAPOL_BODY_ARMOR</entry>
+      <entry>MEGAPOL_HELMET</entry>
+      <entry>MEGAPOL_LEFT_ARM_ARMOR</entry>
+      <entry>MEGAPOL_LEG_ARMOR</entry>
+      <entry>MEGAPOL_RIGHT_ARM_ARMOR</entry>
+      <entry>MEGAPOL_LASER_SNIPER_GUN</entry>
+      <entry>MEGAPOL_LASER_POD</entry>
+      <entry>MEGAPOL_AP_GRENADE</entry>
+      <entry>MEGAPOL_AP_GRENADE</entry>
+      <entry>MEGAPOL_STUN_GRENADE</entry>
+      <entry>MEDI-KIT</entry>
+      <entry>MEGAPOL_LASER_POD</entry>
+      <entry>MEGAPOL_STUN_GRENADE</entry>
+      <entry>MEGAPOL_SMOKE_GRENADE</entry>
+      <entry>MEGAPOL_SMOKE_GRENADE</entry>
     </entry>
     <entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_BODY_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_HELMET</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_LEFT_ARM_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_LEG_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_RIGHT_ARM_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_LASER_SNIPER_GUN</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_LASER_POD</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_AP_GRENADE</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_AP_GRENADE</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_STUN_GRENADE</entry>
-      <entry>AEQUIPMENTTYPE_MEDI-KIT</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_LASER_POD</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_STUN_GRENADE</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_SMOKE_GRENADE</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_SMOKE_GRENADE</entry>
+      <entry>MEGAPOL_BODY_ARMOR</entry>
+      <entry>MEGAPOL_HELMET</entry>
+      <entry>MEGAPOL_LEFT_ARM_ARMOR</entry>
+      <entry>MEGAPOL_LEG_ARMOR</entry>
+      <entry>MEGAPOL_RIGHT_ARM_ARMOR</entry>
+      <entry>MEGAPOL_LASER_SNIPER_GUN</entry>
+      <entry>MEGAPOL_LASER_POD</entry>
+      <entry>MEGAPOL_AP_GRENADE</entry>
+      <entry>MEGAPOL_AP_GRENADE</entry>
+      <entry>MEGAPOL_STUN_GRENADE</entry>
+      <entry>MEDI-KIT</entry>
+      <entry>MEGAPOL_LASER_POD</entry>
+      <entry>MEGAPOL_STUN_GRENADE</entry>
+      <entry>MEGAPOL_SMOKE_GRENADE</entry>
+      <entry>MEGAPOL_SMOKE_GRENADE</entry>
     </entry>
     <entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_BODY_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_HELMET</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_LEFT_ARM_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_LEG_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_RIGHT_ARM_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MARSEC_M4000_MACHINE_GUN</entry>
-      <entry>AEQUIPMENTTYPE_MARSEC_M4000_GUN_CLIP</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_AP_GRENADE</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_AP_GRENADE</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_STUN_GRENADE</entry>
-      <entry>AEQUIPMENTTYPE_MEDI-KIT</entry>
-      <entry>AEQUIPMENTTYPE_MARSEC_M4000_GUN_CLIP</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_STUN_GRENADE</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_SMOKE_GRENADE</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_SMOKE_GRENADE</entry>
+      <entry>MEGAPOL_BODY_ARMOR</entry>
+      <entry>MEGAPOL_HELMET</entry>
+      <entry>MEGAPOL_LEFT_ARM_ARMOR</entry>
+      <entry>MEGAPOL_LEG_ARMOR</entry>
+      <entry>MEGAPOL_RIGHT_ARM_ARMOR</entry>
+      <entry>MARSEC_M4000_MACHINE_GUN</entry>
+      <entry>MARSEC_M4000_GUN_CLIP</entry>
+      <entry>MEGAPOL_AP_GRENADE</entry>
+      <entry>MEGAPOL_AP_GRENADE</entry>
+      <entry>MEGAPOL_STUN_GRENADE</entry>
+      <entry>MEDI-KIT</entry>
+      <entry>MARSEC_M4000_GUN_CLIP</entry>
+      <entry>MEGAPOL_STUN_GRENADE</entry>
+      <entry>MEGAPOL_SMOKE_GRENADE</entry>
+      <entry>MEGAPOL_SMOKE_GRENADE</entry>
     </entry>
     <entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_BODY_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_HELMET</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_LEFT_ARM_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_LEG_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_RIGHT_ARM_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MARSEC_M4000_MACHINE_GUN</entry>
-      <entry>AEQUIPMENTTYPE_MARSEC_M4000_GUN_CLIP</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_AP_GRENADE</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_AP_GRENADE</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_STUN_GRENADE</entry>
-      <entry>AEQUIPMENTTYPE_MEDI-KIT</entry>
-      <entry>AEQUIPMENTTYPE_MARSEC_M4000_GUN_CLIP</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_STUN_GRENADE</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_SMOKE_GRENADE</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_SMOKE_GRENADE</entry>
+      <entry>MEGAPOL_BODY_ARMOR</entry>
+      <entry>MEGAPOL_HELMET</entry>
+      <entry>MEGAPOL_LEFT_ARM_ARMOR</entry>
+      <entry>MEGAPOL_LEG_ARMOR</entry>
+      <entry>MEGAPOL_RIGHT_ARM_ARMOR</entry>
+      <entry>MARSEC_M4000_MACHINE_GUN</entry>
+      <entry>MARSEC_M4000_GUN_CLIP</entry>
+      <entry>MEGAPOL_AP_GRENADE</entry>
+      <entry>MEGAPOL_AP_GRENADE</entry>
+      <entry>MEGAPOL_STUN_GRENADE</entry>
+      <entry>MEDI-KIT</entry>
+      <entry>MARSEC_M4000_GUN_CLIP</entry>
+      <entry>MEGAPOL_STUN_GRENADE</entry>
+      <entry>MEGAPOL_SMOKE_GRENADE</entry>
+      <entry>MEGAPOL_SMOKE_GRENADE</entry>
     </entry>
     <entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_BODY_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_HELMET</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_LEFT_ARM_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_LEG_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_RIGHT_ARM_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_AUTO_CANNON</entry>
-      <entry>AEQUIPMENTTYPE_AUTO_CANNON_HE_CLIP</entry>
-      <entry>AEQUIPMENTTYPE_AUTO_CANNON_IN_CLIP</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_AP_GRENADE</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_STUN_GRENADE</entry>
-      <entry>AEQUIPMENTTYPE_MEDI-KIT</entry>
-      <entry>AEQUIPMENTTYPE_AUTO_CANNON_AP_CLIP</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_SMOKE_GRENADE</entry>
+      <entry>MEGAPOL_BODY_ARMOR</entry>
+      <entry>MEGAPOL_HELMET</entry>
+      <entry>MEGAPOL_LEFT_ARM_ARMOR</entry>
+      <entry>MEGAPOL_LEG_ARMOR</entry>
+      <entry>MEGAPOL_RIGHT_ARM_ARMOR</entry>
+      <entry>MEGAPOL_AUTO_CANNON</entry>
+      <entry>AUTO_CANNON_HE_CLIP</entry>
+      <entry>AUTO_CANNON_IN_CLIP</entry>
+      <entry>MEGAPOL_AP_GRENADE</entry>
+      <entry>MEGAPOL_STUN_GRENADE</entry>
+      <entry>MEDI-KIT</entry>
+      <entry>AUTO_CANNON_AP_CLIP</entry>
+      <entry>MEGAPOL_SMOKE_GRENADE</entry>
     </entry>
     <entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_BODY_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_HELMET</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_LEFT_ARM_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_LEG_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_RIGHT_ARM_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_AUTO_CANNON</entry>
-      <entry>AEQUIPMENTTYPE_AUTO_CANNON_HE_CLIP</entry>
-      <entry>AEQUIPMENTTYPE_AUTO_CANNON_IN_CLIP</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_AP_GRENADE</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_STUN_GRENADE</entry>
-      <entry>AEQUIPMENTTYPE_MEDI-KIT</entry>
-      <entry>AEQUIPMENTTYPE_AUTO_CANNON_AP_CLIP</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_SMOKE_GRENADE</entry>
+      <entry>MEGAPOL_BODY_ARMOR</entry>
+      <entry>MEGAPOL_HELMET</entry>
+      <entry>MEGAPOL_LEFT_ARM_ARMOR</entry>
+      <entry>MEGAPOL_LEG_ARMOR</entry>
+      <entry>MEGAPOL_RIGHT_ARM_ARMOR</entry>
+      <entry>MEGAPOL_AUTO_CANNON</entry>
+      <entry>AUTO_CANNON_HE_CLIP</entry>
+      <entry>AUTO_CANNON_IN_CLIP</entry>
+      <entry>MEGAPOL_AP_GRENADE</entry>
+      <entry>MEGAPOL_STUN_GRENADE</entry>
+      <entry>MEDI-KIT</entry>
+      <entry>AUTO_CANNON_AP_CLIP</entry>
+      <entry>MEGAPOL_SMOKE_GRENADE</entry>
     </entry>
     <entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_BODY_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_HELMET</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_LEFT_ARM_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_LEG_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_RIGHT_ARM_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_STUN_GRAPPLE</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_AP_GRENADE</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_STUN_GRENADE</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_STUN_GRENADE</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_SMOKE_GRENADE</entry>
-      <entry>AEQUIPMENTTYPE_MEDI-KIT</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_AP_GRENADE</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_SMOKE_GRENADE</entry>
+      <entry>MEGAPOL_BODY_ARMOR</entry>
+      <entry>MEGAPOL_HELMET</entry>
+      <entry>MEGAPOL_LEFT_ARM_ARMOR</entry>
+      <entry>MEGAPOL_LEG_ARMOR</entry>
+      <entry>MEGAPOL_RIGHT_ARM_ARMOR</entry>
+      <entry>MEGAPOL_STUN_GRAPPLE</entry>
+      <entry>MEGAPOL_AP_GRENADE</entry>
+      <entry>MEGAPOL_STUN_GRENADE</entry>
+      <entry>MEGAPOL_STUN_GRENADE</entry>
+      <entry>MEGAPOL_SMOKE_GRENADE</entry>
+      <entry>MEDI-KIT</entry>
+      <entry>MEGAPOL_AP_GRENADE</entry>
+      <entry>MEGAPOL_SMOKE_GRENADE</entry>
     </entry>
     <entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_BODY_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_HELMET</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_LEFT_ARM_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_LEG_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_RIGHT_ARM_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_STUN_GRAPPLE</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_AP_GRENADE</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_STUN_GRENADE</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_STUN_GRENADE</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_SMOKE_GRENADE</entry>
-      <entry>AEQUIPMENTTYPE_MEDI-KIT</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_AP_GRENADE</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_SMOKE_GRENADE</entry>
+      <entry>MEGAPOL_BODY_ARMOR</entry>
+      <entry>MEGAPOL_HELMET</entry>
+      <entry>MEGAPOL_LEFT_ARM_ARMOR</entry>
+      <entry>MEGAPOL_LEG_ARMOR</entry>
+      <entry>MEGAPOL_RIGHT_ARM_ARMOR</entry>
+      <entry>MEGAPOL_STUN_GRAPPLE</entry>
+      <entry>MEGAPOL_AP_GRENADE</entry>
+      <entry>MEGAPOL_STUN_GRENADE</entry>
+      <entry>MEGAPOL_STUN_GRENADE</entry>
+      <entry>MEGAPOL_SMOKE_GRENADE</entry>
+      <entry>MEDI-KIT</entry>
+      <entry>MEGAPOL_AP_GRENADE</entry>
+      <entry>MEGAPOL_SMOKE_GRENADE</entry>
     </entry>
     <entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_BODY_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_HELMET</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_LEFT_ARM_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_LEG_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_RIGHT_ARM_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_LAWPISTOL</entry>
-      <entry>AEQUIPMENTTYPE_MOTION_SCANNER</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_LAWPISTOL_CLIP</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_LAWPISTOL_CLIP</entry>
-      <entry>AEQUIPMENTTYPE_MEDI-KIT</entry>
+      <entry>MEGAPOL_BODY_ARMOR</entry>
+      <entry>MEGAPOL_HELMET</entry>
+      <entry>MEGAPOL_LEFT_ARM_ARMOR</entry>
+      <entry>MEGAPOL_LEG_ARMOR</entry>
+      <entry>MEGAPOL_RIGHT_ARM_ARMOR</entry>
+      <entry>MEGAPOL_LAWPISTOL</entry>
+      <entry>MOTION_SCANNER</entry>
+      <entry>MEGAPOL_LAWPISTOL_CLIP</entry>
+      <entry>MEGAPOL_LAWPISTOL_CLIP</entry>
+      <entry>MEDI-KIT</entry>
     </entry>
     <entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_BODY_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_HELMET</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_LEFT_ARM_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_LEG_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_RIGHT_ARM_ARMOR</entry>
-      <entry>AEQUIPMENTTYPE_MIND_BENDER</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_LAWPISTOL</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_LAWPISTOL_CLIP</entry>
-      <entry>AEQUIPMENTTYPE_MEGAPOL_LAWPISTOL_CLIP</entry>
-      <entry>AEQUIPMENTTYPE_MEDI-KIT</entry>
+      <entry>MEGAPOL_BODY_ARMOR</entry>
+      <entry>MEGAPOL_HELMET</entry>
+      <entry>MEGAPOL_LEFT_ARM_ARMOR</entry>
+      <entry>MEGAPOL_LEG_ARMOR</entry>
+      <entry>MEGAPOL_RIGHT_ARM_ARMOR</entry>
+      <entry>MIND_BENDER</entry>
+      <entry>MEGAPOL_LAWPISTOL</entry>
+      <entry>MEGAPOL_LAWPISTOL_CLIP</entry>
+      <entry>MEGAPOL_LAWPISTOL_CLIP</entry>
+      <entry>MEDI-KIT</entry>
     </entry>
   </initial_agent_equipment>
   <initial_base_agent_equipment>
     <entry>
-      <key>AEQUIPMENTTYPE_MEGAPOL_AP_GRENADE</key>
+      <key>MEGAPOL_AP_GRENADE</key>
       <value>20</value>
     </entry>
     <entry>
-      <key>AEQUIPMENTTYPE_MEGAPOL_STUN_GRENADE</key>
+      <key>MEGAPOL_STUN_GRENADE</key>
       <value>20</value>
     </entry>
     <entry>
-      <key>AEQUIPMENTTYPE_MEGAPOL_SMOKE_GRENADE</key>
+      <key>MEGAPOL_SMOKE_GRENADE</key>
       <value>20</value>
     </entry>
   </initial_base_agent_equipment>
   <initial_vehicles>
     <entry>
-      <first>VEHICLETYPE_VALKYRIE_INTERCEPTOR</first>
+      <first>VALKYRIE_INTERCEPTOR</first>
       <second> 
-	    <entry>VEQUIPMENTTYPE_LANCER_7000_LASER_GUN</entry>
-	    <entry>VEQUIPMENTTYPE_JANITOR_MISSILE_ARRAY</entry>
-	    <entry>VEQUIPMENTTYPE_PASSENGER_MODULE</entry>
-	    <entry>VEQUIPMENTTYPE_CARGO_MODULE</entry>
-	    <entry>VEQUIPMENTTYPE_SD_TURBO</entry>
+	    <entry>LANCER_7000_LASER_GUN</entry>
+	    <entry>JANITOR_MISSILE_ARRAY</entry>
+	    <entry>PASSENGER_MODULE</entry>
+	    <entry>CARGO_MODULE</entry>
+	    <entry>SD_TURBO</entry>
       </second>
     </entry>
     <entry>
-      <first>VEHICLETYPE_STORMDOG</first>
+      <first>STORMDOG</first>
       <second> 
-	    <entry>VEQUIPMENTTYPE_AIRGUARD_ANTI-AIR_CANNON</entry>
-	    <entry>VEQUIPMENTTYPE_METRO_ROADGRAV</entry>
+	    <entry>AIRGUARD_ANTI-AIR_CANNON</entry>
+	    <entry>METRO_ROADGRAV</entry>
       </second>
     </entry>
     <entry>
-      <first>VEHICLETYPE_PHOENIX_HOVERCAR</first>
+      <first>PHOENIX_HOVERCAR</first>
       <second> 
-	    <entry>VEQUIPMENTTYPE_BOLTER_4000_LASER_GUN</entry>
-	    <entry>VEQUIPMENTTYPE_JANITOR_MISSILE_ARRAY</entry>
-	    <entry>VEQUIPMENTTYPE_SD_SPORTS</entry>
+	    <entry>BOLTER_4000_LASER_GUN</entry>
+	    <entry>JANITOR_MISSILE_ARRAY</entry>
+	    <entry>SD_SPORTS</entry>
       </second>
     </entry>
     <entry>
-      <first>VEHICLETYPE_PHOENIX_HOVERCAR</first>
+      <first>PHOENIX_HOVERCAR</first>
       <second> 
-	    <entry>VEQUIPMENTTYPE_BOLTER_4000_LASER_GUN</entry>
-	    <entry>VEQUIPMENTTYPE_JANITOR_MISSILE_ARRAY</entry>
-	    <entry>VEQUIPMENTTYPE_SD_SPORTS</entry>
+	    <entry>BOLTER_4000_LASER_GUN</entry>
+	    <entry>JANITOR_MISSILE_ARRAY</entry>
+	    <entry>SD_SPORTS</entry>
       </second>
     </entry>
     <entry>
-      <first>VEHICLETYPE_WOLFHOUND_APC</first>
+      <first>WOLFHOUND_APC</first>
       <second> 
-	    <entry>VEQUIPMENTTYPE_CARGO_MODULE</entry>
-	    <entry>VEQUIPMENTTYPE_GLM_ARRAY</entry>
-	    <entry>VEQUIPMENTTYPE_METRO_POWERGRAV</entry>
+	    <entry>CARGO_MODULE</entry>
+	    <entry>GLM_ARRAY</entry>
+	    <entry>METRO_POWERGRAV</entry>
       </second>
     </entry>
   </initial_vehicles>
   <initial_vehicle_equipment>
     <entry>
-      <first>VEQUIPMENTTYPE_BOLTER_4000_LASER_GUN</first>
+      <first>BOLTER_4000_LASER_GUN</first>
       <second>2</second>
     </entry>
     <entry>
-      <first>VEQUIPMENTTYPE_LANCER_7000_LASER_GUN</first>
+      <first>LANCER_7000_LASER_GUN</first>
       <second>2</second>
     </entry>
   </initial_vehicle_equipment>
   <initial_vehicle_ammo>
     <entry>
-      <first>VEQUIPMENTAMMOTYPE_AIRGUARD_52MM_CANNON_ROUND</first>
+      <first>AIRGUARD_52MM_CANNON_ROUND</first>
       <second>500</second>
     </entry>
     <entry>
-      <first>VEQUIPMENTAMMOTYPE_GROUND_LAUNCHED_MISSILE</first>
+      <first>GROUND_LAUNCHED_MISSILE</first>
       <second>50</second>
     </entry>
     <entry>
-      <first>VEQUIPMENTAMMOTYPE_JANITOR_MISSILE</first>
+      <first>JANITOR_MISSILE</first>
       <second>150</second>
     </entry>
     <entry>
-      <first>VEQUIPMENTAMMOTYPE_ELERIUM_115</first>
+      <first>ELERIUM_115</first>
       <second>500</second>
     </entry>
     <entry>
-      <first>VEQUIPMENTAMMOTYPE_FUSION_POWERFUEL</first>
+      <first>FUSION_POWERFUEL</first>
       <second>1000</second>
     </entry>
   </initial_vehicle_ammo>

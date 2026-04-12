@@ -1025,7 +1025,7 @@ void CityTileView::update()
 
 	auto hour = state.gameTime.getHours();
 	// Always noon in alien dimension
-	if (state.current_city.id == "CITYMAP_ALIEN")
+	if (state.current_city.id == "ALIEN")
 	{
 		hour = 12;
 	}

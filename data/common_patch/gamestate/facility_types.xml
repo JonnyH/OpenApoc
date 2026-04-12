@@ -1,164 +1,164 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <facility_types>
   <entry>
-    <key>FACILITYTYPE_ACCESS_LIFT</key>
+    <key>ACCESS_LIFT</key>
     <value>
       <fixed>true</fixed>
-      <ufopaedia_entry>PAEDIAENTRY_ACCESS_LIFT</ufopaedia_entry>
+      <ufopaedia_entry>ACCESS_LIFT</ufopaedia_entry>
     </value>
   </entry>
   <entry>
-    <key>FACILITYTYPE_ADVANCED_ALIEN_CONTAINMENT</key>
+    <key>ADVANCED_ALIEN_CONTAINMENT</key>
     <value>
       <capacityType>Aliens</capacityType>
       <dependency>
         <type>Any</type>
         <topics>
-          <entry>RESEARCH_ADVANCED_ALIEN_CONTAINMENT</entry>
+          <entry>ADVANCED_ALIEN_CONTAINMENT</entry>
         </topics>
       </dependency>
-      <ufopaedia_entry>PAEDIAENTRY_ADVANCED_ALIEN_CONTAINMENT</ufopaedia_entry>
+      <ufopaedia_entry>ADVANCED_ALIEN_CONTAINMENT</ufopaedia_entry>
     </value>
   </entry>
   <entry>
-    <key>FACILITYTYPE_ADVANCED_BIOCHEMISTRY_LAB</key>
+    <key>ADVANCED_BIOCHEMISTRY_LAB</key>
     <value>
       <capacityType>Chemistry</capacityType>
       <dependency>
         <type>Any</type>
         <topics>
-          <entry>RESEARCH_ADVANCED_BIOCHEMISTRY_LAB</entry>
+          <entry>ADVANCED_BIOCHEMISTRY_LAB</entry>
         </topics>
       </dependency>
-      <ufopaedia_entry>PAEDIAENTRY_ADVANCED_BIOCHEMISTRY_LAB</ufopaedia_entry>
+      <ufopaedia_entry>ADVANCED_BIOCHEMISTRY_LAB</ufopaedia_entry>
     </value>
   </entry>
   <entry>
-    <key>FACILITYTYPE_ADVANCED_QUANTUM_PHYSICS_LAB</key>
+    <key>ADVANCED_QUANTUM_PHYSICS_LAB</key>
     <value>
       <capacityType>Physics</capacityType>
       <dependency>
         <type>Any</type>
         <topics>
-          <entry>RESEARCH_ADVANCED_QUANTUM_PHYSICS_LAB</entry>
+          <entry>ADVANCED_QUANTUM_PHYSICS_LAB</entry>
         </topics>
       </dependency>
-      <ufopaedia_entry>PAEDIAENTRY_ADVANCED_QUANTUM_PHYSICS_LAB</ufopaedia_entry>
+      <ufopaedia_entry>ADVANCED_QUANTUM_PHYSICS_LAB</ufopaedia_entry>
     </value>
   </entry>
   <entry>
-    <key>FACILITYTYPE_ADVANCED_SECURITY_STATION</key>
+    <key>ADVANCED_SECURITY_STATION</key>
     <value>
       <dependency>
         <type>Any</type>
         <topics>
-          <entry>RESEARCH_ADVANCED_SECURITY_STATION</entry>
+          <entry>ADVANCED_SECURITY_STATION</entry>
         </topics>
       </dependency>
-      <ufopaedia_entry>PAEDIAENTRY_ADVANCED_SECURITY_STATION</ufopaedia_entry>
+      <ufopaedia_entry>ADVANCED_SECURITY_STATION</ufopaedia_entry>
     </value>
   </entry>
   <entry>
-    <key>FACILITYTYPE_ADVANCED_WORKSHOP</key>
+    <key>ADVANCED_WORKSHOP</key>
     <value>
       <capacityType>Workshop</capacityType>
       <dependency>
         <type>Any</type>
         <topics>
-          <entry>RESEARCH_ADVANCED_WORKSHOP</entry>
+          <entry>ADVANCED_WORKSHOP</entry>
         </topics>
       </dependency>
-      <ufopaedia_entry>PAEDIAENTRY_ADVANCED_WORKSHOP</ufopaedia_entry>
+      <ufopaedia_entry>ADVANCED_WORKSHOP</ufopaedia_entry>
     </value>
   </entry>
   <entry>
-    <key>FACILITYTYPE_ALIEN_CONTAINMENT</key>
+    <key>ALIEN_CONTAINMENT</key>
     <value>
       <capacityType>Aliens</capacityType>
-      <ufopaedia_entry>PAEDIAENTRY_ALIEN_CONTAINMENT</ufopaedia_entry>
+      <ufopaedia_entry>ALIEN_CONTAINMENT</ufopaedia_entry>
     </value>
   </entry>
   <entry>
-    <key>FACILITYTYPE_BIOCHEMISTRY_LAB</key>
+    <key>BIOCHEMISTRY_LAB</key>
     <value>
       <capacityType>Chemistry</capacityType>
-      <ufopaedia_entry>PAEDIAENTRY_BIOCHEMISTRY_LAB</ufopaedia_entry>
+      <ufopaedia_entry>BIOCHEMISTRY_LAB</ufopaedia_entry>
     </value>
   </entry>
   <entry>
-    <key>FACILITYTYPE_CELLS</key>
+    <key>CELLS</key>
     <value>
       <capacityType>Aliens</capacityType>
       <dependency>
         <type>Any</type>
         <topics>
-          <entry>RESEARCH_UNLOCK_CELLS</entry>
+          <entry>UNLOCK_CELLS</entry>
         </topics>
       </dependency>
       <ufopaedia_entry/>
     </value>
   </entry>
   <entry>
-    <key>FACILITYTYPE_LIVING_QUARTERS</key>
+    <key>LIVING_QUARTERS</key>
     <value>
       <capacityType>Quarters</capacityType>
-      <ufopaedia_entry>PAEDIAENTRY_LIVING_QUARTERS</ufopaedia_entry>
+      <ufopaedia_entry>LIVING_QUARTERS</ufopaedia_entry>
     </value>
   </entry>
   <entry>
-    <key>FACILITYTYPE_MEDICAL_BAY</key>
+    <key>MEDICAL_BAY</key>
     <value>
       <capacityType>Medical</capacityType>
-      <ufopaedia_entry>PAEDIAENTRY_MEDICAL_BAY</ufopaedia_entry>
+      <ufopaedia_entry>MEDICAL_BAY</ufopaedia_entry>
     </value>
   </entry>
   <entry>
-    <key>FACILITYTYPE_PSI-GYM</key>
+    <key>PSI-GYM</key>
     <value>
       <capacityType>Psi</capacityType>
-      <ufopaedia_entry>PAEDIAENTRY_PSI-GYM</ufopaedia_entry>
+      <ufopaedia_entry>PSI-GYM</ufopaedia_entry>
     </value>
   </entry>
   <entry>
-    <key>FACILITYTYPE_QUANTUM_PHYSICS_LAB</key>
+    <key>QUANTUM_PHYSICS_LAB</key>
     <value>
       <capacityType>Physics</capacityType>
-      <ufopaedia_entry>PAEDIAENTRY_QUANTUM_PHYSICS_LAB</ufopaedia_entry>
+      <ufopaedia_entry>QUANTUM_PHYSICS_LAB</ufopaedia_entry>
     </value>
   </entry>
   <entry>
-    <key>FACILITYTYPE_SECURITY_STATION</key>
+    <key>SECURITY_STATION</key>
     <value>
-      <ufopaedia_entry>PAEDIAENTRY_SECURITY_STATION</ufopaedia_entry>
+      <ufopaedia_entry>SECURITY_STATION</ufopaedia_entry>
     </value>
   </entry>
   <entry>
-    <key>FACILITYTYPE_STORES</key>
+    <key>STORES</key>
     <value>
       <capacityType>Stores</capacityType>
-      <ufopaedia_entry>PAEDIAENTRY_STORES</ufopaedia_entry>
+      <ufopaedia_entry>STORES</ufopaedia_entry>
     </value>
   </entry>
   <entry>
-    <key>FACILITYTYPE_TRAINING_AREA</key>
+    <key>TRAINING_AREA</key>
     <value>
       <capacityType>Training</capacityType>
-      <ufopaedia_entry>PAEDIAENTRY_TRAINING_AREA</ufopaedia_entry>
+      <ufopaedia_entry>TRAINING_AREA</ufopaedia_entry>
     </value>
   </entry>
   <entry>
-    <key>FACILITYTYPE_VEHICLE_REPAIR_BAY</key>
+    <key>REPAIR_BAY</key>
     <value>
       <capacityType>Repair</capacityType>
       <capacityAmount>12</capacityAmount>
-      <ufopaedia_entry>PAEDIAENTRY_VEHICLE_REPAIR_BAY</ufopaedia_entry>
+      <ufopaedia_entry>REPAIR_BAY</ufopaedia_entry>
     </value>
   </entry>
   <entry>
-    <key>FACILITYTYPE_WORKSHOP</key>
+    <key>WORKSHOP</key>
     <value>
       <capacityType>Workshop</capacityType>
-      <ufopaedia_entry>PAEDIAENTRY_WORKSHOP</ufopaedia_entry>
+      <ufopaedia_entry>WORKSHOP</ufopaedia_entry>
     </value>
   </entry>
 </facility_types>

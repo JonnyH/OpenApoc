@@ -17,7 +17,7 @@ void InitialGameStateExtractor::extractResearch(GameState &state) const
 		auto r = mksp<ResearchTopic>();
 
 		r->name = data.research_names->get(i);
-		auto id = ResearchTopic::getPrefix() + canon_string(r->name);
+		auto id = canon_string(r->name);
 		r->description = data.research_descriptions->get(i);
 		r->ufopaedia_entry = "";
 		r->man_hours = rdata.skillHours;
@@ -59,8 +59,8 @@ void InitialGameStateExtractor::extractResearch(GameState &state) const
 
 			if (rdata.prereqTech[pre] != 0xffff)
 			{
-				auto prereqId = ResearchTopic::getPrefix() +
-				                canon_string(data.research_names->get(rdata.prereqTech[pre]));
+				auto prereqId =
+				    canon_string(data.research_names->get(rdata.prereqTech[pre]));
 				dependency.topics.emplace(StateRef<ResearchTopic>{&state, prereqId});
 			}
 		}
@@ -68,7 +68,7 @@ void InitialGameStateExtractor::extractResearch(GameState &state) const
 		r->dependencies.research.push_back(dependency);
 
 		/*ItemDependency itemdep;
-		itemdep.agentItemsRequired[{&state, "AEQUIPMENTTYPE_PSICLONE"}] = 1;
+		itemdep.agentItemsRequired[{&state, "PSICLONE"}] = 1;
 		r->dependencies.items.push_back(itemdep);*/
 
 		r->score = rdata.score;
@@ -83,7 +83,7 @@ void InitialGameStateExtractor::extractResearch(GameState &state) const
 // entries) making this more complex
 #if 0
 
-		auto ufopaediaEntryID = "PAEDIAENTRY_" + canon_string(r->name);
+		auto ufopaediaEntryID = canon_string(r->name);
 		auto ufopaediaCatID =
 		    "PAEDIACATEGORY_" + canon_string(data.ufopaedia_group->get(rdata.ufopaediaGroup));
 		auto paediaCat = state.ufopaedia[ufopaediaCatID];

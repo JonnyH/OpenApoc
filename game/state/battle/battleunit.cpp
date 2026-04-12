@@ -106,11 +106,6 @@ template <> sp<BattleUnit> StateObject<BattleUnit>::get(const GameState &state, 
 	return it->second;
 }
 
-template <> const UString &StateObject<BattleUnit>::getPrefix()
-{
-	static UString prefix = "BATTLEUNIT_";
-	return prefix;
-}
 template <> const UString &StateObject<BattleUnit>::getTypeName()
 {
 	static UString name = "BattleUnit";
@@ -2147,8 +2142,7 @@ void BattleUnit::updateStateAndStats(GameState &state, unsigned int ticks)
 			fireDebuffTicksAccumulated -= TICKS_PER_FIRE_EFFECT;
 
 			// Damage (power is irrelevant here)
-			applyDamage(state, 1, {&state, "DAMAGETYPE_INCENDIARY"}, BodyPart::Body,
-			            DamageSource::Debuff);
+			applyDamage(state, 1, {&state, "INCENDIARY"}, BodyPart::Body, DamageSource::Debuff);
 
 			// Finally, reduce debuff
 			fireDebuffTicksRemaining -= TICKS_PER_FIRE_EFFECT;
@@ -2913,7 +2907,7 @@ void BattleUnit::updateFallingIntoUnit(GameState &state, BattleUnit &unit)
 		{
 			if (position.z < unit.getMuzzleLocation().z)
 			{
-				StateRef<DamageType> brainsucker = {&state, "DAMAGETYPE_BRAINSUCKER"};
+				StateRef<DamageType> brainsucker = {&state, "BRAINSUCKER"};
 				if (!unit.brainSucker &&
 				    brainsucker->dealDamage(100, unit.agent->type->damage_modifier) == 0)
 				{
@@ -3812,7 +3806,7 @@ void BattleUnit::triggerBrainsuckers(GameState &state)
 		return;
 	}
 
-	StateRef<DamageType> brainsucker = {&state, "DAMAGETYPE_BRAINSUCKER"};
+	StateRef<DamageType> brainsucker = {&state, "BRAINSUCKER"};
 	if (brainsucker->dealDamage(100, agent->type->damage_modifier) == 0)
 		return;
 
@@ -3838,8 +3832,8 @@ void BattleUnit::triggerBrainsuckers(GameState &state)
 					fw().soundBackend->playSample(state.battle_common_sample_list->brainsuckerHatch,
 					                              position);
 				}
-				state.current_battle->spawnUnit(state, aliens, {&state, "AGENTTYPE_BRAINSUCKER"},
-				                                i->position, {0, 1}, BodyState::Throwing);
+				state.current_battle->spawnUnit(state, aliens, {&state, "BRAINSUCKER"}, i->position,
+				                                {0, 1}, BodyState::Throwing);
 				i->die(state, false);
 				state.current_battle->checkMissionEnd(state, false, true);
 			}
@@ -4096,7 +4090,7 @@ void BattleUnit::spawnEnzymeSmoke(GameState &state)
 	// FIXME: Ensure this is proper, for now just emulating vanilla crudely
 	// This makes smoke spawned by enzyme grow smaller when debuff runs out
 	int divisor = std::max(1, 36 / enzymeDebuffIntensity);
-	StateRef<DamageType> smokeDamageType = {&state, "DAMAGETYPE_SMOKE"};
+	StateRef<DamageType> smokeDamageType = {&state, "SMOKE"};
 	// Power of 0 means no spread
 	state.current_battle->placeHazard(state, owner, {&state, id}, smokeDamageType, position,
 	                                  smokeDamageType->hazardType->getLifetime(state), 0, divisor,
@@ -4996,7 +4990,7 @@ void BattleUnit::beginBodyStateChange(GameState &state, BodyState bodyState)
 
 bool BattleUnit::useBrainsucker(GameState &state)
 {
-	StateRef<DamageType> brainsucker = {&state, "DAMAGETYPE_BRAINSUCKER"};
+	StateRef<DamageType> brainsucker = {&state, "BRAINSUCKER"};
 	Vec3<int> targetPos = position;
 	// Fill target list
 	std::list<Vec3<int>> targetList;

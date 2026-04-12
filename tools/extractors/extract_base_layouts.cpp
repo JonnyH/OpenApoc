@@ -13,7 +13,7 @@ void InitialGameStateExtractor::extractBaseLayouts(GameState &state) const
 	auto &data = this->ufo2p;
 	for (unsigned i = 0; i < data.baselayouts->count(); i++)
 	{
-		UString id = format("{0}{1}", BaseLayout::getPrefix(), i);
+		UString id = format("{0}", i);
 		auto layout = mksp<BaseLayout>();
 		auto b = data.baselayouts->get(i);
 		bool foundLift = false;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ufo_mission_preference>
   <entry>
-    <key>UFO_MISSION_PREFERENCE_DEFAULT</key>
+    <key>DEFAULT</key>
     <value>
       <week>0</week>
       <missionList>
@@ -19,7 +19,7 @@
     </value>
   </entry>
   <entry>
-    <key>UFO_MISSION_PREFERENCE_1</key>
+    <key>1</key>
     <value>
       <week>1</week>
       <missionList>
@@ -28,7 +28,7 @@
     </value>
   </entry>
   <entry>
-    <key>UFO_MISSION_PREFERENCE_2</key>
+    <key>2</key>
     <value>
       <week>2</week>
       <missionList>
@@ -37,7 +37,7 @@
     </value>
   </entry>
   <entry>
-    <key>UFO_MISSION_PREFERENCE_3</key>
+    <key>3</key>
     <value>
       <week>3</week>
       <missionList>
@@ -46,7 +46,7 @@
     </value>
   </entry>
   <entry>
-    <key>UFO_MISSION_PREFERENCE_4</key>
+    <key>4</key>
     <value>
       <week>4</week>
       <missionList>
@@ -64,7 +64,7 @@
     </value>
   </entry>
   <entry>
-    <key>UFO_MISSION_PREFERENCE_5</key>
+    <key>5</key>
     <value>
       <week>5</week>
       <missionList>
@@ -82,7 +82,7 @@
     </value>
   </entry>
   <entry>
-    <key>UFO_MISSION_PREFERENCE_6</key>
+    <key>6</key>
     <value>
       <week>6</week>
       <missionList>
@@ -100,7 +100,7 @@
     </value>
   </entry>
   <entry>
-    <key>UFO_MISSION_PREFERENCE_7</key>
+    <key>7</key>
     <value>
       <week>7</week>
       <missionList>
@@ -118,7 +118,7 @@
     </value>
   </entry>
   <entry>
-    <key>UFO_MISSION_PREFERENCE_8</key>
+    <key>8</key>
     <value>
       <week>8</week>
       <missionList>
@@ -136,7 +136,7 @@
     </value>
   </entry>
   <entry>
-    <key>UFO_MISSION_PREFERENCE_9</key>
+    <key>9</key>
     <value>
       <week>9</week>
       <missionList>
@@ -149,7 +149,7 @@
     </value>
   </entry>
   <entry>
-    <key>UFO_MISSION_PREFERENCE_10</key>
+    <key>10</key>
     <value>
       <week>10</week>
       <missionList>
@@ -162,7 +162,7 @@
     </value>
   </entry>
   <entry>
-    <key>UFO_MISSION_PREFERENCE_11</key>
+    <key>11</key>
     <value>
       <week>11</week>
       <missionList>
@@ -175,7 +175,7 @@
     </value>
   </entry>
   <entry>
-    <key>UFO_MISSION_PREFERENCE_12</key>
+    <key>12</key>
     <value>
       <week>12</week>
       <missionList>
@@ -193,7 +193,7 @@
     </value>
   </entry>
   <entry>
-    <key>UFO_MISSION_PREFERENCE_14</key>
+    <key>14</key>
     <value>
       <week>14</week>
       <missionList>
@@ -211,7 +211,7 @@
     </value>
   </entry>
   <entry>
-    <key>UFO_MISSION_PREFERENCE_15</key>
+    <key>15</key>
     <value>
       <week>15</week>
       <missionList>
@@ -229,7 +229,7 @@
     </value>
   </entry>
  <entry>
-    <key>UFO_MISSION_PREFERENCE_16</key>
+    <key>16</key>
     <value>
       <week>16</week>
       <missionList>
@@ -247,7 +247,7 @@
     </value>
   </entry>
  <entry>
-    <key>UFO_MISSION_PREFERENCE_17</key>
+    <key>17</key>
     <value>
       <week>17</week>
       <missionList>
@@ -265,7 +265,7 @@
     </value>
   </entry>
  <entry>
-    <key>UFO_MISSION_PREFERENCE_18</key>
+    <key>18</key>
     <value>
       <week>18</week>
       <missionList>
@@ -283,7 +283,7 @@
     </value>
   </entry>
   <entry>
-    <key>UFO_MISSION_PREFERENCE_19</key>
+    <key>19</key>
     <value>
       <week>19</week>
       <missionList>

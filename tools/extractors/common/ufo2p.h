@@ -97,19 +97,19 @@ class UFO2P
 
 	UString getOrgId(int idx) const
 	{
-		return Organisation::getPrefix() + canon_string(this->organisation_names->get(idx));
+		return canon_string(this->organisation_names->get(idx));
 	}
 	UString getFacilityId(int idx) const
 	{
-		return FacilityType::getPrefix() + canon_string(this->facility_names->get(idx));
+		return canon_string(this->facility_names->get(idx));
 	}
 	UString getVequipmentId(int idx) const
 	{
-		return VEquipmentType::getPrefix() + canon_string(this->vehicle_equipment_names->get(idx));
+		return canon_string(this->vehicle_equipment_names->get(idx));
 	}
 	UString getVehicleId(int idx) const
 	{
-		return VehicleType::getPrefix() + canon_string(this->vehicle_names->get(idx));
+		return canon_string(this->vehicle_names->get(idx));
 	}
 
 	static void fillCrew(GameState &state, CrewData crew,

@@ -2472,7 +2472,7 @@ void BattleView::updateSquadIndex(StateRef<BattleUnit> u)
 
 void BattleView::debugVortex()
 {
-	auto vortex = StateRef<AEquipmentType>(state.get(), "AEQUIPMENTTYPE_VORTEX_MINE");
+	auto vortex = StateRef<AEquipmentType>(state.get(), "VORTEX_MINE");
 	state->current_battle->addExplosion(
 	    *state, selectedTilePosition, vortex->explosion_graphic, vortex->damage_type,
 	    vortex->damage, vortex->explosion_depletion_rate, state->current_battle->currentPlayer);
@@ -2480,7 +2480,7 @@ void BattleView::debugVortex()
 
 void BattleView::debugShot(Vec3<float> velocity)
 {
-	auto blaster = StateRef<AEquipmentType>(state.get(), "AEQUIPMENTTYPE_DEBUGGER_CANNON");
+	auto blaster = StateRef<AEquipmentType>(state.get(), "DEBUGGER_CANNON");
 	fw().soundBackend->playSample(blaster->fire_sfx, selectedTilePosition);
 	velocity *= blaster->speed * PROJECTILE_VELOCITY_MULTIPLIER;
 	Vec3<float> position = {0.5f, 0.5f, 0.5f};
@@ -2837,7 +2837,7 @@ void BattleView::orderTeleport(Vec3<int> target, bool right)
 	{
 		LogWarning("Using teleporter cheat!");
 		item = mksp<AEquipment>();
-		UString tp = "AEQUIPMENTTYPE_PERSONAL_TELEPORTER";
+		UString tp = "PERSONAL_TELEPORTER";
 		item->type = {&*state, tp};
 		item->ammo = item->type->max_ammo;
 	}

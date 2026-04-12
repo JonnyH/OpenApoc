@@ -3,17 +3,17 @@ local GS = OpenApoc.GameState
 
 function updateUfoGrowth()
 	local week = GS.gameTime:getWeek()
-	local ufo_growth = {id = 'UFO_GROWTH_' .. tostring(week)}
+	local ufo_growth = {id = tostring(week)}
 	ufo_growth.object = GS.ufo_growth_lists[ufo_growth.id]
 	if not ufo_growth.object then
-		ufo_growth.id = 'UFO_GROWTH_DEFAULT'
+		ufo_growth.id = 'DEFAULT'
 		ufo_growth.object = GS.ufo_growth_lists[ufo_growth.id]
 	end
-	local limit = {id = 'UFO_GROWTH_LIMIT'}
+	local limit = {id = 'LIMIT'}
 	limit.object = GS.ufo_growth_lists[limit.id]
 
 	if ufo_growth.object then
-		local city = {id = 'CITYMAP_ALIEN'}
+		local city = {id = 'ALIEN'}
 		city.object = GS.cities[city.id]
 
 		--set a list of limits for vehicle types
@@ -24,7 +24,7 @@ function updateUfoGrowth()
 		end
 		--substract existing vehicles
 		for vehicle_id, vehicle_object in pairs(GS.vehicles) do
-			if vehicle_object.owner == 'ORG_ALIEN' and vehicle_object.city == 'CITYMAP_ALIEN' then
+			if vehicle_object.owner == 'ALIEN' and vehicle_object.city == 'ALIEN' then
 				vehicleLimits[vehicle_object.type.id] = (vehicleLimits[vehicle_object.type.id] or 0) - 1
 			end
 		end
@@ -39,7 +39,7 @@ function updateUfoGrowth()
 						y = GS.rng:randBoundsExclusive(20, 120),
 						z = city.object.size.z-1
 					}
-					city.object:placeVehicleAtPosition(vt.first, 'ORG_ALIEN', pos)
+					city.object:placeVehicleAtPosition(vt.first, 'ALIEN', pos)
 				end
 			end
 		end

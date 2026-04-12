@@ -105,7 +105,7 @@ void InitialGameStateExtractor::extractAlienEquipmentSets(GameState &state,
 		{
 			auto es = mksp<EquipmentSet>();
 
-			UString id = format("{0}ALIEN_{1}", EquipmentSet::getPrefix(), (int)i + 1);
+			UString id = format("ALIEN_{0}", (int)i + 1);
 			es->id = id;
 			es->type = EquipmentSet::Type::Alien;
 
@@ -116,28 +116,24 @@ void InitialGameStateExtractor::extractAlienEquipmentSets(GameState &state,
 					if (data.weapons[j][i].clip_idx > 0)
 					{
 						es->weapons.push_back(
-						    {{&state, format("{0}{1}", AEquipmentType::getPrefix(),
-						                     canon_string(data_u.agent_equipment_names->get(
-						                         data.weapons[j][i].weapon_idx)))},
-						     {&state, format("{0}{1}", AEquipmentType::getPrefix(),
-						                     canon_string(data_u.agent_equipment_names->get(
-						                         data.weapons[j][i].clip_idx)))},
+						    {{&state, canon_string(data_u.agent_equipment_names->get(
+						                         data.weapons[j][i].weapon_idx))},
+						     {&state, canon_string(data_u.agent_equipment_names->get(
+						                         data.weapons[j][i].clip_idx))},
 						     std::max((int)data.weapons[j][i].clip_amount, 1)});
 					}
 					else
 					{
 						es->weapons.push_back(
-						    {{&state, format("{0}{1}", AEquipmentType::getPrefix(),
-						                     canon_string(data_u.agent_equipment_names->get(
-						                         data.weapons[j][i].weapon_idx)))}});
+						    {{&state, canon_string(data_u.agent_equipment_names->get(
+						                         data.weapons[j][i].weapon_idx))}});
 					}
 				}
 				if (data.grenades[j][i].grenade_idx > 0 && data.grenades[j][i].grenade_amount > 0)
 				{
 					es->grenades.push_back(
-					    {{&state, format("{0}{1}", AEquipmentType::getPrefix(),
-					                     canon_string(data_u.agent_equipment_names->get(
-					                         data.grenades[j][i].grenade_idx)))},
+					    {{&state, canon_string(data_u.agent_equipment_names->get(
+					                         data.grenades[j][i].grenade_idx))},
 					     data.grenades[j][i].grenade_amount});
 				}
 				if (data.equipment[j][i][0] > 0 || data.equipment[j][i][1] > 0)
@@ -145,26 +141,22 @@ void InitialGameStateExtractor::extractAlienEquipmentSets(GameState &state,
 					if (data.equipment[j][i][0] > 0 && data.equipment[j][i][1] > 0)
 					{
 						es->equipment.push_back(
-						    {{&state, format("{0}{1}", AEquipmentType::getPrefix(),
-						                     canon_string(data_u.agent_equipment_names->get(
-						                         data.equipment[j][i][0])))},
-						     {&state, format("{0}{1}", AEquipmentType::getPrefix(),
-						                     canon_string(data_u.agent_equipment_names->get(
-						                         data.equipment[j][i][1])))}});
+						    {{&state, canon_string(data_u.agent_equipment_names->get(
+						                         data.equipment[j][i][0]))},
+						     {&state, canon_string(data_u.agent_equipment_names->get(
+						                         data.equipment[j][i][1]))}});
 					}
 					else if (data.equipment[j][i][0] > 0)
 					{
 						es->equipment.push_back(
-						    {{&state, format("{0}{1}", AEquipmentType::getPrefix(),
-						                     canon_string(data_u.agent_equipment_names->get(
-						                         data.equipment[j][i][0])))}});
+						    {{&state, canon_string(data_u.agent_equipment_names->get(
+						                         data.equipment[j][i][0]))}});
 					}
 					else
 					{
 						es->equipment.push_back(
-						    {{&state, format("{0}{1}", AEquipmentType::getPrefix(),
-						                     canon_string(data_u.agent_equipment_names->get(
-						                         data.equipment[j][i][1])))}});
+						    {{&state, canon_string(data_u.agent_equipment_names->get(
+						                         data.equipment[j][i][1]))}});
 					}
 				}
 			}
@@ -239,34 +231,34 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 
 	// Hazards
 	{
-		UString id = format("{0}{1}", HazardType::getPrefix(), "STUN_GAS");
+		UString id = "STUN_GAS";
 		auto h = mksp<HazardType>();
-		h->doodadType = {&state, "DOODAD_20_STUN_GAS"};
+		h->doodadType = {&state, "20_STUN_GAS"};
 		h->minLifetime = 1;
 		h->maxLifetime = 3;
 		state.hazard_types[id] = h;
 	}
 	{
-		UString id = format("{0}{1}", HazardType::getPrefix(), "ALIEN_GAS");
+		UString id = "ALIEN_GAS";
 		auto h = mksp<HazardType>();
-		h->doodadType = {&state, "DOODAD_19_ALIEN_GAS"};
+		h->doodadType = {&state, "19_ALIEN_GAS"};
 		// FIXME: Confirm these values
 		h->minLifetime = 1;
 		h->maxLifetime = 3;
 		state.hazard_types[id] = h;
 	}
 	{
-		UString id = format("{0}{1}", HazardType::getPrefix(), "SMOKE");
+		UString id = "SMOKE";
 		auto h = mksp<HazardType>();
-		h->doodadType = {&state, "DOODAD_18_SMOKE"};
+		h->doodadType = {&state, "18_SMOKE"};
 		h->minLifetime = 12;
 		h->maxLifetime = 24;
 		state.hazard_types[id] = h;
 	}
 	{
-		UString id = format("{0}{1}", HazardType::getPrefix(), "FIRE");
+		UString id = "FIRE";
 		auto h = mksp<HazardType>();
-		h->doodadType = {&state, "DOODAD_17_FIRE"};
+		h->doodadType = {&state, "17_FIRE"};
 		// Fire has a starting deviation of 0 to 2, fire's ttl works in a completely different way
 		h->minLifetime = 0;
 		h->maxLifetime = 1;
@@ -303,28 +295,28 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 				d->explosive = true;
 				d->blockType = DamageType::BlockType::Gas;
 				d->effectType = DamageType::EffectType::Smoke;
-				d->explosionDoodad = {&state, "DOODAD_18_SMOKE"};
-				d->hazardType = {&state, "HAZARD_SMOKE"};
+				d->explosionDoodad = {&state, "18_SMOKE"};
+				d->hazardType = {&state, "SMOKE"};
 				break;
 			case DT_AG:
 				d->explosive = true;
 				d->blockType = DamageType::BlockType::Gas;
-				d->explosionDoodad = {&state, "DOODAD_19_ALIEN_GAS"};
-				d->hazardType = {&state, "HAZARD_ALIEN_GAS"};
+				d->explosionDoodad = {&state, "19_ALIEN_GAS"};
+				d->hazardType = {&state, "ALIEN_GAS"};
 				d->non_violent = true;
 				break;
 			case DT_INCENDARY:
 				d->explosive = true;
 				d->effectType = DamageType::EffectType::Fire;
 				// uses default explosion doodad
-				d->hazardType = {&state, "HAZARD_FIRE"};
+				d->hazardType = {&state, "FIRE"};
 				break;
 			case DT_STUNGAS:
 				d->explosive = true;
 				d->blockType = DamageType::BlockType::Gas;
 				d->effectType = DamageType::EffectType::Stun;
-				d->explosionDoodad = {&state, "DOODAD_20_STUN_GAS"};
-				d->hazardType = {&state, "HAZARD_STUN_GAS"};
+				d->explosionDoodad = {&state, "20_STUN_GAS"};
+				d->hazardType = {&state, "STUN_GAS"};
 				break;
 			case DT_EXPLOSIVE:
 			case DT_EXPLOSIVE2:
@@ -355,23 +347,23 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 
 	// Explosion sounds for damage types
 	{
-		state.damage_types["DAMAGETYPE_ANTI-ALIEN_GAS"]->explosionSounds.push_back(
+		state.damage_types["ANTI-ALIEN_GAS"]->explosionSounds.push_back(
 		    fw().data->loadSample("RAWSOUND:xcom3/rawsound/tactical/explosns/gasexpls.raw:22050"));
-		state.damage_types["DAMAGETYPE_EXPLOSIVE"]->explosionSounds.push_back(
+		state.damage_types["EXPLOSIVE"]->explosionSounds.push_back(
 		    fw().data->loadSample("RAWSOUND:xcom3/rawsound/tactical/explosns/explosn1.raw:22050"));
-		state.damage_types["DAMAGETYPE_EXPLOSIVE"]->explosionSounds.push_back(
+		state.damage_types["EXPLOSIVE"]->explosionSounds.push_back(
 		    fw().data->loadSample("RAWSOUND:xcom3/rawsound/tactical/explosns/explosn2.raw:22050"));
-		state.damage_types["DAMAGETYPE_EXPLOSIVE_1"]->explosionSounds.push_back(
+		state.damage_types["EXPLOSIVE_1"]->explosionSounds.push_back(
 		    fw().data->loadSample("RAWSOUND:xcom3/rawsound/tactical/explosns/explosn1.raw:22050"));
-		state.damage_types["DAMAGETYPE_EXPLOSIVE_1"]->explosionSounds.push_back(
+		state.damage_types["EXPLOSIVE_1"]->explosionSounds.push_back(
 		    fw().data->loadSample("RAWSOUND:xcom3/rawsound/tactical/explosns/explosn2.raw:22050"));
-		state.damage_types["DAMAGETYPE_INCENDIARY"]->explosionSounds.push_back(
+		state.damage_types["INCENDIARY"]->explosionSounds.push_back(
 		    fw().data->loadSample("RAWSOUND:xcom3/rawsound/tactical/explosns/firexpls.raw:22050"));
-		state.damage_types["DAMAGETYPE_PSIONIC_BLAST"]->explosionSounds.push_back(
+		state.damage_types["PSIONIC_BLAST"]->explosionSounds.push_back(
 		    fw().data->loadSample("RAWSOUND:xcom3/rawsound/tactical/explosns/psigrnad.raw:22050"));
-		state.damage_types["DAMAGETYPE_SMOKE"]->explosionSounds.push_back(
+		state.damage_types["SMOKE"]->explosionSounds.push_back(
 		    fw().data->loadSample("RAWSOUND:xcom3/rawsound/tactical/explosns/gasexpls.raw:22050"));
-		state.damage_types["DAMAGETYPE_STUN_GAS"]->explosionSounds.push_back(
+		state.damage_types["STUN_GAS"]->explosionSounds.push_back(
 		    fw().data->loadSample("RAWSOUND:xcom3/rawsound/tactical/explosns/gasexpls.raw:22050"));
 	}
 
@@ -406,7 +398,7 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 		auto edata = data_t.agent_equipment->get(i);
 
 		e->name = data_u.agent_equipment_names->get(i);
-		UString id = format("{0}{1}", AEquipmentType::getPrefix(), canon_string(e->name));
+		UString id = canon_string(e->name);
 
 		e->id = id;
 
@@ -436,54 +428,54 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 		switch (edata.sprite_idx)
 		{
 			case IT_DISRUPTOR:
-				e->research_dependency.topics.emplace(&state, "RESEARCH_DISRUPTOR_GUN");
+				e->research_dependency.topics.emplace(&state, "DISRUPTOR_GUN");
 				break;
 			case IT_DEVASTATOR:
-				e->research_dependency.topics.emplace(&state, "RESEARCH_DEVASTATOR_CANNON");
+				e->research_dependency.topics.emplace(&state, "DEVASTATOR_CANNON");
 				break;
 			case IT_BOOMEROID:
-				e->research_dependency.topics.emplace(&state, "RESEARCH_BOOMEROID");
+				e->research_dependency.topics.emplace(&state, "BOOMEROID");
 				break;
 			case IT_BRAINSUCKERLAUNCHER:
-				e->research_dependency.topics.emplace(&state, "RESEARCH_BRAINSUCKER_LAUNCHER");
-				e->research_dependency.topics.emplace(&state, "RESEARCH_BRAINSUCKER_PODS");
+				e->research_dependency.topics.emplace(&state, "BRAINSUCKER_LAUNCHER");
+				e->research_dependency.topics.emplace(&state, "BRAINSUCKER_PODS");
 				break;
 			case IT_BRAINSUCKERPOD:
 				e->bioStorage = true;
-				e->bioRemains = {&state, "AEQUIPMENTTYPE_BRAINSUCKER_ALIVE"};
+				e->bioRemains = {&state, "BRAINSUCKER_ALIVE"};
 				e->store_space = 1;
-				e->research_dependency.topics.emplace(&state, "RESEARCH_BRAINSUCKER_LAUNCHER");
-				e->research_dependency.topics.emplace(&state, "RESEARCH_BRAINSUCKER_PODS");
+				e->research_dependency.topics.emplace(&state, "BRAINSUCKER_LAUNCHER");
+				e->research_dependency.topics.emplace(&state, "BRAINSUCKER_PODS");
 				break;
 			case IT_ENTROPYLAUNCHER:
-				e->research_dependency.topics.emplace(&state, "RESEARCH_ENTROPY_LAUNCHER");
-				e->research_dependency.topics.emplace(&state, "RESEARCH_ENTROPY_POD");
+				e->research_dependency.topics.emplace(&state, "ENTROPY_LAUNCHER");
+				e->research_dependency.topics.emplace(&state, "ENTROPY_POD");
 				break;
 			case IT_DIMENSIONLAUNCHER:
 				e->research_dependency.topics.emplace(&state,
-				                                      "RESEARCH_DIMENSION_MISSILE_LAUNCHER");
-				e->research_dependency.topics.emplace(&state, "RESEARCH_DIMENSION_MISSILE");
+				                                      "DIMENSION_MISSILE_LAUNCHER");
+				e->research_dependency.topics.emplace(&state, "DIMENSION_MISSILE");
 				break;
 			case IT_DIMENSIONMISSILE:
 				e->research_dependency.topics.emplace(&state,
-				                                      "RESEARCH_DIMENSION_MISSILE_LAUNCHER");
-				e->research_dependency.topics.emplace(&state, "RESEARCH_DIMENSION_MISSILE");
+				                                      "DIMENSION_MISSILE_LAUNCHER");
+				e->research_dependency.topics.emplace(&state, "DIMENSION_MISSILE");
 				break;
 			case IT_VORTEX:
-				e->research_dependency.topics.emplace(&state, "RESEARCH_VORTEX_MINE");
+				e->research_dependency.topics.emplace(&state, "VORTEX_MINE");
 				break;
 			case IT_PERSHIELD:
-				e->research_dependency.topics.emplace(&state, "RESEARCH_PERSONAL_DISRUPTOR_SHIELD");
+				e->research_dependency.topics.emplace(&state, "PERSONAL_DISRUPTOR_SHIELD");
 				break;
 			case IT_PERTELEPORT:
-				e->research_dependency.topics.emplace(&state, "RESEARCH_PERSONAL_TELEPORTER");
+				e->research_dependency.topics.emplace(&state, "PERSONAL_TELEPORTER");
 				break;
 			case IT_PERCLOAK:
-				e->research_dependency.topics.emplace(&state, "RESEARCH_PERSONAL_CLOAKING_FIELD");
+				e->research_dependency.topics.emplace(&state, "PERSONAL_CLOAKING_FIELD");
 				break;
 			case IT_ENTROPYPOD:
-				e->research_dependency.topics.emplace(&state, "RESEARCH_ENTROPY_LAUNCHER");
-				e->research_dependency.topics.emplace(&state, "RESEARCH_ENTROPY_POD");
+				e->research_dependency.topics.emplace(&state, "ENTROPY_LAUNCHER");
+				e->research_dependency.topics.emplace(&state, "ENTROPY_POD");
 				break;
 		}
 
@@ -560,7 +552,7 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 						break;
 				}
 				e->body_image_pack = {&state,
-				                      format("{0}{1}{2}{3}", BattleUnitImagePack::getPrefix(),
+				                      format("{0}{1}{2}",
 				                             "xcom", armoredUnitPicIndex, bodyPartLetter)};
 				// Body sprites are stored in armour.pck file, in head-left-body-right-legs order
 				// Since armor damage modifier values start with 17, we can subtract that to get
@@ -684,7 +676,7 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 						e->max_ammo = 100;
 						e->recharge = 1;
 						e->rechargeTB = 12;
-						e->shield_graphic = {&state, "DOODAD_27_SHIELD"};
+						e->shield_graphic = {&state, "27_SHIELD"};
 						break;
 					case AGENT_GENERAL_TYPE_TELEPORTER:
 						e->type = AEquipmentType::Type::Teleporter;
@@ -733,8 +725,7 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 		// are identical
 		// There is a total 60 of them
 		int held_sprite_index = std::min((int)edata.sprite_idx, (int)heldSpriteCount - 1);
-		e->held_image_pack = {&state, format("{0}{1}{2}", BattleUnitImagePack::getPrefix(), "item",
-		                                     held_sprite_index)};
+		e->held_image_pack = {&state, format("{0}{1}", "item", held_sprite_index)};
 
 		e->equipscreen_sprite = fw().data->loadImage(format(
 		    "PCK:xcom3/ufodata/pequip.pck:xcom3/ufodata/pequip.tab:{0}:xcom3/tacdata/tactical.pal",
@@ -779,28 +770,28 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 			switch (pdata.explosion_graphic)
 			{
 				case TAC_DOODAD_21: // tac 115 - 125
-					doodad_id = "DOODAD_21_AP";
+					doodad_id = "21_AP";
 					break;
 				case TAC_DOODAD_22: // tac 126 - 136
-					doodad_id = "DOODAD_22_LASER";
+					doodad_id = "22_LASER";
 					break;
 				case TAC_DOODAD_23: // tac 137 - 147
-					doodad_id = "DOODAD_23_PLASMA";
+					doodad_id = "23_PLASMA";
 					break;
 				case TAC_DOODAD_24: // tac 148 - 158
-					doodad_id = "DOODAD_24_DISRUPTOR";
+					doodad_id = "24_DISRUPTOR";
 					break;
 				case TAC_DOODAD_25: // tac 159 - 169
-					doodad_id = "DOODAD_25_DEVASTATOR";
+					doodad_id = "25_DEVASTATOR";
 					break;
 				case TAC_DOODAD_26: // tac 170 - 180
-					doodad_id = "DOODAD_26_STUN";
+					doodad_id = "26_STUN";
 					break;
 				case TAC_DOODAD_27: // tac 181 - 185 shield
-					doodad_id = "DOODAD_27_SHIELD";
+					doodad_id = "27_SHIELD";
 					break;
 				case TAC_DOODAD_28: // tac 186 - 192
-					doodad_id = "DOODAD_28_ENZYME";
+					doodad_id = "28_ENZYME";
 					break;
 			}
 			if (doodad_id != "")
@@ -972,16 +963,16 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 				                                      ".raw:22050");
 			}
 
-			if (id == "AEQUIPMENTTYPE_ENTROPY_POD")
+			if (id == "ENTROPY_POD")
 			{
 				// Change entropy pod's damage type to the one that applies debuff
-				e->damage_type = {&state, "DAMAGETYPE_ENTROPY_ENZYME_SPECIAL"};
+				e->damage_type = {&state, "ENTROPY_ENZYME_SPECIAL"};
 			}
 			else
 			{
 				e->damage_type = {&state, data_t.getDTypeId(pdata.damage_type)};
 			}
-			if (id == "AEQUIPMENTTYPE_BRAINSUCKER_POD")
+			if (id == "BRAINSUCKER_POD")
 			{
 				e->trigger_type = TriggerType::Proximity;
 			}
@@ -1049,7 +1040,7 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 		{
 			auto es = mksp<EquipmentSet>();
 
-			UString id = format("{0}HUMAN_{1}", EquipmentSet::getPrefix(), (int)i + 1);
+			UString id = format("HUMAN_{0}", (int)i + 1);
 			es->id = id;
 			es->type = EquipmentSet::Type::Human;
 
@@ -1060,28 +1051,24 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 					if (data.weapons[j][i].clip_idx > 0)
 					{
 						es->weapons.push_back(
-						    {{&state, format("{0}{1}", AEquipmentType::getPrefix(),
-						                     canon_string(data_u.agent_equipment_names->get(
-						                         data.weapons[j][i].weapon_idx)))},
-						     {&state, format("{0}{1}", AEquipmentType::getPrefix(),
-						                     canon_string(data_u.agent_equipment_names->get(
-						                         data.weapons[j][i].clip_idx)))},
+						    {{&state, canon_string(data_u.agent_equipment_names->get(
+						                         data.weapons[j][i].weapon_idx))},
+						     {&state, canon_string(data_u.agent_equipment_names->get(
+						                         data.weapons[j][i].clip_idx))},
 						     std::max((int)data.weapons[j][i].clip_amount, 1)});
 					}
 					else
 					{
 						es->weapons.push_back(
-						    {{&state, format("{0}{1}", AEquipmentType::getPrefix(),
-						                     canon_string(data_u.agent_equipment_names->get(
-						                         data.weapons[j][i].weapon_idx)))}});
+						    {{&state, canon_string(data_u.agent_equipment_names->get(
+						                         data.weapons[j][i].weapon_idx))}});
 					}
 				}
 				if (data.grenades[j][i].grenade_idx > 0 && data.grenades[j][i].grenade_amount > 0)
 				{
 					es->grenades.push_back(
-					    {{&state, format("{0}{1}", AEquipmentType::getPrefix(),
-					                     canon_string(data_u.agent_equipment_names->get(
-					                         data.grenades[j][i].grenade_idx)))},
+					    {{&state, canon_string(data_u.agent_equipment_names->get(
+					                         data.grenades[j][i].grenade_idx))},
 					     data.grenades[j][i].grenade_amount});
 				}
 				if (data.equipment[j][i][0] > 0 || data.equipment[j][i][1] > 0)
@@ -1089,26 +1076,22 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 					if (data.equipment[j][i][0] > 0 && data.equipment[j][i][1] > 0)
 					{
 						es->equipment.push_back(
-						    {{&state, format("{0}{1}", AEquipmentType::getPrefix(),
-						                     canon_string(data_u.agent_equipment_names->get(
-						                         data.equipment[j][i][0])))},
-						     {&state, format("{0}{1}", AEquipmentType::getPrefix(),
-						                     canon_string(data_u.agent_equipment_names->get(
-						                         data.equipment[j][i][1])))}});
+						    {{&state, canon_string(data_u.agent_equipment_names->get(
+						                         data.equipment[j][i][0]))},
+						     {&state, canon_string(data_u.agent_equipment_names->get(
+						                         data.equipment[j][i][1]))}});
 					}
 					else if (data.equipment[j][i][0] > 0)
 					{
 						es->equipment.push_back(
-						    {{&state, format("{0}{1}", AEquipmentType::getPrefix(),
-						                     canon_string(data_u.agent_equipment_names->get(
-						                         data.equipment[j][i][0])))}});
+						    {{&state, canon_string(data_u.agent_equipment_names->get(
+						                         data.equipment[j][i][0]))}});
 					}
 					else
 					{
 						es->equipment.push_back(
-						    {{&state, format("{0}{1}", AEquipmentType::getPrefix(),
-						                     canon_string(data_u.agent_equipment_names->get(
-						                         data.equipment[j][i][1])))}});
+						    {{&state, canon_string(data_u.agent_equipment_names->get(
+						                         data.equipment[j][i][1]))}});
 					}
 				}
 			}

@@ -155,13 +155,13 @@ void InfiltrationScreen::updateOrgs()
 {
 	// OG organisation order
 	std::vector<std::string> organisationOrder = {
-	    "ORG_GOVERNMENT",    "ORG_MEGAPOL",          "ORG_CULT_OF_SIRIUS",  "ORG_MARSEC",
-	    "ORG_SUPERDYNAMICS", "ORG_GENERAL_METRO",    "ORG_CYBERWEB",        "ORG_TRANSTELLAR",
-	    "ORG_SOLMINE",       "ORG_SENSOVISION",      "ORG_LIFETREE",        "ORG_NUTRIVEND",
-	    "ORG_EVONET",        "ORG_SANCTUARY_CLINIC", "ORG_NANOTECH",        "ORG_ENERGEN",
-	    "ORG_SYNTHEMESH",    "ORG_GRAVBALL_LEAGUE",  "ORG_PSYKE",           "ORG_DIABLO",
-	    "ORG_OSIRON",        "ORG_S_E_L_F_",         "ORG_MUTANT_ALLIANCE", "ORG_EXTROPIANS",
-	    "ORG_TECHNOCRATS",
+	    "GOVERNMENT",    "MEGAPOL",          "CULT_OF_SIRIUS",  "MARSEC",
+	    "SUPERDYNAMICS", "GENERAL_METRO",    "CYBERWEB",        "TRANSTELLAR",
+	    "SOLMINE",       "SENSOVISION",      "LIFETREE",        "NUTRIVEND",
+	    "EVONET",        "SANCTUARY_CLINIC", "NANOTECH",        "ENERGEN",
+	    "SYNTHEMESH",    "GRAVBALL_LEAGUE",  "PSYKE",           "DIABLO",
+	    "OSIRON",        "S_E_L_F_",         "MUTANT_ALLIANCE", "EXTROPIANS",
+	    "TECHNOCRATS",
 	};
 
 	// Populate orgs
@@ -241,7 +241,7 @@ void InfiltrationScreen::reset_shown_orgs()
 
 	for (const auto &org : state->organisations)
 	{
-		if (org.second->id == "ORG_ALIEN" || org.second->id == "ORG_X-COM")
+		if (org.second->id == "ALIEN" || org.second->id == "X-COM")
 			continue;
 		if (org.second->infiltrationValue == 0 || org.second->infiltrationValue == 200)
 			continue;

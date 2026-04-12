@@ -30,11 +30,6 @@ sp<BuildingFunction> StateObject<BuildingFunction>::get(const GameState &state, 
 	return it->second;
 }
 
-template <> const UString &StateObject<BuildingFunction>::getPrefix()
-{
-	static const UString prefix = "BUILDINGFUNCTION_";
-	return prefix;
-}
 template <> const UString &StateObject<BuildingFunction>::getTypeName()
 {
 	static const UString name = "BuildingFunction";
@@ -52,11 +47,6 @@ template <> sp<Building> StateObject<Building>::get(const GameState &state, cons
 	return it->second;
 }
 
-template <> const UString &StateObject<Building>::getPrefix()
-{
-	static UString prefix = "BUILDING_";
-	return prefix;
-}
 template <> const UString &StateObject<Building>::getTypeName()
 {
 	static UString name = "Building";

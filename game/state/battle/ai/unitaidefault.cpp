@@ -66,7 +66,7 @@ std::tuple<AIDecision, bool> UnitAIDefault::think(GameState &state, BattleUnit &
 	}
 
 	// Autoattack or turn towards enemy
-	StateRef<DamageType> brainsucker = {&state, "DAMAGETYPE_BRAINSUCKER"};
+	StateRef<DamageType> brainsucker = {&state, "BRAINSUCKER"};
 	if (!state.current_battle->visibleEnemies[u.owner].empty())
 	{
 		// Brainsucker autoattack

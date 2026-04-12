@@ -58,11 +58,6 @@ template <> sp<VehicleType> StateObject<VehicleType>::get(const GameState &state
 	return it->second;
 }
 
-template <> const UString &StateObject<VehicleType>::getPrefix()
-{
-	static UString prefix = "VEHICLETYPE_";
-	return prefix;
-}
 template <> const UString &StateObject<VehicleType>::getTypeName()
 {
 	static UString name = "VehicleType";

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <agent_body_types>
   <entry>
-    <key>AGENTBODYTYPE_BASE_TURRET</key>
+    <key>TURRET</key>
     <value>
       <allowed_body_states>
         <entry>Standing</entry>

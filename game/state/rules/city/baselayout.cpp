@@ -15,11 +15,6 @@ template <> sp<BaseLayout> StateObject<BaseLayout>::get(const GameState &state, 
 	return it->second;
 }
 
-template <> const UString &StateObject<BaseLayout>::getPrefix()
-{
-	static UString prefix = "BASELAYOUT_";
-	return prefix;
-}
 template <> const UString &StateObject<BaseLayout>::getTypeName()
 {
 	static UString name = "BaseLayout";

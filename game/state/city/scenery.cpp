@@ -1256,8 +1256,7 @@ void Scenery::die(GameState &state, bool forced)
 	{
 		// Spawn explosion doodad at us
 		{
-			auto doodad =
-			    city->placeDoodad({&state, "DOODAD_3_EXPLOSION"}, tileObject->getCenter());
+			auto doodad = city->placeDoodad({&state, "3_EXPLOSION"}, tileObject->getCenter());
 			fw().soundBackend->playSample(state.city_common_sample_list->sceneryExplosion,
 			                              tileObject->getCenter());
 		}
@@ -1296,7 +1295,7 @@ void Scenery::die(GameState &state, bool forced)
 							{
 								auto doodad =
 								    std::static_pointer_cast<TileObjectDoodad>(obj)->getOwner();
-								if (doodad->type.id == "DOODAD_5_SMOKE_EXPLOSION")
+								if (doodad->type.id == "5_SMOKE_EXPLOSION")
 								{
 									spawnBlocked = true;
 								}
@@ -1324,8 +1323,7 @@ void Scenery::die(GameState &state, bool forced)
 					}
 					if (!spawnBlocked)
 					{
-						auto doodad =
-						    city->placeDoodad({&state, "DOODAD_5_SMOKE_EXPLOSION"}, doodadPos);
+						auto doodad = city->placeDoodad({&state, "5_SMOKE_EXPLOSION"}, doodadPos);
 					}
 				}
 			}
@@ -1371,8 +1369,7 @@ void Scenery::die(GameState &state, bool forced)
 		}
 		else
 		{
-			auto doodad =
-			    city->placeDoodad({&state, "DOODAD_3_EXPLOSION"}, tileObject->getCenter());
+			auto doodad = city->placeDoodad({&state, "3_EXPLOSION"}, tileObject->getCenter());
 			fw().soundBackend->playSample(state.city_common_sample_list->vehicleExplosion,
 			                              tileObject->getCenter());
 
@@ -1600,7 +1597,7 @@ void Scenery::updateFalling(GameState &state, unsigned int ticks)
 
 		// Spawn smoke, more intense if we land here
 		{
-			/*StateRef<DamageType> dtSmoke = { &state, "DAMAGETYPE_SMOKE" };
+			/*StateRef<DamageType> dtSmoke = { &state, "SMOKE" };
 			auto hazard = state.current_battle->placeHazard(
 			    state, owner, nullptr, dtSmoke, position, dtSmoke->hazardType->getLifetime(state),
 			    2, destroyed ? 6 : 12);

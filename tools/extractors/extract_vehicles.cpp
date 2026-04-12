@@ -22,35 +22,35 @@ namespace
 // XXX HACK - UFOs have different number of animation frames, I don't know any
 //  link between this and stored data, hence a lookup table
 std::map<UString, int> UFOAnimationFrames = {
-    {"VEHICLETYPE_ALIEN_PROBE", 6},        {"VEHICLETYPE_ALIEN_SCOUT", 6},
-    {"VEHICLETYPE_ALIEN_TRANSPORTER", 12}, {"VEHICLETYPE_ALIEN_FAST_ATTACK_SHIP", 12},
-    {"VEHICLETYPE_ALIEN_DESTROYER", 12},   {"VEHICLETYPE_ALIEN_ASSAULT_SHIP", 12},
-    {"VEHICLETYPE_ALIEN_BOMBER", 12},      {"VEHICLETYPE_ALIEN_ESCORT", 12},
-    {"VEHICLETYPE_ALIEN_BATTLESHIP", 3},   {"VEHICLETYPE_ALIEN_MOTHERSHIP", 6},
+    {"ALIEN_PROBE", 6},        {"ALIEN_SCOUT", 6},
+    {"ALIEN_TRANSPORTER", 12}, {"ALIEN_FAST_ATTACK_SHIP", 12},
+    {"ALIEN_DESTROYER", 12},   {"ALIEN_ASSAULT_SHIP", 12},
+    {"ALIEN_BOMBER", 12},      {"ALIEN_ESCORT", 12},
+    {"ALIEN_BATTLESHIP", 3},   {"ALIEN_MOTHERSHIP", 6},
 };
 
 // Magic lookup table for the small/large equipscreen icons
 // no idea if this is stored in the .exe/data files somewhere...
-std::map<UString, int> EquipscreenSprite = {{"VEHICLETYPE_ANNIHILATOR", 0},
-                                            {"VEHICLETYPE_WOLFHOUND_APC", 1},
-                                            {"VEHICLETYPE_BLAZER_TURBO_BIKE", 2},
-                                            {"VEHICLETYPE_BIOTRANS", 3},
-                                            {"VEHICLETYPE_VALKYRIE_INTERCEPTOR", 4},
-                                            {"VEHICLETYPE_PHOENIX_HOVERCAR", 5},
-                                            {"VEHICLETYPE_DIMENSION_PROBE", 6},
-                                            {"VEHICLETYPE_RETALIATOR", 7},
-                                            {"VEHICLETYPE_STORMDOG", 8},
-                                            {"VEHICLETYPE_EXPLORER", 9},
-                                            {"VEHICLETYPE_HOVERBIKE", 10},
-                                            {"VEHICLETYPE_HAWK_AIR_WARRIOR", 11},
-                                            {"VEHICLETYPE_GRIFFON_AFV", 12}};
+std::map<UString, int> EquipscreenSprite = {{"ANNIHILATOR", 0},
+                                            {"WOLFHOUND_APC", 1},
+                                            {"BLAZER_TURBO_BIKE", 2},
+                                            {"BIOTRANS", 3},
+                                            {"VALKYRIE_INTERCEPTOR", 4},
+                                            {"PHOENIX_HOVERCAR", 5},
+                                            {"DIMENSION_PROBE", 6},
+                                            {"RETALIATOR", 7},
+                                            {"STORMDOG", 8},
+                                            {"EXPLORER", 9},
+                                            {"HOVERBIKE", 10},
+                                            {"HAWK_AIR_WARRIOR", 11},
+                                            {"GRIFFON_AFV", 12}};
 
-std::set<UString> AgentFreight = {"VEHICLETYPE_AIRTAXI" /*, "VEHICLETYPE_AUTOTAXI"*/};
-std::set<UString> CargoFreight = {"VEHICLETYPE_AIRTRANS" /*, "VEHICLETYPE_AUTOTRANS"*/};
-std::set<UString> BioFreight = {"VEHICLETYPE_AIRTRANS"};
-std::set<UString> Rescue = {"VEHICLETYPE_ANNIHILATOR",      "VEHICLETYPE_VALKYRIE_INTERCEPTOR",
-                            "VEHICLETYPE_RETALIATOR",       "VEHICLETYPE_HAWK_AIR_WARRIOR",
-                            "VEHICLETYPE_RESCUE_TRANSPORT", "VEHICLETYPE_CONSTRUCTION_VEHICLE"};
+std::set<UString> AgentFreight = {"AIRTAXI" /*, "AUTOTAXI"*/};
+std::set<UString> CargoFreight = {"AIRTRANS" /*, "AUTOTRANS"*/};
+std::set<UString> BioFreight = {"AIRTRANS"};
+std::set<UString> Rescue = {"ANNIHILATOR",      "VALKYRIE_INTERCEPTOR",
+                            "RETALIATOR",       "HAWK_AIR_WARRIOR",
+                            "RESCUE_TRANSPORT", "CONSTRUCTION_VEHICLE"};
 } // namespace
 static void extract_equipment_layout(GameState &state, sp<VehicleType> vehicle, const UFO2P &data,
                                      VehicleEquipmentLayout layout,
@@ -141,18 +141,18 @@ void InitialGameStateExtractor::extractVehicles(GameState &state) const
 		vehicle->image_offset = {v.image_position_1, v.image_position_2 * 3.0f / 4.0f};
 
 		auto ped =
-		    format("{0}{1}", UfopaediaEntry::getPrefix(), canon_string(data.vehicle_names->get(i)));
+		    canon_string(data.vehicle_names->get(i));
 		vehicle->ufopaedia_entry = {&state, ped};
 
 		if (i < 10)
 		{
 			vehicle->researchUnlock.emplace_back(&state,
-			                                     "RESEARCH_UNLOCK_ALIEN_CRAFT_CONTROL_SYSTEMS");
+			                                     "UNLOCK_ALIEN_CRAFT_CONTROL_SYSTEMS");
 			vehicle->researchUnlock.emplace_back(&state,
-			                                     "RESEARCH_UNLOCK_ALIEN_CRAFT_ENERGY_SOURCE");
-			vehicle->researchUnlock.emplace_back(&state, "RESEARCH_UNLOCK_ALIEN_CRAFT_PROPULSION");
+			                                     "UNLOCK_ALIEN_CRAFT_ENERGY_SOURCE");
+			vehicle->researchUnlock.emplace_back(&state, "UNLOCK_ALIEN_CRAFT_PROPULSION");
 			vehicle->researchUnlock.emplace_back(&state,
-			                                     format("RESEARCH_UNLOCK_UFO_TYPE_{0}", i + 1));
+			                                     format("UNLOCK_UFO_TYPE_{0}", i + 1));
 		}
 
 		if (v.movement_type == 0)
@@ -248,8 +248,7 @@ void InitialGameStateExtractor::extractVehicles(GameState &state) const
 				// Therefore 49 + id gives map index for the ufo
 				if (i > 1)
 				{
-					vehicle->battle_map = {&state, format("{0}{1}", BattleMap::getPrefix(),
-					                                      this->battleMapPaths[48 + i])};
+					vehicle->battle_map = {&state, this->battleMapPaths[48 + i]};
 				}
 				// fill crews
 				UFO2P::fillCrew(state, ufo2p.crew_ufo_downed->get(i), vehicle->crew_downed);
@@ -309,7 +308,7 @@ void InitialGameStateExtractor::extractVehicles(GameState &state) const
 						vehicle->directional_sprites[bank][dir] = fw().data->loadImage(str);
 					}
 					// XXX HACK - The space liner doesn't have banking/ascending/descending images
-					if (id == std::string("VEHICLETYPE_SPACE_LINER"))
+					if (id == std::string("SPACE_LINER"))
 						break;
 				}
 

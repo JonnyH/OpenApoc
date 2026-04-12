@@ -91,8 +91,7 @@ ensureSecondBase(OpenApoc::sp<OpenApoc::GameState> state)
 	base->startingBase(*state);
 	base->name = "Base " + OpenApoc::Strings::fromInteger(state->player_bases.size() + 1);
 
-	OpenApoc::UString baseId = OpenApoc::Base::getPrefix() +
-	                           OpenApoc::Strings::fromInteger(state->player_bases.size() + 1);
+	OpenApoc::UString baseId = OpenApoc::Strings::fromInteger(state->player_bases.size() + 1);
 	state->player_bases[baseId] = base;
 
 	targetBuilding->owner = state->getPlayer();

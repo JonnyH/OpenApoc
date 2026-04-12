@@ -10,12 +10,6 @@ BattleScanner::BattleScanner()
 	movementTicks = std::vector<int>(MOTION_SCANNER_X * MOTION_SCANNER_Y, 0);
 }
 
-template <> const UString &StateObject<BattleScanner>::getPrefix()
-{
-	static UString prefix = "BATTLESCANNER_";
-	return prefix;
-}
-
 template <> const UString &StateObject<BattleScanner>::getTypeName()
 {
 	static UString name = "BattleScanner";

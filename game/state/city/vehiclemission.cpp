@@ -44,16 +44,16 @@ static const Vec3<float> offsetLaunch{0.5f, 0.5f, -1.0f};
 // division /5 because need to round to 5 mins
 // TODO: find a way how to extract from the game data
 static const std::map<UString, std::pair<unsigned, unsigned>> selfDestructTimer = {
-    {"VEHICLETYPE_ALIEN_PROBE", {10 / 5 * TICKS_PER_MINUTE, 90 / 5 * TICKS_PER_MINUTE}},
-    {"VEHICLETYPE_ALIEN_SCOUT", {10 / 5 * TICKS_PER_MINUTE, 90 / 5 * TICKS_PER_MINUTE}},
-    {"VEHICLETYPE_ALIEN_TRANSPORTER", {15 / 5 * TICKS_PER_MINUTE, 120 / 5 * TICKS_PER_MINUTE}},
-    {"VEHICLETYPE_ALIEN_FAST_ATTACK_SHIP", {15 / 5 * TICKS_PER_MINUTE, 120 / 5 * TICKS_PER_MINUTE}},
-    {"VEHICLETYPE_ALIEN_DESTROYER", {15 / 5 * TICKS_PER_MINUTE, 120 / 5 * TICKS_PER_MINUTE}},
-    {"VEHICLETYPE_ALIEN_ASSAULT_SHIP", {15 / 5 * TICKS_PER_MINUTE, 180 / 5 * TICKS_PER_MINUTE}},
-    {"VEHICLETYPE_ALIEN_BOMBER", {10 / 5 * TICKS_PER_MINUTE, 120 / 5 * TICKS_PER_MINUTE}},
-    {"VEHICLETYPE_ALIEN_ESCORT", {15 / 5 * TICKS_PER_MINUTE, 120 / 5 * TICKS_PER_MINUTE}},
-    {"VEHICLETYPE_ALIEN_BATTLESHIP", {60 / 5 * TICKS_PER_MINUTE, 240 / 5 * TICKS_PER_MINUTE}},
-    {"VEHICLETYPE_ALIEN_MOTHERSHIP", {60 / 5 * TICKS_PER_MINUTE, 240 / 5 * TICKS_PER_MINUTE}}};
+    {"ALIEN_PROBE", {10 / 5 * TICKS_PER_MINUTE, 90 / 5 * TICKS_PER_MINUTE}},
+    {"ALIEN_SCOUT", {10 / 5 * TICKS_PER_MINUTE, 90 / 5 * TICKS_PER_MINUTE}},
+    {"ALIEN_TRANSPORTER", {15 / 5 * TICKS_PER_MINUTE, 120 / 5 * TICKS_PER_MINUTE}},
+    {"ALIEN_FAST_ATTACK_SHIP", {15 / 5 * TICKS_PER_MINUTE, 120 / 5 * TICKS_PER_MINUTE}},
+    {"ALIEN_DESTROYER", {15 / 5 * TICKS_PER_MINUTE, 120 / 5 * TICKS_PER_MINUTE}},
+    {"ALIEN_ASSAULT_SHIP", {15 / 5 * TICKS_PER_MINUTE, 180 / 5 * TICKS_PER_MINUTE}},
+    {"ALIEN_BOMBER", {10 / 5 * TICKS_PER_MINUTE, 120 / 5 * TICKS_PER_MINUTE}},
+    {"ALIEN_ESCORT", {15 / 5 * TICKS_PER_MINUTE, 120 / 5 * TICKS_PER_MINUTE}},
+    {"ALIEN_BATTLESHIP", {60 / 5 * TICKS_PER_MINUTE, 240 / 5 * TICKS_PER_MINUTE}},
+    {"ALIEN_MOTHERSHIP", {60 / 5 * TICKS_PER_MINUTE, 240 / 5 * TICKS_PER_MINUTE}}};
 } // namespace
 
 FlyingVehicleTileHelper::FlyingVehicleTileHelper(TileMap &map, const Vehicle &v)
@@ -1351,7 +1351,7 @@ void VehicleMission::update(GameState &state, Vehicle &v, unsigned int ticks, bo
 				else // Port out
 				{
 					// Update score for UFO incursion
-					if (v.owner == state.getAliens() && v.city.id == "CITYMAP_HUMAN")
+					if (v.owner == state.getAliens() && v.city.id == "HUMAN")
 					{
 						int incursionScore = -v.type->score / 4;
 						state.weekScore.incursions += incursionScore;
@@ -1368,7 +1368,7 @@ void VehicleMission::update(GameState &state, Vehicle &v, unsigned int ticks, bo
 							{
 								// Delay for returning / going in
 								int delay = 0;
-								if (city.first == "CITYMAP_HUMAN")
+								if (city.first == "HUMAN")
 								{
 									delay = randBoundsInclusive(state.rng, TICKS_PER_HOUR,
 									                            2 * TICKS_PER_HOUR);
@@ -1416,7 +1416,7 @@ void VehicleMission::update(GameState &state, Vehicle &v, unsigned int ticks, bo
 		{
 			if (finished)
 			{
-				if (v.city.id == "CITYMAP_HUMAN")
+				if (v.city.id == "HUMAN")
 				{
 					fw().pushEvent(new GameVehicleEvent(GameEventType::UfoCrashed,
 					                                    {&state, v.shared_from_this()}));
@@ -2502,14 +2502,14 @@ void VehicleMission::start(GameState &state, Vehicle &v)
 					if (subvert)
 					{
 						auto doodad = v.city->placeDoodad(
-						    StateRef<DoodadType>{&state, "DOODAD_11_SUBVERSION_BIG"},
+						    StateRef<DoodadType>{&state, "11_SUBVERSION_BIG"},
 						    v.tileObject->getPosition() - Vec3<float>{0, 0, 0.5f});
 						v.addMission(state, VehicleMission::snooze(state, v, doodad->lifetime));
 					}
 					else
 					{
 						auto doodad = v.city->placeDoodad(
-						    StateRef<DoodadType>{&state, "DOODAD_14_INFILTRATION_BIG"},
+						    StateRef<DoodadType>{&state, "14_INFILTRATION_BIG"},
 						    v.tileObject->getPosition() - Vec3<float>{0, 0, 0.5f});
 						v.addMission(state, VehicleMission::snooze(state, v, doodad->lifetime));
 					}
@@ -2580,7 +2580,7 @@ void VehicleMission::start(GameState &state, Vehicle &v)
 						return;
 					}
 					v.leaveDimensionGate(state);
-					if (v.city.id == "CITYMAP_HUMAN" && v.owner == state.getPlayer())
+					if (v.city.id == "HUMAN" && v.owner == state.getPlayer())
 					{
 						v.addMission(state, VehicleMission::gotoBuilding(state, v));
 					}

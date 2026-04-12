@@ -53,13 +53,13 @@ local oldApplyModsHook = OpenApoc.hook.applyMods
 OA.hook.applyMods = function()
 	if oldApplyModsHook then oldApplyModsHook() end
 
-	GS.vehicle_types['VEHICLETYPE_GRIFFON_AFV'].type = CFG.getBool('OpenApoc.Mod.ATVTank') and OA.enum.VehicleType.Type.ATV or OA.enum.VehicleType.Type.Road
-	GS.vehicle_types['VEHICLETYPE_WOLFHOUND_APC'].type = CFG.getBool('OpenApoc.Mod.ATVAPC') and OA.enum.VehicleType.Type.ATV or OA.enum.VehicleType.Type.Road
+	GS.vehicle_types['GRIFFON_AFV'].type = CFG.getBool('OpenApoc.Mod.ATVTank') and OA.enum.VehicleType.Type.ATV or OA.enum.VehicleType.Type.Road
+	GS.vehicle_types['WOLFHOUND_APC'].type = CFG.getBool('OpenApoc.Mod.ATVAPC') and OA.enum.VehicleType.Type.ATV or OA.enum.VehicleType.Type.Road
 
 	if CFG.getBool('OpenApoc.Mod.BSKLauncherSound') then
-		GS.agent_equipment['AEQUIPMENTTYPE_BRAINSUCKER_LAUNCHER'].fire_sfx = 'RAWSOUND:xcom3/rawsound/tactical/weapons/sucklaun.raw:22050'
+		GS.agent_equipment['BRAINSUCKER_LAUNCHER'].fire_sfx = 'RAWSOUND:xcom3/rawsound/tactical/weapons/sucklaun.raw:22050'
 	else
-		GS.agent_equipment['AEQUIPMENTTYPE_BRAINSUCKER_LAUNCHER'].fire_sfx = 'RAWSOUND:xcom3/rawsound/tactical/weapons/powers.raw:22050'
+		GS.agent_equipment['BRAINSUCKER_LAUNCHER'].fire_sfx = 'RAWSOUND:xcom3/rawsound/tactical/weapons/powers.raw:22050'
 	end
 
 	local crashVehicles = CFG.getBool('OpenApoc.Mod.CrashingVehicles')
@@ -76,8 +76,8 @@ OA.hook.newGamePostInit = function()
 
 	local buildingsWithoutBases = {}
 
-	local city = {id = 'CITYMAP_HUMAN'}
-	city.object = GS.cities['CITYMAP_HUMAN']
+	local city = {id = 'HUMAN'}
+	city.object = GS.cities['HUMAN']
 
 	for k, v in pairs(city.object.buildings) do
 		if not v.base_layout.object then
@@ -95,7 +95,7 @@ OA.hook.newGamePostInit = function()
 
 	--add developers
 	local names = {'Filmboy', 'Flacko', 'Istrebitel', 'Jarskih', 'JonnyH', 'Makus', 'PmProg', 'Redv', 'SupSuper'}
-	local agent_type = 'AGENTTYPE_X-COM_AGENT_HUMAN'
+	local agent_type = 'X-COM_AGENT_HUMAN'
 
 	--look for organisations that have hirable
 	--agent types matching ours
@@ -118,7 +118,7 @@ OA.hook.newGamePostInit = function()
 
 		--put the agent in the building
 		agent.object.homeBuilding = building.id
-		agent.object.city = 'CITYMAP_HUMAN'
+		agent.object.city = 'HUMAN'
 		agent.object:enterBuilding(building.id)
 
 		agent.object.name = name

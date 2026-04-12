@@ -314,7 +314,7 @@ std::tuple<AIDecision, float, unsigned> UnitAIVanilla::getBrainsuckerDecision(Ga
 	unsigned reThinkDelay = TICKS_PER_SECOND / 2;
 	float distance = FLT_MAX;
 
-	StateRef<DamageType> brainsucker = {&state, "DAMAGETYPE_BRAINSUCKER"};
+	StateRef<DamageType> brainsucker = {&state, "BRAINSUCKER"};
 	auto &visibleEnemies = state.current_battle->visibleEnemies[u.owner];
 	for (auto &target : visibleEnemies)
 	{

@@ -7,38 +7,38 @@
       <description>All results of Alien research are recorded here, including results of autopsies and analysis of living specimens.</description>
       <background>xcom3/ufopaedi/a-title.pcx</background>
       <entries>
-        <entry>PAEDIAENTRY_ANTHROPOD</entry>
-        <entry>PAEDIAENTRY_ANTHROPOD_AUTOPSY</entry>
-        <entry>PAEDIAENTRY_BRAINSUCKER</entry>
-        <entry>PAEDIAENTRY_BRAINSUCKER_AUTOPSY</entry>
-        <entry>PAEDIAENTRY_BRAINSUCKER_POD</entry>
-        <entry>PAEDIAENTRY_CHRYSALIS</entry>
-        <entry>PAEDIAENTRY_CHRYSALIS_AUTOPSY</entry>
-        <entry>PAEDIAENTRY_HYPERWORM</entry>
-        <entry>PAEDIAENTRY_HYPERWORM_AUTOPSY</entry>
-        <entry>PAEDIAENTRY_MEGASPAWN</entry>
-        <entry>PAEDIAENTRY_MEGASPAWN_AUTOPSY</entry>
-        <entry>PAEDIAENTRY_MICRONOID_AGGREGATE</entry>
-        <entry>PAEDIAENTRY_MICRONOID_AGGREGATE_AUTOPSY</entry>
-        <entry>PAEDIAENTRY_MULTIWORM</entry>
-        <entry>PAEDIAENTRY_MULTIWORM_AUTOPSY</entry>
-        <entry>PAEDIAENTRY_MULTIWORM_EGG</entry>
-        <entry>PAEDIAENTRY_MULTIWORM_EGG_AUTOPSY</entry>
-        <entry>PAEDIAENTRY_OVERSPAWN_AUTOPSY</entry>
-        <entry>PAEDIAENTRY_OVERSPAWN_AUTOPSY_1</entry>
-        <entry>PAEDIAENTRY_POPPER</entry>
-        <entry>PAEDIAENTRY_POPPER_AUTOPSY</entry>
-        <entry>PAEDIAENTRY_PSIMORPH</entry>
-        <entry>PAEDIAENTRY_PSIMORPH_AUTOPSY</entry>
-        <entry>PAEDIAENTRY_QUEENSPAWN</entry>
-        <entry>PAEDIAENTRY_QUEENSPAWN_AUTOPSY</entry>
-        <entry>PAEDIAENTRY_SKELETOID</entry>
-        <entry>PAEDIAENTRY_SKELETOID_AUTOPSY</entry>
-        <entry>PAEDIAENTRY_SPITTER</entry>
-        <entry>PAEDIAENTRY_SPITTER_AUTOPSY</entry>
-        <entry>PAEDIAENTRY_THE_ALIEN_GENETIC_STRUCTURE</entry>
-        <entry>PAEDIAENTRY_THE_ALIEN_LIFE_CYCLE</entry>
-        <entry>PAEDIAENTRY_THE_REAL_ALIEN_THREAT</entry>
+        <entry>ANTHROPOD</entry>
+        <entry>ANTHROPOD_AUTOPSY</entry>
+        <entry>BRAINSUCKER</entry>
+        <entry>BRAINSUCKER_AUTOPSY</entry>
+        <entry>BRAINSUCKER_POD</entry>
+        <entry>CHRYSALIS</entry>
+        <entry>CHRYSALIS_AUTOPSY</entry>
+        <entry>HYPERWORM</entry>
+        <entry>HYPERWORM_AUTOPSY</entry>
+        <entry>MEGASPAWN</entry>
+        <entry>MEGASPAWN_AUTOPSY</entry>
+        <entry>MICRONOID_AGGREGATE</entry>
+        <entry>MICRONOID_AGGREGATE_AUTOPSY</entry>
+        <entry>MULTIWORM</entry>
+        <entry>MULTIWORM_AUTOPSY</entry>
+        <entry>MULTIWORM_EGG</entry>
+        <entry>MULTIWORM_EGG_AUTOPSY</entry>
+        <entry>OVERSPAWN_AUTOPSY</entry>
+        <entry>OVERSPAWN_AUTOPSY_1</entry>
+        <entry>POPPER</entry>
+        <entry>POPPER_AUTOPSY</entry>
+        <entry>PSIMORPH</entry>
+        <entry>PSIMORPH_AUTOPSY</entry>
+        <entry>QUEENSPAWN</entry>
+        <entry>QUEENSPAWN_AUTOPSY</entry>
+        <entry>SKELETOID</entry>
+        <entry>SKELETOID_AUTOPSY</entry>
+        <entry>SPITTER</entry>
+        <entry>SPITTER_AUTOPSY</entry>
+        <entry>THE_ALIEN_GENETIC_STRUCTURE</entry>
+        <entry>THE_ALIEN_LIFE_CYCLE</entry>
+        <entry>THE_REAL_ALIEN_THREAT</entry>
       </entries>
     </value>
   </entry>
@@ -49,46 +49,46 @@
       <description>All research relating to the various types of Alien craft and their propulsion systems is collected here.</description>
       <background>xcom3/ufopaedi/u-title.pcx</background>
       <entries>
-        <entry>PAEDIAENTRY_ALIEN_ASSAULT_SHIP</entry>
-        <entry>PAEDIAENTRY_ALIEN_BATTLESHIP</entry>
-        <entry>PAEDIAENTRY_ALIEN_BOMBER</entry>
-        <entry>PAEDIAENTRY_ALIEN_CRAFT_CONTROL_SYSTEMS</entry>
-        <entry>PAEDIAENTRY_ALIEN_CRAFT_ENERGY_SOURCE</entry>
-        <entry>PAEDIAENTRY_ALIEN_CRAFT_PROPULSION</entry>
-        <entry>PAEDIAENTRY_ALIEN_DESTROYER</entry>
-        <entry>PAEDIAENTRY_ALIEN_ESCORT</entry>
-        <entry>PAEDIAENTRY_ALIEN_FAST_ATTACK_SHIP</entry>
-        <entry>PAEDIAENTRY_ALIEN_MOTHERSHIP</entry>
-        <entry>PAEDIAENTRY_ALIEN_PROBE</entry>
-        <entry>PAEDIAENTRY_ALIEN_SCOUT</entry>
-        <entry>PAEDIAENTRY_ALIEN_TRANSPORTER</entry>
+        <entry>ALIEN_ASSAULT_SHIP</entry>
+        <entry>ALIEN_BATTLESHIP</entry>
+        <entry>ALIEN_BOMBER</entry>
+        <entry>ALIEN_CRAFT_CONTROL_SYSTEMS</entry>
+        <entry>ALIEN_CRAFT_ENERGY_SOURCE</entry>
+        <entry>ALIEN_CRAFT_PROPULSION</entry>
+        <entry>ALIEN_DESTROYER</entry>
+        <entry>ALIEN_ESCORT</entry>
+        <entry>ALIEN_FAST_ATTACK_SHIP</entry>
+        <entry>ALIEN_MOTHERSHIP</entry>
+        <entry>ALIEN_PROBE</entry>
+        <entry>ALIEN_SCOUT</entry>
+        <entry>ALIEN_TRANSPORTER</entry>
       </entries>
     </value>
   </entry>
   <entry>
-    <key>PAEDIACATEGORY_BASE_FACILITIES</key>
+    <key>PAEDIACATEGORY_FACILITIES</key>
     <value>
       <title>Base Facilities</title>
       <description>X-COM bases are constructed from a variety of component units designed to perform different functions. The construction of a new base requires a bare minimum of living quarters and storage facilities. Beyond these requirements a base is designed to accommodate research, training and vehicle repair facilities. Bases will also need to be defended against aggression using well equipped Agents and security stations.</description>
       <background>xcom3/ufopaedi/f-title.pcx</background>
       <entries>
-        <entry>PAEDIAENTRY_ACCESS_LIFT</entry>
-        <entry>PAEDIAENTRY_ADVANCED_ALIEN_CONTAINMENT</entry>
-        <entry>PAEDIAENTRY_ADVANCED_BIOCHEMISTRY_LAB</entry>
-        <entry>PAEDIAENTRY_ADVANCED_QUANTUM_PHYSICS_LAB</entry>
-        <entry>PAEDIAENTRY_ADVANCED_SECURITY_STATION</entry>
-        <entry>PAEDIAENTRY_ADVANCED_WORKSHOP</entry>
-        <entry>PAEDIAENTRY_ALIEN_CONTAINMENT</entry>
-        <entry>PAEDIAENTRY_BIOCHEMISTRY_LAB</entry>
-        <entry>PAEDIAENTRY_LIVING_QUARTERS</entry>
-        <entry>PAEDIAENTRY_MEDICAL_BAY</entry>
-        <entry>PAEDIAENTRY_PSI-GYM</entry>
-        <entry>PAEDIAENTRY_QUANTUM_PHYSICS_LAB</entry>
-        <entry>PAEDIAENTRY_SECURITY_STATION</entry>
-        <entry>PAEDIAENTRY_STORES</entry>
-        <entry>PAEDIAENTRY_TRAINING_AREA</entry>
-        <entry>PAEDIAENTRY_VEHICLE_REPAIR_BAY</entry>
-        <entry>PAEDIAENTRY_WORKSHOP</entry>
+        <entry>ACCESS_LIFT</entry>
+        <entry>ADVANCED_ALIEN_CONTAINMENT</entry>
+        <entry>ADVANCED_BIOCHEMISTRY_LAB</entry>
+        <entry>ADVANCED_QUANTUM_PHYSICS_LAB</entry>
+        <entry>ADVANCED_SECURITY_STATION</entry>
+        <entry>ADVANCED_WORKSHOP</entry>
+        <entry>ALIEN_CONTAINMENT</entry>
+        <entry>BIOCHEMISTRY_LAB</entry>
+        <entry>LIVING_QUARTERS</entry>
+        <entry>MEDICAL_BAY</entry>
+        <entry>PSI-GYM</entry>
+        <entry>QUANTUM_PHYSICS_LAB</entry>
+        <entry>SECURITY_STATION</entry>
+        <entry>STORES</entry>
+        <entry>TRAINING_AREA</entry>
+        <entry>REPAIR_BAY</entry>
+        <entry>WORKSHOP</entry>
       </entries>
     </value>
   </entry>
@@ -99,36 +99,36 @@
       <description>Each building in Mega-Primus is a vast labyrinth of corridors, atriums, rooms, halls and service ducts. If Aliens have infiltrated a building they will be found in just a small part of the complex, with plenty of places to escape from the combat zone. Buildings with lower populations or numerous service areas provide much better places for Aliens to hide and breed.</description>
       <background>xcom3/ufopaedi/b-title.pcx</background>
       <entries>
-        <entry>PAEDIAENTRY_APARTMENTS</entry>
-        <entry>PAEDIAENTRY_APPLIANCES_FACTORY</entry>
-        <entry>PAEDIAENTRY_ARMS_FACTORY</entry>
-        <entry>PAEDIAENTRY_ASTRODOME</entry>
-        <entry>PAEDIAENTRY_CAR_FACTORY</entry>
-        <entry>PAEDIAENTRY_CONSTRUCTION_FACTORY</entry>
-        <entry>PAEDIAENTRY_CORPORATE_HQ</entry>
-        <entry>PAEDIAENTRY_FLYER_FACTORY</entry>
-        <entry>PAEDIAENTRY_HOSPITAL</entry>
-        <entry>PAEDIAENTRY_HYDRO-FARM</entry>
-        <entry>PAEDIAENTRY_LARGE_FLYER_FACTORY</entry>
-        <entry>PAEDIAENTRY_LUXURY_APARTMENTS</entry>
-        <entry>PAEDIAENTRY_OFFICES</entry>
-        <entry>PAEDIAENTRY_PEOPLE_TUBES</entry>
-        <entry>PAEDIAENTRY_POLICE_STATION</entry>
-        <entry>PAEDIAENTRY_POWER_STATION</entry>
-        <entry>PAEDIAENTRY_PROCREATION_PARK</entry>
-        <entry>PAEDIAENTRY_RECYCLOTORIUM</entry>
-        <entry>PAEDIAENTRY_RESCUE_STATION</entry>
-        <entry>PAEDIAENTRY_ROBOT_FACTORY</entry>
-        <entry>PAEDIAENTRY_SCHOOL</entry>
-        <entry>PAEDIAENTRY_SENATE</entry>
-        <entry>PAEDIAENTRY_SENSODROME</entry>
-        <entry>PAEDIAENTRY_SEWAGE_WORKS</entry>
-        <entry>PAEDIAENTRY_SHOPPING_MALL</entry>
-        <entry>PAEDIAENTRY_SLUMS</entry>
-        <entry>PAEDIAENTRY_SPACE_PORT</entry>
-        <entry>PAEDIAENTRY_TEMPLE_OF_SIRIUS</entry>
-        <entry>PAEDIAENTRY_WAREHOUSE</entry>
-        <entry>PAEDIAENTRY_WATER_PURIFIER</entry>
+        <entry>APARTMENTS</entry>
+        <entry>APPLIANCES_FACTORY</entry>
+        <entry>ARMS_FACTORY</entry>
+        <entry>ASTRODOME</entry>
+        <entry>CAR_FACTORY</entry>
+        <entry>CONSTRUCTION_FACTORY</entry>
+        <entry>CORPORATE_HQ</entry>
+        <entry>FLYER_FACTORY</entry>
+        <entry>HOSPITAL</entry>
+        <entry>HYDRO-FARM</entry>
+        <entry>LARGE_FLYER_FACTORY</entry>
+        <entry>LUXURY_APARTMENTS</entry>
+        <entry>OFFICES</entry>
+        <entry>PEOPLE_TUBES</entry>
+        <entry>POLICE_STATION</entry>
+        <entry>POWER_STATION</entry>
+        <entry>PROCREATION_PARK</entry>
+        <entry>RECYCLOTORIUM</entry>
+        <entry>RESCUE_STATION</entry>
+        <entry>ROBOT_FACTORY</entry>
+        <entry>SCHOOL</entry>
+        <entry>SENATE</entry>
+        <entry>SENSODROME</entry>
+        <entry>SEWAGE_WORKS</entry>
+        <entry>SHOPPING_MALL</entry>
+        <entry>SLUMS</entry>
+        <entry>SPACE_PORT</entry>
+        <entry>TEMPLE_OF_SIRIUS</entry>
+        <entry>WAREHOUSE</entry>
+        <entry>WATER_PURIFIER</entry>
       </entries>
     </value>
   </entry>
@@ -139,60 +139,60 @@
       <description>X-COM Agents should be equipped in preparation for tactical missions. You can choose from a variety of guns, missile launchers, ammunition types, grenades and armor.</description>
       <background>xcom3/ufopaedi/w-title.pcx</background>
       <entries>
-        <entry>PAEDIAENTRY_ALIEN_GAS_GRENADE</entry>
-        <entry>PAEDIAENTRY_AUTO_CANNON_AP_CLIP</entry>
-        <entry>PAEDIAENTRY_AUTO_CANNON_HE_CLIP</entry>
-        <entry>PAEDIAENTRY_AUTO_CANNON_IN_CLIP</entry>
-        <entry>PAEDIAENTRY_BOOMEROID</entry>
-        <entry>PAEDIAENTRY_BRAINSUCKER_LAUNCHER</entry>
-        <entry>PAEDIAENTRY_DEVASTATOR_CANNON</entry>
-        <entry>PAEDIAENTRY_DIMENSION_DESTABILISER</entry>
-        <entry>PAEDIAENTRY_DIMENSION_MISSILE</entry>
-        <entry>PAEDIAENTRY_DIMENSION_MISSILE_LAUNCHER</entry>
-        <entry>PAEDIAENTRY_DISRUPTOR_GUN</entry>
-        <entry>PAEDIAENTRY_ELERIUM</entry>
-        <entry>PAEDIAENTRY_ENTROPY_LAUNCHER</entry>
-        <entry>PAEDIAENTRY_ENTROPY_POD</entry>
-        <entry>PAEDIAENTRY_HEAVY_LAUNCHER_AG_MISSILE</entry>
-        <entry>PAEDIAENTRY_HEAVY_LAUNCHER_HE_MISSILE</entry>
-        <entry>PAEDIAENTRY_HEAVY_LAUNCHER_IN_MISSILE</entry>
-        <entry>PAEDIAENTRY_INCENDIARY_GRENADE</entry>
-        <entry>PAEDIAENTRY_MARSEC_BODY_UNIT</entry>
-        <entry>PAEDIAENTRY_MARSEC_HEAVY_LAUNCHER</entry>
-        <entry>PAEDIAENTRY_MARSEC_HIGH_EXPLOSIVE</entry>
-        <entry>PAEDIAENTRY_MARSEC_M4000_GUN_CLIP</entry>
-        <entry>PAEDIAENTRY_MARSEC_M4000_MACHINE_GUN</entry>
-        <entry>PAEDIAENTRY_MARSEC_MINILAUNCHER</entry>
-        <entry>PAEDIAENTRY_MARSEC_PROXIMITY_MINE</entry>
-        <entry>PAEDIAENTRY_MEDIKIT</entry>
-        <entry>PAEDIAENTRY_MEGAPOL_AP_GRENADE</entry>
-        <entry>PAEDIAENTRY_MEGAPOL_AUTO_CANNON</entry>
-        <entry>PAEDIAENTRY_MEGAPOL_BODY_ARMOUR</entry>
-        <entry>PAEDIAENTRY_MEGAPOL_LASER_POD</entry>
-        <entry>PAEDIAENTRY_MEGAPOL_LASER_SNIPER_GUN</entry>
-        <entry>PAEDIAENTRY_MEGAPOL_LAWPISTOL</entry>
-        <entry>PAEDIAENTRY_MEGAPOL_LAWPISTOL_CLIP</entry>
-        <entry>PAEDIAENTRY_MEGAPOL_PLASMA_GUN</entry>
-        <entry>PAEDIAENTRY_MEGAPOL_PLASMA_POD</entry>
-        <entry>PAEDIAENTRY_MEGAPOL_SMOKE_GRENADE</entry>
-        <entry>PAEDIAENTRY_MEGAPOL_STUN_GRAPPLE</entry>
-        <entry>PAEDIAENTRY_MEGAPOL_STUN_GRENADE</entry>
-        <entry>PAEDIAENTRY_MIND_BENDER</entry>
-        <entry>PAEDIAENTRY_MINILAUNCHER_AG_MISSILE</entry>
-        <entry>PAEDIAENTRY_MINILAUNCHER_HE_MISSILE</entry>
-        <entry>PAEDIAENTRY_MINILAUNCHER_IN_MISSILE</entry>
-        <entry>PAEDIAENTRY_MOTION_SCANNER</entry>
-        <entry>PAEDIAENTRY_PERSONAL_CLOAKING_FIELD</entry>
-        <entry>PAEDIAENTRY_PERSONAL_DISRUPTOR_SHIELD</entry>
-        <entry>PAEDIAENTRY_PERSONAL_TELEPORTER</entry>
-        <entry>PAEDIAENTRY_POWER_SWORD</entry>
-        <entry>PAEDIAENTRY_PSICLONE</entry>
-        <entry>PAEDIAENTRY_TOXIGUN</entry>
-        <entry>PAEDIAENTRY_TOXIGUN_A_CLIP</entry>
-        <entry>PAEDIAENTRY_TOXIGUN_B_CLIP</entry>
-        <entry>PAEDIAENTRY_TOXIGUN_C_CLIP</entry>
-        <entry>PAEDIAENTRY_VORTEX_MINE</entry>
-        <entry>PAEDIAENTRY_XCOM_BODY_SHIELD</entry>
+        <entry>ALIEN_GAS_GRENADE</entry>
+        <entry>AUTO_CANNON_AP_CLIP</entry>
+        <entry>AUTO_CANNON_HE_CLIP</entry>
+        <entry>AUTO_CANNON_IN_CLIP</entry>
+        <entry>BOOMEROID</entry>
+        <entry>BRAINSUCKER_LAUNCHER</entry>
+        <entry>DEVASTATOR_CANNON</entry>
+        <entry>DIMENSION_DESTABILISER</entry>
+        <entry>DIMENSION_MISSILE</entry>
+        <entry>DIMENSION_MISSILE_LAUNCHER</entry>
+        <entry>DISRUPTOR_GUN</entry>
+        <entry>ELERIUM</entry>
+        <entry>ENTROPY_LAUNCHER</entry>
+        <entry>ENTROPY_POD</entry>
+        <entry>HEAVY_LAUNCHER_AG_MISSILE</entry>
+        <entry>HEAVY_LAUNCHER_HE_MISSILE</entry>
+        <entry>HEAVY_LAUNCHER_IN_MISSILE</entry>
+        <entry>INCENDIARY_GRENADE</entry>
+        <entry>MARSEC_BODY_UNIT</entry>
+        <entry>MARSEC_HEAVY_LAUNCHER</entry>
+        <entry>MARSEC_HIGH_EXPLOSIVE</entry>
+        <entry>MARSEC_M4000_GUN_CLIP</entry>
+        <entry>MARSEC_M4000_MACHINE_GUN</entry>
+        <entry>MARSEC_MINILAUNCHER</entry>
+        <entry>MARSEC_PROXIMITY_MINE</entry>
+        <entry>MEDIKIT</entry>
+        <entry>MEGAPOL_AP_GRENADE</entry>
+        <entry>MEGAPOL_AUTO_CANNON</entry>
+        <entry>MEGAPOL_BODY_ARMOUR</entry>
+        <entry>MEGAPOL_LASER_POD</entry>
+        <entry>MEGAPOL_LASER_SNIPER_GUN</entry>
+        <entry>MEGAPOL_LAWPISTOL</entry>
+        <entry>MEGAPOL_LAWPISTOL_CLIP</entry>
+        <entry>MEGAPOL_PLASMA_GUN</entry>
+        <entry>MEGAPOL_PLASMA_POD</entry>
+        <entry>MEGAPOL_SMOKE_GRENADE</entry>
+        <entry>MEGAPOL_STUN_GRAPPLE</entry>
+        <entry>MEGAPOL_STUN_GRENADE</entry>
+        <entry>MIND_BENDER</entry>
+        <entry>MINILAUNCHER_AG_MISSILE</entry>
+        <entry>MINILAUNCHER_HE_MISSILE</entry>
+        <entry>MINILAUNCHER_IN_MISSILE</entry>
+        <entry>MOTION_SCANNER</entry>
+        <entry>PERSONAL_CLOAKING_FIELD</entry>
+        <entry>PERSONAL_DISRUPTOR_SHIELD</entry>
+        <entry>PERSONAL_TELEPORTER</entry>
+        <entry>POWER_SWORD</entry>
+        <entry>PSICLONE</entry>
+        <entry>TOXIGUN</entry>
+        <entry>TOXIGUN_A_CLIP</entry>
+        <entry>TOXIGUN_B_CLIP</entry>
+        <entry>TOXIGUN_C_CLIP</entry>
+        <entry>VORTEX_MINE</entry>
+        <entry>XCOM_BODY_SHIELD</entry>
       </entries>
     </value>
   </entry>
@@ -203,33 +203,33 @@
       <description>The Organizations which operate in Mega-Primus consist of corporations, political groups, criminal gangs and the government. All of them are at risk from Alien infiltration but some are more vulnerable than others. </description>
       <background>xcom3/ufopaedi/l-title.pcx</background>
       <entries>
-        <entry>PAEDIAENTRY_ALIEN</entry>
-        <entry>PAEDIAENTRY_CULT_OF_SIRIUS</entry>
-        <entry>PAEDIAENTRY_CYBERWEB</entry>
-        <entry>PAEDIAENTRY_DIABLO</entry>
-        <entry>PAEDIAENTRY_ENERGEN</entry>
-        <entry>PAEDIAENTRY_EVONET</entry>
-        <entry>PAEDIAENTRY_EXTROPIANS</entry>
-        <entry>PAEDIAENTRY_GENERAL_METRO</entry>
-        <entry>PAEDIAENTRY_GOVERNMENT</entry>
-        <entry>PAEDIAENTRY_GRAVBALL_LEAGUE</entry>
-        <entry>PAEDIAENTRY_LIFETREE</entry>
-        <entry>PAEDIAENTRY_MARSEC</entry>
-        <entry>PAEDIAENTRY_MEGAPOL</entry>
-        <entry>PAEDIAENTRY_MUTANT_ALLIANCE</entry>
-        <entry>PAEDIAENTRY_NANOTECH</entry>
-        <entry>PAEDIAENTRY_NUTRIVEND</entry>
-        <entry>PAEDIAENTRY_OSIRON</entry>
-        <entry>PAEDIAENTRY_PSYKE</entry>
-        <entry>PAEDIAENTRY_SANCTUARY_CLINIC</entry>
-        <entry>PAEDIAENTRY_S_E_L_F_</entry>
-        <entry>PAEDIAENTRY_SENSOVISION</entry>
-        <entry>PAEDIAENTRY_SOLMINE</entry>
-        <entry>PAEDIAENTRY_SUPERDYNAMICS</entry>
-        <entry>PAEDIAENTRY_SYNTHEMESH</entry>
-        <entry>PAEDIAENTRY_TECHNOCRATS</entry>
-        <entry>PAEDIAENTRY_TRANSTELLAR</entry>
-        <entry>PAEDIAENTRY_X-COM</entry>
+        <entry>ALIEN</entry>
+        <entry>CULT_OF_SIRIUS</entry>
+        <entry>CYBERWEB</entry>
+        <entry>DIABLO</entry>
+        <entry>ENERGEN</entry>
+        <entry>EVONET</entry>
+        <entry>EXTROPIANS</entry>
+        <entry>GENERAL_METRO</entry>
+        <entry>GOVERNMENT</entry>
+        <entry>GRAVBALL_LEAGUE</entry>
+        <entry>LIFETREE</entry>
+        <entry>MARSEC</entry>
+        <entry>MEGAPOL</entry>
+        <entry>MUTANT_ALLIANCE</entry>
+        <entry>NANOTECH</entry>
+        <entry>NUTRIVEND</entry>
+        <entry>OSIRON</entry>
+        <entry>PSYKE</entry>
+        <entry>SANCTUARY_CLINIC</entry>
+        <entry>S_E_L_F_</entry>
+        <entry>SENSOVISION</entry>
+        <entry>SOLMINE</entry>
+        <entry>SUPERDYNAMICS</entry>
+        <entry>SYNTHEMESH</entry>
+        <entry>TECHNOCRATS</entry>
+        <entry>TRANSTELLAR</entry>
+        <entry>X-COM</entry>
       </entries>
     </value>
   </entry>
@@ -240,19 +240,19 @@
       <description>All research into the origins of the Aliens and their home world is collected in this section.</description>
       <background>xcom3/ufopaedi/ab-ttl.pcx</background>
       <entries>
-        <entry>PAEDIAENTRY_ALIEN_FARM</entry>
-        <entry>PAEDIAENTRY_CONTROL_CHAMBER</entry>
-        <entry>PAEDIAENTRY_DIMENSION_GATES</entry>
-        <entry>PAEDIAENTRY_DIMENSION_GATE_GENERATOR</entry>
-        <entry>PAEDIAENTRY_FOOD_CHAMBER</entry>
-        <entry>PAEDIAENTRY_INCUBATOR_CHAMBER</entry>
-        <entry>PAEDIAENTRY_MAINTENANCE_FACTORY</entry>
-        <entry>PAEDIAENTRY_MEGAPOD_CHAMBER</entry>
-        <entry>PAEDIAENTRY_ONE_WAY_TO_WIN</entry>
-        <entry>PAEDIAENTRY_ORGANIC_FACTORY</entry>
-        <entry>PAEDIAENTRY_SLEEPING_CHAMBER</entry>
-        <entry>PAEDIAENTRY_SPAWNING_CHAMBER</entry>
-        <entry>PAEDIAENTRY_THE_ALIEN_DIMENSION</entry>
+        <entry>ALIEN_FARM</entry>
+        <entry>CONTROL_CHAMBER</entry>
+        <entry>DIMENSION_GATES</entry>
+        <entry>DIMENSION_GATE_GENERATOR</entry>
+        <entry>FOOD_CHAMBER</entry>
+        <entry>INCUBATOR_CHAMBER</entry>
+        <entry>MAINTENANCE_FACTORY</entry>
+        <entry>MEGAPOD_CHAMBER</entry>
+        <entry>ONE_WAY_TO_WIN</entry>
+        <entry>ORGANIC_FACTORY</entry>
+        <entry>SLEEPING_CHAMBER</entry>
+        <entry>SPAWNING_CHAMBER</entry>
+        <entry>THE_ALIEN_DIMENSION</entry>
       </entries>
     </value>
   </entry>
@@ -263,87 +263,87 @@
       <description>Citizens of Mega-Primus use two types of vehicle. There are common road traveling vehicles that use a low cost anti-gravity system embedded in the road surface and airborne flyers which employ more sophisticated Elerium powered anti-gravity engines. The bold red military vehicles are available for X-COM to purchase.</description>
       <background>xcom3/ufopaedi/v-title.pcx</background>
       <entries>
-        <entry>PAEDIAENTRY_AIRTAXI</entry>
-        <entry>PAEDIAENTRY_AIRTRANS</entry>
-        <entry>PAEDIAENTRY_ANNIHILATOR</entry>
-        <entry>PAEDIAENTRY_AUTOTAXI</entry>
-        <entry>PAEDIAENTRY_AUTOTRANS</entry>
-        <entry>PAEDIAENTRY_BIOTRANS</entry>
-        <entry>PAEDIAENTRY_BLAZER_TURBO_BIKE</entry>
-        <entry>PAEDIAENTRY_CIVILIAN_CAR</entry>
-        <entry>PAEDIAENTRY_CONSTRUCTION_VEHICLE</entry>
-        <entry>PAEDIAENTRY_DIMENSION_PROBE</entry>
-        <entry>PAEDIAENTRY_EXPLORER</entry>
-        <entry>PAEDIAENTRY_GRIFFON_AFV</entry>
-        <entry>PAEDIAENTRY_HAWK_AIR_WARRIOR</entry>
-        <entry>PAEDIAENTRY_HOVERBIKE</entry>
-        <entry>PAEDIAENTRY_PHOENIX_HOVERCAR</entry>
-        <entry>PAEDIAENTRY_POLICE_CAR</entry>
-        <entry>PAEDIAENTRY_POLICE_HOVERCAR</entry>
-        <entry>PAEDIAENTRY_RESCUE_TRANSPORT</entry>
-        <entry>PAEDIAENTRY_RETALIATOR</entry>
-        <entry>PAEDIAENTRY_SPACE_LINER</entry>
-        <entry>PAEDIAENTRY_STORMDOG</entry>
-        <entry>PAEDIAENTRY_VALKYRIE_INTERCEPTOR</entry>
-        <entry>PAEDIAENTRY_WOLFHOUND_APC</entry>
+        <entry>AIRTAXI</entry>
+        <entry>AIRTRANS</entry>
+        <entry>ANNIHILATOR</entry>
+        <entry>AUTOTAXI</entry>
+        <entry>AUTOTRANS</entry>
+        <entry>BIOTRANS</entry>
+        <entry>BLAZER_TURBO_BIKE</entry>
+        <entry>CIVILIAN_CAR</entry>
+        <entry>CONSTRUCTION_VEHICLE</entry>
+        <entry>DIMENSION_PROBE</entry>
+        <entry>EXPLORER</entry>
+        <entry>GRIFFON_AFV</entry>
+        <entry>HAWK_AIR_WARRIOR</entry>
+        <entry>HOVERBIKE</entry>
+        <entry>PHOENIX_HOVERCAR</entry>
+        <entry>POLICE_CAR</entry>
+        <entry>POLICE_HOVERCAR</entry>
+        <entry>RESCUE_TRANSPORT</entry>
+        <entry>RETALIATOR</entry>
+        <entry>SPACE_LINER</entry>
+        <entry>STORMDOG</entry>
+        <entry>VALKYRIE_INTERCEPTOR</entry>
+        <entry>WOLFHOUND_APC</entry>
       </entries>
     </value>
   </entry>
   <entry>
-    <key>PAEDIACATEGORY_VEHICLE_EQUIPMENT</key>
+    <key>PAEDIACATEGORY_EQUIPMENT</key>
     <value>
       <title>Vehicle Equipment</title>
       <description>All military vehicles can be equipped with a variety of weapons, engines and special equipment. The engines and weapons are divided into road and airborne categories. Careful attention to improving vehicle equipment is an essential part of military strategy.</description>
       <background>xcom3/ufopaedi/vw-ttl.pcx</background>
       <entries>
-        <entry>PAEDIAENTRY_40MM_AUTO_CANNON</entry>
-        <entry>PAEDIAENTRY_40MM_AUTO_CANNON_TURRET</entry>
-        <entry>PAEDIAENTRY_ADVANCED_CONTROL_SYSTEM</entry>
-        <entry>PAEDIAENTRY_AIRGUARD_ANTI_AIR_CANNON</entry>
-        <entry>PAEDIAENTRY_BIO_TRANSPORT_MODULE</entry>
-        <entry>PAEDIAENTRY_BOLTER_4000</entry>
-        <entry>PAEDIAENTRY_CARGO_MODULE</entry>
-        <entry>PAEDIAENTRY_CLOAKING_FIELD</entry>
-        <entry>PAEDIAENTRY_DIMENSION_SHIFTER</entry>
-        <entry>PAEDIAENTRY_DISRUPTOR_BOMB_LAUNCHER</entry>
-        <entry>PAEDIAENTRY_DISRUPTOR_MULTI_BOMB_LAUNCHER</entry>
-        <entry>PAEDIAENTRY_GLM_AIR_DEFENSE</entry>
-        <entry>PAEDIAENTRY_GLM_ARRAY</entry>
-        <entry>PAEDIAENTRY_HEAVY_DISRUPTOR_BEAM</entry>
-        <entry>PAEDIAENTRY_HEAVY_WEAPONS_CONTROL</entry>
-        <entry>PAEDIAENTRY_JANITOR_MISSILE_ARRAY</entry>
-        <entry>PAEDIAENTRY_JUSTICE_MISSILE_LAUNCHER</entry>
-        <entry>PAEDIAENTRY_LANCER_7000</entry>
-        <entry>PAEDIAENTRY_LARGE_DISRUPTION_SHIELD</entry>
-        <entry>PAEDIAENTRY_LASER_DEFENSE_ARRAY</entry>
-        <entry>PAEDIAENTRY_LIGHT_DISRUPTOR_BEAM</entry>
-        <entry>PAEDIAENTRY_LIGHT_WEAPONS_CONTROL</entry>
-        <entry>PAEDIAENTRY_LINEAGE_PLASMA_CANNON</entry>
-        <entry>PAEDIAENTRY_MEDIUM_DISRUPTOR_BEAM</entry>
-        <entry>PAEDIAENTRY_MEDIUM_WEAPONS_CONTROL</entry>
-        <entry>PAEDIAENTRY_METRO_MULTIPOWER_PLUS</entry>
-        <entry>PAEDIAENTRY_METRO_POWERGRAV</entry>
-        <entry>PAEDIAENTRY_METRO_ROADGRAV</entry>
-        <entry>PAEDIAENTRY_METRO_ROADHOG</entry>
-        <entry>PAEDIAENTRY_METRO_TURBOGRAV</entry>
-        <entry>PAEDIAENTRY_MISSILE_EVASION_MATRIX</entry>
-        <entry>PAEDIAENTRY_PASSENGER_MODULE</entry>
-        <entry>PAEDIAENTRY_PLASMA_DEFENSE_ARRAY</entry>
-        <entry>PAEDIAENTRY_PLASMA_MULTISYSTEM</entry>
-        <entry>PAEDIAENTRY_PLASMA_TURRET_CANNON</entry>
-        <entry>PAEDIAENTRY_PROPHET_MISSILE_ARRAY</entry>
-        <entry>PAEDIAENTRY_RENDOR_PLASMA_GUN</entry>
-        <entry>PAEDIAENTRY_RETRIBUTION_MISSILE_LAUNCHER</entry>
-        <entry>PAEDIAENTRY_RUMBLE_CANNON</entry>
-        <entry>PAEDIAENTRY_SD_DELUXE</entry>
-        <entry>PAEDIAENTRY_SD_ELITE</entry>
-        <entry>PAEDIAENTRY_SD_SPECIAL</entry>
-        <entry>PAEDIAENTRY_SD_SPORTS</entry>
-        <entry>PAEDIAENTRY_SD_STANDARD</entry>
-        <entry>PAEDIAENTRY_SD_TURBO</entry>
-        <entry>PAEDIAENTRY_SMALL_DISRUPTION_SHIELD</entry>
-        <entry>PAEDIAENTRY_STATIS_BOMB_LAUNCHER</entry>
-        <entry>PAEDIAENTRY_TELEPORTER</entry>
+        <entry>40MM_AUTO_CANNON</entry>
+        <entry>40MM_AUTO_CANNON_TURRET</entry>
+        <entry>ADVANCED_CONTROL_SYSTEM</entry>
+        <entry>AIRGUARD_ANTI_AIR_CANNON</entry>
+        <entry>BIO_TRANSPORT_MODULE</entry>
+        <entry>BOLTER_4000</entry>
+        <entry>CARGO_MODULE</entry>
+        <entry>CLOAKING_FIELD</entry>
+        <entry>DIMENSION_SHIFTER</entry>
+        <entry>DISRUPTOR_BOMB_LAUNCHER</entry>
+        <entry>DISRUPTOR_MULTI_BOMB_LAUNCHER</entry>
+        <entry>GLM_AIR_DEFENSE</entry>
+        <entry>GLM_ARRAY</entry>
+        <entry>HEAVY_DISRUPTOR_BEAM</entry>
+        <entry>HEAVY_WEAPONS_CONTROL</entry>
+        <entry>JANITOR_MISSILE_ARRAY</entry>
+        <entry>JUSTICE_MISSILE_LAUNCHER</entry>
+        <entry>LANCER_7000</entry>
+        <entry>LARGE_DISRUPTION_SHIELD</entry>
+        <entry>LASER_DEFENSE_ARRAY</entry>
+        <entry>LIGHT_DISRUPTOR_BEAM</entry>
+        <entry>LIGHT_WEAPONS_CONTROL</entry>
+        <entry>LINEAGE_PLASMA_CANNON</entry>
+        <entry>MEDIUM_DISRUPTOR_BEAM</entry>
+        <entry>MEDIUM_WEAPONS_CONTROL</entry>
+        <entry>METRO_MULTIPOWER_PLUS</entry>
+        <entry>METRO_POWERGRAV</entry>
+        <entry>METRO_ROADGRAV</entry>
+        <entry>METRO_ROADHOG</entry>
+        <entry>METRO_TURBOGRAV</entry>
+        <entry>MISSILE_EVASION_MATRIX</entry>
+        <entry>PASSENGER_MODULE</entry>
+        <entry>PLASMA_DEFENSE_ARRAY</entry>
+        <entry>PLASMA_MULTISYSTEM</entry>
+        <entry>PLASMA_TURRET_CANNON</entry>
+        <entry>PROPHET_MISSILE_ARRAY</entry>
+        <entry>RENDOR_PLASMA_GUN</entry>
+        <entry>RETRIBUTION_MISSILE_LAUNCHER</entry>
+        <entry>RUMBLE_CANNON</entry>
+        <entry>SD_DELUXE</entry>
+        <entry>SD_ELITE</entry>
+        <entry>SD_SPECIAL</entry>
+        <entry>SD_SPORTS</entry>
+        <entry>SD_STANDARD</entry>
+        <entry>SD_TURBO</entry>
+        <entry>SMALL_DISRUPTION_SHIELD</entry>
+        <entry>STATIS_BOMB_LAUNCHER</entry>
+        <entry>TELEPORTER</entry>
       </entries>
     </value>
   </entry>

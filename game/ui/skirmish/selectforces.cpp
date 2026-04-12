@@ -210,55 +210,55 @@ SelectForces::SelectForces(sp<GameState> state, Skirmish &skirmish,
 	{
 		for (auto &a : *aliens)
 		{
-			if (a.first.id == "AGENTTYPE_ANTHROPOD")
+			if (a.first.id == "ANTHROPOD")
 			{
 				menuform->findControlTyped<ScrollBar>("NUM_ANTHROPOD_SLIDER")->setValue(a.second);
 			}
-			else if (a.first.id == "AGENTTYPE_BRAINSUCKER")
+			else if (a.first.id == "BRAINSUCKER")
 			{
 				menuform->findControlTyped<ScrollBar>("NUM_BSK_SLIDER")->setValue(a.second);
 			}
-			else if (a.first.id == "AGENTTYPE_CHRYSALIS")
+			else if (a.first.id == "CHRYSALIS")
 			{
 				menuform->findControlTyped<ScrollBar>("NUM_CHRYS_SLIDER")->setValue(a.second);
 			}
-			else if (a.first.id == "AGENTTYPE_HYPERWORM")
+			else if (a.first.id == "HYPERWORM")
 			{
 				menuform->findControlTyped<ScrollBar>("NUM_HYPERWORM_SLIDER")->setValue(a.second);
 			}
-			else if (a.first.id == "AGENTTYPE_MEGASPAWN")
+			else if (a.first.id == "MEGASPAWN")
 			{
 				menuform->findControlTyped<ScrollBar>("NUM_MEGA_SLIDER")->setValue(a.second);
 			}
-			else if (a.first.id == "AGENTTYPE_MICRONOID_AGGREGATE")
+			else if (a.first.id == "MICRONOID_AGGREGATE")
 			{
 				menuform->findControlTyped<ScrollBar>("NUM_MICRO_SLIDER")->setValue(a.second);
 			}
-			else if (a.first.id == "AGENTTYPE_MULTIWORM")
+			else if (a.first.id == "MULTIWORM")
 			{
 				menuform->findControlTyped<ScrollBar>("NUM_MULTIWORM_SLIDER")->setValue(a.second);
 			}
-			else if (a.first.id == "AGENTTYPE_MULTIWORM_EGG")
+			else if (a.first.id == "MULTIWORM_EGG")
 			{
 				menuform->findControlTyped<ScrollBar>("NUM_EGG_SLIDER")->setValue(a.second);
 			}
-			else if (a.first.id == "AGENTTYPE_POPPER")
+			else if (a.first.id == "POPPER")
 			{
 				menuform->findControlTyped<ScrollBar>("NUM_POPPER_SLIDER")->setValue(a.second);
 			}
-			else if (a.first.id == "AGENTTYPE_PSIMORPH")
+			else if (a.first.id == "PSIMORPH")
 			{
 				menuform->findControlTyped<ScrollBar>("NUM_PSI_SLIDER")->setValue(a.second);
 			}
-			else if (a.first.id == "AGENTTYPE_QUEENSPAWN")
+			else if (a.first.id == "QUEENSPAWN")
 			{
 				menuform->findControlTyped<CheckBox>("QUEENSPAWN")->setChecked(a.second > 0);
 			}
-			else if (a.first.id == "AGENTTYPE_SKELETOID")
+			else if (a.first.id == "SKELETOID")
 			{
 				menuform->findControlTyped<ScrollBar>("NUM_SKEL_SLIDER")->setValue(a.second);
 			}
-			else if (a.first.id == "AGENTTYPE_SPITTER")
+			else if (a.first.id == "SPITTER")
 			{
 				menuform->findControlTyped<ScrollBar>("NUM_SPITTER_SLIDER")->setValue(a.second);
 			}
@@ -346,77 +346,77 @@ void SelectForces::eventOccurred(Event *e)
 				if (menuform->findControlTyped<ScrollBar>("NUM_ANTHROPOD_SLIDER")->getValue() > 0)
 				{
 					aliens.emplace(
-					    StateRef<AgentType>(&state, "AGENTTYPE_ANTHROPOD"),
+					    StateRef<AgentType>(&state, "ANTHROPOD"),
 					    menuform->findControlTyped<ScrollBar>("NUM_ANTHROPOD_SLIDER")->getValue());
 				}
 				if (menuform->findControlTyped<ScrollBar>("NUM_BSK_SLIDER")->getValue() > 0)
 				{
 					aliens.emplace(
-					    StateRef<AgentType>(&state, "AGENTTYPE_BRAINSUCKER"),
+					    StateRef<AgentType>(&state, "BRAINSUCKER"),
 					    menuform->findControlTyped<ScrollBar>("NUM_BSK_SLIDER")->getValue());
 				}
 				if (menuform->findControlTyped<ScrollBar>("NUM_CHRYS_SLIDER")->getValue() > 0)
 				{
 					aliens.emplace(
-					    StateRef<AgentType>(&state, "AGENTTYPE_CHRYSALIS"),
+					    StateRef<AgentType>(&state, "CHRYSALIS"),
 					    menuform->findControlTyped<ScrollBar>("NUM_CHRYS_SLIDER")->getValue());
 				}
 				if (menuform->findControlTyped<ScrollBar>("NUM_HYPERWORM_SLIDER")->getValue() > 0)
 				{
 					aliens.emplace(
-					    StateRef<AgentType>(&state, "AGENTTYPE_HYPERWORM"),
+					    StateRef<AgentType>(&state, "HYPERWORM"),
 					    menuform->findControlTyped<ScrollBar>("NUM_HYPERWORM_SLIDER")->getValue());
 				}
 				if (menuform->findControlTyped<ScrollBar>("NUM_MEGA_SLIDER")->getValue() > 0)
 				{
 					aliens.emplace(
-					    StateRef<AgentType>(&state, "AGENTTYPE_MEGASPAWN"),
+					    StateRef<AgentType>(&state, "MEGASPAWN"),
 					    menuform->findControlTyped<ScrollBar>("NUM_MEGA_SLIDER")->getValue());
 				}
 				if (menuform->findControlTyped<ScrollBar>("NUM_MICRO_SLIDER")->getValue() > 0)
 				{
 					aliens.emplace(
-					    StateRef<AgentType>(&state, "AGENTTYPE_MICRONOID_AGGREGATE"),
+					    StateRef<AgentType>(&state, "MICRONOID_AGGREGATE"),
 					    menuform->findControlTyped<ScrollBar>("NUM_MICRO_SLIDER")->getValue());
 				}
 				if (menuform->findControlTyped<ScrollBar>("NUM_MULTIWORM_SLIDER")->getValue() > 0)
 				{
 					aliens.emplace(
-					    StateRef<AgentType>(&state, "AGENTTYPE_MULTIWORM"),
+					    StateRef<AgentType>(&state, "MULTIWORM"),
 					    menuform->findControlTyped<ScrollBar>("NUM_MULTIWORM_SLIDER")->getValue());
 				}
 				if (menuform->findControlTyped<ScrollBar>("NUM_EGG_SLIDER")->getValue() > 0)
 				{
 					aliens.emplace(
-					    StateRef<AgentType>(&state, "AGENTTYPE_MULTIWORM_EGG"),
+					    StateRef<AgentType>(&state, "MULTIWORM_EGG"),
 					    menuform->findControlTyped<ScrollBar>("NUM_EGG_SLIDER")->getValue());
 				}
 				if (menuform->findControlTyped<ScrollBar>("NUM_POPPER_SLIDER")->getValue() > 0)
 				{
 					aliens.emplace(
-					    StateRef<AgentType>(&state, "AGENTTYPE_POPPER"),
+					    StateRef<AgentType>(&state, "POPPER"),
 					    menuform->findControlTyped<ScrollBar>("NUM_POPPER_SLIDER")->getValue());
 				}
 				if (menuform->findControlTyped<ScrollBar>("NUM_PSI_SLIDER")->getValue() > 0)
 				{
 					aliens.emplace(
-					    StateRef<AgentType>(&state, "AGENTTYPE_PSIMORPH"),
+					    StateRef<AgentType>(&state, "PSIMORPH"),
 					    menuform->findControlTyped<ScrollBar>("NUM_PSI_SLIDER")->getValue());
 				}
 				if (menuform->findControlTyped<ScrollBar>("NUM_SKEL_SLIDER")->getValue() > 0)
 				{
 					aliens.emplace(
-					    StateRef<AgentType>(&state, "AGENTTYPE_SKELETOID"),
+					    StateRef<AgentType>(&state, "SKELETOID"),
 					    menuform->findControlTyped<ScrollBar>("NUM_SKEL_SLIDER")->getValue());
 				}
 				if (menuform->findControlTyped<CheckBox>("QUEENSPAWN")->isChecked())
 				{
-					aliens.emplace(StateRef<AgentType>(&state, "AGENTTYPE_QUEENSPAWN"), 1);
+					aliens.emplace(StateRef<AgentType>(&state, "QUEENSPAWN"), 1);
 				}
 				if (menuform->findControlTyped<ScrollBar>("NUM_SPITTER_SLIDER")->getValue() > 0)
 				{
 					aliens.emplace(
-					    StateRef<AgentType>(&state, "AGENTTYPE_SPITTER"),
+					    StateRef<AgentType>(&state, "SPITTER"),
 					    menuform->findControlTyped<ScrollBar>("NUM_SPITTER_SLIDER")->getValue());
 				}
 			}

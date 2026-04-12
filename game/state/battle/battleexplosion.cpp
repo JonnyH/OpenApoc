@@ -86,7 +86,7 @@ void BattleExplosion::damage(GameState &state, const TileMap &map, Vec3<int> pos
 	// Explosions with no hazard spawn smoke with half ttl
 	if (!damageType->hazardType)
 	{
-		StateRef<DamageType> dtSmoke = {&state, "DAMAGETYPE_SMOKE"};
+		StateRef<DamageType> dtSmoke = {&state, "SMOKE"};
 		state.current_battle->placeHazard(state, ownerOrganisation, ownerUnit, dtSmoke, pos,
 		                                  dtSmoke->hazardType->getLifetime(state), damage, 2,
 		                                  false);
@@ -318,7 +318,7 @@ void BattleExplosion::expand(GameState &state, const TileMap &map, const Vec3<in
 				}
 			}
 			doodadType = {&state,
-			              format("DOODAD_BATTLE_EXPLOSION_{0}{1}", velocity.x + 1, velocity.y + 1)};
+			              format("BATTLE_EXPLOSION_{0}{1}", velocity.x + 1, velocity.y + 1)};
 		}
 		Vec3<float> doodadPos = to;
 		doodadPos += Vec3<float>{0.5f, 0.5f, 0.5f};

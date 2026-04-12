@@ -24,11 +24,6 @@ template <> sp<BattleDoor> StateObject<BattleDoor>::get(const GameState &state, 
 	return it->second;
 }
 
-template <> const UString &StateObject<BattleDoor>::getPrefix()
-{
-	static UString prefix = "BATTLEDOOR_";
-	return prefix;
-}
 template <> const UString &StateObject<BattleDoor>::getTypeName()
 {
 	static UString name = "BattleDoor";
