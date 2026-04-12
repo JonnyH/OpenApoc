@@ -277,8 +277,8 @@ void InitialGameStateExtractor::extractVehicleEquipment(GameState &state) const
 				{
 					for (int j = 0; j < 4; j++)
 					{
-						e->splitIntoTypes.push_back(StateRef<VEquipmentType>{
-						    &state, "DISRUPTOR_MULTI-BOMB_FRAGMENT"});
+						e->splitIntoTypes.push_back(
+						    StateRef<VEquipmentType>{&state, "DISRUPTOR_MULTI-BOMB_FRAGMENT"});
 					}
 				}
 

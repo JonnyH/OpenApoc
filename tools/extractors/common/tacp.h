@@ -41,15 +41,9 @@ class TACP
 
 	std::unique_ptr<DataChunk<ProjectileSprites>> projectile_sprites;
 
-	UString getDTypeId(int idx) const
-	{
-		return canon_string(this->damage_type_names->get(idx));
-	}
+	UString getDTypeId(int idx) const { return canon_string(this->damage_type_names->get(idx)); }
 
-	UString getDModId(int idx) const
-	{
-		return canon_string(this->damage_modifier_names->get(idx));
-	}
+	UString getDModId(int idx) const { return canon_string(this->damage_modifier_names->get(idx)); }
 };
 
 // TACP &getTACPData();

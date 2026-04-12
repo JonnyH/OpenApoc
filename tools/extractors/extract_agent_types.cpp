@@ -78,15 +78,15 @@ namespace OpenApoc
 void fillAgentImagePacksByDefault(GameState &state, sp<AgentType> a, UString imagePackName)
 {
 	a->image_packs[a->image_packs.size() - 1][BodyPart::Body] = {
-	    &state, format("{0}{1}", imagePackName,"a")};
+	    &state, format("{0}{1}", imagePackName, "a")};
 	a->image_packs[a->image_packs.size() - 1][BodyPart::Legs] = {
-	    &state, format("{0}{1}", imagePackName,"b")};
+	    &state, format("{0}{1}", imagePackName, "b")};
 	a->image_packs[a->image_packs.size() - 1][BodyPart::Helmet] = {
-	    &state, format("{0}{1}", imagePackName,"c")};
+	    &state, format("{0}{1}", imagePackName, "c")};
 	a->image_packs[a->image_packs.size() - 1][BodyPart::LeftArm] = {
-	    &state, format("{0}{1}", imagePackName,"d")};
+	    &state, format("{0}{1}", imagePackName, "d")};
 	a->image_packs[a->image_packs.size() - 1][BodyPart::RightArm] = {
-	    &state, format("{0}{1}", imagePackName,"e")};
+	    &state, format("{0}{1}", imagePackName, "e")};
 }
 
 void pushEquipmentSlot(sp<AgentEquipmentLayout> a, int x, int y, int w = 1, int h = 1,
@@ -378,15 +378,11 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 					// appearances
 					// They all use same animation and differ in head image sets
 					a->appearance_count = 4;
-					a->animation_packs.emplace_back(
-					    &state, UString("civ"));
-					a->animation_packs.emplace_back(
-					    &state, UString("civ"));
-					a->animation_packs.emplace_back(
-					    &state, UString("civ"));
+					a->animation_packs.emplace_back(&state, UString("civ"));
+					a->animation_packs.emplace_back(&state, UString("civ"));
+					a->animation_packs.emplace_back(&state, UString("civ"));
 				}
-				a->animation_packs.emplace_back(
-				    &state, UString("civ"));
+				a->animation_packs.emplace_back(&state, UString("civ"));
 				if (i == UNIT_TYPE_GREY)
 				{
 					bodyTypeName = "GREY";
@@ -400,10 +396,8 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 			// Stationary aliens
 			case UNIT_TYPE_MULTIWORM_EGG:
 				a->appearance_count = 2;
-				a->animation_packs.emplace_back(
-				    &state, UString("mwegg1"));
-				a->animation_packs.emplace_back(
-				    &state, UString("mwegg2"));
+				a->animation_packs.emplace_back(&state, UString("mwegg1"));
+				a->animation_packs.emplace_back(&state, UString("mwegg2"));
 				bodyTypeName = "MULTIWORM_EGG";
 				infiltrationID = 0;
 				a->growthChance = 20;
@@ -414,10 +408,8 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 				break;
 			case UNIT_TYPE_CHRYSALIS:
 				a->appearance_count = 2;
-				a->animation_packs.emplace_back(
-				    &state, UString("chrys1"));
-				a->animation_packs.emplace_back(
-				    &state, UString("chrys2"));
+				a->animation_packs.emplace_back(&state, UString("chrys1"));
+				a->animation_packs.emplace_back(&state, UString("chrys2"));
 				bodyTypeName = "CHRYSALIS";
 				infiltrationID = 4;
 				a->growthChance = 12;
@@ -433,8 +425,7 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 				a->movementPercent = 0;
 				break;
 			case UNIT_TYPE_QUEENSPAWN:
-				a->animation_packs.emplace_back(
-				    &state, UString("queen"));
+				a->animation_packs.emplace_back(&state, UString("queen"));
 				bodyTypeName = "QUEENSPAWN";
 				infiltrationID = 11;
 				a->growthChance = 0;
@@ -444,8 +435,7 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 				break;
 			// Non-humanoid aliens
 			case UNIT_TYPE_BRAINSUCKER:
-				a->animation_packs.emplace_back(
-				    &state, UString("bsk"));
+				a->animation_packs.emplace_back(&state, UString("bsk"));
 				bodyTypeName = "BRAINSUCKER";
 				infiltrationID = 1;
 				a->growthChance = 20;
@@ -454,8 +444,7 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 				a->movementPercent = 40;
 				break;
 			case UNIT_TYPE_HYPERWORM:
-				a->animation_packs.emplace_back(
-				    &state, UString("hypr"));
+				a->animation_packs.emplace_back(&state, UString("hypr"));
 				bodyTypeName = "HYPERWORM";
 				infiltrationID = 3;
 				a->growthChance = 12;
@@ -465,8 +454,7 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 				a->movementPercent = 33;
 				break;
 			case UNIT_TYPE_SPITTER:
-				a->animation_packs.emplace_back(
-				    &state, UString("spitr"));
+				a->animation_packs.emplace_back(&state, UString("spitr"));
 				bodyTypeName = "SPITTER";
 				infiltrationID = 7;
 				a->growthChance = 2;
@@ -474,8 +462,7 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 				a->movementPercent = 33;
 				break;
 			case UNIT_TYPE_POPPER:
-				a->animation_packs.emplace_back(
-				    &state, UString("popper"));
+				a->animation_packs.emplace_back(&state, UString("popper"));
 				bodyTypeName = "POPPER";
 				infiltrationID = 8;
 				a->growthChance = 2;
@@ -483,8 +470,7 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 				a->movementPercent = 33;
 				break;
 			case UNIT_TYPE_MICRONOID:
-				a->animation_packs.emplace_back(
-				    &state, UString("micro"));
+				a->animation_packs.emplace_back(&state, UString("micro"));
 				bodyTypeName = "MICRONOID";
 				infiltrationID = 12;
 				a->growthChance = 0;
@@ -493,8 +479,7 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 				break;
 			// Special case: Multiworm, can only crawl
 			case UNIT_TYPE_MULTIWORM:
-				a->animation_packs.emplace_back(
-				    &state, UString("multi"));
+				a->animation_packs.emplace_back(&state, UString("multi"));
 				bodyTypeName = "MULTIWORM";
 				infiltrationID = 2;
 				a->growthChance = 12;
@@ -505,8 +490,7 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 				break;
 			// Special case: Megaspawn, can strafe
 			case UNIT_TYPE_MEGASPAWN:
-				a->animation_packs.emplace_back(
-				    &state, UString("mega"));
+				a->animation_packs.emplace_back(&state, UString("mega"));
 				bodyTypeName = "MEGASPAWN";
 				infiltrationID = 9;
 				a->growthChance = 2;
@@ -516,8 +500,7 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 
 			// Special case: Psimorph, non-humanoid that can only fly
 			case UNIT_TYPE_PSIMORPH:
-				a->animation_packs.emplace_back(
-				    &state, UString("psi"));
+				a->animation_packs.emplace_back(&state, UString("psi"));
 				bodyTypeName = "PSIMORPH";
 				infiltrationID = 10;
 				a->growthChance = 2;
@@ -547,16 +530,13 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 				if (i == UNIT_TYPE_GANGSTER)
 				{
 					a->appearance_count = 2;
-					a->animation_packs.emplace_back(
-					    &state, UString("unit"));
+					a->animation_packs.emplace_back(&state, UString("unit"));
 				}
-				a->animation_packs.emplace_back(
-				    &state, UString("unit"));
+				a->animation_packs.emplace_back(&state, UString("unit"));
 				break;
 		}
 
-		a->bodyType = {&state,
-		               canon_string(bodyTypeName)};
+		a->bodyType = {&state, canon_string(bodyTypeName)};
 
 		if (infiltrationID != -1)
 		{
@@ -570,28 +550,22 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 		{
 			// Aliens with unique shadows
 			case UNIT_TYPE_BRAINSUCKER:
-				a->shadow_pack = {&state,
-				                  UString("bsks")};
+				a->shadow_pack = {&state, UString("bsks")};
 				break;
 			case UNIT_TYPE_HYPERWORM:
-				a->shadow_pack = {&state,
-				                  UString("hyprs")};
+				a->shadow_pack = {&state, UString("hyprs")};
 				break;
 			case UNIT_TYPE_SPITTER:
-				a->shadow_pack = {&state,
-				                  UString("spitrs")};
+				a->shadow_pack = {&state, UString("spitrs")};
 				break;
 			case UNIT_TYPE_POPPER:
-				a->shadow_pack = {&state,
-				                  UString("poppers")};
+				a->shadow_pack = {&state, UString("poppers")};
 				break;
 			case UNIT_TYPE_MEGASPAWN:
-				a->shadow_pack = {&state,
-				                  UString("megas")};
+				a->shadow_pack = {&state, UString("megas")};
 				break;
 			case UNIT_TYPE_PSIMORPH:
-				a->shadow_pack = {&state,
-				                  UString("psis")};
+				a->shadow_pack = {&state, UString("psis")};
 				break;
 
 			// Aliens with no shadows
@@ -604,8 +578,7 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 
 			// Humanoid aliens and humans
 			default:
-				a->shadow_pack = {&state,
-				                  UString("shadow")};
+				a->shadow_pack = {&state, UString("shadow")};
 				break;
 		}
 
@@ -618,8 +591,7 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 			case UNIT_TYPE_ENGINEER:
 			case UNIT_TYPE_QUANTUM_PHYSIST:
 				a->inventoryBackground = fw().data->loadImage("xcom3/tacdata/equippic/scien.pcx");
-				a->image_packs[0][BodyPart::Body] = {
-				    &state, UString("scntst")};
+				a->image_packs[0][BodyPart::Body] = {&state, UString("scntst")};
 				break;
 			case UNIT_TYPE_GANG_LEADER:
 				fillAgentImagePacksByDefault(state, a, "gangl");
@@ -627,8 +599,7 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 			case UNIT_TYPE_CORPORATE_BOSS:
 				// Game has no picture for this unit.
 				// I think rm1 (upper class male) fits him best.
-				a->image_packs[0][BodyPart::Body] = {
-				    &state, UString("rm1")};
+				a->image_packs[0][BodyPart::Body] = {&state, UString("rm1")};
 				break;
 			case UNIT_TYPE_CULT_LEADER:
 				fillAgentImagePacksByDefault(state, a, "cultl");
@@ -665,142 +636,104 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 				fillAgentImagePacksByDefault(state, a, "sec");
 				break;
 			case UNIT_TYPE_ANDROID:
-				a->image_packs[0][BodyPart::Body] = {
-				    &state, UString("robot")};
-				a->image_packs[0][BodyPart::Helmet] = {
-				    &state, UString("robo1")};
+				a->image_packs[0][BodyPart::Body] = {&state, UString("robot")};
+				a->image_packs[0][BodyPart::Helmet] = {&state, UString("robo1")};
 				a->image_packs.push_back(std::map<BodyPart, StateRef<BattleUnitImagePack>>());
-				a->image_packs[1][BodyPart::Body] = {
-				    &state, UString("robot")};
-				a->image_packs[1][BodyPart::Helmet] = {
-				    &state, UString("robo2")};
+				a->image_packs[1][BodyPart::Body] = {&state, UString("robot")};
+				a->image_packs[1][BodyPart::Helmet] = {&state, UString("robo2")};
 				a->image_packs.push_back(std::map<BodyPart, StateRef<BattleUnitImagePack>>());
-				a->image_packs[2][BodyPart::Body] = {
-				    &state, UString("robot")};
-				a->image_packs[2][BodyPart::Helmet] = {
-				    &state, UString("robo3")};
+				a->image_packs[2][BodyPart::Body] = {&state, UString("robot")};
+				a->image_packs[2][BodyPart::Helmet] = {&state, UString("robo3")};
 				a->image_packs.push_back(std::map<BodyPart, StateRef<BattleUnitImagePack>>());
-				a->image_packs[3][BodyPart::Body] = {
-				    &state, UString("robot")};
-				a->image_packs[3][BodyPart::Helmet] = {
-				    &state, UString("robo4")};
+				a->image_packs[3][BodyPart::Body] = {&state, UString("robot")};
+				a->image_packs[3][BodyPart::Helmet] = {&state, UString("robo4")};
 				break;
 			case UNIT_TYPE_GREY:
-				a->image_packs[0][BodyPart::Body] = {
-				    &state, UString("grey")};
+				a->image_packs[0][BodyPart::Body] = {&state, UString("grey")};
 				break;
 			case UNIT_TYPE_UPPER_CLASS_FEMALE_1:
-				a->image_packs[0][BodyPart::Body] = {
-				    &state, UString("rw1")};
+				a->image_packs[0][BodyPart::Body] = {&state, UString("rw1")};
 				break;
 			case UNIT_TYPE_UPPER_CLASS_FEMALE_2:
-				a->image_packs[0][BodyPart::Body] = {
-				    &state, UString("rw2")};
+				a->image_packs[0][BodyPart::Body] = {&state, UString("rw2")};
 				break;
 			case UNIT_TYPE_UPPER_CLASS_FEMALE_3:
-				a->image_packs[0][BodyPart::Body] = {
-				    &state, UString("rw3")};
+				a->image_packs[0][BodyPart::Body] = {&state, UString("rw3")};
 				break;
 			case UNIT_TYPE_UPPER_CLASS_MALE_1:
-				a->image_packs[0][BodyPart::Body] = {
-				    &state, UString("rm1")};
+				a->image_packs[0][BodyPart::Body] = {&state, UString("rm1")};
 				break;
 			case UNIT_TYPE_UPPER_CLASS_MALE_2:
-				a->image_packs[0][BodyPart::Body] = {
-				    &state, UString("rm2")};
+				a->image_packs[0][BodyPart::Body] = {&state, UString("rm2")};
 				break;
 			case UNIT_TYPE_UPPER_CLASS_MALE_3:
-				a->image_packs[0][BodyPart::Body] = {
-				    &state, UString("rm3")};
+				a->image_packs[0][BodyPart::Body] = {&state, UString("rm3")};
 				break;
 			case UNIT_TYPE_CIVILIAN_FEMALE_1:
-				a->image_packs[0][BodyPart::Body] = {
-				    &state, UString("nw1")};
+				a->image_packs[0][BodyPart::Body] = {&state, UString("nw1")};
 				break;
 			case UNIT_TYPE_CIVILIAN_FEMALE_2:
-				a->image_packs[0][BodyPart::Body] = {
-				    &state, UString("nw2")};
+				a->image_packs[0][BodyPart::Body] = {&state, UString("nw2")};
 				break;
 			case UNIT_TYPE_CIVILIAN_FEMALE_3:
-				a->image_packs[0][BodyPart::Body] = {
-				    &state, UString("nw3")};
+				a->image_packs[0][BodyPart::Body] = {&state, UString("nw3")};
 				break;
 			case UNIT_TYPE_CIVILIAN_MALE_1:
-				a->image_packs[0][BodyPart::Body] = {
-				    &state, UString("nm1")};
+				a->image_packs[0][BodyPart::Body] = {&state, UString("nm1")};
 				break;
 			case UNIT_TYPE_CIVILIAN_MALE_2:
-				a->image_packs[0][BodyPart::Body] = {
-				    &state, UString("nm2")};
+				a->image_packs[0][BodyPart::Body] = {&state, UString("nm2")};
 				break;
 			case UNIT_TYPE_CIVILIAN_MALE_3:
-				a->image_packs[0][BodyPart::Body] = {
-				    &state, UString("nm3")};
+				a->image_packs[0][BodyPart::Body] = {&state, UString("nm3")};
 				break;
 			case UNIT_TYPE_LOWER_CLASS_MALE_1:
-				a->image_packs[0][BodyPart::Body] = {
-				    &state, UString("sm1")};
+				a->image_packs[0][BodyPart::Body] = {&state, UString("sm1")};
 				break;
 			case UNIT_TYPE_LOWER_CLASS_MALE_2:
-				a->image_packs[0][BodyPart::Body] = {
-				    &state, UString("sm2")};
+				a->image_packs[0][BodyPart::Body] = {&state, UString("sm2")};
 				break;
 			case UNIT_TYPE_LOWER_CLASS_MALE_3:
-				a->image_packs[0][BodyPart::Body] = {
-				    &state, UString("sm3")};
+				a->image_packs[0][BodyPart::Body] = {&state, UString("sm3")};
 				break;
 			case UNIT_TYPE_LOWER_CLASS_FEMALE_1:
-				a->image_packs[0][BodyPart::Body] = {
-				    &state, UString("sw1")};
+				a->image_packs[0][BodyPart::Body] = {&state, UString("sw1")};
 				break;
 			case UNIT_TYPE_LOWER_CLASS_FEMALE_2:
-				a->image_packs[0][BodyPart::Body] = {
-				    &state, UString("sw2")};
+				a->image_packs[0][BodyPart::Body] = {&state, UString("sw2")};
 				break;
 			case UNIT_TYPE_LOWER_CLASS_FEMALE_3:
-				a->image_packs[0][BodyPart::Body] = {
-				    &state, UString("sw3")};
+				a->image_packs[0][BodyPart::Body] = {&state, UString("sw3")};
 				break;
 			case UNIT_TYPE_MULTIWORM_EGG:
 				a->inventoryBackground =
 				    fw().data->loadImage("xcom3/tacdata/equippic/mwormegg.pcx");
-				a->image_packs[0][BodyPart::Body] = {
-				    &state, UString("mwegga")};
-				a->image_packs[0][BodyPart::Helmet] = {
-				    &state, UString("mweggb")};
+				a->image_packs[0][BodyPart::Body] = {&state, UString("mwegga")};
+				a->image_packs[0][BodyPart::Helmet] = {&state, UString("mweggb")};
 				a->image_packs.push_back(std::map<BodyPart, StateRef<BattleUnitImagePack>>());
-				a->image_packs[1][BodyPart::Body] = {
-				    &state, UString("mwegga")};
-				a->image_packs[1][BodyPart::Helmet] = {
-				    &state, UString("mweggb")};
+				a->image_packs[1][BodyPart::Body] = {&state, UString("mwegga")};
+				a->image_packs[1][BodyPart::Helmet] = {&state, UString("mweggb")};
 				break;
 			case UNIT_TYPE_BRAINSUCKER:
 				a->inventoryBackground = fw().data->loadImage("xcom3/tacdata/equippic/sucker.pcx");
-				a->image_packs[0][BodyPart::Body] = {
-				    &state, UString("bsk")};
+				a->image_packs[0][BodyPart::Body] = {&state, UString("bsk")};
 				break;
 			case UNIT_TYPE_MULTIWORM:
 				a->inventoryBackground = fw().data->loadImage("xcom3/tacdata/equippic/mworm.pcx");
-				a->image_packs[0][BodyPart::Body] = {
-				    &state, UString("multi")};
+				a->image_packs[0][BodyPart::Body] = {&state, UString("multi")};
 				break;
 			case UNIT_TYPE_HYPERWORM:
 				a->inventoryBackground = fw().data->loadImage("xcom3/tacdata/equippic/hyperwm.pcx");
-				a->image_packs[0][BodyPart::Body] = {
-				    &state, UString("hypr")};
+				a->image_packs[0][BodyPart::Body] = {&state, UString("hypr")};
 				break;
 			case UNIT_TYPE_CHRYSALIS:
 				a->inventoryBackground =
 				    fw().data->loadImage("xcom3/tacdata/equippic/chrysali.pcx");
-				a->image_packs[0][BodyPart::Body] = {
-				    &state, UString("chrysa")};
-				a->image_packs[0][BodyPart::Helmet] = {
-				    &state, UString("chrysb")};
+				a->image_packs[0][BodyPart::Body] = {&state, UString("chrysa")};
+				a->image_packs[0][BodyPart::Helmet] = {&state, UString("chrysb")};
 				a->image_packs.push_back(std::map<BodyPart, StateRef<BattleUnitImagePack>>());
-				a->image_packs[1][BodyPart::Body] = {
-				    &state, UString("chrysa")};
-				a->image_packs[1][BodyPart::Helmet] = {
-				    &state, UString("chrysb")};
+				a->image_packs[1][BodyPart::Body] = {&state, UString("chrysa")};
+				a->image_packs[1][BodyPart::Helmet] = {&state, UString("chrysb")};
 				break;
 			case UNIT_TYPE_ANTHROPOD:
 				a->inventoryBackground =
@@ -813,13 +746,11 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 				break;
 			case UNIT_TYPE_SPITTER:
 				a->inventoryBackground = fw().data->loadImage("xcom3/tacdata/equippic/spitter.pcx");
-				a->image_packs[0][BodyPart::Body] = {
-				    &state, UString("spitr")};
+				a->image_packs[0][BodyPart::Body] = {&state, UString("spitr")};
 				break;
 			case UNIT_TYPE_POPPER:
 				a->inventoryBackground = fw().data->loadImage("xcom3/tacdata/equippic/popper.pcx");
-				a->image_packs[0][BodyPart::Body] = {
-				    &state, UString("popper")};
+				a->image_packs[0][BodyPart::Body] = {&state, UString("popper")};
 				break;
 			case UNIT_TYPE_MEGASPAWN:
 				a->inventoryBackground =
@@ -830,21 +761,17 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 				break;
 			case UNIT_TYPE_PSIMORPH:
 				a->inventoryBackground = fw().data->loadImage("xcom3/tacdata/equippic/psi_m.pcx");
-				a->image_packs[0][BodyPart::Body] = {
-				    &state, UString("psi")};
+				a->image_packs[0][BodyPart::Body] = {&state, UString("psi")};
 				break;
 			case UNIT_TYPE_QUEENSPAWN:
 				a->inventoryBackground = fw().data->loadImage("xcom3/tacdata/equippic/queen.pcx");
-				a->image_packs[0][BodyPart::Body] = {
-				    &state, UString("queena")};
-				a->image_packs[0][BodyPart::Legs] = {
-				    &state, UString("queenb")};
+				a->image_packs[0][BodyPart::Body] = {&state, UString("queena")};
+				a->image_packs[0][BodyPart::Legs] = {&state, UString("queenb")};
 				break;
 			case UNIT_TYPE_MICRONOID:
 				a->inventoryBackground =
 				    fw().data->loadImage("xcom3/tacdata/equippic/agregate.pcx");
-				a->image_packs[0][BodyPart::Body] = {
-				    &state, UString("micro")};
+				a->image_packs[0][BodyPart::Body] = {&state, UString("micro")};
 				break;
 		}
 
@@ -1082,17 +1009,17 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 				auto es_data = data_t.agent_equipment_set_built_in->get(data.equipment_sets[0]);
 
 				if (es_data.weapons[0].weapon_idx != 0xffffffff)
-					a->built_in_weapon_right = {
-					    &state, canon_string(data_u.agent_equipment_names->get(
-					                es_data.weapons[0].weapon_idx))};
+					a->built_in_weapon_right = {&state,
+					                            canon_string(data_u.agent_equipment_names->get(
+					                                es_data.weapons[0].weapon_idx))};
 				if (id == "MULTIWORM")
 				{
 					a->built_in_weapon_left = {&state, "MULTIWORM_BURST"};
 				}
 				else if (es_data.weapons[1].weapon_idx != 0xffffffff)
-					a->built_in_weapon_left = {
-					    &state, canon_string(data_u.agent_equipment_names->get(
-					                es_data.weapons[1].weapon_idx))};
+					a->built_in_weapon_left = {&state,
+					                           canon_string(data_u.agent_equipment_names->get(
+					                               es_data.weapons[1].weapon_idx))};
 				name = "BUILTIN";
 			}
 		}
@@ -1100,8 +1027,7 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 		{
 			name = "FULL";
 		}
-		a->equipment_layout = {
-		    &state, canon_string(name)};
+		a->equipment_layout = {&state, canon_string(name)};
 
 		a->score = data.score;
 
@@ -1208,10 +1134,8 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 			case UNIT_TYPE_QUEENSPAWN:
 			case UNIT_TYPE_MICRONOID:
 			{
-				auto liveName =
-				    format("{0}_ALIVE", canon_string(a->name));
-				auto deadName =
-				    format("{0}_DEAD", canon_string(a->name));
+				auto liveName = format("{0}_ALIVE", canon_string(a->name));
+				auto deadName = format("{0}_DEAD", canon_string(a->name));
 
 				auto liveItem = mksp<AEquipmentType>();
 				liveItem->bioStorage = true;
@@ -1340,10 +1264,10 @@ void InitialGameStateExtractor::extractAgentTypes(GameState &state) const
 	// Initial aliens
 	for (int difficulty = 0; difficulty < 5; difficulty++)
 	{
-		state.initial_aliens[difficulty].emplace_back(
-		    StateRef<AgentType>(&state, "BRAINSUCKER"), Vec2<int>{1, difficulty / 2 + 2});
-		state.initial_aliens[difficulty].emplace_back(
-		    StateRef<AgentType>(&state, "ANTHROPOD"), Vec2<int>{1, difficulty / 2 + 2});
+		state.initial_aliens[difficulty].emplace_back(StateRef<AgentType>(&state, "BRAINSUCKER"),
+		                                              Vec2<int>{1, difficulty / 2 + 2});
+		state.initial_aliens[difficulty].emplace_back(StateRef<AgentType>(&state, "ANTHROPOD"),
+		                                              Vec2<int>{1, difficulty / 2 + 2});
 	}
 }
 

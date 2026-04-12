@@ -95,22 +95,13 @@ class UFO2P
 	std::unique_ptr<DataChunk<AgentInfiltrationSpeed>> infiltration_speed_agent;
 	std::unique_ptr<DataChunk<BuildingInfiltrationSpeed>> infiltration_speed_building;
 
-	UString getOrgId(int idx) const
-	{
-		return canon_string(this->organisation_names->get(idx));
-	}
-	UString getFacilityId(int idx) const
-	{
-		return canon_string(this->facility_names->get(idx));
-	}
+	UString getOrgId(int idx) const { return canon_string(this->organisation_names->get(idx)); }
+	UString getFacilityId(int idx) const { return canon_string(this->facility_names->get(idx)); }
 	UString getVequipmentId(int idx) const
 	{
 		return canon_string(this->vehicle_equipment_names->get(idx));
 	}
-	UString getVehicleId(int idx) const
-	{
-		return canon_string(this->vehicle_names->get(idx));
-	}
+	UString getVehicleId(int idx) const { return canon_string(this->vehicle_names->get(idx)); }
 
 	static void fillCrew(GameState &state, CrewData crew,
 	                     std::map<OpenApoc::StateRef<OpenApoc::AgentType>, int> &target);

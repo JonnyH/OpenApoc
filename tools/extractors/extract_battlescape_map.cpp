@@ -124,36 +124,32 @@ void InitialGameStateExtractor::extractBattlescapeMapFromPath(GameState &state,
 	}
 
 	if (bdata.destroyed_ground_idx != 0)
-		m->destroyed_ground_tile = {&state, format("{0}{1}{2}",
-		                                           tilePrefix, "GD_",
-		                                           (unsigned)bdata.destroyed_ground_idx)};
+		m->destroyed_ground_tile = {
+		    &state, format("{0}{1}{2}", tilePrefix, "GD_", (unsigned)bdata.destroyed_ground_idx)};
 
 	for (int i = 0; i < 5; i++)
 	{
 		if (rdata.left_wall[i] != 0)
 		{
 			m->rubble_left_wall.emplace_back(
-			    &state, format("{0}{1}{2}", tilePrefix, "LW_",
-			                   (unsigned)rdata.left_wall[i]));
+			    &state, format("{0}{1}{2}", tilePrefix, "LW_", (unsigned)rdata.left_wall[i]));
 		}
 		if (rdata.right_wall[i] != 0)
 		{
 			m->rubble_right_wall.emplace_back(
-			    &state, format("{0}{1}{2}", tilePrefix, "RW_",
-			                   (unsigned)rdata.right_wall[i]));
+			    &state, format("{0}{1}{2}", tilePrefix, "RW_", (unsigned)rdata.right_wall[i]));
 		}
 		if (rdata.feature[i] != 0)
 		{
-			m->rubble_feature.emplace_back(&state,
-			                               format("{0}{1}{2}",
-			                                      tilePrefix, "FT_", (unsigned)rdata.feature[i]));
+			m->rubble_feature.emplace_back(
+			    &state, format("{0}{1}{2}", tilePrefix, "FT_", (unsigned)rdata.feature[i]));
 		}
 	}
 
 	for (int i = 0; i < 4; i++)
 	{
-		m->exit_grounds.emplace_back(&state, format("{0}{1}{2}",
-		                                            tilePrefix, "GD_", (unsigned)firstExitIdx + i));
+		m->exit_grounds.emplace_back(
+		    &state, format("{0}{1}{2}", tilePrefix, "GD_", (unsigned)firstExitIdx + i));
 	}
 
 	if (reinforcementTimers.find(dirName) != reinforcementTimers.end())
@@ -248,9 +244,8 @@ void InitialGameStateExtractor::extractBattlescapeMapFromPath(GameState &state,
 	}
 
 	if (bdata.destroyed_ground_idx != 0)
-		m->destroyed_ground_tile = {&state, format("{0}{1}{2}",
-		                                           tilePrefix, "GD_",
-		                                           (unsigned)bdata.destroyed_ground_idx)};
+		m->destroyed_ground_tile = {
+		    &state, format("{0}{1}{2}", tilePrefix, "GD_", (unsigned)bdata.destroyed_ground_idx)};
 
 	state.battle_maps[id] = m;
 }
@@ -558,8 +553,7 @@ InitialGameStateExtractor::extractMapSectors(GameState &state, const UString &ma
 							if (tdata.GD != 0)
 							{
 								auto tileName =
-								    format("{0}{1}{2}",
-								           tilePrefix, "GD_", (unsigned)tdata.GD);
+								    format("{0}{1}{2}", tilePrefix, "GD_", (unsigned)tdata.GD);
 
 								tiles->initial_grounds[Vec3<int>{x, y, z}] = {&state, tileName};
 							}
@@ -567,8 +561,7 @@ InitialGameStateExtractor::extractMapSectors(GameState &state, const UString &ma
 							if (tdata.LW != 0)
 							{
 								auto tileName =
-								    format("{0}{1}{2}",
-								           tilePrefix, "LW_", (unsigned)tdata.LW);
+								    format("{0}{1}{2}", tilePrefix, "LW_", (unsigned)tdata.LW);
 
 								tiles->initial_left_walls[Vec3<int>{x, y, z}] = {&state, tileName};
 							}
@@ -576,8 +569,7 @@ InitialGameStateExtractor::extractMapSectors(GameState &state, const UString &ma
 							if (tdata.RW != 0)
 							{
 								auto tileName =
-								    format("{0}{1}{2}",
-								           tilePrefix, "RW_", (unsigned)tdata.RW);
+								    format("{0}{1}{2}", tilePrefix, "RW_", (unsigned)tdata.RW);
 
 								tiles->initial_right_walls[Vec3<int>{x, y, z}] = {&state, tileName};
 							}
@@ -589,15 +581,14 @@ InitialGameStateExtractor::extractMapSectors(GameState &state, const UString &ma
 									if (sector == "23")
 									{
 										tiles
-										    ->guardianLocations[{
-										        &state, "X-COM_BASE_TURRET_LASER"}]
+										    ->guardianLocations[{&state, "X-COM_BASE_TURRET_LASER"}]
 										    .push_back(Vec3<int>{x, y, z});
 									}
 									else if (sector == "24")
 									{
 										tiles
-										    ->guardianLocations[{
-										        &state, "X-COM_BASE_TURRET_DISRUPTOR"}]
+										    ->guardianLocations[{&state,
+										                         "X-COM_BASE_TURRET_DISRUPTOR"}]
 										    .push_back(Vec3<int>{x, y, z});
 									}
 									else
@@ -609,8 +600,7 @@ InitialGameStateExtractor::extractMapSectors(GameState &state, const UString &ma
 								else
 								{
 									auto tileName =
-									    format("{0}{1}{2}",
-									           tilePrefix, "FT_", (unsigned)tdata.FT);
+									    format("{0}{1}{2}", tilePrefix, "FT_", (unsigned)tdata.FT);
 
 									tiles->initial_features[Vec3<int>{x, y, z}] = {&state,
 									                                               tileName};
@@ -624,8 +614,7 @@ InitialGameStateExtractor::extractMapSectors(GameState &state, const UString &ma
 			// Manipulate sector map
 			if (baseMap && fileCounter == 0 && groundCounter != 15)
 			{
-				auto tileName =
-				    format("{0}{1}{2}", tilePrefix, "FT_", 78);
+				auto tileName = format("{0}{1}{2}", tilePrefix, "FT_", 78);
 
 				// key is North South West East (true = occupied, false = vacant)
 				const std::unordered_map<int, std::vector<bool>> PRESENT_ROOMS = {

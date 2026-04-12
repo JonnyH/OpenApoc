@@ -74,16 +74,14 @@ void InitialGameStateExtractor::extractBuildings(GameState &state, UString bldFi
 		if (alienBuilding)
 		{
 			b->name = data.alien_building_names->get(entry.function_idx);
-			b->function = {&state,
-			               canon_string(b->name)};
+			b->function = {&state, canon_string(b->name)};
 			LogInfo("Alien bld {0} {1} func {2} {3}", entry.name_idx, b->name, entry.function_idx,
 			        b->function.id);
 
 			b->accessTopic = {&state, format("ALIEN_BUILDING_{0}", i)};
 			if (i < 9)
 			{
-				b->researchUnlock.emplace_back(&state,
-				                               format("UNLOCK_ALIEN_BUILDING_{0}", i + 1));
+				b->researchUnlock.emplace_back(&state, format("UNLOCK_ALIEN_BUILDING_{0}", i + 1));
 			}
 			else
 			{
@@ -97,8 +95,7 @@ void InitialGameStateExtractor::extractBuildings(GameState &state, UString bldFi
 		else
 		{
 			b->name = data.building_names->get(entry.name_idx);
-			b->function = {&state,
-			               canon_string(data.building_functions->get(entry.function_idx))};
+			b->function = {&state, canon_string(data.building_functions->get(entry.function_idx))};
 
 			b->isPurchesable = entry.is_purchaseable;
 			b->purchasePrice = static_cast<int>(entry.price) * 2000;

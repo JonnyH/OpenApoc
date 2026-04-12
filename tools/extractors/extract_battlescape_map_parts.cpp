@@ -316,29 +316,29 @@ sp<BattleMapTileset> InitialGameStateExtractor::extractTileSet(GameState &state,
 	// Read ground (tiles)
 	{
 		readBattleMapParts(state, this->tacp, t, BattleMapPartType::Type::Ground,
-		                   tilePrefix + "GD_", name,
-		                   map_prefix + name + mapunits_suffix, "grounmap", "ground", "sground");
+		                   tilePrefix + "GD_", name, map_prefix + name + mapunits_suffix,
+		                   "grounmap", "ground", "sground");
 	}
 
 	// Read left walls
 	{
 		readBattleMapParts(state, this->tacp, t, BattleMapPartType::Type::LeftWall,
-		                   tilePrefix + "LW_", name,
-		                   map_prefix + name + mapunits_suffix, "leftmap", "left", "sleft");
+		                   tilePrefix + "LW_", name, map_prefix + name + mapunits_suffix, "leftmap",
+		                   "left", "sleft");
 	}
 
 	// Read right walls
 	{
 		readBattleMapParts(state, this->tacp, t, BattleMapPartType::Type::RightWall,
-		                   tilePrefix + "RW_", name,
-		                   map_prefix + name + mapunits_suffix, "rightmap", "right", "sright");
+		                   tilePrefix + "RW_", name, map_prefix + name + mapunits_suffix,
+		                   "rightmap", "right", "sright");
 	}
 
 	// Read feature
 	{
 		readBattleMapParts(state, this->tacp, t, BattleMapPartType::Type::Feature,
-		                   tilePrefix + "FT_", name,
-		                   map_prefix + name + mapunits_suffix, "featmap", "feature", "sfeature");
+		                   tilePrefix + "FT_", name, map_prefix + name + mapunits_suffix, "featmap",
+		                   "feature", "sfeature");
 	}
 
 	return t;

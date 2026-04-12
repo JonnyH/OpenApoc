@@ -334,8 +334,7 @@ void InitialGameStateExtractor::extractCommon(GameState &state) const
 	UString alienMapId = "ALIEN";
 	state.cities[alienMapId] = std::make_shared<City>();
 	state.cities[alienMapId]->id = alienMapId;
-	state.cities[alienMapId]->researchUnlock.emplace_back(&state,
-	                                                      "UNLOCK_ALIEN_DIMENSION");
+	state.cities[alienMapId]->researchUnlock.emplace_back(&state, "UNLOCK_ALIEN_DIMENSION");
 	this->extractBuildings(state, "albuild", state.cities[alienMapId], true);
 	this->extractCityMap(state, "alienmap", "ALIENMAP_", state.cities[alienMapId]);
 	this->extractCityScenery(state, "ALIENMAP_", "alienmap", "alien", "alien_s", "loftemps",
@@ -363,8 +362,7 @@ void InitialGameStateExtractor::extract(GameState &state, Difficulty difficulty)
 	state.cities[humanMapId] = std::make_shared<City>();
 	state.cities[humanMapId]->id = humanMapId;
 	state.cities[humanMapId]->civilianSalary = 65; // this is default value in UFO2P code
-	state.cities[humanMapId]->researchUnlock.emplace_back(&state,
-	                                                      "UNLOCK_DIMENSION_GATES");
+	state.cities[humanMapId]->researchUnlock.emplace_back(&state, "UNLOCK_DIMENSION_GATES");
 
 	this->extractBuildings(state, humanMapNames[difficulty], state.cities[humanMapId]);
 

@@ -117,24 +117,23 @@ void InitialGameStateExtractor::extractAlienEquipmentSets(GameState &state,
 					{
 						es->weapons.push_back(
 						    {{&state, canon_string(data_u.agent_equipment_names->get(
-						                         data.weapons[j][i].weapon_idx))},
+						                  data.weapons[j][i].weapon_idx))},
 						     {&state, canon_string(data_u.agent_equipment_names->get(
-						                         data.weapons[j][i].clip_idx))},
+						                  data.weapons[j][i].clip_idx))},
 						     std::max((int)data.weapons[j][i].clip_amount, 1)});
 					}
 					else
 					{
 						es->weapons.push_back(
 						    {{&state, canon_string(data_u.agent_equipment_names->get(
-						                         data.weapons[j][i].weapon_idx))}});
+						                  data.weapons[j][i].weapon_idx))}});
 					}
 				}
 				if (data.grenades[j][i].grenade_idx > 0 && data.grenades[j][i].grenade_amount > 0)
 				{
-					es->grenades.push_back(
-					    {{&state, canon_string(data_u.agent_equipment_names->get(
-					                         data.grenades[j][i].grenade_idx))},
-					     data.grenades[j][i].grenade_amount});
+					es->grenades.push_back({{&state, canon_string(data_u.agent_equipment_names->get(
+					                                     data.grenades[j][i].grenade_idx))},
+					                        data.grenades[j][i].grenade_amount});
 				}
 				if (data.equipment[j][i][0] > 0 || data.equipment[j][i][1] > 0)
 				{
@@ -142,21 +141,21 @@ void InitialGameStateExtractor::extractAlienEquipmentSets(GameState &state,
 					{
 						es->equipment.push_back(
 						    {{&state, canon_string(data_u.agent_equipment_names->get(
-						                         data.equipment[j][i][0]))},
+						                  data.equipment[j][i][0]))},
 						     {&state, canon_string(data_u.agent_equipment_names->get(
-						                         data.equipment[j][i][1]))}});
+						                  data.equipment[j][i][1]))}});
 					}
 					else if (data.equipment[j][i][0] > 0)
 					{
 						es->equipment.push_back(
 						    {{&state, canon_string(data_u.agent_equipment_names->get(
-						                         data.equipment[j][i][0]))}});
+						                  data.equipment[j][i][0]))}});
 					}
 					else
 					{
 						es->equipment.push_back(
 						    {{&state, canon_string(data_u.agent_equipment_names->get(
-						                         data.equipment[j][i][1]))}});
+						                  data.equipment[j][i][1]))}});
 					}
 				}
 			}
@@ -452,13 +451,11 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 				e->research_dependency.topics.emplace(&state, "ENTROPY_POD");
 				break;
 			case IT_DIMENSIONLAUNCHER:
-				e->research_dependency.topics.emplace(&state,
-				                                      "DIMENSION_MISSILE_LAUNCHER");
+				e->research_dependency.topics.emplace(&state, "DIMENSION_MISSILE_LAUNCHER");
 				e->research_dependency.topics.emplace(&state, "DIMENSION_MISSILE");
 				break;
 			case IT_DIMENSIONMISSILE:
-				e->research_dependency.topics.emplace(&state,
-				                                      "DIMENSION_MISSILE_LAUNCHER");
+				e->research_dependency.topics.emplace(&state, "DIMENSION_MISSILE_LAUNCHER");
 				e->research_dependency.topics.emplace(&state, "DIMENSION_MISSILE");
 				break;
 			case IT_VORTEX:
@@ -551,9 +548,8 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 						         (int)adata.damage_modifier, id);
 						break;
 				}
-				e->body_image_pack = {&state,
-				                      format("{0}{1}{2}",
-				                             "xcom", armoredUnitPicIndex, bodyPartLetter)};
+				e->body_image_pack = {
+				    &state, format("{0}{1}{2}", "xcom", armoredUnitPicIndex, bodyPartLetter)};
 				// Body sprites are stored in armour.pck file, in head-left-body-right-legs order
 				// Since armor damage modifier values start with 17, we can subtract that to get
 				// armor index
@@ -1052,24 +1048,23 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 					{
 						es->weapons.push_back(
 						    {{&state, canon_string(data_u.agent_equipment_names->get(
-						                         data.weapons[j][i].weapon_idx))},
+						                  data.weapons[j][i].weapon_idx))},
 						     {&state, canon_string(data_u.agent_equipment_names->get(
-						                         data.weapons[j][i].clip_idx))},
+						                  data.weapons[j][i].clip_idx))},
 						     std::max((int)data.weapons[j][i].clip_amount, 1)});
 					}
 					else
 					{
 						es->weapons.push_back(
 						    {{&state, canon_string(data_u.agent_equipment_names->get(
-						                         data.weapons[j][i].weapon_idx))}});
+						                  data.weapons[j][i].weapon_idx))}});
 					}
 				}
 				if (data.grenades[j][i].grenade_idx > 0 && data.grenades[j][i].grenade_amount > 0)
 				{
-					es->grenades.push_back(
-					    {{&state, canon_string(data_u.agent_equipment_names->get(
-					                         data.grenades[j][i].grenade_idx))},
-					     data.grenades[j][i].grenade_amount});
+					es->grenades.push_back({{&state, canon_string(data_u.agent_equipment_names->get(
+					                                     data.grenades[j][i].grenade_idx))},
+					                        data.grenades[j][i].grenade_amount});
 				}
 				if (data.equipment[j][i][0] > 0 || data.equipment[j][i][1] > 0)
 				{
@@ -1077,21 +1072,21 @@ void InitialGameStateExtractor::extractAgentEquipment(GameState &state) const
 					{
 						es->equipment.push_back(
 						    {{&state, canon_string(data_u.agent_equipment_names->get(
-						                         data.equipment[j][i][0]))},
+						                  data.equipment[j][i][0]))},
 						     {&state, canon_string(data_u.agent_equipment_names->get(
-						                         data.equipment[j][i][1]))}});
+						                  data.equipment[j][i][1]))}});
 					}
 					else if (data.equipment[j][i][0] > 0)
 					{
 						es->equipment.push_back(
 						    {{&state, canon_string(data_u.agent_equipment_names->get(
-						                         data.equipment[j][i][0]))}});
+						                  data.equipment[j][i][0]))}});
 					}
 					else
 					{
 						es->equipment.push_back(
 						    {{&state, canon_string(data_u.agent_equipment_names->get(
-						                         data.equipment[j][i][1]))}});
+						                  data.equipment[j][i][1]))}});
 					}
 				}
 			}

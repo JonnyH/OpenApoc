@@ -31,26 +31,18 @@ std::map<UString, int> UFOAnimationFrames = {
 
 // Magic lookup table for the small/large equipscreen icons
 // no idea if this is stored in the .exe/data files somewhere...
-std::map<UString, int> EquipscreenSprite = {{"ANNIHILATOR", 0},
-                                            {"WOLFHOUND_APC", 1},
-                                            {"BLAZER_TURBO_BIKE", 2},
-                                            {"BIOTRANS", 3},
-                                            {"VALKYRIE_INTERCEPTOR", 4},
-                                            {"PHOENIX_HOVERCAR", 5},
-                                            {"DIMENSION_PROBE", 6},
-                                            {"RETALIATOR", 7},
-                                            {"STORMDOG", 8},
-                                            {"EXPLORER", 9},
-                                            {"HOVERBIKE", 10},
-                                            {"HAWK_AIR_WARRIOR", 11},
-                                            {"GRIFFON_AFV", 12}};
+std::map<UString, int> EquipscreenSprite = {
+    {"ANNIHILATOR", 0},     {"WOLFHOUND_APC", 1},        {"BLAZER_TURBO_BIKE", 2},
+    {"BIOTRANS", 3},        {"VALKYRIE_INTERCEPTOR", 4}, {"PHOENIX_HOVERCAR", 5},
+    {"DIMENSION_PROBE", 6}, {"RETALIATOR", 7},           {"STORMDOG", 8},
+    {"EXPLORER", 9},        {"HOVERBIKE", 10},           {"HAWK_AIR_WARRIOR", 11},
+    {"GRIFFON_AFV", 12}};
 
 std::set<UString> AgentFreight = {"AIRTAXI" /*, "AUTOTAXI"*/};
 std::set<UString> CargoFreight = {"AIRTRANS" /*, "AUTOTRANS"*/};
 std::set<UString> BioFreight = {"AIRTRANS"};
-std::set<UString> Rescue = {"ANNIHILATOR",      "VALKYRIE_INTERCEPTOR",
-                            "RETALIATOR",       "HAWK_AIR_WARRIOR",
-                            "RESCUE_TRANSPORT", "CONSTRUCTION_VEHICLE"};
+std::set<UString> Rescue = {"ANNIHILATOR",      "VALKYRIE_INTERCEPTOR", "RETALIATOR",
+                            "HAWK_AIR_WARRIOR", "RESCUE_TRANSPORT",     "CONSTRUCTION_VEHICLE"};
 } // namespace
 static void extract_equipment_layout(GameState &state, sp<VehicleType> vehicle, const UFO2P &data,
                                      VehicleEquipmentLayout layout,
@@ -140,19 +132,15 @@ void InitialGameStateExtractor::extractVehicles(GameState &state) const
 		// We draw objects based on centre, therefore we must adjust here
 		vehicle->image_offset = {v.image_position_1, v.image_position_2 * 3.0f / 4.0f};
 
-		auto ped =
-		    canon_string(data.vehicle_names->get(i));
+		auto ped = canon_string(data.vehicle_names->get(i));
 		vehicle->ufopaedia_entry = {&state, ped};
 
 		if (i < 10)
 		{
-			vehicle->researchUnlock.emplace_back(&state,
-			                                     "UNLOCK_ALIEN_CRAFT_CONTROL_SYSTEMS");
-			vehicle->researchUnlock.emplace_back(&state,
-			                                     "UNLOCK_ALIEN_CRAFT_ENERGY_SOURCE");
+			vehicle->researchUnlock.emplace_back(&state, "UNLOCK_ALIEN_CRAFT_CONTROL_SYSTEMS");
+			vehicle->researchUnlock.emplace_back(&state, "UNLOCK_ALIEN_CRAFT_ENERGY_SOURCE");
 			vehicle->researchUnlock.emplace_back(&state, "UNLOCK_ALIEN_CRAFT_PROPULSION");
-			vehicle->researchUnlock.emplace_back(&state,
-			                                     format("UNLOCK_UFO_TYPE_{0}", i + 1));
+			vehicle->researchUnlock.emplace_back(&state, format("UNLOCK_UFO_TYPE_{0}", i + 1));
 		}
 
 		if (v.movement_type == 0)

@@ -59,8 +59,7 @@ void InitialGameStateExtractor::extractResearch(GameState &state) const
 
 			if (rdata.prereqTech[pre] != 0xffff)
 			{
-				auto prereqId =
-				    canon_string(data.research_names->get(rdata.prereqTech[pre]));
+				auto prereqId = canon_string(data.research_names->get(rdata.prereqTech[pre]));
 				dependency.topics.emplace(StateRef<ResearchTopic>{&state, prereqId});
 			}
 		}
