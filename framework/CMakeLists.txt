@@ -283,3 +283,7 @@ endif()
 target_include_directories(OpenApoc_Framework PRIVATE
 		${CMAKE_SOURCE_DIR}/dependencies/physfs/src)
 target_include_directories(OpenApoc_Framework PUBLIC ${CMAKE_SOURCE_DIR})
+
+if (USE_PCH)
+	target_precompile_headers(OpenApoc_Framework PRIVATE ${FRAMEWORK_HEADER_FILES})
+endif()

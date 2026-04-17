@@ -1,3 +1,5 @@
+#pragma once
+
 #include "forms/form.h"
 #include "game/state/shared/agent.h"
 #include "library/sp.h"

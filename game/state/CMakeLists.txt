@@ -233,3 +233,18 @@ add_custom_command(OUTPUT
 add_custom_target(generated-source
 		DEPENDS
 		gamestate_serialize_generated.h gamestate_serialize_generated.cpp)
+
+if (USE_PCH)
+	# Two headers must stay out of the PCH:
+	#  - *_generated.h lives in CMAKE_CURRENT_BINARY_DIR, not the source dir,
+	#    and target_precompile_headers can't resolve it from HEADER_FILES.
+	#    It also regenerates on xml changes, which would invalidate the PCH.
+	#  - gamestate_serialize.h defines a greedy operator==(sp<T>, sp<T>)
+	#    template that introduces overload-resolution ambiguities (see the
+	#    comment at the top of tests/test_serialize.cpp). Safe in a single
+	#    TU that needs it, hostile when hoisted into every TU via PCH.
+	set(GAMESTATE_PCH_HEADERS ${GAMESTATE_HEADER_FILES})
+	list(FILTER GAMESTATE_PCH_HEADERS EXCLUDE REGEX
+		"(_generated\\.h|gamestate_serialize\\.h)$")
+	target_precompile_headers(OpenApoc_GameState PRIVATE ${GAMESTATE_PCH_HEADERS})
+endif()

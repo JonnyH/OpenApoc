@@ -73,3 +73,7 @@ if(ENABLE_BACKTRACE)
 		target_include_directories(OpenApoc_Library PUBLIC ${UNWIND_INCLUDE_DIR})
 	endif()
 endif()
+
+if (USE_PCH)
+	target_precompile_headers(OpenApoc_Library PRIVATE ${LIBRARY_HEADER_FILES})
+endif()

@@ -1,3 +1,5 @@
+#pragma once
+
 #include "forms/form.h"
 #include "game/state/shared/aequipment.h"
 #include "library/sp.h"
