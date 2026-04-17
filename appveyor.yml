@@ -11,11 +11,12 @@ platform:
   - x64
 environment:
   APPVEYOR_SAVE_CACHE_ON_ERROR: true
-  VCPKG_DEFAULT_TRIPLET: x64-windows
+  VCPKG_DEFAULT_TRIPLET: x64-windows-ltcg
+  VCPKG_OVERLAY_TRIPLETS: '%APPVEYOR_BUILD_FOLDER%\triplets'
   VCVARS_ARCH: amd64
   QTPATH: C:\Qt\6.9\msvc2022_64
 #clone_depth: 10
-cache: C:\Users\appveyor\AppData\Local\vcpkg\archives -> appveyor.yml
+cache: C:\Users\appveyor\AppData\Local\vcpkg\archives -> appveyor.yml,triplets\x64-windows-ltcg.cmake
 before_build:
   - cd c:\tools\vcpkg
   - git pull
