@@ -32,19 +32,15 @@ set_target_properties(OpenApoc_Launcher PROPERTIES
 
 set_target_properties(OpenApoc_Launcher PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-if(WIN32)
-	find_program(WINDEPLOYQT_EXECUTABLE windeployqt HINTS "${_qt_bin_dir}")
-	if(NOT WINDEPLOYQT_EXECUTABLE)
-		message(FATAL_ERROR "windeployqt not found")
-	endif()
-	add_custom_command(TARGET OpenApoc_Launcher POST_BUILD
-			COMMAND "${CMAKE_COMMAND}" -E
-			env PATH="${_qt_bin_dir}" "${WINDEPLOYQT_EXECUTABLE}"
-			--verbose 0
-			--no-compiler-runtime
-			--no-opengl-sw
-			$<TARGET_FILE:OpenApoc_Launcher>
-			COMMENT "Deploying Qt..."
-	)
-endif(WIN32)
+qt_generate_deploy_app_script(
+	TARGET OpenApoc_Launcher
+	OUTPUT_SCRIPT deploy_script
+	NO_TRANSLATIONS
+	NO_COMPILER_RUNTIME
+)
+install(SCRIPT ${deploy_script})
+install(TARGETS OpenApoc_Launcher
+	RUNTIME DESTINATION bin
+	BUNDLE  DESTINATION .
+)
 

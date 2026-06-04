@@ -21,7 +21,13 @@
       "description": "Build Launcher",
       "dependencies": [
         {
-          "name": "qtbase"
+          "name": "qtbase",
+          "features": [ "windeployqt" ],
+          "platform": "windows"
+        },
+        {
+          "name": "qtbase",
+          "platform": "!windows"
         }
       ]
     }

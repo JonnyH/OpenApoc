@@ -41,11 +41,11 @@ after_build:
   - del bin\*.exp
   - del bin\*.ilk
   - del bin\*.lib
+  - cmake --install . --prefix install
   - mkdir OpenApoc-%OPENAPOC_VERSION%
-  - xcopy /E bin OpenApoc-%OPENAPOC_VERSION%\
+  - xcopy /E install\bin OpenApoc-%OPENAPOC_VERSION%\
   - echo %APPVEYOR_REPO_COMMIT% > OpenApoc-%OPENAPOC_VERSION%\git-commit
   - echo %OPENAPOC_VERSION% > OpenApoc-%OPENAPOC_VERSION%\build-id
-  - start %QTPATH%\bin\windeployqt ---no-opengl-sw --no-compiler-runtime OpenApoc-%OPENAPOC_VERSION%\OpenApoc_Launcher.exe
   - del data\cd.iso
   - xcopy /E data OpenApoc-%OPENAPOC_VERSION%\data\
   - copy portable.txt OpenApoc-%OPENAPOC_VERSION%\
