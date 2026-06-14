@@ -2840,13 +2840,18 @@ void BattleUnit::updateMovementFalling(GameState &state, unsigned int &moveTicks
 			newPosition.y = glm::clamp(newPosition.y, 0.0f, mapSize.y - 0.01f);
 			newPosition.z = glm::clamp(newPosition.z, 0.0f, mapSize.z - 0.01f);
 		}
-		// Fell below 0???
+		// Fell below the map floor - rest on the bottom plane instead of being destroyed
 		if (newPosition.z < 0)
 		{
-			LogError("Unit at {0} {1} fell off the end of the world!?", newPosition.x,
-			         newPosition.y);
-			die(state, nullptr, false);
-			destroyed = true;
+			newPosition.z = 0.0f;
+			velocity = {0.0f, 0.0f, 0.0f};
+			falling = false;
+			bounced = false;
+			launched = false;
+			bool movedTiles = (Vec3<int>)position != (Vec3<int>)newPosition;
+			setPosition(state, newPosition, movedTiles);
+			triggerProximity(state);
+			resetGoal();
 			return;
 		}
 		// Jump goal reached
